@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'idea'
+    id 'maven'
+    //id 'com.github.hierynomus.license' version '0.12.1'
+}
+
+archivesBaseName = "EverAPI"
+group = 'fr.evercraft'
+version = '1.0'
+
+repositories {
+	mavenCentral()
+	maven {
+		name = 'sponge'
+        url = 'http://repo.spongepowered.org/maven'
+	}
+}
+
+configurations {
+    shadow
+}
+
+dependencies {
+	compile "org.spongepowered:spongeapi:4.1.0-SNAPSHOT"
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': archivesBaseName,
+                   'Implementation-Version': version
+    }
+}
+
+//license {
+//	excludes(["**/*.yml", "**/*.txt", "**/*.conf"])
+//	header = file('HEADER.txt') 
+//}
