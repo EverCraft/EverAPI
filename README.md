@@ -8,6 +8,7 @@ A minecraft plugin for Sponge platforms.
 * [Wiki](http://wiki.evercraft.fr)
 * [Issues](https://github.com/EverCraft/EverAPI/issues)
 * [Website](http://evercraft.fr)
+* [Support Me](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RUSKPBMNJG5R4)
 
 ## License ##
 This plugin is licensed under [GNU License](https://github.com/EverCraft/EverAPI/blob/master/LICENSE).
