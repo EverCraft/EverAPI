@@ -80,7 +80,7 @@ public class EverAPI extends EPlugin {
 	}
 
 	/*
-	 * Asseceur
+	 * Accesseurs
 	 */
 	public EPermission getPermissions() {
 		return this.permissions;
