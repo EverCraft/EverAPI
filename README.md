@@ -1,11 +1,10 @@
 # README #
 
-Ce projet contient les source du plugin EverAPI.
+Ce projet contient les sources du plugin EverAPI.
 
 ### Installation Git ###
 
-1. `git clone git@bitbucket.org:EverCraftFr/everapi.git`
-2. `mv everapi EverAPI`
+1. `git clone git@github.com:EverCraft/EverAPI.git`
 3. `cd EverAPI`
 
 ### Installation Gradle ###
