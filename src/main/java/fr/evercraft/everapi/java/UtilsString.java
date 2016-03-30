@@ -71,7 +71,7 @@ public class UtilsString {
 				arg += caractere;
 			}
 		}
-		if(!args.isEmpty()) {
+		if(!arg.isEmpty()) {
 			args.add(arg);
 		}
 		return args;

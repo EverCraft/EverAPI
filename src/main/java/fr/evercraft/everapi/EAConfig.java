@@ -27,6 +27,11 @@ public class EAConfig extends EConfig {
 		super(plugin);
 	}
 	
+	public void reload() {
+		super.reload();
+		this.plugin.getLogger().setDebug(this.isDebug());
+	}
+	
 	@Override
 	public void loadDefault() {
 		addDefault("debug", false, "Displays plugin performance in the logs");
