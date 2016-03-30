@@ -28,6 +28,7 @@ public class PlayerPermission extends PlayerKeys implements OptionSubject {
 			Subject subject = this.plugin.getManagerService().getPermission().get().getUserSubjects().get(this.player.getIdentifier());
 			if(subject instanceof OptionSubject) {
 				this.optionSubject = (OptionSubject) subject;
+				return true;
 			}
 		}
 		return this.optionSubject != null;

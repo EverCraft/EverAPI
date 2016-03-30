@@ -17,7 +17,9 @@
 package fr.evercraft.everapi.server.player;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.spongepowered.api.block.BlockTypes;
@@ -34,8 +36,12 @@ import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.entity.Hotbar;
 import org.spongepowered.api.item.inventory.transaction.InventoryTransactionResult;
 import org.spongepowered.api.item.inventory.type.GridInventory;
+import org.spongepowered.api.scoreboard.Team;
+import org.spongepowered.api.service.context.Context;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.Text.Builder;
+import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.util.blockray.BlockRay;
 import org.spongepowered.api.util.blockray.BlockRayHit;
 import org.spongepowered.api.world.Location;
@@ -45,7 +51,7 @@ import com.flowpowered.math.vector.Vector3d;
 import com.flowpowered.math.vector.Vector3i;
 
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.sponge.UtilsChat;
+import fr.evercraft.everapi.plugin.EChat;
 
 public class EPlayer extends PlayerEssentials {
 	
@@ -60,6 +66,11 @@ public class EPlayer extends PlayerEssentials {
 	public EPlayer(final EverAPI plugin, final Player player){
 		super(plugin, player);
 	}
+	
+	public Optional<Team> getTeam() {
+		return this.player.getScoreboard().getMemberTeam(this.player.getTeamRepresentation());
+	}
+	
 	/*
 	 * Autres
 	 */
@@ -69,7 +80,7 @@ public class EPlayer extends PlayerEssentials {
 	 * @param message Le message
 	 */
 	public void sendMessage(final String message){
-		sendMessage(UtilsChat.of(message));
+		sendMessage(EChat.of(message));
 	}
 	
 	/**
@@ -77,7 +88,7 @@ public class EPlayer extends PlayerEssentials {
 	 * @param message Le message
 	 */
 	public void broadcast(final String message){
-		this.broadcast(UtilsChat.of(message));
+		this.broadcast(EChat.of(message));
 	}
 	
 	/**
@@ -251,8 +262,8 @@ public class EPlayer extends PlayerEssentials {
 		return this.player.equals(object);
 	}
 	
-	public HashMap<EPlayer, Integer> getEPlayers(int distance) {
-		HashMap<EPlayer, Integer> list = new HashMap<EPlayer, Integer>();
+	public Map<EPlayer, Integer> getEPlayers(int distance) {
+		Map<EPlayer, Integer> list = new HashMap<EPlayer, Integer>();
 		distance = Math.max((distance ^ 2) - 1, 0);
 		Vector3d vect = this.getLocation().getPosition();
 		for (EPlayer player : this.plugin.getEServer().getOnlineEPlayers()) {
@@ -268,4 +279,80 @@ public class EPlayer extends PlayerEssentials {
 		return list;
 	}
     
+	/*
+	 * DisplayName
+	 */
+	
+	public String getDisplayName() {
+		return getDisplayName(getActiveContexts());
+	}
+	
+	public String getDisplayName(Set<Context> contexts) {
+		return getPrefix(contexts).orElse("") + this.getName() + getSuffix(contexts).orElse("");
+	}
+	
+	public Text getDisplayNameHover() {
+		return getDisplayHover(getActiveContexts());
+	}
+	
+	public Text getDisplayHover(Set<Context> contexts) {
+		Optional<String> suggest = getSuggest(contexts);
+		Optional<Text> hover = getHover(contexts);
+		
+		Builder builder = EChat.of(getDisplayName(contexts)).toBuilder();
+		
+		if(suggest.isPresent()) {
+			builder.onClick(TextActions.suggestCommand(suggest.get()));
+		}
+		
+		if(hover.isPresent()) {
+			builder.onHover(TextActions.showText(hover.get()));
+		}
+		
+		return builder.build();
+	}
+	
+	public Optional<String> getPrefix() {
+		return getPrefix(getActiveContexts());
+	}
+	
+	public Optional<String> getPrefix(Set<Context> contexts) {
+		return this.getOption(contexts, "prefix");
+	}
+	
+	public Optional<String> getSuffix() {
+		return getPrefix(getActiveContexts());
+	}
+	
+	public Optional<String> getSuffix(Set<Context> contexts) {
+		return this.getOption(contexts, "suffix");
+	}
+	
+	public Optional<Text> getHover() {
+		return getHover(getActiveContexts());
+	}
+	
+	public Optional<Text> getHover(Set<Context> contexts) {
+		Optional<String> optHover = this.getOption(contexts, "hover");
+		if(optHover.isPresent()) {
+			String hover = this.plugin.getChat().replace(optHover.get());
+			hover = this.plugin.getChat().replaceVariable(hover);
+			hover = this.plugin.getChat().replaceVariable(this, hover);
+			return Optional.of(this.plugin.getChat().replaceVariableText(this, hover));
+		}
+		return Optional.empty();
+	}
+	
+	public Optional<String> getSuggest() {
+		return getSuggest(getActiveContexts());
+	}
+	
+	public Optional<String> getSuggest(Set<Context> contexts) {
+		Optional<String> optHover = this.getOption(contexts, "suggest");
+		if(optHover.isPresent()) {
+			String hover = this.plugin.getChat().replaceVariable(optHover.get());
+			return Optional.of(this.plugin.getChat().replaceVariable(this, hover));
+		}
+		return Optional.empty();
+	}
 }

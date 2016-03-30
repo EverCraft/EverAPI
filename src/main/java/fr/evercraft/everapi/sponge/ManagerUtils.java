@@ -21,7 +21,6 @@ import fr.evercraft.everapi.EverAPI;
 public class ManagerUtils {
 	private final EverAPI plugin;
 	
-	private final UtilsChat chat;
 	private final UtilsDate date;
 	private final UtilsLocation location;
 	private final UtilsGameMode gamemode;
@@ -29,7 +28,6 @@ public class ManagerUtils {
 	public ManagerUtils(final EverAPI plugin) {
 		this.plugin = plugin;
 		
-		this.chat = new UtilsChat(this.plugin);
 		this.date = new UtilsDate(this.plugin);
 		this.location = new UtilsLocation(this.plugin);
 		this.gamemode = new UtilsGameMode(this.plugin);
@@ -38,10 +36,6 @@ public class ManagerUtils {
 	public void reload() {
 		this.location.reload();
 		this.date.reload();
-	}
-	
-	public UtilsChat getChat(){
-		return this.chat;
 	}
 	
 	public UtilsDate getDate(){

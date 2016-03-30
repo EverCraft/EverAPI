@@ -30,10 +30,10 @@ import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColor;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.ECommand;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.sponge.UtilsChat;
 import fr.evercraft.everapi.text.ETextBuilder;
 
 public class EPagination {
@@ -56,12 +56,12 @@ public class EPagination {
 	}
 	
 	public void reload() {
-		this.pagination_color = UtilsChat.getTextColor(this.plugin.getMessages().getMessage("PAGINATION_COLOR"));
+		this.pagination_color = EChat.getTextColor(this.plugin.getMessages().getMessage("PAGINATION_COLOR"));
 		this.pagination_padding = this.plugin.getMessages().getText("PAGINATION_PADDING");
 		
-		this.help_color_help = UtilsChat.getTextColor(this.plugin.getMessages().getMessage("HELP_COLOR_HELP"));
-		this.help_color_padding = UtilsChat.getTextColor(this.plugin.getMessages().getMessage("HELP_COLOR_PADDING"));
-		this.help_color_description = UtilsChat.getTextColor(this.plugin.getMessages().getMessage("HELP_COLOR_DESCRIPTION"));
+		this.help_color_help = EChat.getTextColor(this.plugin.getMessages().getMessage("HELP_COLOR_HELP"));
+		this.help_color_padding = EChat.getTextColor(this.plugin.getMessages().getMessage("HELP_COLOR_PADDING"));
+		this.help_color_description = EChat.getTextColor(this.plugin.getMessages().getMessage("HELP_COLOR_DESCRIPTION"));
 		
 		this.help_empty = this.plugin.getMessages().getText("HELP_EMPTY");
 		this.help_padding = this.plugin.getMessages().getText("HELP_PADDING");
@@ -118,7 +118,7 @@ public class EPagination {
 	}
 	
 	private <T extends EPlugin> void help(List<Text> contents, CommandSource source, EPlugin plugin) {
-		Text title = UtilsChat.of(this.plugin.getMessages().getMessage("HELP_TITLE")
+		Text title = EChat.of(this.plugin.getMessages().getMessage("HELP_TITLE")
 							.replaceAll("<plugin>", plugin.getName())
 							.replaceAll("<version>", plugin.getVersion().orElse("1")))
 						.toBuilder().color(this.help_color_padding).build();
@@ -132,7 +132,7 @@ public class EPagination {
 	}
 	
 	public Text getButtonName(final String command, Text help){
-		return UtilsChat.of(this.plugin.getMessages().getMessage("HELP_LINE_NAME")
+		return EChat.of(this.plugin.getMessages().getMessage("HELP_LINE_NAME")
 				.replaceAll("<command>", command)).toBuilder()
 					.onHover(TextActions.showText(
 							ETextBuilder.toBuilder(this.plugin.getMessages().getMessage("HELP_LINE_NAME_HOVER"))

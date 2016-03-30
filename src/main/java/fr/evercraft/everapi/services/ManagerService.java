@@ -24,10 +24,12 @@ import org.spongepowered.api.service.permission.PermissionService;
 import org.spongepowered.api.service.user.UserStorageService;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.services.chat.ChatService;
 import fr.evercraft.everapi.services.cooldown.CooldownService;
 import fr.evercraft.everapi.services.essentials.EssentialsService;
 import fr.evercraft.everapi.services.essentials.SpawnService;
 import fr.evercraft.everapi.services.essentials.WarpService;
+import fr.evercraft.everapi.services.mail.MailService;
 import fr.evercraft.everapi.services.pagination.EPagination;
 
 public class ManagerService {
@@ -79,6 +81,10 @@ public class ManagerService {
 	
 	public Optional<MailService> getMail() {
 		return this.plugin.getGame().getServiceManager().provide(MailService.class);
+	}
+	
+	public Optional<ChatService> getChat() {
+		return this.plugin.getGame().getServiceManager().provide(ChatService.class);
 	}
 	
 	/*

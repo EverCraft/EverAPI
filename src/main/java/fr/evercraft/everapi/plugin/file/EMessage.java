@@ -26,8 +26,9 @@ import org.spongepowered.api.text.Text;
 
 import com.google.common.reflect.TypeToken;
 
+import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.EPlugin;
-import fr.evercraft.everapi.sponge.UtilsChat;
+import fr.evercraft.everapi.services.chat.event.ChatSystemEvent;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
@@ -52,6 +53,13 @@ public abstract class EMessage extends EFile {
     	reload();
     }
     
+    public void chatService(ChatSystemEvent event) {
+    	if(event.getAction().equals(ChatSystemEvent.Action.RELOADED)) {
+    		this.listsMessages.clear();
+    		this.loadConfig();
+    	}
+    }
+    
     /**
      * Charge la configuration
      */
@@ -74,7 +82,7 @@ public abstract class EMessage extends EFile {
     public void addMessage(final String key, final String value) {
     	ConfigurationNode resultat = get(value);
     	if(resultat != null && key != null){
-    		this.messages.put(key.toUpperCase(), UtilsChat.replace(resultat.getString("")));
+    		this.messages.put(key.toUpperCase(), resultat.getString(""));
     	} else {
     		this.plugin.getLogger().warn("Le message '" + key + "' n'est pas définit");
     	}
@@ -89,7 +97,7 @@ public abstract class EMessage extends EFile {
     	ConfigurationNode resultat = get(value);
     	if(resultat != null && key != null){
     		try {
-				this.listsMessages.put(key.toUpperCase(), UtilsChat.replace((List<String>) resultat.getList(TypeToken.of(String.class))));
+				this.listsMessages.put(key.toUpperCase(), resultat.getList(TypeToken.of(String.class)));
 			} catch (ObjectMappingException e) {
 				this.plugin.getLogger().warn("Impossible de charger la liste des messages : '" + key + "'");
 			}
@@ -118,7 +126,7 @@ public abstract class EMessage extends EFile {
      * @return Le message
      */
     public Text getText(final String key) {
-    	return UtilsChat.of(getMessage(key));
+    	return EChat.of(getMessage(key));
     }
     
     /**
@@ -141,7 +149,7 @@ public abstract class EMessage extends EFile {
      * @return Une liste de texts
      */
     public List<Text> getListText(final String key) {
-    	return UtilsChat.of(getListMessage(key));
+    	return EChat.of(getListMessage(key));
     }
 
     public void addDefault(final String paths, final String french, final String english){

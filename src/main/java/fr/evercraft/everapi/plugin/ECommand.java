@@ -33,7 +33,6 @@ import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.java.Chronometer;
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.sponge.UtilsChat;
 
 public abstract class ECommand<T extends EPlugin> implements CommandCallable {
 	protected final T plugin;
@@ -70,7 +69,7 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable {
 				return CommandResult.success();
 			}
 		} catch (PluginDisableException e) {
-			source.sendMessage(UtilsChat.of(e.getMessage()));
+			source.sendMessage(this.plugin.getMessages().getText("PREFIX").concat(this.plugin.getEverAPI().getMessages().getText("COMMAND_ERROR")));
 			this.plugin.getLogger().warn(e.getMessage());
 			this.plugin.disable();
 		} catch (ServerDisableException e) {

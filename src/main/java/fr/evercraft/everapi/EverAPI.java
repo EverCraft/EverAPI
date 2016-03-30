@@ -20,13 +20,13 @@ import org.spongepowered.api.plugin.Plugin;
 
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
+import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.EPermission;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.server.EServer;
 import fr.evercraft.everapi.services.ManagerService;
 import fr.evercraft.everapi.services.bungee.BungeeCord;
 import fr.evercraft.everapi.sponge.ManagerUtils;
-import fr.evercraft.everapi.sponge.UtilsChat;
 
 @Plugin(id = "fr.evercraft.everapi", 
 		name = "EverAPI", 
@@ -36,7 +36,7 @@ import fr.evercraft.everapi.sponge.UtilsChat;
 		authors = {"rexbut","lesbleu"})
 public class EverAPI extends EPlugin {
 
-	private UtilsChat utilsChat;
+	private EChat chat;
 	
 	private EAConfig configs;
 	private EAMessage messages;
@@ -49,7 +49,7 @@ public class EverAPI extends EPlugin {
 	
 	@Override
 	protected void onPreEnable() throws PluginDisableException, ServerDisableException {	
-		this.utilsChat = new UtilsChat(this);
+		this.chat = new EChat(this);
 		this.permissions = new EAPermission(this);
 		this.configs = new EAConfig(this);
 		
@@ -99,8 +99,9 @@ public class EverAPI extends EPlugin {
 		return this.server;
 	}
 	
-	public UtilsChat getUtilsChat(){
-		return this.utilsChat;
+	@Override
+	public EChat getChat(){
+		return this.chat;
 	}
 	
 	

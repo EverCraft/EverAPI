@@ -1,4 +1,4 @@
-package fr.evercraft.everapi.services;
+package fr.evercraft.everapi.services.mail;
 
 public interface MailService {
 	

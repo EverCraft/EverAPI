@@ -28,6 +28,7 @@ import org.spongepowered.api.world.World;
 import com.flowpowered.math.vector.Vector3i;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.plugin.EChat;
 
 public class UtilsLocation {
 
@@ -249,33 +250,33 @@ public class UtilsLocation {
 							if(z >= this.Z_min && z <= this.Z_max) {
 								return Optional.of(new Vector3i(x, y, z));
 							} else {
-								player.sendMessage(UtilsChat.of(this.plugin.getEverAPI().getMessages().getMessage("LOCATION_ERROR_NUMBER")
+								player.sendMessage(EChat.of(this.plugin.getEverAPI().getMessages().getMessage("LOCATION_ERROR_NUMBER")
 										.replaceAll("<name>", "Z")
 										.replaceAll("<min>", this.Z_min.toString())
 										.replaceAll("<max>", this.Z_max.toString())));
 							}
 						} catch (NumberFormatException e) {
-							player.sendMessage(UtilsChat.of(this.plugin.getEverAPI().getMessages().getMessage("IS_NOT_NUMBER")
+							player.sendMessage(EChat.of(this.plugin.getEverAPI().getMessages().getMessage("IS_NOT_NUMBER")
 									.replaceAll("<number>", pos_x)));
 						}
 					} else {
-						player.sendMessage(UtilsChat.of(this.plugin.getEverAPI().getMessages().getMessage("LOCATION_ERROR_NUMBER")
+						player.sendMessage(EChat.of(this.plugin.getEverAPI().getMessages().getMessage("LOCATION_ERROR_NUMBER")
 								.replaceAll("<name>", "Y")
 								.replaceAll("<min>", this.Y_min.toString())
 								.replaceAll("<max>", this.Y_max.toString())));
 					}
 				} catch (NumberFormatException e) {
-					player.sendMessage(UtilsChat.of(this.plugin.getEverAPI().getMessages().getMessage("IS_NOT_NUMBER")
+					player.sendMessage(EChat.of(this.plugin.getEverAPI().getMessages().getMessage("IS_NOT_NUMBER")
 							.replaceAll("<number>", pos_x)));
 				}
 			} else {
-				player.sendMessage(UtilsChat.of(this.plugin.getEverAPI().getMessages().getMessage("LOCATION_ERROR_NUMBER")
+				player.sendMessage(EChat.of(this.plugin.getEverAPI().getMessages().getMessage("LOCATION_ERROR_NUMBER")
 						.replaceAll("<name>", "X")
 						.replaceAll("<min>", this.X_min.toString())
 						.replaceAll("<max>", this.X_max.toString())));
 			}
 		} catch (NumberFormatException e) {
-			player.sendMessage(UtilsChat.of(this.plugin.getEverAPI().getMessages().getMessage("IS_NOT_NUMBER")
+			player.sendMessage(EChat.of(this.plugin.getEverAPI().getMessages().getMessage("IS_NOT_NUMBER")
 					.replaceAll("<number>", pos_x)));
 		}
 		return Optional.empty();

@@ -30,10 +30,10 @@ import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
 
 import fr.evercraft.everapi.exception.PluginDisableException;
+import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.ECommand;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.sponge.UtilsChat;
 import fr.evercraft.everapi.text.ETextBuilder;
 
 public class EACommand extends ECommand<EverAPI> {
@@ -124,7 +124,7 @@ public class EACommand extends ECommand<EverAPI> {
 	
 	private boolean commandReload(CommandSource player) {
 		this.plugin.reload();
-		player.sendMessage(UtilsChat.of(this.plugin.getMessages().getMessage("PREFIX") + this.plugin.getEverAPI().getMessages().getMessage("RELOAD_COMMAND")));
+		player.sendMessage(EChat.of(this.plugin.getMessages().getMessage("PREFIX") + this.plugin.getEverAPI().getMessages().getMessage("RELOAD_COMMAND")));
 		return true;
 	}
 	
@@ -133,30 +133,30 @@ public class EACommand extends ECommand<EverAPI> {
 		List<Text> list = new ArrayList<Text>();
 		for (EPlugin plugin :  plugins){
 			List<Text> hover = new ArrayList<Text>();
-			hover.add(UtilsChat.of(this.plugin.getMessages().getMessage("PLUGINS_ID").replaceAll("<id>", plugin.getId())));
+			hover.add(EChat.of((this.plugin.getMessages().getMessage("PLUGINS_ID").replaceAll("<id>", plugin.getId()))));
 			
 			if(plugin.getVersion().isPresent()) {
-				hover.add(UtilsChat.of(this.plugin.getMessages().getMessage("PLUGINS_VERSION").replaceAll("<version>", plugin.getVersion().get())));
+				hover.add(EChat.of(this.plugin.getMessages().getMessage("PLUGINS_VERSION").replaceAll("<version>", plugin.getVersion().get())));
 			}
 			
 			if(plugin.getDescription().isPresent()) {
-				hover.add(UtilsChat.of(this.plugin.getMessages().getMessage("PLUGINS_DESCRIPTION").replaceAll("<description>", plugin.getDescription().get())));
+				hover.add(EChat.of(this.plugin.getMessages().getMessage("PLUGINS_DESCRIPTION").replaceAll("<description>", plugin.getDescription().get())));
 			}
 			
 			if(plugin.getUrl().isPresent()) {
-				hover.add(UtilsChat.of(this.plugin.getMessages().getMessage("PLUGINS_URL").replaceAll("<url>", plugin.getUrl().get())));
+				hover.add(EChat.of(this.plugin.getMessages().getMessage("PLUGINS_URL").replaceAll("<url>", plugin.getUrl().get())));
 			}
 			
 			if(!plugin.getAuthors().isEmpty()) {
-				hover.add(UtilsChat.of(this.plugin.getMessages().getMessage("PLUGINS_AUTHOR").replaceAll("<author>", String.join(", ", plugin.getAuthors()))));
+				hover.add(EChat.of(this.plugin.getMessages().getMessage("PLUGINS_AUTHOR").replaceAll("<author>", String.join(", ", plugin.getAuthors()))));
 			}
 			
 			if (plugin.isEnable()){
-				list.add(UtilsChat.of(this.plugin.getMessages().getMessage("PLUGINS_ENABLE").replace("<plugin>", plugin.getName())).toBuilder()
+				list.add(EChat.of(this.plugin.getMessages().getMessage("PLUGINS_ENABLE").replace("<plugin>", plugin.getName())).toBuilder()
 						.onHover(TextActions.showText(Text.joinWith(Text.of("\n"), hover)))
 						.build());	
 			} else {
-				list.add(UtilsChat.of(this.plugin.getMessages().getMessage("PLUGINS_DISABLE").replace("<plugin>", plugin.getName())).toBuilder()
+				list.add(EChat.of(this.plugin.getMessages().getMessage("PLUGINS_DISABLE").replace("<plugin>", plugin.getName())).toBuilder()
 						.onHover(TextActions.showText(Text.joinWith(Text.of("\n"), hover)))
 						.build());	
 			}

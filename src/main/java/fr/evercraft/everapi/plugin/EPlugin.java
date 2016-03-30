@@ -341,6 +341,10 @@ public abstract class EPlugin {
 		return this.getEverAPI().getEServer();
 	}
 
+	public EChat getChat() {
+		return this.getEverAPI().getChat();
+	}
+	
 	/*
 	 * Configuration
 	 */

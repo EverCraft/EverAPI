@@ -23,7 +23,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Text.Builder;
 import org.spongepowered.api.text.translation.Translation;
 
-import fr.evercraft.everapi.sponge.UtilsChat;
+import fr.evercraft.everapi.plugin.EChat;
 
 public class ETextBuilder {
 	
@@ -55,7 +55,7 @@ public class ETextBuilder {
 		Builder builder = Text.builder();
 		for(Object text : texts){
 			if(text instanceof String){
-				builder.append(UtilsChat.of((String) text));
+				builder.append(EChat.of((String) text));
 			} else if(text instanceof Text) {
 				builder.append((Text) text);
 			}
