@@ -32,6 +32,7 @@ import org.spongepowered.api.text.format.TextColors;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.java.Chronometer;
+import fr.evercraft.everapi.java.UtilsString;
 import fr.evercraft.everapi.server.player.EPlayer;
 
 public abstract class ECommand<T extends EPlugin> implements CommandCallable {
@@ -161,11 +162,24 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable {
 		return Text.EMPTY;
 	}
 	
-	private List<String> getArg(final String arg){
-		List<String> args = new ArrayList<String>(Arrays.asList(arg.split(" ")));
-		if(args.size() == 1 && args.get(0).isEmpty()){
-			args.clear();
+	protected List<String> getArg(final String arg) {
+		List<String> args = new ArrayList<String>();
+		boolean alterne = true;
+		for(String guillemet : UtilsString.splitGuillemets(arg)) {
+			if(alterne) {
+				for(String espace : guillemet.split(" ")) {
+					if(!espace.isEmpty()) {
+						args.add(espace);
+					}
+				}
+			} else {
+				if(!guillemet.isEmpty()) {
+					args.add(guillemet);
+				}
+			}
+			alterne = !alterne;
 		}
+		this.plugin.getLogger().debug("Arguments : '" + String.join("','", args) +  "'");
 		return args;
 	}
 	

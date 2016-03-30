@@ -25,6 +25,8 @@ import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.scoreboard.Team;
 import org.spongepowered.api.service.context.Context;
+import org.spongepowered.api.service.economy.Currency;
+import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
@@ -61,10 +63,12 @@ public class EChat implements ChatService {
 	public String replaceVariable(String message){
 		Preconditions.checkNotNull(message, "message");
 		
-		message = message.replaceAll("<ONLINEPLAYERS>", String.valueOf(this.plugin.getEServer().playerNotVanish()));
-		message = message.replaceAll("<MAXPLAYERS>", String.valueOf(this.plugin.getEServer().getMaxPlayers()));
-		message = message.replaceAll("<SERVERNAME>", this.plugin.getGame().getPlatform().getApi().getName());
-		message = message.replaceAll("<VERSION>", this.plugin.getGame().getPlatform().getApi().getName());
+		if(message.contains("<PLAYERS_NO_VANISH>")) {
+			message = message.replaceAll("<PLAYERS_NO_VANISH>", String.valueOf(this.plugin.getEServer().playerNotVanish()));
+		}
+		message = message.replaceAll("<MAX_PLAYERS>", String.valueOf(this.plugin.getEServer().getMaxPlayers()));
+		message = message.replaceAll("<SERVER_NAME>", this.plugin.getGame().getPlatform().getApi().getName());
+		message = message.replaceAll("<VERSION>", this.plugin.getGame().getPlatform().getApi().getVersion().orElse(""));
 		return message;
 	}
 	
@@ -75,15 +79,40 @@ public class EChat implements ChatService {
 		message = message.replaceAll("<UUID>", player.getUniqueId().toString());
 		message = message.replaceAll("<NAME>", player.getName());
 		message = message.replaceAll("<DISPLAYNAME>", player.getDisplayName());
-		message = message.replaceAll("<GROUP>", player.getDisplayName());
 		
-		message = message.replaceAll("<WORLDNAME>", player.getWorld().getName());
-		message = message.replaceAll("<SHORTWORLDNAME>", String.valueOf(player.getWorld().getName().charAt(0)));
+		message = message.replaceAll("<WORLD_NAME>", player.getWorld().getName());
+		message = message.replaceAll("<SHORT_WORLD_NAME>", String.valueOf(player.getWorld().getName().charAt(0)));
 
-		message = message.replaceAll("<BALANCE>", String.valueOf(player.getBalance()));
 		message = message.replaceAll("<HEALTH>", String.valueOf(player.getHealth()));
-		message = message.replaceAll("<MAXHEALTH>", String.valueOf(player.getMaxHealth()));
-		message = message.replaceAll("<ONLINEPLAYERS>", String.valueOf(this.plugin.getEServer().playerNotVanish(player)));
+		message = message.replaceAll("<MAX_HEALTH>", String.valueOf(player.getMaxHealth()));
+		message = message.replaceAll("<PLAYERS_SEE>", String.valueOf(this.plugin.getEServer().playerNotVanish(player)));
+		
+		if(message.contains("<DISPLAYNAME>")) {
+			message = message.replaceAll("<DISPLAYNAME>", player.getDisplayName());
+		}
+		if(message.contains("<GROUP>")) {
+			Optional<Subject> group = player.getGroup();
+			if(group.isPresent()) {
+				message = message.replaceAll("<GROUP>", group.get().getIdentifier());
+			} else {
+				message = message.replaceAll("<GROUP>", "");
+			}
+		}
+		if(message.contains("<BALANCE>")) {
+			message = message.replaceAll("<BALANCE>", String.valueOf(player.getBalance()));
+		}
+		if(message.contains("<TEAM_PREFIX>") || message.contains("<TEAM_SUFFIX>") || message.contains("<TEAM_NAME>")) {
+			Optional<Team> team = player.getTeam();
+			if(team.isPresent()) {
+				message = message.replaceAll("<TEAM_PREFIX>", team.get().getPrefix().toPlain());
+				message = message.replaceAll("<TEAM_SUFFIX>", team.get().getSuffix().toPlain());
+				message = message.replaceAll("<TEAM_NAME>", team.get().getDisplayName().toPlain());
+			} else {
+				message = message.replaceAll("<TEAM_PREFIX>", "");
+				message = message.replaceAll("<TEAM_SUFFIX>", "");
+				message = message.replaceAll("<TEAM_NAME>", "");
+			}
+		}
 		return message;
 	}
 	
@@ -95,15 +124,31 @@ public class EChat implements ChatService {
 		Preconditions.checkNotNull(player, "player");
 		Preconditions.checkNotNull(message, "message");
 		
+		// Team
 		Optional<Team> team = player.getTeam();
 		if(team.isPresent()) {
-			message = message.replace("<TEAMPREFIX>", team.get().getPrefix());
-			message = message.replace("<TEAMSUFFIX>", team.get().getSuffix());
-			message = message.replace("<TEAMNAME>", team.get().getDisplayName());
+			message = message.replace("<TEAM_PREFIX_FORMAT>", team.get().getPrefix());
+			message = message.replace("<TEAM_SUFFIX_FORMAT>", team.get().getSuffix());
+			message = message.replace("<TEAM_NAME_FORMAT>", team.get().getDisplayName());
 		} else {
-			message = message.replace("<TEAMPREFIX>", Text.of());
-			message = message.replace("<TEAMSUFFIX>", Text.of());
-			message = message.replace("<TEAMNAME>", Text.of());
+			message = message.replace("<TEAM_PREFIX_FORMAT>", Text.of());
+			message = message.replace("<TEAM_SUFFIX_FORMAT>", Text.of());
+			message = message.replace("<TEAM_NAME_FORMAT>", Text.of());
+		}
+		
+		// Economy
+		Optional<EconomyService> economy = this.plugin.getManagerService().getEconomy();
+		if(economy.isPresent()) {
+			Currency currency = economy.get().getDefaultCurrency();
+			message = message.replace("<BALANCE_FORMAT>", currency.format(player.getBalance()));
+			message = message.replace("<MONEY_SINGULAR_FORMAT>", currency.format(player.getBalance()));
+			message = message.replace("<MONEY_PLURAL_FORMAT>", currency.format(player.getBalance()));
+			message = message.replace("<SYMBOL_FORMAT>", currency.format(player.getBalance()));
+		} else {
+			message = message.replace("<BALANCE_FORMAT>", Text.of());
+			message = message.replace("<MONEY_SINGULAR_FORMAT>", Text.of());
+			message = message.replace("<MONEY_PLURAL_FORMAT>", Text.of());
+			message = message.replace("<SYMBOL_FORMAT>", Text.of());
 		}
 		return message.build();
 	}

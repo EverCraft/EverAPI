@@ -13,6 +13,8 @@ import org.spongepowered.api.service.permission.option.OptionSubject;
 import org.spongepowered.api.service.permission.option.OptionSubjectData;
 import org.spongepowered.api.util.Tristate;
 
+import com.google.common.base.Preconditions;
+
 import fr.evercraft.everapi.EverAPI;
 
 public class PlayerPermission extends PlayerKeys implements OptionSubject {
@@ -33,6 +35,20 @@ public class PlayerPermission extends PlayerKeys implements OptionSubject {
 		}
 		return this.optionSubject != null;
 	}
+	
+	public Optional<Subject> getGroup() {
+		return this.getGroup(getActiveContexts());
+	}
+	
+	public Optional<Subject> getGroup(final Set<Context> contexts) {
+		Preconditions.checkNotNull(contexts, "contexts");
+		
+		List<Subject> groups = this.getSubjectData().getParents(contexts);
+		if(!groups.isEmpty()) {
+			return Optional.of(groups.get(0));
+		}
+		return Optional.empty();
+    }
 
 	@Override
 	public Optional<CommandSource> getCommandSource() {
