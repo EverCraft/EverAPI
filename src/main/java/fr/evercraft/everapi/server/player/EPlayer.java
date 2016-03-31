@@ -336,9 +336,9 @@ public class EPlayer extends PlayerEssentials {
 		Optional<String> optHover = this.getOption(contexts, "hover");
 		if(optHover.isPresent()) {
 			String hover = this.plugin.getChat().replace(optHover.get());
-			hover = this.plugin.getChat().replaceVariable(hover);
-			hover = this.plugin.getChat().replaceVariable(this, hover);
-			return Optional.of(this.plugin.getChat().replaceVariableText(this, hover));
+			hover = this.plugin.getChat().replaceGlobal(hover);
+			hover = this.plugin.getChat().replacePlayer(this, hover);
+			return Optional.of(this.plugin.getChat().replaceFormat(this, hover));
 		}
 		return Optional.empty();
 	}
@@ -350,8 +350,8 @@ public class EPlayer extends PlayerEssentials {
 	public Optional<String> getSuggest(Set<Context> contexts) {
 		Optional<String> optHover = this.getOption(contexts, "suggest");
 		if(optHover.isPresent()) {
-			String hover = this.plugin.getChat().replaceVariable(optHover.get());
-			return Optional.of(this.plugin.getChat().replaceVariable(this, hover));
+			String hover = this.plugin.getChat().replaceGlobal(optHover.get());
+			return Optional.of(this.plugin.getChat().replacePlayer(this, hover));
 		}
 		return Optional.empty();
 	}

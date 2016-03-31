@@ -103,6 +103,16 @@ public class ETextBuilder {
 		return this;
 	}
 	
+	public boolean contains(String replace_id){
+		int cpt = 0;
+		boolean resultat = false;
+		while(cpt < this.texts.size() && !resultat){
+			resultat = (this.texts.get(cpt) instanceof String && ((String) this.texts.get(cpt)).contains(replace_id));
+			cpt++;
+		}
+		return resultat;
+	}
+	
 	public ETextBuilder append(String message){
 		this.texts.add(message);
 		return this;

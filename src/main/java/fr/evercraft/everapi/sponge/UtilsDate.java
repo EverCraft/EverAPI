@@ -16,6 +16,8 @@
  */
 package fr.evercraft.everapi.sponge;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -28,6 +30,10 @@ public class UtilsDate {
 	private final EverAPI plugin;
 	private final int[] types;
 	private String[] names;
+	
+	private String formatDate;
+	private String formatTime;
+	private String formatDateTime;
 
 	public UtilsDate(final EverAPI plugin){
 		this.plugin = plugin;
@@ -44,6 +50,10 @@ public class UtilsDate {
 	}
 	
 	public void reload() {
+		this.formatDate = this.plugin.getConfigs().getFormatDate();
+		this.formatTime = this.plugin.getConfigs().getFormatTime();
+		this.formatDateTime = this.plugin.getConfigs().getFormatDateTime();
+		
 		this.names = new String[] { 
 				this.plugin.getMessages().getMessage("TIME_YEAR"),
 				this.plugin.getMessages().getMessage("TIME_YEARS"), 
@@ -58,6 +68,38 @@ public class UtilsDate {
 				this.plugin.getMessages().getMessage("TIME_SECOND"),
 				this.plugin.getMessages().getMessage("TIME_SECONDS")};
 	}
+	
+	/*
+	 * Utils
+	 */
+	
+	public String parseDate() {
+		return parseDate(System.currentTimeMillis());
+	}
+	
+	public String parseDate(long time) {
+		return (new SimpleDateFormat(this.formatDate)).format(new Timestamp(time));
+	}
+	
+	public String parseTime() {
+		return parseDate(System.currentTimeMillis());
+	}
+	
+	public String parseTime(long time) {
+		return (new SimpleDateFormat(this.formatTime)).format(new Timestamp(time));
+	}
+	
+	public String parseDateTime() {
+		return parseDate(System.currentTimeMillis());
+	}
+	
+	public String parseDateTime(long time) {
+		return (new SimpleDateFormat(this.formatDateTime)).format(new Timestamp(time));
+	}
+	
+	/*
+	 * Différence
+	 */
 	
 	public String formatDateDiff(final long date) {
 		return formatDateDiff(date, DEFAULT_LENGTH);

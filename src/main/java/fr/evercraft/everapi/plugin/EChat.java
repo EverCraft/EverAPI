@@ -16,6 +16,7 @@
  */
 package fr.evercraft.everapi.plugin;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -60,36 +61,53 @@ public class EChat implements ChatService {
 		return this.service != null;
 	}
 	
-	public String replaceVariable(String message){
+	public String replaceGlobal(String message){
 		Preconditions.checkNotNull(message, "message");
 		
-		if(message.contains("<PLAYERS_NO_VANISH>")) {
-			message = message.replaceAll("<PLAYERS_NO_VANISH>", String.valueOf(this.plugin.getEServer().playerNotVanish()));
+		if(message.contains("<PLAYERS_NO_VANISH>")) message = message.replaceAll("<PLAYERS_NO_VANISH>", String.valueOf(this.plugin.getEServer().playerNotVanish()));
+		if(message.contains("<MAX_PLAYERS>")) message = message.replaceAll("<MAX_PLAYERS>", String.valueOf(this.plugin.getEServer().getMaxPlayers()));
+		if(message.contains("<SERVER_NAME>")) message = message.replaceAll("<SERVER_NAME>", this.plugin.getEServer().getName());
+		if(message.contains("<VERSION>")) message = message.replaceAll("<VERSION>", this.plugin.getGame().getPlatform().getApi().getVersion().orElse(""));
+		if(message.contains("<DATE>")) message = message.replaceAll("<DATE>", this.plugin.getManagerUtils().getDate().parseDate());
+		if(message.contains("<TIME>")) message = message.replaceAll("<TIME>", this.plugin.getManagerUtils().getDate().parseTime());
+		if(message.contains("<DATETIME>")) message = message.replaceAll("<DATETIME>", this.plugin.getManagerUtils().getDate().parseDateTime());
+
+		if(message.contains("<MONEY_SINGULAR>") || message.contains("<MONEY_PLURAL>") || message.contains("<SYMBOL>")) {
+			Optional<EconomyService> economy = this.plugin.getManagerService().getEconomy();
+			if(economy.isPresent()) {
+				Currency currency = economy.get().getDefaultCurrency();
+				message = message.replace("<MONEY_SINGULAR>", currency.getDisplayName().toPlain());
+				message = message.replace("<MONEY_PLURAL>", currency.getPluralDisplayName().toPlain());
+				message = message.replace("<SYMBOL>", currency.getSymbol().toPlain());
+			} else {
+				message = message.replace("<MONEY_SINGULAR>", "");
+				message = message.replace("<MONEY_PLURAL>", "");
+				message = message.replace("<SYMBOL>", "");
+			}
 		}
-		message = message.replaceAll("<MAX_PLAYERS>", String.valueOf(this.plugin.getEServer().getMaxPlayers()));
-		message = message.replaceAll("<SERVER_NAME>", this.plugin.getGame().getPlatform().getApi().getName());
-		message = message.replaceAll("<VERSION>", this.plugin.getGame().getPlatform().getApi().getVersion().orElse(""));
 		return message;
 	}
 	
-	public String replaceVariable(final EPlayer player, String message){
+	public String replacePlayer(final EPlayer player, String message){
 		Preconditions.checkNotNull(player, "player");
 		Preconditions.checkNotNull(message, "message");
 		
-		message = message.replaceAll("<UUID>", player.getUniqueId().toString());
-		message = message.replaceAll("<NAME>", player.getName());
-		message = message.replaceAll("<DISPLAYNAME>", player.getDisplayName());
-		
-		message = message.replaceAll("<WORLD_NAME>", player.getWorld().getName());
-		message = message.replaceAll("<SHORT_WORLD_NAME>", String.valueOf(player.getWorld().getName().charAt(0)));
-
-		message = message.replaceAll("<HEALTH>", String.valueOf(player.getHealth()));
-		message = message.replaceAll("<MAX_HEALTH>", String.valueOf(player.getMaxHealth()));
-		message = message.replaceAll("<PLAYERS_SEE>", String.valueOf(this.plugin.getEServer().playerNotVanish(player)));
-		
-		if(message.contains("<DISPLAYNAME>")) {
-			message = message.replaceAll("<DISPLAYNAME>", player.getDisplayName());
-		}
+		if(message.contains("<UUID>")) message = message.replaceAll("<UUID>", player.getUniqueId().toString());
+		if(message.contains("<NAME>")) message = message.replaceAll("<NAME>", player.getName());
+		if(message.contains("<DISPLAYNAME>")) message = message.replaceAll("<DISPLAYNAME>", player.getDisplayName());
+		if(message.contains("<WORLD_NAME>")) message = message.replaceAll("<WORLD_NAME>", player.getWorld().getName());
+		if(message.contains("<SHORT_WORLD_NAME>")) message = message.replaceAll("<SHORT_WORLD_NAME>", String.valueOf(player.getWorld().getName().toUpperCase().charAt(0)));
+		if(message.contains("<HEALTH>")) message = message.replaceAll("<HEALTH>", String.valueOf(player.getHealth()));
+		if(message.contains("<MAX_HEALTH>")) message = message.replaceAll("<MAX_HEALTH>", String.valueOf(player.getMaxHealth()));
+		if(message.contains("<VISIBLE_PLAYERS_ONLINE>")) message = message.replaceAll("<VISIBLE_PLAYERS_ONLINE>", String.valueOf(this.plugin.getEServer().playerNotVanish(player)));
+		if(message.contains("<IP>")) message = message.replaceAll("<IP>", player.getConnection().getAddress().getAddress().getHostAddress().toString());
+		if(message.contains("<PING>")) message = message.replaceAll("<PING>", String.valueOf(player.getConnection().getLatency()));
+		if(message.contains("<LAST_DATE_PLAYED>")) 
+			message = message.replaceAll("<LAST_DATE_PLAYED>", this.plugin.getEverAPI().getManagerUtils().getDate().formatDateDiff(player.getLastDatePlayed(), 3));
+		if(message.contains("<FIRST_DATE_PLAYED>")) 
+			message = message.replaceAll("<FIRST_DATE_PLAYED>", this.plugin.getEverAPI().getManagerUtils().getDate().parseDate(player.getFirstDatePlayed()));
+		if(message.contains("<FIRST_DATE_TIME_PLAYED>"))
+			message = message.replaceAll("<FIRST_DATE_TIME_PLAYED>", this.plugin.getEverAPI().getManagerUtils().getDate().parseDateTime(player.getFirstDatePlayed()));
 		if(message.contains("<GROUP>")) {
 			Optional<Subject> group = player.getGroup();
 			if(group.isPresent()) {
@@ -97,9 +115,6 @@ public class EChat implements ChatService {
 			} else {
 				message = message.replaceAll("<GROUP>", "");
 			}
-		}
-		if(message.contains("<BALANCE>")) {
-			message = message.replaceAll("<BALANCE>", String.valueOf(player.getBalance()));
 		}
 		if(message.contains("<TEAM_PREFIX>") || message.contains("<TEAM_SUFFIX>") || message.contains("<TEAM_NAME>")) {
 			Optional<Team> team = player.getTeam();
@@ -113,10 +128,18 @@ public class EChat implements ChatService {
 				message = message.replaceAll("<TEAM_NAME>", "");
 			}
 		}
+		if(message.contains("<BALANCE>")) {
+			Optional<EconomyService> economy = this.plugin.getManagerService().getEconomy();
+			if(economy.isPresent()) {
+				message = message.replace("<BALANCE>", player.getBalance().setScale(economy.get().getDefaultCurrency().getDefaultFractionDigits(), BigDecimal.ROUND_HALF_UP).toString());
+			} else {
+				message = message.replace("<MONEY_SINGULAR>", "0");
+			}
+		}
 		return message;
 	}
 	
-	public Text replaceVariableText(final EPlayer player, String message){
+	public Text replaceFormat(final EPlayer player, String message){
 		return replaceVariableText(player, ETextBuilder.toBuilder(message));
 	}
 	
@@ -124,31 +147,34 @@ public class EChat implements ChatService {
 		Preconditions.checkNotNull(player, "player");
 		Preconditions.checkNotNull(message, "message");
 		
-		// Team
-		Optional<Team> team = player.getTeam();
-		if(team.isPresent()) {
-			message = message.replace("<TEAM_PREFIX_FORMAT>", team.get().getPrefix());
-			message = message.replace("<TEAM_SUFFIX_FORMAT>", team.get().getSuffix());
-			message = message.replace("<TEAM_NAME_FORMAT>", team.get().getDisplayName());
-		} else {
-			message = message.replace("<TEAM_PREFIX_FORMAT>", Text.of());
-			message = message.replace("<TEAM_SUFFIX_FORMAT>", Text.of());
-			message = message.replace("<TEAM_NAME_FORMAT>", Text.of());
-		}
+		if(message.contains("<DISPLAYNAME_FORMAT>")) message = message.replace("<DISPLAYNAME_FORMAT>", player.getDisplayNameHover());
 		
-		// Economy
-		Optional<EconomyService> economy = this.plugin.getManagerService().getEconomy();
-		if(economy.isPresent()) {
-			Currency currency = economy.get().getDefaultCurrency();
-			message = message.replace("<BALANCE_FORMAT>", currency.format(player.getBalance()));
-			message = message.replace("<MONEY_SINGULAR_FORMAT>", currency.format(player.getBalance()));
-			message = message.replace("<MONEY_PLURAL_FORMAT>", currency.format(player.getBalance()));
-			message = message.replace("<SYMBOL_FORMAT>", currency.format(player.getBalance()));
-		} else {
-			message = message.replace("<BALANCE_FORMAT>", Text.of());
-			message = message.replace("<MONEY_SINGULAR_FORMAT>", Text.of());
-			message = message.replace("<MONEY_PLURAL_FORMAT>", Text.of());
-			message = message.replace("<SYMBOL_FORMAT>", Text.of());
+		if(message.contains("<TEAM_PREFIX_FORMAT>") || message.contains("<TEAM_SUFFIX_FORMAT>") || message.contains("<TEAM_NAME_FORMAT>")) {
+			Optional<Team> team = player.getTeam();
+			if(team.isPresent()) {
+				message = message.replace("<TEAM_PREFIX_FORMAT>", team.get().getPrefix());
+				message = message.replace("<TEAM_SUFFIX_FORMAT>", team.get().getSuffix());
+				message = message.replace("<TEAM_NAME_FORMAT>", team.get().getDisplayName());
+			} else {
+				message = message.replace("<TEAM_PREFIX_FORMAT>", Text.of());
+				message = message.replace("<TEAM_SUFFIX_FORMAT>", Text.of());
+				message = message.replace("<TEAM_NAME_FORMAT>", Text.of());
+			}
+		}
+		if(message.contains("<BALANCE_FORMAT>") || message.contains("<MONEY_SINGULAR_FORMAT>") || message.contains("<MONEY_PLURAL_FORMAT>") || message.contains("<SYMBOL_FORMAT>")) {
+			Optional<EconomyService> economy = this.plugin.getManagerService().getEconomy();
+			if(economy.isPresent()) {
+				Currency currency = economy.get().getDefaultCurrency();
+				message = message.replace("<BALANCE_FORMAT>", currency.format(player.getBalance()));
+				message = message.replace("<MONEY_SINGULAR_FORMAT>", currency.getSymbol());
+				message = message.replace("<MONEY_PLURAL_FORMAT>", currency.getDisplayName());
+				message = message.replace("<SYMBOL_FORMAT>", currency.getPluralDisplayName());
+			} else {
+				message = message.replace("<BALANCE_FORMAT>", Text.of());
+				message = message.replace("<MONEY_SINGULAR_FORMAT>", Text.of());
+				message = message.replace("<MONEY_PLURAL_FORMAT>", Text.of());
+				message = message.replace("<SYMBOL_FORMAT>", Text.of());
+			}
 		}
 		return message.build();
 	}

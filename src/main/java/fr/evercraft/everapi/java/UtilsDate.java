@@ -20,11 +20,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
 public class UtilsDate {
-	public static final String TIMESTAMP = "dd MMM yyyy HH:mm:ss";
-	public static final String DATE = "dd MMM yyyy";
-	public static final String TIME = "HH:mm";
-	
-
 	/**
 	 * Retourne le Timestamp de l'heure du serveur
 	 * @return Le Timestamp de l'heure du serveur
@@ -32,14 +27,6 @@ public class UtilsDate {
 	public static Timestamp getTimestamp(){
    	 	return new Timestamp(System.currentTimeMillis());
     }
-	
-	/**
-	 * Retourne la date actuellement dans le format par défaut
-	 * @return La date actuellement dans le format par défaut
-	 */
-	public static String getString(){
-		return getString(TIMESTAMP);
-	}
 	
 	/**
 	 * Retourne la date actuellement dans un certain format
@@ -50,15 +37,13 @@ public class UtilsDate {
 		return (new SimpleDateFormat(format)).format(UtilsDate.getTimestamp());
 	}
 	
-	public static String getString(long time){
-		return (new SimpleDateFormat(TIMESTAMP)).format(new Timestamp(time));
+	/**
+	 * Retourne la date actuellement dans un certain format
+	 * @param format Le format
+	 * @param format L'heure
+	 * @return La date actuellement dans un certain format
+	 */
+	public static String getString(String format, long time){
+		return (new SimpleDateFormat(format)).format(new Timestamp(time));
 	}
-	
-	public static String getDate(){
-        return UtilsDate.getString(DATE);
-    }
-     
-    public static String getTime(){
-        return UtilsDate.getString(TIME);
-    }
 }

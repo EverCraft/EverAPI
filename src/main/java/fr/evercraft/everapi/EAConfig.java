@@ -16,8 +16,6 @@
  */
 package fr.evercraft.everapi;
 
-import java.util.Arrays;
-
 import fr.evercraft.everapi.plugin.file.EConfig;
 import fr.evercraft.everapi.plugin.file.EMessage;
 
@@ -36,21 +34,12 @@ public class EAConfig extends EConfig {
 	public void loadDefault() {
 		addDefault("debug", false, "Displays plugin performance in the logs");
 		addDefault("language", EMessage.ENGLISH, "Select language messages", "Examples : ", "  French : FR_fr", "  English : EN_en");
+
+		addDefault("server-name", "EverCraft");
 		
-		addDefault("MySQL.enable", false);
-		addDefault("MySQL.host", "localhost");
-		addDefault("MySQL.port", 3306);
-		addDefault("MySQL.database", "everapi");
-		addDefault("MySQL.username", "root");
-		addDefault("MySQL.password", "");
-		addDefault("MySQL.prefix", "everapi_");
-		
-		addDefault("mail.enable", true);
-		addDefault("mail.host", "evercraft.fr");
-		addDefault("mail.username", "contact");
-		addDefault("mail.alerts", Arrays.asList("butbutdu45@gmail.com", "lesbleu@evercraft.fr"));
-		
-		addDefault("server.name", "EverCraft");
+		addDefault("format.date", "dd MMM yyyy");
+		addDefault("format.time", "HH:mm");
+		addDefault("format.datetime", "dd MMM yyyy HH:mm:ss");
 		
 		addDefault("maxCaractere", 16);
 		
@@ -60,5 +49,17 @@ public class EAConfig extends EConfig {
 		addDefault("location.maxY", 255);
 		addDefault("location.minZ", -30000);
 		addDefault("location.maxZ", 30000);
+	}
+	
+	public String getFormatDate(){
+		return this.get("format.date").getString("dd MMM yyyy");
+	}
+
+	public String getFormatTime() {
+		return this.get("format.time").getString("HH:mm");
+	}
+
+	public String getFormatDateTime() {
+		return this.get("format.datetime").getString("dd MMM yyyy HH:mm:ss");
 	}
 }
