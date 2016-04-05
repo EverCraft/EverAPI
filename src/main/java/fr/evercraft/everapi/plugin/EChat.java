@@ -140,10 +140,10 @@ public class EChat implements ChatService {
 	}
 	
 	public Text replaceFormat(final EPlayer player, String message){
-		return replaceVariableText(player, ETextBuilder.toBuilder(message));
+		return replaceFormat(player, ETextBuilder.toBuilder(message));
 	}
 	
-	public Text replaceVariableText(final EPlayer player, ETextBuilder message){
+	public Text replaceFormat(final EPlayer player, ETextBuilder message){
 		Preconditions.checkNotNull(player, "player");
 		Preconditions.checkNotNull(message, "message");
 		

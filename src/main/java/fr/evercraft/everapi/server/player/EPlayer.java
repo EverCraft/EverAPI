@@ -299,7 +299,10 @@ public class EPlayer extends PlayerEssentials {
 		Optional<String> suggest = getSuggest(contexts);
 		Optional<Text> hover = getHover(contexts);
 		
-		Builder builder = EChat.of(getDisplayName(contexts)).toBuilder();
+		String name = this.plugin.getChat().replace(getDisplayName(contexts));
+		name = this.plugin.getChat().replaceGlobal(name);
+		name = this.plugin.getChat().replacePlayer(this, name);
+		Builder builder = this.plugin.getChat().replaceFormat(this, name).toBuilder();
 		
 		if(suggest.isPresent()) {
 			builder.onClick(TextActions.suggestCommand(suggest.get()));

@@ -54,6 +54,7 @@ import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.resourcepack.ResourcePack;
 import org.spongepowered.api.scoreboard.Scoreboard;
 import org.spongepowered.api.service.permission.option.OptionSubject;
+import org.spongepowered.api.text.BookView;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageChannel;
 import org.spongepowered.api.text.chat.ChatType;
@@ -517,6 +518,11 @@ public abstract class PlayerSponge implements Player, OptionSubject{
 
 	public void setHeadRotation(Vector3d rotation) {
 		this.player.setHeadRotation(rotation);
+	}
+	
+	@Override
+	public void sendBookView(BookView bookView) {
+		this.player.sendBookView(bookView);
 	}
 
 }
