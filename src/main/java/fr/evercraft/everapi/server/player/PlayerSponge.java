@@ -23,6 +23,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
+import org.spongepowered.api.block.BlockState;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataHolder;
 import org.spongepowered.api.data.DataTransactionResult;
@@ -53,7 +54,6 @@ import org.spongepowered.api.network.PlayerConnection;
 import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.resourcepack.ResourcePack;
 import org.spongepowered.api.scoreboard.Scoreboard;
-import org.spongepowered.api.service.permission.option.OptionSubject;
 import org.spongepowered.api.text.BookView;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageChannel;
@@ -69,7 +69,7 @@ import com.flowpowered.math.vector.Vector3d;
 
 import fr.evercraft.everapi.EverAPI;
 
-public abstract class PlayerSponge implements Player, OptionSubject{
+public abstract class PlayerSponge implements Player {
 	protected final EverAPI plugin;
 	protected final Player player;
 	
@@ -525,4 +525,13 @@ public abstract class PlayerSponge implements Player, OptionSubject{
 		this.player.sendBookView(bookView);
 	}
 
+	@Override
+	public void sendBlockChange(int x, int y, int z, BlockState state) {
+		this.player.sendBlockChange(x, y, z, state);
+	}
+
+	@Override
+	public void resetBlockChange(int x, int y, int z) {
+		this.player.resetBlockChange(x, y, z);
+	}
 }
