@@ -4,7 +4,7 @@ EverAPI
 A minecraft plugin for Sponge platforms.
 
 ## Links ##
-* [Source](https://github.com/EverCraft/EverAPI)
+* [Download](https://github.com/EverCraft/EverAPI/releases)
 * [Wiki](http://wiki.evercraft.fr)
 * [Issues](https://github.com/EverCraft/EverAPI/issues)
 * [Website](http://evercraft.fr)
