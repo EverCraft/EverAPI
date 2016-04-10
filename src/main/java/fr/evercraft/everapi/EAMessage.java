@@ -30,11 +30,11 @@ public class EAMessage extends EMessage {
 		addDefault("prefix", 					"[&4Ever&6&lAPI&f] ");
 		
 		addDefault("noPermission", 				"&cErreur : Vous n'avez pas la permission !",
-												"&cError : You do not have permission !");
+												"&cError : You don't have permission !");
 		addDefault("noPermissionWorld",			"&cErreur : Vous n'avez pas la permission pour ce monde !",
-												"&cError : You do not have permission for this world !");
+												"&cError : You don't have permission for this world !");
 		addDefault("noPermissionWorldOthers", 	"&cErreur : Le joueur n'a pas la permission pour ce monde !",
-												"&cError : The player does not have permission for this world !");
+												"&cError : The player doesn't have permission for this world !");
 		
 		addDefault("worldNotFound", 			"&cErreur : Le monde '&6<world>&c' est introuvable.",
 												"&cError : The world '&6<world>&c' is not found");
