@@ -34,10 +34,10 @@ public class ServerDisableException extends Exception {
 				this.plugin.getEverAPI().getManagerService().getMail().get().alert(
 						this.plugin.getEverAPI().getMessages().getMessage("MAIL_SERVER_DISABLE_OBJECT")
 							.replaceAll("<server>", this.plugin.getEServer().getName())
-							.replaceAll("<raison>", this.getMessage()), 
+							.replaceAll("<reason>", this.getMessage()), 
 						this.plugin.getEverAPI().getMessages().getMessage("MAIL_SERVER_DISABLE_MESSAGE")
 							.replaceAll("<server>", this.plugin.getEServer().getName())
-							.replaceAll("<raison>", this.getMessage()));
+							.replaceAll("<reason>", this.getMessage()));
 			}
 			this.plugin.getEverAPI().disable();
 			this.plugin.getGame().getServer().shutdown(this.plugin.getEverAPI().getMessages().getText("SERVER_ERROR"));

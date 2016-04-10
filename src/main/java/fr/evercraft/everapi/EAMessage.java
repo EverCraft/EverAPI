@@ -29,30 +29,48 @@ public class EAMessage extends EMessage {
 		// Prefix
 		addDefault("prefix", 					"[&4Ever&6&lAPI&f] ");
 		
-		addDefault("noPermission", 				"&cErreur : Vous n'avez pas la permission !");
-		addDefault("noPermissionWorld",			"&cErreur : Vous n'avez pas la permission pour ce monde !");
-		addDefault("noPermissionWorldOthers", 	"&cErreur : Le joueur n'a pas la permission pour ce monde !");
+		addDefault("noPermission", 				"&cErreur : Vous n'avez pas la permission !",
+												"&cError : You do not have permission !");
+		addDefault("noPermissionWorld",			"&cErreur : Vous n'avez pas la permission pour ce monde !",
+												"&cError : You do not have permission for this world !");
+		addDefault("noPermissionWorldOthers", 	"&cErreur : Le joueur n'a pas la permission pour ce monde !",
+												"&cError : The player does not have permission for this world !");
 		
-		addDefault("worldNotFound", 			"&cErreur : Le monde '&6<world>&c' est introuvable.");
-		addDefault("emptyItemInHand", 			"&cErreur : Vous n'avez aucun objet dans votre main.");
-		addDefault("accountNotFound", 			"&cErreur : Le compte n'a pas été trouvé.");
-		addDefault("numberInvalid", 			"&cErreur : Le nombre est invalide.");
-		addDefault("serverError", 				"&cUne erreur est survenu, les administrateurs ont été contactés.");
+		addDefault("worldNotFound", 			"&cErreur : Le monde '&6<world>&c' est introuvable.",
+												"&cError : The world '&6<world>&c' is not found");
+		addDefault("emptyItemInHand", 			"&cErreur : Vous n'avez aucun objet dans votre main.",
+												"&cError : You have no item in your hand.");
+		addDefault("accountNotFound", 			"&cErreur : Le compte n'a pas été trouvé.",
+												"&cError : The account was not found.");
+		addDefault("serverError", 				"&cUne erreur est survenu, les administrateurs ont été contactés.",
+												"&cAn error occurred, administrators were contacted.");
 		
-		addDefault("isNotEntityType", 			"&cErreur : '<entity>' n'est pas un type d'entité.");
-		addDefault("isNotNumber", 				"&cErreur : Ceci n'est pas nombre '<number>'.");
+		addDefault("isNotEntityType", 			"&cErreur : '<entity>' n'est pas un type d'entité.",
+												"&cError : '<entity> is not an entity type.");
+		addDefault("numberInvalid", 			"&cErreur : Le nombre est invalide.",
+												"&cError : The number is invalid.");
+		addDefault("isNotNumber", 				"&cErreur : Ceci n'est pas nombre '<number>'.",
+												"&cError : '<number>' is not a number");
 		
-		addDefault("command.usage", 			"&cUtilisation :[RT]");
-		addDefault("command.error", 			"&cErreur : Problème lors de l'exécution de la commande.");
-		addDefault("command.errorPlayerDead", 	"&cErreur : Vous ne pouvez pas exécuter une commande quand vous êtes mort.");
-		addDefault("command.errorForPlayer",	"&cErreur : Cette commande ne peut être exécutée que par un joueur.");
+		addDefault("command.usage", 			"&cUtilisation :[RT]",
+												"&cUsage :[RT]");
+		addDefault("command.error", 			"&cErreur : Un problème est survenu lors de l'exécution de la commande.",
+												"&cError : A problem occurred during the execution of the command.");
+		addDefault("command.errorPlayerDead", 	"&cErreur : Vous ne pouvez pas exécuter une commande quand vous êtes mort.",
+												"&cError : You can not run a command when you're dead");
+		addDefault("command.errorForPlayer",	"&cErreur : Cette commande ne peut être exécutée que par un joueur.",
+												"&cError : This command can be executed only by a player.");
 		
-		addDefault("location.errorNumber", 		"&cLa position <name> doit être entre <min> et <max>.");
+		addDefault("location.errorNumber", 		"&cErreur : La position <name> doit être compris entre <min> et <max>.",
+												"&cError : The position <name> must be between <min> and <max>");
 		
 		// Joueur :
-		addDefault("player.notFound", 			"&cErreur : Ce joueur est introuvable.");
-		addDefault("player.noLookBlock", 		"&cErreur : Vous regardez aucun bloc.");
-		addDefault("player.noPermissionWorld", 	"&cErreur : Vous n'avez pas la permission d'aller dans ce monde.");
+		addDefault("player.notFound", 			"&cErreur : Ce joueur est introuvable.",
+												"&cError : This player is untraceable.");
+		addDefault("player.noLookBlock", 		"&cErreur : Vous regardez aucun bloc.",
+												"&cError : You look no block.");
+		addDefault("player.noPermissionWorld", 	"&cErreur : Vous n'avez pas la permission d'aller dans ce monde.",
+												"&cError : You do not have permission to go in this world.");
 		
 		// Plugins :
 		addDefault("plugins.message", 			"&4Ever&6&lPlugins&f(&a<count>&f) : <plugins>");
@@ -62,17 +80,17 @@ public class EAMessage extends EMessage {
 		addDefault("plugins.version", 			"&6Version : &7<version>");
 		addDefault("plugins.description", 		"&6Description : &7<description>");
 		addDefault("plugins.url", 				"&6URL : &7<url>");
-		addDefault("plugins.author", 			"&6Auteur(s) : &7<author>" );
+		addDefault("plugins.author", 			"&6Auteur(s) : &7<author>", 
+												"&6Author(s) : &7<author>");
 		
 		// Reload :
-		addDefault("reload.description", 		"Recharge le plugin");
-		addDefault("reload.command", 			"&7Rechargement du plugin terminé.");
+		addDefault("reload.description", 		"Permet de recharger le plugin.",
+												"Reloads the plugin.");
+		addDefault("reload.command", 			"&7Rechargement du plugin terminé.",
+												"&7Reload complete.");
 		
 		addDefault("hoverCopy", 				"&cCliquez ici pour copier cette information.",
 												"&cClick here to copy this information.");
-		
-		// Cooldown
-		addDefault("cooldown.message",			"&cVous ne pouvez pas effectuer cette action avant : <time>");
 		
 		// Time
 		addDefault("time.now", 					"moins d'une seconde", "less than a second");
@@ -106,13 +124,14 @@ public class EAMessage extends EMessage {
 		addDefault("args.option", 				"option");
 		addDefault("args.value", 				"valeur", "value");
 		addDefault("args.subject", 				"subject", "subject");
-		addDefault("args.message", 				"message");
+		addDefault("args.message", 				"message...");
 		addDefault("args.mail", 				"mail");
 		addDefault("args.amount", 				"quantité", "amount");
 		addDefault("args.arguments", 			"argument...");
 		
 		// Help :
-		addDefault("help.title", 				"&a [ Aide : <plugin> v<version> ] ");
+		addDefault("help.title", 				"&a [ Aide : <plugin> v<version> ] ",
+												"&a [ Help : <plugin> v<version> ] ");
 		addDefault("help.padding", 				"&m &r");
 		addDefault("help.line", 				"<name> &6: <description> ");
 		addDefault("help.lineName", 			"&6/<command>");
@@ -129,7 +148,8 @@ public class EAMessage extends EMessage {
 		
 		// Mail :
 		addDefault("mail.serverDisable.object", "ServerDisableException : <server>");
-		addDefault("mail.serverDisable.message","Raison : <raison>");
+		addDefault("mail.serverDisable.message","Raison : <reason>",
+												"Reason : <reason>");
 	}
 
 	@Override
@@ -162,8 +182,6 @@ public class EAMessage extends EMessage {
 		addMessage("RELOAD_COMMAND", "reload.command");
 		
 		addMessage("LOCATION_ERROR_NUMBER", "location.errorNumber");
-		
-		addMessage("COOLDOWN", "cooldown.message");
 		
 		addMessage("TIME_NOW", "time.now");
 		addMessage("TIME_YEAR", "time.year");

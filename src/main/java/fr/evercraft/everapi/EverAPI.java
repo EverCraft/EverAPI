@@ -31,8 +31,8 @@ import fr.evercraft.everapi.sponge.ManagerUtils;
 @Plugin(id = "fr.evercraft.everapi", 
 		name = "EverAPI", 
 		version = "1.0", 
-		description = "L'API d'EverCraft",
-		url = "http://evercraft.fr/",
+		description = "EverAPI is a library",
+		url = "http://wiki.evercraft.fr/",
 		authors = {"rexbut","lesbleu"})
 public class EverAPI extends EPlugin {
 
