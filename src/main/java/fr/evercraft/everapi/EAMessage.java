@@ -38,7 +38,7 @@ public class EAMessage extends EMessage {
 		addDefault("accountNotFound", "&cErreur : Le compte n'a pas été trouvé.", "&cError : The account was not found.");
 		addDefault("serverError", "&cUne erreur est survenu, les administrateurs ont été contactés.", "&cAn error occurred, administrators were contacted.");
 		
-		addDefault("isNotEntityType", "&cErreur : '<entity>' n'est pas un type d'entité.", "&cError : '<entity> is not an entity type.");
+		addDefault("isNotEntityType", "&cErreur : '<entity>' n'est pas un type d'entité.", "&cError : '<entity>' is not an entity type.");
 		addDefault("numberInvalid", "&cErreur : Le nombre est invalide.", "&cError : The number is invalid.");
 		addDefault("isNotNumber", "&cErreur : Ceci n'est pas nombre '<number>'.", "&cError : '<number>' is not a number");
 		
