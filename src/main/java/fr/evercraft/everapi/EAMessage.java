@@ -48,7 +48,7 @@ public class EAMessage extends EMessage {
 		addDefault("command.errorForPlayer", "&cErreur : Cette commande ne peut être exécutée que par un joueur.", "&cError : This command can be executed only by a player.");
 		
 		addDefault("location.errorNumber", "&cErreur : La position <name> doit être compris entre <min> et <max>.", "&cError : The position <name> must be between <min> and <max>");
-		
+		 
 		// Joueur :
 		addDefault("player.notFound", "&cErreur : Ce joueur est introuvable.", "&cError : This player is untraceable.");
 		addDefault("player.noLookBlock", "&cErreur : Vous regardez aucun bloc.", "&cError : You look no block.");
