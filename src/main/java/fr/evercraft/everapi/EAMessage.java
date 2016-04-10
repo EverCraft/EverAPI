@@ -47,7 +47,7 @@ public class EAMessage extends EMessage {
 		
 		addDefault("isNotEntityType", 			"&cErreur : '<entity>' n'est pas un type d'entité.",
 												"&cError : '<entity> is not an entity type.");
-		addDefault("numberInvalid", 			"&cErreur : Le nombre est invalide.",
+		addDefault("numberInvalid", 			"&cErreur : Le nombre est invalide. ",
 												"&cError : The number is invalid.");
 		addDefault("isNotNumber", 				"&cErreur : Ceci n'est pas nombre '<number>'.",
 												"&cError : '<number>' is not a number");
