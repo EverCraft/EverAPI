@@ -216,7 +216,7 @@ public class EAMessage extends EMessage {
 		addMessage("ARGS_MESSAGE", "args.message");
 		addMessage("ARGS_MAIL", "args.mail");
 		addMessage("ARGS_AMOUNT", "args.amount");
-		addMessage("'ARGS_ARGUMENTS", "args.arguments");
+		addMessage("ARGS_ARGUMENTS", "args.arguments");
 		
 		addMessage("PAGINATION_COLOR", "pagination.color");
 		addMessage("PAGINATION_PADDING", "pagination.padding");
