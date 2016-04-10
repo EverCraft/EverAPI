@@ -109,6 +109,7 @@ public class EAMessage extends EMessage {
 		addDefault("args.message", 				"message");
 		addDefault("args.mail", 				"mail");
 		addDefault("args.amount", 				"quantité", "amount");
+		addDefault("args.arguments", 			"argument...");
 		
 		// Help :
 		addDefault("help.title", 				"&a [ Aide : <plugin> v<version> ] ");
@@ -221,6 +222,7 @@ public class EAMessage extends EMessage {
 		addMessage("ARGS_MESSAGE", "args.message");
 		addMessage("ARGS_MAIL", "args.mail");
 		addMessage("ARGS_AMOUNT", "args.amount");
+		addMessage("'ARGS_ARGUMENTS", "args.arguments");
 		
 		addMessage("PAGINATION_COLOR", "pagination.color");
 		addMessage("PAGINATION_PADDING", "pagination.padding");

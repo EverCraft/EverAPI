@@ -258,18 +258,27 @@ public class EChat implements ChatService {
 	
 	@Override
 	public String replace(final String message) {
+		Preconditions.checkNotNull(message, "message");
+		
 		if(this.isPresent()) {
 			return this.service.replace(message);
 		}
-		return message;
+		return message.replace("[RT]", "\n");
 	}
 
 	@Override
 	public List<String> replace(final List<String> messages) {
+		Preconditions.checkNotNull(messages, "messages");
+		
 		if(this.isPresent()) {
 			return this.service.replace(messages);
-		}
-		return messages;
+		} else {
+			List<String> list = new ArrayList<String>();
+		    for(String message : messages){
+		    	list.add(message.replace("[RT]", "\n"));
+		    }
+		    return list;
+		} 
 	}
 
 	@Override

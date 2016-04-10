@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.text.Text;
 
 import com.google.common.reflect.TypeToken;
@@ -50,12 +51,17 @@ public abstract class EMessage extends EFile {
     	this.messages = new ConcurrentHashMap<String, String>();
     	this.listsMessages = new ConcurrentHashMap<String, List<String>>();
     	
+    	this.plugin.getGame().getEventManager().registerListeners(this.plugin, this);
+    	
     	reload();
     }
     
+    @Listener
     public void chatService(ChatSystemEvent event) {
     	if(event.getAction().equals(ChatSystemEvent.Action.RELOADED)) {
-    		this.listsMessages.clear();
+    		this.messages.clear();
+        	this.listsMessages.clear();
+        	
     		this.loadConfig();
     	}
     }
@@ -82,7 +88,11 @@ public abstract class EMessage extends EFile {
     public void addMessage(final String key, final String value) {
     	ConfigurationNode resultat = get(value);
     	if(resultat != null && key != null){
-    		this.messages.put(key.toUpperCase(), resultat.getString(""));
+    		if(this.plugin.getChat() != null) {
+    			this.messages.put(key.toUpperCase(), this.plugin.getChat().replace(resultat.getString("")));
+    		} else {
+    			this.messages.put(key.toUpperCase(), resultat.getString(""));
+    		}
     	} else {
     		this.plugin.getLogger().warn("Le message '" + key + "' n'est pas définit");
     	}
@@ -97,7 +107,11 @@ public abstract class EMessage extends EFile {
     	ConfigurationNode resultat = get(value);
     	if(resultat != null && key != null){
     		try {
-				this.listsMessages.put(key.toUpperCase(), resultat.getList(TypeToken.of(String.class)));
+    			if(this.plugin.getChat() != null) {
+    				this.listsMessages.put(key.toUpperCase(), this.plugin.getChat().replace(resultat.getList(TypeToken.of(String.class))));
+    			} else {
+    				this.listsMessages.put(key.toUpperCase(), resultat.getList(TypeToken.of(String.class)));
+    			}
 			} catch (ObjectMappingException e) {
 				this.plugin.getLogger().warn("Impossible de charger la liste des messages : '" + key + "'");
 			}
