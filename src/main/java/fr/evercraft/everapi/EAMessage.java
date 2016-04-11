@@ -139,8 +139,8 @@ public class EAMessage extends EMessage {
 		addDefault("colors.gold", "Or", "gold");
 		addDefault("colors.gray", "Gris", "Gray");
 		addDefault("colors.dark_gray", "Gris foncé", "Dark Gray");
-		addDefault("colors.blue", "	Bleu clair", "Blue");
-		addDefault("colors.green", "	Vert clair", "Green");
+		addDefault("colors.blue", "Bleu clair", "Blue");
+		addDefault("colors.green", "Vert clair", "Green");
 		addDefault("colors.aqua", "Cyan", "Aqua");
 		addDefault("colors.red", "Rouge", "Red");
 		addDefault("colors.light_purple", "Magenta", "Light Purple");
