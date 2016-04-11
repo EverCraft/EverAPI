@@ -239,9 +239,9 @@ public class EAMessage extends EMessage {
 		addMessage("ARGS_ARGUMENTS", "args.arguments");
 		
 		addMessage("COLORS_BLACK", "colors.black");
-		addMessage("COLORS_BLUE", "colors.dark_blue");
-		addMessage("COLORS_GREEN", "colors.dark_green");
-		addMessage("COLORS_AQUA", "colors.dark_aqua");
+		addMessage("COLORS_DARK_BLUE", "colors.dark_blue");
+		addMessage("COLORS_DARK_GREEN", "colors.dark_green");
+		addMessage("COLORS_DARK_AQUA", "colors.dark_aqua");
 		addMessage("COLORS_DARK_RED", "colors.dark_red");
 		addMessage("COLORS_DARK_PURPLE", "colors.dark_purple");
 		addMessage("COLORS_GOLD", "colors.gold");
