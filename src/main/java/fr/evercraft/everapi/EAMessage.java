@@ -16,6 +16,8 @@
  */
 package fr.evercraft.everapi;
 
+import org.spongepowered.api.text.format.TextColor;
+
 import fr.evercraft.everapi.plugin.file.EMessage;
 
 public class EAMessage extends EMessage {
@@ -126,6 +128,24 @@ public class EAMessage extends EMessage {
 		// Mail :
 		addDefault("mail.serverDisable.object", "ServerDisableException : <server>");
 		addDefault("mail.serverDisable.message","Raison : <reason>", "Reason : <reason>");
+		
+		// Color
+		addDefault("colors.black", "Noir", "Black");
+		addDefault("colors.dark_blue", "Bleu foncé", "Dark Blue");
+		addDefault("colors.dark_green", "Vert foncé", "Dark Green");
+		addDefault("colors.dark_aqua", "Bleu ciel", "Dark Aqua");
+		addDefault("colors.dark_red", "Rouge foncé", "Dark Red");
+		addDefault("colors.dark_purple", "Violet", "Dark Purple");
+		addDefault("colors.gold", "Or", "gold");
+		addDefault("colors.gray", "Gris", "Gray");
+		addDefault("colors.dark_gray", "Gris foncé", "Dark Gray");
+		addDefault("colors.blue", "	Bleu clair", "Blue");
+		addDefault("colors.green", "	Vert clair", "Green");
+		addDefault("colors.aqua", "Cyan", "Aqua");
+		addDefault("colors.red", "Rouge", "Red");
+		addDefault("colors.light_purple", "Magenta", "Light Purple");
+		addDefault("colors.yellow", "Jaune", "Yellow");
+		addDefault("colors.white", "Blanc", "White");
 	}
 
 	@Override
@@ -218,6 +238,23 @@ public class EAMessage extends EMessage {
 		addMessage("ARGS_AMOUNT", "args.amount");
 		addMessage("ARGS_ARGUMENTS", "args.arguments");
 		
+		addMessage("COLORS_BLACK", "colors.black");
+		addMessage("COLORS_BLUE", "colors.dark_blue");
+		addMessage("COLORS_GREEN", "colors.dark_green");
+		addMessage("COLORS_AQUA", "colors.dark_aqua");
+		addMessage("COLORS_DARK_RED", "colors.dark_red");
+		addMessage("COLORS_DARK_PURPLE", "colors.dark_purple");
+		addMessage("COLORS_GOLD", "colors.gold");
+		addMessage("COLORS_GRAY", "colors.gray");
+		addMessage("COLORS_DARK_GRAY", "colors.dark_gray");
+		addMessage("COLORS_BLUE", "colors.blue");
+		addMessage("COLORS_GREEN", "colors.green");
+		addMessage("COLORS_AQUA", "colors.aqua");
+		addMessage("COLORS_RED", "colors.red");
+		addMessage("COLORS_LIGHT_PURPLE", "colors.light_purple");
+		addMessage("COLORS_YELLOW", "colors.yellow");
+		addMessage("COLORS_WHITE", "colors.white");
+		
 		addMessage("PAGINATION_COLOR", "pagination.color");
 		addMessage("PAGINATION_PADDING", "pagination.padding");
 		addMessage("PAGINATION_TITLE", "pagination.title");
@@ -225,5 +262,9 @@ public class EAMessage extends EMessage {
 
 	public String getArg(String arg) {
 		return this.getMessage("ARGS_" + arg.toUpperCase());
+	}
+	
+	public String getColor(TextColor color) {
+		return this.getMessage("COLORS_" + color.getName().toUpperCase());
 	}
 }
