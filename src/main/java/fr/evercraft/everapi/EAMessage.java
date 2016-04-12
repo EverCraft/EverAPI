@@ -17,6 +17,8 @@
 package fr.evercraft.everapi;
 
 import org.spongepowered.api.text.format.TextColor;
+import org.spongepowered.api.text.format.TextStyle;
+import org.spongepowered.api.text.format.TextStyles;
 
 import fr.evercraft.everapi.plugin.file.EMessage;
 
@@ -146,6 +148,14 @@ public class EAMessage extends EMessage {
 		addDefault("colors.light_purple", "Magenta", "Light Purple");
 		addDefault("colors.yellow", "Jaune", "Yellow");
 		addDefault("colors.white", "Blanc", "White");
+		
+		// Format
+		addDefault("format.obfuscated", "Aléatoire", "Random");
+		addDefault("format.bold", "Gras", "Bold");
+		addDefault("format.strikethrough", "Barré", "Strikethrough");
+		addDefault("format.underline", "Souligné", "Underline");
+		addDefault("format.italic", "Italique", "Italic");
+		addDefault("format.reset", "Réinitialisation", "Reset");
 	}
 
 	@Override
@@ -255,6 +265,13 @@ public class EAMessage extends EMessage {
 		addMessage("COLORS_YELLOW", "colors.yellow");
 		addMessage("COLORS_WHITE", "colors.white");
 		
+		addMessage("FORMAT_OBFUSCATED", "format.obfuscated");
+		addMessage("FORMAT_BOLD", "format.bold");
+		addMessage("FORMAT_STRIKETHROUGH", "format.strikethrough");
+		addMessage("FORMAT_UNDERLINE", "format.underline");
+		addMessage("FORMAT_ITALIC", "format.italic");
+		addMessage("FORMAT_RESET", "format.reset");
+		
 		addMessage("PAGINATION_COLOR", "pagination.color");
 		addMessage("PAGINATION_PADDING", "pagination.padding");
 		addMessage("PAGINATION_TITLE", "pagination.title");
@@ -266,5 +283,9 @@ public class EAMessage extends EMessage {
 	
 	public String getColor(TextColor color) {
 		return this.getMessage("COLORS_" + color.getName().toUpperCase());
+	}
+	
+	public String getColor(TextStyles color) {
+		return this.getMessage("COLORS_" + color.of());
 	}
 }
