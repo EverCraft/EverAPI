@@ -27,12 +27,7 @@ public class EAListener {
 	}
 	
 	@Listener
-	public void onPlayerJoin(final ClientConnectionEvent.Join event) {
-		this.plugin.getEServer().getEPlayer(event.getTargetEntity());
-	}
-	
-	@Listener
-	public void onPlayerDisconnect(final ClientConnectionEvent.Disconnect event) {
+	public void onPlayerJoin(final ClientConnectionEvent.Disconnect event) {
 		this.plugin.getEServer().removeEPlayer(event.getTargetEntity());
 	}
 }

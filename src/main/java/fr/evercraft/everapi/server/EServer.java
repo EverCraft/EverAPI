@@ -16,9 +16,7 @@
  */
 package fr.evercraft.everapi.server;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -126,16 +124,6 @@ public class EServer extends ServerSponge {
 		return this.players.values();
 	}
 	
-	public Collection<EPlayer> getOnlineEPlayers(EPlayer player) {
-		List<EPlayer> players = new ArrayList<EPlayer>();
-		for(EPlayer onlinePlayer : this.players.values()) {
-			if(!onlinePlayer.isVanish() || player.canSeePlayer(onlinePlayer)) {
-				players.add(onlinePlayer);
-			}
-		}
-		return players;
-	}
-	
 	
 	public Optional<User> getUser(String identifier){
 		Preconditions.checkNotNull(identifier, "identifier");
@@ -183,7 +171,13 @@ public class EServer extends ServerSponge {
 	 * @return Le nombre de joueur qu'un joueur peut voir
 	 */
 	public int playerNotVanish(EPlayer player){
-		return this.getOnlineEPlayers(player).size();
+		int cpt = 0;
+		for (EPlayer onlinePlayer : getOnlineEPlayers()){
+			if (!player.canSee(onlinePlayer)){
+	    		cpt++;
+	    	}
+	    }
+		return cpt;
 	}
 	
 	/**

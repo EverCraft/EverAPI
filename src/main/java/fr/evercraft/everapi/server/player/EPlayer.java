@@ -97,9 +97,7 @@ public class EPlayer extends PlayerEssentials {
 	 */
 	public void broadcast(final Text message){
 		for(EPlayer player : this.plugin.getEServer().getOnlineEPlayers()) {
-			if(!player.ignore(this.getUniqueId())) {
-				player.sendMessage(message);
-			}
+			player.sendMessage(message);
 		}
 	}
 	
