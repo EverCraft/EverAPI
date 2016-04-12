@@ -134,6 +134,10 @@ public abstract class EMessage extends EFile {
     	return "";
     }
     
+    public boolean hasMessage(String key) {
+		return !getMessage(key).isEmpty();
+	}
+    
     /**
      * Retourne le message en fonction de son nom
      * @param key Le nom du message

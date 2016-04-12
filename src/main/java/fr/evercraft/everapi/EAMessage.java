@@ -16,6 +16,7 @@
  */
 package fr.evercraft.everapi;
 
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColor;
 
 import fr.evercraft.everapi.plugin.file.EMessage;
@@ -281,5 +282,9 @@ public class EAMessage extends EMessage {
 	
 	public String getColor(TextColor color) {
 		return this.getMessage("COLORS_" + color.getName().toUpperCase());
+	}
+	
+	public Text getCommandError() {
+		return this.getText("COMMAND_ERROR");
 	}
 }

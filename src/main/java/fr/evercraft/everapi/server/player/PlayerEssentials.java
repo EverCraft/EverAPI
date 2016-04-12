@@ -40,7 +40,7 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 
 	private boolean isPresent() {
 		if(this.subject == null && this.plugin.getManagerService().getEssentials().isPresent()) {
-			this.subject = this.plugin.getManagerService().getEssentials().get().get(this.player.getIdentifier());
+			this.subject = this.plugin.getManagerService().getEssentials().get().get(this.player.getUniqueId());
 		}
 		return this.subject != null;
 	}
@@ -59,6 +59,13 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 			return this.subject.setVanish(vanish);
 		}
 		return false;
+	}
+	
+	public boolean canSeePlayer(EPlayer onlinePlayer) {
+		if(this.isPresent()) {
+			return !onlinePlayer.isVanish() || this.player.hasPermission(this.plugin.getManagerService().getEssentials().get().getPermissionVanishSee());
+		}
+		return !onlinePlayer.isVanish();
 	}
 
 	@Override
@@ -227,6 +234,13 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 			return this.subject.getIgnores();
 		}
 		return new HashSet<UUID>();
+	}
+	
+	public boolean ignore(UUID uuid) {
+		if(this.isPresent()) {
+			return this.subject.getIgnores().contains(uuid);
+		}
+		return false;
 	}
 
 	@Override

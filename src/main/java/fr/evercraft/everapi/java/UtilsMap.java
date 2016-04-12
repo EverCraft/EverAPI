@@ -19,9 +19,11 @@ package fr.evercraft.everapi.java;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 public class UtilsMap {
 	
@@ -57,5 +59,25 @@ public class UtilsMap {
 			}
 		});
 		return sortedBalanceTop;
+	}
+	
+	/**
+	 * Trié par ordre croissant les valeurs
+	 * @param hashmap La HashMap
+	 * @returnLa HashMap trié par ordre croissant les valeurs
+	 */
+	public static <K, V > TreeMap<K, V> split(final TreeMap<K, V> hashmap, int size) {
+		if(hashmap.size() > size) {
+			TreeMap<K, V> tempo = new TreeMap<K, V>();
+			Iterator<Entry<K, V>> iterator = hashmap.entrySet().iterator();
+			int cpt = 0;
+			while (cpt < size && iterator.hasNext()) {
+				Entry<K, V> element = iterator.next();
+				tempo.put(element.getKey(), element.getValue());
+				cpt++;
+			}
+			return tempo;
+		}
+		return hashmap;
 	}
 }
