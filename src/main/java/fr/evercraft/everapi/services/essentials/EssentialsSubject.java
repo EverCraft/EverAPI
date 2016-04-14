@@ -66,4 +66,14 @@ public interface EssentialsSubject {
 	public boolean removeIgnore(UUID uuid);
 	public boolean clearIgnores();
 	
+	/*
+	 * Mails
+	 */
+	public Set<Mail> getMails();
+	public boolean hasMail();
+	public boolean sendMail(String to, String message);
+	public boolean removeMail(int id);
+	public boolean clearMails();
+	
+	
 }

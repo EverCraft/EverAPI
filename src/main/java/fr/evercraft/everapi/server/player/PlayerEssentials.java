@@ -16,8 +16,6 @@
  */
 package fr.evercraft.everapi.server.player;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -27,8 +25,12 @@ import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.world.World;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.essentials.EssentialsSubject;
+import fr.evercraft.everapi.services.essentials.Mail;
 
 public class PlayerEssentials extends PlayerAccount implements EssentialsSubject {
 	
@@ -153,7 +155,7 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 		if(this.isPresent()) {
 			return this.subject.getHomes();
 		}
-		return new HashMap<String, Transform<World>>();
+		return ImmutableMap.of();
 	}
 	
 	@Override
@@ -233,7 +235,7 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 		if(this.isPresent()) {
 			return this.subject.getIgnores();
 		}
-		return new HashSet<UUID>();
+		return ImmutableSet.of();
 	}
 	
 	public boolean ignore(UUID uuid) {
@@ -263,6 +265,50 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 	public boolean clearIgnores() {
 		if(this.isPresent()) {
 			return this.subject.clearIgnores();
+		}
+		return false;
+	}
+	
+	/*
+	 * Mails
+	 */
+
+	@Override
+	public Set<Mail> getMails() {
+		if(this.isPresent()) {
+			return this.subject.getMails();
+		}
+		return ImmutableSet.of();
+	}
+
+	@Override
+	public boolean hasMail() {
+		if(this.isPresent()) {
+			return this.subject.hasMail();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean sendMail(String to, String message) {
+		if(this.isPresent()) {
+			return this.subject.sendMail(to, message);
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean removeMail(int id) {
+		if(this.isPresent()) {
+			return this.subject.removeMail(id);
+		}
+		return false;
+	}
+
+	@Override
+	public boolean clearMails() {
+		if(this.isPresent()) {
+			return this.subject.clearMails();
 		}
 		return false;
 	}
