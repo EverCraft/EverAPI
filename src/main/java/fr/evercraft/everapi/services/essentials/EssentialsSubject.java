@@ -71,7 +71,7 @@ public interface EssentialsSubject {
 	 */
 	public Set<Mail> getMails();
 	public boolean hasMail();
-	public boolean sendMail(String to, String message);
+	public boolean receiveMail(String to, String message);
 	public Optional<Mail> removeMail(int id);
 	public boolean clearMails();
 	

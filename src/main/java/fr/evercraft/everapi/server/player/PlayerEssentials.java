@@ -290,9 +290,9 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 	}
 
 	@Override
-	public boolean sendMail(String to, String message) {
+	public boolean receiveMail(String to, String message) {
 		if(this.isPresent()) {
-			return this.subject.sendMail(to, message);
+			return this.subject.receiveMail(to, message);
 		}
 		return false;
 	}
