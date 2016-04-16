@@ -298,11 +298,11 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 	}
 	
 	@Override
-	public boolean removeMail(int id) {
+	public Optional<Mail> removeMail(int id) {
 		if(this.isPresent()) {
 			return this.subject.removeMail(id);
 		}
-		return false;
+		return Optional.empty();
 	}
 
 	@Override

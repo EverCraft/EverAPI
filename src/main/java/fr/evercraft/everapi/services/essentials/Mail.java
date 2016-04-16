@@ -19,5 +19,10 @@ public interface Mail {
 	 */
 	public Optional<User> getToPlayer();
 	
+	/**
+	 * Peut prendre du temps : à faire en async
+	 */
+	public String getToName();
+	
 	public Text getText();
 }
