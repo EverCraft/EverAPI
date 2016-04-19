@@ -17,6 +17,7 @@
 package fr.evercraft.everapi;
 
 import org.spongepowered.api.plugin.Plugin;
+import org.spongepowered.api.scheduler.SpongeExecutorService;
 
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
@@ -47,8 +48,11 @@ public class EverAPI extends EPlugin {
 	private ManagerService service;
 	private ManagerUtils managerUtils;
 	
+	private SpongeExecutorService thread;
+	
 	@Override
 	protected void onPreEnable() throws PluginDisableException, ServerDisableException {	
+		this.thread = this.getGame().getScheduler().createAsyncExecutor(this);
 		this.chat = new EChat(this);
 		this.permissions = new EAPermission(this);
 		this.configs = new EAConfig(this);
@@ -111,5 +115,10 @@ public class EverAPI extends EPlugin {
 	
 	public ManagerUtils getManagerUtils() {
 		return this.managerUtils;
+	}
+	
+	@Override
+	public SpongeExecutorService getThreadAsync() {
+		return this.thread;
 	}
 }

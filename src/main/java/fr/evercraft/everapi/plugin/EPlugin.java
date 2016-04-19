@@ -33,6 +33,7 @@ import org.spongepowered.api.event.game.state.GameStartingServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.plugin.PluginContainer;
+import org.spongepowered.api.scheduler.SpongeExecutorService;
 
 import com.google.inject.Inject;
 
@@ -343,6 +344,10 @@ public abstract class EPlugin {
 
 	public EChat getChat() {
 		return this.getEverAPI().getChat();
+	}
+	
+	public SpongeExecutorService getThreadAsync() {
+		return this.getEverAPI().getThreadAsync();
 	}
 	
 	/*
