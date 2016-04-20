@@ -195,4 +195,12 @@ public abstract class EMessage extends EFile {
      * Chargement de tous les éléments
      */
     public abstract void loadConfig();
+    
+    public Text getTextPrefix() {
+    	return this.getText("PREFIX");
+    }
+    
+    public String getMessagePrefix() {
+    	return this.getMessage("PREFIX");
+    }
 }

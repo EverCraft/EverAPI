@@ -328,4 +328,28 @@ public abstract class PlayerKeys extends PlayerSponge {
 		}
 		return 0;
 	}
+	
+	/*
+	 * Air
+	 */
+	
+	public Integer getRemainingAir() {
+		return get(Keys.REMAINING_AIR).orElse(0);
+	}
+	
+	public boolean setRemainingAir(final int air){
+		return this.offer(Keys.REMAINING_AIR, air).isSuccessful();
+	}
+	
+	/*
+	 * Air Max
+	 */
+	
+	public Integer getMaxAir() {
+		return get(Keys.MAX_AIR).orElse(0);
+	}
+	
+	public boolean setMaxAir(final int air){
+		return this.offer(Keys.MAX_AIR, air).isSuccessful();
+	}
 }

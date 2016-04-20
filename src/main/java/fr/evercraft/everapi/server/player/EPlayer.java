@@ -117,6 +117,7 @@ public class EPlayer extends PlayerEssentials {
 			this.setFood(20);
 			this.setSaturation(20);
 			this.setFireTicks(0);
+			this.setRemainingAir(this.getMaxAir());
 			return true;
 		}
 		return false;
@@ -359,5 +360,9 @@ public class EPlayer extends PlayerEssentials {
 			return Optional.of(this.plugin.getChat().replacePlayer(this, hover));
 		}
 		return Optional.empty();
+	}
+
+	public void teleportSpawn() {
+		this.teleportSafe(this.getWorld().getSpawnLocation());
 	}
 }
