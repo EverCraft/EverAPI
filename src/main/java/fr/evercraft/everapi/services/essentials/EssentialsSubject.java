@@ -70,10 +70,12 @@ public interface EssentialsSubject {
 	 * Mails
 	 */
 	public Set<Mail> getMails();
+	public Optional<Mail> getMail(int id);
 	public boolean hasMail();
-	public boolean receiveMail(String to, String message);
+	public boolean addMail(String to, String message);
 	public Optional<Mail> removeMail(int id);
 	public boolean clearMails();
+	public Optional<Mail> readMail(int id);
 	
 	
 }

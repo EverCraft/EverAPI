@@ -290,9 +290,9 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 	}
 
 	@Override
-	public boolean receiveMail(String to, String message) {
+	public boolean addMail(String to, String message) {
 		if(this.isPresent()) {
-			return this.subject.receiveMail(to, message);
+			return this.subject.addMail(to, message);
 		}
 		return false;
 	}
@@ -311,5 +311,21 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 			return this.subject.clearMails();
 		}
 		return false;
+	}
+
+	@Override
+	public Optional<Mail> getMail(int id) {
+		if(this.isPresent()) {
+			return this.subject.getMail(id);
+		}
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<Mail> readMail(int id) {
+		if(this.isPresent()) {
+			return this.subject.readMail(id);
+		}
+		return Optional.empty();
 	}
 }

@@ -86,14 +86,16 @@ public class EServer extends ServerSponge {
 	 * @return Un EPlayer
 	 */	
 	public Optional<EPlayer> getEPlayer(String name){
-		if(name.length() == 36){
-			return getEPlayer(UUID.fromString(name));
-		} else {
-			Optional<Player> player = this.getPlayer(name);
-			if(player.isPresent()){
-				return getEPlayer(player.get().getUniqueId());
+		try {
+			if(name.length() == 36){
+				return getEPlayer(UUID.fromString(name));
+			} else {
+				Optional<Player> player = this.getPlayer(name);
+				if(player.isPresent()){
+					return getEPlayer(player.get().getUniqueId());
+				}
 			}
-		}
+		} catch(IllegalArgumentException e) {}
 		return Optional.empty();
 	}
 	
@@ -139,19 +141,23 @@ public class EServer extends ServerSponge {
 	
 	public Optional<User> getUser(String identifier){
 		Preconditions.checkNotNull(identifier, "identifier");
-		if(this.plugin.getEverAPI().getManagerService().getUserStorage().isPresent()) {
-			if(identifier.length() == 36){
-				return this.plugin.getEverAPI().getManagerService().getUserStorage().get().get(UUID.fromString(identifier));
+		
+		try {
+			if(this.plugin.getEverAPI().getManagerService().getUserStorage().isPresent()) {
+				if(identifier.length() == 36){
+					return this.plugin.getEverAPI().getManagerService().getUserStorage().get().get(UUID.fromString(identifier));
+				} else {
+					return this.plugin.getEverAPI().getManagerService().getUserStorage().get().get(identifier);
+				}
 			} else {
-				return this.plugin.getEverAPI().getManagerService().getUserStorage().get().get(identifier);
+				if(identifier.length() == 36){
+					return Optional.ofNullable(this.getPlayer(UUID.fromString(identifier)).orElse(null));
+				} else {
+					return Optional.ofNullable(this.getPlayer(identifier).orElse(null));
+				}
 			}
-		} else {
-			if(identifier.length() == 36){
-				return Optional.ofNullable(this.getPlayer(UUID.fromString(identifier)).orElse(null));
-			} else {
-				return Optional.ofNullable(this.getPlayer(identifier).orElse(null));
-			}
-		}
+		} catch(IllegalArgumentException e) {}
+		return Optional.empty();
 	}
 	
 	public Optional<User> getUser(UUID identifier){
