@@ -178,11 +178,11 @@ public class EChat implements ChatService {
 		return message;
 	}
 	
-	public Text replaceFormat(final EPlayer player, String message){
+	public Text replaceFormat(final EPlayer player, String message) {
 		return replaceFormat(player, ETextBuilder.toBuilder(message));
 	}
 	
-	public Text replaceFormat(final EPlayer player, ETextBuilder message){
+	public Text replaceFormat(final EPlayer player, ETextBuilder message) {
 		Preconditions.checkNotNull(player, "player");
 		Preconditions.checkNotNull(message, "message");
 		
@@ -216,6 +216,12 @@ public class EChat implements ChatService {
 			}
 		}
 		return message.build();
+	}
+	
+	public Text replaceAllVariables(final EPlayer player, String message) {
+		message = this.replaceGlobal(message);
+		message = this.replacePlayer(player, message);
+		return this.replaceFormat(player, message);
 	}
 	
 	public static Text of(final String message) {
