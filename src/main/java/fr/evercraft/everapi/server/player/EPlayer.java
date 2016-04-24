@@ -365,4 +365,11 @@ public class EPlayer extends PlayerEssentials {
 	public void teleportSpawn() {
 		this.teleportSafe(this.getWorld().getSpawnLocation());
 	}
+	
+	public boolean sendActionBar(String id, long stay, Text message) {
+		if(this.plugin.getManagerService().getActionBar().isPresent()) {
+			return this.plugin.getManagerService().getActionBar().get().send(this.player, id, stay, message);
+		}
+		return false;
+	}
 }

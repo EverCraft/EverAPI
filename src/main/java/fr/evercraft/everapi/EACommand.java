@@ -27,6 +27,7 @@ import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.LiteralText.Builder;
 import org.spongepowered.api.text.action.TextActions;
+import org.spongepowered.api.text.chat.ChatTypes;
 import org.spongepowered.api.text.format.TextColors;
 
 import fr.evercraft.everapi.exception.PluginDisableException;
@@ -113,6 +114,8 @@ public class EACommand extends ECommand<EverAPI> {
 				EPlayer player = this.plugin.getEServer().getEPlayer((Player) source).get();
 				player.sendMessage(player.toString());
 				resultat = true;
+			} else if(args.get(0).equalsIgnoreCase("test")) {
+				((Player) source).sendMessage(ChatTypes.ACTION_BAR, EChat.of("&4message test"));
 			} else {
 				source.sendMessage(help(source));
 			}

@@ -31,20 +31,32 @@ import fr.evercraft.everapi.services.essentials.SpawnService;
 import fr.evercraft.everapi.services.essentials.WarpService;
 import fr.evercraft.everapi.services.mail.MailService;
 import fr.evercraft.everapi.services.pagination.EPagination;
+import fr.evercraft.everapi.services.priority.EPriority;
+import fr.evercraft.everapi.services.priority.PriorityService;
+import fr.evercraft.everapi.servives.actionbar.ActionBarService;
+import fr.evercraft.everapi.servives.actionbar.EActionBarService;
 
 public class ManagerService {
 	private final EverAPI plugin;
 
 	private final EPagination pagination;
 	
+	private final EPriority priority;
+	private final EActionBarService actionbar;
+	
 	public ManagerService(EverAPI plugin){
 		this.plugin = plugin;
 		
 		this.pagination = new EPagination(this.plugin);
+		
+		this.priority = new EPriority(this.plugin);
+		this.actionbar = new EActionBarService(this.plugin);
 	}
 	
 	public void reload() {
 		this.pagination.reload();
+		this.priority.reload();
+		this.actionbar.reload();
 	}
 	
 	/*
@@ -58,14 +70,6 @@ public class ManagerService {
 	/*
 	 * Accesseurs service EverCraft
 	 */
-	
-	public Optional<EconomyService> getEconomy() {
-		return this.plugin.getGame().getServiceManager().provide(EconomyService.class);
-	}
-	
-	public Optional<PermissionService> getPermission() {
-		return this.plugin.getGame().getServiceManager().provide(PermissionService.class);
-	}
 	
 	public Optional<EssentialsService> getEssentials() {
 		return this.plugin.getGame().getServiceManager().provide(EssentialsService.class);
@@ -87,9 +91,29 @@ public class ManagerService {
 		return this.plugin.getGame().getServiceManager().provide(ChatService.class);
 	}
 	
+	public Optional<PriorityService> getPriority() {
+		return this.plugin.getGame().getServiceManager().provide(PriorityService.class);
+	}
+	
+	public Optional<ActionBarService> getActionBar() {
+		return this.plugin.getGame().getServiceManager().provide(ActionBarService.class);
+	}
+	
+	public Optional<CooldownService> getCooldown() {
+		return this.plugin.getGame().getServiceManager().provide(CooldownService.class);
+	}
+	
 	/*
 	 * Accesseurs service Sponge
 	 */
+	
+	public Optional<EconomyService> getEconomy() {
+		return this.plugin.getGame().getServiceManager().provide(EconomyService.class);
+	}
+	
+	public Optional<PermissionService> getPermission() {
+		return this.plugin.getGame().getServiceManager().provide(PermissionService.class);
+	}
 
 	public Optional<PaginationService> getPagination() {
 		return this.plugin.getGame().getServiceManager().provide(PaginationService.class);
@@ -97,9 +121,5 @@ public class ManagerService {
 	
 	public Optional<UserStorageService> getUserStorage() {
 		return this.plugin.getGame().getServiceManager().provide(UserStorageService.class);
-	}
-	
-	public Optional<CooldownService> getCooldown() {
-		return this.plugin.getGame().getServiceManager().provide(CooldownService.class);
 	}
 }

@@ -64,10 +64,6 @@ public class EverAPI extends EPlugin {
 	}
 	
 	@Override
-	protected void onPostEnable() throws PluginDisableException {
-	}
-	
-	@Override
 	protected void onCompleteEnable() {
 		this.getGame().getEventManager().registerListeners(this, new EAListener(this));
 		new EACommand(this);
