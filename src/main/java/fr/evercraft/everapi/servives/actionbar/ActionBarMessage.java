@@ -58,5 +58,11 @@ public class ActionBarMessage {
 		}
 		return false;
 	}
+
+	@Override
+	public String toString() {
+		return "ActionBarMessage [player=" + player + ", time=" + time
+				+ ", priority=" + priority + ", message=" + message + "]";
+	}
 	
 }

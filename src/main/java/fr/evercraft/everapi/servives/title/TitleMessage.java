@@ -19,6 +19,8 @@ package fr.evercraft.everapi.servives.title;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.title.Title;
 
+import fr.evercraft.everapi.sponge.UtilsTick;
+
 public class TitleMessage {
 	
 	private final Player player;
@@ -30,7 +32,7 @@ public class TitleMessage {
 	public TitleMessage(final Player player, final int priority, final Title title) {
 		this.player = player;
 		this.priority = priority;
-		this.time = System.currentTimeMillis() + ((title.getStay().orElse(60) * 1000) / 20);
+		this.time = System.currentTimeMillis() + ((title.getStay().orElse(60) * 1000) / UtilsTick.TICK_SECONDS);
 		this.title = title;
 	}
 
@@ -57,5 +59,10 @@ public class TitleMessage {
 		}
 		return false;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "TitleMessage [player=" + player + ", time=" + time
+				+ ", priority=" + priority + ", title=" + title + "]";
+	}	
 }

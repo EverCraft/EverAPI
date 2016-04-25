@@ -148,5 +148,5 @@ public abstract class EFile {
     /**
      * Définit tous les éléments par défaut
      */
-    public abstract void loadDefault();
+    protected abstract void loadDefault();
 }

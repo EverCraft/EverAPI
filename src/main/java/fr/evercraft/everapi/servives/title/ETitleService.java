@@ -56,7 +56,7 @@ public class ETitleService implements TitleService {
 	
 	public boolean send(Player player, String id, Title title) {
 		if(this.plugin.getManagerService().getPriority().isPresent()) {
-			return this.send(player, this.plugin.getManagerService().getPriority().get().getActionBar(id), title);
+			return this.send(player, this.plugin.getManagerService().getPriority().get().getTitle(id), title);
 		}
 		return this.send(player, PriorityService.DEFAULT, title);
 	}

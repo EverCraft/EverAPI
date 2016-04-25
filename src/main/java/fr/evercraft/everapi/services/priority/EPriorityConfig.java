@@ -32,13 +32,25 @@ public class EPriorityConfig extends EConfig{
 	
 	@Override
 	public void loadDefault() {
-		addDefault("actionbar", Arrays.asList("everinformation.newbie", "everinformation.join", "everinformation.automessages"));
-		addDefault("title", Arrays.asList("everinformation.newbie", "everinformation.join", "everinformation.automessages"));
-		addDefault("scoreboard", Arrays.asList("everinformation"));
+		addDefault("actionbar", Arrays.asList(
+				"everinformations.newbie.player", 
+				"everinformations.newbie.others", 
+				"everinformations.connection.player", 
+				"everinformations.connection.others", 
+				"everinformations.join", 
+				"everinformations.automessages"));
+		addDefault("title", Arrays.asList(
+				"everinformations.newbie.player", 
+				"everinformations.newbie.others", 
+				"everinformations.connection.player", 
+				"everinformations.connection.others", 
+				"everinformations.join", 
+				"everinformations.automessages"));
+		addDefault("scoreboard", Arrays.asList("everinformations"));
 	}
 	
 	public Map<String, Integer> getActionBar(){
-		return this.getPriority("actionBar");
+		return this.getPriority("actionbar");
 	}
 	
 	public Map<String, Integer> getTitle(){

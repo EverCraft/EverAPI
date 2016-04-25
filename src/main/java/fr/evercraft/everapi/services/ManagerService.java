@@ -31,32 +31,46 @@ import fr.evercraft.everapi.services.essentials.SpawnService;
 import fr.evercraft.everapi.services.essentials.WarpService;
 import fr.evercraft.everapi.services.mail.MailService;
 import fr.evercraft.everapi.services.pagination.EPagination;
-import fr.evercraft.everapi.services.priority.EPriority;
+import fr.evercraft.everapi.services.priority.EPriorityService;
 import fr.evercraft.everapi.services.priority.PriorityService;
 import fr.evercraft.everapi.servives.actionbar.ActionBarService;
 import fr.evercraft.everapi.servives.actionbar.EActionBarService;
+import fr.evercraft.everapi.servives.title.ETitleService;
+import fr.evercraft.everapi.servives.title.TitleService;
 
 public class ManagerService {
 	private final EverAPI plugin;
 
 	private final EPagination pagination;
 	
-	private final EPriority priority;
+	private final EPriorityService priority;
 	private final EActionBarService actionbar;
+	private final ETitleService title;
 	
 	public ManagerService(EverAPI plugin){
 		this.plugin = plugin;
 		
 		this.pagination = new EPagination(this.plugin);
 		
-		this.priority = new EPriority(this.plugin);
+		this.priority = new EPriorityService(this.plugin);
 		this.actionbar = new EActionBarService(this.plugin);
+		this.title = new ETitleService(this.plugin);
+		
+		this.register();
+	}
+	
+	public void register() {
+		this.plugin.getGame().getServiceManager().setProvider(this.plugin, PriorityService.class, this.priority);
+		this.plugin.getGame().getServiceManager().setProvider(this.plugin, ActionBarService.class, this.actionbar);
+		this.plugin.getGame().getServiceManager().setProvider(this.plugin, TitleService.class, this.title);
 	}
 	
 	public void reload() {
 		this.pagination.reload();
+		
 		this.priority.reload();
 		this.actionbar.reload();
+		this.title.reload();
 	}
 	
 	/*
@@ -97,6 +111,10 @@ public class ManagerService {
 	
 	public Optional<ActionBarService> getActionBar() {
 		return this.plugin.getGame().getServiceManager().provide(ActionBarService.class);
+	}
+	
+	public Optional<TitleService> getTitle() {
+		return this.plugin.getGame().getServiceManager().provide(TitleService.class);
 	}
 	
 	public Optional<CooldownService> getCooldown() {

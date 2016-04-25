@@ -42,6 +42,7 @@ import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Text.Builder;
 import org.spongepowered.api.text.action.TextActions;
+import org.spongepowered.api.text.title.Title;
 import org.spongepowered.api.util.blockray.BlockRay;
 import org.spongepowered.api.util.blockray.BlockRayHit;
 import org.spongepowered.api.world.Location;
@@ -371,5 +372,34 @@ public class EPlayer extends PlayerEssentials {
 			return this.plugin.getManagerService().getActionBar().get().send(this.player, id, stay, message);
 		}
 		return false;
+	}
+	
+	public boolean sendActionBar(int priority, long stay, Text message) {
+		if(this.plugin.getManagerService().getActionBar().isPresent()) {
+			return this.plugin.getManagerService().getActionBar().get().send(this.player, priority, stay, message);
+		}
+		return false;
+	}
+	
+	public boolean sendTitle(String id, Title title) {
+		if(this.plugin.getManagerService().getTitle().isPresent()) {
+			return this.plugin.getManagerService().getTitle().get().send(this.player, id, title);
+		}
+		return false;
+	}
+	
+	public boolean sendTitle(int priority, Title title) {
+		if(this.plugin.getManagerService().getTitle().isPresent()) {
+			return this.plugin.getManagerService().getTitle().get().send(this.player, priority, title);
+		}
+		return false;
+	}
+
+	public void sendMessageVariables(String message) {
+		this.sendMessage(this.plugin.getChat().replaceAllVariables(this, message));
+	}
+
+	public Text replaceVariable(String message) {
+		return this.plugin.getChat().replaceAllVariables(this, message);
 	}
 }

@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import fr.evercraft.everapi.EverAPI;
 
-public class EPriority implements PriorityService {
+public class EPriorityService implements PriorityService {
 
 	public final EverAPI plugin;
 	
@@ -30,7 +30,7 @@ public class EPriority implements PriorityService {
 	private final ConcurrentHashMap<String, Integer> title;
 	private final ConcurrentHashMap<String, Integer> scoreboard;
 
-	public EPriority(final EverAPI plugin) {
+	public EPriorityService(final EverAPI plugin) {
 		this.plugin = plugin;
 		
 		this.actionbar = new ConcurrentHashMap<String, Integer>();
@@ -54,25 +54,28 @@ public class EPriority implements PriorityService {
 
 	@Override
 	public int getActionBar(final String id) {
-		if(this.actionbar.contains(id)) {
+		if(this.actionbar.containsKey(id)) {
 			return this.actionbar.get(id);
 		}
-		return 0;
+		this.plugin.getLogger().warn("Priority (ActionBar='" + id + "')");
+		return PriorityService.DEFAULT;
 	}
 
 	@Override
 	public int getTitle(final String id) {
-		if(this.title.contains(id)) {
+		if(this.title.containsKey(id)) {
 			return this.title.get(id);
 		}
-		return 0;
+		this.plugin.getLogger().warn("Priority (Title='" + id + "')");
+		return PriorityService.DEFAULT;
 	}
 
 	@Override
 	public int getScoreBoard(final String id) {
-		if(this.scoreboard.contains(id)) {
+		if(this.scoreboard.containsKey(id)) {
 			return this.scoreboard.get(id);
 		}
-		return 0;
+		this.plugin.getLogger().warn("Priority (ScoreBoard='" + id + "')");
+		return PriorityService.DEFAULT;
 	}
 }

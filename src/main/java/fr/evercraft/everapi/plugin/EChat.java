@@ -225,7 +225,11 @@ public class EChat implements ChatService {
 	}
 	
 	public static Text of(final String message) {
-    	return TextSerializers.formattingCode('&').deserialize(message);
+    	return TextSerializers.FORMATTING_CODE.deserialize(message);
+    }
+	
+	public static String serialize(final Text message) {
+    	return TextSerializers.FORMATTING_CODE.serialize(message);
     }
 	
     public static List<Text> of(final List<String> messages) {

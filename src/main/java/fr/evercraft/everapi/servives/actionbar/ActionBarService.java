@@ -11,7 +11,7 @@ public interface ActionBarService {
 	 * Envoyer une message dans l'ActionBar d'un joueur
 	 * @param player Le joueur
 	 * @param id L'identifiant de l'ActionBar
-	 * @param stay Le temps d'apparition de l'ActionBar
+	 * @param stay Le temps d'apparition de l'ActionBar en Milliseconds
 	 * @param message Le message a affiché
 	 * @return True si l'ActionBar a bien été ajouté
 	 */
@@ -21,7 +21,7 @@ public interface ActionBarService {
 	 * Envoyer une message dans l'ActionBar d'un joueur
 	 * @param player Le joueur
 	 * @param priority La priorité de l'ActionBar
-	 * @param stay Le temps d'apparition de l'ActionBar
+	 * @param stay Le temps d'apparition de l'ActionBar en Milliseconds
 	 * @param message Le message a affiché
 	 * @return True si l'ActionBar a bien été ajouté
 	 */

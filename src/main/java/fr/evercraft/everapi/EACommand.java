@@ -27,7 +27,6 @@ import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.LiteralText.Builder;
 import org.spongepowered.api.text.action.TextActions;
-import org.spongepowered.api.text.chat.ChatTypes;
 import org.spongepowered.api.text.format.TextColors;
 
 import fr.evercraft.everapi.exception.PluginDisableException;
@@ -115,7 +114,18 @@ public class EACommand extends ECommand<EverAPI> {
 				player.sendMessage(player.toString());
 				resultat = true;
 			} else if(args.get(0).equalsIgnoreCase("test")) {
-				((Player) source).sendMessage(ChatTypes.ACTION_BAR, EChat.of("&4message test"));
+				EPlayer player = ((EPlayer) source);
+				if(this.plugin.getManagerService().getTitle().get().has(player.getUniqueId())) {
+					player.sendMessage(this.plugin.getManagerService().getTitle().get().get(player.getUniqueId()).get().toString());
+				} else {
+					player.sendMessage("No title");
+				}
+				
+				if(this.plugin.getManagerService().getActionBar().get().has(player.getUniqueId())) {
+					player.sendMessage(this.plugin.getManagerService().getActionBar().get().get(player.getUniqueId()).get().toString());
+				} else {
+					player.sendMessage("No ActionBar");
+				}
 			} else {
 				source.sendMessage(help(source));
 			}
