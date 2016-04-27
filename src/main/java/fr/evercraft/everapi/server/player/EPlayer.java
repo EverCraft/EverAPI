@@ -328,7 +328,7 @@ public class EPlayer extends PlayerEssentials {
 	}
 	
 	public Optional<String> getSuffix() {
-		return getPrefix(getActiveContexts());
+		return getSuffix(getActiveContexts());
 	}
 	
 	public Optional<String> getSuffix(Set<Context> contexts) {

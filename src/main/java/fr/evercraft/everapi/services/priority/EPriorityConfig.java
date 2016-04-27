@@ -17,9 +17,12 @@
 package fr.evercraft.everapi.services.priority;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
+import org.spongepowered.api.scoreboard.displayslot.DisplaySlots;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.file.EConfig;
@@ -46,7 +49,9 @@ public class EPriorityConfig extends EConfig{
 				"everinformations.connection.others", 
 				"everinformations.join", 
 				"everinformations.automessages"));
-		addDefault("scoreboard", Arrays.asList("everinformations"));
+		addDefault("scoreboard.below_name", Arrays.asList("everinfo.below"));
+		addDefault("scoreboard.list", Arrays.asList("everinfo.list"));
+		addDefault("scoreboard.sidebar", Arrays.asList("everinfo.side"));
 	}
 	
 	public Map<String, Integer> getActionBar(){
@@ -57,12 +62,16 @@ public class EPriorityConfig extends EConfig{
 		return this.getPriority("title");
 	}
 	
-	public Map<String, Integer> getScoreBoard(){
-		return this.getPriority("scoreboard");
+	public ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>> getScoreBoard() {
+		ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>> scoreboards = new ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>>();
+		scoreboards.put(DisplaySlots.BELOW_NAME, this.getPriority("scoreboard.below_name"));
+		scoreboards.put(DisplaySlots.LIST, this.getPriority("scoreboard.below_name"));
+		scoreboards.put(DisplaySlots.SIDEBAR, this.getPriority("scoreboard.sidebar"));
+		return scoreboards;
 	}
 
-	private Map<String, Integer> getPriority(String name) {
-		Map<String, Integer> priority = new HashMap<String, Integer>();
+	private ConcurrentHashMap<String, Integer> getPriority(String name) {
+		ConcurrentHashMap<String, Integer> priority = new ConcurrentHashMap<String, Integer>();
 		List<String> config = this.getListString(name);
 		int cpt = config.size();
 		for(String type : config) {

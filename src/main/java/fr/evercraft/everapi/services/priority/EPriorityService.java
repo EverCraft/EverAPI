@@ -18,6 +18,8 @@ package fr.evercraft.everapi.services.priority;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
+
 import fr.evercraft.everapi.EverAPI;
 
 public class EPriorityService implements PriorityService {
@@ -28,14 +30,14 @@ public class EPriorityService implements PriorityService {
 	
 	private final ConcurrentHashMap<String, Integer> actionbar;
 	private final ConcurrentHashMap<String, Integer> title;
-	private final ConcurrentHashMap<String, Integer> scoreboard;
+	private final ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>> scoreboard;
 
 	public EPriorityService(final EverAPI plugin) {
 		this.plugin = plugin;
 		
 		this.actionbar = new ConcurrentHashMap<String, Integer>();
 		this.title = new ConcurrentHashMap<String, Integer>();
-		this.scoreboard = new ConcurrentHashMap<String, Integer>();
+		this.scoreboard = new ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>>();
 		
 		this.config = new EPriorityConfig(plugin);
 		
@@ -71,11 +73,14 @@ public class EPriorityService implements PriorityService {
 	}
 
 	@Override
-	public int getScoreBoard(final String id) {
-		if(this.scoreboard.containsKey(id)) {
-			return this.scoreboard.get(id);
+	public int getScoreBoard(final DisplaySlot type, final String id) {
+		if(this.scoreboard.containsKey(type)) {
+			ConcurrentHashMap<String, Integer> map_type = this.scoreboard.get(id);
+			if(map_type.containsKey(type)) {
+				return map_type.get(id);
+			}
 		}
-		this.plugin.getLogger().warn("Priority (ScoreBoard='" + id + "')");
+		this.plugin.getLogger().warn("Priority (Type='" + type.getName() + "';ScoreBoard='" + id + "')");
 		return PriorityService.DEFAULT;
 	}
 }
