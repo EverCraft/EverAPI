@@ -37,6 +37,8 @@ import org.spongepowered.api.item.inventory.entity.Hotbar;
 import org.spongepowered.api.item.inventory.transaction.InventoryTransactionResult;
 import org.spongepowered.api.item.inventory.type.GridInventory;
 import org.spongepowered.api.scoreboard.Team;
+import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
+import org.spongepowered.api.scoreboard.objective.Objective;
 import org.spongepowered.api.service.context.Context;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
@@ -401,5 +403,19 @@ public class EPlayer extends PlayerEssentials {
 
 	public Text replaceVariable(String message) {
 		return this.plugin.getChat().replaceAllVariables(this, message);
+	}
+	
+	public boolean addObjective(DisplaySlot display, Objective objective) {
+		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
+			return this.plugin.getManagerService().getScoreBoard().get().addObjective(this.player, display, objective);
+		}
+		return false;
+	}
+	
+	public boolean addObjective(int priority, DisplaySlot display, Objective objective) {
+		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
+			return this.plugin.getManagerService().getScoreBoard().get().addObjective(this.player, priority, display, objective);
+		}
+		return false;
 	}
 }

@@ -35,6 +35,8 @@ import fr.evercraft.everapi.services.priority.EPriorityService;
 import fr.evercraft.everapi.services.priority.PriorityService;
 import fr.evercraft.everapi.servives.actionbar.ActionBarService;
 import fr.evercraft.everapi.servives.actionbar.EActionBarService;
+import fr.evercraft.everapi.servives.scoreboard.EScoreBoardService;
+import fr.evercraft.everapi.servives.scoreboard.ScoreBoardService;
 import fr.evercraft.everapi.servives.title.ETitleService;
 import fr.evercraft.everapi.servives.title.TitleService;
 
@@ -46,6 +48,7 @@ public class ManagerService {
 	private final EPriorityService priority;
 	private final EActionBarService actionbar;
 	private final ETitleService title;
+	private final EScoreBoardService scoreboard;
 	
 	public ManagerService(EverAPI plugin){
 		this.plugin = plugin;
@@ -55,6 +58,7 @@ public class ManagerService {
 		this.priority = new EPriorityService(this.plugin);
 		this.actionbar = new EActionBarService(this.plugin);
 		this.title = new ETitleService(this.plugin);
+		this.scoreboard = new EScoreBoardService(this.plugin);
 		
 		this.register();
 	}
@@ -63,6 +67,7 @@ public class ManagerService {
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, PriorityService.class, this.priority);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, ActionBarService.class, this.actionbar);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, TitleService.class, this.title);
+		this.plugin.getGame().getServiceManager().setProvider(this.plugin, ScoreBoardService.class, this.scoreboard);
 	}
 	
 	public void reload() {
@@ -115,6 +120,10 @@ public class ManagerService {
 	
 	public Optional<TitleService> getTitle() {
 		return this.plugin.getGame().getServiceManager().provide(TitleService.class);
+	}
+	
+	public Optional<ScoreBoardService> getScoreBoard() {
+		return this.plugin.getGame().getServiceManager().provide(ScoreBoardService.class);
 	}
 	
 	public Optional<CooldownService> getCooldown() {
