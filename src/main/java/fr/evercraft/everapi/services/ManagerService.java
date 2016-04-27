@@ -87,6 +87,10 @@ public class ManagerService {
 		return this.pagination;
 	}
 	
+	public EScoreBoardService getEScoreBoard() {
+		return this.scoreboard;
+	}
+	
 	
 	/*
 	 * Accesseurs service EverCraft

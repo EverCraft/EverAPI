@@ -16,6 +16,7 @@
  */
 package fr.evercraft.everapi.server.player;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -436,6 +437,24 @@ public class EPlayer extends PlayerEssentials {
 				this.getScoreboard().removeObjective(objective.get());
 				return true;
 			}
+		}
+		return false;
+	}
+
+	public Collection<EPlayer> getOnlinePlayers() {
+		return this.plugin.getEServer().getOnlineEPlayers(this);
+	}
+	
+	public boolean addNameTag(Text teamRepresentation, Text prefix, Text suffix) {
+		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
+			return this.plugin.getManagerService().getScoreBoard().get().addNameTag(this.player, teamRepresentation, prefix, suffix);
+		}
+		return false;
+	}
+	
+	public boolean removeNameTag(Text teamRepresentation) {
+		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
+			return this.plugin.getManagerService().getScoreBoard().get().removeNameTag(this.player, teamRepresentation);
 		}
 		return false;
 	}

@@ -162,6 +162,7 @@ public class EServer extends ServerSponge {
 	
 	public Optional<User> getUser(UUID identifier){
 		Preconditions.checkNotNull(identifier, "identifier");
+		
 		if(this.plugin.getEverAPI().getManagerService().getUserStorage().isPresent()) {
 			return this.plugin.getEverAPI().getManagerService().getUserStorage().get().get(identifier);
 		} else {

@@ -16,8 +16,13 @@
  */
 package fr.evercraft.everapi;
 
+import java.util.Optional;
+
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
+
+import fr.evercraft.everapi.server.player.EPlayer;
 
 public class EAListener {
 	private final EverAPI plugin;
@@ -26,12 +31,15 @@ public class EAListener {
 		this.plugin = plugin;
 	}
 	
-	@Listener
+	@Listener(order=Order.FIRST)
 	public void onPlayerJoin(final ClientConnectionEvent.Join event) {
-		this.plugin.getEServer().getEPlayer(event.getTargetEntity());
+		Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(event.getTargetEntity());
+		if(player.isPresent()) {
+			this.plugin.getManagerService().getEScoreBoard().addPlayer(player.get());
+		}
 	}
 	
-	@Listener
+	@Listener(order=Order.POST)
 	public void onPlayerDisconnect(final ClientConnectionEvent.Disconnect event) {
 		this.plugin.getEServer().removeEPlayer(event.getTargetEntity());
 	}

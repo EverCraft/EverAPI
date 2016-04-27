@@ -19,10 +19,16 @@ package fr.evercraft.everapi.servives.scoreboard;
 import java.util.Optional;
 
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.scoreboard.Scoreboard;
+import org.spongepowered.api.scoreboard.Team;
+import org.spongepowered.api.scoreboard.Visibilities;
 import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
 import org.spongepowered.api.scoreboard.objective.Objective;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.priority.PriorityService;
 import fr.evercraft.everapi.servives.scoreboard.event.ScoreBoardEvent;
 import fr.evercraft.everapi.servives.scoreboard.event.ScoreBoardEvent.Action;
@@ -35,6 +41,35 @@ public class EScoreBoardService implements ScoreBoardService {
 	}
 	
 	public void reload() {
+	}
+	
+	public boolean addPlayer(EPlayer player) {
+		player.setScoreboard(Scoreboard.builder().build());
+		return true;
+	}
+	
+	@Override
+	public boolean addNameTag(Player player, Text teamRepresentation ,Text prefix, Text suffix) {
+		Team team = Team.builder()
+				.prefix(prefix)
+				.suffix(suffix)
+				.name(teamRepresentation.toPlain())
+				.nameTagVisibility(Visibilities.ALL)
+				.displayName(teamRepresentation)
+				.color(TextColors.RED)
+				.build();
+		team.addMember(teamRepresentation);
+		player.getScoreboard().registerTeam(team);
+		return true;
+	}
+	
+	@Override
+	public boolean removeNameTag(Player player, Text teamRepresentation) {
+		Optional<Team> team = player.getScoreboard().getMemberTeam(teamRepresentation);
+		if(team.isPresent()) {
+			team.get().unregister();
+		}
+		return true;
 	}
 	
 	@Override
@@ -50,10 +85,14 @@ public class EScoreBoardService implements ScoreBoardService {
 				player.getScoreboard().removeObjective(objective_player.get());
 				this.plugin.getGame().getEventManager().post(new ScoreBoardEvent(this.plugin, player, objective_player.get(), display, Action.REPLACE));
 			}
-			player.getScoreboard().addObjective(objective);
-			player.getScoreboard().updateDisplaySlot(objective, display);
-			this.plugin.getGame().getEventManager().post(new ScoreBoardEvent(this.plugin, player, objective, display, Action.ADD));
-			return true;
+			if(!player.getScoreboard().getObjective(objective.getName()).isPresent()) {
+				player.getScoreboard().addObjective(objective);
+				player.getScoreboard().updateDisplaySlot(objective, display);
+				this.plugin.getGame().getEventManager().post(new ScoreBoardEvent(this.plugin, player, objective, display, Action.ADD));
+				return true;
+			} else {
+				this.plugin.getLogger().warn("Multi-Objective (player='" + player.getIdentifier() + "';objective='" + objective.getName() + "')");
+			}
 		}
 		return false;
 	}
