@@ -26,6 +26,7 @@ import org.spongepowered.api.service.user.UserStorageService;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.chat.ChatService;
 import fr.evercraft.everapi.services.cooldown.CooldownService;
+import fr.evercraft.everapi.services.economy.TopEconomyService;
 import fr.evercraft.everapi.services.essentials.EssentialsService;
 import fr.evercraft.everapi.services.essentials.SpawnService;
 import fr.evercraft.everapi.services.essentials.WarpService;
@@ -129,6 +130,10 @@ public class ManagerService {
 	
 	public Optional<CooldownService> getCooldown() {
 		return this.plugin.getGame().getServiceManager().provide(CooldownService.class);
+	}
+	
+	public Optional<TopEconomyService> getTopEconomy() {
+		return this.plugin.getGame().getServiceManager().provide(TopEconomyService.class);
 	}
 	
 	/*

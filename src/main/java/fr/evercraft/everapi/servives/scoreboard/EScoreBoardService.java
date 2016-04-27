@@ -58,11 +58,27 @@ public class EScoreBoardService implements ScoreBoardService {
 		return false;
 	}
 	
-	private int getPriority(DisplaySlot type, Objective objective) {
+	private int getPriority(DisplaySlot display, Objective objective) {
 		if(this.plugin.getManagerService().getPriority().isPresent()) {
-			return this.plugin.getManagerService().getPriority().get().getScoreBoard(type, objective.getName());
+			return this.plugin.getManagerService().getPriority().get().getScoreBoard(display, objective.getName());
 		}
 		return PriorityService.DEFAULT;
+	}
+	
+	@Override
+	public boolean removeObjective(Player player, DisplaySlot display, Objective objective) {
+		return removeObjective(player, display, objective.getName());
+	}
+	
+	@Override
+	public boolean removeObjective(Player player, DisplaySlot display, String identifier) {
+		Optional<Objective> objective = player.getScoreboard().getObjective(display);
+		if(objective.isPresent() && objective.get().getName().equals(identifier)) {
+			player.getScoreboard().removeObjective(objective.get());
+			this.plugin.getGame().getEventManager().post(new ScoreBoardEvent(this.plugin, player, objective.get(), display, Action.REMOVE));
+			return true;
+		}
+		return false;
 	}
 	
 }

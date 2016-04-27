@@ -418,4 +418,25 @@ public class EPlayer extends PlayerEssentials {
 		}
 		return false;
 	}
+	
+	public boolean removeObjective(DisplaySlot display, Objective objective) {
+		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
+			return this.plugin.getManagerService().getScoreBoard().get().removeObjective(this.player, display, objective);
+		}
+		this.getScoreboard().removeObjective(objective);
+		return true;
+	}
+	
+	public boolean removeObjective(DisplaySlot display, String identifier) {
+		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
+			return this.plugin.getManagerService().getScoreBoard().get().removeObjective(this.player, display, identifier);
+		} else {
+			Optional<Objective> objective = this.getScoreboard().getObjective(identifier);
+			if(objective.isPresent()) {
+				this.getScoreboard().removeObjective(objective.get());
+				return true;
+			}
+		}
+		return false;
+	}
 }

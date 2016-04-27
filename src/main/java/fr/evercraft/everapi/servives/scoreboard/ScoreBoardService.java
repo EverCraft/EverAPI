@@ -6,8 +6,11 @@ import org.spongepowered.api.scoreboard.objective.Objective;
 
 public interface ScoreBoardService {
 
-	boolean addObjective(Player player, DisplaySlot display, Objective objective);
+	public boolean addObjective(Player player, DisplaySlot display, Objective objective);
 
-	boolean addObjective(Player player, int priority, DisplaySlot display, Objective objective);
+	public boolean addObjective(Player player, int priority, DisplaySlot display, Objective objective);
 
+	public boolean removeObjective(Player player, DisplaySlot display, Objective objective);
+
+	public boolean removeObjective(Player player, DisplaySlot display, String identifier);
 }
