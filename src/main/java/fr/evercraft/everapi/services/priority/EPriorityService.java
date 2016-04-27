@@ -20,6 +20,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
 
+import com.google.common.base.Preconditions;
+
 import fr.evercraft.everapi.EverAPI;
 
 public class EPriorityService implements PriorityService {
@@ -55,32 +57,38 @@ public class EPriorityService implements PriorityService {
 	}
 
 	@Override
-	public int getActionBar(final String id) {
-		if(this.actionbar.containsKey(id)) {
-			return this.actionbar.get(id);
+	public int getActionBar(final String identifier) {
+		Preconditions.checkNotNull(identifier, "identifier");
+		
+		if(this.actionbar.containsKey(identifier)) {
+			return this.actionbar.get(identifier);
 		}
-		this.plugin.getLogger().warn("Priority (ActionBar='" + id + "')");
+		this.plugin.getLogger().warn("Priority (ActionBar='" + identifier + "')");
 		return PriorityService.DEFAULT;
 	}
 
 	@Override
-	public int getTitle(final String id) {
-		if(this.title.containsKey(id)) {
-			return this.title.get(id);
+	public int getTitle(final String identifier) {
+		Preconditions.checkNotNull(identifier, "identifier");
+		
+		if(this.title.containsKey(identifier)) {
+			return this.title.get(identifier);
 		}
-		this.plugin.getLogger().warn("Priority (Title='" + id + "')");
+		this.plugin.getLogger().warn("Priority (Title='" + identifier + "')");
 		return PriorityService.DEFAULT;
 	}
 
 	@Override
-	public int getScoreBoard(final DisplaySlot type, final String id) {
+	public int getScoreBoard(final DisplaySlot type, final String identifier) {
+		Preconditions.checkNotNull(identifier, "identifier");
+		
 		if(this.scoreboard.containsKey(type)) {
-			ConcurrentHashMap<String, Integer> map_type = this.scoreboard.get(id);
-			if(map_type.containsKey(type)) {
-				return map_type.get(id);
+			ConcurrentHashMap<String, Integer> map_type = this.scoreboard.get(type);
+			if(map_type.containsKey(identifier)) {
+				return map_type.get(identifier);
 			}
 		}
-		this.plugin.getLogger().warn("Priority (Type='" + type.getName() + "';ScoreBoard='" + id + "')");
+		this.plugin.getLogger().warn("Priority (Type='" + type.getName() + "';ScoreBoard='" + identifier + "')");
 		return PriorityService.DEFAULT;
 	}
 }

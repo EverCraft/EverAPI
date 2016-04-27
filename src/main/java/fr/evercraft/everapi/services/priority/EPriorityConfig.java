@@ -65,7 +65,7 @@ public class EPriorityConfig extends EConfig{
 	public ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>> getScoreBoard() {
 		ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>> scoreboards = new ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>>();
 		scoreboards.put(DisplaySlots.BELOW_NAME, this.getPriority("scoreboard.below_name"));
-		scoreboards.put(DisplaySlots.LIST, this.getPriority("scoreboard.below_name"));
+		scoreboards.put(DisplaySlots.LIST, this.getPriority("scoreboard.list"));
 		scoreboards.put(DisplaySlots.SIDEBAR, this.getPriority("scoreboard.sidebar"));
 		return scoreboards;
 	}

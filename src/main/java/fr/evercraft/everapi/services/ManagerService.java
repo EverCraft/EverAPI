@@ -76,6 +76,7 @@ public class ManagerService {
 		this.priority.reload();
 		this.actionbar.reload();
 		this.title.reload();
+		this.scoreboard.reload();
 	}
 	
 	/*
