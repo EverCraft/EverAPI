@@ -82,7 +82,7 @@ public class UtilsDate {
 	}
 	
 	public String parseTime() {
-		return parseDate(System.currentTimeMillis());
+		return parseTime(System.currentTimeMillis());
 	}
 	
 	public String parseTime(long time) {

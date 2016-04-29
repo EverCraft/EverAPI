@@ -44,7 +44,7 @@ import fr.evercraft.everapi.sponge.UtilsItemStack;
 import fr.evercraft.everapi.text.ETextBuilder;
 
 public class EChat implements ChatService {
-	public final static String PLAYERS_NO_VANISH = "<PLAYERS_NO_VANISH>";
+	public final static String ONLINE_PLAYERS = "<ONLINE_PLAYERS>";
 	public final static String MAX_PLAYERS = "<MAX_PLAYERS>";
 	public final static String SERVER_NAME = "<SERVER_NAME>";
 	public final static String VERSION = "<VERSION>";
@@ -62,7 +62,7 @@ public class EChat implements ChatService {
 	public final static String SHORT_WORLD_NAME = "<SHORT_WORLD_NAME>";
 	public final static String HEALTH = "<HEALTH>";
 	public final static String MAX_HEALTH = "<MAX_HEALTH>";
-	public final static String VISIBLE_PLAYERS_ONLINE = "<VISIBLE_PLAYERS_ONLINE>";
+	public final static String ONLINE_PLAYERS_CANSEE = "<ONLINE_PLAYERS_CANSEE>";
 	public final static String IP = "<IP>";
 	public final static String PING = "<PING>";
 	public final static String LAST_DATE_PLAYED = "<LAST_DATE_PLAYED>";
@@ -103,7 +103,7 @@ public class EChat implements ChatService {
 	public String replaceGlobal(String message){
 		Preconditions.checkNotNull(message, "message");
 		
-		if(message.contains(PLAYERS_NO_VANISH)) message = message.replaceAll(PLAYERS_NO_VANISH, String.valueOf(this.plugin.getEServer().playerNotVanish()));
+		if(message.contains(ONLINE_PLAYERS)) message = message.replaceAll(ONLINE_PLAYERS, String.valueOf(this.plugin.getEServer().playerNotVanish()));
 		if(message.contains(MAX_PLAYERS)) message = message.replaceAll(MAX_PLAYERS, String.valueOf(this.plugin.getGame().getServer().getMaxPlayers()));
 		if(message.contains(SERVER_NAME)) message = message.replaceAll(SERVER_NAME, this.plugin.getEServer().getName());
 		if(message.contains(VERSION)) message = message.replaceAll(VERSION, this.plugin.getGame().getPlatform().getApi().getVersion().orElse(""));
@@ -138,7 +138,7 @@ public class EChat implements ChatService {
 		if(message.contains(SHORT_WORLD_NAME)) message = message.replaceAll(SHORT_WORLD_NAME, String.valueOf(player.getWorld().getName().toUpperCase().charAt(0)));
 		if(message.contains(HEALTH)) message = message.replaceAll(HEALTH, String.valueOf(player.getHealth()));
 		if(message.contains(MAX_HEALTH)) message = message.replaceAll(MAX_HEALTH, String.valueOf(player.getMaxHealth()));
-		if(message.contains(VISIBLE_PLAYERS_ONLINE)) message = message.replaceAll(VISIBLE_PLAYERS_ONLINE, String.valueOf(this.plugin.getEServer().playerNotVanish(player)));
+		if(message.contains(ONLINE_PLAYERS_CANSEE)) message = message.replaceAll(ONLINE_PLAYERS_CANSEE, String.valueOf(this.plugin.getEServer().playerNotVanish(player)));
 		if(message.contains(IP)) message = message.replaceAll(IP, player.getConnection().getAddress().getAddress().getHostAddress().toString());
 		if(message.contains(PING)) message = message.replaceAll(PING, String.valueOf(player.getConnection().getLatency()));
 		if(message.contains(LAST_DATE_PLAYED)) 
