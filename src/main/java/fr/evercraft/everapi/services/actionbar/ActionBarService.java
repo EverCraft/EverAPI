@@ -1,4 +1,4 @@
-package fr.evercraft.everapi.servives.actionbar;
+package fr.evercraft.everapi.services.actionbar;
 
 import java.util.Optional;
 import java.util.UUID;

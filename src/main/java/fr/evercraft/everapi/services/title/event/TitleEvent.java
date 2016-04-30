@@ -14,17 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.servives.scoreboard.event;
+package fr.evercraft.everapi.services.title.event;
 
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
-import org.spongepowered.api.scoreboard.objective.Objective;
 
 import fr.evercraft.everapi.plugin.EPlugin;
+import fr.evercraft.everapi.services.title.TitleMessage;
 
-public class ScoreBoardEvent implements Event {
+public class TitleEvent implements Event {
 	public static enum Action {
     	ADD,
     	REMOVE,
@@ -33,33 +32,25 @@ public class ScoreBoardEvent implements Event {
 	
 	private final EPlugin plugin;
     private final Action action;
-    private final DisplaySlot display;
-	private final Objective objective;
-	private final Player player;
+	private final TitleMessage title;
 
-    public ScoreBoardEvent(final EPlugin plugin, final Player player, final Objective objective, final DisplaySlot display, final Action action) {
+    public TitleEvent(final EPlugin plugin, final TitleMessage title, final Action action) {
     	this.plugin = plugin;
     	
-    	this.player = player;    	
-    	this.objective = objective;
-    	this.action = action;
-        this.display = display;
+    	this.title = title;
+        this.action = action;
     }
 
     public Player getPlayer() {
-        return this.player;
+        return this.title.getPlayer();
     }
     
     public Action getAction() {
         return this.action;
     }
     
-    public Objective getScoreBoardObjective() {
-        return this.objective;
-    }
-    
-    public DisplaySlot getDisplaySlot() {
-        return this.display;
+    public TitleMessage getTitleMessage() {
+        return this.title;
     }
     
     @Override

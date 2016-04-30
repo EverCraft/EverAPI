@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.servives.title;
+package fr.evercraft.everapi.services.title;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +30,8 @@ import org.spongepowered.api.text.title.Title;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.priority.PriorityService;
-import fr.evercraft.everapi.servives.title.event.TitleEvent;
-import fr.evercraft.everapi.servives.title.event.TitleEvent.Action;
+import fr.evercraft.everapi.services.title.event.TitleEvent;
+import fr.evercraft.everapi.services.title.event.TitleEvent.Action;
 
 public class ETitleService implements TitleService {
 	private final static int UPDATE = 1000;

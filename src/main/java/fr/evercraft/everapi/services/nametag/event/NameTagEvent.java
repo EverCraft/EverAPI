@@ -14,16 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.servives.title.event;
+package fr.evercraft.everapi.services.nametag.event;
 
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 
 import fr.evercraft.everapi.plugin.EPlugin;
-import fr.evercraft.everapi.servives.title.TitleMessage;
 
-public class TitleEvent implements Event {
+public class NameTagEvent implements Event {
 	public static enum Action {
     	ADD,
     	REMOVE,
@@ -31,28 +30,30 @@ public class TitleEvent implements Event {
     }
 	
 	private final EPlugin plugin;
+	private final Player player;
     private final Action action;
-	private final TitleMessage title;
+	private final String identifier;
 
-    public TitleEvent(final EPlugin plugin, final TitleMessage title, final Action action) {
+    public NameTagEvent(final EPlugin plugin, final Player player, String identifier, final Action action) {
     	this.plugin = plugin;
     	
-    	this.title = title;
+    	this.player = player;
         this.action = action;
+        this.identifier = identifier;
     }
 
-    public Player getPlayer() {
-        return this.title.getPlayer();
+	public Player getPlayer() {
+        return this.player;
     }
     
+	public String getIdentifier() {
+        return this.identifier;
+    }
+	
     public Action getAction() {
         return this.action;
     }
-    
-    public TitleMessage getTitleMessage() {
-        return this.title;
-    }
-    
+
     @Override
 	public Cause getCause() {
 		return Cause.source(this.plugin).build();

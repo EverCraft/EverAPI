@@ -32,6 +32,7 @@ public class EPriorityService implements PriorityService {
 	
 	private final ConcurrentHashMap<String, Integer> actionbar;
 	private final ConcurrentHashMap<String, Integer> title;
+	private final ConcurrentHashMap<String, Integer> nametag;
 	private final ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>> scoreboard;
 
 	public EPriorityService(final EverAPI plugin) {
@@ -39,6 +40,7 @@ public class EPriorityService implements PriorityService {
 		
 		this.actionbar = new ConcurrentHashMap<String, Integer>();
 		this.title = new ConcurrentHashMap<String, Integer>();
+		this.nametag = new ConcurrentHashMap<String, Integer>();
 		this.scoreboard = new ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>>();
 		
 		this.config = new EPriorityConfig(plugin);
@@ -53,6 +55,7 @@ public class EPriorityService implements PriorityService {
 		
 		this.actionbar.putAll(this.config.getActionBar());
 		this.title.putAll(this.config.getTitle());
+		this.nametag.putAll(this.config.getNameTag());
 		this.scoreboard.putAll(this.config.getScoreBoard());
 	}
 
@@ -63,7 +66,7 @@ public class EPriorityService implements PriorityService {
 		if(this.actionbar.containsKey(identifier)) {
 			return this.actionbar.get(identifier);
 		}
-		this.plugin.getLogger().warn("Priority (ActionBar='" + identifier + "')");
+		this.plugin.getLogger().warn("Unknown priority (ActionBar='" + identifier + "')");
 		return PriorityService.DEFAULT;
 	}
 
@@ -74,7 +77,18 @@ public class EPriorityService implements PriorityService {
 		if(this.title.containsKey(identifier)) {
 			return this.title.get(identifier);
 		}
-		this.plugin.getLogger().warn("Priority (Title='" + identifier + "')");
+		this.plugin.getLogger().warn("Unknown priority (Title='" + identifier + "')");
+		return PriorityService.DEFAULT;
+	}
+	
+	@Override
+	public int getNameTag(final String identifier) {
+		Preconditions.checkNotNull(identifier, "identifier");
+		
+		if(this.title.containsKey(identifier)) {
+			return this.title.get(identifier);
+		}
+		this.plugin.getLogger().warn("Unknown priority (NameTag='" + identifier + "')");
 		return PriorityService.DEFAULT;
 	}
 
@@ -88,7 +102,7 @@ public class EPriorityService implements PriorityService {
 				return map_type.get(identifier);
 			}
 		}
-		this.plugin.getLogger().warn("Priority (Type='" + type.getName() + "';ScoreBoard='" + identifier + "')");
+		this.plugin.getLogger().warn("Unknown priority (Type='" + type.getName() + "';ScoreBoard='" + identifier + "')");
 		return PriorityService.DEFAULT;
 	}
 }

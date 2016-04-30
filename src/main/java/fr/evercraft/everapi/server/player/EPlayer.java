@@ -445,16 +445,23 @@ public class EPlayer extends PlayerEssentials {
 		return this.plugin.getEServer().getOnlineEPlayers(this);
 	}
 	
-	public boolean addNameTag(Text teamRepresentation, Text prefix, Text suffix) {
-		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
-			return this.plugin.getManagerService().getScoreBoard().get().addNameTag(this.player, teamRepresentation, prefix, suffix);
+	public boolean addNameTag(String identifier, Text teamRepresentation, Text prefix, Text suffix) {
+		if(this.plugin.getManagerService().getNameTag().isPresent()) {
+			return this.plugin.getManagerService().getNameTag().get().sendNameTag(this.player, identifier, teamRepresentation, prefix, suffix);
 		}
 		return false;
 	}
 	
-	public boolean removeNameTag(Text teamRepresentation) {
+	public boolean removeNameTag(String identifier, Text teamRepresentation) {
 		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
-			return this.plugin.getManagerService().getScoreBoard().get().removeNameTag(this.player, teamRepresentation);
+			return this.plugin.getManagerService().getNameTag().get().removeNameTag(this.player, identifier, teamRepresentation);
+		}
+		return false;
+	}
+	
+	public boolean clearNameTag(String identifier) {
+		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
+			return this.plugin.getManagerService().getNameTag().get().clearNameTag(this.player, identifier);
 		}
 		return false;
 	}

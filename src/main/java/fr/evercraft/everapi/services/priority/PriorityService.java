@@ -8,4 +8,5 @@ public interface PriorityService {
 	public int getActionBar(String identifier);
 	public int getTitle(String identifier);
 	public int getScoreBoard(DisplaySlot type, String identifier);
+	public int getNameTag(String identifier);
 }

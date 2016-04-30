@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.servives.title;
+package fr.evercraft.everapi.services.title;
 
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.title.Title;

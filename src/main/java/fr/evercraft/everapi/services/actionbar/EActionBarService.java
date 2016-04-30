@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.servives.actionbar;
+package fr.evercraft.everapi.services.actionbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +29,9 @@ import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.services.actionbar.event.ActionBarEvent;
+import fr.evercraft.everapi.services.actionbar.event.ActionBarEvent.Action;
 import fr.evercraft.everapi.services.priority.PriorityService;
-import fr.evercraft.everapi.servives.actionbar.event.ActionBarEvent;
-import fr.evercraft.everapi.servives.actionbar.event.ActionBarEvent.Action;
 
 public class EActionBarService implements ActionBarService {
 	private final static int UPDATE = 1000;

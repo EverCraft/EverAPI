@@ -24,6 +24,8 @@ import org.spongepowered.api.service.permission.PermissionService;
 import org.spongepowered.api.service.user.UserStorageService;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.services.actionbar.ActionBarService;
+import fr.evercraft.everapi.services.actionbar.EActionBarService;
 import fr.evercraft.everapi.services.chat.ChatService;
 import fr.evercraft.everapi.services.cooldown.CooldownService;
 import fr.evercraft.everapi.services.economy.TopEconomyService;
@@ -31,15 +33,15 @@ import fr.evercraft.everapi.services.essentials.EssentialsService;
 import fr.evercraft.everapi.services.essentials.SpawnService;
 import fr.evercraft.everapi.services.essentials.WarpService;
 import fr.evercraft.everapi.services.mail.MailService;
+import fr.evercraft.everapi.services.nametag.ENameTagService;
+import fr.evercraft.everapi.services.nametag.NameTagService;
 import fr.evercraft.everapi.services.pagination.EPagination;
 import fr.evercraft.everapi.services.priority.EPriorityService;
 import fr.evercraft.everapi.services.priority.PriorityService;
-import fr.evercraft.everapi.servives.actionbar.ActionBarService;
-import fr.evercraft.everapi.servives.actionbar.EActionBarService;
-import fr.evercraft.everapi.servives.scoreboard.EScoreBoardService;
-import fr.evercraft.everapi.servives.scoreboard.ScoreBoardService;
-import fr.evercraft.everapi.servives.title.ETitleService;
-import fr.evercraft.everapi.servives.title.TitleService;
+import fr.evercraft.everapi.services.scoreboard.EScoreBoardService;
+import fr.evercraft.everapi.services.scoreboard.ScoreBoardService;
+import fr.evercraft.everapi.services.title.ETitleService;
+import fr.evercraft.everapi.services.title.TitleService;
 
 public class ManagerService {
 	private final EverAPI plugin;
@@ -49,6 +51,7 @@ public class ManagerService {
 	private final EPriorityService priority;
 	private final EActionBarService actionbar;
 	private final ETitleService title;
+	private final ENameTagService nametag;
 	private final EScoreBoardService scoreboard;
 	
 	public ManagerService(EverAPI plugin){
@@ -59,6 +62,7 @@ public class ManagerService {
 		this.priority = new EPriorityService(this.plugin);
 		this.actionbar = new EActionBarService(this.plugin);
 		this.title = new ETitleService(this.plugin);
+		this.nametag = new ENameTagService(this.plugin);
 		this.scoreboard = new EScoreBoardService(this.plugin);
 		
 		this.register();
@@ -68,6 +72,7 @@ public class ManagerService {
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, PriorityService.class, this.priority);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, ActionBarService.class, this.actionbar);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, TitleService.class, this.title);
+		this.plugin.getGame().getServiceManager().setProvider(this.plugin, NameTagService.class, this.nametag);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, ScoreBoardService.class, this.scoreboard);
 	}
 	
@@ -126,6 +131,10 @@ public class ManagerService {
 	
 	public Optional<TitleService> getTitle() {
 		return this.plugin.getGame().getServiceManager().provide(TitleService.class);
+	}
+	
+	public Optional<NameTagService> getNameTag() {
+		return this.plugin.getGame().getServiceManager().provide(NameTagService.class);
 	}
 	
 	public Optional<ScoreBoardService> getScoreBoard() {

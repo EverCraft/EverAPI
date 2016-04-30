@@ -1,4 +1,4 @@
-package fr.evercraft.everapi.servives.title;
+package fr.evercraft.everapi.services.title;
 
 import java.util.Optional;
 import java.util.UUID;

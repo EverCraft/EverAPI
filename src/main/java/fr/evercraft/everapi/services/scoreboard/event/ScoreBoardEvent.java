@@ -14,16 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.servives.actionbar.event;
+package fr.evercraft.everapi.services.scoreboard.event;
 
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
+import org.spongepowered.api.scoreboard.objective.Objective;
 
 import fr.evercraft.everapi.plugin.EPlugin;
-import fr.evercraft.everapi.servives.actionbar.ActionBarMessage;
 
-public class ActionBarEvent implements Event {
+public class ScoreBoardEvent implements Event {
 	public static enum Action {
     	ADD,
     	REMOVE,
@@ -32,25 +33,33 @@ public class ActionBarEvent implements Event {
 	
 	private final EPlugin plugin;
     private final Action action;
-	private final ActionBarMessage actionBar;
+    private final DisplaySlot display;
+	private final Objective objective;
+	private final Player player;
 
-    public ActionBarEvent(final EPlugin plugin, final ActionBarMessage actionBar, final Action action) {
+    public ScoreBoardEvent(final EPlugin plugin, final Player player, final Objective objective, final DisplaySlot display, final Action action) {
     	this.plugin = plugin;
     	
-    	this.actionBar = actionBar;
-        this.action = action;
+    	this.player = player;    	
+    	this.objective = objective;
+    	this.action = action;
+        this.display = display;
     }
 
     public Player getPlayer() {
-        return this.actionBar.getPlayer();
+        return this.player;
     }
     
     public Action getAction() {
         return this.action;
     }
     
-    public ActionBarMessage getActionBar() {
-        return this.actionBar;
+    public Objective getScoreBoardObjective() {
+        return this.objective;
+    }
+    
+    public DisplaySlot getDisplaySlot() {
+        return this.display;
     }
     
     @Override
