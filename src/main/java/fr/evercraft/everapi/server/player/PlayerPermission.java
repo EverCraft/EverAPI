@@ -113,4 +113,5 @@ public class PlayerPermission extends PlayerKeys implements OptionSubject {
 		}
 		return Optional.empty();
 	}
+
 }

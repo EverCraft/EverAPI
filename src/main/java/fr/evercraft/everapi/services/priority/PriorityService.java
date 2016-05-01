@@ -9,4 +9,5 @@ public interface PriorityService {
 	public int getTitle(String identifier);
 	public int getScoreBoard(DisplaySlot type, String identifier);
 	public int getNameTag(String identifier);
+	public int getTabList(String identifier);
 }

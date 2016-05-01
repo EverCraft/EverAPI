@@ -19,6 +19,7 @@ package fr.evercraft.everapi.sponge;
 import java.util.Optional;
 
 import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.type.Professions;
 import org.spongepowered.api.data.type.SkeletonTypes;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
@@ -102,7 +103,7 @@ public enum UtilsEntity {
 		} else if(this.equals(UtilsEntity.CHARGED_CREEPER)) {
 			entity.offer(Keys.CREEPER_CHARGED, true);
 		} else if(this.equals(UtilsEntity.ZOMBIE_VILLAGER)) {
-			entity.offer(Keys.IS_VILLAGER_ZOMBIE, true);
+			entity.offer(Keys.VILLAGER_ZOMBIE_PROFESSION, Professions.BUTCHER);
 		} else if(this.equals(UtilsEntity.WITHER_SKELETON)) {
 			entity.offer(Keys.SKELETON_TYPE, SkeletonTypes.WITHER);
 		} else if (this.equals(UtilsEntity.SPIDER_JOCKEY)) {

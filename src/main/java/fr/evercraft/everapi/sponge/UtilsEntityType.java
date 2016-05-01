@@ -70,7 +70,6 @@ public class UtilsEntityType {
 			EntityTypes.EXPERIENCE_ORB,
 			EntityTypes.LEASH_HITCH,
 			EntityTypes.PAINTING,
-			EntityTypes.ARROW,
 			EntityTypes.SNOWBALL,
 			EntityTypes.FIREBALL,
 			EntityTypes.SMALL_FIREBALL,

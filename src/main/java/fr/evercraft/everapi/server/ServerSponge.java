@@ -109,7 +109,7 @@ public class ServerSponge implements Server {
 		return this.server.unloadWorld(world);
 	}
 
-	public Optional<WorldProperties> createWorldProperties(WorldCreationSettings settings) {
+	public WorldProperties createWorldProperties(WorldCreationSettings settings) {
 		return this.server.createWorldProperties(settings);
 	}
 

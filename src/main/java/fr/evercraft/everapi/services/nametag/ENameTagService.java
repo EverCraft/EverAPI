@@ -74,6 +74,7 @@ public class ENameTagService implements NameTagService {
 				
 				this.sendNameTag(player, teamRepresentation, prefix, suffix);
 				this.plugin.getGame().getEventManager().post(new NameTagEvent(this.plugin, player, identifier, Action.ADD));
+				return true;
 			}
 		} else {
 			this.nameTags.putIfAbsent(player.getUniqueId(), identifier);

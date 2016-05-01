@@ -18,6 +18,7 @@ package fr.evercraft.everapi.server.player;
 
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
@@ -35,6 +36,7 @@ import org.spongepowered.api.data.type.SkinPart;
 import org.spongepowered.api.data.value.BaseValue;
 import org.spongepowered.api.data.value.immutable.ImmutableValue;
 import org.spongepowered.api.effect.particle.ParticleEffect;
+import org.spongepowered.api.effect.sound.SoundCategory;
 import org.spongepowered.api.effect.sound.SoundType;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntitySnapshot;
@@ -118,10 +120,6 @@ public abstract class PlayerSponge implements Player {
 		this.player.setLocation(location);
 	}
 
-	public boolean setLocationSafely(Location<World> location) {
-		return this.player.setLocationSafely(location);
-	}
-
 	public Vector3d getRotation() {
 		return this.player.getRotation();
 	}
@@ -134,18 +132,10 @@ public abstract class PlayerSponge implements Player {
 		this.player.setLocationAndRotation(location, rotation);
 	}
 
-	public boolean setLocationAndRotationSafely(Location<World> location, Vector3d rotation) {
-		return this.player.setLocationAndRotationSafely(location, rotation);
-	}
-
 	public void setLocationAndRotation(Location<World> location, Vector3d rotation, EnumSet<RelativePositions> relativePositions) {
 		this.player.setLocationAndRotation(location, rotation, relativePositions);
 	}
-
-	public boolean setLocationAndRotationSafely(Location<World> location, Vector3d rotation, EnumSet<RelativePositions> relativePositions) {
-		return this.player.setLocationAndRotationSafely(location, rotation, relativePositions);
-	}
-
+	
 	public Vector3d getScale() {
 		return this.player.getScale();
 	}
@@ -160,22 +150,6 @@ public abstract class PlayerSponge implements Player {
 
 	public void setTransform(Transform<World> transform) {
 		this.player.setTransform(transform);
-	}
-
-	public boolean transferToWorld(String worldName, Vector3d position) {
-		return this.player.transferToWorld(worldName, position);
-	}
-
-	public boolean transferToWorld(UUID uuid, Vector3d position) {
-		return this.player.transferToWorld(uuid, position);
-	}
-
-	public Optional<Entity> getPassenger() {
-		return this.player.getPassenger();
-	}
-
-	public DataTransactionResult setPassenger(Entity entity) {
-		return this.player.setPassenger(entity);
 	}
 
 	public Optional<Entity> getVehicle() {
@@ -533,5 +507,45 @@ public abstract class PlayerSponge implements Player {
 	@Override
 	public void resetBlockChange(int x, int y, int z) {
 		this.player.resetBlockChange(x, y, z);
+	}
+	
+	@Override
+	public void transferToWorld(World world, Vector3d position) {
+		this.transferToWorld(world, position);
+	}
+
+	@Override
+	public List<Entity> getPassengers() {
+		return this.player.getPassengers();
+	}
+
+	@Override
+	public DataTransactionResult addPassenger(Entity entity) {
+		return this.player.addPassenger(entity);
+	}
+
+	@Override
+	public DataTransactionResult removePassenger(Entity entity) {
+		return this.player.removePassenger(entity);
+	}
+
+	@Override
+	public DataTransactionResult clearPassengers() {
+		return this.player.clearPassengers();
+	}
+
+	@Override
+	public void playSound(SoundType sound, SoundCategory category, Vector3d position, double volume) {
+		this.player.playSound(sound, position, volume);
+	}
+
+	@Override
+	public void playSound(SoundType sound, SoundCategory category, Vector3d position, double volume, double pitch) {
+		this.player.playSound(sound, position, volume, pitch);
+	}
+
+	@Override
+	public void playSound(SoundType sound, SoundCategory category, Vector3d position, double volume, double pitch, double minVolume) {
+		this.player.playSound(sound, position, volume, pitch, minVolume);
 	}
 }

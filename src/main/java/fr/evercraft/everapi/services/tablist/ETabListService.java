@@ -24,11 +24,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.entity.living.player.tab.TabListEntry;
-import org.spongepowered.api.scoreboard.Team;
-import org.spongepowered.api.scoreboard.Visibilities;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColors;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.priority.PriorityService;
@@ -54,81 +49,41 @@ public class ETabListService implements TabListService {
 		for(Entry<UUID, String> nameTag : nameTags) {
 			Optional<Player> player = this.plugin.getGame().getServer().getPlayer(nameTag.getKey());
 			if(player.isPresent()) {
-				this.clearTabList(player.get(), nameTag.getValue());
 				this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player.get(), nameTag.getValue(), Action.REMOVE));
 			}
 		}
 	}
 	
 	@Override
-	public boolean sendTabList(Player player, String identifier, Text teamRepresentation ,Text prefix, Text suffix) {
+	public boolean sendTabList(Player player, String identifier) {
 		if(this.tablist.containsKey(player.getUniqueId())) {
 			String player_identifier = this.tablist.get(player.getUniqueId());
 			if(player_identifier.equalsIgnoreCase(identifier)) {
-				this.sendTabList(player, teamRepresentation, prefix, suffix);
 				return true;
 			} else if(this.getPriority(player_identifier) <= this.getPriority(identifier)) {
-				this.removeAllTabList(player, player_identifier);
 				this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player, player_identifier, Action.REPLACE));
 				
 				this.tablist.putIfAbsent(player.getUniqueId(), identifier);
 				
-				this.sendTabList(player, teamRepresentation, prefix, suffix);
 				this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player, identifier, Action.ADD));
+				
+				return true;
 			}
 		} else {
 			this.tablist.putIfAbsent(player.getUniqueId(), identifier);
-			this.sendTabList(player, teamRepresentation, prefix, suffix);
 			this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player, identifier, Action.ADD));
 			return true;
 		}
 		return false;
 	}
 	
-	private boolean sendTabList(Player player, Text teamRepresentation ,Text prefix, Text suffix) {
-		Team team = Team.builder()
-				.prefix(prefix)
-				.suffix(suffix)
-				.name(teamRepresentation.toPlain())
-				.nameTagVisibility(Visibilities.ALL)
-				.displayName(teamRepresentation)
-				.color(TextColors.RED)
-				.build();
-		team.addMember(teamRepresentation);
-		player.getScoreboard().registerTeam(team);
-		return true;
-	}
-	
 	@Override
-	public boolean removeTabList(Player player, String identifier, Text teamRepresentation) {
+	public boolean removeTabList(Player player, String identifier) {
 		if(this.tablist.containsKey(player.getUniqueId()) && this.tablist.get(player.getUniqueId()).equalsIgnoreCase(identifier)) {
-			Optional<Team> team = player.getScoreboard().getMemberTeam(teamRepresentation);
-			if(team.isPresent()) {
-				team.get().unregister();
-			}
-			
-			if(player.getScoreboard().getTeams().isEmpty()) {
-				this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player, identifier, Action.REMOVE));
-			}
+			this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player, identifier, Action.REMOVE));
 			return true;
 		}
 		return false;
-	}
-	
-	@Override
-	public boolean clearTabList(Player player, String identifier) {
-		if(this.tablist.containsKey(player.getUniqueId()) && this.tablist.get(player.getUniqueId()).equalsIgnoreCase(identifier)) {
-			this.removeAllTabList(player, identifier);
-			return true;
-		}
-		return false;
-	}
-		
-	private void removeAllTabList(Player player, String identifier) {
-		player.getTabList().setHeaderAndFooter(null, null);
-		for(TabListEntry entry : player.getTabList().getEntries()) {
-			player.getTabList().removeEntry(entry.getProfile().getUniqueId());
-		}
 	}
 	
 	@Override

@@ -139,7 +139,7 @@ public class EPlayer extends PlayerEssentials {
 					UUID owner = UUID.fromString(horse.toContainer().getView(DataQuery.of("UnsafeData")).get().getString(DataQuery.of("OwnerUUID")).get());
 					if(this.getUniqueId().equals(owner)){
 						this.setVehicle(null);
-						horse.transferToWorld(world.getName(), vector);
+						horse.transferToWorld(world, vector);
 					}
 				}
 			}
@@ -445,7 +445,7 @@ public class EPlayer extends PlayerEssentials {
 		return this.plugin.getEServer().getOnlineEPlayers(this);
 	}
 	
-	public boolean addNameTag(String identifier, Text teamRepresentation, Text prefix, Text suffix) {
+	public boolean sendNameTag(String identifier, Text teamRepresentation, Text prefix, Text suffix) {
 		if(this.plugin.getManagerService().getNameTag().isPresent()) {
 			return this.plugin.getManagerService().getNameTag().get().sendNameTag(this.player, identifier, teamRepresentation, prefix, suffix);
 		}
@@ -462,6 +462,13 @@ public class EPlayer extends PlayerEssentials {
 	public boolean clearNameTag(String identifier) {
 		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
 			return this.plugin.getManagerService().getNameTag().get().clearNameTag(this.player, identifier);
+		}
+		return false;
+	}
+	
+	public boolean sendTabList(String identifier) {
+		if(this.plugin.getManagerService().getTabList().isPresent()) {
+			return this.plugin.getManagerService().getTabList().get().sendTabList(player, identifier);
 		}
 		return false;
 	}

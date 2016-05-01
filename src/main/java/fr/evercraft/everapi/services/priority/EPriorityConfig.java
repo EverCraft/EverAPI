@@ -50,6 +50,7 @@ public class EPriorityConfig extends EConfig{
 				"everinformations.join", 
 				"everinformations.automessages"));
 		addDefault("nametag", Arrays.asList("everinformations"));
+		addDefault("tablist", Arrays.asList("everinformations"));
 		addDefault("scoreboard.below_name", Arrays.asList("everinfo.below"));
 		addDefault("scoreboard.list", Arrays.asList("everinfo.list"));
 		addDefault("scoreboard.sidebar", Arrays.asList("everinfo.side"));
@@ -65,6 +66,10 @@ public class EPriorityConfig extends EConfig{
 	
 	public Map<String, Integer> getNameTag(){
 		return this.getPriority("nametag");
+	}
+	
+	public Map<String, Integer> getTabList(){
+		return this.getPriority("tablist");
 	}
 	
 	public ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>> getScoreBoard() {

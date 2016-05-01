@@ -33,6 +33,7 @@ public class EPriorityService implements PriorityService {
 	private final ConcurrentHashMap<String, Integer> actionbar;
 	private final ConcurrentHashMap<String, Integer> title;
 	private final ConcurrentHashMap<String, Integer> nametag;
+	private final ConcurrentHashMap<String, Integer> tablist;
 	private final ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>> scoreboard;
 
 	public EPriorityService(final EverAPI plugin) {
@@ -41,6 +42,7 @@ public class EPriorityService implements PriorityService {
 		this.actionbar = new ConcurrentHashMap<String, Integer>();
 		this.title = new ConcurrentHashMap<String, Integer>();
 		this.nametag = new ConcurrentHashMap<String, Integer>();
+		this.tablist = new ConcurrentHashMap<String, Integer>();
 		this.scoreboard = new ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>>();
 		
 		this.config = new EPriorityConfig(plugin);
@@ -56,6 +58,7 @@ public class EPriorityService implements PriorityService {
 		this.actionbar.putAll(this.config.getActionBar());
 		this.title.putAll(this.config.getTitle());
 		this.nametag.putAll(this.config.getNameTag());
+		this.tablist.putAll(this.config.getTabList());
 		this.scoreboard.putAll(this.config.getScoreBoard());
 	}
 
@@ -85,10 +88,21 @@ public class EPriorityService implements PriorityService {
 	public int getNameTag(final String identifier) {
 		Preconditions.checkNotNull(identifier, "identifier");
 		
-		if(this.title.containsKey(identifier)) {
-			return this.title.get(identifier);
+		if(this.nametag.containsKey(identifier)) {
+			return this.nametag.get(identifier);
 		}
 		this.plugin.getLogger().warn("Unknown priority (NameTag='" + identifier + "')");
+		return PriorityService.DEFAULT;
+	}
+	
+	@Override
+	public int getTabList(final String identifier) {
+		Preconditions.checkNotNull(identifier, "identifier");
+		
+		if(this.tablist.containsKey(identifier)) {
+			return this.tablist.get(identifier);
+		}
+		this.plugin.getLogger().warn("Unknown priority (TabList='" + identifier + "')");
 		return PriorityService.DEFAULT;
 	}
 
