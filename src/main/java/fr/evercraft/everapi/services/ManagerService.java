@@ -40,6 +40,8 @@ import fr.evercraft.everapi.services.priority.EPriorityService;
 import fr.evercraft.everapi.services.priority.PriorityService;
 import fr.evercraft.everapi.services.scoreboard.EScoreBoardService;
 import fr.evercraft.everapi.services.scoreboard.ScoreBoardService;
+import fr.evercraft.everapi.services.tablist.ETabListService;
+import fr.evercraft.everapi.services.tablist.TabListService;
 import fr.evercraft.everapi.services.title.ETitleService;
 import fr.evercraft.everapi.services.title.TitleService;
 
@@ -53,6 +55,7 @@ public class ManagerService {
 	private final ETitleService title;
 	private final ENameTagService nametag;
 	private final EScoreBoardService scoreboard;
+	private final ETabListService tablist;
 	
 	public ManagerService(EverAPI plugin){
 		this.plugin = plugin;
@@ -64,6 +67,7 @@ public class ManagerService {
 		this.title = new ETitleService(this.plugin);
 		this.nametag = new ENameTagService(this.plugin);
 		this.scoreboard = new EScoreBoardService(this.plugin);
+		this.tablist = new ETabListService(this.plugin);
 		
 		this.register();
 	}
@@ -74,6 +78,7 @@ public class ManagerService {
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, TitleService.class, this.title);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, NameTagService.class, this.nametag);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, ScoreBoardService.class, this.scoreboard);
+		this.plugin.getGame().getServiceManager().setProvider(this.plugin, TabListService.class, this.tablist);
 	}
 	
 	public void reload() {
@@ -82,7 +87,9 @@ public class ManagerService {
 		this.priority.reload();
 		this.actionbar.reload();
 		this.title.reload();
+		this.nametag.reload();
 		this.scoreboard.reload();
+		this.tablist.reload();
 	}
 	
 	/*
@@ -136,6 +143,11 @@ public class ManagerService {
 	public Optional<NameTagService> getNameTag() {
 		return this.plugin.getGame().getServiceManager().provide(NameTagService.class);
 	}
+	
+	public Optional<TabListService> getTabList() {
+		return this.plugin.getGame().getServiceManager().provide(TabListService.class);
+	}
+	
 	
 	public Optional<ScoreBoardService> getScoreBoard() {
 		return this.plugin.getGame().getServiceManager().provide(ScoreBoardService.class);
