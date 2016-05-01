@@ -1,11 +1,11 @@
 package fr.evercraft.everapi.services.essentials.event;
 
-import java.util.UUID;
-
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 
 import fr.evercraft.everapi.plugin.EPlugin;
+import fr.evercraft.everapi.server.player.EPlayer;
 
 public class VanishEvent implements Event {	
 	public static enum Action {
@@ -14,18 +14,22 @@ public class VanishEvent implements Event {
     }
 	
 	private final EPlugin plugin;
-    private final UUID uuid;
     private final Action action;
+    private final EPlayer player;
 
-    public VanishEvent(final EPlugin plugin, final UUID uuid, final Action action) {
+    public VanishEvent(final EPlugin plugin, final EPlayer player, final Action action) {
     	this.plugin = plugin;
     	
-    	this.uuid = uuid;
+    	this.player = player;
         this.action = action;
     }
 
-    public UUID getPlayer() {
-        return this.uuid;
+    public Player getPlayer() {
+        return this.player;
+    }
+    
+    public EPlayer getEPlayer() {
+        return this.player;
     }
     
     public Action getAction() {

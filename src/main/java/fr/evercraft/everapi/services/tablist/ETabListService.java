@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.nametag;
+package fr.evercraft.everapi.services.tablist;
 
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -24,67 +24,68 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.tab.TabListEntry;
 import org.spongepowered.api.scoreboard.Team;
 import org.spongepowered.api.scoreboard.Visibilities;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.services.nametag.event.NameTagEvent;
-import fr.evercraft.everapi.services.nametag.event.NameTagEvent.Action;
 import fr.evercraft.everapi.services.priority.PriorityService;
+import fr.evercraft.everapi.services.tablist.event.TabListEvent;
+import fr.evercraft.everapi.services.tablist.event.TabListEvent.Action;
 
-public class ENameTagService implements NameTagService {
+public class ETabListService implements TabListService {
 	
 	private final EverAPI plugin;
 	
-	private final ConcurrentMap<UUID, String> nameTags;
+	private final ConcurrentMap<UUID, String> tablist;
 	
-	public ENameTagService(final EverAPI plugin){
+	public ETabListService(final EverAPI plugin){
 		this.plugin = plugin;
 		
-		this.nameTags = new ConcurrentHashMap<UUID, String>();
+		this.tablist = new ConcurrentHashMap<UUID, String>();
 	}
 	
 	public void reload() {
-		Set<Entry<UUID, String>> nameTags = this.nameTags.entrySet();
-		this.nameTags.clear();
+		Set<Entry<UUID, String>> nameTags = this.tablist.entrySet();
+		this.tablist.clear();
 		
 		for(Entry<UUID, String> nameTag : nameTags) {
 			Optional<Player> player = this.plugin.getGame().getServer().getPlayer(nameTag.getKey());
 			if(player.isPresent()) {
-				this.clearNameTag(player.get(), nameTag.getValue());
-				this.plugin.getGame().getEventManager().post(new NameTagEvent(this.plugin, player.get(), nameTag.getValue(), Action.REMOVE));
+				this.clearTabList(player.get(), nameTag.getValue());
+				this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player.get(), nameTag.getValue(), Action.REMOVE));
 			}
 		}
 	}
 	
 	@Override
-	public boolean sendNameTag(Player player, String identifier, Text teamRepresentation ,Text prefix, Text suffix) {
-		if(this.nameTags.containsKey(player.getUniqueId())) {
-			String player_identifier = this.nameTags.get(player.getUniqueId());
+	public boolean sendTabList(Player player, String identifier, Text teamRepresentation ,Text prefix, Text suffix) {
+		if(this.tablist.containsKey(player.getUniqueId())) {
+			String player_identifier = this.tablist.get(player.getUniqueId());
 			if(player_identifier.equalsIgnoreCase(identifier)) {
-				this.sendNameTag(player, teamRepresentation, prefix, suffix);
+				this.sendTabList(player, teamRepresentation, prefix, suffix);
 				return true;
 			} else if(this.getPriority(player_identifier) <= this.getPriority(identifier)) {
-				this.removeAllNameTag(player);
-				this.plugin.getGame().getEventManager().post(new NameTagEvent(this.plugin, player, player_identifier, Action.REPLACE));
+				this.removeAllTabList(player, player_identifier);
+				this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player, player_identifier, Action.REPLACE));
 				
-				this.nameTags.putIfAbsent(player.getUniqueId(), identifier);
+				this.tablist.putIfAbsent(player.getUniqueId(), identifier);
 				
-				this.sendNameTag(player, teamRepresentation, prefix, suffix);
-				this.plugin.getGame().getEventManager().post(new NameTagEvent(this.plugin, player, identifier, Action.ADD));
+				this.sendTabList(player, teamRepresentation, prefix, suffix);
+				this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player, identifier, Action.ADD));
 			}
 		} else {
-			this.nameTags.putIfAbsent(player.getUniqueId(), identifier);
-			this.sendNameTag(player, teamRepresentation, prefix, suffix);
-			this.plugin.getGame().getEventManager().post(new NameTagEvent(this.plugin, player, identifier, Action.ADD));
+			this.tablist.putIfAbsent(player.getUniqueId(), identifier);
+			this.sendTabList(player, teamRepresentation, prefix, suffix);
+			this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player, identifier, Action.ADD));
 			return true;
 		}
 		return false;
 	}
 	
-	private boolean sendNameTag(Player player, Text teamRepresentation ,Text prefix, Text suffix) {
+	private boolean sendTabList(Player player, Text teamRepresentation ,Text prefix, Text suffix) {
 		Team team = Team.builder()
 				.prefix(prefix)
 				.suffix(suffix)
@@ -99,15 +100,15 @@ public class ENameTagService implements NameTagService {
 	}
 	
 	@Override
-	public boolean removeNameTag(Player player, String identifier, Text teamRepresentation) {
-		if(this.nameTags.containsKey(player.getUniqueId()) && this.nameTags.get(player.getUniqueId()).equalsIgnoreCase(identifier)) {
+	public boolean removeTabList(Player player, String identifier, Text teamRepresentation) {
+		if(this.tablist.containsKey(player.getUniqueId()) && this.tablist.get(player.getUniqueId()).equalsIgnoreCase(identifier)) {
 			Optional<Team> team = player.getScoreboard().getMemberTeam(teamRepresentation);
 			if(team.isPresent()) {
 				team.get().unregister();
 			}
 			
 			if(player.getScoreboard().getTeams().isEmpty()) {
-				this.plugin.getGame().getEventManager().post(new NameTagEvent(this.plugin, player, identifier, Action.REMOVE));
+				this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player, identifier, Action.REMOVE));
 			}
 			return true;
 		}
@@ -115,28 +116,29 @@ public class ENameTagService implements NameTagService {
 	}
 	
 	@Override
-	public boolean clearNameTag(Player player, String identifier) {
-		if(this.nameTags.containsKey(player.getUniqueId()) && this.nameTags.get(player.getUniqueId()).equalsIgnoreCase(identifier)) {
-			this.removeAllNameTag(player);
+	public boolean clearTabList(Player player, String identifier) {
+		if(this.tablist.containsKey(player.getUniqueId()) && this.tablist.get(player.getUniqueId()).equalsIgnoreCase(identifier)) {
+			this.removeAllTabList(player, identifier);
 			return true;
 		}
 		return false;
 	}
 		
-	private void removeAllNameTag(Player player) {
-		for(Team team : player.getScoreboard().getTeams()) {
-			team.unregister();
+	private void removeAllTabList(Player player, String identifier) {
+		player.getTabList().setHeaderAndFooter(null, null);
+		for(TabListEntry entry : player.getTabList().getEntries()) {
+			player.getTabList().removeEntry(entry.getProfile().getUniqueId());
 		}
 	}
 	
 	@Override
 	public boolean has(final UUID uuid) {
-		return this.nameTags.containsKey(uuid);
+		return this.tablist.containsKey(uuid);
 	}
 
 	@Override
 	public Optional<String> get(final UUID uuid) {
-		return Optional.ofNullable(this.nameTags.get(uuid));
+		return Optional.ofNullable(this.tablist.get(uuid));
 	}
 
 	private int getPriority(String identifier) {
