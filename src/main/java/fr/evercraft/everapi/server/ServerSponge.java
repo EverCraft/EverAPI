@@ -16,6 +16,7 @@
  */
 package fr.evercraft.everapi.server;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.Collection;
 import java.util.Optional;
@@ -32,7 +33,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.channel.MessageChannel;
 import org.spongepowered.api.world.ChunkTicketManager;
 import org.spongepowered.api.world.World;
-import org.spongepowered.api.world.WorldCreationSettings;
+import org.spongepowered.api.world.WorldArchetype;
 import org.spongepowered.api.world.storage.ChunkLayout;
 import org.spongepowered.api.world.storage.WorldProperties;
 
@@ -107,10 +108,6 @@ public class ServerSponge implements Server {
 
 	public boolean unloadWorld(World world) {
 		return this.server.unloadWorld(world);
-	}
-
-	public WorldProperties createWorldProperties(WorldCreationSettings settings) {
-		return this.server.createWorldProperties(settings);
 	}
 
 	public CompletableFuture<Optional<WorldProperties>> copyWorld(WorldProperties worldProperties, String copyName) {
@@ -203,6 +200,11 @@ public class ServerSponge implements Server {
 
 	public Optional<Player> getPlayer(String name) {
 		return this.server.getPlayer(name);
+	}
+
+	@Override
+	public WorldProperties createWorldProperties(String folderName, WorldArchetype archetype) throws IOException {
+		return this.server.createWorldProperties(folderName, archetype);
 	}
 	
 }
