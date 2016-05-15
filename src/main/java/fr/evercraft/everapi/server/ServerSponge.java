@@ -206,5 +206,15 @@ public class ServerSponge implements Server {
 	public WorldProperties createWorldProperties(String folderName, WorldArchetype archetype) throws IOException {
 		return this.server.createWorldProperties(folderName, archetype);
 	}
+
+	@Override
+	public int getPlayerIdleTimeout() {
+		return this.server.getPlayerIdleTimeout();
+	}
+
+	@Override
+	public void setPlayerIdleTimeout(int timeout) {
+		this.server.setPlayerIdleTimeout(timeout);
+	}
 	
 }
