@@ -41,4 +41,20 @@ public enum UtilsPainting {
 	public Art getArt() {
 		return this.art;
 	}
+	
+	public int getNumero() {
+		int cpt = 0;
+		while(cpt < values().length && values()[cpt].equals(this.art)){
+			cpt++;
+		}
+		return cpt;
+	}
+	
+	public UtilsPainting next() {
+		int numero = this.getNumero() + 1;
+		if(values().length >= numero) {
+			numero = 0;
+		}
+		return values()[numero];
+	}
 }
