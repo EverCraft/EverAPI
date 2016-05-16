@@ -43,9 +43,11 @@ public class PlayerPermission extends PlayerKeys implements OptionSubject {
 	public Optional<Subject> getGroup(final Set<Context> contexts) {
 		Preconditions.checkNotNull(contexts, "contexts");
 		
-		List<Subject> groups = this.getSubjectData().getParents(contexts);
-		if(!groups.isEmpty()) {
-			return Optional.of(groups.get(0));
+		if(this.isPresent()) {
+			List<Subject> groups = this.getSubjectData().getParents(contexts);
+			if(!groups.isEmpty()) {
+				return Optional.of(groups.get(0));
+			}
 		}
 		return Optional.empty();
     }
