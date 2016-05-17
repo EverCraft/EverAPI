@@ -1,5 +1,7 @@
 package fr.evercraft.everapi.sponge;
 
+import java.util.Optional;
+
 import org.spongepowered.api.data.type.Art;
 import org.spongepowered.api.data.type.Arts;
 
@@ -35,11 +37,18 @@ public enum UtilsPainting {
 	
 	UtilsPainting(final Art art) {
 		this.art = art;
-		
 	}
 
-	public Art getArt() {
-		return this.art;
+	public static Optional<UtilsPainting> get(final Art art) {
+		UtilsPainting paint = null;
+		int cpt = 0;
+		while(cpt < values().length && paint == null){
+			if (values()[cpt].art.equals(art)){
+				paint = values()[cpt];
+			}
+			cpt++;
+		}
+		return Optional.ofNullable(paint);
 	}
 	
 	public int getNumero() {
@@ -56,5 +65,9 @@ public enum UtilsPainting {
 			numero = 0;
 		}
 		return values()[numero];
+	}
+	
+	public Art getArt(){
+		return this.art;
 	}
 }
