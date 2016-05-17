@@ -19,9 +19,12 @@ package fr.evercraft.everapi;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.effect.potion.PotionEffect;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.text.Text;
@@ -113,18 +116,14 @@ public class EACommand extends ECommand<EverAPI> {
 				EPlayer player = this.plugin.getEServer().getEPlayer((Player) source).get();
 				player.sendMessage(player.toString());
 				resultat = true;
-			} else if(args.get(0).equalsIgnoreCase("test")) {
+			} else if(args.get(0).equalsIgnoreCase("test") && source instanceof EPlayer) {
 				EPlayer player = ((EPlayer) source);
-				if(this.plugin.getManagerService().getTitle().get().has(player.getUniqueId())) {
-					player.sendMessage(this.plugin.getManagerService().getTitle().get().get(player.getUniqueId()).get().toString());
+				Optional<List<PotionEffect>> potions = player.get(Keys.POTION_EFFECTS);
+				if(potions.isPresent()) {
+					player.sendMessage("Present");
+					player.sendMessage("Size : " + potions.get().size());
 				} else {
-					player.sendMessage("No title");
-				}
-				
-				if(this.plugin.getManagerService().getActionBar().get().has(player.getUniqueId())) {
-					player.sendMessage(this.plugin.getManagerService().getActionBar().get().get(player.getUniqueId()).get().toString());
-				} else {
-					player.sendMessage("No ActionBar");
+					player.sendMessage("No present");
 				}
 			} else {
 				source.sendMessage(help(source));
