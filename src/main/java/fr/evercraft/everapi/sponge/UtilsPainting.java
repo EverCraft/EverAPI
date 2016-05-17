@@ -38,22 +38,10 @@ public enum UtilsPainting {
 	UtilsPainting(final Art art) {
 		this.art = art;
 	}
-
-	public static Optional<UtilsPainting> get(final Art art) {
-		UtilsPainting paint = null;
-		int cpt = 0;
-		while(cpt < values().length && paint == null){
-			if (values()[cpt].art.equals(art)){
-				paint = values()[cpt];
-			}
-			cpt++;
-		}
-		return Optional.ofNullable(paint);
-	}
 	
 	public int getNumero() {
 		int cpt = 0;
-		while(cpt < values().length && values()[cpt].equals(this.art)){
+		while(cpt < values().length && !values()[cpt].getArt().equals(this.art)){
 			cpt++;
 		}
 		return cpt;
@@ -61,7 +49,7 @@ public enum UtilsPainting {
 	
 	public UtilsPainting next() {
 		int numero = this.getNumero() + 1;
-		if(values().length >= numero) {
+		if(numero >= values().length) {
 			numero = 0;
 		}
 		return values()[numero];
@@ -69,5 +57,17 @@ public enum UtilsPainting {
 	
 	public Art getArt(){
 		return this.art;
+	}
+	
+	public static Optional<UtilsPainting> get(final Art art) {
+		UtilsPainting paint = null;
+		int cpt = 0;
+		while(cpt < values().length && paint == null){
+			if (values()[cpt]. getArt().equals(art)){
+				paint = values()[cpt];
+			}
+			cpt++;
+		}
+		return Optional.ofNullable(paint);
 	}
 }
