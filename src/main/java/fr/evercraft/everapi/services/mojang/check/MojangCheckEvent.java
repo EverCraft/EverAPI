@@ -35,6 +35,8 @@ public class MojangCheckEvent implements Event {
     	this.server = server;
         this.color_before = color_before;
         this.color_after = color_after;
+        
+        this.plugin.getLogger().debug("Event MojangCheckEvent : (" + this + ")");
     }
 
 	public Server getServer() {
@@ -52,5 +54,10 @@ public class MojangCheckEvent implements Event {
     @Override
 	public Cause getCause() {
 		return Cause.source(this.plugin).build();
+	}
+
+	@Override
+	public String toString() {
+		return "server='" + server + "', color_before='" + color_before + "', color_after='" + color_after + "'";
 	}
 }
