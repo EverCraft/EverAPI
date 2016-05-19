@@ -2,6 +2,7 @@ package fr.evercraft.everapi.sponge;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.spongepowered.api.effect.potion.PotionEffectType;
 import org.spongepowered.api.effect.potion.PotionEffectTypes;
@@ -46,11 +47,11 @@ public enum UtilsEffect {
 		this.name = type.getName().replaceAll("minecraft:", ""); 
 	}
 	
-	public int getMinAmplifier(UtilsEffect effect){
+	public int getMinAmplifier(){
 		return this.min;
 	}
 	
-	public int getMaxAmplifier(UtilsEffect effect){
+	public int getMaxAmplifier(){
 		return this.max;
 	}
 
@@ -62,7 +63,7 @@ public enum UtilsEffect {
 		return this.name;
 	}
 	
-	public List<String> getEffects(){
+	public static List<String> getEffects(){
 		List<String> list = new ArrayList<String>();
 		for(UtilsEffect utils : getUtilsEffects()){
 			list.add(utils.getName());
@@ -70,7 +71,20 @@ public enum UtilsEffect {
 		return list;
 	}
 	
-	public UtilsEffect[] getUtilsEffects(){
+	public static UtilsEffect[] getUtilsEffects(){
 		return UtilsEffect.values();
+	}
+	
+	public static Optional<UtilsEffect> getEffect(final String name) {
+		UtilsEffect effect = null;
+		int cpt = 0;
+		UtilsEffect[] utilsEffect = getUtilsEffects();
+		while(cpt < utilsEffect.length && effect == null){
+			if (utilsEffect[cpt].getName().equalsIgnoreCase(name)) {
+				effect = utilsEffect[cpt];
+			}
+			cpt++;
+		}
+		return Optional.of(effect);
 	}
 }
