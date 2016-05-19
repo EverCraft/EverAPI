@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import fr.evercraft.everapi.EverAPI;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,7 +23,6 @@ public class MojangNameHistory {
 	
 	private static final String URL = "https://status.mojang.com/user/profiles/%s/names";
 	
-	@SuppressWarnings("unused")
 	private final EverAPI plugin;
 	
 	private final Gson gson;
@@ -40,8 +40,8 @@ public class MojangNameHistory {
                 .build(
                         new CacheLoader<UUID, List<NameHistory>>() {
 
-                            public List<NameHistory> load(UUID uuid) throws IOException{
-                                return getPlayerNameHistoryInternal(uuid);
+                            public List<NameHistory> load(UUID uuid) throws IOException {
+                                return requete(uuid);
                             }
                         }
                 );
@@ -51,11 +51,13 @@ public class MojangNameHistory {
 		this.players.cleanUp();
 	}
     
-    public List<NameHistory> getPlayerNameHistory(UUID uuid) throws ExecutionException {
+    public List<NameHistory> get(UUID uuid) throws ExecutionException {
     	return this.players.get(uuid);
     }
     
-    private List<NameHistory> getPlayerNameHistoryInternal(UUID uuid) throws IOException {
+    private List<NameHistory> requete(UUID uuid) throws IOException {
+    	this.plugin.getLogger().debug("MojangNameHistory : Requete(uuid='" + uuid.toString() + "')");
+    	
         InputStream inputStream = getAPIResponse(uuid);
 
         NameHistory[] names = gson.fromJson(new InputStreamReader(inputStream), NameHistory[].class);
