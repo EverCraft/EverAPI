@@ -53,9 +53,9 @@ public class UtilsEnchantment {
 	);
 	
 	public static final List<Enchantment> getEnchantments(){
-		List<Enchantment> entities = new ArrayList<Enchantment>();
-		entities.addAll(ENCHANTMENTS);
-		return entities;
+		List<Enchantment> list = new ArrayList<Enchantment>();
+		list.addAll(ENCHANTMENTS);
+		return list;
 	}
 	
 	public static Optional<Enchantment> getID(final String name) {
