@@ -44,7 +44,7 @@ public enum UtilsEffect {
 		this.type = type;
 		this.min = min;
 		this.max = max;
-		this.name = type.getName().replaceAll("minecraft:", ""); 
+		this.name = type.getId().replaceAll("minecraft:", "");
 	}
 	
 	public int getMinAmplifier(){
