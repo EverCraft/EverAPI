@@ -18,16 +18,19 @@ package fr.evercraft.everapi.services.mojang;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.mojang.check.MojangCheck;
+import fr.evercraft.everapi.services.mojang.namehistory.MojangNameHistory;
 
 public class MojangService {
 	private final EverAPI plugin;
 	
 	private final MojangCheck check;
+	private final MojangNameHistory nameHistory;
 	
 	public MojangService(final EverAPI plugin){
 		this.plugin = plugin;
 		
 		this.check = new MojangCheck(this.plugin);
+		this.nameHistory = new MojangNameHistory(this.plugin);
 	}
 	
 	public void reload() {
@@ -36,5 +39,9 @@ public class MojangService {
 	
 	public MojangCheck getCheck() {
 		return this.check;
+	}
+	
+	public MojangNameHistory getNameHistory() {
+		return this.nameHistory;
 	}
 }

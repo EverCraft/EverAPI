@@ -5,7 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.services.mojang.check.Server.Color;
+import fr.evercraft.everapi.services.mojang.check.MojangServer.Color;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,18 +18,33 @@ import java.util.Optional;
 public class MojangCheck {
 	
 	private static final String URL = "https://status.mojang.com/check";
+	private static final long UPDATE = 2000;
 	
 	private final EverAPI plugin;
 	
 	private final Gson gson;
+	
+	private long last;
 
     public MojangCheck(final EverAPI plugin) {
         this.plugin = plugin;
         
         this.gson = new Gson();
+        this.last = 0;
+    }
+    
+    public boolean update() throws IOException {
+    	if(this.last + UPDATE < System.currentTimeMillis()) {
+    		this.last = System.currentTimeMillis();
+    		this.requete();
+    		return true;
+    	}
+    	return false;
     }
 
-    public void update() throws IOException {
+    private void requete() throws IOException {
+    	this.plugin.getLogger().debug("MojangCheck : Update");
+    	
         InputStream inputStream = new URL(URL).openConnection().getInputStream();
 
         JsonArray services = this.gson.fromJson(new InputStreamReader(inputStream), JsonArray.class);
@@ -39,7 +54,7 @@ public class MojangCheck {
 			if(iterator.hasNext()) {
 				Entry<String, JsonElement> service = iterator.next();
 
-				Optional<Server> url = Server.get(service.getKey());
+				Optional<MojangServer> url = MojangServer.get(service.getKey());
 	        	Optional<Color> color = Color.get(service.getValue().getAsString());
 	        	
 	        	if(url.isPresent() && color.isPresent()) {

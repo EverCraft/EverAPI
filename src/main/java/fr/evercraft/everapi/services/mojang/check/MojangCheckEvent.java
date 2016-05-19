@@ -20,16 +20,16 @@ import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 
 import fr.evercraft.everapi.plugin.EPlugin;
-import fr.evercraft.everapi.services.mojang.check.Server.Color;
+import fr.evercraft.everapi.services.mojang.check.MojangServer.Color;
 
 public class MojangCheckEvent implements Event {
 
 	private final EPlugin plugin;
-	private final Server server;
+	private final MojangServer server;
     private final Color color_before;
 	private final Color color_after;
 
-    public MojangCheckEvent(final EPlugin plugin, final Server server, Color color_before, Color color_after) {
+    public MojangCheckEvent(final EPlugin plugin, final MojangServer server, Color color_before, Color color_after) {
     	this.plugin = plugin;
     	
     	this.server = server;
@@ -39,7 +39,7 @@ public class MojangCheckEvent implements Event {
         this.plugin.getLogger().debug("Event MojangCheckEvent : (" + this + ")");
     }
 
-	public Server getServer() {
+	public MojangServer getServer() {
         return this.server;
     }
     

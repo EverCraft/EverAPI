@@ -2,7 +2,7 @@ package fr.evercraft.everapi.services.mojang.check;
 
 import java.util.Optional;
 
-public enum Server {
+public enum MojangServer {
 	MINECRAFT_NET("minecraft.net"),
 	SESSION("session.minecraft.net"),
 	SKINS("skins.minecraft.net"),
@@ -17,7 +17,7 @@ public enum Server {
 	private final String url;
 	private Color color;
 	
-	private Server(String url) {
+	private MojangServer(String url) {
 		this.url = url;
 		this.color = Color.YELLOW;
 	}
@@ -34,8 +34,8 @@ public enum Server {
 		return this.color;
 	}
 	
-	public static Optional<Server> get(final String url) {
-		Server server = null;
+	public static Optional<MojangServer> get(final String url) {
+		MojangServer server = null;
 		int cpt = 0;
 		while(cpt < values().length && server == null){
 			if (values()[cpt].getURL().equalsIgnoreCase(url)) {
