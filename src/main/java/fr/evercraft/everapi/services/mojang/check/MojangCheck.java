@@ -18,7 +18,7 @@ import java.util.Optional;
 public class MojangCheck {
 	
 	private static final String URL = "https://status.mojang.com/check";
-	private static final long UPDATE = 2000;
+	private static final long UPDATE = 120000;
 	
 	private final EverAPI plugin;
 	
@@ -31,6 +31,12 @@ public class MojangCheck {
         
         this.gson = new Gson();
         this.last = 0;
+        
+        try {
+			this.update();
+		} catch (IOException e) {
+			this.plugin.getLogger().warn("Erreur pendant la requete MojangCheck");
+		}
     }
     
     public boolean update() throws IOException {
