@@ -17,6 +17,7 @@
 package fr.evercraft.everapi.server.player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.spongepowered.api.data.key.Keys;
@@ -351,5 +352,43 @@ public abstract class PlayerKeys extends PlayerSponge {
 	
 	public boolean setMaxAir(final int air){
 		return this.offer(Keys.MAX_AIR, air).isSuccessful();
+	}
+	
+	public boolean clearEffects(){
+		this.offer(Keys.POTION_EFFECTS, Arrays.asList());
+		return true;
+	}
+	
+	public boolean removeEffect(PotionEffect effect){
+		if (this.get(Keys.POTION_EFFECTS).isPresent()){
+			List<PotionEffect> effects = this.get(Keys.POTION_EFFECTS).get();
+			boolean check = false;
+			int cpt = 0;
+			while(effects.size() > cpt && check == false){
+				if (effects.get(cpt).equals(effect)){
+					effects.remove(cpt);
+					check = true;
+				}
+				cpt++;
+			}
+			this.offer(Keys.POTION_EFFECTS, effects);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean addEffect(PotionEffect effect){
+		if (this.get(Keys.POTION_EFFECTS).isPresent()){
+			List<PotionEffect> effects = this.get(Keys.POTION_EFFECTS).get();
+			effects.add(effect);
+			this.offer(Keys.POTION_EFFECTS, effects);
+			return true;
+		} else {
+			List<PotionEffect> effects = new ArrayList<PotionEffect>();
+			effects.add(effect);
+			this.offer(Keys.POTION_EFFECTS, effects);
+			return true;
+		}
 	}
 }

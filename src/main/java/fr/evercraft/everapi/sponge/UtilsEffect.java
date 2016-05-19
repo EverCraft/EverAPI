@@ -21,7 +21,7 @@ public enum UtilsEffect {
 	JUMP_BOOST(PotionEffectTypes.JUMP_BOOST, 1, 2),
 	LEVITATION(PotionEffectTypes.LEVITATION, 1, 1),
 	LUCK(PotionEffectTypes.LUCK, 1, 1),
-	MINING_FATIGUE(PotionEffectTypes.MINING_FATIGUE, 1, 1),
+	MINING_FATIGUE(PotionEffectTypes.MINING_FATIGUE, 1, 3),
 	NAUSEA(PotionEffectTypes.NAUSEA, 1, 1),
 	NIGHT_VISION(PotionEffectTypes.NIGHT_VISION, 1, 1),
 	POISON(PotionEffectTypes.POISON, 1, 4),

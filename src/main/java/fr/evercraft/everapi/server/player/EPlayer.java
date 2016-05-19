@@ -16,10 +16,8 @@
  */
 package fr.evercraft.everapi.server.player;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -28,8 +26,6 @@ import java.util.UUID;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.effect.potion.PotionEffect;
-import org.spongepowered.api.effect.potion.PotionEffectType;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.entity.Item;
@@ -476,29 +472,5 @@ public class EPlayer extends PlayerEssentials {
 			return this.plugin.getManagerService().getTabList().get().sendTabList(player, identifier);
 		}
 		return false;
-	}
-	
-	public boolean clearEffects(){
-		this.offer(Keys.POTION_EFFECTS, Arrays.asList());
-		return true;
-	}
-	
-	public boolean clearEffect(PotionEffectType effect){
-		if (this.get(Keys.POTION_EFFECTS).isPresent()){
-			List<PotionEffect> effects = this.get(Keys.POTION_EFFECTS).get();
-			boolean check = false;
-			int cpt = 0;
-			while(effects.size() > cpt && check == false){
-				if (effects.get(cpt).getType().equals(effect)){
-					effects.remove(cpt);
-					check = true;
-				}
-				cpt++;
-			}
-			this.offer(Keys.POTION_EFFECTS, effects);
-			return true;
-		} else {
-			return false;
-		}
 	}
 }
