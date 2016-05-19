@@ -33,6 +33,7 @@ import fr.evercraft.everapi.services.essentials.EssentialsService;
 import fr.evercraft.everapi.services.essentials.SpawnService;
 import fr.evercraft.everapi.services.essentials.WarpService;
 import fr.evercraft.everapi.services.mail.MailService;
+import fr.evercraft.everapi.services.mojang.MojangService;
 import fr.evercraft.everapi.services.nametag.ENameTagService;
 import fr.evercraft.everapi.services.nametag.NameTagService;
 import fr.evercraft.everapi.services.pagination.EPagination;
@@ -57,6 +58,8 @@ public class ManagerService {
 	private final EScoreBoardService scoreboard;
 	private final ETabListService tablist;
 	
+	private final MojangService mojang;
+	
 	public ManagerService(EverAPI plugin){
 		this.plugin = plugin;
 		
@@ -69,6 +72,8 @@ public class ManagerService {
 		this.scoreboard = new EScoreBoardService(this.plugin);
 		this.tablist = new ETabListService(this.plugin);
 		
+		this.mojang = new MojangService(this.plugin);
+		
 		this.register();
 	}
 	
@@ -79,6 +84,7 @@ public class ManagerService {
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, NameTagService.class, this.nametag);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, ScoreBoardService.class, this.scoreboard);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, TabListService.class, this.tablist);
+		this.plugin.getGame().getServiceManager().setProvider(this.plugin, MojangService.class, this.mojang);
 	}
 	
 	public void reload() {
@@ -90,6 +96,7 @@ public class ManagerService {
 		this.nametag.reload();
 		this.scoreboard.reload();
 		this.tablist.reload();
+		this.mojang.reload();
 	}
 	
 	/*
@@ -159,6 +166,10 @@ public class ManagerService {
 	
 	public Optional<TopEconomyService> getTopEconomy() {
 		return this.plugin.getGame().getServiceManager().provide(TopEconomyService.class);
+	}
+	
+	public Optional<MojangService> getMojangService() {
+		return this.plugin.getGame().getServiceManager().provide(MojangService.class);
 	}
 	
 	/*

@@ -11,14 +11,15 @@ public enum Server {
 	AUTH("auth.mojang.com"),
 	AUTHSERVER("authserver.mojang.com"),
 	SESSIONSERVER("sessionserver.mojang.com"),
-	API("api.mojang.com");
+	API("api.mojang.com"),
+	MOJANG("mojang.com");
 	
 	private final String url;
 	private Color color;
 	
 	private Server(String url) {
 		this.url = url;
-		this.color = Color.GREEN;
+		this.color = Color.YELLOW;
 	}
 	
 	public String getURL() {
