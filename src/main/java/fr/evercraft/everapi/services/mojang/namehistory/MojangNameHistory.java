@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 public class MojangNameHistory {
 	
-	private static final String URL = "https://status.mojang.com/user/profiles/%s/names";
+	private static final String URL = "https://api.mojang.com/user/profiles/%s/names";
 	
 	private final EverAPI plugin;
 	
