@@ -122,7 +122,7 @@ public class EPlayer extends PlayerEssentials {
 			this.setSaturation(20);
 			this.setFireTicks(0);
 			this.setRemainingAir(this.getMaxAir());
-			this.clearEffects();
+			this.clearPotions();
 			return true;
 		}
 		return false;

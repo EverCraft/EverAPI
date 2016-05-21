@@ -354,12 +354,12 @@ public abstract class PlayerKeys extends PlayerSponge {
 		return this.offer(Keys.MAX_AIR, air).isSuccessful();
 	}
 	
-	public boolean clearEffects(){
+	public boolean clearPotions(){
 		this.offer(Keys.POTION_EFFECTS, Arrays.asList());
 		return true;
 	}
 	
-	public boolean removeEffect(PotionEffect effect){
+	public boolean removePotion(PotionEffect effect){
 		if (this.get(Keys.POTION_EFFECTS).isPresent()){
 			List<PotionEffect> effects = this.get(Keys.POTION_EFFECTS).get();
 			boolean check = false;
@@ -378,17 +378,13 @@ public abstract class PlayerKeys extends PlayerSponge {
 		}
 	}
 	
-	public boolean addEffect(PotionEffect effect){
+	public boolean addPotion(PotionEffect potion){
+		List<PotionEffect> effects = new ArrayList<PotionEffect>();
 		if (this.get(Keys.POTION_EFFECTS).isPresent()){
-			List<PotionEffect> effects = this.get(Keys.POTION_EFFECTS).get();
-			effects.add(effect);
-			this.offer(Keys.POTION_EFFECTS, effects);
-			return true;
-		} else {
-			List<PotionEffect> effects = new ArrayList<PotionEffect>();
-			effects.add(effect);
-			this.offer(Keys.POTION_EFFECTS, effects);
-			return true;
+			effects = this.get(Keys.POTION_EFFECTS).get();
 		}
+		effects.add(potion);
+		this.offer(Keys.POTION_EFFECTS, effects);
+		return true;
 	}
 }
