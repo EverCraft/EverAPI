@@ -29,6 +29,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
+import fr.evercraft.everapi.EAMessage.Messages;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.java.Chronometer;
@@ -70,7 +71,7 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable {
 				return CommandResult.success();
 			}
 		} catch (PluginDisableException e) {
-			source.sendMessage(this.plugin.getMessages().getText("PREFIX").concat(this.plugin.getEverAPI().getMessages().getText("COMMAND_ERROR")));
+			source.sendMessage(this.plugin.getMessages().getText(Messages.PREFIX).concat(this.plugin.getEverAPI().getMessages().getText(Messages.COMMAND_ERROR)));
 			this.plugin.getLogger().warn(e.getMessage());
 			this.plugin.disable();
 		} catch (ServerDisableException e) {
@@ -93,15 +94,15 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable {
 							player.get().addCooldown(this.name);
 						}
 					} else {
-						player.get().sendMessage(this.plugin.getEverAPI().getMessages().getMessage("COOLDOWN")
-								.replaceAll("<time>", this.plugin.getEverAPI().getManagerUtils().getDate().formatDateDiff(cooldown)));
+						//player.get().sendMessage(this.plugin.getEverAPI().getMessages().getMessage(Messages.)
+						//		.replaceAll("<time>", this.plugin.getEverAPI().getManagerUtils().getDate().formatDateDiff(cooldown)));
 					}
 				}
 			} else {
-				player.get().sendMessage(this.plugin.getEverAPI().getMessages().getText("COMMAND_ERROR_PLAYER_DEAD"));
+				player.get().sendMessage(this.plugin.getEverAPI().getMessages().getText(Messages.COMMAND_ERROR_PLAYER_DEAD));
 			}
 		} else {
-			source.sendMessage(this.plugin.getEverAPI().getMessages().getText("PLAYER_NOT_FOUND"));
+			source.sendMessage(this.plugin.getEverAPI().getMessages().getText(Messages.PLAYER_NOT_FOUND));
 		}
 	}
 
@@ -153,7 +154,7 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable {
 	public Text getUsage(final CommandSource source) {
 		if(this.plugin.isEnable()){
 			if(this.testPermission(source)) {
-				return this.plugin.getEverAPI().getMessages().getText("COMMAND_USAGE").toBuilder()
+				return this.plugin.getEverAPI().getMessages().getText(Messages.COMMAND_USAGE).toBuilder()
 						.append(help(source))
 						.color(TextColors.RED).build();
 			}

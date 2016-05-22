@@ -74,10 +74,11 @@ public abstract class EMessage extends EFile {
     	this.listsMessages.clear();
     	
     	this.loadFile();
+    	
     	this.loadDefault();
+    	this.loadConfig();
     	
     	this.save();
-    	this.loadConfig();
     }
     
     /**
@@ -189,6 +190,85 @@ public abstract class EMessage extends EFile {
 			} catch (ObjectMappingException e) {}
     	}
     	return new ArrayList<String>();
+    }
+    
+    public void add(final String key, final String paths, final Object french, final Object english){
+    	ConfigurationNode node = get(paths);
+    	if(node != null && key != null) {
+    		if(node.getValue() == null){
+    			if(this.name.equals(FRENCH)) {
+        			node.setValue(french);
+        		} else {
+        			node.setValue(english);
+        		}
+        	}
+    		
+    		if(node.getValue() instanceof List) {
+    			try {
+        			if(this.plugin.getChat() != null) {
+        				this.listsMessages.put(key, this.plugin.getChat().replace(node.getList(TypeToken.of(String.class))));
+        			} else {
+        				this.listsMessages.put(key, node.getList(TypeToken.of(String.class)));
+        			}
+    			} catch (ObjectMappingException e) {
+    				this.plugin.getLogger().warn("Impossible de charger la liste des messages : '" + key + "'");
+    			}
+    		} else {
+    			if(this.plugin.getChat() != null) {
+	    			this.messages.put(key, this.plugin.getChat().replace(node.getString("")));
+	    		} else {
+	    			this.messages.put(key, node.getString(""));
+	    		}
+    		}
+    	} else {
+    		this.plugin.getLogger().warn("Le message '" + key + "' n'est pas définit");
+    	}
+    }
+    
+    /**
+     * Retourne le message en fonction de son nom
+     * @param key Le nom du message
+     * @return Le message
+     */
+    public String getMessage(final EnumMessage key) {
+    	String name = key.getName().toUpperCase();
+    	if(this.messages.containsKey(name)){
+    		return this.messages.get(name);
+    	}
+    	this.plugin.getLogger().warn("Le message '" + name + "' n'est pas définit");
+    	return "";
+    }
+    
+    /**
+     * Retourne le message en fonction de son nom
+     * @param key Le nom du message
+     * @return Le message
+     */
+    public Text getText(final EnumMessage key) {
+    	return EChat.of(getMessage(key.getName()));
+    }
+    
+    /**
+     * Retourne une liste de messages en fonction leur nom
+     * @param key Le nom du message
+     * @return Une liste de message
+     */
+    public List<String> getListMessage(EnumMessage key) {
+    	String name = key.getName().toUpperCase();
+    	if(this.listsMessages.containsKey(name)){
+    		return this.listsMessages.get(name);
+    	}
+    	this.plugin.getLogger().warn("La liste des messages '" + name + "' n'est pas définit");
+    	return Arrays.asList();
+    }
+    
+    /**
+     * Retourne une liste de texts en fonction leur nom
+     * @param key Le nom du message
+     * @return Une liste de texts
+     */
+    public List<Text> getListText(final EnumMessage key) {
+    	return EChat.of(getListMessage(key));
     }
     
     /**

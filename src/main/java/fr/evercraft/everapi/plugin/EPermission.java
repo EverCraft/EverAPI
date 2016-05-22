@@ -21,6 +21,8 @@ import java.util.Map;
 
 import org.spongepowered.api.text.Text;
 
+import fr.evercraft.everapi.EAMessage.Messages;
+
 public abstract class EPermission {
 	private final EPlugin plugin;
 	
@@ -69,7 +71,7 @@ public abstract class EPermission {
 	
 	public Text noPermission(){
 		if(this.plugin.getEverAPI() != null && this.plugin.getEverAPI().getMessages() != null) {
-			return this.plugin.getEverAPI().getMessages().getText("NO_PERMISSION");
+			return this.plugin.getEverAPI().getMessages().getText(Messages.NO_PERMISSION);
 		}
 		return Text.of("Erreur : Vous n'avez pas la permission !");
 	}

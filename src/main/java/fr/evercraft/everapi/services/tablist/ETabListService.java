@@ -49,6 +49,7 @@ public class ETabListService implements TabListService {
 		for(Entry<UUID, String> nameTag : nameTags) {
 			Optional<Player> player = this.plugin.getGame().getServer().getPlayer(nameTag.getKey());
 			if(player.isPresent()) {
+				player.get().getTabList().setHeaderAndFooter(null, null);
 				this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player.get(), nameTag.getValue(), Action.REMOVE));
 			}
 		}
@@ -56,20 +57,27 @@ public class ETabListService implements TabListService {
 	
 	@Override
 	public boolean sendTabList(Player player, String identifier) {
+		// Avec un TabList
 		if(this.tablist.containsKey(player.getUniqueId())) {
 			String player_identifier = this.tablist.get(player.getUniqueId());
+			// Egale
 			if(player_identifier.equalsIgnoreCase(identifier)) {
 				return true;
+			// Différent mais inférieur
 			} else if(this.getPriority(player_identifier) <= this.getPriority(identifier)) {
+				// Supprime
+				player.getTabList().setHeaderAndFooter(null, null);
 				this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player, player_identifier, Action.REPLACE));
 				
+				// Ajoute
 				this.tablist.putIfAbsent(player.getUniqueId(), identifier);
-				
 				this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player, identifier, Action.ADD));
 				
 				return true;
 			}
+		// Aucun TabList
 		} else {
+			// Ajoute
 			this.tablist.putIfAbsent(player.getUniqueId(), identifier);
 			this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player, identifier, Action.ADD));
 			return true;
@@ -80,6 +88,7 @@ public class ETabListService implements TabListService {
 	@Override
 	public boolean removeTabList(Player player, String identifier) {
 		if(this.tablist.containsKey(player.getUniqueId()) && this.tablist.get(player.getUniqueId()).equalsIgnoreCase(identifier)) {
+			player.getTabList().setHeaderAndFooter(null, null);
 			this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player, identifier, Action.REMOVE));
 			return true;
 		}

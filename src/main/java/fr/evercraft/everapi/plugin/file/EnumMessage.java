@@ -14,32 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi;
+package fr.evercraft.everapi.plugin.file;
 
-import fr.evercraft.everapi.plugin.EPermission;
-import fr.evercraft.everapi.plugin.EPlugin;
+public interface EnumMessage {
+	
+	public String getName();
 
-public class EAPermission extends EPermission {
+	public String getPath();
+	
+	public Object getFrench();
 
-	public EAPermission(final EPlugin plugin) {
-		super(plugin);
-	}
-
-	@Override
-	protected void load() {
-		add("EVERAPI", "command");
-		
-		add("HELP", "help");
-		add("RELOAD", "reload");
-		add("PLUGINS", "plugins");
-		
-		add("RELOAD_ALL", "reloadall");
-		
-		add("VIEW_OTHERS", "view.others");
-		
-		add("WORLDS", "worlds");
-		
-		add("COOLDOWN", "cooldown");
-		add("COOLDOWN_BYPASS", "cooldown.bypass");
-	}
+	public Object getEnglish();
 }

@@ -38,6 +38,7 @@ import org.spongepowered.api.scheduler.SpongeExecutorService;
 import com.google.inject.Inject;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.event.ReloadEvent;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.plugin.file.EConfig;
@@ -145,7 +146,7 @@ public abstract class EPlugin {
 	}
 	
 	@Listener
-    public void onGameStartingServerEvent(GameStartingServerEvent event) throws ServerDisableException {
+    public void onGameStartingServerEvent(GameStartingServerEvent event) {
 		try {
 			if(getEverAPI().isEnable() && this.enable){
 				this.getLogger().debug("---------------------- Start-Server ---------------------");
@@ -158,6 +159,10 @@ public abstract class EPlugin {
 		} catch (ServerDisableException e) {
 			e.execute();
 		}
+	}
+	
+	public void onReload(ReloadEvent event){
+		this.reload();
 	}
 	
 	public void reload(){

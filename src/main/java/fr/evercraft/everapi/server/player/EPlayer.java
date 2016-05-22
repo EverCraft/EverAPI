@@ -446,6 +446,10 @@ public class EPlayer extends PlayerEssentials {
 		return this.plugin.getEServer().getOnlineEPlayers(this);
 	}
 	
+	/*
+	 * EverInformations
+	 */
+	
 	public boolean sendNameTag(String identifier, Text teamRepresentation, Text prefix, Text suffix) {
 		if(this.plugin.getManagerService().getNameTag().isPresent()) {
 			return this.plugin.getManagerService().getNameTag().get().sendNameTag(this.player, identifier, teamRepresentation, prefix, suffix);
@@ -473,4 +477,14 @@ public class EPlayer extends PlayerEssentials {
 		}
 		return false;
 	}
+	
+	public boolean removeTabList(String identifier) {
+		if(this.plugin.getManagerService().getTabList().isPresent()) {
+			if(this.plugin.getManagerService().getTabList().get().removeTabList(player, identifier)) {
+				
+			}
+		}
+		return false;
+	}
+	
 }
