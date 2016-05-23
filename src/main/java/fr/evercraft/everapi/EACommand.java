@@ -33,7 +33,6 @@ import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
 
 import fr.evercraft.everapi.EAMessage.Messages;
-import fr.evercraft.everapi.command.EAReload;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.ECommand;
@@ -45,8 +44,6 @@ public class EACommand extends ECommand<EverAPI> {
 
 	public EACommand(final EverAPI plugin) {
 		super(plugin, "everapi");
-		
-		new EAReload(this.plugin);
     }
 	
 	@Override

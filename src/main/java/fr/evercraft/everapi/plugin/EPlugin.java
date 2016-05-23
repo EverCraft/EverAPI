@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GameLoadCompleteEvent;
 import org.spongepowered.api.event.game.state.GamePostInitializationEvent;
@@ -38,7 +39,6 @@ import org.spongepowered.api.scheduler.SpongeExecutorService;
 import com.google.inject.Inject;
 
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.event.ReloadEvent;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.plugin.file.EConfig;
@@ -161,7 +161,7 @@ public abstract class EPlugin {
 		}
 	}
 	
-	public void onReload(ReloadEvent event){
+	public void onReload(GameReloadEvent event){
 		this.reload();
 	}
 	
