@@ -16,7 +16,9 @@
  */
 package fr.evercraft.everapi.plugin.file;
 
-public interface EnumMessage {
+import java.util.List;
+
+public interface EnumMessage{
 	
 	public String getName();
 
@@ -25,4 +27,10 @@ public interface EnumMessage {
 	public Object getFrench();
 
 	public Object getEnglish();
+	
+	public String get();
+	
+	public List<String> getList();
+
+	public void set(Object string);
 }

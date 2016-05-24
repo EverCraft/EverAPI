@@ -16,6 +16,9 @@
  */
 package fr.evercraft.everapi;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColor;
 
@@ -329,6 +332,7 @@ public class EAMessage extends EMessage {
 		private final String path;
 	    private final Object french;
 	    private final Object english;
+	    private Object message;
 	    
 	    private Messages(final String path, final Object french) {   	
 	    	this(path, french, french);
@@ -355,10 +359,31 @@ public class EAMessage extends EMessage {
 		public Object getEnglish() {
 			return this.english;
 		}
+		
+		public String get() {
+			if(this.message instanceof String) {
+				return (String) this.message;
+			}
+			return this.message.toString();
+		}
+			
+		@SuppressWarnings("unchecked")
+		public List<String> getList() {
+			if(this.message instanceof List) {
+				return (List<String>) this.message;
+			}
+			return Arrays.asList(this.message.toString());
+		}
+		
+		public void set(Object message) {
+			this.message = message;
+		}
 	}
 
 	public EAMessage(final EverAPI plugin) {
-		super(plugin);
+		super(plugin, Messages.values());
+		
+		this.load();
 	}
 
 	@Override
@@ -367,9 +392,6 @@ public class EAMessage extends EMessage {
 
 	@Override
 	public void loadConfig() {
-		for(Messages message : Messages.values()) {
-			add(message.getName(), message.getPath(), message.getFrench(), message.getEnglish());
-		}
 	}
 
 	public String getArg(String arg) {
