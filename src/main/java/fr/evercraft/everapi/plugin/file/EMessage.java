@@ -43,6 +43,9 @@ public abstract class EMessage extends EFile {
 	
 	private final EnumMessage[] enum_message;
 	
+	public EMessage(final EPlugin plugin){
+		 this(plugin, null);
+	}
     /**
      * Création d'un fichier de configuration
      * @param plugin Le plugin 
