@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.EverAPI;
 
 public class UtilsDate {
@@ -55,18 +56,18 @@ public class UtilsDate {
 		this.formatDateTime = this.plugin.getConfigs().getFormatDateTime();
 		
 		this.names = new String[] { 
-				this.plugin.getMessages().getMessage("TIME_YEAR"),
-				this.plugin.getMessages().getMessage("TIME_YEARS"), 
-				this.plugin.getMessages().getMessage("TIME_MONTH"),
-				this.plugin.getMessages().getMessage("TIME_MONTHS"),
-				this.plugin.getMessages().getMessage("TIME_DAY"),
-				this.plugin.getMessages().getMessage("TIME_DAYS"),
-				this.plugin.getMessages().getMessage("TIME_HOUR"),
-				this.plugin.getMessages().getMessage("TIME_HOURS"),
-				this.plugin.getMessages().getMessage("TIME_MINUTE"),
-				this.plugin.getMessages().getMessage("TIME_MINUTES"),
-				this.plugin.getMessages().getMessage("TIME_SECOND"),
-				this.plugin.getMessages().getMessage("TIME_SECONDS")};
+				EAMessages.TIME_YEAR.get(),
+				EAMessages.TIME_YEARS.get(), 
+				EAMessages.TIME_MONTH.get(),
+				EAMessages.TIME_MONTHS.get(),
+				EAMessages.TIME_DAY.get(),
+				EAMessages.TIME_DAYS.get(),
+				EAMessages.TIME_HOUR.get(),
+				EAMessages.TIME_HOURS.get(),
+				EAMessages.TIME_MINUTE.get(),
+				EAMessages.TIME_MINUTES.get(),
+				EAMessages.TIME_SECOND.get(),
+				EAMessages.TIME_SECONDS.get()};
 	}
 	
 	/*
@@ -124,7 +125,7 @@ public class UtilsDate {
 		}
 		
 		if(toDate.equals(fromDate)) {
-			resultat = this.plugin.getMessages().getMessage("TIME_NOW");
+			resultat = EAMessages.TIME_NOW.get();
 		} else {
 			List<String> sb = new ArrayList<String>();
 			int cpt = 0;
@@ -138,9 +139,9 @@ public class UtilsDate {
 				cpt++;
 			}
 			if (sb.size() == 0) {
-				resultat = this.plugin.getMessages().getMessage("TIME_NOW");
+				resultat = EAMessages.TIME_NOW.get();
 			} else {
-				resultat = String.join(this.plugin.getMessages().getMessage("TIME_JOIN"), sb);
+				resultat = String.join(EAMessages.TIME_JOIN.get(), sb);
 			}
 		}
 		return resultat;

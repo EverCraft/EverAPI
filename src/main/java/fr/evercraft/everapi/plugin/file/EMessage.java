@@ -50,7 +50,7 @@ public abstract class EMessage extends EFile {
      * Création d'un fichier de configuration
      * @param plugin Le plugin 
      */    
-    public <T extends Enum<T> & EnumMessage> EMessage(final EPlugin plugin, final EnumMessage[] enum_message){
+    public EMessage(final EPlugin plugin, final EnumMessage[] enum_message){
     	super(plugin, plugin.getConfigs().getLanguage(), true);
     	
     	this.messages = new ConcurrentHashMap<String, String>();
@@ -84,6 +84,10 @@ public abstract class EMessage extends EFile {
     	
     	this.loadDefault();
     	this.loadConfig();
+    	
+    	if(this.enum_message != null) {
+    		this.load();
+    	}
     	
     	this.save();
     }

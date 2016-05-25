@@ -22,12 +22,15 @@ import java.util.List;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColor;
 
+import com.google.common.base.Preconditions;
+
+import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.file.EMessage;
 import fr.evercraft.everapi.plugin.file.EnumMessage;
 
 public class EAMessage extends EMessage {
 	
-	public enum Messages implements EnumMessage {
+	public enum EAMessages implements EnumMessage {
 		PREFIX("prefix",  							
 				"[&4Ever&6&lAPI&f] "),
 				
@@ -334,14 +337,17 @@ public class EAMessage extends EMessage {
 	    private final Object english;
 	    private Object message;
 	    
-	    private Messages(final String path, final Object french) {   	
+	    private EAMessages(final String path, final Object french) {   	
 	    	this(path, french, french);
 	    }
 	    
-	    private Messages(final String path, final Object french, final Object english) {   	
+	    private EAMessages(final String path, final Object french, final Object english) {
+	    	Preconditions.checkNotNull(french, "Le message '" + this.name() + "' n'est pas définit");
+	    	
 	    	this.path = path;	    	
 	    	this.french = french;
 	    	this.english = english;
+	    	this.message = french;
 	    }
 
 	    public String getName() {
@@ -378,10 +384,18 @@ public class EAMessage extends EMessage {
 		public void set(Object message) {
 			this.message = message;
 		}
+
+		public Text getText() {
+			return EChat.of(this.get());
+		}
+		
+		public TextColor getColor() {
+			return EChat.getTextColor(this.get());
+		}
 	}
 
 	public EAMessage(final EverAPI plugin) {
-		super(plugin, Messages.values());
+		super(plugin, EAMessages.values());
 		
 		this.load();
 	}

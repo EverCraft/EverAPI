@@ -29,6 +29,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColor;
 
+import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.ECommand;
@@ -56,19 +57,19 @@ public class EPagination {
 	}
 	
 	public void reload() {
-		this.pagination_color = EChat.getTextColor(this.plugin.getMessages().getMessage("PAGINATION_COLOR"));
-		this.pagination_padding = this.plugin.getMessages().getText("PAGINATION_PADDING");
+		this.pagination_color = EAMessages.PAGINATION_COLOR.getColor();
+		this.pagination_padding = EAMessages.PAGINATION_PADDING.getText();
 		
-		this.help_color_help = EChat.getTextColor(this.plugin.getMessages().getMessage("HELP_COLOR_HELP"));
-		this.help_color_padding = EChat.getTextColor(this.plugin.getMessages().getMessage("HELP_COLOR_PADDING"));
-		this.help_color_description = EChat.getTextColor(this.plugin.getMessages().getMessage("HELP_COLOR_DESCRIPTION"));
+		this.help_color_help = EAMessages.HELP_COLOR_HELP.getColor();
+		this.help_color_padding = EAMessages.HELP_COLOR_PADDING.getColor();
+		this.help_color_description = EAMessages.HELP_COLOR_DESCRIPTION.getColor();
 		
-		this.help_empty = this.plugin.getMessages().getText("HELP_EMPTY");
-		this.help_padding = this.plugin.getMessages().getText("HELP_PADDING");
+		this.help_empty = EAMessages.HELP_EMPTY.getText();
+		this.help_padding = EAMessages.HELP_PADDING.getText();
 	}
 	
 	public void sendTo(Text title, List<Text> contents, CommandSource source) {		
-		title = ETextBuilder.toBuilder(this.plugin.getMessages().getMessage("PAGINATION_TITLE"))
+		title = ETextBuilder.toBuilder(EAMessages.PAGINATION_TITLE.get())
 				.replace("<title>", title)
 				.build().toBuilder().color(this.pagination_color).build();
 		
@@ -86,7 +87,7 @@ public class EPagination {
 					help = help.toBuilder().color(this.help_color_help).build();
 					description = description.toBuilder().color(this.help_color_description).build();
 					
-					contents.add(ETextBuilder.toBuilder(this.plugin.getMessages().getMessage("HELP_LINE"))
+					contents.add(ETextBuilder.toBuilder(EAMessages.HELP_LINE.get())
 								.replace("<name>", getButtonName(command.getKey(), help))
 								.replace("<description>", description)
 								.build());
@@ -107,7 +108,7 @@ public class EPagination {
 				help = help.toBuilder().color(this.help_color_help).build();
 				description = description.toBuilder().color(this.help_color_description).build();
 				
-				contents.add(ETextBuilder.toBuilder(this.plugin.getMessages().getMessage("HELP_LINE"))
+				contents.add(ETextBuilder.toBuilder(EAMessages.HELP_LINE.get())
 							.replace("<name>", getButtonName(command.getKey(), help))
 							.replace("<description>", description)
 							.build());
@@ -118,7 +119,7 @@ public class EPagination {
 	}
 	
 	private <T extends EPlugin> void help(List<Text> contents, CommandSource source, EPlugin plugin) {
-		Text title = EChat.of(this.plugin.getMessages().getMessage("HELP_TITLE")
+		Text title = EChat.of(EAMessages.HELP_TITLE.get()
 							.replaceAll("<plugin>", plugin.getName())
 							.replaceAll("<version>", plugin.getVersion().orElse("1")))
 						.toBuilder().color(this.help_color_padding).build();
@@ -132,10 +133,10 @@ public class EPagination {
 	}
 	
 	public Text getButtonName(final String command, Text help){
-		return EChat.of(this.plugin.getMessages().getMessage("HELP_LINE_NAME")
+		return EChat.of(EAMessages.HELP_LINE_NAME.get()
 				.replaceAll("<command>", command)).toBuilder()
 					.onHover(TextActions.showText(
-							ETextBuilder.toBuilder(this.plugin.getMessages().getMessage("HELP_LINE_NAME_HOVER"))
+							ETextBuilder.toBuilder(EAMessages.HELP_LINE_NAME_HOVER.get())
 								.replace("<help>", help)
 								.build()))
 					.onClick(TextActions.suggestCommand("/" + command))

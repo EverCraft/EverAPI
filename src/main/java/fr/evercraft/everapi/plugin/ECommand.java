@@ -29,7 +29,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
-import fr.evercraft.everapi.EAMessage.Messages;
+import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.java.Chronometer;
@@ -71,7 +71,7 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable {
 				return CommandResult.success();
 			}
 		} catch (PluginDisableException e) {
-			source.sendMessage(this.plugin.getMessages().getText(Messages.PREFIX).concat(this.plugin.getEverAPI().getMessages().getText(Messages.COMMAND_ERROR)));
+			source.sendMessage(EAMessages.PREFIX.getText().concat(EAMessages.COMMAND_ERROR.getText()));
 			this.plugin.getLogger().warn(e.getMessage());
 			this.plugin.disable();
 		} catch (ServerDisableException e) {
@@ -99,10 +99,10 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable {
 					}
 				}
 			} else {
-				player.get().sendMessage(this.plugin.getEverAPI().getMessages().getText(Messages.COMMAND_ERROR_PLAYER_DEAD));
+				player.get().sendMessage(EAMessages.COMMAND_ERROR_PLAYER_DEAD.getText());
 			}
 		} else {
-			source.sendMessage(this.plugin.getEverAPI().getMessages().getText(Messages.PLAYER_NOT_FOUND));
+			source.sendMessage(EAMessages.PLAYER_NOT_FOUND.getText());
 		}
 	}
 
@@ -154,7 +154,7 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable {
 	public Text getUsage(final CommandSource source) {
 		if(this.plugin.isEnable()){
 			if(this.testPermission(source)) {
-				return this.plugin.getEverAPI().getMessages().getText(Messages.COMMAND_USAGE).toBuilder()
+				return EAMessages.COMMAND_USAGE.getText().toBuilder()
 						.append(help(source))
 						.color(TextColors.RED).build();
 			}

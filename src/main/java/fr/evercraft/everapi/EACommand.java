@@ -32,7 +32,7 @@ import org.spongepowered.api.text.LiteralText.Builder;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
 
-import fr.evercraft.everapi.EAMessage.Messages;
+import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.ECommand;
@@ -109,7 +109,7 @@ public class EACommand extends ECommand<EverAPI> {
 	}
 	
 	public Text descriptionReload(final CommandSource source) {
-		return EChat.of(this.plugin.getMessages().getMessage(Messages.RELOAD_DESCRIPTION));
+		return EAMessages.RELOAD_DESCRIPTION.getText();
 	}
 	
 	public Text helpPlugins(final CommandSource source) {
@@ -120,7 +120,7 @@ public class EACommand extends ECommand<EverAPI> {
 	}
 	
 	public Text descriptionPlugins(final CommandSource source) {
-		return EChat.of(this.plugin.getMessages().getMessage(Messages.PLUGINS_DESCRIPTION));
+		return EAMessages.PLUGINS_DESCRIPTION.getText();
 	}
 	
 	public boolean execute(final CommandSource source, final List<String> args) throws CommandException, PluginDisableException {
@@ -169,7 +169,7 @@ public class EACommand extends ECommand<EverAPI> {
 	
 	private boolean commandReload(CommandSource player) {
 		this.plugin.reload();
-		player.sendMessage(EChat.of(this.plugin.getMessages().getMessage(Messages.PREFIX) + this.plugin.getEverAPI().getMessages().getMessage(Messages.RELOAD_COMMAND)));
+		player.sendMessage(EAMessages.PREFIX.getText().concat(EAMessages.RELOAD_COMMAND.getText()));
 		return true;
 	}
 	
@@ -178,35 +178,35 @@ public class EACommand extends ECommand<EverAPI> {
 		List<Text> list = new ArrayList<Text>();
 		for (EPlugin plugin :  plugins){
 			List<Text> hover = new ArrayList<Text>();
-			hover.add(EChat.of((this.plugin.getMessages().getMessage(Messages.PLUGINS_ID).replaceAll("<id>", plugin.getId()))));
+			hover.add(EChat.of(EAMessages.PLUGINS_ID.get().replaceAll("<id>", plugin.getId())));
 			
 			if(plugin.getVersion().isPresent()) {
-				hover.add(EChat.of(this.plugin.getMessages().getMessage(Messages.PLUGINS_VERSION).replaceAll("<version>", plugin.getVersion().get())));
+				hover.add(EChat.of(EAMessages.PLUGINS_VERSION.get().replaceAll("<version>", plugin.getVersion().get())));
 			}
 			
 			if(plugin.getDescription().isPresent()) {
-				hover.add(EChat.of(this.plugin.getMessages().getMessage(Messages.PLUGINS_DESCRIPTION).replaceAll("<description>", plugin.getDescription().get())));
+				hover.add(EChat.of(EAMessages.PLUGINS_DESCRIPTION.get().replaceAll("<description>", plugin.getDescription().get())));
 			}
 			
 			if(plugin.getUrl().isPresent()) {
-				hover.add(EChat.of(this.plugin.getMessages().getMessage(Messages.PLUGINS_URL).replaceAll("<url>", plugin.getUrl().get())));
+				hover.add(EChat.of(EAMessages.PLUGINS_URL.get().replaceAll("<url>", plugin.getUrl().get())));
 			}
 			
 			if(!plugin.getAuthors().isEmpty()) {
-				hover.add(EChat.of(this.plugin.getMessages().getMessage(Messages.PLUGINS_AUTHOR).replaceAll("<author>", String.join(", ", plugin.getAuthors()))));
+				hover.add(EChat.of(EAMessages.PLUGINS_AUTHOR.get().replaceAll("<author>", String.join(", ", plugin.getAuthors()))));
 			}
 			
 			if (plugin.isEnable()){
-				list.add(EChat.of(this.plugin.getMessages().getMessage(Messages.PLUGINS_ENABLE).replace("<plugin>", plugin.getName())).toBuilder()
+				list.add(EChat.of(EAMessages.PLUGINS_ENABLE.get().replace("<plugin>", plugin.getName())).toBuilder()
 						.onHover(TextActions.showText(Text.joinWith(Text.of("\n"), hover)))
 						.build());	
 			} else {
-				list.add(EChat.of(this.plugin.getMessages().getMessage(Messages.PLUGINS_DISABLE).replace("<plugin>", plugin.getName())).toBuilder()
+				list.add(EChat.of(EAMessages.PLUGINS_DISABLE.get().replace("<plugin>", plugin.getName())).toBuilder()
 						.onHover(TextActions.showText(Text.joinWith(Text.of("\n"), hover)))
 						.build());	
 			}
 		}
-		player.sendMessage(ETextBuilder.toBuilder(this.plugin.getMessages().getMessage(Messages.PLUGINS_MESSAGE)
+		player.sendMessage(ETextBuilder.toBuilder(EAMessages.PLUGINS_MESSAGE.get()
 					.replaceAll("<count>", String.valueOf(plugins.size())))
 				.replace("<plugins>", Text.joinWith(Text.of(", "), list))
 				.build());

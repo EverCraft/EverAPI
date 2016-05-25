@@ -21,9 +21,11 @@ import java.util.Optional;
 import org.spongepowered.api.entity.living.player.gamemode.GameMode;
 import org.spongepowered.api.entity.living.player.gamemode.GameModes;
 
+import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.EverAPI;
 
 public class UtilsGameMode {
+	@SuppressWarnings("unused")
 	private final EverAPI plugin;
 	
 	public UtilsGameMode(final EverAPI plugin) {
@@ -34,15 +36,15 @@ public class UtilsGameMode {
 		String name = "";
 		if(gamemode != null){
 			if(gamemode.equals(GameModes.SURVIVAL)){
-				name = this.plugin.getMessages().getMessage("GAMEMODE_SURVIVAL");
+				name = EAMessages.GAMEMODE_SURVIVAL.get();
 			} else if(gamemode.equals(GameModes.CREATIVE)) {
-				name = this.plugin.getMessages().getMessage("GAMEMODE_CREATIVE");
+				name = EAMessages.GAMEMODE_CREATIVE.get();
 			} else if(gamemode.equals(GameModes.ADVENTURE)) {
-				name = this.plugin.getMessages().getMessage("GAMEMODE_ADVENTURE");
+				name = EAMessages.GAMEMODE_ADVENTURE.get();
 			} else if(gamemode.equals(GameModes.SPECTATOR)) {
-				name = this.plugin.getMessages().getMessage("GAMEMODE_SPECTATOR");
+				name = EAMessages.GAMEMODE_SPECTATOR.get();
 			} else if(gamemode.equals(GameModes.NOT_SET)) {
-				name = this.plugin.getMessages().getMessage("GAMEMODE_NOT_SET");
+				name = EAMessages.GAMEMODE_NOT_SET.get();
 			}
 		}
 		return name;
