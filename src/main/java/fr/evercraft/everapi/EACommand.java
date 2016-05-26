@@ -48,7 +48,7 @@ public class EACommand extends ECommand<EverAPI> {
 	
 	@Override
 	public boolean testPermission(final CommandSource source) {
-		return source.hasPermission(this.plugin.getPermissions().get("EVERAPI"));
+		return source.hasPermission(EAPermissions.EVERAPI.get());
 	}
 	
 	@Override
@@ -58,8 +58,8 @@ public class EACommand extends ECommand<EverAPI> {
 
 	@Override
 	public Text help(final CommandSource source) {
-		boolean reload = source.hasPermission(this.plugin.getPermissions().get("RELOAD"));
-		boolean plugins = source.hasPermission(this.plugin.getPermissions().get("PLUGINS"));
+		boolean reload = source.hasPermission(EAPermissions.RELOAD.get());
+		boolean plugins = source.hasPermission(EAPermissions.PLUGINS.get());
 		
 		Text help;
 		if(reload || plugins){
@@ -129,20 +129,20 @@ public class EACommand extends ECommand<EverAPI> {
 			if(source.hasPermission(this.plugin.getPermissions().get("HELP"))) {
 				resultat = commandReload(source);
 			} else {
-				source.sendMessage(this.plugin.getPermissions().noPermission());
+				source.sendMessage(EAMessages.NO_PERMISSION.getText());
 			}
 		} else if(args.size() == 1) {
 			if(args.get(0).equalsIgnoreCase("reload")) {
 				if(source.hasPermission(this.plugin.getPermissions().get("RELOAD"))) {
 					resultat = commandReload(source);
 				} else {
-					source.sendMessage(this.plugin.getPermissions().noPermission());
+					source.sendMessage(EAMessages.NO_PERMISSION.getText());
 				}
 			} else if(args.get(0).equalsIgnoreCase("plugins")) {
 				if(source.hasPermission(this.plugin.getPermissions().get("PLUGINS"))) {
 					resultat = commandPlugins(source);
 				} else {
-					source.sendMessage(this.plugin.getPermissions().noPermission());
+					source.sendMessage(EAMessages.NO_PERMISSION.getText());
 				}
 			// Commande de debug
 			} else if(args.get(0).equalsIgnoreCase("player")){

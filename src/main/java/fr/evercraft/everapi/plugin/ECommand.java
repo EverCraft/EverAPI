@@ -65,7 +65,7 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable {
 						execute(source, getArg(arg));
 					}
 				} else {
-					source.sendMessage(this.plugin.getEverAPI().getPermissions().noPermission());
+					source.sendMessage(EAMessages.NO_PERMISSION.getText());
 				}
 				this.plugin.getLogger().debug("The command '" + this.name + "' with arguments '" + arg + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
 				return CommandResult.success();
@@ -158,7 +158,7 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable {
 						.append(help(source))
 						.color(TextColors.RED).build();
 			}
-			return this.plugin.getPermissions().noPermission();
+			return EAMessages.NO_PERMISSION.getText();
 		}
 		return Text.EMPTY;
 	}

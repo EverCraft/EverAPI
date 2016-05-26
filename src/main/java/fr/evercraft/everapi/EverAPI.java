@@ -41,7 +41,6 @@ public class EverAPI extends EPlugin {
 	
 	private EAConfig configs;
 	private EAMessage messages;
-	private EAPermission permissions;
 	
 	private EServer server;
 
@@ -54,7 +53,6 @@ public class EverAPI extends EPlugin {
 	protected void onPreEnable() throws PluginDisableException, ServerDisableException {	
 		this.thread = this.getGame().getScheduler().createAsyncExecutor(this);
 		this.chat = new EChat(this);
-		this.permissions = new EAPermission(this);
 		this.configs = new EAConfig(this);
 		
 		this.messages = new EAMessage(this);
@@ -77,13 +75,6 @@ public class EverAPI extends EPlugin {
 	}
 	
 	protected void onDisable() {
-	}
-
-	/*
-	 * Accesseurs
-	 */
-	public EPermission getPermissions() {
-		return this.permissions;
 	}
 	
 	public EAMessage getMessages(){
@@ -116,5 +107,11 @@ public class EverAPI extends EPlugin {
 	@Override
 	public SpongeExecutorService getThreadAsync() {
 		return this.thread;
+	}
+
+	@Override
+	public EPermission getPermissions() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

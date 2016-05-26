@@ -19,10 +19,6 @@ package fr.evercraft.everapi.plugin;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.spongepowered.api.text.Text;
-
-import fr.evercraft.everapi.EAMessage.EAMessages;
-
 public abstract class EPermission {
 	private final EPlugin plugin;
 	
@@ -67,10 +63,6 @@ public abstract class EPermission {
 		}
 		this.plugin.getLogger().warn("La permission '" + key + "' n'est pas définit");
 		return "";
-	}
-	
-	public Text noPermission(){
-		return EAMessages.NO_PERMISSION.getText();
 	}
 	
 	/**
