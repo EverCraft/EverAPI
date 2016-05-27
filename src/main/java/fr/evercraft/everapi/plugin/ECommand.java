@@ -30,6 +30,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
+import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.java.Chronometer;
@@ -85,7 +86,7 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable {
 		Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(source);
 		if(player.isPresent()) {
 			if(!player.get().isDead()) {
-				if(source.hasPermission(this.plugin.getEverAPI().getPermissions().get("COOLDOWN_BYPASS"))) {
+				if(source.hasPermission(EAPermissions.COOLDOWN_BYPASS.get())) {
 					execute(player.get(), args);
 				} else {
 					long cooldown = player.get().getCooldownTime(this.name);

@@ -70,7 +70,6 @@ public abstract class EPlugin {
 	protected void onStopServer() throws PluginDisableException, ServerDisableException{}
 	protected abstract void onDisable() throws PluginDisableException, ServerDisableException;
 
-	public abstract EPermission getPermissions();
 	public abstract EConfig getConfigs();
 	public abstract EMessage getMessages();
 	

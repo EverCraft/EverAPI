@@ -22,7 +22,6 @@ import org.spongepowered.api.scheduler.SpongeExecutorService;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.plugin.EChat;
-import fr.evercraft.everapi.plugin.EPermission;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.server.EServer;
 import fr.evercraft.everapi.services.ManagerService;
@@ -107,11 +106,5 @@ public class EverAPI extends EPlugin {
 	@Override
 	public SpongeExecutorService getThreadAsync() {
 		return this.thread;
-	}
-
-	@Override
-	public EPermission getPermissions() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

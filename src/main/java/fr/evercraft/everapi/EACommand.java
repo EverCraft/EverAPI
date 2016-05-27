@@ -89,10 +89,10 @@ public class EACommand extends ECommand<EverAPI> {
 	public List<String> tabCompleter(final CommandSource source, final List<String> args) throws CommandException {
 		List<String> suggests = new ArrayList<String>();
 		if(args.size() == 1) {
-			if(source.hasPermission(this.plugin.getPermissions().get("RELOAD"))) {
+			if(source.hasPermission(EAPermissions.RELOAD.get())) {
 				suggests.add("reload");
 			}
-			if(source.hasPermission(this.plugin.getPermissions().get("PLUGINS"))) {
+			if(source.hasPermission(EAPermissions.PLUGINS.get())) {
 				suggests.add("plugins");
 			}
 		}
@@ -126,20 +126,20 @@ public class EACommand extends ECommand<EverAPI> {
 	public boolean execute(final CommandSource source, final List<String> args) throws CommandException, PluginDisableException {
 		boolean resultat = false;
 		if(args.size() == 0 || args.get(0).equalsIgnoreCase("help")) {
-			if(source.hasPermission(this.plugin.getPermissions().get("HELP"))) {
+			if(source.hasPermission(EAPermissions.HELP.get())) {
 				resultat = commandReload(source);
 			} else {
 				source.sendMessage(EAMessages.NO_PERMISSION.getText());
 			}
 		} else if(args.size() == 1) {
 			if(args.get(0).equalsIgnoreCase("reload")) {
-				if(source.hasPermission(this.plugin.getPermissions().get("RELOAD"))) {
+				if(source.hasPermission(EAPermissions.RELOAD.get())) {
 					resultat = commandReload(source);
 				} else {
 					source.sendMessage(EAMessages.NO_PERMISSION.getText());
 				}
 			} else if(args.get(0).equalsIgnoreCase("plugins")) {
-				if(source.hasPermission(this.plugin.getPermissions().get("PLUGINS"))) {
+				if(source.hasPermission(EAPermissions.PLUGINS.get())) {
 					resultat = commandPlugins(source);
 				} else {
 					source.sendMessage(EAMessages.NO_PERMISSION.getText());
