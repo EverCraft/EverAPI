@@ -144,9 +144,4 @@ public abstract class EFile {
     	}
     	return new ArrayList<String>();
     }
-    
-    /**
-     * Définit tous les éléments par défaut
-     */
-    protected abstract void loadDefault();
 }

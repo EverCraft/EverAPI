@@ -399,24 +399,4 @@ public class EAMessage extends EMessage {
 		
 		this.load();
 	}
-
-	@Override
-	public void loadDefault() {
-	}
-
-	@Override
-	public void loadConfig() {
-	}
-
-	public String getArg(String arg) {
-		return this.getMessage("ARGS_" + arg.toUpperCase());
-	}
-	
-	public String getColor(TextColor color) {
-		return this.getMessage("COLORS_" + color.getName().toUpperCase());
-	}
-	
-	public Text getCommandError() {
-		return this.getText("COMMAND_ERROR");
-	}
 }

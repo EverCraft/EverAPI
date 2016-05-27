@@ -83,4 +83,9 @@ public abstract class EConfig extends EFile {
 	public String getLanguage() {
 		return this.get("language").getString(EMessage.ENGLISH);
 	}
+	
+	/**
+     * Définit tous les éléments par défaut
+     */
+    protected abstract void loadDefault();
 }
