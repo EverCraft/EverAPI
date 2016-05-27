@@ -18,6 +18,7 @@ package fr.evercraft.everapi;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColor;
@@ -391,6 +392,13 @@ public class EAMessage extends EMessage {
 		
 		public TextColor getColor() {
 			return EChat.getTextColor(this.get());
+		}
+
+		public static Optional<EAMessages> getColor(TextColor color) {
+			try {
+				return Optional.of(EAMessages.valueOf("COLORS_" + color.getName().toUpperCase()));
+			} catch (IllegalArgumentException e) {}
+			return Optional.empty();
 		}
 	}
 
