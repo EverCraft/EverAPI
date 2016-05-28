@@ -10,6 +10,7 @@ import org.spongepowered.api.service.permission.PermissionService;
 import org.spongepowered.api.service.permission.Subject;
 
 import fr.evercraft.everapi.plugin.EPlugin;
+import fr.evercraft.everapi.server.player.EPlayer;
 
 public class PermUserEvent implements Event {
 
@@ -25,12 +26,23 @@ public class PermUserEvent implements Event {
     private final EPlugin plugin;
     private final Subject subject;
     private final Action action;
+    private Optional<EPlayer> player;
 
     public PermUserEvent(final EPlugin plugin, final Subject subject, final Action action) {
     	this.plugin = plugin;
     	
         this.subject = subject;
         this.action = action;
+        
+        if(this.subject.getContainingCollection().getIdentifier().equals(PermissionService.SUBJECTS_USER)) {
+    		try {
+    			this.player = this.plugin.getEServer().getEPlayer(UUID.fromString(this.subject.getIdentifier()));
+    		} catch(IllegalArgumentException e) {
+    			this.player = Optional.empty();
+    		}
+    	} else {
+    		this.player = Optional.empty();
+    	}
     }
 
     public Subject getSubject() {
@@ -41,11 +53,13 @@ public class PermUserEvent implements Event {
         return this.action;
     }
     
+    public Optional<EPlayer> getEPlayer() {
+    	return this.player;
+    }
+    
     public Optional<Player> getPlayer() {
-    	if(this.subject.getContainingCollection().getIdentifier().equals(PermissionService.SUBJECTS_USER)) {
-    		try {
-    			return this.plugin.getGame().getServer().getPlayer(UUID.fromString(this.subject.getIdentifier()));
-    		} catch(IllegalArgumentException e) { }
+    	if(this.player.isPresent()) {
+    		return Optional.of(this.player.get());
     	}
     	return Optional.empty();
     }
