@@ -18,7 +18,6 @@ package fr.evercraft.everapi.services.scoreboard;
 
 import java.util.Optional;
 
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.scoreboard.Scoreboard;
 import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
 import org.spongepowered.api.scoreboard.objective.Objective;
@@ -49,12 +48,12 @@ public class EScoreBoardService implements ScoreBoardService {
 	 */
 	
 	@Override
-	public boolean addObjective(Player player, DisplaySlot display, Objective objective) {
+	public boolean addObjective(EPlayer player, DisplaySlot display, Objective objective) {
 		return addObjective(player, getPriority(display, objective), display, objective);
 	}
 	
 	@Override
-	public boolean addObjective(Player player, int priority, DisplaySlot display, Objective objective) {
+	public boolean addObjective(EPlayer player, int priority, DisplaySlot display, Objective objective) {
 		Optional<Objective> objective_player = player.getScoreboard().getObjective(display);
 		if(!objective_player.isPresent() || getPriority(display, objective_player.get()) <= priority) {
 			if(objective_player.isPresent()) {
@@ -81,12 +80,12 @@ public class EScoreBoardService implements ScoreBoardService {
 	}
 	
 	@Override
-	public boolean removeObjective(Player player, DisplaySlot display, Objective objective) {
+	public boolean removeObjective(EPlayer player, DisplaySlot display, Objective objective) {
 		return removeObjective(player, display, objective.getName());
 	}
 	
 	@Override
-	public boolean removeObjective(Player player, DisplaySlot display, String identifier) {
+	public boolean removeObjective(EPlayer player, DisplaySlot display, String identifier) {
 		Optional<Objective> objective = player.getScoreboard().getObjective(display);
 		if(objective.isPresent() && objective.get().getName().equals(identifier)) {
 			player.getScoreboard().removeObjective(objective.get());

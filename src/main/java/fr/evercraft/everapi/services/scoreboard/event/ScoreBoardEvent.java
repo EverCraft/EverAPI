@@ -16,13 +16,13 @@
  */
 package fr.evercraft.everapi.services.scoreboard.event;
 
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
 import org.spongepowered.api.scoreboard.objective.Objective;
 
 import fr.evercraft.everapi.plugin.EPlugin;
+import fr.evercraft.everapi.server.player.EPlayer;
 
 public class ScoreBoardEvent implements Event {
 	public static enum Action {
@@ -35,9 +35,9 @@ public class ScoreBoardEvent implements Event {
     private final Action action;
     private final DisplaySlot display;
 	private final Objective objective;
-	private final Player player;
+	private final EPlayer player;
 
-    public ScoreBoardEvent(final EPlugin plugin, final Player player, final Objective objective, final DisplaySlot display, final Action action) {
+    public ScoreBoardEvent(final EPlugin plugin, final EPlayer player, final Objective objective, final DisplaySlot display, final Action action) {
     	this.plugin = plugin;
     	
     	this.player = player;    	
@@ -46,7 +46,7 @@ public class ScoreBoardEvent implements Event {
         this.display = display;
     }
 
-    public Player getPlayer() {
+    public EPlayer getEPlayer() {
         return this.player;
     }
     

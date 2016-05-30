@@ -409,21 +409,21 @@ public class EPlayer extends PlayerEssentials {
 	
 	public boolean addObjective(DisplaySlot display, Objective objective) {
 		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
-			return this.plugin.getManagerService().getScoreBoard().get().addObjective(this.player, display, objective);
+			return this.plugin.getManagerService().getScoreBoard().get().addObjective(this, display, objective);
 		}
 		return false;
 	}
 	
 	public boolean addObjective(int priority, DisplaySlot display, Objective objective) {
 		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
-			return this.plugin.getManagerService().getScoreBoard().get().addObjective(this.player, priority, display, objective);
+			return this.plugin.getManagerService().getScoreBoard().get().addObjective(this, priority, display, objective);
 		}
 		return false;
 	}
 	
 	public boolean removeObjective(DisplaySlot display, Objective objective) {
 		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
-			return this.plugin.getManagerService().getScoreBoard().get().removeObjective(this.player, display, objective);
+			return this.plugin.getManagerService().getScoreBoard().get().removeObjective(this, display, objective);
 		}
 		this.getScoreboard().removeObjective(objective);
 		return true;
@@ -431,7 +431,7 @@ public class EPlayer extends PlayerEssentials {
 	
 	public boolean removeObjective(DisplaySlot display, String identifier) {
 		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
-			return this.plugin.getManagerService().getScoreBoard().get().removeObjective(this.player, display, identifier);
+			return this.plugin.getManagerService().getScoreBoard().get().removeObjective(this, display, identifier);
 		} else {
 			Optional<Objective> objective = this.getScoreboard().getObjective(identifier);
 			if(objective.isPresent()) {
