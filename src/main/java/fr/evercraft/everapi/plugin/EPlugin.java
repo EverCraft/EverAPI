@@ -160,6 +160,7 @@ public abstract class EPlugin {
 		}
 	}
 	
+	@Listener
 	public void onReload(GameReloadEvent event){
 		this.reload();
 	}
