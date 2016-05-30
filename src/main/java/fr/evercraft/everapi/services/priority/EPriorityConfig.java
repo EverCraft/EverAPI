@@ -49,6 +49,13 @@ public class EPriorityConfig extends EConfig{
 				"everinformations.connection.others", 
 				"everinformations.join", 
 				"everinformations.automessages"));
+		addDefault("bossbar", Arrays.asList(
+				"everinformations.newbie.player", 
+				"everinformations.newbie.others", 
+				"everinformations.connection.player", 
+				"everinformations.connection.others", 
+				"everinformations.join", 
+				"everinformations.automessages"));
 		addDefault("nametag", Arrays.asList("everinformations"));
 		addDefault("tablist", Arrays.asList("everinformations"));
 		addDefault("scoreboard.below_name", Arrays.asList("everinfo.below"));
@@ -72,6 +79,10 @@ public class EPriorityConfig extends EConfig{
 		return this.getPriority("tablist");
 	}
 	
+	public Map<String, Integer> getBossBar(){
+		return this.getPriority("bossbar");
+	}
+	
 	public ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>> getScoreBoard() {
 		ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>> scoreboards = new ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>>();
 		scoreboards.put(DisplaySlots.BELOW_NAME, this.getPriority("scoreboard.below_name"));
@@ -90,4 +101,5 @@ public class EPriorityConfig extends EConfig{
 		}
 		return priority;
 	}
+
 }

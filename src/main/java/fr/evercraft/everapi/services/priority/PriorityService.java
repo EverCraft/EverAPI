@@ -10,4 +10,5 @@ public interface PriorityService {
 	public int getScoreBoard(DisplaySlot type, String identifier);
 	public int getNameTag(String identifier);
 	public int getTabList(String identifier);
+	public int getBossBar(String identifier);
 }

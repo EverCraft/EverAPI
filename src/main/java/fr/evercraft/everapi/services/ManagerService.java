@@ -26,6 +26,8 @@ import org.spongepowered.api.service.user.UserStorageService;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.actionbar.ActionBarService;
 import fr.evercraft.everapi.services.actionbar.EActionBarService;
+import fr.evercraft.everapi.services.bossbar.BossBarService;
+import fr.evercraft.everapi.services.bossbar.EBossBarService;
 import fr.evercraft.everapi.services.chat.ChatService;
 import fr.evercraft.everapi.services.cooldown.CooldownService;
 import fr.evercraft.everapi.services.economy.TopEconomyService;
@@ -57,6 +59,7 @@ public class ManagerService {
 	private final ENameTagService nametag;
 	private final EScoreBoardService scoreboard;
 	private final ETabListService tablist;
+	private final EBossBarService bossbar;
 	
 	private final MojangService mojang;
 	
@@ -71,6 +74,7 @@ public class ManagerService {
 		this.nametag = new ENameTagService(this.plugin);
 		this.scoreboard = new EScoreBoardService(this.plugin);
 		this.tablist = new ETabListService(this.plugin);
+		this.bossbar = new EBossBarService(this.plugin);
 		
 		this.mojang = new MojangService(this.plugin);
 		
@@ -84,6 +88,7 @@ public class ManagerService {
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, NameTagService.class, this.nametag);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, ScoreBoardService.class, this.scoreboard);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, TabListService.class, this.tablist);
+		this.plugin.getGame().getServiceManager().setProvider(this.plugin, BossBarService.class, this.bossbar);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, MojangService.class, this.mojang);
 	}
 	
@@ -96,6 +101,7 @@ public class ManagerService {
 		this.nametag.reload();
 		this.scoreboard.reload();
 		this.tablist.reload();
+		this.bossbar.reload();
 		this.mojang.reload();
 	}
 	
@@ -155,6 +161,9 @@ public class ManagerService {
 		return this.plugin.getGame().getServiceManager().provide(TabListService.class);
 	}
 	
+	public Optional<BossBarService> getBossBar() {
+		return this.plugin.getGame().getServiceManager().provide(BossBarService.class);
+	}
 	
 	public Optional<ScoreBoardService> getScoreBoard() {
 		return this.plugin.getGame().getServiceManager().provide(ScoreBoardService.class);
