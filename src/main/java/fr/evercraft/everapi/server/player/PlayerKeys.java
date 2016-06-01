@@ -19,13 +19,17 @@ package fr.evercraft.everapi.server.player;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.manipulator.mutable.entity.GameModeData;
+import org.spongepowered.api.data.type.HandType;
+import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.effect.potion.PotionEffect;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.gamemode.GameMode;
 import org.spongepowered.api.entity.living.player.gamemode.GameModes;
+import org.spongepowered.api.item.inventory.ItemStack;
 
 import fr.evercraft.everapi.EverAPI;
 
@@ -386,5 +390,37 @@ public abstract class PlayerKeys extends PlayerSponge {
 	
 	public boolean setMaxAir(final int air){
 		return this.offer(Keys.MAX_AIR, air).isSuccessful();
+	}
+	
+	/*
+	 * Hand
+	 */
+	
+	public HandType getMainHand() {
+		return this.player.get(Keys.DOMINANT_HAND).orElse(HandTypes.RIGHT);
+	}
+	
+	public HandType getSecondaryHand() {
+		if(this.getMainHand().equals(HandTypes.RIGHT)) {
+			return HandTypes.LEFT;
+		} else {
+			return HandTypes.RIGHT;
+		}
+	}
+	
+	public Optional<ItemStack> getItemInMainHand() {
+		return this.player.getItemInHand(this.getMainHand());
+	}
+	
+	public Optional<ItemStack> getItemInSecondaryHand() {
+		return this.player.getItemInHand(this.getSecondaryHand());
+	}
+	
+	public void setItemInMainHand(ItemStack itemstak) {
+		this.player.setItemInHand(this.getMainHand(), itemstak);
+	}
+	
+	public void setItemInSecondaryHand(ItemStack itemstak) {
+		this.player.setItemInHand(this.getSecondaryHand(), itemstak);
 	}
 }
