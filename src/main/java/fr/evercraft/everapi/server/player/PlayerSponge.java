@@ -32,6 +32,7 @@ import org.spongepowered.api.data.Property;
 import org.spongepowered.api.data.key.Key;
 import org.spongepowered.api.data.manipulator.DataManipulator;
 import org.spongepowered.api.data.merge.MergeFunction;
+import org.spongepowered.api.data.type.HandType;
 import org.spongepowered.api.data.type.SkinPart;
 import org.spongepowered.api.data.value.BaseValue;
 import org.spongepowered.api.data.value.immutable.ImmutableValue;
@@ -116,8 +117,8 @@ public abstract class PlayerSponge implements Player {
 		return this.player.getLocation();
 	}
 
-	public void setLocation(Location<World> location) {
-		this.player.setLocation(location);
+	public boolean setLocation(Location<World> location) {
+		return this.player.setLocation(location);
 	}
 
 	public Vector3d getRotation() {
@@ -128,12 +129,12 @@ public abstract class PlayerSponge implements Player {
 		this.player.setRotation(rotation);
 	}
 
-	public void setLocationAndRotation(Location<World> location, Vector3d rotation) {
-		this.player.setLocationAndRotation(location, rotation);
+	public boolean setLocationAndRotation(Location<World> location, Vector3d rotation) {
+		return this.player.setLocationAndRotation(location, rotation);
 	}
 
-	public void setLocationAndRotation(Location<World> location, Vector3d rotation, EnumSet<RelativePositions> relativePositions) {
-		this.player.setLocationAndRotation(location, rotation, relativePositions);
+	public boolean setLocationAndRotation(Location<World> location, Vector3d rotation, EnumSet<RelativePositions> relativePositions) {
+		return this.player.setLocationAndRotation(location, rotation, relativePositions);
 	}
 	
 	public Vector3d getScale() {
@@ -148,8 +149,8 @@ public abstract class PlayerSponge implements Player {
 		return this.player.getTransform();
 	}
 
-	public void setTransform(Transform<World> transform) {
-		this.player.setTransform(transform);
+	public boolean setTransform(Transform<World> transform) {
+		return this.player.setTransform(transform);
 	}
 
 	public Optional<Entity> getVehicle() {
@@ -323,14 +324,6 @@ public abstract class PlayerSponge implements Player {
 
 	public void setBoots(ItemStack boots) {
 		this.player.setBoots(boots);
-	}
-
-	public Optional<ItemStack> getItemInHand() {
-		return this.player.getItemInHand();
-	}
-
-	public void setItemInHand(ItemStack itemInHand) {
-		this.player.setItemInHand(itemInHand);
 	}
 
 	public boolean canEquip(EquipmentType type) {
@@ -508,11 +501,6 @@ public abstract class PlayerSponge implements Player {
 	public void resetBlockChange(int x, int y, int z) {
 		this.player.resetBlockChange(x, y, z);
 	}
-	
-	@Override
-	public void transferToWorld(World world, Vector3d position) {
-		this.transferToWorld(world, position);
-	}
 
 	@Override
 	public List<Entity> getPassengers() {
@@ -548,4 +536,20 @@ public abstract class PlayerSponge implements Player {
 	public void playSound(SoundType sound, SoundCategory category, Vector3d position, double volume, double pitch, double minVolume) {
 		this.player.playSound(sound, position, volume, pitch, minVolume);
 	}
+
+	@Override
+	public boolean transferToWorld(World world, Vector3d position) {
+		return this.player.transferToWorld(world, position);
+	}
+
+	@Override
+	public Optional<ItemStack> getItemInHand(HandType handType) {
+		return this.player.getItemInHand(handType);
+	}
+
+	@Override
+	public void setItemInHand(HandType hand, ItemStack itemInHand) {
+		this.player.setItemInHand(hand, itemInHand);
+	}
+
 }

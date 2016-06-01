@@ -69,17 +69,17 @@ public class EBossBarService implements BossBarService {
 		if(bossbar_player == null) {
 			// Ajoute
 			this.players.put(player.getUniqueId(), new EBossBar(priority, bossbar));
-			bossbar.addPlayer(player);
+			bossbar.addPlayer(player.get());
 			this.plugin.getGame().getEventManager().post(new BossBarEvent(this.plugin, player, priority, bossbar, Action.ADD));
 			return true;
 		} else if (bossbar_player.getPriority() <= priority && bossbar_player.getServerBossBar().equals(bossbar)) {
 			// Supprime
 			this.plugin.getGame().getEventManager().post(new BossBarEvent(this.plugin, player, priority, bossbar_player.getServerBossBar(), Action.REPLACE));
-			bossbar_player.getServerBossBar().removePlayer(player);
+			bossbar_player.getServerBossBar().removePlayer(player.get());
 			
 			// Ajoute
 			this.players.put(player.getUniqueId(), new EBossBar(priority, bossbar));
-			bossbar.addPlayer(player);
+			bossbar.addPlayer(player.get());
 			this.plugin.getGame().getEventManager().post(new BossBarEvent(this.plugin, player, priority, bossbar, Action.ADD));
 			return true;
 		}
@@ -93,12 +93,12 @@ public class EBossBarService implements BossBarService {
 	
 	@Override
 	public boolean remove(EPlayer player, int priority) {
-		EBossBar bossbar_player = this.players.get(player.getUniqueId());
-		if(bossbar_player != null && bossbar_player.getPriority() == priority) {
+		EBossBar bossbar = this.players.get(player.getUniqueId());
+		if(bossbar != null && bossbar.getPriority() == priority) {
 			// Supprime
-			bossbar_player.getServerBossBar().removePlayer(player);
+			bossbar.getServerBossBar().removePlayer(player.get());
 			this.players.remove(player.getUniqueId());
-			this.plugin.getGame().getEventManager().post(new BossBarEvent(this.plugin, player, priority, bossbar_player.getServerBossBar(), Action.REMOVE));
+			this.plugin.getGame().getEventManager().post(new BossBarEvent(this.plugin, player, priority, bossbar.getServerBossBar(), Action.REMOVE));
 			return true;
 		}
 		return false;
@@ -109,5 +109,19 @@ public class EBossBarService implements BossBarService {
 			return this.plugin.getManagerService().getPriority().get().getBossBar(identifier);
 		}
 		return PriorityService.DEFAULT;
+	}
+
+	@Override
+	public Optional<ServerBossBar> get(EPlayer player, String identifier) {
+		return this.get(player, this.getPriority(identifier));
+	}
+
+	@Override
+	public Optional<ServerBossBar> get(EPlayer player, int priority) {
+		EBossBar bossbar = this.players.get(player.getUniqueId());
+		if(bossbar != null && bossbar.getPriority() == priority) {
+			return Optional.of(bossbar.getServerBossBar());
+		}
+		return Optional.empty();
 	}
 }

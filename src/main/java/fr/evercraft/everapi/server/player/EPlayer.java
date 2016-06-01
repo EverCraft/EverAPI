@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.spongepowered.api.block.BlockTypes;
+import org.spongepowered.api.boss.ServerBossBar;
 import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.Entity;
@@ -485,6 +486,56 @@ public class EPlayer extends PlayerEssentials {
 			}
 		}
 		return false;
+	}
+	
+	public Player get() {
+		return this.player;
+	}
+	
+	/*
+	 * BossBar
+	 */
+	
+	public boolean addBossBar(String identifier, ServerBossBar bossbar) {
+		if(this.plugin.getManagerService().getBossBar().isPresent()) {
+			return this.plugin.getManagerService().getBossBar().get().add(this, identifier, bossbar);
+		}
+		return false;
+	}
+	
+	public boolean addBossBar(int priority, ServerBossBar bossbar) {
+		if(this.plugin.getManagerService().getBossBar().isPresent()) {
+			return this.plugin.getManagerService().getBossBar().get().add(this, priority, bossbar);
+		}
+		return false;
+	}
+	
+	public boolean removeBossBar(String identifier) {
+		if(this.plugin.getManagerService().getBossBar().isPresent()) {
+			return this.plugin.getManagerService().getBossBar().get().remove(this, identifier);
+		}
+		return true;
+	}
+	
+	public boolean removeBossBar(int priority) {
+		if(this.plugin.getManagerService().getBossBar().isPresent()) {
+			return this.plugin.getManagerService().getBossBar().get().remove(this, priority);
+		}
+		return true;
+	}
+	
+	public Optional<ServerBossBar> getBossBar(String identifier) {
+		if(this.plugin.getManagerService().getBossBar().isPresent()) {
+			return this.plugin.getManagerService().getBossBar().get().get(this, identifier);
+		}
+		return Optional.empty();
+	}
+	
+	public Optional<ServerBossBar> getBossBar(int priority) {
+		if(this.plugin.getManagerService().getBossBar().isPresent()) {
+			return this.plugin.getManagerService().getBossBar().get().get(this, priority);
+		}
+		return Optional.empty();
 	}
 	
 }
