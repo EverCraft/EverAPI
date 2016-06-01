@@ -492,14 +492,6 @@ public class EPlayer extends PlayerEssentials {
 		return this.player;
 	}
 	
-	public Optional<ItemStack> getItemInMainHand() {
-		return this.player.getItemInHand(this.getMainHand());
-	}
-	
-	public Optional<ItemStack> getItemInSecondaryHand() {
-		return this.player.getItemInHand(this.getSecondaryHand());
-	}
-	
 	/*
 	 * BossBar
 	 */
