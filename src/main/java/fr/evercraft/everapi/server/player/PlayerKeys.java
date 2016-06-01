@@ -22,6 +22,8 @@ import java.util.List;
 
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.manipulator.mutable.entity.GameModeData;
+import org.spongepowered.api.data.type.HandType;
+import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.effect.potion.PotionEffect;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.gamemode.GameMode;
@@ -386,5 +388,21 @@ public abstract class PlayerKeys extends PlayerSponge {
 		effects.add(potion);
 		this.offer(Keys.POTION_EFFECTS, effects);
 		return true;
+	}
+	
+	/*
+	 * Hand
+	 */
+	
+	public HandType getMainHand() {
+		return this.player.get(Keys.DOMINANT_HAND).orElse(HandTypes.RIGHT);
+	}
+	
+	public HandType getSecondaryHand() {
+		if(this.getMainHand().equals(HandTypes.RIGHT)) {
+			return HandTypes.LEFT;
+		} else {
+			return HandTypes.RIGHT;
+		}
 	}
 }
