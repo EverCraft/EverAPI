@@ -23,7 +23,6 @@ import java.util.Optional;
 
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.manipulator.mutable.entity.GameModeData;
-import org.spongepowered.api.data.type.HandType;
 import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.effect.potion.PotionEffect;
 import org.spongepowered.api.entity.living.player.Player;
@@ -396,31 +395,19 @@ public abstract class PlayerKeys extends PlayerSponge {
 	 * Hand
 	 */
 	
-	public HandType getMainHand() {
-		return this.player.get(Keys.DOMINANT_HAND).orElse(HandTypes.RIGHT);
-	}
-	
-	public HandType getSecondaryHand() {
-		if(this.getMainHand().equals(HandTypes.RIGHT)) {
-			return HandTypes.LEFT;
-		} else {
-			return HandTypes.RIGHT;
-		}
-	}
-	
 	public Optional<ItemStack> getItemInMainHand() {
-		return this.player.getItemInHand(this.getMainHand());
+		return this.player.getItemInHand(HandTypes.MAIN_HAND);
 	}
 	
 	public Optional<ItemStack> getItemInSecondaryHand() {
-		return this.player.getItemInHand(this.getSecondaryHand());
+		return this.player.getItemInHand(HandTypes.OFF_HAND);
 	}
 	
 	public void setItemInMainHand(ItemStack itemstak) {
-		this.player.setItemInHand(this.getMainHand(), itemstak);
+		this.player.setItemInHand(HandTypes.MAIN_HAND, itemstak);
 	}
 	
 	public void setItemInSecondaryHand(ItemStack itemstak) {
-		this.player.setItemInHand(this.getSecondaryHand(), itemstak);
+		this.player.setItemInHand(HandTypes.OFF_HAND, itemstak);
 	}
 }
