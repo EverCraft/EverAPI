@@ -291,6 +291,40 @@ public abstract class PlayerKeys extends PlayerSponge {
 		return this.offer(Keys.POTION_EFFECTS, potionEffects).isSuccessful();
     }
 	
+	public boolean clearPotions(){
+		this.offer(Keys.POTION_EFFECTS, Arrays.asList());
+		return true;
+	}
+	
+	public boolean removePotion(PotionEffect effect){
+		if (this.get(Keys.POTION_EFFECTS).isPresent()){
+			List<PotionEffect> effects = this.get(Keys.POTION_EFFECTS).get();
+			boolean check = false;
+			int cpt = 0;
+			while(effects.size() > cpt && check == false){
+				if (effects.get(cpt).equals(effect)){
+					effects.remove(cpt);
+					check = true;
+				}
+				cpt++;
+			}
+			this.offer(Keys.POTION_EFFECTS, effects);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean addPotion(PotionEffect potion){
+		List<PotionEffect> effects = new ArrayList<PotionEffect>();
+		if (this.get(Keys.POTION_EFFECTS).isPresent()){
+			effects = this.get(Keys.POTION_EFFECTS).get();
+		}
+		effects.add(potion);
+		this.offer(Keys.POTION_EFFECTS, effects);
+		return true;
+	}
+	
 	/*
 	 * Aflame
 	 */
@@ -355,40 +389,6 @@ public abstract class PlayerKeys extends PlayerSponge {
 	
 	public boolean setMaxAir(final int air){
 		return this.offer(Keys.MAX_AIR, air).isSuccessful();
-	}
-	
-	public boolean clearPotions(){
-		this.offer(Keys.POTION_EFFECTS, Arrays.asList());
-		return true;
-	}
-	
-	public boolean removePotion(PotionEffect effect){
-		if (this.get(Keys.POTION_EFFECTS).isPresent()){
-			List<PotionEffect> effects = this.get(Keys.POTION_EFFECTS).get();
-			boolean check = false;
-			int cpt = 0;
-			while(effects.size() > cpt && check == false){
-				if (effects.get(cpt).equals(effect)){
-					effects.remove(cpt);
-					check = true;
-				}
-				cpt++;
-			}
-			this.offer(Keys.POTION_EFFECTS, effects);
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public boolean addPotion(PotionEffect potion){
-		List<PotionEffect> effects = new ArrayList<PotionEffect>();
-		if (this.get(Keys.POTION_EFFECTS).isPresent()){
-			effects = this.get(Keys.POTION_EFFECTS).get();
-		}
-		effects.add(potion);
-		this.offer(Keys.POTION_EFFECTS, effects);
-		return true;
 	}
 	
 	/*
