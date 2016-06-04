@@ -50,7 +50,7 @@ public abstract class FightEvent implements Event {
 		return this.cause;
 	}
     
-    class Start extends FightEvent {
+    public class Start extends FightEvent {
     	private final EPlayer other;
     	private final boolean victim;
     	
@@ -70,7 +70,7 @@ public abstract class FightEvent implements Event {
 		}
     }
     
-    class Stop extends FightEvent {    	
+    public class Stop extends FightEvent {    	
     	public Stop(final EPlayer player, final Cause cause) {
         	super(Type.STOP, player, cause);
         }
