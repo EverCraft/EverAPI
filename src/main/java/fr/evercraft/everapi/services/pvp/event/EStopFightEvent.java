@@ -16,30 +16,12 @@
  */
 package fr.evercraft.everapi.services.pvp.event;
 
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public interface FightEvent extends Event {	
-	public static enum Type {
-    	START,
-    	STOP;
+public class EStopFightEvent extends EFightEvent implements FightEvent.Stop {	
+	public EStopFightEvent(final EPlayer player, final Cause cause) {
+    	super(Type.STOP, player, cause);
     }
-
-    public Type getType();
-    
-    public EPlayer getPlayer();
-    
-    @Override
-	public Cause getCause();
-    
-    interface Start extends FightEvent {
-    	
-		public EPlayer getOther();
-
-		public boolean isVictim();
-    }
-    
-    interface Stop extends FightEvent{};
 }
