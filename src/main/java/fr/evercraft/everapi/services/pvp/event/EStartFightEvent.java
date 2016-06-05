@@ -16,8 +16,6 @@
  */
 package fr.evercraft.everapi.services.pvp.event;
 
-import java.util.UUID;
-
 import org.spongepowered.api.event.cause.Cause;
 
 import fr.evercraft.everapi.server.player.EPlayer;
@@ -26,10 +24,10 @@ public class EStartFightEvent extends EFightEvent implements FightEvent.Start {
 	private final EPlayer other;
 	private final boolean victim;
 	
-	public EStartFightEvent(final UUID player_uuid,  final UUID other_uuid, boolean victim, final Cause cause) {
-    	super(Type.START, player_uuid, cause);
+	public EStartFightEvent(final EPlayer player, final EPlayer other, boolean victim, final Cause cause) {
+    	super(Type.START, player, cause);
 
-    	this.other = other_uuid;
+    	this.other = other;
     	this.victim = victim;
     }
 
