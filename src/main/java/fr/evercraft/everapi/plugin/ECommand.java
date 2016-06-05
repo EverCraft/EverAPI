@@ -108,12 +108,13 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable {
 			source.sendMessage(EAMessages.PLAYER_NOT_FOUND.getText());
 		}
 	}
-
-	public List<String> getSuggestions(final CommandSource source, final String arg) throws CommandException {
+	
+	@Override
+	public List<String> getSuggestions(final CommandSource source, final String arguments, Location<World> targetPosition) throws CommandException {
 		Chronometer chronometer = new Chronometer();
 		if(this.plugin.isEnable() && this.testPermission(source)) {
-			List<String> args = new ArrayList<String>(Arrays.asList(arg.split(" ")));
-			if(args.size() >= 1 && !args.get(0).isEmpty() && arg.endsWith(" ")){
+			List<String> args = new ArrayList<String>(Arrays.asList(arguments.split(" ")));
+			if(args.size() >= 1 && !args.get(0).isEmpty() && arguments.endsWith(" ")){
 				args.add("");
 			}
 			
@@ -134,15 +135,9 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable {
 					}
 				}
 			}
-			this.plugin.getLogger().debug("The tabulation '" + this.name + "' with arguments '" + arg + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
+			this.plugin.getLogger().debug("The tabulation '" + this.name + "' with arguments '" + arguments + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
 			return suggests;
 		}
-		return null;
-	}
-	
-	@Override
-	public List<String> getSuggestions(CommandSource source, String arguments, Location<World> targetPosition) throws CommandException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
