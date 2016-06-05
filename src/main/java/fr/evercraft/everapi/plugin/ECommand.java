@@ -28,6 +28,8 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.EAPermissions;
@@ -138,6 +140,12 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable {
 		return null;
 	}
 	
+	@Override
+	public List<String> getSuggestions(CommandSource source, String arguments, Location<World> targetPosition) throws CommandException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	public Optional<Text> getShortDescription(final CommandSource source) {
 		if(this.plugin.isEnable() && this.testPermission(source)) {
 			return Optional.ofNullable(description(source));
@@ -200,4 +208,5 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable {
 	public abstract Text help(CommandSource source);
 	
 	public abstract Text description(CommandSource source);
+
 }
