@@ -50,6 +50,7 @@ public class EPriorityConfig extends EConfig{
 				"everinformations.join", 
 				"everinformations.automessages"));
 		addDefault("bossbar", Arrays.asList(
+				"everpvp",
 				"everinformations.newbie.player", 
 				"everinformations.newbie.others", 
 				"everinformations.connection.player", 
