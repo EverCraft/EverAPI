@@ -72,7 +72,7 @@ public class EBossBarService implements BossBarService {
 			bossbar.addPlayer(player.get());
 			this.plugin.getGame().getEventManager().post(new BossBarEvent(this.plugin, player, priority, bossbar, Action.ADD));
 			return true;
-		} else if (bossbar_player.getPriority() <= priority && bossbar_player.getServerBossBar().equals(bossbar)) {
+		} else if (bossbar_player.getPriority() <= priority && !bossbar_player.getServerBossBar().equals(bossbar)) {
 			// Supprime
 			this.plugin.getGame().getEventManager().post(new BossBarEvent(this.plugin, player, priority, bossbar_player.getServerBossBar(), Action.REPLACE));
 			bossbar_player.getServerBossBar().removePlayer(player.get());
