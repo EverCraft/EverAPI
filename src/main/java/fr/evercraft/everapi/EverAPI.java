@@ -30,7 +30,7 @@ import fr.evercraft.everapi.sponge.ManagerUtils;
 
 @Plugin(id = "fr.evercraft.everapi", 
 		name = "EverAPI", 
-		version = "1.1", 
+		version = "1.2", 
 		description = "EverAPI is a library",
 		url = "http://wiki.evercraft.fr/",
 		authors = {"rexbut","lesbleu"})
