@@ -43,6 +43,7 @@ import fr.evercraft.everapi.services.priority.EPriorityService;
 import fr.evercraft.everapi.services.priority.PriorityService;
 import fr.evercraft.everapi.services.scoreboard.EScoreBoardService;
 import fr.evercraft.everapi.services.scoreboard.ScoreBoardService;
+import fr.evercraft.everapi.services.stats.StatsService;
 import fr.evercraft.everapi.services.tablist.ETabListService;
 import fr.evercraft.everapi.services.tablist.TabListService;
 import fr.evercraft.everapi.services.title.ETitleService;
@@ -179,6 +180,10 @@ public class ManagerService {
 	
 	public Optional<MojangService> getMojangService() {
 		return this.plugin.getGame().getServiceManager().provide(MojangService.class);
+	}
+	
+	public Optional<StatsService> getStats() {
+		return this.plugin.getGame().getServiceManager().provide(StatsService.class);
 	}
 	
 	/*

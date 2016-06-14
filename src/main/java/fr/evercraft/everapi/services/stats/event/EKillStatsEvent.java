@@ -21,44 +21,18 @@ import org.spongepowered.api.event.cause.entity.damage.DamageType;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public abstract class EStatsEvent implements StatsEvent {	
+public class EKillStatsEvent extends EStatsEvent implements StatsEvent.Kill {	
 
-	private final Type type;
-	private final EPlayer victim;
-	private final DamageType damage;
-	private final Long time;
-	private final Cause cause;
+	private final EPlayer killer;
 
-    public EStatsEvent(Type type, EPlayer victim, DamageType damage, Long time, Cause cause) {
-    	this.type = type;
-		this.victim = victim;
-		this.damage = damage;
-		this.time = time;
-		this.cause = cause;
+    public EKillStatsEvent(EPlayer victim, EPlayer killer, DamageType damage, Long time, Cause cause) {
+    	super(Type.KILL, victim, damage, time, cause);
+    	this.killer = killer;
+    }
+
+	@Override
+	public EPlayer getKiller() {
+		return this.killer;
 	}
-    
-    @Override
-    public Type getType() {
-    	return this.type;
-    }
-    
-    @Override
-    public EPlayer getVictim() {
-    	return this.victim;
-    }
-    
-    @Override
-    public DamageType getDamageType() {
-    	return this.damage;
-    }
 
-    @Override
-	public Long getTime() {
-        return this.time;
-    }
-
-    @Override
-	public Cause getCause() {
-		return this.cause;
-	}
 }

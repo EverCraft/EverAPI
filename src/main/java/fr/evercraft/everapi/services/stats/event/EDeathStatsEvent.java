@@ -16,49 +16,31 @@
  */
 package fr.evercraft.everapi.services.stats.event;
 
+import java.util.Optional;
+
+import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.entity.damage.DamageType;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public abstract class EStatsEvent implements StatsEvent {	
+public class EDeathStatsEvent extends EStatsEvent implements StatsEvent.Death {	
 
-	private final Type type;
-	private final EPlayer victim;
-	private final DamageType damage;
-	private final Long time;
-	private final Cause cause;
+	private final Optional<Entity> killer;
 
-    public EStatsEvent(Type type, EPlayer victim, DamageType damage, Long time, Cause cause) {
-    	this.type = type;
-		this.victim = victim;
-		this.damage = damage;
-		this.time = time;
-		this.cause = cause;
+    public EDeathStatsEvent(EPlayer victim, Entity killer, DamageType damage, Long time, Cause cause) {
+    	super(Type.DEATH, victim, damage, time, cause);
+    	this.killer = Optional.of(killer);
+    }
+    
+    public EDeathStatsEvent(EPlayer victim, DamageType damage, Long time, Cause cause) {
+    	super(Type.DEATH, victim, damage, time, cause);
+    	this.killer = Optional.empty();
+    }
+
+	@Override
+	public Optional<Entity> getKiller() {
+		return this.killer;
 	}
-    
-    @Override
-    public Type getType() {
-    	return this.type;
-    }
-    
-    @Override
-    public EPlayer getVictim() {
-    	return this.victim;
-    }
-    
-    @Override
-    public DamageType getDamageType() {
-    	return this.damage;
-    }
 
-    @Override
-	public Long getTime() {
-        return this.time;
-    }
-
-    @Override
-	public Cause getCause() {
-		return this.cause;
-	}
 }

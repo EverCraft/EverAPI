@@ -16,7 +16,6 @@
  */
 package fr.evercraft.everapi.plugin;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +43,7 @@ import fr.evercraft.everapi.sponge.UtilsItemStack;
 import fr.evercraft.everapi.text.ETextBuilder;
 
 public class EChat implements ChatService {
+	// Server
 	public final static String ONLINE_PLAYERS = "<ONLINE_PLAYERS>";
 	public final static String MAX_PLAYERS = "<MAX_PLAYERS>";
 	public final static String SERVER_NAME = "<SERVER_NAME>";
@@ -55,6 +55,7 @@ public class EChat implements ChatService {
 	public final static String MONEY_PLURAL = "<MONEY_PLURAL>";
 	public final static String SYMBOL = "<SYMBOL>";
 	
+	// Player
 	public final static String UUID = "<UUID>";
 	public final static String NAME = "<NAME>";
 	public final static String DISPLAYNAME = "<DISPLAYNAME>";
@@ -73,7 +74,14 @@ public class EChat implements ChatService {
 	public final static String TEAM_SUFFIX = "<TEAM_SUFFIX>";
 	public final static String TEAM_NAME = "<TEAM_NAME>";
 	public final static String BALANCE = "<BALANCE>";
+	public final static String DEATHS = "<DEATHS>";
+	public final static String KILLS = "<KILLS>";
+	public final static String RATIO = "<RATIO>";
+	public final static String DEATHS_MONTHLY = "<DEATHS_MONTHLY>";
+	public final static String KILLS_MONTHLY = "<KILLS_MONTHLY>";
+	public final static String RATIO_MONTHLY = "<RATIO_MONTHLY>";
 	
+	// Text
 	public final static String DISPLAYNAME_FORMAT = "<DISPLAYNAME_FORMAT>";
 	public final static String TEAM_PREFIX_FORMAT = "<TEAM_PREFIX_FORMAT>";
 	public final static String TEAM_SUFFIX_FORMAT = "<TEAM_SUFFIX_FORMAT>";
@@ -167,14 +175,15 @@ public class EChat implements ChatService {
 				message = message.replaceAll(TEAM_NAME, "");
 			}
 		}
-		if(message.contains(BALANCE)) {
-			Optional<EconomyService> economy = this.plugin.getManagerService().getEconomy();
-			if(economy.isPresent()) {
-				message = message.replace(BALANCE, player.getBalance().setScale(economy.get().getDefaultCurrency().getDefaultFractionDigits(), BigDecimal.ROUND_HALF_UP).toString());
-			} else {
-				message = message.replace(BALANCE, "0");
-			}
-		}
+		
+		if(message.contains(BALANCE)) message = message.replaceAll(BALANCE, player.getBalanceRound().toString());
+		if(message.contains(DEATHS)) message = message.replaceAll(DEATHS, String.valueOf(player.getDeath()));
+		if(message.contains(KILLS)) message = message.replaceAll(KILLS, String.valueOf(player.getKill()));
+		if(message.contains(RATIO)) message = message.replaceAll(RATIO, String.valueOf(player.getRatio()));
+		if(message.contains(DEATHS_MONTHLY)) message = message.replaceAll(DEATHS_MONTHLY, String.valueOf(player.getDeathMonthly()));
+		if(message.contains(KILLS_MONTHLY)) message = message.replaceAll(KILLS_MONTHLY, String.valueOf(player.getKillMonthly()));
+		if(message.contains(RATIO_MONTHLY)) message = message.replaceAll(RATIO_MONTHLY, String.valueOf(player.getRatioMonthly()));
+
 		return message;
 	}
 	

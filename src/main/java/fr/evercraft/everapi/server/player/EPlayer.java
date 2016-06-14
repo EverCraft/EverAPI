@@ -58,7 +58,7 @@ import com.flowpowered.math.vector.Vector3i;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.EChat;
 
-public class EPlayer extends PlayerEssentials {
+public class EPlayer extends PlayerStats {
 	
 	public static final double CONVERSION_FLY = 0.05;
 	public static final double CONVERSION_WALF = 0.1;

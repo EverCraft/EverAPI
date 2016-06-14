@@ -16,8 +16,12 @@
  */
 package fr.evercraft.everapi.services.stats.event;
 
+import java.util.Optional;
+
+import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.entity.damage.DamageType;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 
@@ -27,14 +31,22 @@ public interface StatsEvent extends Event {
     	KILL;
     }
 
+    public EPlayer getVictim();
+
+    public Long getTime();
+    
+    public DamageType getDamageType();
+    
     public Type getType();
     
-    public EPlayer getPlayer();
-    
     @Override
-	public Cause getCause();
+  	public Cause getCause();
     
-    interface Death extends StatsEvent {}
+    interface Death extends StatsEvent {
+    	public Optional<Entity> getKiller();
+    }
     
-    interface Kill extends StatsEvent{}
+    interface Kill extends StatsEvent{
+    	public EPlayer getKiller();
+    }
 }
