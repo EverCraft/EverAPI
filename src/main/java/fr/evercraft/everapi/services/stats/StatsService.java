@@ -12,13 +12,13 @@ public interface StatsService {
 
 	public Collection<StatsSubject> getAll();
 
-	public LinkedHashMap<UUID, Integer> getTopDeaths(int count);
+	public LinkedHashMap<UUID, Double> getTopDeaths(int count);
 
-	public LinkedHashMap<UUID, Integer> getTopDeaths(int count, Long time);
+	public LinkedHashMap<UUID, Double> getTopDeaths(int count, Long time);
 	
-	public LinkedHashMap<UUID, Integer> getTopKills(int count);
+	public LinkedHashMap<UUID, Double> getTopKills(int count);
 
-	public LinkedHashMap<UUID, Integer> getTopKills(int count, Long time);
+	public LinkedHashMap<UUID, Double> getTopKills(int count, Long time);
 	
 	public LinkedHashMap<UUID, Double> getTopRatio(int count);
 
