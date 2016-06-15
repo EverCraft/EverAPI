@@ -22,6 +22,7 @@ import java.sql.SQLException;
 
 import org.spongepowered.api.service.sql.SqlService;
 
+import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.java.Chronometer;
 
@@ -38,22 +39,22 @@ public abstract class EDataBase<T extends EPlugin> {
 	private String url;
 	private String prefix;
 	
-	public EDataBase(final T plugin) {
+	public EDataBase(final T plugin) throws PluginDisableException {
 		this(plugin, false, "");
 	}
 
-	public EDataBase(final T plugin, boolean force) {
+	public EDataBase(final T plugin, boolean force) throws PluginDisableException {
 		this(plugin, force, plugin.getName());
 	}
 	
-	public EDataBase(final T plugin, boolean force, String prefix) {
+	public EDataBase(final T plugin, boolean force, String prefix) throws PluginDisableException {
 		this.plugin = plugin;
 		this.force = force;
 		
 		reload();
 	}
 	
-	public void reload() {
+	public void reload() throws PluginDisableException {
 		this.plugin.getLogger().debug("SQL : PreInitialization...");
 		
 		// SQLService
@@ -83,6 +84,9 @@ public abstract class EDataBase<T extends EPlugin> {
 				this.plugin.getLogger().info("SQL : Load complete");
 			} else {
 				this.plugin.getLogger().debug("SQL : Error loading");
+				if(this.force) {
+					throw new PluginDisableException("This plugin requires a database");
+				}
 			}
 		} else {
 			this.enable = false;
