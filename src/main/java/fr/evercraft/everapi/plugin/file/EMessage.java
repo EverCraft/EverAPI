@@ -22,8 +22,8 @@ import org.spongepowered.api.event.Listener;
 
 import com.google.common.reflect.TypeToken;
 
+import fr.evercraft.everapi.event.ChatSystemEvent;
 import fr.evercraft.everapi.plugin.EPlugin;
-import fr.evercraft.everapi.services.chat.event.ChatSystemEvent;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 
@@ -48,10 +48,8 @@ public abstract class EMessage extends EFile {
     }
     
     @Listener
-    public void chatService(ChatSystemEvent event) {
-    	if(event.getAction().equals(ChatSystemEvent.Action.RELOADED)) {
-    		this.load();
-    	}
+    public void chatService(ChatSystemEvent.Reload event) {
+    	this.load();
     }
     
     /**

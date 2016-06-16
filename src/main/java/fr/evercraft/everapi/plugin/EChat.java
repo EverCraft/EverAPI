@@ -38,7 +38,7 @@ import com.google.common.base.Preconditions;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.services.chat.ChatService;
+import fr.evercraft.everapi.services.ChatService;
 import fr.evercraft.everapi.sponge.UtilsItemStack;
 import fr.evercraft.everapi.text.ETextBuilder;
 

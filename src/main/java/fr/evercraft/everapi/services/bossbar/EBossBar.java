@@ -4,17 +4,17 @@ import org.spongepowered.api.boss.ServerBossBar;
 
 public class EBossBar {
 
-	private final int priority;
+	private final String identifier;
 	
 	private final ServerBossBar bossbar;
 	
-	public EBossBar(final int priority, final ServerBossBar bossbar) {
-		this.priority = priority;
+	public EBossBar(final String identifier, final ServerBossBar bossbar) {
+		this.identifier = identifier;
 		this.bossbar = bossbar;
 	}
 
-	public int getPriority() {
-		return this.priority;
+	public String getIdentifier() {
+		return this.identifier;
 	}
 
 	public ServerBossBar getServerBossBar() {

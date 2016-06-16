@@ -35,7 +35,7 @@ public class PlayerCooldown extends PlayerPermission implements CooldownSubject 
 
 	private boolean isPresent() {
 		if(this.subject == null && this.plugin.getManagerService().getCooldown().isPresent()) {
-			this.subject = this.plugin.getManagerService().getCooldown().get().get(this.player.getIdentifier());
+			this.subject = this.plugin.getManagerService().getCooldown().get().get(this.player.getUniqueId());
 		}
 		return this.subject != null;
 	}

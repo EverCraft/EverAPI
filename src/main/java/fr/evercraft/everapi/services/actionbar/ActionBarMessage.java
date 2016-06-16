@@ -16,27 +16,30 @@
  */
 package fr.evercraft.everapi.services.actionbar;
 
-import org.spongepowered.api.entity.living.player.Player;
+import java.util.UUID;
+
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.chat.ChatTypes;
 
+import fr.evercraft.everapi.server.player.EPlayer;
+
 public class ActionBarMessage {
 	
-	private final Player player;
+	private final UUID uuid;
 	
 	private final long time;
-	private final int priority;
+	private final String identifier;
 	private final Text message;
 	
-	public ActionBarMessage(final Player player, final int priority, final long time, final Text message){
-		this.player = player;
-		this.priority = priority;
+	public ActionBarMessage(final UUID uuid, final String identifier, final long time, final Text message){
+		this.uuid = uuid;
+		this.identifier = identifier;
 		this.time = time;
 		this.message = message;
 	}
 
-	public Player getPlayer() {
-		return this.player;
+	public UUID getPlayer() {
+		return this.uuid;
 	}
 
 	public long getTime() {
@@ -47,22 +50,19 @@ public class ActionBarMessage {
 		return this.message;
 	}
 	
-	public int getPriority() {
-		return this.priority;
+	public String getIdentifier() {
+		return this.identifier;
 	}
 	
-	public boolean send() {
-		if(this.player.isOnline()) {
-			this.player.sendMessage(ChatTypes.ACTION_BAR, this.message);
-			return true;
-		}
-		return false;
+	public boolean send(EPlayer player) {
+		player.sendMessage(ChatTypes.ACTION_BAR, this.message);
+		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "ActionBarMessage [player=" + player + ", time=" + time
-				+ ", priority=" + priority + ", message=" + message + "]";
+		return "ActionBarMessage [uuid=" + uuid + ", time=" + time
+				+ ", identifier=" + identifier + ", message=" + message + "]";
 	}
 	
 }

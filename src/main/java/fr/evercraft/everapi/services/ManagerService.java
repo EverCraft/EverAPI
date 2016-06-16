@@ -24,30 +24,19 @@ import org.spongepowered.api.service.permission.PermissionService;
 import org.spongepowered.api.service.user.UserStorageService;
 
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.services.actionbar.ActionBarService;
 import fr.evercraft.everapi.services.actionbar.EActionBarService;
-import fr.evercraft.everapi.services.bossbar.BossBarService;
 import fr.evercraft.everapi.services.bossbar.EBossBarService;
-import fr.evercraft.everapi.services.chat.ChatService;
 import fr.evercraft.everapi.services.cooldown.CooldownService;
-import fr.evercraft.everapi.services.economy.TopEconomyService;
 import fr.evercraft.everapi.services.essentials.EssentialsService;
 import fr.evercraft.everapi.services.essentials.SpawnService;
 import fr.evercraft.everapi.services.essentials.WarpService;
-import fr.evercraft.everapi.services.mail.MailService;
-import fr.evercraft.everapi.services.mojang.MojangService;
+import fr.evercraft.everapi.services.mojang.EMojangService;
 import fr.evercraft.everapi.services.nametag.ENameTagService;
-import fr.evercraft.everapi.services.nametag.NameTagService;
 import fr.evercraft.everapi.services.pagination.EPagination;
 import fr.evercraft.everapi.services.priority.EPriorityService;
-import fr.evercraft.everapi.services.priority.PriorityService;
 import fr.evercraft.everapi.services.scoreboard.EScoreBoardService;
-import fr.evercraft.everapi.services.scoreboard.ScoreBoardService;
-import fr.evercraft.everapi.services.stats.StatsService;
 import fr.evercraft.everapi.services.tablist.ETabListService;
-import fr.evercraft.everapi.services.tablist.TabListService;
 import fr.evercraft.everapi.services.title.ETitleService;
-import fr.evercraft.everapi.services.title.TitleService;
 
 public class ManagerService {
 	private final EverAPI plugin;
@@ -62,7 +51,7 @@ public class ManagerService {
 	private final ETabListService tablist;
 	private final EBossBarService bossbar;
 	
-	private final MojangService mojang;
+	private final EMojangService mojang;
 	
 	public ManagerService(EverAPI plugin){
 		this.plugin = plugin;
@@ -77,7 +66,7 @@ public class ManagerService {
 		this.tablist = new ETabListService(this.plugin);
 		this.bossbar = new EBossBarService(this.plugin);
 		
-		this.mojang = new MojangService(this.plugin);
+		this.mojang = new EMojangService(this.plugin);
 		
 		this.register();
 	}

@@ -29,7 +29,8 @@ import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.title.Title;
 
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.services.priority.PriorityService;
+import fr.evercraft.everapi.services.PriorityService;
+import fr.evercraft.everapi.services.TitleService;
 import fr.evercraft.everapi.services.title.event.TitleEvent;
 import fr.evercraft.everapi.services.title.event.TitleEvent.Action;
 

@@ -21,7 +21,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.entity.damage.DamageType;
 
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.services.stats.StatsSubject;
+import fr.evercraft.everapi.services.StatsSubject;
 
 public class PlayerStats extends PlayerEssentials implements StatsSubject {
 	

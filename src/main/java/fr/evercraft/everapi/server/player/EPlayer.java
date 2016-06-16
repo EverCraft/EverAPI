@@ -372,16 +372,16 @@ public class EPlayer extends PlayerStats {
 		this.teleportSafe(this.getWorld().getSpawnLocation());
 	}
 	
-	public boolean sendActionBar(String id, long stay, Text message) {
+	public boolean sendActionBar(String identifier, long stay, Text message) {
 		if(this.plugin.getManagerService().getActionBar().isPresent()) {
-			return this.plugin.getManagerService().getActionBar().get().send(this.player, id, stay, message);
+			return this.plugin.getManagerService().getActionBar().get().send(this, identifier, stay, message);
 		}
 		return false;
 	}
 	
-	public boolean sendActionBar(int priority, long stay, Text message) {
+	public boolean sendActionBar(String identifier, int priority, long stay, Text message) {
 		if(this.plugin.getManagerService().getActionBar().isPresent()) {
-			return this.plugin.getManagerService().getActionBar().get().send(this.player, priority, stay, message);
+			return this.plugin.getManagerService().getActionBar().get().send(this, identifier, priority, stay, message);
 		}
 		return false;
 	}
@@ -453,35 +453,35 @@ public class EPlayer extends PlayerStats {
 	
 	public boolean sendNameTag(String identifier, Text teamRepresentation, Text prefix, Text suffix) {
 		if(this.plugin.getManagerService().getNameTag().isPresent()) {
-			return this.plugin.getManagerService().getNameTag().get().sendNameTag(this.player, identifier, teamRepresentation, prefix, suffix);
+			return this.plugin.getManagerService().getNameTag().get().sendNameTag(this, identifier, teamRepresentation, prefix, suffix);
 		}
 		return false;
 	}
 	
 	public boolean removeNameTag(String identifier, Text teamRepresentation) {
 		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
-			return this.plugin.getManagerService().getNameTag().get().removeNameTag(this.player, identifier, teamRepresentation);
+			return this.plugin.getManagerService().getNameTag().get().removeNameTag(this, identifier, teamRepresentation);
 		}
 		return false;
 	}
 	
 	public boolean clearNameTag(String identifier) {
 		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
-			return this.plugin.getManagerService().getNameTag().get().clearNameTag(this.player, identifier);
+			return this.plugin.getManagerService().getNameTag().get().clearNameTag(this, identifier);
 		}
 		return false;
 	}
 	
 	public boolean sendTabList(String identifier) {
 		if(this.plugin.getManagerService().getTabList().isPresent()) {
-			return this.plugin.getManagerService().getTabList().get().sendTabList(player, identifier);
+			return this.plugin.getManagerService().getTabList().get().sendTabList(this, identifier);
 		}
 		return false;
 	}
 	
 	public boolean removeTabList(String identifier) {
 		if(this.plugin.getManagerService().getTabList().isPresent()) {
-			if(this.plugin.getManagerService().getTabList().get().removeTabList(player, identifier)) {
+			if(this.plugin.getManagerService().getTabList().get().removeTabList(this, identifier)) {
 				
 			}
 		}
@@ -503,9 +503,9 @@ public class EPlayer extends PlayerStats {
 		return false;
 	}
 	
-	public boolean addBossBar(int priority, ServerBossBar bossbar) {
+	public boolean addBossBar(String identifier, int priority, ServerBossBar bossbar) {
 		if(this.plugin.getManagerService().getBossBar().isPresent()) {
-			return this.plugin.getManagerService().getBossBar().get().add(this, priority, bossbar);
+			return this.plugin.getManagerService().getBossBar().get().add(this, identifier, priority, bossbar);
 		}
 		return false;
 	}
@@ -517,23 +517,9 @@ public class EPlayer extends PlayerStats {
 		return true;
 	}
 	
-	public boolean removeBossBar(int priority) {
-		if(this.plugin.getManagerService().getBossBar().isPresent()) {
-			return this.plugin.getManagerService().getBossBar().get().remove(this, priority);
-		}
-		return true;
-	}
-	
 	public Optional<ServerBossBar> getBossBar(String identifier) {
 		if(this.plugin.getManagerService().getBossBar().isPresent()) {
 			return this.plugin.getManagerService().getBossBar().get().get(this, identifier);
-		}
-		return Optional.empty();
-	}
-	
-	public Optional<ServerBossBar> getBossBar(int priority) {
-		if(this.plugin.getManagerService().getBossBar().isPresent()) {
-			return this.plugin.getManagerService().getBossBar().get().get(this, priority);
 		}
 		return Optional.empty();
 	}

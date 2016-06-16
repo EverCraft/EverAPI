@@ -23,6 +23,7 @@ import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
 import com.google.common.base.Preconditions;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.services.PriorityService;
 
 public class EPriorityService implements PriorityService {
 

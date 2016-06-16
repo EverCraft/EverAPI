@@ -24,12 +24,15 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.spongepowered.api.boss.ServerBossBar;
+import org.spongepowered.api.event.cause.Cause;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.services.bossbar.event.BossBarEvent;
-import fr.evercraft.everapi.services.bossbar.event.BossBarEvent.Action;
-import fr.evercraft.everapi.services.priority.PriorityService;
+import fr.evercraft.everapi.services.BossBarService;
+import fr.evercraft.everapi.services.PriorityService;
+import fr.evercraft.everapi.services.bossbar.event.EAddBossBarEvent;
+import fr.evercraft.everapi.services.bossbar.event.ERemoveBossBarEvent;
+import fr.evercraft.everapi.services.bossbar.event.EReplaceBossBarEvent;
 
 public class EBossBarService implements BossBarService {	
 	private final EverAPI plugin;
@@ -50,7 +53,7 @@ public class EBossBarService implements BossBarService {
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(bossbar.getKey());
 			if(player.isPresent()) {
 				bossbar.getValue().getServerBossBar().removePlayer(player.get());
-				this.plugin.getGame().getEventManager().post(new BossBarEvent(this.plugin, player.get(), bossbar.getValue().getPriority(), bossbar.getValue().getServerBossBar(), Action.REMOVE));
+				this.plugin.getGame().getEventManager().post(new ERemoveBossBarEvent(player.get(), bossbar.getValue(), Cause.source(this.plugin).build()));
 			}
 		}
 	}
@@ -59,28 +62,29 @@ public class EBossBarService implements BossBarService {
 	
 	@Override
 	public boolean add(EPlayer player, String identifier, ServerBossBar bossbar) {
-		return this.add(player, this.getPriority(identifier), bossbar);
+		return this.add(player, identifier, this.getPriority(identifier), bossbar);
 	}
 	
 	@Override
-	public boolean add(EPlayer player, int priority, ServerBossBar bossbar) {
+	public boolean add(EPlayer player, String identifier, int priority, ServerBossBar bossbar) {
 		EBossBar bossbar_player = this.players.get(player.getUniqueId());
 		// Vérifie la priorité
 		if(bossbar_player == null) {
 			// Ajoute
-			this.players.put(player.getUniqueId(), new EBossBar(priority, bossbar));
+			bossbar_player = new EBossBar(identifier, bossbar);
+			this.players.put(player.getUniqueId(), bossbar_player);
 			bossbar.addPlayer(player.get());
-			this.plugin.getGame().getEventManager().post(new BossBarEvent(this.plugin, player, priority, bossbar, Action.ADD));
+			this.plugin.getGame().getEventManager().post(new EAddBossBarEvent(player, bossbar_player, Cause.source(this.plugin).build()));
 			return true;
-		} else if (bossbar_player.getPriority() <= priority && !bossbar_player.getServerBossBar().equals(bossbar)) {
+		} else if (this.getPriority(bossbar_player.getIdentifier()) <= priority && !bossbar_player.getServerBossBar().equals(bossbar)) {
 			// Supprime
-			this.plugin.getGame().getEventManager().post(new BossBarEvent(this.plugin, player, priority, bossbar_player.getServerBossBar(), Action.REPLACE));
 			bossbar_player.getServerBossBar().removePlayer(player.get());
 			
 			// Ajoute
-			this.players.put(player.getUniqueId(), new EBossBar(priority, bossbar));
+			EBossBar new_bossbar_player = new EBossBar(identifier, bossbar);
+			this.players.put(player.getUniqueId(), new_bossbar_player);
 			bossbar.addPlayer(player.get());
-			this.plugin.getGame().getEventManager().post(new BossBarEvent(this.plugin, player, priority, bossbar, Action.ADD));
+			this.plugin.getGame().getEventManager().post(new EReplaceBossBarEvent(player, bossbar_player, new_bossbar_player, Cause.source(this.plugin).build()));
 			return true;
 		}
 		return false;
@@ -88,17 +92,12 @@ public class EBossBarService implements BossBarService {
 
 	@Override
 	public boolean remove(EPlayer player, String identifier) {
-		return this.remove(player, this.getPriority(identifier));
-	}
-	
-	@Override
-	public boolean remove(EPlayer player, int priority) {
 		EBossBar bossbar = this.players.get(player.getUniqueId());
-		if(bossbar != null && bossbar.getPriority() == priority) {
+		if(bossbar != null && bossbar.getIdentifier().equalsIgnoreCase(identifier)) {
 			// Supprime
 			bossbar.getServerBossBar().removePlayer(player.get());
 			this.players.remove(player.getUniqueId());
-			this.plugin.getGame().getEventManager().post(new BossBarEvent(this.plugin, player, priority, bossbar.getServerBossBar(), Action.REMOVE));
+			this.plugin.getGame().getEventManager().post(new ERemoveBossBarEvent(player, bossbar, Cause.source(this.plugin).build()));
 			return true;
 		}
 		return false;
@@ -113,13 +112,8 @@ public class EBossBarService implements BossBarService {
 
 	@Override
 	public Optional<ServerBossBar> get(EPlayer player, String identifier) {
-		return this.get(player, this.getPriority(identifier));
-	}
-
-	@Override
-	public Optional<ServerBossBar> get(EPlayer player, int priority) {
 		EBossBar bossbar = this.players.get(player.getUniqueId());
-		if(bossbar != null && bossbar.getPriority() == priority) {
+		if(bossbar != null && bossbar.getIdentifier().equalsIgnoreCase(identifier)) {
 			return Optional.of(bossbar.getServerBossBar());
 		}
 		return Optional.empty();

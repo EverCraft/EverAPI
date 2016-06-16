@@ -23,12 +23,15 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.Cause;
 
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.services.priority.PriorityService;
-import fr.evercraft.everapi.services.tablist.event.TabListEvent;
-import fr.evercraft.everapi.services.tablist.event.TabListEvent.Action;
+import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.services.PriorityService;
+import fr.evercraft.everapi.services.TabListService;
+import fr.evercraft.everapi.services.tablist.event.EAddTabListEvent;
+import fr.evercraft.everapi.services.tablist.event.ERemoveTabListEvent;
+import fr.evercraft.everapi.services.tablist.event.EReplaceTabListEvent;
 
 public class ETabListService implements TabListService {
 	
@@ -47,16 +50,16 @@ public class ETabListService implements TabListService {
 		this.tablist.clear();
 		
 		for(Entry<UUID, String> nameTag : nameTags) {
-			Optional<Player> player = this.plugin.getGame().getServer().getPlayer(nameTag.getKey());
+			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(nameTag.getKey());
 			if(player.isPresent()) {
 				player.get().getTabList().setHeaderAndFooter(null, null);
-				this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player.get(), nameTag.getValue(), Action.REMOVE));
+				this.plugin.getGame().getEventManager().post(new ERemoveTabListEvent(player.get(), nameTag.getValue(), Cause.source(this.plugin).build()));
 			}
 		}
 	}
 	
 	@Override
-	public boolean sendTabList(Player player, String identifier) {
+	public boolean sendTabList(EPlayer player, String identifier) {
 		// Avec un TabList
 		if(this.tablist.containsKey(player.getUniqueId())) {
 			String player_identifier = this.tablist.get(player.getUniqueId());
@@ -67,11 +70,12 @@ public class ETabListService implements TabListService {
 			} else if(this.getPriority(player_identifier) <= this.getPriority(identifier)) {
 				// Supprime
 				player.getTabList().setHeaderAndFooter(null, null);
-				this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player, player_identifier, Action.REPLACE));
 				
 				// Ajoute
 				this.tablist.putIfAbsent(player.getUniqueId(), identifier);
-				this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player, identifier, Action.ADD));
+				
+				// Event
+				this.plugin.getGame().getEventManager().post(new EReplaceTabListEvent(player, player_identifier, identifier, Cause.source(this.plugin).build()));
 				
 				return true;
 			}
@@ -79,17 +83,17 @@ public class ETabListService implements TabListService {
 		} else {
 			// Ajoute
 			this.tablist.putIfAbsent(player.getUniqueId(), identifier);
-			this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player, identifier, Action.ADD));
+			this.plugin.getGame().getEventManager().post(new EAddTabListEvent(player, identifier, Cause.source(this.plugin).build()));
 			return true;
 		}
 		return false;
 	}
 	
 	@Override
-	public boolean removeTabList(Player player, String identifier) {
+	public boolean removeTabList(EPlayer player, String identifier) {
 		if(this.tablist.containsKey(player.getUniqueId()) && this.tablist.get(player.getUniqueId()).equalsIgnoreCase(identifier)) {
 			player.getTabList().setHeaderAndFooter(null, null);
-			this.plugin.getGame().getEventManager().post(new TabListEvent(this.plugin, player, identifier, Action.REMOVE));
+			this.plugin.getGame().getEventManager().post(new ERemoveTabListEvent(player, identifier, Cause.source(this.plugin).build()));
 			return true;
 		}
 		return false;
@@ -107,7 +111,7 @@ public class ETabListService implements TabListService {
 
 	private int getPriority(String identifier) {
 		if(this.plugin.getManagerService().getPriority().isPresent()) {
-			return this.plugin.getManagerService().getPriority().get().getNameTag(identifier);
+			return this.plugin.getManagerService().getPriority().get().getTabList(identifier);
 		}
 		return PriorityService.DEFAULT;
 	}

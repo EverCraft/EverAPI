@@ -18,15 +18,18 @@ package fr.evercraft.everapi.services.scoreboard;
 
 import java.util.Optional;
 
+import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.scoreboard.Scoreboard;
 import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
 import org.spongepowered.api.scoreboard.objective.Objective;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.services.priority.PriorityService;
-import fr.evercraft.everapi.services.scoreboard.event.ScoreBoardEvent;
-import fr.evercraft.everapi.services.scoreboard.event.ScoreBoardEvent.Action;
+import fr.evercraft.everapi.services.PriorityService;
+import fr.evercraft.everapi.services.ScoreBoardService;
+import fr.evercraft.everapi.services.scoreboard.event.EAddScoreBoardEvent;
+import fr.evercraft.everapi.services.scoreboard.event.ERemoveScoreBoardEvent;
+import fr.evercraft.everapi.services.scoreboard.event.EReplaceScoreBoardEvent;
 
 public class EScoreBoardService implements ScoreBoardService {	
 	private final EverAPI plugin;
@@ -56,14 +59,21 @@ public class EScoreBoardService implements ScoreBoardService {
 	public boolean addObjective(EPlayer player, int priority, DisplaySlot display, Objective objective) {
 		Optional<Objective> objective_player = player.getScoreboard().getObjective(display);
 		if(!objective_player.isPresent() || getPriority(display, objective_player.get()) <= priority) {
+			// Supprime l'ancien
 			if(objective_player.isPresent()) {
 				player.getScoreboard().removeObjective(objective_player.get());
-				this.plugin.getGame().getEventManager().post(new ScoreBoardEvent(this.plugin, player, objective_player.get(), display, Action.REPLACE));
 			}
+			
+			// Ajoute le nouveau
 			if(!player.getScoreboard().getObjective(objective.getName()).isPresent()) {
 				player.getScoreboard().addObjective(objective);
 				player.getScoreboard().updateDisplaySlot(objective, display);
-				this.plugin.getGame().getEventManager().post(new ScoreBoardEvent(this.plugin, player, objective, display, Action.ADD));
+				
+				if(objective_player.isPresent()) {
+					this.plugin.getGame().getEventManager().post(new EReplaceScoreBoardEvent(player, objective_player.get(), objective, display, Cause.source(this.plugin).build()));
+				} else {
+					this.plugin.getGame().getEventManager().post(new EAddScoreBoardEvent(player, objective, display, Cause.source(this.plugin).build()));
+				}
 				return true;
 			} else {
 				this.plugin.getLogger().warn("Multi-Objective (player='" + player.getIdentifier() + "';objective='" + objective.getName() + "')");
@@ -89,7 +99,7 @@ public class EScoreBoardService implements ScoreBoardService {
 		Optional<Objective> objective = player.getScoreboard().getObjective(display);
 		if(objective.isPresent() && objective.get().getName().equals(identifier)) {
 			player.getScoreboard().removeObjective(objective.get());
-			this.plugin.getGame().getEventManager().post(new ScoreBoardEvent(this.plugin, player, objective.get(), display, Action.REMOVE));
+			this.plugin.getGame().getEventManager().post(new ERemoveScoreBoardEvent(player, objective.get(), display, Cause.source(this.plugin).build()));
 			return true;
 		}
 		return false;
