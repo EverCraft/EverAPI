@@ -36,8 +36,8 @@ public interface ActionBarEvent extends Event {
 	public EPlayer getPlayer();
     
 	/**
-	 * Retourne l'identifiant du TabList
-	 * @return L'identifiant du TabList
+	 * Retourne l'identifiant
+	 * @return L'identifiant
 	 */
 	public String getIdentifier();
 
@@ -69,8 +69,8 @@ public interface ActionBarEvent extends Event {
     interface Replace extends ActionBarEvent {
     	
     	/**
-    	 * Retourne le nouvelle identifiant du TabList
-    	 * @return Le nouvelle identifiant du TabList
+    	 * Retourne le nouvelle identifiant
+    	 * @return Le nouvelle identifiant
     	 */
 		public String getNewIdentifier();
 		public long getNewTime();
