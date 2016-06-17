@@ -96,6 +96,7 @@ public class ENameTagService implements NameTagService {
 				.nameTagVisibility(Visibilities.ALL)
 				.displayName(teamRepresentation)
 				.color(TextColors.RED)
+				.allowFriendlyFire(true)
 				.build();
 		team.addMember(teamRepresentation);
 		player.getScoreboard().registerTeam(team);
