@@ -39,18 +39,27 @@ public class EScoreBoardEvent implements ScoreBoardEvent {
         this.action = action;
     }
 
+    @Override
     public EPlayer getPlayer() {
         return this.player;
     }
     
+    @Override
     public Action getAction() {
         return this.action;
     }
     
+    @Override
     public Objective getObjective() {
         return this.objective;
     }
     
+    @Override
+	public String getIdentifier() {
+		return this.objective.getName();
+	}
+    
+    @Override
     public DisplaySlot getDisplaySlot() {
         return this.display;
     }

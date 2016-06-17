@@ -36,6 +36,8 @@ public interface ScoreBoardEvent extends Event {
     
     public Objective getObjective();
     
+    public String getIdentifier();
+    
     public DisplaySlot getDisplaySlot();
     
     @Override
@@ -45,5 +47,6 @@ public interface ScoreBoardEvent extends Event {
     public interface Remove extends ScoreBoardEvent {}
     public interface Replace extends ScoreBoardEvent {
     	public Objective getNewObjective();
+    	public String getNewIdentifier();
     }
 }

@@ -37,4 +37,9 @@ public class EReplaceScoreBoardEvent extends EScoreBoardEvent implements ScoreBo
     public Objective getNewObjective() {
     	return this.new_objective;
     }
+    
+    @Override
+   	public String getNewIdentifier() {
+   		return this.new_objective.getName();
+   	}
 }
