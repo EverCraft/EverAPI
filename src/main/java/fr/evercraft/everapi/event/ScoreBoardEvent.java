@@ -41,9 +41,9 @@ public interface ScoreBoardEvent extends Event {
     @Override
 	public Cause getCause();
     
-    public interface Add {}
-    public interface Remove {}
-    public interface Replace {
+    public interface Add extends ScoreBoardEvent {}
+    public interface Remove extends ScoreBoardEvent {}
+    public interface Replace extends ScoreBoardEvent {
     	public Objective getNewObjective();
     }
 }

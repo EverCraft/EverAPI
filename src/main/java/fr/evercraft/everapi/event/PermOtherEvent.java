@@ -21,9 +21,9 @@ public interface PermOtherEvent extends Event {
 	@Override
 	public Cause getCause();
 	
-	public interface Permission {}
-	public interface Option {}
-	public interface Inheritance {}
-	public interface Add {}
-	public interface Remove {}
+	public interface Permission extends PermOtherEvent {}
+	public interface Option extends PermOtherEvent {}
+	public interface Inheritance extends PermOtherEvent {}
+	public interface Add extends PermOtherEvent {}
+	public interface Remove extends PermOtherEvent {}
 }

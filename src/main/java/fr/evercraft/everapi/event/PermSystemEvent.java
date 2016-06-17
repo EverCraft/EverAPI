@@ -15,6 +15,6 @@ public interface PermSystemEvent extends Event {
 	@Override
 	public Cause getCause();
 	
-	public interface Reload {}
-	public interface Default {}
+	public interface Reload extends PermSystemEvent {}
+	public interface Default extends PermSystemEvent {}
 }

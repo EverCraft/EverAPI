@@ -21,9 +21,9 @@ public interface PermGroupEvent extends Event {
 	@Override
 	public Cause getCause();
 	
-	public interface Permission {}
-	public interface Inheritance {}
-	public interface Option {}
-	public interface Add {}
-	public interface Remove {}
+	public interface Permission extends PermGroupEvent {}
+	public interface Inheritance extends PermGroupEvent {}
+	public interface Option extends PermGroupEvent {}
+	public interface Add extends PermGroupEvent {}
+	public interface Remove extends PermGroupEvent {}
 }

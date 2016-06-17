@@ -49,9 +49,9 @@ public interface TabListEvent extends Event {
     @Override
 	public Cause getCause();
     
-    interface Add extends TabListEvent {};
+    interface Add extends TabListEvent {}
     
-    interface Remove extends TabListEvent {};
+    interface Remove extends TabListEvent {}
     
     interface Replace extends TabListEvent {
     	
@@ -60,5 +60,5 @@ public interface TabListEvent extends Event {
     	 * @return Le nouvelle identifiant du TabList
     	 */
 		public String getNewIdentifier();
-	};
+	}
 }

@@ -28,11 +28,11 @@ public interface PermUserEvent extends Event {
 	@Override
 	public Cause getCause();
 	
-	public interface Permission {}
-	public interface Option {}
-	public interface Group {}
-	public interface SubGroup {}
-	public interface Add {}
-	public interface Remove {}
+	public interface Permission extends PermUserEvent {}
+	public interface Option extends PermUserEvent {}
+	public interface Group extends PermUserEvent {}
+	public interface SubGroup extends PermUserEvent {}
+	public interface Add extends PermUserEvent {}
+	public interface Remove extends PermUserEvent {}
 	
 }

@@ -479,11 +479,23 @@ public class EPlayer extends PlayerStats {
 		return false;
 	}
 	
+	public boolean sendTabList(String identifier, int priority) {
+		if(this.plugin.getManagerService().getTabList().isPresent()) {
+			return this.plugin.getManagerService().getTabList().get().sendTabList(this, identifier, priority);
+		}
+		return false;
+	}
+	
 	public boolean removeTabList(String identifier) {
 		if(this.plugin.getManagerService().getTabList().isPresent()) {
-			if(this.plugin.getManagerService().getTabList().get().removeTabList(this, identifier)) {
-				
-			}
+			return this.plugin.getManagerService().getTabList().get().removeTabList(this, identifier);
+		}
+		return false;
+	}
+	
+	public boolean hasTabList(String identifier) {
+		if(this.plugin.getManagerService().getTabList().isPresent()) {
+			return this.plugin.getManagerService().getTabList().get().hasTabList(this, identifier);
 		}
 		return false;
 	}

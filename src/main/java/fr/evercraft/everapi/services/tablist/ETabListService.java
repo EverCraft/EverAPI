@@ -60,6 +60,11 @@ public class ETabListService implements TabListService {
 	
 	@Override
 	public boolean sendTabList(EPlayer player, String identifier) {
+		return this.sendTabList(player, identifier, this.getPriority(identifier));
+	}
+	
+	@Override
+	public boolean sendTabList(EPlayer player, String identifier, int priority) {
 		// Avec un TabList
 		if(this.tablist.containsKey(player.getUniqueId())) {
 			String player_identifier = this.tablist.get(player.getUniqueId());
@@ -102,6 +107,12 @@ public class ETabListService implements TabListService {
 	@Override
 	public boolean has(final UUID uuid) {
 		return this.tablist.containsKey(uuid);
+	}
+	
+	@Override
+	public boolean hasTabList(EPlayer player, String identifier) {
+		String player_identifier = this.tablist.get(player.getUniqueId());
+		return player_identifier != null && player_identifier.equalsIgnoreCase(identifier);
 	}
 
 	@Override

@@ -9,7 +9,11 @@ public interface TabListService {
 
 	public boolean sendTabList(EPlayer player, String identifier);
 	
+	public boolean sendTabList(EPlayer player, String identifier, int priority);
+	
 	public boolean removeTabList(EPlayer player, String identifier);
+	
+	public boolean hasTabList(EPlayer ePlayer, String identifier);
 	
 	public boolean has(UUID uuid);
 	
