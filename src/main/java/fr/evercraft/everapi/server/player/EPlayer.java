@@ -386,16 +386,16 @@ public class EPlayer extends PlayerStats {
 		return false;
 	}
 	
-	public boolean sendTitle(String id, Title title) {
+	public boolean sendTitle(String identifiant, Title title) {
 		if(this.plugin.getManagerService().getTitle().isPresent()) {
-			return this.plugin.getManagerService().getTitle().get().send(this.player, id, title);
+			return this.plugin.getManagerService().getTitle().get().send(this, identifiant, title);
 		}
 		return false;
 	}
 	
-	public boolean sendTitle(int priority, Title title) {
+	public boolean sendTitle(String identifiant, int priority, Title title) {
 		if(this.plugin.getManagerService().getTitle().isPresent()) {
-			return this.plugin.getManagerService().getTitle().get().send(this.player, priority, title);
+			return this.plugin.getManagerService().getTitle().get().send(this, identifiant, priority, title);
 		}
 		return false;
 	}

@@ -14,47 +14,42 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.title.event;
+package fr.evercraft.everapi.event;
 
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.text.title.Title;
 
-import fr.evercraft.everapi.plugin.EPlugin;
-import fr.evercraft.everapi.services.title.TitleMessage;
+import fr.evercraft.everapi.server.player.EPlayer;
 
-public class TitleEvent implements Event {
+
+public interface TitleEvent extends Event {
 	public static enum Action {
     	ADD,
     	REMOVE,
     	REPLACE;
     }
-	
-	private final EPlugin plugin;
-    private final Action action;
-	private final TitleMessage title;
 
-    public TitleEvent(final EPlugin plugin, final TitleMessage title, final Action action) {
-    	this.plugin = plugin;
-    	
-    	this.title = title;
-        this.action = action;
-    }
-
-    public Player getPlayer() {
-        return this.title.getPlayer();
-    }
+    public EPlayer getPlayer();
     
-    public Action getAction() {
-        return this.action;
-    }
+    public Action getAction();
     
-    public TitleMessage getTitleMessage() {
-        return this.title;
-    }
+    public String getIdentifier();
+    
+    public Title getTitle();
+    
+    public long getTime();
     
     @Override
-	public Cause getCause() {
-		return Cause.source(this.plugin).build();
-	}
+	public Cause getCause();
+    
+    public interface Add extends TitleEvent {}
+    public interface Remove extends TitleEvent {}
+    public interface Replace extends TitleEvent {
+    	public String getNewIdentifier();
+        
+        public Title getNewTitle();
+        
+        public long getNewTime();
+    }
 }

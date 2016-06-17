@@ -24,15 +24,18 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
-import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.title.Title;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.event.TitleEvent;
+import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.PriorityService;
 import fr.evercraft.everapi.services.TitleService;
-import fr.evercraft.everapi.services.title.event.TitleEvent;
-import fr.evercraft.everapi.services.title.event.TitleEvent.Action;
+import fr.evercraft.everapi.services.title.event.EAddTitleEvent;
+import fr.evercraft.everapi.services.title.event.ERemoveTitleEvent;
+import fr.evercraft.everapi.services.title.event.EReplaceTitleEvent;
 
 public class ETitleService implements TitleService {
 	private final static int UPDATE = 1000;
@@ -40,43 +43,43 @@ public class ETitleService implements TitleService {
 	private final EverAPI plugin;
 	
 	private Task task;
-	private final ConcurrentMap<UUID, TitleMessage> actionBars;
+	private final ConcurrentMap<UUID, TitleMessage> titles;
 	
 	public ETitleService(final EverAPI plugin){
 		this.plugin = plugin;
 		
-		this.actionBars = new ConcurrentHashMap<UUID, TitleMessage>();
+		this.titles = new ConcurrentHashMap<UUID, TitleMessage>();
 	}
 	
 	public void reload() {
 		if(this.task != null) {
 			this.task.cancel();
 		}
-		this.actionBars.clear();
+		this.titles.clear();
 	}
 	
-	public boolean send(Player player, String id, Title title) {
-		if(this.plugin.getManagerService().getPriority().isPresent()) {
-			return this.send(player, this.plugin.getManagerService().getPriority().get().getTitle(id), title);
-		}
-		return this.send(player, PriorityService.DEFAULT, title);
+	@Override
+	public boolean send(EPlayer player, String identifier, Title title) {
+		return this.send(player, identifier, this.getPriority(identifier), title);
 	}
 	
-	public boolean send(Player player, int priority, Title title) {
-		TitleMessage titleMessage = this.actionBars.get(player.getUniqueId());
+	@Override
+	public boolean send(EPlayer player, String identifier,  int priority, Title title) {
+		TitleMessage titleMessage = this.titles.get(player.getUniqueId());
 		// Vérifie la priorité
-		if(titleMessage == null || titleMessage.getPriority() <= priority) {
-			TitleMessage newtitleMessage = new TitleMessage(player, priority, title);
+		if(titleMessage == null || this.getPriority(titleMessage.getIdentifier()) <= priority) {
+			TitleMessage newtitleMessage = new TitleMessage(player.getUniqueId(), identifier, title);
 			// Si l'ActionBar fonctionne
-			if(newtitleMessage.send()) {
-				// Si il y a un déjà une ActionBar on post un event de remplacement
-				if(titleMessage != null) {
-					this.plugin.getGame().getEventManager().post(new TitleEvent(this.plugin, titleMessage, Action.REPLACE));
-				}
+			if(newtitleMessage.send(player)) {				
+				// On ajoute la nouveau Title
+				this.titles.put(player.getUniqueId(), newtitleMessage);
 				
-				// On ajoute la nouveau ActionBar
-				this.actionBars.put(player.getUniqueId(), newtitleMessage);
-				this.plugin.getGame().getEventManager().post(new TitleEvent(this.plugin, newtitleMessage, Action.ADD));
+				// Si il y a un déjà une Title on post un event de remplacement
+				if(titleMessage != null) {
+					this.plugin.getGame().getEventManager().post(new EAddTitleEvent(player, newtitleMessage, Cause.source(this.plugin).build()));
+				} else {
+					this.plugin.getGame().getEventManager().post(new EReplaceTitleEvent(player, titleMessage, newtitleMessage, Cause.source(this.plugin).build()));
+				}
 				
 				// On réactive le cooldown
 				start();
@@ -86,23 +89,44 @@ public class ETitleService implements TitleService {
 		return false;
 	}
 	
+	@Override
+	public boolean remove(EPlayer player, String identifier) {
+		TitleMessage titleMessage = this.titles.get(player.getUniqueId());
+		if(titleMessage != null && titleMessage.getIdentifier().equalsIgnoreCase(identifier)) {
+			this.plugin.getGame().getEventManager().post(new ERemoveTitleEvent(player, titleMessage, Cause.source(this.plugin).build()));
+			player.sendTitle(Title.CLEAR);
+			return true;
+		}
+		return false;
+	}
+	
 	public void update() {
-		if(this.actionBars.isEmpty()) {
+		if(this.titles.isEmpty()) {
 			stop();
 		} else {
 			List<TitleEvent> events = new ArrayList<TitleEvent>();
-			for(TitleMessage titleMessage : this.actionBars.values()) {
+			List<UUID> removes = new ArrayList<UUID>();
+			for(TitleMessage titleMessage : this.titles.values()) {
 				if(System.currentTimeMillis() >= titleMessage.getTime()) {
-					events.add(new TitleEvent(this.plugin, titleMessage, Action.REMOVE));
+					Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(titleMessage.getPlayer());
+					if(player.isPresent()) {
+						events.add(new ERemoveTitleEvent(player.get(), titleMessage, Cause.source(this.plugin).build()));
+					} else {
+						removes.add(titleMessage.getPlayer());
+					}
 				}
 			}
 			
 			for(TitleEvent event : events) {
-				this.actionBars.remove(event.getPlayer().getUniqueId());
+				this.titles.remove(event.getPlayer().getUniqueId());
 				this.plugin.getGame().getEventManager().post(event);
 			}
 			
-			if(this.actionBars.isEmpty()) {
+			for(UUID remove : removes) {
+				this.titles.remove(remove);
+			}
+			
+			if(this.titles.isEmpty()) {
 				stop();
 			} else {
 				start();
@@ -135,12 +159,18 @@ public class ETitleService implements TitleService {
 	
 	@Override
 	public boolean has(UUID uuid) {
-		return this.actionBars.containsKey(uuid);
+		return this.titles.containsKey(uuid);
 	}
 
 	@Override
 	public Optional<TitleMessage> get(UUID uuid) {
-		return Optional.ofNullable(this.actionBars.get(uuid));
+		return Optional.ofNullable(this.titles.get(uuid));
 	}
 	
+	private int getPriority(String identifier) {
+		if(this.plugin.getManagerService().getPriority().isPresent()) {
+			return this.plugin.getManagerService().getPriority().get().getTitle(identifier);
+		}
+		return PriorityService.DEFAULT;
+	}
 }
