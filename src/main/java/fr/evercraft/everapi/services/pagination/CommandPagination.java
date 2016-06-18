@@ -16,23 +16,14 @@
  */
 package fr.evercraft.everapi.services.pagination;
 
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
-public class ESubCommand {
+public interface CommandPagination {
 	
-	private final Text usage;
-	private final Text description;
-
-	public ESubCommand(Text usage, Text description) {
-		this.usage = usage;
-		this.description = description;
-	}
+	public String getName();
 	
-	public Text getUsage() {
-		return this.usage;
-	}
-
-	public Text getDescription() {
-		return this.description;
-	}
+	public Text help(CommandSource source);
+	
+	public Text description(CommandSource source);
 }

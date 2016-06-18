@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.plugin;
+package fr.evercraft.everapi.command;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,14 +37,16 @@ import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.java.Chronometer;
 import fr.evercraft.everapi.java.UtilsString;
+import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.services.pagination.CommandPagination;
 
-public abstract class ECommand<T extends EPlugin> implements CommandCallable {
+public abstract class ECommand<T extends EPlugin> implements CommandCallable, CommandPagination {
 	protected final T plugin;
 	
 	protected final String name;
 	
-	public ECommand(final T plugin, final String name, final String... alias){
+	public ECommand(final T plugin, final String name, final String... alias) {
 		this.plugin = plugin;
 		this.name = name;
 		
@@ -195,7 +197,7 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable {
 	public String getName(){
 		return this.name;
 	}
-	
+
 	public abstract boolean execute(CommandSource source, List<String> args) throws CommandException, PluginDisableException, ServerDisableException;
 	
 	public abstract List<String> tabCompleter(CommandSource source, List<String> args) throws CommandException;

@@ -40,7 +40,7 @@ public class PlayerAccount extends PlayerCooldown {
 	}
 	
 	private boolean isPresent() {
-		if(this.subject == null && this.plugin.getManagerService().getCooldown().isPresent()) {
+		if(this.subject == null && this.plugin.getManagerService().getEconomy().isPresent()) {
 			this.subject = this.plugin.getManagerService().getEconomy().get().getOrCreateAccount(this.getUniqueId()).orElse(null);
 		}
 		return this.subject != null;

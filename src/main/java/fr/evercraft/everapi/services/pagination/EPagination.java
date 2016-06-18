@@ -31,8 +31,8 @@ import org.spongepowered.api.text.format.TextColor;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.command.ECommand;
 import fr.evercraft.everapi.plugin.EChat;
-import fr.evercraft.everapi.plugin.ECommand;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.text.ETextBuilder;
@@ -98,12 +98,12 @@ public class EPagination {
 		this.help(contents, source, plugin);
 	}
 	
-	public void helpSubCommand(LinkedHashMap<String, ESubCommand> commands, CommandSource source, EPlugin plugin) {
+	public void helpSubCommand(LinkedHashMap<String, CommandPagination> commands, CommandSource source, EPlugin plugin) {
 		List<Text> contents = new ArrayList<Text>();
 		
-		for(Entry<String, ESubCommand> command : commands.entrySet()) {
-			Text help = command.getValue().getUsage();
-			Text description = command.getValue().getDescription();
+		for(Entry<String, CommandPagination> command : commands.entrySet()) {
+			Text help = command.getValue().help(source);
+			Text description = command.getValue().description(source);
 			if(help != null && description != null && !help.isEmpty() && !description.isEmpty()) {
 				help = help.toBuilder().color(this.help_color_help).build();
 				description = description.toBuilder().color(this.help_color_description).build();
