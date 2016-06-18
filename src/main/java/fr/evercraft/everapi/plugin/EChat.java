@@ -37,6 +37,7 @@ import org.spongepowered.api.text.serializer.TextSerializers;
 import com.google.common.base.Preconditions;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.scoreboard.TypeScores;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.ChatService;
 import fr.evercraft.everapi.sponge.UtilsItemStack;
@@ -80,6 +81,21 @@ public class EChat implements ChatService {
 	public final static String DEATHS_MONTHLY = "<DEATHS_MONTHLY>";
 	public final static String KILLS_MONTHLY = "<KILLS_MONTHLY>";
 	public final static String RATIO_MONTHLY = "<RATIO_MONTHLY>";
+	
+	public final static String HELMET = "<HELMET>";
+	public final static String CHESTPLATE = "<CHESTPLATE>";
+	public final static String LEGGINGS = "<LEGGINGS>";
+	public final static String BOOTS = "<BOOTS>";
+	
+	public final static String HELMET_MAX = "<HELMET_MAX>";
+	public final static String CHESTPLATE_MAX = "<CHESTPLATE_MAX>";
+	public final static String LEGGINGS_MAX = "<LEGGINGS_MAX>";
+	public final static String BOOTS_MAX = "<BOOTS_MAX>";
+	
+	public final static String HELMET_POURCENTAGE = "<HELMET_POURCENTAGE>";
+	public final static String CHESTPLATE_POURCENTAGE = "<CHESTPLATE_POURCENTAGE>";
+	public final static String LEGGINGS_POURCENTAGE = "<LEGGINGS_POURCENTAGE>";
+	public final static String BOOTS_POURCENTAGE = "<BOOTS_POURCENTAGE>";
 	
 	// Text
 	public final static String DISPLAYNAME_FORMAT = "<DISPLAYNAME_FORMAT>";
@@ -183,6 +199,21 @@ public class EChat implements ChatService {
 		if(message.contains(DEATHS_MONTHLY)) message = message.replaceAll(DEATHS_MONTHLY, String.valueOf(player.getDeathMonthly()));
 		if(message.contains(KILLS_MONTHLY)) message = message.replaceAll(KILLS_MONTHLY, String.valueOf(player.getKillMonthly()));
 		if(message.contains(RATIO_MONTHLY)) message = message.replaceAll(RATIO_MONTHLY, String.valueOf(player.getRatioMonthly()));
+		
+		if(message.contains(HELMET)) message = message.replaceAll(HELMET, TypeScores.HELMET.getValue(player).toString());
+		if(message.contains(CHESTPLATE)) message = message.replaceAll(CHESTPLATE, TypeScores.CHESTPLATE.getValue(player).toString());
+		if(message.contains(LEGGINGS)) message = message.replaceAll(LEGGINGS, TypeScores.LEGGINGS.getValue(player).toString());
+		if(message.contains(BOOTS)) message = message.replaceAll(BOOTS, TypeScores.BOOTS.getValue(player).toString());
+		
+		if(message.contains(HELMET_MAX)) message = message.replaceAll(HELMET_MAX, TypeScores.HELMET_MAX.getValue(player).toString());
+		if(message.contains(CHESTPLATE_MAX)) message = message.replaceAll(CHESTPLATE_MAX, TypeScores.CHESTPLATE_MAX.getValue(player).toString());
+		if(message.contains(LEGGINGS_MAX)) message = message.replaceAll(LEGGINGS_MAX, TypeScores.LEGGINGS_MAX.getValue(player).toString());
+		if(message.contains(BOOTS_MAX)) message = message.replaceAll(BOOTS_MAX, TypeScores.BOOTS_MAX.getValue(player).toString());
+		
+		if(message.contains(HELMET_POURCENTAGE)) message = message.replaceAll(HELMET_POURCENTAGE, TypeScores.HELMET_POURCENTAGE.getValue(player).toString());
+		if(message.contains(CHESTPLATE_POURCENTAGE)) message = message.replaceAll(CHESTPLATE_POURCENTAGE, TypeScores.CHESTPLATE_POURCENTAGE.getValue(player).toString());
+		if(message.contains(LEGGINGS_POURCENTAGE)) message = message.replaceAll(LEGGINGS_POURCENTAGE, TypeScores.LEGGINGS_POURCENTAGE.getValue(player).toString());
+		if(message.contains(BOOTS_POURCENTAGE)) message = message.replaceAll(BOOTS_POURCENTAGE, TypeScores.BOOTS_POURCENTAGE.getValue(player).toString());
 
 		return message;
 	}
