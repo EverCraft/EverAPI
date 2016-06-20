@@ -1,0 +1,16 @@
+{
+    "required": true,
+    "minVersion": "0.5.7",
+    "package": "fr.evercraft.everapi.mixin",
+    "refmap": "mixins.everapi.refmap.json",
+    "target": "@env(DEFAULT)",
+    "compatibilityLevel": "JAVA_8",
+    "server": [
+        "MixinEntityAIAttackMelee",
+		"MixinMinecraftServer",
+		"MixinEntityAIAvoidEntity"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
+}

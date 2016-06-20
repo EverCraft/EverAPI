@@ -1,39 +1,67 @@
+// Gradle plugins
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven {
+            name = 'forge'
+            url = 'http://files.minecraftforge.net/maven'
+        }
+        maven {
+            name = 'sponge'
+            url = 'http://repo.spongepowered.org/maven'
+        }
+    }
+
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+        classpath 'org.spongepowered:mixingradle:0.4-SNAPSHOT'
+    }
+}
+
 plugins {
-    id 'java'
-    id 'eclipse'
-    id 'idea'
-    id 'maven'
-    //id 'com.github.hierynomus.license' version '0.12.1'
+    id 'org.spongepowered.plugin' version '0.6'
+}
+
+apply plugin: 'net.minecraftforge.gradle.tweaker-server'
+apply plugin: 'org.spongepowered.mixin'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+dependencies {
+    compile 'org.spongepowered:spongeapi:5.0.0-SNAPSHOT'
+    compile 'org.spongepowered:mixin:0.5.10-SNAPSHOT'
+}
+
+minecraft {
+    version = '1.9.4'
+    mappings = 'snapshot_20160616'
+
+    runDir = 'run'
+    tweakClass = 'org.spongepowered.asm.launch.MixinTweaker'
+
+    makeObfSourceJar = false
+}
+
+// Mixins
+sourceSets {
+    main {
+        refMap = "mixins.everapi.refmap.json"
+    }
+}
+
+jar {
+    manifest {
+        attributes(
+                'MixinConfigs': 'mixins.everapi.json',
+        )
+    }
 }
 
 archivesBaseName = "EverAPI"
 group = 'fr.evercraft'
 version = '1.0'
 
-repositories {
-	mavenCentral()
-	maven {
-		name = 'sponge'
-        url = 'http://repo.spongepowered.org/maven'
-	}
-}
-
-configurations {
-    shadow
-}
-
-dependencies {
-	compile 'org.spongepowered:spongeapi:5.0.0-SNAPSHOT'
-}
-
-jar {
-    manifest {
-        attributes 'Implementation-Title': archivesBaseName,
-                   'Implementation-Version': version
-    }
-}
-
-//license {
-//	excludes(["**/*.yml", "**/*.txt", "**/*.conf"])
-//	header = file('HEADER.txt') 
-//}
+// Reobfuscate to SRG mappings
+reobf.jar.mappingType = 'SEARGE'

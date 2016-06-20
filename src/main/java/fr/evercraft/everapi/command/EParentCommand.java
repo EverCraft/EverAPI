@@ -88,7 +88,7 @@ public abstract class EParentCommand<T extends EPlugin> extends ECommand<T> {
 		
 		for(ESubCommand<T> subcommand : this.subcommands) {
 			if(subcommand.testPermission(source)) { 
-				commands.put(subcommand.getSubName(), subcommand.getName());
+				commands.put(subcommand.getName(), subcommand.getSubName());
 			}
 		}
 		
