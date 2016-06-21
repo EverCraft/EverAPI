@@ -15,7 +15,6 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 /**
  * This file is part of EverAPI.
  *
