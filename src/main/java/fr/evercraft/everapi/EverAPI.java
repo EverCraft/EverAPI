@@ -20,6 +20,9 @@ package fr.evercraft.everapi;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.scheduler.SpongeExecutorService;
 
+import fr.evercraft.everapi.command.sub.EAPlugins;
+import fr.evercraft.everapi.command.sub.EAReload;
+import fr.evercraft.everapi.command.sub.EATest;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.plugin.EChat;
@@ -64,8 +67,12 @@ public class EverAPI extends EPlugin {
 	@Override
 	protected void onCompleteEnable() {
 		this.getGame().getEventManager().registerListeners(this, new EAListener(this));
-		new EACommand(this);
 		new BungeeCord(this);
+		
+		EACommand command = new EACommand(this);
+		command.add(new EAPlugins(this, command));
+		command.add(new EAReload(this, command));
+		command.add(new EATest(this, command));
 	}
 
 	protected void onReload() throws PluginDisableException, ServerDisableException {
