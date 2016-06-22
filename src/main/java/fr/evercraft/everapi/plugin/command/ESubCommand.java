@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.command;
+package fr.evercraft.everapi.plugin.command;
 
 import java.util.Arrays;
 import java.util.List;

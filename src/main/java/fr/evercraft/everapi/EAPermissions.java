@@ -29,6 +29,7 @@ public enum EAPermissions implements EnumPermission {
 	HELP("help"),
 	RELOAD("reload"),
 	PLUGINS("plugins"),
+	TEST("test"),
 	
 	VIEW_OTHERS("view.others"),
 	

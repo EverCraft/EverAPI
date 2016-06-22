@@ -36,6 +36,9 @@ public class EAMessage extends EMessage {
 		PREFIX("prefix",  							
 				"[&4Ever&6&lAPI&f] "),
 				
+		DESCRIPTION("description",  							
+				"Gestion de l'API"),
+				
 		// Permissions
 		NO_PERMISSION("noPermission",
 				"&cErreur : Vous n'avez pas la permission !",
