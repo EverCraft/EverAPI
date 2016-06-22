@@ -47,7 +47,7 @@ public class EAPlugins extends ESubCommand<EverAPI> {
 	}
 
 	public Text description(final CommandSource source) {
-		return EAMessages.PLUGINS_DESCRIPTION.getText();
+		return EAMessages.COMMAND_PLUGINS_DESCRIPTION.getText();
 	}
 	
 	public List<String> subTabCompleter(final CommandSource source, final List<String> args) throws CommandException {

@@ -36,7 +36,7 @@ public class EACommand extends EParentCommand<EverAPI> {
 
 	@Override
 	public Text description(final CommandSource source) {
-		return EAMessages.DESCRIPTION.getText();
+		return EAMessages.COMMAND_DESCRIPTION.getText();
 	}
 
 	@Override

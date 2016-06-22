@@ -36,8 +36,11 @@ public class EAMessage extends EMessage {
 		PREFIX("prefix",  							
 				"[&4Ever&6&lAPI&f] "),
 				
-		DESCRIPTION("description",  							
+		COMMAND_DESCRIPTION("description",  							
 				"Gestion de l'API"),
+		COMMAND_PLUGINS_DESCRIPTION("description",  							
+				"Affiche la liste des plugins d'EverCraft"),
+				
 				
 		// Permissions
 		NO_PERMISSION("noPermission",
