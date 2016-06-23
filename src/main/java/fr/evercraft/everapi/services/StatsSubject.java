@@ -31,4 +31,5 @@ public interface StatsSubject {
 	public int getRatioMonthly();
 	
 	public boolean addDeath(Entity killer, DamageType damage, Long time);
+	public int getKillStreaks();
 }

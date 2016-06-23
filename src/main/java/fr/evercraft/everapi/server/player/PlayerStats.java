@@ -54,6 +54,14 @@ public class PlayerStats extends PlayerEssentials implements StatsSubject {
 		}
 		return 0;
 	}
+	
+	@Override
+	public int getKillStreaks() {
+		if(this.isPresent()) {
+			return this.subject.getKillStreaks();
+		}
+		return 0;
+	}
 
 	@Override
 	public int getRatio() {
