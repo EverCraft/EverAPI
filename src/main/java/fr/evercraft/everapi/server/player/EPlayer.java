@@ -536,5 +536,13 @@ public class EPlayer extends PlayerStats {
 		}
 		return Optional.empty();
 	}
+
+	public void broadcastMessage(Text message, String permission) {
+		for(EPlayer other : this.plugin.getEServer().getOnlineEPlayers()) {
+			if(!this.equals(other) && other.hasPermission(permission)) {
+				other.sendMessage(message);
+			}
+		}
+	}
 	
 }

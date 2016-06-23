@@ -133,8 +133,6 @@ public class ENameTagService implements NameTagService {
 		if(player_nametag != null && player_nametag.equalsIgnoreCase(identifier)) {
 			this.removeAllNameTag(player);
 			
-			// Event
-			this.postRemove(player, identifier);
 			return true;
 		}
 		return false;
