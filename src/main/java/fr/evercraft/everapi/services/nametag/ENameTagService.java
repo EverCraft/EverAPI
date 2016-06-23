@@ -58,7 +58,7 @@ public class ENameTagService implements NameTagService {
 		for(Entry<UUID, String> nameTag : nameTags.entrySet()) {
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(nameTag.getKey());
 			if(player.isPresent()) {
-				this.clearNameTag(player.get(), nameTag.getValue());
+				this.removeAllNameTag(player.get());
 				
 				// Event
 				this.postRemove(player.get(), nameTag.getValue());
@@ -129,7 +129,8 @@ public class ENameTagService implements NameTagService {
 	
 	@Override
 	public boolean clearNameTag(EPlayer player, String identifier) {
-		if(this.players.containsKey(player.getUniqueId()) && this.players.get(player.getUniqueId()).equalsIgnoreCase(identifier)) {
+		String player_nametag = this.players.get(player.getUniqueId());
+		if(player_nametag != null && player_nametag.equalsIgnoreCase(identifier)) {
 			this.removeAllNameTag(player);
 			
 			// Event
