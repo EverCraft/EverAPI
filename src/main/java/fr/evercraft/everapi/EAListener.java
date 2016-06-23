@@ -47,8 +47,16 @@ public class EAListener {
 		}
 	}
 	
+	@Listener(order=Order.PRE)
+	public void onPlayerDisconnectPre(final ClientConnectionEvent.Disconnect event) {
+		Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(event.getTargetEntity());
+		if(player.isPresent()) {
+			player.get().setDisconnected(true);
+		}
+	}
+	
 	@Listener(order=Order.POST)
-	public void onPlayerDisconnect(final ClientConnectionEvent.Disconnect event) {
+	public void onPlayerDisconnectPost(final ClientConnectionEvent.Disconnect event) {
 		this.plugin.getEServer().removeEPlayer(event.getTargetEntity());
 	}
 }
