@@ -17,9 +17,9 @@
  */
 package fr.evercraft.everapi.services.nametag;
 
+import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -43,47 +43,53 @@ public class ENameTagService implements NameTagService {
 	
 	private final EverAPI plugin;
 	
-	private final ConcurrentMap<UUID, String> nameTags;
+	private final ConcurrentMap<UUID, String> players;
 	
 	public ENameTagService(final EverAPI plugin){
 		this.plugin = plugin;
 		
-		this.nameTags = new ConcurrentHashMap<UUID, String>();
+		this.players = new ConcurrentHashMap<UUID, String>();
 	}
 	
 	public void reload() {
-		Set<Entry<UUID, String>> nameTags = this.nameTags.entrySet();
-		this.nameTags.clear();
+		HashMap<UUID, String> nameTags = new HashMap<UUID, String>(this.players);
+		this.players.clear();
 		
-		for(Entry<UUID, String> nameTag : nameTags) {
+		for(Entry<UUID, String> nameTag : nameTags.entrySet()) {
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(nameTag.getKey());
 			if(player.isPresent()) {
 				this.clearNameTag(player.get(), nameTag.getValue());
-				this.plugin.getGame().getEventManager().post(new ERemoveNameTagEvent(player.get(), nameTag.getValue(), Cause.source(this.plugin).build()));
+				
+				// Event
+				this.postRemove(player.get(), nameTag.getValue());
 			}
 		}
 	}
 	
 	@Override
 	public boolean sendNameTag(EPlayer player, String identifier, Text teamRepresentation ,Text prefix, Text suffix) {
-		if(this.nameTags.containsKey(player.getUniqueId())) {
-			String player_identifier = this.nameTags.get(player.getUniqueId());
+		if(this.players.containsKey(player.getUniqueId())) {
+			String player_identifier = this.players.get(player.getUniqueId());
 			if(player_identifier.equalsIgnoreCase(identifier)) {
 				this.sendNameTag(player, teamRepresentation, prefix, suffix);
 				return true;
 			} else if(this.getPriority(player_identifier) <= this.getPriority(identifier)) {
 				this.removeAllNameTag(player);
 				
-				this.nameTags.putIfAbsent(player.getUniqueId(), identifier);
+				this.players.putIfAbsent(player.getUniqueId(), identifier);
 				
 				this.sendNameTag(player, teamRepresentation, prefix, suffix);
-				this.plugin.getGame().getEventManager().post(new EReplaceNameTagEvent(player, player_identifier, identifier, Cause.source(this.plugin).build()));
+				
+				// Event
+				this.postReplace(player, player_identifier, identifier);
 				return true;
 			}
 		} else {
-			this.nameTags.putIfAbsent(player.getUniqueId(), identifier);
+			this.players.putIfAbsent(player.getUniqueId(), identifier);
 			this.sendNameTag(player, teamRepresentation, prefix, suffix);
-			this.plugin.getGame().getEventManager().post(new EAddNameTagEvent(player, identifier, Cause.source(this.plugin).build()));
+			
+			// Event
+			this.postAdd(player, identifier);
 			return true;
 		}
 		return false;
@@ -106,14 +112,15 @@ public class ENameTagService implements NameTagService {
 	
 	@Override
 	public boolean removeNameTag(EPlayer player, String identifier, Text teamRepresentation) {
-		if(this.nameTags.containsKey(player.getUniqueId()) && this.nameTags.get(player.getUniqueId()).equalsIgnoreCase(identifier)) {
+		if(this.players.containsKey(player.getUniqueId()) && this.players.get(player.getUniqueId()).equalsIgnoreCase(identifier)) {
 			Optional<Team> team = player.getScoreboard().getMemberTeam(teamRepresentation);
 			if(team.isPresent()) {
 				team.get().unregister();
 			}
 			
+			// Event
 			if(player.getScoreboard().getTeams().isEmpty()) {
-				this.plugin.getGame().getEventManager().post(new ERemoveNameTagEvent(player, identifier, Cause.source(this.plugin).build()));
+				this.postRemove(player, identifier);
 			}
 			return true;
 		}
@@ -122,8 +129,11 @@ public class ENameTagService implements NameTagService {
 	
 	@Override
 	public boolean clearNameTag(EPlayer player, String identifier) {
-		if(this.nameTags.containsKey(player.getUniqueId()) && this.nameTags.get(player.getUniqueId()).equalsIgnoreCase(identifier)) {
+		if(this.players.containsKey(player.getUniqueId()) && this.players.get(player.getUniqueId()).equalsIgnoreCase(identifier)) {
 			this.removeAllNameTag(player);
+			
+			// Event
+			this.postRemove(player, identifier);
 			return true;
 		}
 		return false;
@@ -137,12 +147,12 @@ public class ENameTagService implements NameTagService {
 	
 	@Override
 	public boolean has(final UUID uuid) {
-		return this.nameTags.containsKey(uuid);
+		return this.players.containsKey(uuid);
 	}
 
 	@Override
 	public Optional<String> get(final UUID uuid) {
-		return Optional.ofNullable(this.nameTags.get(uuid));
+		return Optional.ofNullable(this.players.get(uuid));
 	}
 
 	private int getPriority(String identifier) {
@@ -150,5 +160,31 @@ public class ENameTagService implements NameTagService {
 			return this.plugin.getManagerService().getPriority().get().getNameTag(identifier);
 		}
 		return PriorityService.DEFAULT;
+	}
+	
+	/*
+	 * Event
+	 */
+	
+	private void postAdd(EPlayer player, String identifier) {
+		this.plugin.getLogger().debug("Event NameTagEvent.Add : ("
+				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "nametag='" + identifier + "')");
+		this.plugin.getGame().getEventManager().post(new EAddNameTagEvent(player, identifier, Cause.source(this.plugin).build()));
+	}
+	
+	private void postRemove(EPlayer player, String identifier) {
+		this.plugin.getLogger().debug("Event NameTagEvent.Remove : ("
+				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "nametag='" + identifier + "')");
+		this.plugin.getGame().getEventManager().post(new ERemoveNameTagEvent(player, identifier, Cause.source(this.plugin).build()));
+	}
+	
+	private void postReplace(EPlayer player, String identifier, String new_identifier) {
+		this.plugin.getLogger().debug("Event NameTagEvent.Replace : ("
+				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "nametag='" + identifier + "';"
+				+ "new_nametag='" + new_identifier + "')");
+		this.plugin.getGame().getEventManager().post(new EReplaceNameTagEvent(player, identifier, new_identifier, Cause.source(this.plugin).build()));
 	}
 }

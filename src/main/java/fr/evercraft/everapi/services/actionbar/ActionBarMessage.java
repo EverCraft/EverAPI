@@ -71,9 +71,8 @@ public class ActionBarMessage {
 		return this.identifier;
 	}
 	
-	public boolean send(EPlayer player) {
+	public void send(EPlayer player) {
 		player.sendMessage(ChatTypes.ACTION_BAR, this.message);
-		return true;
 	}
 
 	@Override

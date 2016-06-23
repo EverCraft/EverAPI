@@ -70,24 +70,19 @@ public class EScoreBoardService implements ScoreBoardService {
 				player.getScoreboard().addObjective(objective);
 				player.getScoreboard().updateDisplaySlot(objective, display);
 				
+				// Event
 				if(objective_player.isPresent()) {
-					this.plugin.getGame().getEventManager().post(new EReplaceScoreBoardEvent(player, objective_player.get(), objective, display, Cause.source(this.plugin).build()));
+					this.postReplace(player, objective_player.get(), objective, display);
 				} else {
-					this.plugin.getGame().getEventManager().post(new EAddScoreBoardEvent(player, objective, display, Cause.source(this.plugin).build()));
+					this.postAdd(player, objective, display);
 				}
+				
 				return true;
 			} else {
 				this.plugin.getLogger().warn("Multi-Objective (player='" + player.getIdentifier() + "';objective='" + objective.getName() + "')");
 			}
 		}
 		return false;
-	}
-	
-	private int getPriority(DisplaySlot display, Objective objective) {
-		if(this.plugin.getManagerService().getPriority().isPresent()) {
-			return this.plugin.getManagerService().getPriority().get().getScoreBoard(display, objective.getName());
-		}
-		return PriorityService.DEFAULT;
 	}
 	
 	@Override
@@ -100,10 +95,48 @@ public class EScoreBoardService implements ScoreBoardService {
 		Optional<Objective> objective = player.getScoreboard().getObjective(display);
 		if(objective.isPresent() && objective.get().getName().equals(identifier)) {
 			player.getScoreboard().removeObjective(objective.get());
-			this.plugin.getGame().getEventManager().post(new ERemoveScoreBoardEvent(player, objective.get(), display, Cause.source(this.plugin).build()));
+			
+			// Event 
+			this.postRemove(player, objective.get(), display);
 			return true;
 		}
 		return false;
 	}
 	
+	private int getPriority(DisplaySlot display, Objective objective) {
+		if(this.plugin.getManagerService().getPriority().isPresent()) {
+			return this.plugin.getManagerService().getPriority().get().getScoreBoard(display, objective.getName());
+		}
+		return PriorityService.DEFAULT;
+	}
+	
+	
+	/*
+	 * Event
+	 */
+	
+	private void postAdd(EPlayer player, Objective objective, DisplaySlot display) {
+		this.plugin.getLogger().debug("Event ScoreBoardEvent.Add : ("
+				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "objective='" + objective.getName() + "';"
+				+ "display='" + display.getName() + "')");
+		this.plugin.getGame().getEventManager().post(new EAddScoreBoardEvent(player, objective, display, Cause.source(this.plugin).build()));
+	}
+	
+	private void postRemove(EPlayer player, Objective objective, DisplaySlot display) {
+		this.plugin.getLogger().debug("Event ScoreBoardEvent.Remove : ("
+				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "objective='" + objective.getName() + "';"
+				+ "display='" + display.getName() + "')");
+		this.plugin.getGame().getEventManager().post(new ERemoveScoreBoardEvent(player, objective, display, Cause.source(this.plugin).build()));
+	}
+	
+	private void postReplace(EPlayer player, Objective objective, Objective new_objective, DisplaySlot display) {
+		this.plugin.getLogger().debug("Event ScoreBoardEvent.Replace : ("
+				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "objective='" + objective.getName() + "';"
+				+ "new_objective='" + new_objective.getName() + "';"
+				+ "display='" + display.getName() + "')");
+		this.plugin.getGame().getEventManager().post(new EReplaceScoreBoardEvent(player, objective, new_objective, display, Cause.source(this.plugin).build()));
+	}
 }

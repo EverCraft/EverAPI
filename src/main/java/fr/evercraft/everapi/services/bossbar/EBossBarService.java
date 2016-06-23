@@ -17,8 +17,8 @@
  */
 package fr.evercraft.everapi.services.bossbar;
 
+import java.util.HashMap;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
@@ -47,14 +47,14 @@ public class EBossBarService implements BossBarService {
 	}
 	
 	public void reload() {
-		Set<Entry<UUID, EBossBar>> bossbars = this.players.entrySet();
+		HashMap<UUID, EBossBar> bossbars = new HashMap<UUID, EBossBar>(this.players);
 		this.players.clear();
 		
-		for(Entry<UUID, EBossBar> bossbar : bossbars) {
+		for(Entry<UUID, EBossBar> bossbar : bossbars.entrySet()) {
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(bossbar.getKey());
 			if(player.isPresent()) {
-				bossbar.getValue().getServerBossBar().removePlayer(player.get());
-				this.plugin.getGame().getEventManager().post(new ERemoveBossBarEvent(player.get(), bossbar.getValue(), Cause.source(this.plugin).build()));
+				bossbar.getValue().removePlayer(player.get());
+				this.postRemove(player.get(), bossbar.getValue());
 			}
 		}
 	}
@@ -75,7 +75,10 @@ public class EBossBarService implements BossBarService {
 			bossbar_player = new EBossBar(identifier, bossbar);
 			this.players.put(player.getUniqueId(), bossbar_player);
 			bossbar.addPlayer(player.get());
-			this.plugin.getGame().getEventManager().post(new EAddBossBarEvent(player, bossbar_player, Cause.source(this.plugin).build()));
+			
+			//Event
+			this.postAdd(player, bossbar_player);
+			
 			return true;
 		} else if (this.getPriority(bossbar_player.getIdentifier()) <= priority && !bossbar_player.getServerBossBar().equals(bossbar)) {
 			// Supprime
@@ -85,7 +88,10 @@ public class EBossBarService implements BossBarService {
 			EBossBar new_bossbar_player = new EBossBar(identifier, bossbar);
 			this.players.put(player.getUniqueId(), new_bossbar_player);
 			bossbar.addPlayer(player.get());
-			this.plugin.getGame().getEventManager().post(new EReplaceBossBarEvent(player, bossbar_player, new_bossbar_player, Cause.source(this.plugin).build()));
+			
+			//Event
+			this.postReplace(player, bossbar_player, new_bossbar_player);
+			
 			return true;
 		}
 		return false;
@@ -98,7 +104,9 @@ public class EBossBarService implements BossBarService {
 			// Supprime
 			bossbar.getServerBossBar().removePlayer(player.get());
 			this.players.remove(player.getUniqueId());
-			this.plugin.getGame().getEventManager().post(new ERemoveBossBarEvent(player, bossbar, Cause.source(this.plugin).build()));
+			
+			//Event
+			this.postRemove(player, bossbar);
 			return true;
 		}
 		return false;
@@ -118,5 +126,31 @@ public class EBossBarService implements BossBarService {
 			return Optional.of(bossbar.getServerBossBar());
 		}
 		return Optional.empty();
+	}
+	
+	/*
+	 * Event
+	 */
+	
+	private void postAdd(EPlayer player, EBossBar bossbar) {
+		this.plugin.getLogger().debug("Event BossBarEvent.Add : ("
+				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "boosbar='" + bossbar.getServerBossBar().getName().toPlain() + "')");
+		this.plugin.getGame().getEventManager().post(new EAddBossBarEvent(player, bossbar, Cause.source(this.plugin).build()));
+	}
+	
+	private void postRemove(EPlayer player, EBossBar bossbar) {
+		this.plugin.getLogger().debug("Event BossBarEvent.Remove : ("
+				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "boosbar='" + bossbar.getServerBossBar().getName().toPlain() + "')");
+		this.plugin.getGame().getEventManager().post(new ERemoveBossBarEvent(player, bossbar, Cause.source(this.plugin).build()));
+	}
+	
+	private void postReplace(EPlayer player, EBossBar bossbar, EBossBar new_bossbar) {
+		this.plugin.getLogger().debug("Event BossBarEvent.Replace : ("
+				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "boosbar='" + bossbar.getServerBossBar().getName().toPlain() + "';"
+				+ "new_boosbar='" + new_bossbar.getServerBossBar().getName().toPlain() + "')");
+		this.plugin.getGame().getEventManager().post(new EReplaceBossBarEvent(player, bossbar, new_bossbar, Cause.source(this.plugin).build()));
 	}
 }

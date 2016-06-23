@@ -49,4 +49,6 @@ public interface ActionBarService {
 	
 	public boolean has(UUID uuid);
 	public Optional<ActionBarMessage> get(UUID uuid);
+
+	public boolean remove(EPlayer player, String identifier);
 }

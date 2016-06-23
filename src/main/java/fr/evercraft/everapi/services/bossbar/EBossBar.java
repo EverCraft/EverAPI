@@ -19,6 +19,8 @@ package fr.evercraft.everapi.services.bossbar;
 
 import org.spongepowered.api.boss.ServerBossBar;
 
+import fr.evercraft.everapi.server.player.EPlayer;
+
 public class EBossBar {
 
 	private final String identifier;
@@ -36,6 +38,10 @@ public class EBossBar {
 
 	public ServerBossBar getServerBossBar() {
 		return this.bossbar;
+	}
+	
+	public ServerBossBar removePlayer(EPlayer player) {
+		return this.bossbar.removePlayer(player.get());
 	}
 	
 }

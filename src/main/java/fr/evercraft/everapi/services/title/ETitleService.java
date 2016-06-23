@@ -18,9 +18,11 @@
 package fr.evercraft.everapi.services.title;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
@@ -30,7 +32,6 @@ import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.title.Title;
 
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.event.TitleEvent;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.PriorityService;
 import fr.evercraft.everapi.services.TitleService;
@@ -44,19 +45,29 @@ public class ETitleService implements TitleService {
 	private final EverAPI plugin;
 	
 	private Task task;
-	private final ConcurrentMap<UUID, TitleMessage> titles;
+	private final ConcurrentMap<UUID, TitleMessage> players;
 	
 	public ETitleService(final EverAPI plugin){
 		this.plugin = plugin;
 		
-		this.titles = new ConcurrentHashMap<UUID, TitleMessage>();
+		this.players = new ConcurrentHashMap<UUID, TitleMessage>();
 	}
 	
 	public void reload() {
-		if(this.task != null) {
-			this.task.cancel();
+		this.stop();
+		
+		HashMap<UUID, TitleMessage> titleMessages = new HashMap<UUID, TitleMessage>(this.players);
+		this.players.clear();
+		
+		for(Entry<UUID, TitleMessage> titleMessage : titleMessages.entrySet()) {
+			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(titleMessage.getKey());
+			if(player.isPresent()) {
+				player.get().sendTitle(Title.CLEAR);
+				
+				// Event
+				this.postRemove(player.get(), titleMessage.getValue());
+			}
 		}
-		this.titles.clear();
 	}
 	
 	@Override
@@ -66,20 +77,20 @@ public class ETitleService implements TitleService {
 	
 	@Override
 	public boolean send(EPlayer player, String identifier,  int priority, Title title) {
-		TitleMessage titleMessage = this.titles.get(player.getUniqueId());
+		TitleMessage titleMessage = this.players.get(player.getUniqueId());
 		// Vérifie la priorité
 		if(titleMessage == null || this.getPriority(titleMessage.getIdentifier()) <= priority) {
 			TitleMessage newtitleMessage = new TitleMessage(player.getUniqueId(), identifier, title);
 			// Si l'ActionBar fonctionne
 			if(newtitleMessage.send(player)) {				
 				// On ajoute la nouveau Title
-				this.titles.put(player.getUniqueId(), newtitleMessage);
+				this.players.put(player.getUniqueId(), newtitleMessage);
 				
 				// Si il y a un déjà une Title on post un event de remplacement
-				if(titleMessage != null) {
-					this.plugin.getGame().getEventManager().post(new EAddTitleEvent(player, newtitleMessage, Cause.source(this.plugin).build()));
+				if(titleMessage == null) {
+					this.postAdd(player, newtitleMessage);
 				} else {
-					this.plugin.getGame().getEventManager().post(new EReplaceTitleEvent(player, titleMessage, newtitleMessage, Cause.source(this.plugin).build()));
+					this.postReplace(player, titleMessage, newtitleMessage);
 				}
 				
 				// On réactive le cooldown
@@ -92,46 +103,56 @@ public class ETitleService implements TitleService {
 	
 	@Override
 	public boolean remove(EPlayer player, String identifier) {
-		TitleMessage titleMessage = this.titles.get(player.getUniqueId());
+		TitleMessage titleMessage = this.players.get(player.getUniqueId());
 		if(titleMessage != null && titleMessage.getIdentifier().equalsIgnoreCase(identifier)) {
-			this.plugin.getGame().getEventManager().post(new ERemoveTitleEvent(player, titleMessage, Cause.source(this.plugin).build()));
 			player.sendTitle(Title.CLEAR);
+			
+			// Event
+			this.postRemove(player, titleMessage);
 			return true;
 		}
 		return false;
 	}
 	
 	public void update() {
-		if(this.titles.isEmpty()) {
+		if(this.players.isEmpty()) {
 			stop();
 		} else {
-			List<TitleEvent> events = new ArrayList<TitleEvent>();
-			List<UUID> removes = new ArrayList<UUID>();
-			for(TitleMessage titleMessage : this.titles.values()) {
+			final List<UUID> removes = new ArrayList<UUID>();
+			for(TitleMessage titleMessage : this.players.values()) {
 				if(System.currentTimeMillis() >= titleMessage.getTime()) {
-					Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(titleMessage.getPlayer());
-					if(player.isPresent()) {
-						events.add(new ERemoveTitleEvent(player.get(), titleMessage, Cause.source(this.plugin).build()));
-					} else {
-						removes.add(titleMessage.getPlayer());
-					}
+					removes.add(titleMessage.getPlayer());
 				}
 			}
 			
-			for(TitleEvent event : events) {
-				this.titles.remove(event.getPlayer().getUniqueId());
-				this.plugin.getGame().getEventManager().post(event);
+			if(!removes.isEmpty()) {
+				this.plugin.getGame().getScheduler().createTaskBuilder()
+					.execute(() -> this.updateSync(removes))
+					.name("TitleService")
+					.submit(this.plugin);
 			}
-			
-			for(UUID remove : removes) {
-				this.titles.remove(remove);
+		}
+	}
+	
+	public void updateSync(List<UUID> players) {
+		for(UUID uuid : players) {
+			TitleMessage titleMessage = this.players.get(uuid);
+			if(titleMessage != null && System.currentTimeMillis() >= titleMessage.getTime()) {
+				this.players.remove(uuid);
+				
+				Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(uuid);
+				if(player.isPresent()) {					
+					//Event
+					this.postRemove(player.get(), titleMessage);
+				}
 			}
-			
-			if(this.titles.isEmpty()) {
-				stop();
-			} else {
-				start();
-			}
+		}
+		
+		
+		if(this.players.isEmpty()) {
+			stop();
+		} else {
+			start();
 		}
 	}
 	
@@ -160,12 +181,12 @@ public class ETitleService implements TitleService {
 	
 	@Override
 	public boolean has(UUID uuid) {
-		return this.titles.containsKey(uuid);
+		return this.players.containsKey(uuid);
 	}
 
 	@Override
 	public Optional<TitleMessage> get(UUID uuid) {
-		return Optional.ofNullable(this.titles.get(uuid));
+		return Optional.ofNullable(this.players.get(uuid));
 	}
 	
 	private int getPriority(String identifier) {
@@ -173,5 +194,31 @@ public class ETitleService implements TitleService {
 			return this.plugin.getManagerService().getPriority().get().getTitle(identifier);
 		}
 		return PriorityService.DEFAULT;
+	}
+	
+	/*
+	 * Event
+	 */
+	
+	private void postAdd(EPlayer player, TitleMessage title) {
+		this.plugin.getLogger().debug("Event TitleEvent.Add : ("
+				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "title='" + title + "')");
+		this.plugin.getGame().getEventManager().post(new EAddTitleEvent(player, title, Cause.source(this.plugin).build()));
+	}
+	
+	private void postRemove(EPlayer player, TitleMessage title) {
+		this.plugin.getLogger().debug("Event TitleEvent.Remove : ("
+				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "title='" + title + "')");
+		this.plugin.getGame().getEventManager().post(new ERemoveTitleEvent(player, title, Cause.source(this.plugin).build()));
+	}
+	
+	private void postReplace(EPlayer player, TitleMessage title, TitleMessage new_title) {
+		this.plugin.getLogger().debug("Event TitleEvent.Replace : ("
+				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "title='" + title + "';"
+				+ "new_title='" + new_title + "')");
+		this.plugin.getGame().getEventManager().post(new EReplaceTitleEvent(player, title, new_title, Cause.source(this.plugin).build()));
 	}
 }

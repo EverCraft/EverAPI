@@ -18,9 +18,9 @@
 package fr.evercraft.everapi.services.actionbar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,7 +36,6 @@ import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.ActionBarService;
 import fr.evercraft.everapi.services.PriorityService;
-import fr.evercraft.everapi.services.actionbar.event.EActionBarEvent;
 import fr.evercraft.everapi.services.actionbar.event.EAddActionBarEvent;
 import fr.evercraft.everapi.services.actionbar.event.ERemoveActionBarEvent;
 import fr.evercraft.everapi.services.actionbar.event.EReplaceActionBarEvent;
@@ -48,12 +47,12 @@ public class EActionBarService implements ActionBarService {
 	private final EverAPI plugin;
 	
 	private Task task;
-	private final ConcurrentMap<UUID, ActionBarMessage> actionBars;
+	private final ConcurrentMap<UUID, ActionBarMessage> players;
 	
 	public EActionBarService(final EverAPI plugin){
 		this.plugin = plugin;
 		
-		this.actionBars = new ConcurrentHashMap<UUID, ActionBarMessage>();
+		this.players = new ConcurrentHashMap<UUID, ActionBarMessage>();
 	}
 	
 	public void reload() {
@@ -61,14 +60,16 @@ public class EActionBarService implements ActionBarService {
 			this.task.cancel();
 		}
 		
-		Set<Entry<UUID, ActionBarMessage>> actionBars = this.actionBars.entrySet();
-		this.actionBars.clear();
+		HashMap<UUID, ActionBarMessage> actionBars = new HashMap<UUID, ActionBarMessage>(this.players);
+		this.players.clear();
 		
-		for(Entry<UUID, ActionBarMessage> actionBar : actionBars) {
+		for(Entry<UUID, ActionBarMessage> actionBar : actionBars.entrySet()) {
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(actionBar.getKey());
 			if(player.isPresent()) {
 				player.get().sendMessage(ChatTypes.ACTION_BAR, Text.EMPTY);
-				this.plugin.getGame().getEventManager().post(new ERemoveActionBarEvent(player.get(), actionBar.getValue(), Cause.source(this.plugin).build()));
+				
+				// Event
+				this.postRemove(player.get(), actionBar.getValue());
 			}
 		}
 	}
@@ -80,61 +81,88 @@ public class EActionBarService implements ActionBarService {
 	
 	@Override
 	public boolean send(EPlayer player, String identifier, int priority, long stay, Text message) {
-		ActionBarMessage actionBar = this.actionBars.get(player.getUniqueId());
+		ActionBarMessage actionBar = this.players.get(player.getUniqueId());
 		// Vérifie la priorité
 		if(actionBar == null || this.getPriority(actionBar.getIdentifier()) <= priority) {
 			ActionBarMessage newActionBar = new ActionBarMessage(player.getUniqueId(), identifier, System.currentTimeMillis() + stay, message);
-			// Si l'ActionBar fonctionne
-			if(newActionBar.send(player)) {
-				// On ajoute la nouveau ActionBar
-				this.actionBars.put(player.getUniqueId(), newActionBar);
-				
-				// Event
-				if(actionBar != null) {
-					this.plugin.getGame().getEventManager().post(new EReplaceActionBarEvent(player, actionBar, newActionBar, Cause.source(this.plugin).build()));
-				} else {
-					this.plugin.getGame().getEventManager().post(new EAddActionBarEvent(player, newActionBar, Cause.source(this.plugin).build()));
-				}
-				
-				// On réactive le cooldown
-				start();
-				return true;
+			// Envoie la ActionBar
+			newActionBar.send(player);
+			// On ajoute la nouveau ActionBar
+			this.players.put(player.getUniqueId(), newActionBar);
+			
+			// Event
+			if(actionBar == null) {
+				this.postAdd(player, newActionBar);
+			} else {
+				this.postReplace(player, actionBar, newActionBar);
 			}
+			
+			// On réactive le cooldown
+			start();
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean remove(EPlayer player, String identifier) {
+		ActionBarMessage actionBar = this.players.get(player.getUniqueId());
+		if(actionBar != null && actionBar.getIdentifier().equalsIgnoreCase(identifier)) {
+			// Supprime
+			player.get().sendMessage(ChatTypes.ACTION_BAR, Text.EMPTY);
+			this.players.remove(player.getUniqueId());
+			
+			//Event
+			this.postRemove(player, actionBar);
+			return true;
 		}
 		return false;
 	}
 	
 	public void update() {
-		if(this.actionBars.isEmpty()) {
+		if(this.players.isEmpty()) {
 			stop();
 		} else {
-			List<EActionBarEvent> events = new ArrayList<EActionBarEvent>();
-			List<UUID> removes = new ArrayList<UUID>();
-			for(ActionBarMessage actionBar : this.actionBars.values()) {
+			final List<UUID> removes = new ArrayList<UUID>();
+			for(ActionBarMessage actionBar : this.players.values()) {
 				Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(actionBar.getPlayer());
-				if(player.isPresent()) {
-					if(System.currentTimeMillis() + LAST_UPDATE > actionBar.getTime() || !actionBar.send(player.get())) {
-						events.add(new ERemoveActionBarEvent(player.get(), actionBar, Cause.source(this.plugin).build()));
-					}
+				if(player.isPresent() && System.currentTimeMillis() + LAST_UPDATE <= actionBar.getTime()) {
+					actionBar.send(player.get());
 				} else {
 					removes.add(actionBar.getPlayer());
 				}
 			}
 			
-			for(EActionBarEvent event : events) {
-				this.actionBars.remove(event.getPlayer().getUniqueId());
-				this.plugin.getGame().getEventManager().post(event);
+			if(!removes.isEmpty()) {
+				this.plugin.getGame().getScheduler().createTaskBuilder()
+					.execute(() -> this.updateSync(removes))
+					.name("ActionBarService")
+					.submit(this.plugin);
 			}
-			
-			for(UUID remove : removes) {
-				this.actionBars.remove(remove);
+		}
+	}
+	
+	public void updateSync(List<UUID> players) {
+		for(UUID uuid : players) {
+			ActionBarMessage actionBar = this.players.get(uuid);
+			if(actionBar != null && System.currentTimeMillis() + LAST_UPDATE > actionBar.getTime()) {
+				this.players.remove(uuid);
+				
+				Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(uuid);
+				if(player.isPresent()) {
+					player.get().sendMessage(ChatTypes.ACTION_BAR, Text.EMPTY);
+					
+					//Event
+					this.postRemove(player.get(), actionBar);
+				}
 			}
-			
-			if(this.actionBars.isEmpty()) {
-				stop();
-			} else {
-				start();
-			}
+		}
+		
+		
+		if(this.players.isEmpty()) {
+			stop();
+		} else {
+			start();
 		}
 	}
 	
@@ -163,12 +191,12 @@ public class EActionBarService implements ActionBarService {
 
 	@Override
 	public boolean has(UUID uuid) {
-		return this.actionBars.containsKey(uuid);
+		return this.players.containsKey(uuid);
 	}
 
 	@Override
 	public Optional<ActionBarMessage> get(UUID uuid) {
-		return Optional.ofNullable(this.actionBars.get(uuid));
+		return Optional.ofNullable(this.players.get(uuid));
 	}
 	
 	private int getPriority(String identifier) {
@@ -176,5 +204,31 @@ public class EActionBarService implements ActionBarService {
 			return this.plugin.getManagerService().getPriority().get().getActionBar(identifier);
 		}
 		return PriorityService.DEFAULT;
+	}
+	
+	/*
+	 * Event
+	 */
+	
+	private void postAdd(EPlayer player, ActionBarMessage actionbar) {
+		this.plugin.getLogger().debug("Event ActionBarEvent.Add : ("
+				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "actionbar='" + actionbar.getMessage().toPlain() + "')");
+		this.plugin.getGame().getEventManager().post(new EAddActionBarEvent(player, actionbar, Cause.source(this.plugin).build()));
+	}
+	
+	private void postRemove(EPlayer player, ActionBarMessage actionbar) {
+		this.plugin.getLogger().debug("Event ActionBarEvent.Remove : ("
+				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "actionbar='" + actionbar.getMessage().toPlain() + "')");
+		this.plugin.getGame().getEventManager().post(new ERemoveActionBarEvent(player, actionbar, Cause.source(this.plugin).build()));
+	}
+	
+	private void postReplace(EPlayer player, ActionBarMessage actionbar, ActionBarMessage new_actionbar) {
+		this.plugin.getLogger().debug("Event ActionBarEvent.Replace : ("
+				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "actionbar='" + actionbar.getMessage().toPlain() + "';"
+				+ "new_actionbar='" + new_actionbar.getMessage().toPlain() + "')");
+		this.plugin.getGame().getEventManager().post(new EReplaceActionBarEvent(player, actionbar, new_actionbar, Cause.source(this.plugin).build()));
 	}
 }
