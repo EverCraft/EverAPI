@@ -17,41 +17,38 @@
 package fr.evercraft.everapi.services.cooldown;
 
 import java.util.Map;
+import java.util.Optional;
 
-public interface CooldownSubject {
+import org.spongepowered.api.service.permission.Subject;
+
+public interface CooldownsSubject {
 	
 	/**
 	 * Retourne la liste des cooldowns appliquer au joueur
 	 * @return La liste des cooldowns appliquer au joueur
 	 */
-	public Map<String, Long> getCooldown();
+	public Map<String, Long> getAll();
 
 	/**
 	 * Ajouter appliquer un cooldown au joueur
 	 * @param command La commande
 	 * @return True si le cooldown est bien appliqué
 	 */
-	public boolean addCooldown(final String identifier);
-	
-	/**
-	 * Ajouter appliquer un cooldown au joueur et lance un event à la fin du cooldown
-	 * @param command La commande
-	 * @return True si le cooldown est bien appliqué
-	 */
-	public boolean addCooldownScheduler(final String identifier);
+	public boolean add(final String command);
+	public boolean add(final Subject subject, final String command);
 	
 	/**
 	 * Ajouter appliquer un cooldown au joueur
 	 * @param command La commande
 	 * @return True si le cooldown est bien appliqué
 	 */
-	public boolean removeCooldown(final String identifier);
+	public boolean remove(final String command);
 	
 	/**
 	 * Le temps qu'il reste avant la fin du cooldown
 	 * @param command La commande
 	 * @return Le temps qu'il reste
 	 */
-	public long getCooldownTime(final String identifier);
+	public Optional<Long> get(final String command);
 	 
 }

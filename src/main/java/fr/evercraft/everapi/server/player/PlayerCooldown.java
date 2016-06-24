@@ -19,15 +19,16 @@ package fr.evercraft.everapi.server.player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.spongepowered.api.entity.living.player.Player;
 
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.services.cooldown.CooldownSubject;
+import fr.evercraft.everapi.services.cooldown.CooldownsSubject;
 
-public class PlayerCooldown extends PlayerPermission implements CooldownSubject {
+public class PlayerCooldown extends PlayerPermission {
 	
-	private CooldownSubject subject;
+	private CooldownsSubject subject;
 
 	public PlayerCooldown(EverAPI plugin, Player player) {
 		super(plugin, player);
@@ -35,50 +36,36 @@ public class PlayerCooldown extends PlayerPermission implements CooldownSubject 
 
 	private boolean isPresent() {
 		if(this.subject == null && this.plugin.getManagerService().getCooldown().isPresent()) {
-			this.subject = this.plugin.getManagerService().getCooldown().get().get(this.player.getUniqueId());
+			this.subject = this.plugin.getManagerService().getCooldown().get().get(this.player.getUniqueId()).orElse(null);
 		}
 		return this.subject != null;
 	}
 
-	@Override
-	public Map<String, Long> getCooldown() {
+	public Map<String, Long> getCooldowns() {
 		if(this.isPresent()) {
-			return this.subject.getCooldown();
+			return this.subject.getAll();
 		}
 		return new HashMap<String, Long>();
 	}
 
-	@Override
-	public boolean addCooldown(String identifier) {
+	public boolean addCooldown(String command) {
 		if(this.isPresent()) {
-			return this.subject.addCooldown(identifier);
+			return this.subject.add(this.player, command);
 		}
 		return false;
 	}
 
-	@Override
-	public boolean addCooldownScheduler(String identifier) {
+	public boolean removeCooldown(String command) {
 		if(this.isPresent()) {
-			return this.subject.addCooldownScheduler(identifier);
+			return this.subject.remove(command);
 		}
 		return false;
 	}
 
-	@Override
-	public boolean removeCooldown(String identifier) {
+	public Optional<Long> getCooldown(String command) {
 		if(this.isPresent()) {
-			return this.subject.removeCooldown(identifier);
+			return this.subject.get(command);
 		}
-		return false;
+		return Optional.empty();
 	}
-
-	@Override
-	public long getCooldownTime(String identifier) {
-		if(this.isPresent()) {
-			return this.subject.getCooldownTime(identifier);
-		}
-		return 0;
-	}
-	
-	
 }

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -44,6 +45,18 @@ public class UtilsMap {
 		return sortedBalanceTop;
 	}
 	
+	public static <K, V extends Comparable<V>> LinkedHashMap<K, V> valueLinkedDESC(final Map<K, V> hashmap) {
+		List<Map.Entry<K, V>> sortedBalanceTop = new ArrayList<Map.Entry<K, V>>(hashmap.entrySet());
+		Collections.sort(sortedBalanceTop, new Comparator<Map.Entry<K, V>>()
+		{
+			@Override
+			public int compare(final Entry<K, V> entry1, final Entry<K, V> entry2){
+				return entry2.getValue().compareTo(entry1.getValue());
+			}
+		});
+		return UtilsMap.getLinked(sortedBalanceTop);
+	}
+	
 	/**
 	 * Trié par ordre croissant les valeurs
 	 * @param hashmap La HashMap
@@ -58,6 +71,26 @@ public class UtilsMap {
 				return entry1.getValue().compareTo(entry2.getValue());
 			}
 		});
+		return sortedBalanceTop;
+	}
+	
+	public static <K, V extends Comparable<V>> LinkedHashMap<K, V> valueLinkedASC(final Map<K, V> hashmap) {
+		List<Map.Entry<K, V>> sortedBalanceTop = new ArrayList<Map.Entry<K, V>>(hashmap.entrySet());
+		Collections.sort(sortedBalanceTop, new Comparator<Map.Entry<K, V>>()
+		{
+			@Override
+			public int compare(final Entry<K, V> entry1, final Entry<K, V> entry2){
+				return entry1.getValue().compareTo(entry2.getValue());
+			}
+		});
+		return UtilsMap.getLinked(sortedBalanceTop);
+	}
+	
+	private static <K, V extends Comparable<V>> LinkedHashMap<K, V> getLinked(List<Entry<K, V>> hashmap) {
+		LinkedHashMap<K, V> sortedBalanceTop = new LinkedHashMap<K, V>();
+		for(Entry<K, V> value : hashmap) {
+			sortedBalanceTop.put(value.getKey(), value.getValue());
+		}
 		return sortedBalanceTop;
 	}
 	

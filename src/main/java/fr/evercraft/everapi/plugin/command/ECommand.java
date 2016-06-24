@@ -26,19 +26,21 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
-import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.java.Chronometer;
 import fr.evercraft.everapi.java.UtilsString;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.services.cooldown.event.EResultCommandEvent;
+import fr.evercraft.everapi.services.cooldown.event.ESendCommandEvent;
 import fr.evercraft.everapi.services.pagination.CommandPagination;
 
 public abstract class ECommand<T extends EPlugin> implements CommandCallable, CommandPagination {
@@ -65,7 +67,7 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable, Co
 			if(this.plugin.isEnable()) {
 				if(this.testPermission(source)) {		
 					if(source instanceof Player){
-						processPlayer((Player) source, getArg(arg));
+						this.processPlayer((Player) source, getArg(arg));
 					} else {
 						execute(source, getArg(arg));
 					}
@@ -86,22 +88,13 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable, Co
         return CommandResult.success();
 	}
 	
-	public void processPlayer(final Player source, final List<String> args) throws CommandException, PluginDisableException, ServerDisableException {
+	private void processPlayer(final Player source, final List<String> args) throws CommandException, PluginDisableException, ServerDisableException {
 		Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(source);
 		if(player.isPresent()) {
 			if(!player.get().isDead()) {
-				if(source.hasPermission(EAPermissions.COOLDOWN_BYPASS.get())) {
-					execute(player.get(), args);
-				} else {
-					long cooldown = player.get().getCooldownTime(this.name);
-					if(cooldown <= 0) {
-						if(execute(player.get(), args)){
-							player.get().addCooldown(this.name);
-						}
-					} else {
-						//player.get().sendMessage(this.plugin.getEverAPI().getMessages().getMessage(Messages.)
-						//		.replaceAll("<time>", this.plugin.getEverAPI().getManagerUtils().getDate().formatDateDiff(cooldown)));
-					}
+				if(!this.plugin.getGame().getEventManager().post(new ESendCommandEvent(player.get(), this.name, args, Cause.source(this.plugin).build()))) {
+					boolean result = execute(player.get(), args);
+					this.plugin.getGame().getEventManager().post(new EResultCommandEvent(player.get(), this.name, args, result, Cause.source(this.plugin).build()));
 				}
 			} else {
 				player.get().sendMessage(EAMessages.COMMAND_ERROR_PLAYER_DEAD.getText());
@@ -140,7 +133,7 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable, Co
 			this.plugin.getLogger().debug("The tabulation '" + this.name + "' with arguments '" + arguments + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
 			return suggests;
 		}
-		return null;
+		return Arrays.asList();
 	}
 	
 	public Optional<Text> getShortDescription(final CommandSource source) {

@@ -14,14 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.cooldown;
+package fr.evercraft.everapi.services.cooldown.event;
 
-import java.util.UUID;
+import java.util.List;
 
-public interface CooldownService {
-	public final static String NAME_DEFAULT = "default";
-	public final static int DEFAULT = 0;
+import org.spongepowered.api.event.cause.Cause;
+
+import fr.evercraft.everapi.event.CommandEvent;
+import fr.evercraft.everapi.server.player.EPlayer;
+
+public class EResultCommandEvent extends ECommandEvent implements CommandEvent.Result {
 	
-	public CooldownSubject get(UUID identifier);
-	public boolean hasRegistered(UUID identifier);
+	private final boolean result;
+
+    public EResultCommandEvent(final EPlayer player, final String command, final List<String> args, final boolean result, final Cause cause) {
+    	super(Action.RESULT, player, command, args, cause);
+    	this.result = result;
+    }
+
+	@Override
+	public boolean getResult() {
+		return this.result;
+	}
 }

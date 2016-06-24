@@ -26,7 +26,7 @@ import org.spongepowered.api.service.user.UserStorageService;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.actionbar.EActionBarService;
 import fr.evercraft.everapi.services.bossbar.EBossBarService;
-import fr.evercraft.everapi.services.cooldown.CooldownService;
+import fr.evercraft.everapi.services.cooldown.CooldownsService;
 import fr.evercraft.everapi.services.essentials.EssentialsService;
 import fr.evercraft.everapi.services.essentials.SpawnService;
 import fr.evercraft.everapi.services.essentials.WarpService;
@@ -159,8 +159,8 @@ public class ManagerService {
 		return this.plugin.getGame().getServiceManager().provide(ScoreBoardService.class);
 	}
 	
-	public Optional<CooldownService> getCooldown() {
-		return this.plugin.getGame().getServiceManager().provide(CooldownService.class);
+	public Optional<CooldownsService> getCooldown() {
+		return this.plugin.getGame().getServiceManager().provide(CooldownsService.class);
 	}
 	
 	public Optional<TopEconomyService> getTopEconomy() {
