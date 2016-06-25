@@ -260,6 +260,8 @@ public class EAMessage extends EMessage {
 				"amount"),
 		ARGS_ARGUMENTS("args.arguments", 
 				"argument..."),
+		ARGS_COOLDOWN("args.cooldown", 
+				"cooldown"),
 		
 		// Couleur
 		COLORS_BLACK("colors.black", 

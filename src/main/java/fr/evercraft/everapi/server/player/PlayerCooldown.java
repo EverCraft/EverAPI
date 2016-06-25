@@ -48,21 +48,28 @@ public class PlayerCooldown extends PlayerPermission {
 		return new HashMap<String, Long>();
 	}
 
-	public boolean addCooldown(String command) {
+	public boolean addCooldown(final String command) {
 		if(this.isPresent()) {
 			return this.subject.add(this.player, command);
 		}
 		return false;
 	}
 
-	public boolean removeCooldown(String command) {
+	public boolean removeCooldown(final String command) {
 		if(this.isPresent()) {
 			return this.subject.remove(command);
 		}
 		return false;
 	}
+	
+	public boolean clearCooldown() {
+		if(this.isPresent()) {
+			return this.subject.clear();
+		}
+		return false;
+	}
 
-	public Optional<Long> getCooldown(String command) {
+	public Optional<Long> getCooldown(final String command) {
 		if(this.isPresent()) {
 			return this.subject.get(command);
 		}

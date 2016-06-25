@@ -43,12 +43,12 @@ public interface CooldownsSubject {
 	 * @return True si le cooldown est bien appliqué
 	 */
 	public boolean remove(final String command);
+	public boolean clear();
 	
 	/**
 	 * Le temps qu'il reste avant la fin du cooldown
 	 * @param command La commande
 	 * @return Le temps qu'il reste
 	 */
-	public Optional<Long> get(final String command);
-	 
+	public Optional<Long> get(final String command);	 
 }
