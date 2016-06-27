@@ -159,7 +159,7 @@ public abstract class EParentCommand<T extends EPlugin> extends ECommand<T> {
 			}
 		}
 		this.plugin.getEverAPI().getManagerService().getEPagination().helpSubCommand(commands, source, this.plugin);
-		return true;
+		return false;
 	}
 	
 	public abstract boolean testPermissionHelp(final CommandSource source);

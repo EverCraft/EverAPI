@@ -262,6 +262,11 @@ public class EAMessage extends EMessage {
 				"argument..."),
 		ARGS_COOLDOWN("args.cooldown", 
 				"cooldown"),
+		ARGS_HOME("args.home", 
+				"home"),
+		ARGS_REASON("args.reason", 
+				"raison",
+				"reason"),
 		
 		// Couleur
 		COLORS_BLACK("colors.black", 
