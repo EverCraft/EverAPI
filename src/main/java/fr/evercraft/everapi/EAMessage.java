@@ -267,6 +267,12 @@ public class EAMessage extends EMessage {
 		ARGS_REASON("args.reason", 
 				"raison",
 				"reason"),
+		ARGS_ENTITY("args.entity", 
+				"créature",
+				"entity"),
+		ARGS_SPEED("args.speed", 
+				"vitesse",
+				"speed"),
 		
 		// Couleur
 		COLORS_BLACK("colors.black", 
