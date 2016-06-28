@@ -26,7 +26,7 @@ import org.spongepowered.api.world.World;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.essentials.SpawnService;
 
-public class ServerSpawn extends ServerSponge implements SpawnService {
+public class ServerSpawn extends ServerSponge {
 	private SpawnService service;
 	
 	public ServerSpawn(EverAPI plugin){
@@ -40,50 +40,51 @@ public class ServerSpawn extends ServerSponge implements SpawnService {
 		return this.service != null;
 	}
 	
-	@Override
 	public Map<String, Transform<World>> getSpawns() {
 		if(this.isPresent()) {
-			return this.service.getSpawns();
+			return this.service.getAll();
 		}
 		return new HashMap<String, Transform<World>>();
 	}
 
-	@Override
-	public Optional<Transform<World>> getSpawn(String identifier) {
+	public Optional<Transform<World>> get(String identifier) {
 		if(this.isPresent()) {
-			return this.service.getSpawn(identifier);
+			return this.service.get(identifier);
 		}
 		return Optional.empty();
 	}
 
-	@Override
-	public boolean hasSpawn(String identifier) {
+	public boolean has(String identifier) {
 		if(this.isPresent()) {
-			return this.service.hasSpawn(identifier);
+			return this.service.has(identifier);
 		}
 		return false;
 	}
 
-	@Override
 	public boolean addSpawn(String identifier, Transform<World> location) {
 		if(this.isPresent()) {
-			return this.service.addSpawn(identifier, location);
+			return this.service.add(identifier, location);
+		}
+		return false;
+	}
+	
+	public boolean updateSpawn(String identifier, Transform<World> location) {
+		if(this.isPresent()) {
+			return this.service.add(identifier, location);
 		}
 		return false;
 	}
 
-	@Override
 	public boolean removeSpawn(String identifier) {
 		if(this.isPresent()) {
-			return this.service.removeSpawn(identifier);
+			return this.service.remove(identifier);
 		}
 		return false;
 	}
 
-	@Override
 	public boolean clearSpawns() {
 		if(this.isPresent()) {
-			return this.service.clearSpawns();
+			return this.service.clearAll();
 		}
 		return false;
 	}

@@ -26,7 +26,7 @@ import org.spongepowered.api.world.World;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.essentials.WarpService;
 
-public class ServerWarp extends ServerSponge implements WarpService {
+public class ServerWarp extends ServerSponge {
 	private WarpService service;
 	
 	public ServerWarp(EverAPI plugin){
@@ -40,50 +40,52 @@ public class ServerWarp extends ServerSponge implements WarpService {
 		return this.service != null;
 	}
 	
-	@Override
 	public Map<String, Transform<World>> getWarps() {
 		if(this.isPresent()) {
-			return this.service.getWarps();
+			return this.service.getAll();
 		}
 		return new HashMap<String, Transform<World>>();
 	}
 
-	@Override
 	public Optional<Transform<World>> getWarp(String identifier) {
 		if(this.isPresent()) {
-			return this.service.getWarp(identifier);
+			return this.service.get(identifier);
 		}
 		return Optional.empty();
 	}
 
-	@Override
 	public boolean hasWarp(String identifier) {
 		if(this.isPresent()) {
-			return this.service.hasWarp(identifier);
+			return this.service.has(identifier);
 		}
 		return false;
 	}
 
-	@Override
 	public boolean addWarp(String identifier, Transform<World> location) {
 		if(this.isPresent()) {
-			return this.service.addWarp(identifier, location);
+			return this.service.add(identifier, location);
+		}
+		return false;
+	}
+	
+	public boolean updateWarp(String identifier, Transform<World> location) {
+		if(this.isPresent()) {
+			return this.service.update(identifier, location);
 		}
 		return false;
 	}
 
-	@Override
+
 	public boolean removeWarp(String identifier) {
 		if(this.isPresent()) {
-			return this.service.removeWarp(identifier);
+			return this.service.remove(identifier);
 		}
 		return false;
 	}
 
-	@Override
-	public boolean clearWarps() {
+	public boolean clearWarp() {
 		if(this.isPresent()) {
-			return this.service.clearWarps();
+			return this.service.clearAll();
 		}
 		return false;
 	}

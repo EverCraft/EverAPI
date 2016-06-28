@@ -14,23 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.essentials;
+package fr.evercraft.everapi.plugin.command;
 
-import java.util.Map;
-import java.util.Optional;
+import fr.evercraft.everapi.plugin.EPlugin;
 
-import org.spongepowered.api.entity.Transform;
-import org.spongepowered.api.world.World;
+public abstract class EReloadCommand<T extends EPlugin> extends ECommand<T> {
+	
+	public EReloadCommand(final T plugin, final String name, final String... alias) {
+		super(plugin, name, alias);
+	}
+	
+	public abstract void reload();
 
-public interface SpawnService {	
-	public Map<String, Transform<World>> getAll();
-	
-	public boolean has(String identifier);
-	public Optional<Transform<World>> get(String identifier);
-	
-	public boolean add(String identifier, Transform<World> location);
-	public boolean update(String identifier, Transform<World> location);
-	public boolean remove(String identifier);
-	
-	public boolean clearAll();
 }

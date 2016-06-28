@@ -23,13 +23,14 @@ import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.world.World;
 
 public interface WarpService {	
-	public Map<String, Transform<World>> getWarps();
+	public Map<String, Transform<World>> getAll();
 	
-	public boolean hasWarp(String identifier);
-	public Optional<Transform<World>> getWarp(String identifier);
+	public boolean has(String identifier);
+	public Optional<Transform<World>> get(String identifier);
 	
-	public boolean addWarp(String identifier, Transform<World> location);
-	public boolean removeWarp(String identifier);
+	public boolean add(String identifier, Transform<World> location);
+	public boolean update(String identifier, Transform<World> location);
+	public boolean remove(String identifier);
 	
-	public boolean clearWarps();
+	public boolean clearAll();
 }
