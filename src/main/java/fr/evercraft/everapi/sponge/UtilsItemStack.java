@@ -19,7 +19,10 @@ package fr.evercraft.everapi.sponge;
 import java.util.Optional;
 
 import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.type.SkullTypes;
+import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
+import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.text.Text;
 
 public class UtilsItemStack {
@@ -48,5 +51,12 @@ public class UtilsItemStack {
 			return data.get();
 		}
 		return 0;
+	}
+	
+	public static ItemStack createPlayerHead(GameProfile profile) {
+		ItemStack skull = ItemStack.of(ItemTypes.SKULL, 1);
+		skull.offer(Keys.SKULL_TYPE, SkullTypes.PLAYER);
+		skull.offer(Keys.REPRESENTED_PLAYER, profile);
+		return skull;
 	}
 }
