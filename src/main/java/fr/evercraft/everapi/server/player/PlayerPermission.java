@@ -25,17 +25,16 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.context.Context;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.service.permission.SubjectCollection;
-import org.spongepowered.api.service.permission.option.OptionSubject;
-import org.spongepowered.api.service.permission.option.OptionSubjectData;
+import org.spongepowered.api.service.permission.SubjectData;
 import org.spongepowered.api.util.Tristate;
 
 import com.google.common.base.Preconditions;
 
 import fr.evercraft.everapi.EverAPI;
 
-public class PlayerPermission extends PlayerKeys implements OptionSubject {
+public class PlayerPermission extends PlayerKeys implements Subject {
 	
-	private OptionSubject optionSubject;
+	private Subject optionSubject;
 
 	public PlayerPermission(EverAPI plugin, Player player) {
 		super(plugin, player);
@@ -43,11 +42,7 @@ public class PlayerPermission extends PlayerKeys implements OptionSubject {
 
 	private boolean isPresent() {
 		if(this.optionSubject == null && this.plugin.getManagerService().getPermission().isPresent()) {
-			Subject subject = this.plugin.getManagerService().getPermission().get().getUserSubjects().get(this.player.getIdentifier());
-			if(subject instanceof OptionSubject) {
-				this.optionSubject = (OptionSubject) subject;
-				return true;
-			}
+			this.optionSubject = this.plugin.getManagerService().getPermission().get().getUserSubjects().get(this.player.getIdentifier());
 		}
 		return this.optionSubject != null;
 	}
@@ -109,7 +104,7 @@ public class PlayerPermission extends PlayerKeys implements OptionSubject {
 	}
 
 	@Override
-	public OptionSubjectData getSubjectData() {
+	public SubjectData getSubjectData() {
 		if(this.isPresent()) {
 			return this.optionSubject.getSubjectData();
 		}
@@ -117,7 +112,7 @@ public class PlayerPermission extends PlayerKeys implements OptionSubject {
 	}
 
 	@Override
-	public OptionSubjectData getTransientSubjectData() {
+	public SubjectData getTransientSubjectData() {
 		if(this.isPresent()) {
 			return this.optionSubject.getTransientSubjectData();
 		}
