@@ -26,7 +26,7 @@ import org.spongepowered.api.world.World;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.essentials.WarpService;
 
-public class ServerWarp extends ServerSponge {
+public class ServerWarp extends ServerSpawn {
 	private WarpService service;
 	
 	public ServerWarp(EverAPI plugin){

@@ -380,10 +380,6 @@ public class EPlayer extends PlayerStats {
 		}
 		return Optional.empty();
 	}
-
-	public void teleportSpawn() {
-		this.teleportSafe(this.getWorld().getSpawnLocation());
-	}
 	
 	public boolean sendActionBar(String identifier, long stay, Text message) {
 		if(this.plugin.getManagerService().getActionBar().isPresent()) {

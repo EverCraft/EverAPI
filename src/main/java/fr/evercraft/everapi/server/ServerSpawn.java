@@ -21,9 +21,11 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.spongepowered.api.entity.Transform;
+import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.server.player.PlayerPermission;
 import fr.evercraft.everapi.services.essentials.SpawnService;
 
 public class ServerSpawn extends ServerSponge {
@@ -47,14 +49,28 @@ public class ServerSpawn extends ServerSponge {
 		return new HashMap<String, Transform<World>>();
 	}
 
-	public Optional<Transform<World>> get(String identifier) {
+	public Optional<Transform<World>> getSpawn(String identifier) {
 		if(this.isPresent()) {
 			return this.service.get(identifier);
 		}
 		return Optional.empty();
 	}
+	
+	public Transform<World> getSpawn(PlayerPermission player) {
+		if(this.isPresent()) {
+			return this.service.get(player);
+		}
+		return this.getDefaultSpawn();
+	}
+	
+	public Transform<World> getSpawn(Subject group) {
+		if(this.isPresent()) {
+			return this.service.get(group);
+		}
+		return this.getDefaultSpawn();
+	}
 
-	public boolean has(String identifier) {
+	public boolean hasSpawn(String identifier) {
 		if(this.isPresent()) {
 			return this.service.has(identifier);
 		}
@@ -87,5 +103,12 @@ public class ServerSpawn extends ServerSponge {
 			return this.service.clearAll();
 		}
 		return false;
+	}
+	
+	public Transform<World> getDefaultSpawn() {
+		if(this.isPresent()) {
+			return this.service.getDefault();
+		}
+		return this.plugin.getEServer().getSpawn();
 	}
 }

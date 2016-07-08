@@ -36,7 +36,7 @@ import com.google.common.base.Preconditions;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public class EServer extends ServerSponge {	
+public class EServer extends ServerWarp {	
 	private String name;
 	
 	private ConcurrentMap<UUID, EPlayer> players;

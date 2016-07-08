@@ -328,4 +328,16 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 		}
 		return Optional.empty();
 	}
+	
+	/*
+	 * Spawn
+	 */
+	
+	public Transform<World> getSpawn() {
+		return this.plugin.getEServer().getSpawn(this);
+	}
+	
+	public boolean teleportSpawn() {
+		return this.player.setTransform(this.getSpawn());
+	}
 }

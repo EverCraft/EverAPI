@@ -20,9 +20,17 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.spongepowered.api.entity.Transform;
+import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.world.World;
 
+import com.google.common.base.Preconditions;
+
+import fr.evercraft.everapi.server.player.PlayerPermission;
+
 public interface SpawnService {	
+	
+	public final static String DEFAULT = "Default";
+	
 	public Map<String, Transform<World>> getAll();
 	
 	public boolean has(String identifier);
@@ -33,4 +41,26 @@ public interface SpawnService {
 	public boolean remove(String identifier);
 	
 	public boolean clearAll();
+	
+	public Transform<World> getDefault();
+	
+	default public Transform<World> get(final PlayerPermission player) {
+		Preconditions.checkNotNull(player, "player");
+		
+		Optional<Subject> group = player.getGroup();
+		if(group.isPresent()) {
+			return this.get(group.get());
+		}
+		return this.getDefault();
+	}
+	
+	default public Transform<World> get(final Subject group) {
+		Preconditions.checkNotNull(group, "group");
+		
+		Optional<Transform<World>> spawn = this.get(group.getIdentifier());
+		if(spawn.isPresent()) {
+			return spawn.get();
+		}
+		return this.getDefault();
+	}
 }
