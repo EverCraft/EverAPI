@@ -78,6 +78,7 @@ public class EChat implements ChatService {
 	public final static String DEATHS = "<DEATHS>";
 	public final static String KILLS = "<KILLS>";
 	public final static String RATIO = "<RATIO>";
+	public final static String KILLSTREAKS = "<KILLSTREAKS>";
 	public final static String DEATHS_MONTHLY = "<DEATHS_MONTHLY>";
 	public final static String KILLS_MONTHLY = "<KILLS_MONTHLY>";
 	public final static String RATIO_MONTHLY = "<RATIO_MONTHLY>";
@@ -196,6 +197,7 @@ public class EChat implements ChatService {
 		if(message.contains(DEATHS)) message = message.replaceAll(DEATHS, String.valueOf(player.getDeath()));
 		if(message.contains(KILLS)) message = message.replaceAll(KILLS, String.valueOf(player.getKill()));
 		if(message.contains(RATIO)) message = message.replaceAll(RATIO, String.valueOf(player.getRatio()));
+		if(message.contains(KILLSTREAKS)) message = message.replaceAll(KILLSTREAKS, String.valueOf(player.getKillStreaks()));
 		if(message.contains(DEATHS_MONTHLY)) message = message.replaceAll(DEATHS_MONTHLY, String.valueOf(player.getDeathMonthly()));
 		if(message.contains(KILLS_MONTHLY)) message = message.replaceAll(KILLS_MONTHLY, String.valueOf(player.getKillMonthly()));
 		if(message.contains(RATIO_MONTHLY)) message = message.replaceAll(RATIO_MONTHLY, String.valueOf(player.getRatioMonthly()));
