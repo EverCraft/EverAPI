@@ -17,7 +17,6 @@
 package fr.evercraft.everapi;
 
 import org.spongepowered.api.command.CommandSource;
-
 import com.google.common.base.Preconditions;
 
 import fr.evercraft.everapi.plugin.EnumPermission;
@@ -31,8 +30,6 @@ public enum EAPermissions implements EnumPermission {
 	TEST("test"),
 	
 	VIEW_OTHERS("view.others"),
-	
-	WORLDS("worlds"),
 	
 	COOLDOWN("cooldown"),
 	COOLDOWN_BYPASS("cooldown.bypass");
