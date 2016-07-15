@@ -71,54 +71,6 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 	}
 
 	@Override
-	public boolean isMute() {
-		if(this.isPresent()) {
-			return this.subject.isMute();
-		}
-		return false;
-	}
-
-	@Override
-	public boolean setMute(final boolean mute) {
-		if(this.isPresent()) {
-			return this.subject.setMute(mute);
-		}
-		return false;
-	}
-	
-	@Override
-	public boolean setMute(final long time) {
-		if(this.isPresent()) {
-			return this.subject.setMute(time);
-		}
-		return false;
-	}
-	
-	@Override
-	public boolean isBan() {
-		if(this.isPresent()) {
-			return this.subject.isBan();
-		}
-		return false;
-	}
-
-	@Override
-	public boolean setBan(final boolean mute) {
-		if(this.isPresent()) {
-			return this.subject.setBan(mute);
-		}
-		return false;
-	}
-	
-	@Override
-	public boolean setBan(final long time) {
-		if(this.isPresent()) {
-			return this.subject.setBan(time);
-		}
-		return false;
-	}
-
-	@Override
 	public boolean isAFK() {
 		if(this.isPresent()) {
 			return this.subject.isAFK();

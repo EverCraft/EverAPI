@@ -32,20 +32,6 @@ public interface EssentialsSubject {
 	public boolean setVanish(boolean vanish);
 	
 	/*
-	 * Mute
-	 */
-	public boolean isMute();
-	public boolean setMute(boolean mute);
-	public boolean setMute(long time);
-	
-	/*
-	 * Ban
-	 */
-	public boolean isBan();
-	public boolean setBan(boolean ban);
-	public boolean setBan(long time);
-	
-	/*
 	 * AFK
 	 */
 	public boolean isAFK();
