@@ -37,6 +37,9 @@ public interface EssentialsSubject {
 	public boolean isAFK();
 	public boolean setAFK(boolean afk);
 	
+	public void updateLastActivated();
+	public long getLastActivated();
+	
 	/*
 	 * God
 	 */
@@ -79,5 +82,18 @@ public interface EssentialsSubject {
 	public boolean clearMails();
 	public Optional<Mail> readMail(int id);
 	
+	/*
+	 * Teleport
+	 */
+	public boolean addTeleportAsk(UUID uuid, long time);
+	public boolean removeTeleportAsk(UUID uuid);
+	public Map<UUID, Long> getTeleportAsk();
+	
+	public boolean addTeleportHere(UUID uuid, long time);
+	public boolean removeTeleportHere(UUID uuid);
+	public Map<UUID, Long> getTeleportHere();
+	
+	public boolean teleport();
+	public boolean setTeleport(Runnable runnable);
 	
 }

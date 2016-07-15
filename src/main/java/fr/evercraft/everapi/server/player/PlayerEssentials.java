@@ -69,6 +69,10 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 		}
 		return !onlinePlayer.isVanish();
 	}
+	
+	/*
+	 * AFK
+	 */
 
 	@Override
 	public boolean isAFK() {
@@ -87,6 +91,25 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 	}
 	
 	@Override
+	public void updateLastActivated() {
+		if(this.isPresent()) {
+			this.subject.updateLastActivated();
+		}
+	}
+
+	@Override
+	public long getLastActivated() {
+		if(this.isPresent()) {
+			return this.subject.getLastActivated();
+		}
+		return 0;
+	}
+	
+	/*
+	 * GOD
+	 */
+	
+	@Override
 	public boolean isGod() {
 		if(this.isPresent()) {
 			return this.subject.isGod();
@@ -102,6 +125,10 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 		return false;
 	}
 
+	/*
+	 * HOME
+	 */
+	
 	@Override
 	public Map<String, Transform<World>> getHomes() {
 		if(this.isPresent()) {
@@ -154,6 +181,10 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 		return false;
 	}
 
+	/*
+	 * BACK
+	 */
+	
 	@Override
 	public Optional<Transform<World>> getBack() {
 		if(this.isPresent()) {
@@ -181,6 +212,10 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 		}
 		return false;
 	}
+	
+	/*
+	 * Ignore
+	 */
 
 	@Override
 	public Set<UUID> getIgnores() {
@@ -291,5 +326,81 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 	
 	public boolean teleportSpawn() {
 		return this.player.setTransform(this.getSpawn());
+	}
+	
+	/*
+	 * Teleport ASK
+	 */
+
+	@Override
+	public boolean addTeleportAsk(UUID uuid, long time) {
+		if(this.isPresent()) {
+			return this.subject.addTeleportAsk(uuid, time);
+		}
+		return false;
+	}
+
+	@Override
+	public boolean removeTeleportAsk(UUID uuid) {
+		if(this.isPresent()) {
+			return this.subject.removeTeleportAsk(uuid);
+		}
+		return false;
+	}
+	
+	@Override
+	public Map<UUID, Long> getTeleportAsk() {
+		if(this.isPresent()) {
+			return this.subject.getTeleportAsk();
+		}
+		return ImmutableMap.of();
+	}
+	
+	/*
+	 * Teleport Here
+	 */
+
+	@Override
+	public boolean addTeleportHere(UUID uuid, long time) {
+		if(this.isPresent()) {
+			return this.subject.addTeleportHere(uuid, time);
+		}
+		return false;
+	}
+
+	@Override
+	public boolean removeTeleportHere(UUID uuid) {
+		if(this.isPresent()) {
+			return this.subject.removeTeleportHere(uuid);
+		}
+		return false;
+	}
+
+	@Override
+	public Map<UUID, Long> getTeleportHere() {
+		if(this.isPresent()) {
+			return this.subject.getTeleportHere();
+		}
+		return ImmutableMap.of();
+	}
+	
+	/*
+	 * Teleport
+	 */
+
+	@Override
+	public boolean teleport() {
+		if(this.isPresent()) {
+			return this.subject.teleport();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean setTeleport(Runnable runnable) {
+		if(this.isPresent()) {
+			return this.subject.setTeleport(runnable);
+		}
+		return false;
 	}
 }
