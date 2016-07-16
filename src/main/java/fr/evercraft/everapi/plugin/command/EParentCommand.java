@@ -84,7 +84,7 @@ public abstract class EParentCommand<T extends EPlugin> extends ECommand<T> {
 	public Text help(final CommandSource source) {
 		Map<String, String> commands = new HashMap<String, String>();
 
-		commands.put("help", this.getName() + "help");
+		commands.put(this.getName() + " help", "help");
 		
 		for(ESubCommand<T> subcommand : this.subcommands) {
 			if(subcommand.testPermission(source)) { 
