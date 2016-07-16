@@ -395,6 +395,14 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 		}
 		return false;
 	}
+	
+	@Override
+	public Optional<Long> getTeleportTime() {
+		if(this.isPresent()) {
+			return this.subject.getTeleportTime();
+		}
+		return Optional.empty();
+	}
 
 	@Override
 	public boolean setTeleport(Runnable runnable) {

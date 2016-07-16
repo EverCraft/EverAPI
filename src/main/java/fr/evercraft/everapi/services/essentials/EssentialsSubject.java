@@ -96,5 +96,6 @@ public interface EssentialsSubject {
 	public boolean teleport();
 	public boolean setTeleport(Runnable runnable);
 	public boolean setTeleport(long delay, Runnable runnable);
+	public Optional<Long> getTeleportTime();
 	
 }
