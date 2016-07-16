@@ -22,6 +22,7 @@ import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.service.pagination.PaginationService;
 import org.spongepowered.api.service.permission.PermissionService;
 import org.spongepowered.api.service.user.UserStorageService;
+import org.spongepowered.api.service.whitelist.WhitelistService;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.actionbar.EActionBarService;
@@ -193,5 +194,9 @@ public class ManagerService {
 	
 	public Optional<UserStorageService> getUserStorage() {
 		return this.plugin.getGame().getServiceManager().provide(UserStorageService.class);
+	}
+	
+	public Optional<WhitelistService> getWhitelist() {
+		return this.plugin.getGame().getServiceManager().provide(WhitelistService.class);
 	}
 }

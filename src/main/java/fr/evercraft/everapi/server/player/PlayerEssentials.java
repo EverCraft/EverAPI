@@ -403,4 +403,12 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 		}
 		return false;
 	}
+
+	@Override
+	public boolean setTeleport(long delay, Runnable runnable) {
+		if(this.isPresent()) {
+			return this.subject.setTeleport(delay, runnable);
+		}
+		return false;
+	}
 }
