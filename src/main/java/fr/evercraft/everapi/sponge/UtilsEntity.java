@@ -25,6 +25,8 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.entity.spawn.EntitySpawnCause;
+import org.spongepowered.api.event.cause.entity.spawn.SpawnTypes;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.extent.Extent;
@@ -91,7 +93,9 @@ public enum UtilsEntity {
 	    Extent extent = spawnLocation.getExtent();
 	    Optional<Entity> optEntity = extent.createEntity(this.type, spawnLocation.getPosition());
 	    if (optEntity.isPresent()) {
-	    	extent.spawnEntity(getEntity(optEntity.get()), Cause.source(this).build());
+	    	Entity entity = optEntity.get();
+	    	extent.spawnEntity(getEntity(entity), Cause.source(EntitySpawnCause.builder()
+	                .entity(entity).type(SpawnTypes.PLUGIN).build()).build());
 	        return true;
 	    }
 	    return false;
