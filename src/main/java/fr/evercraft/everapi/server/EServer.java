@@ -23,10 +23,12 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutionException;
 
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.title.Title;
 import org.spongepowered.api.world.World;
@@ -168,6 +170,38 @@ public class EServer extends ServerWarp {
 		} else {
 			return Optional.ofNullable(this.getPlayer(identifier).orElse(null));
 		}
+	}
+	
+	public Optional<GameProfile> getGameProfile(String identifier) {
+		Preconditions.checkNotNull(identifier, "identifier");
+		
+		try {
+			if(identifier.length() == 36){
+				return this.getGameProfile(UUID.fromString(identifier));
+			} else {
+				Optional<Player> player = this.getPlayer(identifier);
+				if(player.isPresent()) {
+					return Optional.ofNullable(player.get().getProfile());
+				} else {
+					return Optional.ofNullable(this.plugin.getEServer().getGameProfileManager().get(identifier).get());
+				}
+			}
+		} catch(IllegalArgumentException | InterruptedException | ExecutionException e) {}
+		return Optional.empty();
+	}
+	
+	public Optional<GameProfile> getGameProfile(UUID identifier) {
+		Preconditions.checkNotNull(identifier, "identifier");
+		
+		Optional<Player> player = this.getPlayer(identifier);
+		if(player.isPresent()) {
+			return Optional.ofNullable(player.get().getProfile());
+		} else {
+			try {
+				return Optional.ofNullable(this.plugin.getEServer().getGameProfileManager().get(identifier).get());
+			} catch (InterruptedException | ExecutionException e) {} 
+		}
+		return Optional.empty();
 	}
 	
 	/**
