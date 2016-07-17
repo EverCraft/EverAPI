@@ -188,6 +188,18 @@ public abstract class PlayerKeys extends PlayerSponge {
 		return false;
 	}
 	
+	public boolean isCreative() {
+		return this.getGameMode().equals(GameModes.CREATIVE);
+	}
+	
+	public boolean isSurvival() {
+		return this.getGameMode().equals(GameModes.SURVIVAL);
+	}
+	
+	public boolean isSpectator() {
+		return this.getGameMode().equals(GameModes.SPECTATOR);
+	}
+	
 	/*
 	 * Can Fly
 	 */
