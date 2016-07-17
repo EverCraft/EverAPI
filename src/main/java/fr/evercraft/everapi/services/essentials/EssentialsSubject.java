@@ -85,13 +85,9 @@ public interface EssentialsSubject {
 	/*
 	 * Teleport
 	 */
-	public boolean addTeleportAsk(UUID uuid, long time);
-	public boolean removeTeleportAsk(UUID uuid);
-	public Map<UUID, Long> getTeleportAsk();
-	
-	public boolean addTeleportHere(UUID uuid, long time);
-	public boolean removeTeleportHere(UUID uuid);
-	public Map<UUID, Long> getTeleportHere();
+	public boolean addTeleport(UUID uuid, long time);
+	public boolean removeTeleport(UUID uuid);
+	public Map<UUID, Long> getAllTeleports();
 	
 	public boolean teleport();
 	public boolean setTeleport(Runnable runnable);

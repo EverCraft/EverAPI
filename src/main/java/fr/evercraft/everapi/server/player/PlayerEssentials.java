@@ -333,53 +333,25 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 	 */
 
 	@Override
-	public boolean addTeleportAsk(UUID uuid, long time) {
+	public boolean addTeleport(UUID uuid, long time) {
 		if(this.isPresent()) {
-			return this.subject.addTeleportAsk(uuid, time);
+			return this.subject.addTeleport(uuid, time);
 		}
 		return false;
 	}
 
 	@Override
-	public boolean removeTeleportAsk(UUID uuid) {
+	public boolean removeTeleport(UUID uuid) {
 		if(this.isPresent()) {
-			return this.subject.removeTeleportAsk(uuid);
+			return this.subject.removeTeleport(uuid);
 		}
 		return false;
 	}
 	
 	@Override
-	public Map<UUID, Long> getTeleportAsk() {
+	public Map<UUID, Long> getAllTeleports() {
 		if(this.isPresent()) {
-			return this.subject.getTeleportAsk();
-		}
-		return ImmutableMap.of();
-	}
-	
-	/*
-	 * Teleport Here
-	 */
-
-	@Override
-	public boolean addTeleportHere(UUID uuid, long time) {
-		if(this.isPresent()) {
-			return this.subject.addTeleportHere(uuid, time);
-		}
-		return false;
-	}
-
-	@Override
-	public boolean removeTeleportHere(UUID uuid) {
-		if(this.isPresent()) {
-			return this.subject.removeTeleportHere(uuid);
-		}
-		return false;
-	}
-
-	@Override
-	public Map<UUID, Long> getTeleportHere() {
-		if(this.isPresent()) {
-			return this.subject.getTeleportHere();
+			return this.subject.getAllTeleports();
 		}
 		return ImmutableMap.of();
 	}
