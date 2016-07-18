@@ -205,7 +205,7 @@ public class EAMessage extends EMessage {
 		HELP_COLOR_PADDING("help.colorPadding", 
 				"&7"),
 		HELP_COLOR_DESCRIPTION("help.colorDescription", 
-				"&c"),
+				"&7"),
 		
 		// Plugin
 		PLUGINS_MESSAGE("plugins.message", 
