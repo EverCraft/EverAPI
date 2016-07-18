@@ -88,10 +88,16 @@ public interface EssentialsSubject {
 	public boolean addTeleport(UUID uuid, long time);
 	public boolean removeTeleport(UUID uuid);
 	public Map<UUID, Long> getAllTeleports();
+	public TeleportRequest getTeleport(UUID identifier);
 	
 	public boolean teleport();
 	public boolean setTeleport(Runnable runnable);
 	public boolean setTeleport(long delay, Runnable runnable);
 	public Optional<Long> getTeleportTime();
 	
+	public enum TeleportRequest {
+		VALID,
+		EXPIRE,
+		EMPTY;
+	}
 }

@@ -356,6 +356,14 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 		return ImmutableMap.of();
 	}
 	
+	@Override
+	public TeleportRequest getTeleport(UUID uuid) {
+		if(this.isPresent()) {
+			return this.subject.getTeleport(uuid);
+		}
+		return TeleportRequest.EMPTY;
+	}
+	
 	/*
 	 * Teleport
 	 */
