@@ -31,6 +31,7 @@ import com.google.common.collect.ImmutableSet;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.essentials.EssentialsSubject;
 import fr.evercraft.everapi.services.essentials.Mail;
+import fr.evercraft.everapi.services.essentials.TeleportRequest;
 
 public class PlayerEssentials extends PlayerAccount implements EssentialsSubject {
 	
@@ -333,9 +334,17 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 	 */
 
 	@Override
-	public boolean addTeleport(UUID uuid, long time) {
+	public boolean addTeleportAsk(UUID uuid, long time) {
 		if(this.isPresent()) {
-			return this.subject.addTeleport(uuid, time);
+			return this.subject.addTeleportAsk(uuid, time);
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean addTeleportAskHere(UUID uuid, long time) {
+		if(this.isPresent()) {
+			return this.subject.addTeleportAskHere(uuid, time);
 		}
 		return false;
 	}
@@ -349,7 +358,7 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 	}
 	
 	@Override
-	public Map<UUID, Long> getAllTeleports() {
+	public Map<UUID, TeleportRequest> getAllTeleports() {
 		if(this.isPresent()) {
 			return this.subject.getAllTeleports();
 		}
@@ -357,11 +366,11 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 	}
 	
 	@Override
-	public TeleportRequest getTeleport(UUID uuid) {
+	public Optional<TeleportRequest> getTeleport(UUID uuid) {
 		if(this.isPresent()) {
 			return this.subject.getTeleport(uuid);
 		}
-		return TeleportRequest.EMPTY;
+		return Optional.empty();
 	}
 	
 	/*
