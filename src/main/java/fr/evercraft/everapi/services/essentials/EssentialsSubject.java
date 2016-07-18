@@ -47,6 +47,12 @@ public interface EssentialsSubject {
 	public boolean setGod(boolean god);
 	
 	/*
+	 * Toggle
+	 */
+	public boolean isToggle();
+	public boolean setToggle(final boolean toggle);
+	
+	/*
 	 *  Homes
 	 */
 	public Map<String, Transform<World>> getHomes();

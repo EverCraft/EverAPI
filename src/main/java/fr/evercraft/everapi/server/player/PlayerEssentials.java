@@ -125,6 +125,26 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 		}
 		return false;
 	}
+	
+	/*
+	 * TOGGLE
+	 */
+	
+	@Override
+	public boolean isToggle() {
+		if(this.isPresent()) {
+			return this.subject.isToggle();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean setToggle(final boolean toggle) {
+		if(this.isPresent()) {
+			return this.subject.setToggle(toggle);
+		}
+		return false;
+	}
 
 	/*
 	 * HOME
