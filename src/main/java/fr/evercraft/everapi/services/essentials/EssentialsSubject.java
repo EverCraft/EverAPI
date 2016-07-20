@@ -91,14 +91,16 @@ public interface EssentialsSubject {
 	/*
 	 * Teleport
 	 */
-	public boolean addTeleportAsk(UUID uuid, long time);
-	public boolean addTeleportAskHere(UUID uuid, long time);
-	public boolean removeTeleport(UUID uuid);
-	public Map<UUID, TeleportRequest> getAllTeleports();
-	public Optional<TeleportRequest> getTeleport(UUID identifier);
+	public boolean addTeleportAsk(UUID uuid, long delay);
+	public boolean addTeleportAskHere(UUID uuid, long delay);
+	public boolean removeTeleportAsk(UUID uuid);
+	public Map<UUID, TeleportRequest> getAllTeleportsAsk();
+	public Optional<TeleportRequest> getTeleportAsk(UUID identifier);
 	
-	public boolean teleport();
+	public boolean hasTeleport();
+	public boolean runTeleport();
+	public boolean cancelTeleport();
 	public boolean setTeleport(Runnable runnable);
 	public boolean setTeleport(long delay, Runnable runnable);
-	public Optional<Long> getTeleportTime();
+	public Optional<Long> getTeleport();
 }

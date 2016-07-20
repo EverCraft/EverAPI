@@ -370,25 +370,25 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 	}
 
 	@Override
-	public boolean removeTeleport(UUID uuid) {
+	public boolean removeTeleportAsk(UUID uuid) {
 		if(this.isPresent()) {
-			return this.subject.removeTeleport(uuid);
+			return this.subject.removeTeleportAsk(uuid);
 		}
 		return false;
 	}
 	
 	@Override
-	public Map<UUID, TeleportRequest> getAllTeleports() {
+	public Map<UUID, TeleportRequest> getAllTeleportsAsk() {
 		if(this.isPresent()) {
-			return this.subject.getAllTeleports();
+			return this.subject.getAllTeleportsAsk();
 		}
 		return ImmutableMap.of();
 	}
 	
 	@Override
-	public Optional<TeleportRequest> getTeleport(UUID uuid) {
+	public Optional<TeleportRequest> getTeleportAsk(UUID uuid) {
 		if(this.isPresent()) {
-			return this.subject.getTeleport(uuid);
+			return this.subject.getTeleportAsk(uuid);
 		}
 		return Optional.empty();
 	}
@@ -396,19 +396,35 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 	/*
 	 * Teleport
 	 */
+	
+	@Override
+	public boolean hasTeleport() {
+		if(this.isPresent()) {
+			return this.subject.hasTeleport();
+		}
+		return false;
+	}
 
 	@Override
-	public boolean teleport() {
+	public boolean runTeleport() {
 		if(this.isPresent()) {
-			return this.subject.teleport();
+			return this.subject.runTeleport();
 		}
 		return false;
 	}
 	
 	@Override
-	public Optional<Long> getTeleportTime() {
+	public boolean cancelTeleport() {
 		if(this.isPresent()) {
-			return this.subject.getTeleportTime();
+			return this.subject.cancelTeleport();
+		}
+		return false;
+	}
+	
+	@Override
+	public Optional<Long> getTeleport() {
+		if(this.isPresent()) {
+			return this.subject.getTeleport();
 		}
 		return Optional.empty();
 	}

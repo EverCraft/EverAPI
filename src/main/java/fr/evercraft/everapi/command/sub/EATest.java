@@ -18,12 +18,9 @@ package fr.evercraft.everapi.command.sub;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.effect.potion.PotionEffect;
+import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
@@ -32,7 +29,6 @@ import fr.evercraft.everapi.EACommand;
 import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
-import fr.evercraft.everapi.server.player.EPlayer;
 
 public class EATest extends ESubCommand<EverAPI> {
 	public EATest(final EverAPI plugin, final EACommand command) {
@@ -67,13 +63,8 @@ public class EATest extends ESubCommand<EverAPI> {
 	}
 
 	private boolean commandTest(final CommandSource source) {
-		EPlayer player = ((EPlayer) source);
-		Optional<List<PotionEffect>> potions = player.get(Keys.POTION_EFFECTS);
-		if(potions.isPresent()) {
-			player.sendMessage("Present");
-			player.sendMessage("Size : " + potions.get().size());
-		} else {
-			player.sendMessage("No present");
+		for(ItemType item : this.plugin.getGame().getRegistry().getAllOf(ItemType.class)) {
+			source.sendMessage(Text.of(item.getName()));
 		}
 		return true;
 	}

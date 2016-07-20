@@ -16,6 +16,8 @@
  */
 package fr.evercraft.everapi.services.essentials;
 
+import java.util.Optional;
+
 public class TeleportRequest {
 	public enum Type {
 		TPA,
@@ -23,12 +25,12 @@ public class TeleportRequest {
 	}
 	
 	private final Type type;
-	private final long time;
+	private Optional<Long> time;
 	private boolean expire;
 	
 	public TeleportRequest(final Type type, final long time) {
 		this.type = type;
-		this.time = time;
+		this.setTime(time);
 		this.expire = false;
 	}
 
@@ -36,7 +38,7 @@ public class TeleportRequest {
 		return this.type;
 	}
 	
-	public long getTime() {
+	public Optional<Long> getTime() {
 		return this.time;
 	}
 
@@ -46,5 +48,13 @@ public class TeleportRequest {
 	
 	public void setExpire(boolean expire) {
 		this.expire = expire;
+	}
+
+	public void setTime(long time) {
+		if(time > 0) {
+			this.time = Optional.of(time);
+		} else {
+			this.time = Optional.empty();
+		}
 	}
 }
