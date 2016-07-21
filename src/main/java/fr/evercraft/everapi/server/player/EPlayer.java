@@ -169,7 +169,7 @@ public class EPlayer extends PlayerStats {
 	 * @return True si le joueur a bien été téléporté
 	 */
 	public boolean teleportSafe(final Location<World> location) {
-		return teleportSafe(this.getTransform().setLocation(location));
+		return teleportSafeZone(this.getTransform().setLocation(location));
 	}
 	
 	/**
@@ -178,17 +178,33 @@ public class EPlayer extends PlayerStats {
 	 * @return True si le joueur a bien été téléporté
 	 */
 	public boolean teleportSafe(final Transform<World> transform) {
+		if(this.isGod() || this.getGameMode().equals(GameModes.CREATIVE) || this.plugin.getEverAPI().getManagerUtils().getLocation().isPositionSafe(transform)) {
+			Transform<World> back = this.getTransform();
+			return this.setTransform(transform) && this.setBack(back);
+		}
+		return false;
+	}
+	
+	/**
+	 * Téléporter un joueur à un endroit sûr
+	 * @param location La location
+	 * @return True si le joueur a bien été téléporté
+	 */
+	public boolean teleportSafeZone(final Location<World> location) {
+		return teleportSafeZone(this.getTransform().setLocation(location));
+	}
+	
+	/**
+	 * Téléporter un joueur à un endroit sûr
+	 * @param transform Le transform
+	 * @return True si le joueur a bien été téléporté
+	 */
+	public boolean teleportSafeZone(final Transform<World> transform) {
 		Optional<Transform<World>> optTransform = this.plugin.getEverAPI().getManagerUtils().getLocation().getBlock(
-														transform, 
-														!(/*this.isGodModeEnabled() ||*/ this.getGameMode().equals(GameModes.CREATIVE)));
+														transform, !(this.isGod() || this.getGameMode().equals(GameModes.CREATIVE)));
 		if(optTransform.isPresent()) {
-			
-			/*if(this.isViewingInventory()) {
-				this.closeInventory();
-			}*/
-			
-			this.setTransform(optTransform.get());
-			return true;
+			Transform<World> back = this.getTransform();
+			return this.setTransform(optTransform.get()) && this.setBack(back);
 		}
 		return false;
 	}
