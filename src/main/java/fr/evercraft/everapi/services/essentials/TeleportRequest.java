@@ -28,9 +28,9 @@ public class TeleportRequest {
 	private Optional<Long> time;
 	private boolean expire;
 	
-	public TeleportRequest(final Type type, final long time) {
+	public TeleportRequest(final Type type, final long delay) {
 		this.type = type;
-		this.setTime(time);
+		this.setDelay(delay);
 		this.expire = false;
 	}
 
@@ -50,9 +50,9 @@ public class TeleportRequest {
 		this.expire = expire;
 	}
 
-	public void setTime(long time) {
-		if(time > 0) {
-			this.time = Optional.of(time);
+	public void setDelay(long delay) {
+		if(delay > 0) {
+			this.time = Optional.of(delay + System.currentTimeMillis());
 		} else {
 			this.time = Optional.empty();
 		}
