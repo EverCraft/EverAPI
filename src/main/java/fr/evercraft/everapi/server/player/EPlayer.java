@@ -169,7 +169,7 @@ public class EPlayer extends PlayerStats {
 	 * @return True si le joueur a bien été téléporté
 	 */
 	public boolean teleportSafe(final Location<World> location) {
-		return teleportSafeZone(this.getTransform().setLocation(location));
+		return teleportSafe(this.getTransform().setLocation(location));
 	}
 	
 	/**
