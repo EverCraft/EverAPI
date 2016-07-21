@@ -22,7 +22,6 @@ import java.util.Optional;
 import org.spongepowered.api.CatalogType;
 import org.spongepowered.api.CatalogTypes;
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.data.key.Key;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.item.inventory.ItemStack;
@@ -76,49 +75,5 @@ public class UtilsItemTypes {
 			type = CatalogTypes.WALL_TYPE;
 		}
 		return Optional.ofNullable(type);
-	}
-	
-	public static Optional<Key<?>> getProperty(final ItemStack item){
-		Key<?> key = null;
-		if(item.supports(Keys.BRICK_TYPE)){
-			key = Keys.BRICK_TYPE;
-		} else if(item.supports(Keys.COAL_TYPE)){
-			key = Keys.COAL_TYPE;
-		} else if(item.supports(Keys.COLOR)){
-			key = Keys.COLOR;
-		} else if(item.supports(Keys.DIRT_TYPE)){
-			key = Keys.DIRT_TYPE;
-		} else if(item.supports(Keys.DOUBLE_PLANT_TYPE)){
-			key = Keys.DOUBLE_PLANT_TYPE;
-		} else if(item.supports(Keys.FISH_TYPE)){
-			key = Keys.FISH_TYPE;
-		} else if(item.supports(Keys.GOLDEN_APPLE_TYPE)){
-			key = Keys.GOLDEN_APPLE_TYPE;
-		} else if(item.supports(Keys.PISTON_TYPE)){
-			key = Keys.PISTON_TYPE;
-		} else if(item.supports(Keys.PLANT_TYPE)){
-			key = Keys.PLANT_TYPE;
-		} else if(item.supports(Keys.PRISMARINE_TYPE)){
-			key = Keys.PRISMARINE_TYPE;
-		} else if(item.supports(Keys.QUARTZ_TYPE)){
-			key = Keys.QUARTZ_TYPE;
-		} else if(item.supports(Keys.SAND_TYPE)){
-			key = Keys.SAND_TYPE;
-		} else if(item.supports(Keys.SANDSTONE_TYPE)){
-			key = Keys.SANDSTONE_TYPE;
-		} else if(item.supports(Keys.SHRUB_TYPE)){
-			key = Keys.SHRUB_TYPE;
-		} else if(item.supports(Keys.SKULL_TYPE)){
-			key = Keys.SKULL_TYPE;
-		} else if(item.supports(Keys.SLAB_TYPE)){
-			key = Keys.SLAB_TYPE;
-		} else if(item.supports(Keys.STONE_TYPE)){
-			key = Keys.STONE_TYPE;
-		} else if(item.supports(Keys.TREE_TYPE)){
-			key = Keys.TREE_TYPE;
-		} else if(item.supports(Keys.WALL_TYPE)){
-			key = Keys.WALL_TYPE;
-		}
-		return Optional.ofNullable(key);
 	}
 }
