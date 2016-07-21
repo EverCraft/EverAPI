@@ -20,12 +20,22 @@ import java.util.Optional;
 
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.type.SkullTypes;
+import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.text.Text;
 
 public class UtilsItemStack {
+	
+
+	public static Optional<ItemStack> getItem(final String itemstack) {
+		Optional<ItemType> type = UtilsItemTypes.getItemType(itemstack);
+		if(type.isPresent()) {
+			return Optional.of(ItemStack.of(type.get(), 1));
+		}
+		return Optional.empty();
+	}
 
 	public static Text getName(final ItemStack item){
 		if(item.get(Keys.SPAWNABLE_ENTITY_TYPE).isPresent()) {

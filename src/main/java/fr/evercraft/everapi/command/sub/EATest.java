@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
@@ -63,9 +62,6 @@ public class EATest extends ESubCommand<EverAPI> {
 	}
 
 	private boolean commandTest(final CommandSource source) {
-		for(ItemType item : this.plugin.getGame().getRegistry().getAllOf(ItemType.class)) {
-			source.sendMessage(Text.of(item.getName()));
-		}
 		return true;
 	}
 }

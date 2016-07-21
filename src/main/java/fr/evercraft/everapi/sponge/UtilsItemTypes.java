@@ -19,6 +19,8 @@ package fr.evercraft.everapi.sponge;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.spongepowered.api.CatalogType;
+import org.spongepowered.api.CatalogTypes;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.key.Key;
 import org.spongepowered.api.data.key.Keys;
@@ -32,6 +34,48 @@ public class UtilsItemTypes {
 	
 	public static Optional<ItemType> getItemType(final String type) {
 		return Sponge.getGame().getRegistry().getType(ItemType.class, type);
+	}
+	
+	public static Optional<Class<? extends CatalogType>> getCatalogType(final ItemStack item){
+		Class<? extends CatalogType> type = null;
+		if(item.supports(Keys.BRICK_TYPE)) {
+			type = CatalogTypes.BRICK_TYPE;
+		} else if(item.supports(Keys.COAL_TYPE)){
+			type = CatalogTypes.COAL_TYPE;
+		} else if(item.supports(Keys.DIRT_TYPE)){
+			type = CatalogTypes.DIRT_TYPE;
+		} else if(item.supports(Keys.DOUBLE_PLANT_TYPE)){
+			type = CatalogTypes.DOUBLE_SIZE_PLANT_TYPE;
+		} else if(item.supports(Keys.FISH_TYPE)){
+			type = CatalogTypes.FISH;
+		} else if(item.supports(Keys.GOLDEN_APPLE_TYPE)){
+			type = CatalogTypes.GOLDEN_APPLE;
+		} else if(item.supports(Keys.PISTON_TYPE)){
+			type = CatalogTypes.PISTON_TYPE;
+		} else if(item.supports(Keys.PLANT_TYPE)){
+			type = CatalogTypes.PLANT_TYPE;
+		} else if(item.supports(Keys.PRISMARINE_TYPE)){
+			type = CatalogTypes.PRISMARINE_TYPE;
+		} else if(item.supports(Keys.QUARTZ_TYPE)){
+			type = CatalogTypes.QUARTZ_TYPE;
+		} else if(item.supports(Keys.SAND_TYPE)){
+			type = CatalogTypes.SAND_TYPE;
+		} else if(item.supports(Keys.SANDSTONE_TYPE)){
+			type = CatalogTypes.SANDSTONE_TYPE;
+		} else if(item.supports(Keys.SHRUB_TYPE)){
+			type = CatalogTypes.SHRUB_TYPE;
+		} else if(item.supports(Keys.SKULL_TYPE)){
+			type = CatalogTypes.SKULL_TYPE;
+		} else if(item.supports(Keys.SLAB_TYPE)){
+			type = CatalogTypes.SLAB_TYPE;
+		} else if(item.supports(Keys.STONE_TYPE)){
+			type = CatalogTypes.STONE_TYPE;
+		} else if(item.supports(Keys.TREE_TYPE)){
+			type = CatalogTypes.TREE_TYPE;
+		} else if(item.supports(Keys.WALL_TYPE)){
+			type = CatalogTypes.WALL_TYPE;
+		}
+		return Optional.ofNullable(type);
 	}
 	
 	public static Optional<Key<?>> getProperty(final ItemStack item){
@@ -54,10 +98,6 @@ public class UtilsItemTypes {
 			key = Keys.PISTON_TYPE;
 		} else if(item.supports(Keys.PLANT_TYPE)){
 			key = Keys.PLANT_TYPE;
-		/*	
-		} else if(item.supports(Keys.PORTION_TYPE)){
-			key = Keys.PORTION_TYPE;
-		 */
 		} else if(item.supports(Keys.PRISMARINE_TYPE)){
 			key = Keys.PRISMARINE_TYPE;
 		} else if(item.supports(Keys.QUARTZ_TYPE)){
