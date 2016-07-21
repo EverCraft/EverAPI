@@ -185,35 +185,6 @@ public class UtilsLocation {
 		return blockDownNoEmpty(world, vector) && isBlockAir(world, vector);
 	}
 	
-	public boolean isPositionSafe(final Transform<World> location) {
-		Vector3i position = location.getPosition().toInt();
-		
-		if(MATERIALS_EMPTY.contains(location.getExtent().getBlock(location.getPosition().toInt().sub(0, 1, 0)).getType().getId())) {
-			position = position.sub(0, 1, 0);
-		}
-		
-		return !MATERIALS_DAMAGE.contains(location.getExtent().getBlock(location.getPosition().toInt().sub(0, 1, 0)).getType().getId()) && 
-				isBlockAir(location.getExtent(), position);
-	}
-	
-	/**
-	 * Donne la position plus haute
-	 * @param location
-	 * @return
-	 */
-	public Optional<Transform<World>> getMaxBlock(final Transform<World> location) {
-		return this.getMaxBlock(location, false);
-	}
-	
-	/**
-	 * Donne la position plus haute safe
-	 * @param location
-	 * @return
-	 */
-	public Optional<Transform<World>> getMaxBlockSafe(final Transform<World> location) {
-		return this.getMaxBlock(location, true);
-	}
-	
 	public Optional<Transform<World>> getMaxBlock(final Transform<World> location, final boolean safe) {
 		Vector3i destination = new Vector3i(location.getLocation().getBlockX(), location.getExtent().getBlockMax().getY() + 1, location.getLocation().getBlockZ());
 
@@ -226,23 +197,12 @@ public class UtilsLocation {
 		return Optional.empty();
 	}
 	
-	
-	/**
-	 * Donne une position possible
-	 * @param location
-	 * @return
-	 */
-	public Optional<Transform<World>> getBlock(final Transform<World> location) {
-		return this.getBlock(location, false);
+	public Optional<Transform<World>> getMaxBlock(final Transform<World> location) {
+		return getMaxBlock(location, false);
 	}
 	
-	/**
-	 * Donne une position safe
-	 * @param location
-	 * @return
-	 */
-	public Optional<Transform<World>> getBlockSafe(final Transform<World> location) {
-		return this.getBlock(location, true);
+	public Optional<Transform<World>> getMaxBlockSafe(final Transform<World> location) {
+		return getMaxBlock(location, true);
 	}
 	
 	public Optional<Transform<World>> getBlock(final Transform<World> location, final boolean safe) {
@@ -269,6 +229,14 @@ public class UtilsLocation {
 			return Optional.of(location.setPosition(destination.toDouble().add(0.5, 0, 0.5)));
 		}
 		return Optional.empty();
+	}
+	
+	public Optional<Transform<World>> getBlock(final Transform<World> location) {
+		return getBlock(location, false);
+	}
+	
+	public Optional<Transform<World>> getBlockSafe(final Transform<World> location) {
+		return getBlock(location, true);
 	}
 	
 	public  Optional<Vector3i> getLocation(final CommandSource player, final String pos_x, final String pos_y, final String pos_z){
