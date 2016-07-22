@@ -76,17 +76,49 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 	 */
 
 	@Override
-	public boolean isAFK() {
+	public boolean isAfk() {
 		if(this.isPresent()) {
-			return this.subject.isAFK();
+			return this.subject.isAfk();
 		}
 		return false;
 	}
 
 	@Override
-	public boolean setAFK(final boolean afk) {
+	public boolean setAfk(final boolean afk) {
 		if(this.isPresent()) {
-			return this.subject.setAFK(afk);
+			return this.subject.setAfk(afk);
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean isAfkAutoFake() {
+		if(this.isPresent()) {
+			return this.subject.isAfkAutoFake();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean setAfkAutoFake(final boolean afk) {
+		if(this.isPresent()) {
+			return this.subject.setAfkAutoFake(afk);
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean isAfkKickFake() {
+		if(this.isPresent()) {
+			return this.subject.isAfkKickFake();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean setAfkKickFake(final boolean afk) {
+		if(this.isPresent()) {
+			return this.subject.setAfkKickFake(afk);
 		}
 		return false;
 	}

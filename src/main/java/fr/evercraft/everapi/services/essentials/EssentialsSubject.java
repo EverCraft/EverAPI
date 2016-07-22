@@ -34,8 +34,13 @@ public interface EssentialsSubject {
 	/*
 	 * AFK
 	 */
-	public boolean isAFK();
-	public boolean setAFK(boolean afk);
+	public boolean isAfk();
+	public boolean setAfk(boolean afk);
+	
+	public boolean isAfkAutoFake();
+	public boolean setAfkAutoFake(boolean afk);
+	public boolean isAfkKickFake();
+	public boolean setAfkKickFake(boolean afk);
 	
 	public void updateLastActivated();
 	public long getLastActivated();
