@@ -145,6 +145,11 @@ public class EPlayer extends PlayerStats {
 	/*
 	 * Teleport
 	 */
+	
+	public boolean reposition() {
+		Location<World> location = this.getLocation();
+		return this.setLocation(location.setPosition(Vector3d.from(location.getBlockX() + 0.5, location.getY(), location.getBlockZ() + 0.5)));
+	}
 
 	public boolean teleport(final World world, final Vector3d vector){
 		if(this.getVehicle().isPresent()){
