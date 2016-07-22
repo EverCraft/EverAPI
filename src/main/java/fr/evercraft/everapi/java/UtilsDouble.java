@@ -18,6 +18,9 @@ package fr.evercraft.everapi.java;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 public class UtilsDouble {
 	
@@ -46,4 +49,11 @@ public class UtilsDouble {
     	}
     	return 0.0D;
     }
+	
+	public static String getString(double value) {
+		DecimalFormatSymbols dfs = new DecimalFormatSymbols(Locale.FRANCE);
+		dfs.setGroupingSeparator(' ');
+		DecimalFormat decimalPrintFormat = new DecimalFormat("#,##0.0####", dfs);
+		return decimalPrintFormat.format(value);
+	}
 }
