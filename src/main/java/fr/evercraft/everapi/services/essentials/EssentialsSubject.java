@@ -97,7 +97,7 @@ public interface EssentialsSubject {
 	 * Teleport
 	 */
 	public boolean addTeleportAsk(UUID uuid, long delay);
-	public boolean addTeleportAskHere(UUID uuid, long delay);
+	public boolean addTeleportAskHere(UUID uuid, long delay, Transform<World> location);
 	public boolean removeTeleportAsk(UUID uuid);
 	public Map<UUID, TeleportRequest> getAllTeleportsAsk();
 	public Optional<TeleportRequest> getTeleportAsk(UUID identifier);

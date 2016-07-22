@@ -186,14 +186,15 @@ public class UtilsLocation {
 	}
 	
 	public boolean isPositionSafe(final Transform<World> location) {
-		Vector3i position = location.getPosition().toInt();
+		Vector3i position = location.getPosition().toInt().sub(0, 1, 0);
 		
-		if(MATERIALS_EMPTY.contains(location.getExtent().getBlock(location.getPosition().toInt().sub(0, 1, 0)).getType().getId())) {
+		if(MATERIALS_EMPTY.contains(location.getExtent().getBlock(position).getType().getId())) {
 			position = position.sub(0, 1, 0);
 		}
 		
-		return !MATERIALS_DAMAGE.contains(location.getExtent().getBlock(location.getPosition().toInt().sub(0, 1, 0)).getType().getId()) && 
-				isBlockAir(location.getExtent(), position);
+		return !MATERIALS_DAMAGE.contains(location.getExtent().getBlock(position).getType().getId()) && 
+				!MATERIALS_EMPTY.contains(location.getExtent().getBlock(position).getType().getId()) &&
+				isBlockAir(location.getExtent(), position.add(1, 1, 1));
 	}
 	
 	/**

@@ -18,6 +18,11 @@ package fr.evercraft.everapi.services.essentials;
 
 import java.util.Optional;
 
+import javax.annotation.Nullable;
+
+import org.spongepowered.api.entity.Transform;
+import org.spongepowered.api.world.World;
+
 public class TeleportRequest {
 	public enum Type {
 		TPA,
@@ -28,10 +33,20 @@ public class TeleportRequest {
 	private Optional<Long> time;
 	private boolean expire;
 	
+	private Optional<Transform<World>> location;
+	
 	public TeleportRequest(final Type type, final long delay) {
 		this.type = type;
 		this.setDelay(delay);
 		this.expire = false;
+		this.location = Optional.empty();
+	}
+	
+	public TeleportRequest(final Type type, final long delay, final Transform<World> location) {
+		this.type = type;
+		this.setDelay(delay);
+		this.expire = false;
+		this.location = Optional.ofNullable(location);
 	}
 
 	public Type getType() {
@@ -56,5 +71,13 @@ public class TeleportRequest {
 		} else {
 			this.time = Optional.empty();
 		}
+	}
+
+	public Optional<Transform<World>> getLocation() {
+		return location;
+	}
+
+	public void setLocation(@Nullable Transform<World> location) {
+		this.location = Optional.ofNullable(location);
 	}
 }

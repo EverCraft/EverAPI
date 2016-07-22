@@ -21,6 +21,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.world.World;
@@ -394,9 +396,9 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 	}
 	
 	@Override
-	public boolean addTeleportAskHere(UUID uuid, long time) {
+	public boolean addTeleportAskHere(UUID uuid, long time, @Nullable Transform<World> location) {
 		if(this.isPresent()) {
-			return this.subject.addTeleportAskHere(uuid, time);
+			return this.subject.addTeleportAskHere(uuid, time, location);
 		}
 		return false;
 	}
