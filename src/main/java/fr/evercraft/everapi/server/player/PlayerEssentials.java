@@ -33,6 +33,7 @@ import com.google.common.collect.ImmutableSet;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.essentials.EssentialsSubject;
 import fr.evercraft.everapi.services.essentials.Mail;
+import fr.evercraft.everapi.services.essentials.TeleportDelay;
 import fr.evercraft.everapi.services.essentials.TeleportRequest;
 
 public class PlayerEssentials extends PlayerAccount implements EssentialsSubject {
@@ -432,49 +433,49 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 	 */
 	
 	@Override
-	public boolean hasTeleport() {
+	public boolean hasTeleportDelay() {
 		if(this.isPresent()) {
-			return this.subject.hasTeleport();
+			return this.subject.hasTeleportDelay();
 		}
 		return false;
 	}
 
 	@Override
-	public boolean runTeleport() {
+	public Optional<TeleportDelay> getTeleportDelay() {
 		if(this.isPresent()) {
-			return this.subject.runTeleport();
-		}
-		return false;
-	}
-	
-	@Override
-	public boolean cancelTeleport() {
-		if(this.isPresent()) {
-			return this.subject.cancelTeleport();
-		}
-		return false;
-	}
-	
-	@Override
-	public Optional<Long> getTeleport() {
-		if(this.isPresent()) {
-			return this.subject.getTeleport();
+			return this.subject.getTeleportDelay();
 		}
 		return Optional.empty();
 	}
 
 	@Override
-	public boolean setTeleport(Runnable runnable) {
+	public boolean setTeleport(Runnable runnable, boolean canMove) {
 		if(this.isPresent()) {
-			return this.subject.setTeleport(runnable);
+			return this.subject.setTeleport(runnable, canMove);
 		}
 		return false;
 	}
 
 	@Override
-	public boolean setTeleport(long delay, Runnable runnable) {
+	public boolean setTeleport(long delay, Runnable runnable, boolean canMove) {
 		if(this.isPresent()) {
-			return this.subject.setTeleport(delay, runnable);
+			return this.subject.setTeleport(delay, runnable, canMove);
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean runTeleportDelay() {
+		if(this.isPresent()) {
+			return this.subject.runTeleportDelay();
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean cancelTeleportDelay() {
+		if(this.isPresent()) {
+			return this.subject.cancelTeleportDelay();
 		}
 		return false;
 	}

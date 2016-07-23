@@ -102,10 +102,11 @@ public interface EssentialsSubject {
 	public Map<UUID, TeleportRequest> getAllTeleportsAsk();
 	public Optional<TeleportRequest> getTeleportAsk(UUID identifier);
 	
-	public boolean hasTeleport();
-	public boolean runTeleport();
-	public boolean cancelTeleport();
-	public boolean setTeleport(Runnable runnable);
-	public boolean setTeleport(long delay, Runnable runnable);
-	public Optional<Long> getTeleport();
+	public boolean hasTeleportDelay();
+	public Optional<TeleportDelay> getTeleportDelay();
+	public boolean setTeleport(Runnable runnable, boolean canMove);
+	public boolean setTeleport(long delay, Runnable runnable, boolean canMove);
+	public boolean runTeleportDelay();
+	public boolean cancelTeleportDelay();
+	
 }
