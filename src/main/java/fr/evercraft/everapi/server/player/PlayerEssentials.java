@@ -46,7 +46,7 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 
 	private boolean isPresent() {
 		if(this.subject == null && this.plugin.getManagerService().getEssentials().isPresent()) {
-			this.subject = this.plugin.getManagerService().getEssentials().get().get(this.player.getUniqueId());
+			this.subject = this.plugin.getManagerService().getEssentials().get().get(this.player.getUniqueId()).orElse(null);
 		}
 		return this.subject != null;
 	}

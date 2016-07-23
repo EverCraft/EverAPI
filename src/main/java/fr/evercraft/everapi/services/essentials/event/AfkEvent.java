@@ -26,6 +26,7 @@ public interface AfkEvent extends Event, Cancellable {
 	public static enum Action {
     	COMMAND,
     	AUTO,
+    	PLAYER,
     	PLUGIN;
     }
 	
