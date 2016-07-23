@@ -16,47 +16,28 @@
  */
 package fr.evercraft.everapi.services.essentials.event;
 
-import java.util.UUID;
-
+import org.spongepowered.api.event.Cancellable;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 
-import fr.evercraft.everapi.plugin.EPlugin;
+import fr.evercraft.everapi.server.player.EPlayer;
 
-public class AfkEvent implements Event {	
+public interface AfkEvent extends Event, Cancellable {	
 	public static enum Action {
     	COMMAND,
-    	INACTIVITY;
+    	AUTO,
+    	PLUGIN;
     }
 	
-	private final EPlugin plugin;
-    private final UUID uuid;
-    private final boolean value;
-    private final Action action;
-
-    public AfkEvent(final EPlugin plugin, final UUID uuid, final boolean value, final Action action) {
-    	this.plugin = plugin;
-    	
-    	this.uuid = uuid;
-        this.value = value;
-        this.action = action;
-    }
-
-    public UUID getPlayer() {
-        return this.uuid;
-    }
+	public EPlayer getPlayer();
     
-    public boolean getValue() {
-        return this.value;
-    }
+    public boolean getValue();
     
-    public Action getAction() {
-        return this.action;
-    }
+    public Action getAction();
     
     @Override
-	public Cause getCause() {
-		return Cause.source(this.plugin).build();
-	}
+	public Cause getCause();
+	
+	public interface Enable extends AfkEvent {}
+	public interface Disable extends AfkEvent {}
 }
-
