@@ -273,6 +273,13 @@ public class EAMessage extends EMessage {
 		ARGS_SPEED("args.speed", 
 				"vitesse",
 				"speed"),
+		ARGS_BLOCK("args.block", 
+				"bloc(s)",
+				"block"),
+		ARGS_SECONDS("args.block", 
+				"seconde(s)",
+				"scond(s)"),	
+				
 		
 		// Couleur
 		COLORS_BLACK("colors.black", 
