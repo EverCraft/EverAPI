@@ -169,6 +169,25 @@ public class EPlayer extends PlayerStats {
 	}
 	
 	/**
+	 * Téléporte un joueur et sauvegarde la dernière position
+	 * @param location La location
+	 * @return True si le joueur a bien été téléporté
+	 */
+	public boolean teleport(final Location<World> location) {
+		return teleport(this.getTransform().setLocation(location));
+	}
+	
+	/**
+	 * Téléporte un joueur et sauvegarde la dernière position
+	 * @param transform Le transform
+	 * @return True si le joueur a bien été téléporté
+	 */
+	public boolean teleport(final Transform<World> transform) {
+		Transform<World> back = this.getTransform();
+		return this.setTransform(transform) && this.setBack(back);
+	}
+	
+	/**
 	 * Téléporter un joueur à un endroit sûr
 	 * @param location La location
 	 * @return True si le joueur a bien été téléporté
