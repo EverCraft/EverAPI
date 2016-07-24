@@ -14,38 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.essentials.event;
+package fr.evercraft.everapi.event;
 
-import java.util.UUID;
-
+import org.spongepowered.api.event.Cancellable;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 
-import fr.evercraft.everapi.plugin.EPlugin;
+import fr.evercraft.everapi.server.player.EPlayer;
 
-public class FlyEvent implements Event {	
-	private final EPlugin plugin;
-    private final UUID uuid;
-    private final boolean value;
-
-    public FlyEvent(final EPlugin plugin, final UUID uuid, final boolean value) {
-    	this.plugin = plugin;
-    	
-    	this.uuid = uuid;
-        this.value = value;
-    }
-
-    public UUID getPlayer() {
-        return this.uuid;
-    }
+public interface FlyEvent extends Event, Cancellable {
+	
+	public EPlayer getPlayer();
     
-    public boolean getValue() {
-        return this.value;
-    }
+    public boolean getValue();
     
     @Override
-	public Cause getCause() {
-		return Cause.source(this.plugin).build();
-	}
+	public Cause getCause();
+	
+	public interface Enable extends FlyEvent {}
+	public interface Disable extends FlyEvent {}
 }
 

@@ -14,50 +14,33 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.essentials.event;
+package fr.evercraft.everapi.event;
 
-import java.util.UUID;
-
+import org.spongepowered.api.event.Cancellable;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 
-import fr.evercraft.everapi.plugin.EPlugin;
+import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.essentials.Mail;
 
-public class MailEvent implements Event {
+public interface MailEvent extends Event, Cancellable {
+	
 	public static enum Action {
     	ADD,
     	REMOVE,
     	READ;
     }
 	
-	private final EPlugin plugin;
-    private final UUID uuid;
-    private final Mail mail;
-    private final Action action;
-
-    public MailEvent(final EPlugin plugin, final UUID uuid, final Mail mail, final Action action) {
-    	this.plugin = plugin;
-    	
-    	this.uuid = uuid;
-        this.mail = mail;
-        this.action = action;
-    }
-
-    public UUID getPlayer() {
-        return this.uuid;
-    }
+	public EPlayer getPlayer();
     
-    public Mail getMail() {
-        return this.mail;
-    }
+    public Mail getMail();
     
-    public Action getAction() {
-        return this.action;
-    }
+    public Action getAction();
     
     @Override
-	public Cause getCause() {
-		return Cause.source(this.plugin).build();
-	}
+	public Cause getCause();
+	
+	public interface Add extends MailEvent {}
+	public interface Remove extends MailEvent {}
+	public interface Read extends MailEvent {}
 }

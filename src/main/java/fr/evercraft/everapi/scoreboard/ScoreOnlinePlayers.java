@@ -20,8 +20,8 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 
+import fr.evercraft.everapi.event.VanishEvent;
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.services.essentials.event.VanishEvent;
 
 public class ScoreOnlinePlayers extends Score {
 	

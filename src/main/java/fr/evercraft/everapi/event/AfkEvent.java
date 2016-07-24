@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.essentials.event;
+package fr.evercraft.everapi.event;
 
 import org.spongepowered.api.event.Cancellable;
 import org.spongepowered.api.event.Event;
