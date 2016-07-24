@@ -22,7 +22,7 @@ import org.spongepowered.api.event.cause.Cause;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public interface ToogleEvent extends Event, Cancellable {
+public interface ToggleEvent extends Event, Cancellable {
 	
 	public EPlayer getPlayer();
     
@@ -31,7 +31,7 @@ public interface ToogleEvent extends Event, Cancellable {
     @Override
 	public Cause getCause();
 	
-	public interface Enable extends ToogleEvent {}
-	public interface Disable extends ToogleEvent {}
+	public interface Enable extends ToggleEvent {}
+	public interface Disable extends ToggleEvent {}
 }
 
