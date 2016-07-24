@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.world.World;
 
@@ -88,7 +89,7 @@ public interface EssentialsSubject {
 	public Set<Mail> getMails();
 	public Optional<Mail> getMail(int id);
 	public boolean hasMail();
-	public boolean addMail(String to, String message);
+	public boolean addMail(CommandSource to, String message);
 	public Optional<Mail> removeMail(int id);
 	public boolean clearMails();
 	public Optional<Mail> readMail(int id);

@@ -23,6 +23,7 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.world.World;
@@ -333,7 +334,7 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 	}
 
 	@Override
-	public boolean addMail(String to, String message) {
+	public boolean addMail(CommandSource to, String message) {
 		if(this.isPresent()) {
 			return this.subject.addMail(to, message);
 		}

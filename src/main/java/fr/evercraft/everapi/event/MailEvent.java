@@ -16,6 +16,7 @@
  */
 package fr.evercraft.everapi.event;
 
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.event.Cancellable;
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
@@ -32,15 +33,21 @@ public interface MailEvent extends Event, Cancellable {
     }
 	
 	public EPlayer getPlayer();
-    
-    public Mail getMail();
-    
+	
     public Action getAction();
     
     @Override
 	public Cause getCause();
 	
-	public interface Add extends MailEvent {}
-	public interface Remove extends MailEvent {}
-	public interface Read extends MailEvent {}
+	public interface Add extends MailEvent {
+		public CommandSource getTo();
+		
+		public String getMessage();
+	}
+	public interface Remove extends MailEvent {
+		public Mail getMail();
+	}
+	public interface Read extends MailEvent {
+		public Mail getMail();
+	}
 }
