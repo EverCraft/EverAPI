@@ -81,356 +81,452 @@ public abstract class PlayerSponge implements Player {
 		this.player = player;
 	}
 
+	@Override
 	public boolean isViewingInventory() {
 		return this.player.isViewingInventory();
 	}
 
+	@Override
 	public Optional<Inventory> getOpenInventory() {
 		return this.player.getOpenInventory();
 	}
 
+	@Override
 	public void openInventory(Inventory inventory, Cause cause) {
 		this.player.openInventory(inventory, cause);
 	}
 
+	@Override
 	public void closeInventory(Cause cause) {
 		this.player.closeInventory(cause);
 	}
 
+	@Override
 	public EntityType getType() {
 		return this.player.getType();
 	}
 
+	@Override
 	public World getWorld() {
 		return this.player.getWorld();
 	}
 
+	@Override
 	public EntitySnapshot createSnapshot() {
 		return this.player.createSnapshot();
 	}
 
+	@Override
 	public Random getRandom() {
 		return this.player.getRandom();
 	}
 
+	@Override
 	public Location<World> getLocation() {
 		return this.player.getLocation();
 	}
 
+	@Override
 	public boolean setLocation(Location<World> location) {
 		return this.player.setLocation(location);
 	}
 
+	@Override
 	public Vector3d getRotation() {
 		return this.player.getRotation();
 	}
 
+	@Override
 	public void setRotation(Vector3d rotation) {
 		this.player.setRotation(rotation);
 	}
 
+	@Override
 	public boolean setLocationAndRotation(Location<World> location, Vector3d rotation) {
 		return this.player.setLocationAndRotation(location, rotation);
 	}
 
+	@Override
 	public boolean setLocationAndRotation(Location<World> location, Vector3d rotation, EnumSet<RelativePositions> relativePositions) {
 		return this.player.setLocationAndRotation(location, rotation, relativePositions);
 	}
 	
+	@Override
 	public Vector3d getScale() {
 		return this.player.getScale();
 	}
 
+	@Override
 	public void setScale(Vector3d scale) {
 		this.player.setScale(scale);
 	}
 
+	@Override
 	public Transform<World> getTransform() {
 		return this.player.getTransform();
 	}
 
+	@Override
 	public boolean setTransform(Transform<World> transform) {
 		return this.player.setTransform(transform);
 	}
 
+	@Override
 	public Optional<Entity> getVehicle() {
 		return this.player.getVehicle();
 	}
 
+	@Override
 	public DataTransactionResult setVehicle(Entity entity) {
 		return this.player.setVehicle(entity);
 	}
 
+	@Override
 	public Entity getBaseVehicle() {
 		return this.player.getBaseVehicle();
 	}
 
+	@Override
 	public boolean isOnGround() {
 		return this.player.isOnGround();
 	}
 
+	@Override
 	public boolean isRemoved() {
 		return this.player.isRemoved();
 	}
 
+	@Override
 	public boolean isLoaded() {
 		return this.player.isLoaded();
 	}
 
+	@Override
 	public void remove() {
 		this.player.remove();
 	}
 
+	@Override
 	public boolean damage(double damage, DamageSource damageSource, Cause cause) {
 		return this.player.damage(damage, damageSource, cause);
 	}
 
+	@Override
 	public UUID getUniqueId() {
 		return this.player.getUniqueId();
 	}
 
+	@Override
 	public boolean validateRawData(DataContainer container) {
 		return this.player.validateRawData(container);
 	}
 
+	@Override
 	public void setRawData(DataContainer container) {
 		this.player.setRawData(container);
 	}
 
+	@Override
 	public int getContentVersion() {
 		return this.player.getContentVersion();
 	}
 
+	@Override
 	public DataContainer toContainer() {
 		return this.player.toContainer();
 	}
 
+	@Override
 	public <T extends Property<?, ?>> Optional<T> getProperty(Class<T> propertyClass) {
 		return this.player.getProperty(propertyClass);
 	}
 
+	@Override
 	public Collection<Property<?, ?>> getApplicableProperties() {
 		return this.player.getApplicableProperties();
 	}
 
+	@Override
 	public <T extends DataManipulator<?, ?>> Optional<T> get(Class<T> containerClass) {
 		return this.player.get(containerClass);
 	}
 
+	@Override
 	public <T extends DataManipulator<?, ?>> Optional<T> getOrCreate(Class<T> containerClass) {
 		return this.player.getOrCreate(containerClass);
 	}
 
-	
+	@Override
 	public boolean supports(Class<? extends DataManipulator<?, ?>> holderClass) {
 		return this.player.supports(holderClass);
 	}
 
+	@Override
 	public <E> DataTransactionResult offer(Key<? extends BaseValue<E>> key, E value) {
 		return this.player.offer(key, value);
 	}
 
+	@Override
 	public DataTransactionResult offer(DataManipulator<?, ?> valueContainer, MergeFunction function) {
 		return this.player.offer(valueContainer, function);
 	}
+	
+	@Override
+	public <E> DataTransactionResult offer(Key<? extends BaseValue<E>> key, E value, Cause cause) {
+		return this.offer(key, value, cause);
+	}
 
+	@Override
+	public DataTransactionResult offer(DataManipulator<?, ?> valueContainer, MergeFunction function, Cause cause) {
+		return this.offer(valueContainer, function, cause);
+	}
+
+	@Override
 	public DataTransactionResult remove(Class<? extends DataManipulator<?, ?>> containerClass) {
 		return this.player.remove(containerClass);
 	}
 
+	@Override
 	public DataTransactionResult remove(Key<?> key) {
 		return this.player.remove(key);
 	}
 
+	@Override
 	public DataTransactionResult undo(DataTransactionResult result) {
 		return this.player.undo(result);
 	}
 
+	@Override
 	public DataTransactionResult copyFrom(DataHolder that, MergeFunction function) {
 		return this.player.copyFrom(that, function);
 	}
 
+	@Override
 	public Collection<DataManipulator<?, ?>> getContainers() {
 		return this.player.getContainers();
 	}
 
+	@Override
 	public <E> Optional<E> get(Key<? extends BaseValue<E>> key) {
 		return this.player.get(key);
 	}
 
+	@Override
 	public <E, V extends BaseValue<E>> Optional<V> getValue(Key<V> key) {
 		return this.player.getValue(key);
 	}
 
+	@Override
 	public boolean supports(Key<?> key) {
 		return this.player.supports(key);
 	}
 
+	@Override
 	public DataHolder copy() {
 		return this.player.copy();
 	}
 
+	@Override
 	public Set<Key<?>> getKeys() {
 		return this.player.getKeys();
 	}
 
+	@Override
 	public Set<ImmutableValue<?>> getValues() {
 		return this.player.getValues();
 	}
 
+	@Override
 	public Translation getTranslation() {
 		return this.player.getTranslation();
 	}
 
+	@Override
 	public Text getTeamRepresentation() {
 		return this.player.getTeamRepresentation();
 	}
 
+	@Override
 	public <T extends Projectile> Optional<T> launchProjectile(Class<T> projectileClass) {
 		return this.player.launchProjectile(projectileClass);
 	}
 
+	@Override
 	public <T extends Projectile> Optional<T> launchProjectile(Class<T> projectileClass, Vector3d velocity) {
 		return this.player.launchProjectile(projectileClass, velocity);
 	}
 
+	@Override
 	public Optional<ItemStack> getHelmet() {
 		return this.player.getHelmet();
 	}
 
+	@Override
 	public void setHelmet(ItemStack helmet) {
 		this.player.setHelmet(helmet);
 	}
 
+	@Override
 	public Optional<ItemStack> getChestplate() {
 		return this.player.getChestplate();
 	}
 
+	@Override
 	public void setChestplate(ItemStack chestplate) {
 		this.player.setChestplate(chestplate);
 	}
 
+	@Override
 	public Optional<ItemStack> getLeggings() {
 		return this.player.getLeggings();
 	}
 
+	@Override
 	public void setLeggings(ItemStack leggings) {
 		this.player.setLeggings(leggings);
 	}
 
+	@Override
 	public Optional<ItemStack> getBoots() {
 		return this.player.getBoots();
 	}
 
+	@Override
 	public void setBoots(ItemStack boots) {
 		this.player.setBoots(boots);
 	}
 
+	@Override
 	public boolean canEquip(EquipmentType type) {
 		return this.player.canEquip(type);
 	}
 
+	@Override
 	public boolean canEquip(EquipmentType type, ItemStack equipment) {
 		return this.player.canEquip(type, equipment);
 	}
 
+	@Override
 	public Optional<ItemStack> getEquipped(EquipmentType type) {
 		return this.player.getEquipped(type);
 	}
 
+	@Override
 	public boolean equip(EquipmentType type, ItemStack equipment) {
 		return this.player.equip(type, equipment);
 	}
 
+	@Override
 	public CarriedInventory<? extends Carrier> getInventory() {
 		return this.player.getInventory();
 	}
 
+	@Override
 	public String getName() {
 		return this.player.getName();
 	}
 
+	@Override
 	public GameProfile getProfile() {
 		return this.player.getProfile();
 	}
 
+	@Override
 	public boolean isOnline() {
 		return this.player.isOnline();
 	}
 
+	@Override
 	public Optional<Player> getPlayer() {
 		return this.player.getPlayer();
 	}
 	
-
+	@Override
 	public void sendMessage(Text message) {
 		this.player.sendMessage(message);
 	}
 
+	@Override
 	public MessageChannel getMessageChannel() {
 		return this.player.getMessageChannel();
 	}
 
+	@Override
 	public void setMessageChannel(MessageChannel channel) {
 		this.player.setMessageChannel(channel);
 	}
 
+	@Override
 	public void spawnParticles(ParticleEffect particleEffect, Vector3d position) {
 		this.player.spawnParticles(particleEffect, position);
 	}
 
+	@Override
 	public void spawnParticles(ParticleEffect particleEffect, Vector3d position, int radius) {
 		this.player.spawnParticles(particleEffect, position, radius);
 	}
 
+	@Override
 	public void playSound(SoundType sound, Vector3d position, double volume) {
 		this.player.playSound(sound, position, volume);
 	}
 
+	@Override
 	public void playSound(SoundType sound, Vector3d position, double volume, double pitch) {
 		this.player.playSound(sound, position, volume, pitch);
 	}
 
+	@Override
 	public void playSound(SoundType sound, Vector3d position, double volume, double pitch, double minVolume) {
 		this.player.playSound(sound, position, volume, pitch, minVolume);
 	}
 
+	@Override
 	public void sendMessage(ChatType type, Text message) {
 		this.player.sendMessage(type, message);
 	}
 
+	@Override
 	public void sendMessages(ChatType type, Text... messages) {
 		this.player.sendMessages(type, messages);
 	}
 
+	@Override
 	public void sendMessages(ChatType type, Iterable<Text> messages) {
 		this.player.sendMessages(type, messages);
 	}
 
+	@Override
 	public void sendTitle(Title title) {
 		this.player.sendTitle(title);
 	}
 
+	@Override
 	public int getViewDistance() {
 		return this.player.getViewDistance();
 	}
 
+	@Override
 	public ChatVisibility getChatVisibility() {
 		return this.player.getChatVisibility();
 	}
 
+	@Override
 	public boolean isChatColorsEnabled() {
 		return this.player.isChatColorsEnabled();
 	}
 
+	@Override
 	public Set<SkinPart> getDisplayedSkinParts() {
 		return this.player.getDisplayedSkinParts();
 	}
 
+	@Override
 	public PlayerConnection getConnection() {
 		return this.player.getConnection();
 	}
 
+	@Override
 	public void sendResourcePack(ResourcePack pack) {
 		this.player.sendResourcePack(pack);
 	}
@@ -439,50 +535,62 @@ public abstract class PlayerSponge implements Player {
 		return this.player.getTabList();
 	}
 
+	@Override
 	public void kick() {
 		this.player.kick();
 	}
 
+	@Override
 	public void kick(Text reason) {
 		this.player.kick(reason);
 	}
 
+	@Override
 	public Scoreboard getScoreboard() {
 		return this.player.getScoreboard();
 	}
 
+	@Override
 	public void setScoreboard(Scoreboard scoreboard) {
 		this.player.setScoreboard(scoreboard);
 	}
 
+	@Override
 	public boolean isSleepingIgnored() {
 		return this.player.isSleepingIgnored();
 	}
 
+	@Override
 	public void setSleepingIgnored(boolean sleepingIgnored) {
 		this.player.setSleepingIgnored(sleepingIgnored);
 	}
 
+	@Override
 	public Optional<UUID> getCreator() {
 		return this.player.getCreator();
 	}
 
+	@Override
 	public Optional<UUID> getNotifier() {
 		return this.player.getNotifier();
 	}
 
+	@Override
 	public void setCreator(UUID uuid) {
 		this.player.setCreator(uuid);
 	}
 
+	@Override
 	public void setNotifier(UUID uuid) {
 		this.player.setNotifier(uuid);
 	}
-
+	
+	@Override
 	public Vector3d getHeadRotation() {
 		return this.player.getHeadRotation();
 	}
 
+	@Override
 	public void setHeadRotation(Vector3d rotation) {
 		this.player.setHeadRotation(rotation);
 	}
@@ -551,5 +659,4 @@ public abstract class PlayerSponge implements Player {
 	public void setItemInHand(HandType hand, ItemStack itemInHand) {
 		this.player.setItemInHand(hand, itemInHand);
 	}
-
 }
