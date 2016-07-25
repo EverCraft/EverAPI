@@ -65,8 +65,8 @@ public interface EssentialsSubject {
 	public boolean hasHome(String identifier);
 	public Optional<Transform<World>> getHome(String identifier);
 	public boolean addHome(String identifier, Transform<World> location);
+	public boolean moveHome(String identifier, Transform<World> location);
 	public boolean removeHome(String identifier);
-	public boolean clearHome();
 	
 	/*
 	 *  Back

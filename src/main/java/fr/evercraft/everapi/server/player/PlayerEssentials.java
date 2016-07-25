@@ -221,19 +221,23 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 		}
 		return false;
 	}
-
+	
+	public boolean moveHome(final String identifier) {
+		return this.moveHome(identifier, this.getTransform());
+	}
+	
 	@Override
-	public boolean removeHome(final String identifier) {
+	public boolean moveHome(final String identifier, final Transform<World> location) {
 		if(this.isPresent()) {
-			return this.subject.removeHome(identifier);
+			return this.subject.moveHome(identifier, location);
 		}
 		return false;
 	}
 
 	@Override
-	public boolean clearHome() {
+	public boolean removeHome(final String identifier) {
 		if(this.isPresent()) {
-			return this.subject.clearHome();
+			return this.subject.removeHome(identifier);
 		}
 		return false;
 	}

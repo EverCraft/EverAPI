@@ -16,6 +16,8 @@
  */
 package fr.evercraft.everapi.event;
 
+import java.util.Optional;
+
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.event.Cancellable;
 import org.spongepowered.api.event.Event;
@@ -44,10 +46,10 @@ public interface HomeEvent extends Event, Cancellable {
 		public Transform<World> getLocation();
 	}
 	public interface Remove extends HomeEvent {
-		public Transform<World> getLocation();
+		public Optional<Transform<World>> getLocation();
 	}
 	public interface Move extends HomeEvent {
-		public Transform<World> getBeforeLocation();
+		public Optional<Transform<World>> getBeforeLocation();
 		
 		public Transform<World> getAfterLocation();
 	}
