@@ -342,11 +342,11 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 	}
 	
 	@Override
-	public Optional<Mail> removeMail(int id) {
+	public boolean removeMail(Mail mail) {
 		if(this.isPresent()) {
-			return this.subject.removeMail(id);
+			return this.subject.removeMail(mail);
 		}
-		return Optional.empty();
+		return false;
 	}
 
 	@Override
@@ -366,11 +366,11 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 	}
 
 	@Override
-	public Optional<Mail> readMail(int id) {
+	public boolean readMail(Mail mail) {
 		if(this.isPresent()) {
-			return this.subject.readMail(id);
+			return this.subject.readMail(mail);
 		}
-		return Optional.empty();
+		return false;
 	}
 	
 	/*

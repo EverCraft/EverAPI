@@ -90,9 +90,9 @@ public interface EssentialsSubject {
 	public Optional<Mail> getMail(int id);
 	public boolean hasMail();
 	public boolean addMail(CommandSource to, String message);
-	public Optional<Mail> removeMail(int id);
+	public boolean removeMail(Mail mail);
 	public boolean clearMails();
-	public Optional<Mail> readMail(int id);
+	public boolean readMail(Mail mail);
 	
 	/*
 	 * Teleport
