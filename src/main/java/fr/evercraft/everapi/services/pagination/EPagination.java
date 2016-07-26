@@ -21,8 +21,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.TreeMap;
+import java.util.TreeSet;
 
+import org.spongepowered.api.command.CommandMapping;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
@@ -33,7 +34,6 @@ import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.EPlugin;
-import fr.evercraft.everapi.plugin.command.ECommand;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.text.ETextBuilder;
 
@@ -75,27 +75,31 @@ public class EPagination {
 		
 		this.send(title, this.pagination_padding, contents, source);
 	}
-
-	public <T extends EPlugin> void helpCommand(TreeMap<String, ECommand<T>> commands, CommandSource source, EPlugin plugin) {
+	
+	public void helpCommands(TreeSet<CommandMapping> commands, Text title, CommandSource source) {
 		List<Text> contents = new ArrayList<Text>();
 		
-		for(Entry<String, ECommand<T>> command : commands.entrySet()) {
-			if(command.getValue().testPermission(source)) {
-				Text help = command.getValue().help(source);
-				Text description = command.getValue().description(source);
-				if(help != null && description != null && !help.isEmpty() && !description.isEmpty()) {
-					help = help.toBuilder().color(this.help_color_help).build();
-					description = description.toBuilder().color(this.help_color_description).build();
+		for(CommandMapping command : commands) {
+			if(command.getCallable().testPermission(source)) {
+				Optional<Text> optHelp = command.getCallable().getHelp(source);
+				Optional<Text> optDescription = command.getCallable().getShortDescription(source);
+				if(optHelp.isPresent() && optDescription.isPresent() && !optHelp.get().isEmpty() && !optDescription.get().isEmpty()) {
+					Text help = optHelp.get().toBuilder().color(this.help_color_help).build();
+					Text description = optDescription.get().toBuilder().color(this.help_color_description).build();
 					
 					contents.add(ETextBuilder.toBuilder(EAMessages.HELP_LINE.get())
-								.replace("<name>", getButtonName(command.getKey(), help))
+								.replace("<name>", getButtonName(command.getPrimaryAlias(), help))
 								.replace("<description>", description)
 								.build());
 				}
 			}
 		}
 		
-		this.help(contents, source, plugin);
+		if(contents.isEmpty()) {
+			contents.add(this.help_empty);
+		}
+		
+		this.send(title.toBuilder().color(this.help_color_padding).build(), this.help_padding, contents, source);
 	}
 	
 	public void helpSubCommand(LinkedHashMap<String, CommandPagination> commands, CommandSource source, EPlugin plugin) {

@@ -79,9 +79,9 @@ public interface EssentialsSubject {
 	 * Ignores
 	 */
 	public Set<UUID> getIgnores();
+	public boolean ignore(UUID uuid);
 	public boolean addIgnore(UUID uuid);
 	public boolean removeIgnore(UUID uuid);
-	public boolean clearIgnores();
 	
 	/*
 	 * Mails

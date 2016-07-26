@@ -286,9 +286,10 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 		return ImmutableSet.of();
 	}
 	
+	@Override
 	public boolean ignore(UUID uuid) {
 		if(this.isPresent()) {
-			return this.subject.getIgnores().contains(uuid);
+			return this.subject.ignore(uuid);
 		}
 		return false;
 	}
@@ -305,14 +306,6 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 	public boolean removeIgnore(final UUID uuid) {
 		if(this.isPresent()) {
 			return this.subject.removeIgnore(uuid);
-		}
-		return false;
-	}
-
-	@Override
-	public boolean clearIgnores() {
-		if(this.isPresent()) {
-			return this.subject.clearIgnores();
 		}
 		return false;
 	}
