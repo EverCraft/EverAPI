@@ -17,12 +17,16 @@
 package fr.evercraft.everapi.services.essentials;
 
 import java.util.Optional;
-import java.util.UUID;
 
-public interface EssentialsService {
-	public Optional<SubjectUserEssentials> get(UUID uuid);
-	public boolean hasRegistered(UUID uuid);
+import javax.annotation.Nullable;
+
+public interface SubjectVirtualEssentials {
 	
-	public String getPermissionVanishSee();
-	public SubjectVirtualEssentials getConsole();
+	/*
+	 * ReplyTo
+	 */
+	
+	public boolean setReplyTo(@Nullable String identifier);
+	
+	public Optional<String> getReplyTo();
 }

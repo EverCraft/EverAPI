@@ -32,14 +32,14 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.services.essentials.EssentialsSubject;
+import fr.evercraft.everapi.services.essentials.SubjectUserEssentials;
 import fr.evercraft.everapi.services.essentials.Mail;
 import fr.evercraft.everapi.services.essentials.TeleportDelay;
 import fr.evercraft.everapi.services.essentials.TeleportRequest;
 
-public class PlayerEssentials extends PlayerAccount implements EssentialsSubject {
+public class PlayerEssentials extends PlayerAccount implements SubjectUserEssentials {
 	
-	private EssentialsSubject subject;
+	private SubjectUserEssentials subject;
 
 	public PlayerEssentials(final EverAPI plugin, final Player player) {
 		super(plugin, player);
@@ -51,6 +51,30 @@ public class PlayerEssentials extends PlayerAccount implements EssentialsSubject
 		}
 		return this.subject != null;
 	}
+	
+	/*
+	 * ReplyTo
+	 */
+	
+	@Override
+	public Optional<String> getReplyTo() {
+		if(this.isPresent()) {
+			return this.subject.getReplyTo();
+		}
+		return Optional.empty();
+	}
+	
+	@Override
+	public boolean setReplyTo(@Nullable String identifier) {
+		if(this.isPresent()) {
+			return this.subject.setReplyTo(identifier);
+		}
+		return false;
+	}
+	
+	/*
+	 * Vanish
+	 */
 
 	@Override
 	public boolean isVanish() {
