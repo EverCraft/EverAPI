@@ -25,7 +25,7 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.world.World;
 
-public interface SubjectUserEssentials extends SubjectVirtualEssentials {
+public interface SubjectUserEssentials extends SubjectEssentials {
 	
 	/*
 	 * Vanish

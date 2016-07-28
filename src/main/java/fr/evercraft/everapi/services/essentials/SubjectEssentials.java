@@ -16,5 +16,17 @@
  */
 package fr.evercraft.everapi.services.essentials;
 
-public interface SubjectVirtualEssentials extends SubjectEssentials {
+import java.util.Optional;
+
+import javax.annotation.Nullable;
+
+public interface SubjectEssentials {
+	
+	/*
+	 * ReplyTo
+	 */
+	
+	public boolean setReplyTo(@Nullable String identifier);
+	
+	public Optional<String> getReplyTo();
 }

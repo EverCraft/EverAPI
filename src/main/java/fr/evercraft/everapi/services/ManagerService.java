@@ -18,9 +18,11 @@ package fr.evercraft.everapi.services;
 
 import java.util.Optional;
 
+import org.spongepowered.api.service.ban.BanService;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.service.pagination.PaginationService;
 import org.spongepowered.api.service.permission.PermissionService;
+import org.spongepowered.api.service.rcon.RconService;
 import org.spongepowered.api.service.user.UserStorageService;
 import org.spongepowered.api.service.whitelist.WhitelistService;
 
@@ -198,5 +200,13 @@ public class ManagerService {
 	
 	public Optional<WhitelistService> getWhitelist() {
 		return this.plugin.getGame().getServiceManager().provide(WhitelistService.class);
+	}
+	
+	public Optional<RconService> getRcon() {
+		return this.plugin.getGame().getServiceManager().provide(RconService.class);
+	}
+	
+	public Optional<BanService> getBan() {
+		return this.plugin.getGame().getServiceManager().provide(BanService.class);
 	}
 }
