@@ -23,6 +23,25 @@ import org.spongepowered.api.CatalogType;
 import org.spongepowered.api.CatalogTypes;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.type.BrickType;
+import org.spongepowered.api.data.type.CoalType;
+import org.spongepowered.api.data.type.DirtType;
+import org.spongepowered.api.data.type.DoublePlantType;
+import org.spongepowered.api.data.type.DyeColor;
+import org.spongepowered.api.data.type.Fish;
+import org.spongepowered.api.data.type.GoldenApple;
+import org.spongepowered.api.data.type.PistonType;
+import org.spongepowered.api.data.type.PlantType;
+import org.spongepowered.api.data.type.PrismarineType;
+import org.spongepowered.api.data.type.QuartzType;
+import org.spongepowered.api.data.type.SandType;
+import org.spongepowered.api.data.type.SandstoneType;
+import org.spongepowered.api.data.type.ShrubType;
+import org.spongepowered.api.data.type.SkullType;
+import org.spongepowered.api.data.type.SlabType;
+import org.spongepowered.api.data.type.StoneType;
+import org.spongepowered.api.data.type.TreeType;
+import org.spongepowered.api.data.type.WallType;
 import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.item.inventory.ItemStack;
 
@@ -77,5 +96,130 @@ public class UtilsItemTypes {
 			type = CatalogTypes.WALL_TYPE;
 		}
 		return Optional.ofNullable(type);
+	}
+	
+	public static Optional<ItemStack> getCatalogType(final ItemStack item, String type_string){
+		boolean found = false;
+		if(item.supports(Keys.BRICK_TYPE)) {
+			Optional<BrickType> key = Sponge.getGame().getRegistry().getType(BrickType.class, type_string);
+			if(key.isPresent()) {
+				item.offer(Keys.BRICK_TYPE, key.get());
+				found = true;
+			}
+		} else if(item.supports(Keys.COAL_TYPE)){
+			Optional<CoalType> key = Sponge.getGame().getRegistry().getType(CoalType.class, type_string);
+			if(key.isPresent()) {
+				item.offer(Keys.COAL_TYPE, key.get());
+				found = true;
+			}
+		} else if(item.supports(Keys.DIRT_TYPE)){
+			Optional<DirtType> key = Sponge.getGame().getRegistry().getType(DirtType.class, type_string);
+			if(key.isPresent()) {
+				item.offer(Keys.DIRT_TYPE, key.get());
+				found = true;
+			}
+		} else if(item.supports(Keys.DOUBLE_PLANT_TYPE)){
+			Optional<DoublePlantType> key = Sponge.getGame().getRegistry().getType(DoublePlantType.class, type_string);
+			if(key.isPresent()) {
+				item.offer(Keys.DOUBLE_PLANT_TYPE, key.get());
+				found = true;
+			}
+		} else if(item.supports(Keys.DYE_COLOR)){
+			Optional<DyeColor> key = Sponge.getGame().getRegistry().getType(DyeColor.class, type_string);
+			if(key.isPresent()) {
+				item.offer(Keys.DYE_COLOR, key.get());
+				found = true;
+			}
+		} else if(item.supports(Keys.FISH_TYPE)){
+			Optional<Fish> key = Sponge.getGame().getRegistry().getType(Fish.class, type_string);
+			if(key.isPresent()) {
+				item.offer(Keys.FISH_TYPE, key.get());
+				found = true;
+			}
+		} else if(item.supports(Keys.GOLDEN_APPLE_TYPE)){
+			Optional<GoldenApple> key = Sponge.getGame().getRegistry().getType(GoldenApple.class, type_string);
+			if(key.isPresent()) {
+				item.offer(Keys.GOLDEN_APPLE_TYPE, key.get());
+				found = true;
+			}
+		} else if(item.supports(Keys.PISTON_TYPE)){
+			Optional<PistonType> key = Sponge.getGame().getRegistry().getType(PistonType.class, type_string);
+			if(key.isPresent()) {
+				item.offer(Keys.PISTON_TYPE, key.get());
+				found = true;
+			}
+		} else if(item.supports(Keys.PLANT_TYPE)){
+			Optional<PlantType> key = Sponge.getGame().getRegistry().getType(PlantType.class, type_string);
+			if(key.isPresent()) {
+				item.offer(Keys.PLANT_TYPE, key.get());
+				found = true;
+			}
+		} else if(item.supports(Keys.PRISMARINE_TYPE)){
+			Optional<PrismarineType> key = Sponge.getGame().getRegistry().getType(PrismarineType.class, type_string);
+			if(key.isPresent()) {
+				item.offer(Keys.PRISMARINE_TYPE, key.get());
+				found = true;
+			}
+		} else if(item.supports(Keys.QUARTZ_TYPE)){
+			Optional<QuartzType> key = Sponge.getGame().getRegistry().getType(QuartzType.class, type_string);
+			if(key.isPresent()) {
+				item.offer(Keys.QUARTZ_TYPE, key.get());
+				found = true;
+			}
+		} else if(item.supports(Keys.SAND_TYPE)){
+			Optional<SandType> key = Sponge.getGame().getRegistry().getType(SandType.class, type_string);
+			if(key.isPresent()) {
+				item.offer(Keys.SAND_TYPE, key.get());
+				found = true;
+			}
+		} else if(item.supports(Keys.SANDSTONE_TYPE)){
+			Optional<SandstoneType> key = Sponge.getGame().getRegistry().getType(SandstoneType.class, type_string);
+			if(key.isPresent()) {
+				item.offer(Keys.SANDSTONE_TYPE, key.get());
+				found = true;
+			}
+		} else if(item.supports(Keys.SHRUB_TYPE)){
+			Optional<ShrubType> key = Sponge.getGame().getRegistry().getType(ShrubType.class, type_string);
+			if(key.isPresent()) {
+				item.offer(Keys.SHRUB_TYPE, key.get());
+				found = true;
+			}
+		} else if(item.supports(Keys.SKULL_TYPE)){
+			Optional<SkullType> key = Sponge.getGame().getRegistry().getType(SkullType.class, type_string);
+			if(key.isPresent()) {
+				item.offer(Keys.SKULL_TYPE, key.get());
+				found = true;
+			}
+		} else if(item.supports(Keys.SLAB_TYPE)){
+			Optional<SlabType> key = Sponge.getGame().getRegistry().getType(SlabType.class, type_string);
+			if(key.isPresent()) {
+				item.offer(Keys.SLAB_TYPE, key.get());
+				found = true;
+			}
+		} else if(item.supports(Keys.STONE_TYPE)){
+			Optional<StoneType> key = Sponge.getGame().getRegistry().getType(StoneType.class, type_string);
+			if(key.isPresent()) {
+				item.offer(Keys.STONE_TYPE, key.get());
+				found = true;
+			}
+		} else if(item.supports(Keys.TREE_TYPE)){
+			Optional<TreeType> key = Sponge.getGame().getRegistry().getType(TreeType.class, type_string);
+			if(key.isPresent()) {
+				item.offer(Keys.TREE_TYPE, key.get());
+				found = true;
+			}
+		} else if(item.supports(Keys.WALL_TYPE)){
+			Optional<WallType> key = Sponge.getGame().getRegistry().getType(WallType.class, type_string);
+			if(key.isPresent()) {
+				item.offer(Keys.WALL_TYPE, key.get());
+				found = true;
+			}
+		}
+		
+		if(found) {
+			return Optional.of(item);
+		} else {
+			return Optional.empty();
+		}
 	}
 }
