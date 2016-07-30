@@ -68,13 +68,16 @@ public class EAMessage extends EMessage {
 		IS_NOT_ENTITY_TYPE("isNotEntityType", 
 				"&cErreur : '<entity>' n'est pas un type d'entité.", 
 				"&cError : '<entity>' is not an entity type."),
-		
+		ERROR_VARIABLE("errorVariable", 
+				"&cErreur : La variable '<number>' est incorrect."),
+				
+				
 		// Nombre
 		NUMBER_INVALID("numberInvalid",
 				"&cUne erreur est survenu, les administrateurs ont été contactés.", 
 				"&cAn error occurred, administrators were contacted."),
 		IS_NOT_NUMBER("isNotNumber", 
-				"&cErreur : Ceci n'est pas nombre '<number>'.", 
+				"&cErreur : '<number>' n'est pas nombre .", 
 				"&cError : '<number>' is not a number"),
 		
 		// Commande
