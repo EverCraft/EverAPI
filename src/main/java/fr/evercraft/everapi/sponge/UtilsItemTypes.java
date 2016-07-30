@@ -45,6 +45,8 @@ public class UtilsItemTypes {
 			type = CatalogTypes.DIRT_TYPE;
 		} else if(item.supports(Keys.DOUBLE_PLANT_TYPE)){
 			type = CatalogTypes.DOUBLE_SIZE_PLANT_TYPE;
+		} else if(item.supports(Keys.DYE_COLOR)){
+			type = CatalogTypes.DYE_COLOR;
 		} else if(item.supports(Keys.FISH_TYPE)){
 			type = CatalogTypes.FISH;
 		} else if(item.supports(Keys.GOLDEN_APPLE_TYPE)){
