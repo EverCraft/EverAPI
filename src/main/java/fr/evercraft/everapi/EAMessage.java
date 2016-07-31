@@ -287,6 +287,10 @@ public class EAMessage extends EMessage {
 				"damage(s)"),
 		ARGS_DISTANCE("args.distance", 
 				"distance"),
+		ARGS_OBJET("args.objet", 
+				"objet"),
+		ARGS_TYPE("args.type", 
+				"type"),
 						
 		// Couleur
 		COLORS_BLACK("colors.black", 
