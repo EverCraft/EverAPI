@@ -26,6 +26,7 @@ import org.spongepowered.api.service.context.Context;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.service.permission.SubjectCollection;
 import org.spongepowered.api.service.permission.SubjectData;
+import org.spongepowered.api.util.AABB;
 import org.spongepowered.api.util.Tristate;
 
 import com.google.common.base.Preconditions;
@@ -127,4 +128,8 @@ public class PlayerPermission extends PlayerKeys implements Subject {
 		return Optional.empty();
 	}
 
+	@Override
+	public Optional<AABB> getBoundingBox() {
+		return this.player.getBoundingBox();
+	}
 }
