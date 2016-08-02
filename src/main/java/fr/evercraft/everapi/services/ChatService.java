@@ -35,6 +35,10 @@ public interface ChatService {
 	public String getFormat(Subject subject);
 
 	public String getFormat(Subject subject, Set<Context> contexts);
+
+	public String replaceIcons(String message);
+
+	public String replaceCharacter(String message);
 	
 }
 

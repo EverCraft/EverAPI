@@ -371,6 +371,26 @@ public class EChat implements ChatService {
 		    return list;
 		} 
 	}
+	
+	@Override
+	public String replaceCharacter(final String message) {
+		Preconditions.checkNotNull(message, "message");
+		
+		if(this.isPresent()) {
+			return this.service.replaceCharacter(message);
+		}
+		return message.replace("[RT]", "\n");
+	}
+	
+	@Override
+	public String replaceIcons(final String message) {
+		Preconditions.checkNotNull(message, "message");
+		
+		if(this.isPresent()) {
+			return this.service.replaceIcons(message);
+		}
+		return message;
+	}
 
 	@Override
 	public String getFormat(Subject subject) {
