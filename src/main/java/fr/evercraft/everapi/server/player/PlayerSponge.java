@@ -64,6 +64,7 @@ import org.spongepowered.api.text.chat.ChatType;
 import org.spongepowered.api.text.chat.ChatVisibility;
 import org.spongepowered.api.text.title.Title;
 import org.spongepowered.api.text.translation.Translation;
+import org.spongepowered.api.util.AABB;
 import org.spongepowered.api.util.RelativePositions;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -658,5 +659,10 @@ public abstract class PlayerSponge implements Player {
 	@Override
 	public void setItemInHand(HandType hand, ItemStack itemInHand) {
 		this.player.setItemInHand(hand, itemInHand);
+	}
+	
+	@Override
+	public Optional<AABB> getBoundingBox() {
+		return this.player.getBoundingBox();
 	}
 }

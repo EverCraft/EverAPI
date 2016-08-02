@@ -91,14 +91,10 @@ public enum UtilsEntity {
 	
 	public boolean spawnEntity(final Location<World> spawnLocation) {
 	    Extent extent = spawnLocation.getExtent();
-	    Optional<Entity> optEntity = extent.createEntity(this.type, spawnLocation.getPosition());
-	    if (optEntity.isPresent()) {
-	    	Entity entity = optEntity.get();
-	    	extent.spawnEntity(getEntity(entity), Cause.source(EntitySpawnCause.builder()
-	                .entity(entity).type(SpawnTypes.PLUGIN).build()).build());
-	        return true;
-	    }
-	    return false;
+	    Entity entity = extent.createEntity(this.type, spawnLocation.getPosition());
+	    extent.spawnEntity(getEntity(entity), Cause.source(EntitySpawnCause.builder()
+                .entity(entity).type(SpawnTypes.PLUGIN).build()).build());
+        return true;
 	}
 	
 	public Entity getEntity(final Entity entity){
@@ -111,11 +107,8 @@ public enum UtilsEntity {
 		} else if(this.equals(UtilsEntity.WITHER_SKELETON)) {
 			entity.offer(Keys.SKELETON_TYPE, SkeletonTypes.WITHER);
 		} else if (this.equals(UtilsEntity.SPIDER_JOCKEY)) {
-		    Extent extent = entity.getLocation().getExtent();
-		    Optional<Entity> optEntity = extent.createEntity(EntityTypes.SPIDER, entity.getLocation().getPosition());
-		    if (optEntity.isPresent()) {
-		    	entity.setVehicle(optEntity.get());
-		    }
+		    Entity vehicle = entity.getLocation().getExtent().createEntity(EntityTypes.SPIDER, entity.getLocation().getPosition());
+		    entity.setVehicle(vehicle);
 		}
 		return entity;
 	}

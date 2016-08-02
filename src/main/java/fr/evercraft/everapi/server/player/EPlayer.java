@@ -268,9 +268,9 @@ public class EPlayer extends PlayerStats {
 	 * @param itemstack L'itemstack
 	 */
 	public void dropItem(final ItemStack itemstack) {
-		Optional<Entity> optional = this.getWorld().createEntity(EntityTypes.ITEM, this.getLocation().getPosition());
-		if (optional.isPresent()) {
-			Item item = (Item) optional.get();
+		Entity entity = this.getWorld().createEntity(EntityTypes.ITEM, this.getLocation().getPosition());
+		if (entity instanceof Item) {
+			Item item = (Item) entity;
 			item.offer(Keys.REPRESENTED_ITEM, itemstack.createSnapshot());
 			this.getWorld().spawnEntity(item, Cause.source(this.getPlayer().get()).build());
 		}
