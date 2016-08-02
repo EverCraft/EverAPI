@@ -29,7 +29,6 @@ import org.spongepowered.api.event.cause.entity.spawn.EntitySpawnCause;
 import org.spongepowered.api.event.cause.entity.spawn.SpawnTypes;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
-import org.spongepowered.api.world.extent.Extent;
 
 public enum UtilsEntity {
 	BLAZE(EntityTypes.BLAZE),
@@ -90,9 +89,8 @@ public enum UtilsEntity {
 	}
 	
 	public boolean spawnEntity(final Location<World> spawnLocation) {
-	    Extent extent = spawnLocation.getExtent();
-	    Entity entity = extent.createEntity(this.type, spawnLocation.getPosition());
-	    extent.spawnEntity(getEntity(entity), Cause.source(EntitySpawnCause.builder()
+	    Entity entity = spawnLocation.getExtent().createEntity(this.type, spawnLocation.getPosition());
+	    spawnLocation.getExtent().spawnEntity(getEntity(entity), Cause.source(EntitySpawnCause.builder()
                 .entity(entity).type(SpawnTypes.PLUGIN).build()).build());
         return true;
 	}

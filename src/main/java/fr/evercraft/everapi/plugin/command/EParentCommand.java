@@ -18,11 +18,12 @@ package fr.evercraft.everapi.plugin.command;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
@@ -39,14 +40,14 @@ import fr.evercraft.everapi.exception.ServerDisableException;
 
 public abstract class EParentCommand<T extends EPlugin> extends ECommand<T> {
 
-	private final CopyOnWriteArrayList<ECommand<T>> commands;
-	private final CopyOnWriteArrayList<ESubCommand<T>> subcommands;
+	private final ConcurrentSkipListSet<ECommand<T>> commands;
+	private final ConcurrentSkipListSet<ESubCommand<T>> subcommands;
 	
 	public EParentCommand(T plugin, String name, String... alias) {
 		super(plugin, name, alias);
 		
-		this.commands = new CopyOnWriteArrayList<ECommand<T>>();
-        this.subcommands = new CopyOnWriteArrayList<ESubCommand<T>>();
+		this.commands = new ConcurrentSkipListSet<ECommand<T>>((o1, o2) -> o1.getName().compareTo(o2.getName()));
+        this.subcommands = new ConcurrentSkipListSet<ESubCommand<T>>((o1, o2) -> o1.getName().compareTo(o2.getName()));
 	}
 
 	public void add(ESubCommand<T> command) {
@@ -68,14 +69,14 @@ public abstract class EParentCommand<T extends EPlugin> extends ECommand<T> {
 				}
 			}
 		} else if(args.size() >= 2) {
-			int cpt = 0;
+			Iterator<ESubCommand<T>> iterator = this.subcommands.iterator();
 			boolean found = false;
-			while(cpt < this.subcommands.size() && !found) {
-				if(args.get(0).equalsIgnoreCase(this.subcommands.get(cpt).getSubName())) {
-					suggests = this.subcommands.get(cpt).tabCompleter(source, args);
+			while(iterator.hasNext() && !found) {
+				ESubCommand<T> subcommand = iterator.next();
+				if(args.get(0).equalsIgnoreCase(subcommand.getSubName())) {
+					suggests = subcommand.tabCompleter(source, args);
 					found = true;
 				}
-				cpt++;
 			}
 		}
 		return suggests;
@@ -127,14 +128,14 @@ public abstract class EParentCommand<T extends EPlugin> extends ECommand<T> {
 				source.sendMessage(EAMessages.NO_PERMISSION.getText());
 			}
 		} else {
-			int cpt = 0;
+			Iterator<ESubCommand<T>> iterator = this.subcommands.iterator();
 			boolean found = false;
-			while(cpt < this.subcommands.size() && !found) {
-				if(args.get(0).equalsIgnoreCase(this.subcommands.get(cpt).getSubName())) {
-					resultat = this.subcommands.get(cpt).execute(source, args);
+			while(iterator.hasNext() && !found) {
+				ESubCommand<T> subcommand = iterator.next();
+				if(args.get(0).equalsIgnoreCase(subcommand.getSubName())) {
+					resultat = subcommand.execute(source, args);
 					found = true;
 				}
-				cpt++;
 			}
 			
 			if(!found) {
