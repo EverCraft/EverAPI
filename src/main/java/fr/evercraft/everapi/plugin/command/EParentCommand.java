@@ -122,7 +122,7 @@ public abstract class EParentCommand<T extends EPlugin> extends ECommand<T> {
 		if(args.size() == 0 || args.get(0).equalsIgnoreCase("help")) {
 			// Si il a la permission
 			if(testPermissionHelp(source)){
-				resultat = commandHelp(source);
+				resultat = commandDefault(source, args);
 			// Il n'a pas la permission
 			} else {
 				source.sendMessage(EAMessages.NO_PERMISSION.getText());
@@ -143,6 +143,17 @@ public abstract class EParentCommand<T extends EPlugin> extends ECommand<T> {
 			}
 		}
 		return resultat;
+	}
+	
+	protected boolean commandDefault(final CommandSource source, final List<String> args) {
+		// Si il a la permission
+		if(testPermissionHelp(source)){
+			return this.commandHelp(source);
+		// Il n'a pas la permission
+		} else {
+			source.sendMessage(EAMessages.NO_PERMISSION.getText());
+			return false;
+		}
 	}
 	
 	private boolean commandHelp(final CommandSource source) {
