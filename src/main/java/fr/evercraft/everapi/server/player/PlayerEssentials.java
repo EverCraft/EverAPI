@@ -205,6 +205,26 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 		}
 		return false;
 	}
+	
+	/*
+	 * TOGGLE
+	 */
+	
+	@Override
+	public boolean isFreeze() {
+		if(this.isPresent()) {
+			return this.subject.isFreeze();
+		}
+		return false;
+	}
+
+	@Override
+	public boolean setFreeze(boolean freeze) {
+		if(this.isPresent()) {
+			return this.subject.setFreeze(freeze);
+		}
+		return false;
+	}
 
 	/*
 	 * HOME
