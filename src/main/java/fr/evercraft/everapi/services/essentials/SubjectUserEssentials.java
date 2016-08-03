@@ -60,6 +60,12 @@ public interface SubjectUserEssentials extends SubjectEssentials {
 	public boolean setToggle(final boolean toggle);
 	
 	/*
+	 * Toggle
+	 */
+	public boolean isFreeze();
+	public boolean setFreeze(final boolean freeze);
+	
+	/*
 	 *  Homes
 	 */
 	public Map<String, Transform<World>> getHomes();
@@ -110,5 +116,4 @@ public interface SubjectUserEssentials extends SubjectEssentials {
 	public boolean setTeleport(long delay, Runnable runnable, boolean canMove);
 	public boolean runTeleportDelay();
 	public boolean cancelTeleportDelay();
-	
 }
