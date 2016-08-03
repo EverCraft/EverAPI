@@ -105,17 +105,17 @@ public class EPlayer extends PlayerStats {
 	 * Envoyer un message à tous les joueurs
 	 * @param message Le message
 	 */
-	public void broadcast(final String message){
-		this.broadcast(EChat.of(message));
+	public void broadcastMessage(final String message){
+		this.broadcastMessage(EChat.of(message));
 	}
 	
 	/**
 	 * Envoyer un message à tous les joueurs
 	 * @param message Le message
 	 */
-	public void broadcast(final Text message){
+	public void broadcastMessage(final Text message){
 		for(EPlayer player : this.plugin.getEServer().getOnlineEPlayers()) {
-			if(!player.ignore(this.getUniqueId())) {
+			if(!player.equals(this) && !player.ignore(this.getUniqueId())) {
 				player.sendMessage(message);
 			}
 		}
