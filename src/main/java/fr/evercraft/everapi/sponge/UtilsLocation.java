@@ -227,6 +227,18 @@ public class UtilsLocation {
 		return Optional.empty();
 	}
 	
+	public Optional<Transform<World>> getBlockBottom(final Transform<World> location) {
+		Vector3i destination = new Vector3i(location.getLocation().getBlockX(), location.getLocation().getBlockY() + 1, location.getLocation().getBlockZ());
+
+		while (!isBlock(location.getExtent(), destination, false) && destination.getY() > 1) {
+			destination = destination.sub(0, 1, 0);
+		}
+		if(destination.getY() > 1){
+			return Optional.of(location.setPosition(destination.toDouble().add(0.5, 1, 0.5)));
+		}
+		return Optional.empty();
+	}
+	
 	
 	/**
 	 * Donne une position possible

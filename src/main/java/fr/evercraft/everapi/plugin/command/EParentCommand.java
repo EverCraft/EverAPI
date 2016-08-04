@@ -119,13 +119,16 @@ public abstract class EParentCommand<T extends EPlugin> extends ECommand<T> {
 		boolean resultat = false;
 		
 		// HELP
-		if(args.size() == 0 || args.get(0).equalsIgnoreCase("help")) {
+		if(args.isEmpty()) {
+			resultat = commandDefault(source, args);
+		} else if(args.get(0).equalsIgnoreCase("help")) {
 			// Si il a la permission
 			if(testPermissionHelp(source)){
-				resultat = commandDefault(source, args);
+				return this.commandHelp(source);
 			// Il n'a pas la permission
 			} else {
 				source.sendMessage(EAMessages.NO_PERMISSION.getText());
+				return false;
 			}
 		} else {
 			Iterator<ESubCommand<T>> iterator = this.subcommands.iterator();

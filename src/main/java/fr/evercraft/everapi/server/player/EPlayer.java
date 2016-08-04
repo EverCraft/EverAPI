@@ -233,6 +233,19 @@ public class EPlayer extends PlayerStats {
 		return false;
 	}
 	
+	
+	public boolean teleportBottom() {
+		return this.teleportBottom(this.getTransform());
+	}
+	
+	public boolean teleportBottom(final Transform<World> transform) {
+		Optional<Transform<World>> optTransform = this.plugin.getEverAPI().getManagerUtils().getLocation().getBlockBottom(transform);
+		if(optTransform.isPresent()) {
+			return this.setTransform(optTransform.get());
+		}
+		return false;
+	}
+	
 	/*
 	 * Item
 	 */
