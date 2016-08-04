@@ -192,6 +192,13 @@ public class EAMessage extends EMessage {
 		HELP_TITLE("help.title", 
 				"&a [ Aide : <plugin> v<version> ] ", 
 				"&a [ Help : <plugin> v<version> ] "),
+		HELP_TITLE_HOVER("help.titleHover", 
+				"&cAuteur(s) :[RT]&c  - <authors>"),
+		HELP_AUTHORS_JOIN("help.authorsJoin", 
+				"[RT]&c  - "),
+		HELP_AUTHORS_EMPTY("help.authorsEmpty", 
+				"Aucun",
+				"Empty"),
 		HELP_PADDING("help.padding", 
 				"&m &r"),
 		HELP_LINE("help.line", 
@@ -460,6 +467,17 @@ public class EAMessage extends EMessage {
 				return Optional.of(EAMessages.valueOf("COLORS_" + color.getName().toUpperCase()));
 			} catch (IllegalArgumentException e) {}
 			return Optional.empty();
+		}
+		
+		public boolean has() {
+			if(this.message != null) {
+				if(this.message instanceof String) {
+					return !((String) this.message).isEmpty();
+				} else if(this.message instanceof List) {
+					return !((List<?>) this.message).isEmpty();
+				}
+			}
+			return false;
 		}
 	}
 

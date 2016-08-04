@@ -27,6 +27,7 @@ import org.spongepowered.api.command.CommandMapping;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.Text.Builder;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColor;
 
@@ -123,17 +124,30 @@ public class EPagination {
 	}
 	
 	private <T extends EPlugin> void help(List<Text> contents, CommandSource source, EPlugin plugin) {
-		Text title = EChat.of(EAMessages.HELP_TITLE.get()
+		Builder title = EChat.of(EAMessages.HELP_TITLE.get()
 							.replaceAll("<plugin>", plugin.getName())
 							.replaceAll("<version>", plugin.getVersion().orElse("1")))
-						.toBuilder().color(this.help_color_padding).build();
+						.toBuilder().color(this.help_color_padding);
 		
+		String authors;
+		if(plugin.getAuthors().isEmpty()) {
+			authors = EAMessages.HELP_AUTHORS_EMPTY.get();
+		} else {
+			authors = String.join(EAMessages.HELP_AUTHORS_JOIN.get(), plugin.getAuthors());
+		}
 		
+		if(EAMessages.HELP_TITLE_HOVER.has()) {
+			title = title.onHover(TextActions.showText(EChat.of(EAMessages.HELP_TITLE_HOVER.get()
+							.replaceAll("<authors>", authors)
+							.replaceAll("<plugin>", plugin.getName())
+							.replaceAll("<version>", plugin.getVersion().orElse("1")))));
+		}
+
 		if(contents.isEmpty()) {
 			contents.add(this.help_empty);
 		}
 		
-		this.send(title, this.help_padding, contents, source);
+		this.send(title.build(), this.help_padding, contents, source);
 	}
 	
 	public Text getButtonName(final String command, Text help){
