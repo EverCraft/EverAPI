@@ -50,7 +50,7 @@ public class UtilsDouble {
     	return 0.0D;
     }
 	
-	public static String getString(double value) {
+	public static String getString(Object value) {
 		DecimalFormatSymbols dfs = new DecimalFormatSymbols(Locale.FRANCE);
 		dfs.setGroupingSeparator(' ');
 		DecimalFormat decimalPrintFormat = new DecimalFormat("#,##0.0####", dfs);
