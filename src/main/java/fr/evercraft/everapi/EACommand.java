@@ -42,4 +42,6 @@ public class EACommand extends EParentCommand<EverAPI> {
 	public boolean testPermissionHelp(final CommandSource source) {
 		return source.hasPermission(EAPermissions.HELP.get());
 	}
+	
+	
 }
