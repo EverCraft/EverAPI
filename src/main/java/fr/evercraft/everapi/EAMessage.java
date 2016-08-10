@@ -324,6 +324,8 @@ public class EAMessage extends EMessage {
 				"recipient"),
 		ARGS_RADIUS("args.radius", 
 				"rayon"),
+		ARGS_ALL("args.all", 
+				"all"),
 						
 		// Couleur
 		COLORS_BLACK("colors.black", 
