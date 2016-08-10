@@ -38,6 +38,7 @@ import fr.evercraft.everapi.services.nametag.ENameTagService;
 import fr.evercraft.everapi.services.pagination.EPagination;
 import fr.evercraft.everapi.services.priority.EPriorityService;
 import fr.evercraft.everapi.services.scoreboard.EScoreBoardService;
+import fr.evercraft.everapi.services.signs.SignService;
 import fr.evercraft.everapi.services.tablist.ETabListService;
 import fr.evercraft.everapi.services.title.ETitleService;
 
@@ -176,6 +177,10 @@ public class ManagerService {
 	
 	public Optional<StatsService> getStats() {
 		return this.plugin.getGame().getServiceManager().provide(StatsService.class);
+	}
+	
+	public Optional<SignService> getSign() {
+		return this.plugin.getGame().getServiceManager().provide(SignService.class);
 	}
 	
 	/*
