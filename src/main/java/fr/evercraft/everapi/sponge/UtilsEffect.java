@@ -20,51 +20,46 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.effect.potion.PotionEffectType;
 import org.spongepowered.api.effect.potion.PotionEffectTypes;
 
 public enum UtilsEffect {
-	ABSORPTION(PotionEffectTypes.ABSORPTION, 1, 4),
-	BLINDNESS(PotionEffectTypes.BLINDNESS, 1, 1),
-	FIRE_RESISTANCE	(PotionEffectTypes.FIRE_RESISTANCE, 1, 1),
-	GLOWING(PotionEffectTypes.GLOWING, 1, 1),
-	HASTE(PotionEffectTypes.HASTE, 1, 2),
-	HEALTH_BOOST(PotionEffectTypes.HEALTH_BOOST, 1, 5),
-	HUNGER(PotionEffectTypes.HUNGER, 1, 3),
-	INSTANT_DAMAGE(PotionEffectTypes.INSTANT_DAMAGE, 1, 2),
-	INSTANT_HEALTH(PotionEffectTypes.INSTANT_HEALTH, 1, 2),
-	INVISIBILITY(PotionEffectTypes.INVISIBILITY, 1, 1),
-	JUMP_BOOST(PotionEffectTypes.JUMP_BOOST, 1, 2),
-	LEVITATION(PotionEffectTypes.LEVITATION, 1, 1),
-	LUCK(PotionEffectTypes.LUCK, 1, 1),
-	MINING_FATIGUE(PotionEffectTypes.MINING_FATIGUE, 1, 3),
-	NAUSEA(PotionEffectTypes.NAUSEA, 1, 1),
-	NIGHT_VISION(PotionEffectTypes.NIGHT_VISION, 1, 1),
-	POISON(PotionEffectTypes.POISON, 1, 4),
-	REGENERATION(PotionEffectTypes.REGENERATION, 1, 2),
-	RESISTANCE(PotionEffectTypes.RESISTANCE, 1, 2),
-	SATURATION(PotionEffectTypes.SATURATION, 1, 20),
-	SLOWNESS(PotionEffectTypes.SLOWNESS, 1, 1),
-	SPEED(PotionEffectTypes.SPEED, 1, 2),
-	UNLUCK(PotionEffectTypes.UNLUCK, 1, 1),
-	WATER_BREATHING(PotionEffectTypes.WATER_BREATHING, 1, 2),
-	WEAKNESS(PotionEffectTypes.WEAKNESS, 1, 2),
-	WITHER(PotionEffectTypes.WITHER, 1, 1);
+	ABSORPTION(PotionEffectTypes.ABSORPTION, 4),
+	BLINDNESS(PotionEffectTypes.BLINDNESS, 1),
+	FIRE_RESISTANCE	(PotionEffectTypes.FIRE_RESISTANCE, 1),
+	GLOWING(PotionEffectTypes.GLOWING, 1),
+	HASTE(PotionEffectTypes.HASTE, 2),
+	HEALTH_BOOST(PotionEffectTypes.HEALTH_BOOST, 5),
+	HUNGER(PotionEffectTypes.HUNGER, 3),
+	INSTANT_DAMAGE(PotionEffectTypes.INSTANT_DAMAGE, 2),
+	INSTANT_HEALTH(PotionEffectTypes.INSTANT_HEALTH, 2),
+	INVISIBILITY(PotionEffectTypes.INVISIBILITY, 1),
+	JUMP_BOOST(PotionEffectTypes.JUMP_BOOST, 2),
+	LEVITATION(PotionEffectTypes.LEVITATION, 1),
+	LUCK(PotionEffectTypes.LUCK, 1),
+	MINING_FATIGUE(PotionEffectTypes.MINING_FATIGUE, 3),
+	NAUSEA(PotionEffectTypes.NAUSEA, 1),
+	NIGHT_VISION(PotionEffectTypes.NIGHT_VISION, 1),
+	POISON(PotionEffectTypes.POISON, 4),
+	REGENERATION(PotionEffectTypes.REGENERATION, 2),
+	RESISTANCE(PotionEffectTypes.RESISTANCE, 2),
+	SATURATION(PotionEffectTypes.SATURATION, 20),
+	SLOWNESS(PotionEffectTypes.SLOWNESS, 1),
+	SPEED(PotionEffectTypes.SPEED, 2),
+	UNLUCK(PotionEffectTypes.UNLUCK, 1),
+	WATER_BREATHING(PotionEffectTypes.WATER_BREATHING, 2),
+	WEAKNESS(PotionEffectTypes.WEAKNESS, 2),
+	WITHER(PotionEffectTypes.WITHER, 1);
 
 	private PotionEffectType type;
-	private int min;
 	private int max;
 	private String name;
 
-	UtilsEffect(PotionEffectType type, int min, int max){
+	UtilsEffect(PotionEffectType type, int max){
 		this.type = type;
-		this.min = min;
 		this.max = max;
 		this.name = type.getId().replaceAll("minecraft:", "");
-	}
-	
-	public int getMinAmplifier(){
-		return this.min;
 	}
 	
 	public int getMaxAmplifier(){
@@ -102,5 +97,9 @@ public enum UtilsEffect {
 			cpt++;
 		}
 		return Optional.of(effect);
+	}
+	
+	public static Optional<PotionEffectType> getPotionEffectType(final String type) {
+		return Sponge.getGame().getRegistry().getType(PotionEffectType.class, type);
 	}
 }
