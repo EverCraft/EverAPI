@@ -66,6 +66,15 @@ public interface SubjectUserEssentials extends SubjectEssentials {
 	public boolean setFreeze(final boolean freeze);
 	
 	/*
+	 * Total time played
+	 */
+	public long getTotalTimePlayed();
+	public boolean setTotalTimePlayed(long time);
+	public void updateTotalTimePlayed();
+	public long getDatePlayed();
+	public void setDatePlayed(long time);
+	
+	/*
 	 *  Homes
 	 */
 	public Map<String, Transform<World>> getHomes();
