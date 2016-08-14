@@ -69,10 +69,9 @@ public interface SubjectUserEssentials extends SubjectEssentials {
 	 * Total time played
 	 */
 	public long getTotalTimePlayed();
-	public boolean setTotalTimePlayed(long time);
-	public void updateTotalTimePlayed();
-	public long getDatePlayed();
-	public void setDatePlayed(long time);
+	
+	public boolean startTotalTimePlayed();
+	public boolean stopTotalTimePlayed();
 	
 	/*
 	 *  Homes

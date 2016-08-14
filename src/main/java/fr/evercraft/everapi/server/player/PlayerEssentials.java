@@ -232,30 +232,26 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public long getTotalTimePlayed() {
-		return this.subject.getTotalTimePlayed();
+		if(this.isPresent()) {
+			return this.subject.getTotalTimePlayed();
+		}
+		return 0;
 	}
 
 	@Override
-	public boolean setTotalTimePlayed(long time) {
+	public boolean startTotalTimePlayed() {
 		if(this.isPresent()) {
-			return this.subject.setTotalTimePlayed(time);
+			return this.subject.startTotalTimePlayed();
 		}
 		return false;
 	}
 	
 	@Override
-	public void updateTotalTimePlayed() {
-		this.subject.updateTotalTimePlayed();
-	}
-
-	@Override
-	public long getDatePlayed() {
-		return this.subject.getDatePlayed();
-	}
-	
-	@Override
-	public void setDatePlayed(long time) {
-		this.subject.setDatePlayed(time);
+	public boolean stopTotalTimePlayed() {
+		if(this.isPresent()) {
+			return this.subject.stopTotalTimePlayed();
+		}
+		return false;
 	}
 
 	/*
