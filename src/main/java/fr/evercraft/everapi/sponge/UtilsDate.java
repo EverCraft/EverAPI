@@ -102,6 +102,10 @@ public class UtilsDate {
 	 * Différence
 	 */
 	
+	public String diff(final long date) {
+		return formatDateDiff(date + System.currentTimeMillis(), DEFAULT_LENGTH);
+	}
+	
 	public String formatDateDiff(final long date) {
 		return formatDateDiff(date, DEFAULT_LENGTH);
 	}
