@@ -146,7 +146,7 @@ public class EServer extends ServerWarp {
 		
 		try {
 			if(this.plugin.getEverAPI().getManagerService().getUserStorage().isPresent()) {
-				if(identifier.length() == 36){
+				if(identifier.length() == 36) {
 					return this.plugin.getEverAPI().getManagerService().getUserStorage().get().get(UUID.fromString(identifier));
 				} else {
 					return this.plugin.getEverAPI().getManagerService().getUserStorage().get().get(identifier);
