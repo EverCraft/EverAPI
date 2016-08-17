@@ -21,8 +21,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.spongepowered.api.data.manipulator.mutable.item.EnchantmentData;
+import org.spongepowered.api.data.meta.ItemEnchantment;
 import org.spongepowered.api.item.Enchantment;
 import org.spongepowered.api.item.Enchantments;
+import org.spongepowered.api.item.inventory.ItemStack;
 
 public class UtilsEnchantment {
 	public static final List<Enchantment> ENCHANTMENTS = Arrays.asList(
@@ -67,6 +70,19 @@ public class UtilsEnchantment {
 			}
 			cpt++;
 		}
-		return Optional.of(enchant);
+		return Optional.ofNullable(enchant);
+	}
+	
+	public static boolean canBeAppliedToItemStack(ItemStack item, Enchantment enchantment) {
+		if(enchantment.canBeAppliedToStack(item)) {
+			EnchantmentData enchantment_data = item.getOrCreate(EnchantmentData.class).get();
+			
+			for(ItemEnchantment enchantment_item : enchantment_data.enchantments()) {
+				if(!enchantment.isCompatibleWith(enchantment_item.getEnchantment())) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }

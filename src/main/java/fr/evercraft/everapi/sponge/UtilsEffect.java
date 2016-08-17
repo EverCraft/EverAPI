@@ -96,7 +96,7 @@ public enum UtilsEffect {
 			}
 			cpt++;
 		}
-		return Optional.of(effect);
+		return Optional.ofNullable(effect);
 	}
 	
 	public static Optional<PotionEffectType> getPotionEffectType(final String type) {
