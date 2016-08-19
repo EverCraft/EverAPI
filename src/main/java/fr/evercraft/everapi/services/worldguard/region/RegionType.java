@@ -2,7 +2,7 @@ package fr.evercraft.everapi.services.worldguard.region;
 
 public enum  RegionType {
 	CUBOID("cuboid"),
-	POLYGON("poly2d"),
+	POLYGONAL("poly2d"),
 	GLOBAL("global");
 
 	private final String name;

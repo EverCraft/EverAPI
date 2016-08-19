@@ -9,6 +9,6 @@ public interface RegionPolygonal extends Region {
 	public List<Vector3i> getPoints();
 	
 	public default RegionType getType() {
-		return RegionType.POLYGON;
+		return RegionType.POLYGONAL;
 	}
 }
