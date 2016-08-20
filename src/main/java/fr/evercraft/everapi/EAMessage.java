@@ -325,7 +325,8 @@ public class EAMessage extends EMessage {
 				"rayon"),
 		ARGS_ALL("args.all", 
 				"all"),
-						
+		ARGS_GAMERULE("args.gamerule", 
+				"règle"),
 		// Couleur
 		COLORS_BLACK("colors.black", 
 				"Noir", 
