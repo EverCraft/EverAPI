@@ -1,20 +1,20 @@
 package fr.evercraft.everapi.services.worldguard.flag;
 
-public class FlagBoolean extends Flag {
+public class FlagDouble extends Flag {
 	
-	private boolean value;
+	private double value;
 	
-	public FlagBoolean(String name, boolean value) {
+	public FlagDouble(String name, double value) {
 		super(name);
 		
 		this.value = value;
 	}
 	
-	public boolean getValue() {
+	public double getValue() {
 		return this.value;
 	}
 	
-	public boolean setValue(boolean value) {
+	public boolean setValue(double value) {
 		if(this.value != value) {
 			this.value = value;
 			return true;

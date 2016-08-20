@@ -1,6 +1,14 @@
 package fr.evercraft.everapi.services.worldguard.flag;
 
-public interface Flag {
+public abstract class Flag {
 
-	public String getName();
+	private final String name;
+	
+	public Flag(final String name) {
+		this.name = name;
+	}
+	
+	public String getName(){
+		return this.name;
+	}
 }
