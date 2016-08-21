@@ -252,4 +252,15 @@ public class EServer extends ServerWarp {
 		}
 		return null;
 	}
+	
+	public Optional<World> getEWorld(String identifier) {
+		try {
+			if(identifier.length() == 36){
+				return this.getWorld(UUID.fromString(identifier));
+			} else {
+				return this.getWorld(identifier);
+			}
+		} catch(IllegalArgumentException e) {}
+		return Optional.empty();
+	}
 }
