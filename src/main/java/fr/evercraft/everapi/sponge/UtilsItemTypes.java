@@ -56,43 +56,43 @@ public class UtilsItemTypes {
 	
 	public static Optional<Class<? extends CatalogType>> getCatalogType(final ItemStack item){
 		Class<? extends CatalogType> type = null;
-		if(item.supports(Keys.BRICK_TYPE)) {
+		if (item.supports(Keys.BRICK_TYPE)) {
 			type = CatalogTypes.BRICK_TYPE;
-		} else if(item.supports(Keys.COAL_TYPE)){
+		} else if (item.supports(Keys.COAL_TYPE)){
 			type = CatalogTypes.COAL_TYPE;
-		} else if(item.supports(Keys.DIRT_TYPE)){
+		} else if (item.supports(Keys.DIRT_TYPE)){
 			type = CatalogTypes.DIRT_TYPE;
-		} else if(item.supports(Keys.DOUBLE_PLANT_TYPE)){
+		} else if (item.supports(Keys.DOUBLE_PLANT_TYPE)){
 			type = CatalogTypes.DOUBLE_SIZE_PLANT_TYPE;
-		} else if(item.supports(Keys.DYE_COLOR)){
+		} else if (item.supports(Keys.DYE_COLOR)){
 			type = CatalogTypes.DYE_COLOR;
-		} else if(item.supports(Keys.FISH_TYPE)){
+		} else if (item.supports(Keys.FISH_TYPE)){
 			type = CatalogTypes.FISH;
-		} else if(item.supports(Keys.GOLDEN_APPLE_TYPE)){
+		} else if (item.supports(Keys.GOLDEN_APPLE_TYPE)){
 			type = CatalogTypes.GOLDEN_APPLE;
-		} else if(item.supports(Keys.PISTON_TYPE)){
+		} else if (item.supports(Keys.PISTON_TYPE)){
 			type = CatalogTypes.PISTON_TYPE;
-		} else if(item.supports(Keys.PLANT_TYPE)){
+		} else if (item.supports(Keys.PLANT_TYPE)){
 			type = CatalogTypes.PLANT_TYPE;
-		} else if(item.supports(Keys.PRISMARINE_TYPE)){
+		} else if (item.supports(Keys.PRISMARINE_TYPE)){
 			type = CatalogTypes.PRISMARINE_TYPE;
-		} else if(item.supports(Keys.QUARTZ_TYPE)){
+		} else if (item.supports(Keys.QUARTZ_TYPE)){
 			type = CatalogTypes.QUARTZ_TYPE;
-		} else if(item.supports(Keys.SAND_TYPE)){
+		} else if (item.supports(Keys.SAND_TYPE)){
 			type = CatalogTypes.SAND_TYPE;
-		} else if(item.supports(Keys.SANDSTONE_TYPE)){
+		} else if (item.supports(Keys.SANDSTONE_TYPE)){
 			type = CatalogTypes.SANDSTONE_TYPE;
-		} else if(item.supports(Keys.SHRUB_TYPE)){
+		} else if (item.supports(Keys.SHRUB_TYPE)){
 			type = CatalogTypes.SHRUB_TYPE;
-		} else if(item.supports(Keys.SKULL_TYPE)){
+		} else if (item.supports(Keys.SKULL_TYPE)){
 			type = CatalogTypes.SKULL_TYPE;
-		} else if(item.supports(Keys.SLAB_TYPE)){
+		} else if (item.supports(Keys.SLAB_TYPE)){
 			type = CatalogTypes.SLAB_TYPE;
-		} else if(item.supports(Keys.STONE_TYPE)){
+		} else if (item.supports(Keys.STONE_TYPE)){
 			type = CatalogTypes.STONE_TYPE;
-		} else if(item.supports(Keys.TREE_TYPE)){
+		} else if (item.supports(Keys.TREE_TYPE)){
 			type = CatalogTypes.TREE_TYPE;
-		} else if(item.supports(Keys.WALL_TYPE)){
+		} else if (item.supports(Keys.WALL_TYPE)){
 			type = CatalogTypes.WALL_TYPE;
 		}
 		return Optional.ofNullable(type);
@@ -100,123 +100,123 @@ public class UtilsItemTypes {
 	
 	public static Optional<ItemStack> getCatalogType(final ItemStack item, String type_string){
 		boolean found = false;
-		if(item.supports(Keys.BRICK_TYPE)) {
+		if (item.supports(Keys.BRICK_TYPE)) {
 			Optional<BrickType> key = Sponge.getGame().getRegistry().getType(BrickType.class, type_string);
-			if(key.isPresent()) {
+			if (key.isPresent()) {
 				item.offer(Keys.BRICK_TYPE, key.get());
 				found = true;
 			}
-		} else if(item.supports(Keys.COAL_TYPE)){
+		} else if (item.supports(Keys.COAL_TYPE)){
 			Optional<CoalType> key = Sponge.getGame().getRegistry().getType(CoalType.class, type_string);
-			if(key.isPresent()) {
+			if (key.isPresent()) {
 				item.offer(Keys.COAL_TYPE, key.get());
 				found = true;
 			}
-		} else if(item.supports(Keys.DIRT_TYPE)){
+		} else if (item.supports(Keys.DIRT_TYPE)){
 			Optional<DirtType> key = Sponge.getGame().getRegistry().getType(DirtType.class, type_string);
-			if(key.isPresent()) {
+			if (key.isPresent()) {
 				item.offer(Keys.DIRT_TYPE, key.get());
 				found = true;
 			}
-		} else if(item.supports(Keys.DOUBLE_PLANT_TYPE)){
+		} else if (item.supports(Keys.DOUBLE_PLANT_TYPE)){
 			Optional<DoublePlantType> key = Sponge.getGame().getRegistry().getType(DoublePlantType.class, type_string);
-			if(key.isPresent()) {
+			if (key.isPresent()) {
 				item.offer(Keys.DOUBLE_PLANT_TYPE, key.get());
 				found = true;
 			}
-		} else if(item.supports(Keys.DYE_COLOR)){
+		} else if (item.supports(Keys.DYE_COLOR)){
 			Optional<DyeColor> key = Sponge.getGame().getRegistry().getType(DyeColor.class, type_string);
-			if(key.isPresent()) {
+			if (key.isPresent()) {
 				item.offer(Keys.DYE_COLOR, key.get());
 				found = true;
 			}
-		} else if(item.supports(Keys.FISH_TYPE)){
+		} else if (item.supports(Keys.FISH_TYPE)){
 			Optional<Fish> key = Sponge.getGame().getRegistry().getType(Fish.class, type_string);
-			if(key.isPresent()) {
+			if (key.isPresent()) {
 				item.offer(Keys.FISH_TYPE, key.get());
 				found = true;
 			}
-		} else if(item.supports(Keys.GOLDEN_APPLE_TYPE)){
+		} else if (item.supports(Keys.GOLDEN_APPLE_TYPE)){
 			Optional<GoldenApple> key = Sponge.getGame().getRegistry().getType(GoldenApple.class, type_string);
-			if(key.isPresent()) {
+			if (key.isPresent()) {
 				item.offer(Keys.GOLDEN_APPLE_TYPE, key.get());
 				found = true;
 			}
-		} else if(item.supports(Keys.PISTON_TYPE)){
+		} else if (item.supports(Keys.PISTON_TYPE)){
 			Optional<PistonType> key = Sponge.getGame().getRegistry().getType(PistonType.class, type_string);
-			if(key.isPresent()) {
+			if (key.isPresent()) {
 				item.offer(Keys.PISTON_TYPE, key.get());
 				found = true;
 			}
-		} else if(item.supports(Keys.PLANT_TYPE)){
+		} else if (item.supports(Keys.PLANT_TYPE)){
 			Optional<PlantType> key = Sponge.getGame().getRegistry().getType(PlantType.class, type_string);
-			if(key.isPresent()) {
+			if (key.isPresent()) {
 				item.offer(Keys.PLANT_TYPE, key.get());
 				found = true;
 			}
-		} else if(item.supports(Keys.PRISMARINE_TYPE)){
+		} else if (item.supports(Keys.PRISMARINE_TYPE)){
 			Optional<PrismarineType> key = Sponge.getGame().getRegistry().getType(PrismarineType.class, type_string);
-			if(key.isPresent()) {
+			if (key.isPresent()) {
 				item.offer(Keys.PRISMARINE_TYPE, key.get());
 				found = true;
 			}
-		} else if(item.supports(Keys.QUARTZ_TYPE)){
+		} else if (item.supports(Keys.QUARTZ_TYPE)){
 			Optional<QuartzType> key = Sponge.getGame().getRegistry().getType(QuartzType.class, type_string);
-			if(key.isPresent()) {
+			if (key.isPresent()) {
 				item.offer(Keys.QUARTZ_TYPE, key.get());
 				found = true;
 			}
-		} else if(item.supports(Keys.SAND_TYPE)){
+		} else if (item.supports(Keys.SAND_TYPE)){
 			Optional<SandType> key = Sponge.getGame().getRegistry().getType(SandType.class, type_string);
-			if(key.isPresent()) {
+			if (key.isPresent()) {
 				item.offer(Keys.SAND_TYPE, key.get());
 				found = true;
 			}
-		} else if(item.supports(Keys.SANDSTONE_TYPE)){
+		} else if (item.supports(Keys.SANDSTONE_TYPE)){
 			Optional<SandstoneType> key = Sponge.getGame().getRegistry().getType(SandstoneType.class, type_string);
-			if(key.isPresent()) {
+			if (key.isPresent()) {
 				item.offer(Keys.SANDSTONE_TYPE, key.get());
 				found = true;
 			}
-		} else if(item.supports(Keys.SHRUB_TYPE)){
+		} else if (item.supports(Keys.SHRUB_TYPE)){
 			Optional<ShrubType> key = Sponge.getGame().getRegistry().getType(ShrubType.class, type_string);
-			if(key.isPresent()) {
+			if (key.isPresent()) {
 				item.offer(Keys.SHRUB_TYPE, key.get());
 				found = true;
 			}
-		} else if(item.supports(Keys.SKULL_TYPE)){
+		} else if (item.supports(Keys.SKULL_TYPE)){
 			Optional<SkullType> key = Sponge.getGame().getRegistry().getType(SkullType.class, type_string);
-			if(key.isPresent()) {
+			if (key.isPresent()) {
 				item.offer(Keys.SKULL_TYPE, key.get());
 				found = true;
 			}
-		} else if(item.supports(Keys.SLAB_TYPE)){
+		} else if (item.supports(Keys.SLAB_TYPE)){
 			Optional<SlabType> key = Sponge.getGame().getRegistry().getType(SlabType.class, type_string);
-			if(key.isPresent()) {
+			if (key.isPresent()) {
 				item.offer(Keys.SLAB_TYPE, key.get());
 				found = true;
 			}
-		} else if(item.supports(Keys.STONE_TYPE)){
+		} else if (item.supports(Keys.STONE_TYPE)){
 			Optional<StoneType> key = Sponge.getGame().getRegistry().getType(StoneType.class, type_string);
-			if(key.isPresent()) {
+			if (key.isPresent()) {
 				item.offer(Keys.STONE_TYPE, key.get());
 				found = true;
 			}
-		} else if(item.supports(Keys.TREE_TYPE)){
+		} else if (item.supports(Keys.TREE_TYPE)){
 			Optional<TreeType> key = Sponge.getGame().getRegistry().getType(TreeType.class, type_string);
-			if(key.isPresent()) {
+			if (key.isPresent()) {
 				item.offer(Keys.TREE_TYPE, key.get());
 				found = true;
 			}
-		} else if(item.supports(Keys.WALL_TYPE)){
+		} else if (item.supports(Keys.WALL_TYPE)){
 			Optional<WallType> key = Sponge.getGame().getRegistry().getType(WallType.class, type_string);
-			if(key.isPresent()) {
+			if (key.isPresent()) {
 				item.offer(Keys.WALL_TYPE, key.get());
 				found = true;
 			}
 		}
 		
-		if(found) {
+		if (found) {
 			return Optional.of(item);
 		} else {
 			return Optional.empty();

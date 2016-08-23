@@ -82,7 +82,7 @@ public abstract class EPlugin {
     public void onGamePreInitialization(GamePreInitializationEvent event) {
 		try {
 			this.setupEverAPI();
-			if(getEverAPI().isEnable() && this.enable){
+			if (getEverAPI().isEnable() && this.enable){
 				this.getLogger().debug("----------------------- Pre-Enable ----------------------");
 				this.onPreEnable();
 				this.getLogger().debug("---------------------------------------------------------");
@@ -98,7 +98,7 @@ public abstract class EPlugin {
 	@Listener
     public void onGameInitializationEvent(GameInitializationEvent event) {
 		try {
-			if(getEverAPI().isEnable() && this.enable){
+			if (getEverAPI().isEnable() && this.enable){
 				this.getLogger().debug("------------------------- Enable ------------------------");
 				this.onEnable();
 				this.getLogger().debug("---------------------------------------------------------");
@@ -114,7 +114,7 @@ public abstract class EPlugin {
 	@Listener
     public void onGamePostInitializationEvent(GamePostInitializationEvent event) {
 		try {
-			if(getEverAPI().isEnable() && this.enable){
+			if (getEverAPI().isEnable() && this.enable){
 				this.getLogger().debug("---------------------- Post-Enable ----------------------");
 				this.onPostEnable();
 				this.getLogger().debug("---------------------------------------------------------");
@@ -131,7 +131,7 @@ public abstract class EPlugin {
     public void onGameLoadCompleteEvent(GameLoadCompleteEvent event) {
 		try {
 			this.setupEverAPI();
-			if(getEverAPI().isEnable() && this.enable){
+			if (getEverAPI().isEnable() && this.enable){
 				this.getLogger().debug("-------------------- Complete-Enable --------------------");
 				this.onCompleteEnable();
 				this.getLogger().debug("---------------------------------------------------------");
@@ -147,7 +147,7 @@ public abstract class EPlugin {
 	@Listener
     public void onGameStartingServerEvent(GameStartingServerEvent event) {
 		try {
-			if(getEverAPI().isEnable() && this.enable){
+			if (getEverAPI().isEnable() && this.enable){
 				this.getLogger().debug("---------------------- Start-Server ---------------------");
 				this.onStartServer();
 				this.getLogger().debug("---------------------------------------------------------");
@@ -167,7 +167,7 @@ public abstract class EPlugin {
 	
 	public void reload(){
 		try {
-			if(getEverAPI().isEnable() && this.enable) {
+			if (getEverAPI().isEnable() && this.enable) {
 				this.getLogger().debug("------------------------- Reload ------------------------");
 				this.onReload();
 				this.getLogger().debug("---------------------------------------------------------");
@@ -183,7 +183,7 @@ public abstract class EPlugin {
 	@Listener
     public void onGameStoppingEvent(GameStoppingServerEvent event) throws ServerDisableException {
 		try {
-			if(getEverAPI().isEnable() && this.enable){
+			if (getEverAPI().isEnable() && this.enable){
 				this.getLogger().debug("----------------------- Stop-Server ---------------------");
 				this.onStopServer();
 				this.getLogger().debug("---------------------------------------------------------");
@@ -203,7 +203,7 @@ public abstract class EPlugin {
 	
 	public void disable() {
 		try {
-			if(this.enable){
+			if (this.enable){
 				this.getLogger().debug("------------------------- Disable -----------------------");
 				this.onDisable();
 				this.enable = false;
@@ -377,7 +377,7 @@ public abstract class EPlugin {
 	 * Recharge tous les fichiers de configuration du plugin
 	 */
 	public void reloadConfigurations(){
-		for(EFile file : this.files){
+		for (EFile file : this.files){
 			file.reload();
         }
 	}

@@ -49,9 +49,9 @@ public class EBossBarService implements BossBarService {
 		HashMap<UUID, EBossBar> bossbars = new HashMap<UUID, EBossBar>(this.players);
 		this.players.clear();
 		
-		for(Entry<UUID, EBossBar> bossbar : bossbars.entrySet()) {
+		for (Entry<UUID, EBossBar> bossbar : bossbars.entrySet()) {
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(bossbar.getKey());
-			if(player.isPresent()) {
+			if (player.isPresent()) {
 				bossbar.getValue().removePlayer(player.get());
 				this.postRemove(player.get(), bossbar.getValue());
 			}
@@ -69,7 +69,7 @@ public class EBossBarService implements BossBarService {
 	public boolean add(EPlayer player, String identifier, int priority, ServerBossBar bossbar) {
 		EBossBar bossbar_player = this.players.get(player.getUniqueId());
 		// Vérifie la priorité
-		if(bossbar_player == null) {
+		if (bossbar_player == null) {
 			// Ajoute
 			bossbar_player = new EBossBar(identifier, bossbar);
 			this.players.put(player.getUniqueId(), bossbar_player);
@@ -99,7 +99,7 @@ public class EBossBarService implements BossBarService {
 	@Override
 	public boolean remove(EPlayer player, String identifier) {
 		EBossBar bossbar = this.players.get(player.getUniqueId());
-		if(bossbar != null && bossbar.getIdentifier().equalsIgnoreCase(identifier)) {
+		if (bossbar != null && bossbar.getIdentifier().equalsIgnoreCase(identifier)) {
 			// Supprime
 			bossbar.getServerBossBar().removePlayer(player.get());
 			this.players.remove(player.getUniqueId());
@@ -112,7 +112,7 @@ public class EBossBarService implements BossBarService {
 	}
 	
 	private int getPriority(String identifier) {
-		if(this.plugin.getManagerService().getPriority().isPresent()) {
+		if (this.plugin.getManagerService().getPriority().isPresent()) {
 			return this.plugin.getManagerService().getPriority().get().getBossBar(identifier);
 		}
 		return PriorityService.DEFAULT;
@@ -121,7 +121,7 @@ public class EBossBarService implements BossBarService {
 	@Override
 	public Optional<ServerBossBar> get(EPlayer player, String identifier) {
 		EBossBar bossbar = this.players.get(player.getUniqueId());
-		if(bossbar != null && bossbar.getIdentifier().equalsIgnoreCase(identifier)) {
+		if (bossbar != null && bossbar.getIdentifier().equalsIgnoreCase(identifier)) {
 			return Optional.of(bossbar.getServerBossBar());
 		}
 		return Optional.empty();

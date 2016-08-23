@@ -56,21 +56,21 @@ public abstract class EConfig extends EFile {
     
     public void addDefault(final String paths, final Object value, final String comment){
     	CommentedConfigurationNode node = get(paths);    	
-    	if(node.getValue() == null){
+    	if (node.getValue() == null){
     		node.setComment(comment).setValue(value);
     	}
     }
     
     public void addDefault(final String paths, final Object value, final String... comments){
     	CommentedConfigurationNode node = get(paths);    	
-    	if(node.getValue() == null){
+    	if (node.getValue() == null){
     		node.setComment(String.join("\n", comments)).setValue(value);
     	}
     }
     
     public void addComment(final String paths, final String... comments){
     	CommentedConfigurationNode node = get(paths);    	
-    	if(node.getValue() == null){
+    	if (node.getValue() == null){
     		node.setComment(String.join("\n", comments));
     	}
     }

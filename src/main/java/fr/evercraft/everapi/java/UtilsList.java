@@ -27,7 +27,7 @@ public class UtilsList {
 	 */
 	public static List<String> toLowerCase(final List<String> strings){
 		List<String> tempo = new ArrayList<String>(); 
-	    for(String string : strings){
+	    for (String string : strings){
 	    	tempo.add(string.toLowerCase());
 	    }
 	    return tempo;
@@ -40,7 +40,7 @@ public class UtilsList {
 	 */
 	public static List<String> toUpperCase(final List<String> strings){
 		List<String> tempo = new ArrayList<String>(); 
-	    for(String string : strings){
+	    for (String string : strings){
 	    	tempo.add(string.toUpperCase());
 	    }
 	    return tempo;

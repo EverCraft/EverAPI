@@ -114,8 +114,8 @@ public class EPlayer extends PlayerStats {
 	 * @param message Le message
 	 */
 	public void broadcastMessage(final Text message){
-		for(EPlayer player : this.plugin.getEServer().getOnlineEPlayers()) {
-			if(!player.equals(this) && !player.ignore(this.getUniqueId())) {
+		for (EPlayer player : this.plugin.getEServer().getOnlineEPlayers()) {
+			if (!player.equals(this) && !player.ignore(this.getUniqueId())) {
 				player.sendMessage(message);
 			}
 		}
@@ -130,7 +130,7 @@ public class EPlayer extends PlayerStats {
 	 * @return True si le joueur a bien été soigné
 	 */
 	public boolean heal(){
-		if(this.getHealth() != 0) {
+		if (this.getHealth() != 0) {
 			this.setHealth(this.getMaxHealth());
 			this.setFood(20);
 			this.setSaturation(20);
@@ -152,12 +152,12 @@ public class EPlayer extends PlayerStats {
 	}
 
 	public boolean teleport(final World world, final Vector3d vector){
-		if(this.getVehicle().isPresent()){
+		if (this.getVehicle().isPresent()){
 			final Entity horse = this.getVehicle().get();
-			if(horse.toContainer().getView(DataQuery.of("UnsafeData")).isPresent()){
-				if(horse.toContainer().getView(DataQuery.of("UnsafeData")).get().getString(DataQuery.of("OwnerUUID")).isPresent()){
+			if (horse.toContainer().getView(DataQuery.of("UnsafeData")).isPresent()){
+				if (horse.toContainer().getView(DataQuery.of("UnsafeData")).get().getString(DataQuery.of("OwnerUUID")).isPresent()){
 					UUID owner = UUID.fromString(horse.toContainer().getView(DataQuery.of("UnsafeData")).get().getString(DataQuery.of("OwnerUUID")).get());
-					if(this.getUniqueId().equals(owner)){
+					if (this.getUniqueId().equals(owner)){
 						this.setVehicle(null);
 						horse.transferToWorld(world, vector);
 					}
@@ -202,7 +202,7 @@ public class EPlayer extends PlayerStats {
 	 * @return True si le joueur a bien été téléporté
 	 */
 	public boolean teleportSafe(final Transform<World> transform) {
-		if(this.isGod() || this.getGameMode().equals(GameModes.CREATIVE) || this.plugin.getEverAPI().getManagerUtils().getLocation().isPositionSafe(transform)) {
+		if (this.isGod() || this.getGameMode().equals(GameModes.CREATIVE) || this.plugin.getEverAPI().getManagerUtils().getLocation().isPositionSafe(transform)) {
 			Transform<World> back = this.getTransform();
 			return this.setTransform(transform) && this.setBack(back);
 		}
@@ -226,7 +226,7 @@ public class EPlayer extends PlayerStats {
 	public boolean teleportSafeZone(final Transform<World> transform) {
 		Optional<Transform<World>> optTransform = this.plugin.getEverAPI().getManagerUtils().getLocation().getBlock(
 														transform, !(this.isGod() || this.getGameMode().equals(GameModes.CREATIVE)));
-		if(optTransform.isPresent()) {
+		if (optTransform.isPresent()) {
 			Transform<World> back = this.getTransform();
 			return this.setTransform(optTransform.get()) && this.setBack(back);
 		}
@@ -240,7 +240,7 @@ public class EPlayer extends PlayerStats {
 	
 	public boolean teleportBottom(final Transform<World> transform) {
 		Optional<Transform<World>> optTransform = this.plugin.getEverAPI().getManagerUtils().getLocation().getBlockBottom(transform);
-		if(optTransform.isPresent()) {
+		if (optTransform.isPresent()) {
 			return this.setTransform(optTransform.get());
 		}
 		return false;
@@ -256,7 +256,7 @@ public class EPlayer extends PlayerStats {
 	 */
 	public void giveItemAndDrop(final ItemStack itemstack) {
 		Optional<ItemStack> reste = giveItem(itemstack);
-		if(reste.isPresent()) {
+		if (reste.isPresent()) {
 			dropItem(reste.get());
 		}
 	}
@@ -267,9 +267,9 @@ public class EPlayer extends PlayerStats {
 	 */
 	public Optional<ItemStack> giveItem(final ItemStack itemstack) {
 		InventoryTransactionResult transaction = this.getInventory().query(Hotbar.class).offer(itemstack);
-		if(!transaction.getRejectedItems().isEmpty()) {
+		if (!transaction.getRejectedItems().isEmpty()) {
 			transaction = this.getInventory().query(GridInventory.class).offer(transaction.getRejectedItems().iterator().next().createStack());
-			if(!transaction.getRejectedItems().isEmpty()) {
+			if (!transaction.getRejectedItems().isEmpty()) {
 				return Optional.of(transaction.getRejectedItems().iterator().next().createStack());
 			}
 		}
@@ -311,11 +311,11 @@ public class EPlayer extends PlayerStats {
 		BlockRayHit<World> block = null;
 		while(blocks.hasNext() && block == null) {
 			BlockRayHit<World> tempoBlock = blocks.next();
-			if(!this.getWorld().getBlockType(tempoBlock.getBlockPosition()).equals(BlockTypes.AIR)) {
+			if (!this.getWorld().getBlockType(tempoBlock.getBlockPosition()).equals(BlockTypes.AIR)) {
 				block = tempoBlock;
 			}
 		}
-		if(block != null) {
+		if (block != null) {
 			return Optional.of(block.getBlockPosition());
 		}
 		return Optional.empty();
@@ -329,9 +329,9 @@ public class EPlayer extends PlayerStats {
 	 * Test l'égalité
 	 */
 	public boolean equals(final Object object){
-		if(object instanceof EPlayer){
+		if (object instanceof EPlayer){
 			return ((EPlayer) object).getUniqueId().equals(this.getUniqueId());
-		} else if(object instanceof Subject){
+		} else if (object instanceof Subject){
 			return ((Subject) object).getIdentifier().equals(this.getIdentifier());
 		}
 		return this.player.equals(object);
@@ -342,10 +342,10 @@ public class EPlayer extends PlayerStats {
 		distance = Math.max((distance ^ 2) - 1, 0);
 		Vector3d vect = this.getLocation().getPosition();
 		for (EPlayer player : this.plugin.getEServer().getOnlineEPlayers()) {
-			if(!this.equals(player) && this.getWorld().equals(player.getWorld())) {
-				//if(player.isHidden(player)) {
+			if (!this.equals(player) && this.getWorld().equals(player.getWorld())) {
+				//if (player.isHidden(player)) {
 					Integer delta = (int) Math.floor(player.getLocation().getPosition().distance(vect));
-					if(delta < distance) {
+					if (delta < distance) {
 						list.put(player, delta);
 					}
 				//}
@@ -379,11 +379,11 @@ public class EPlayer extends PlayerStats {
 		name = this.plugin.getChat().replacePlayer(this, name);
 		Builder builder = this.plugin.getChat().replaceFormat(this, name).toBuilder();
 		
-		if(suggest.isPresent()) {
+		if (suggest.isPresent()) {
 			builder.onClick(TextActions.suggestCommand(suggest.get()));
 		}
 		
-		if(hover.isPresent()) {
+		if (hover.isPresent()) {
 			builder.onHover(TextActions.showText(hover.get()));
 		}
 		
@@ -412,7 +412,7 @@ public class EPlayer extends PlayerStats {
 	
 	public Optional<Text> getHover(Set<Context> contexts) {
 		Optional<String> optHover = this.getOption(contexts, "hover");
-		if(optHover.isPresent()) {
+		if (optHover.isPresent()) {
 			String hover = this.plugin.getChat().replace(optHover.get());
 			hover = this.plugin.getChat().replaceGlobal(hover);
 			hover = this.plugin.getChat().replacePlayer(this, hover);
@@ -427,7 +427,7 @@ public class EPlayer extends PlayerStats {
 	
 	public Optional<String> getSuggest(Set<Context> contexts) {
 		Optional<String> optHover = this.getOption(contexts, "suggest");
-		if(optHover.isPresent()) {
+		if (optHover.isPresent()) {
 			String hover = this.plugin.getChat().replaceGlobal(optHover.get());
 			return Optional.of(this.plugin.getChat().replacePlayer(this, hover));
 		}
@@ -435,28 +435,28 @@ public class EPlayer extends PlayerStats {
 	}
 	
 	public boolean sendActionBar(String identifier, long stay, Text message) {
-		if(this.plugin.getManagerService().getActionBar().isPresent()) {
+		if (this.plugin.getManagerService().getActionBar().isPresent()) {
 			return this.plugin.getManagerService().getActionBar().get().send(this, identifier, stay, message);
 		}
 		return false;
 	}
 	
 	public boolean sendActionBar(String identifier, int priority, long stay, Text message) {
-		if(this.plugin.getManagerService().getActionBar().isPresent()) {
+		if (this.plugin.getManagerService().getActionBar().isPresent()) {
 			return this.plugin.getManagerService().getActionBar().get().send(this, identifier, priority, stay, message);
 		}
 		return false;
 	}
 	
 	public boolean sendTitle(String identifiant, Title title) {
-		if(this.plugin.getManagerService().getTitle().isPresent()) {
+		if (this.plugin.getManagerService().getTitle().isPresent()) {
 			return this.plugin.getManagerService().getTitle().get().send(this, identifiant, title);
 		}
 		return false;
 	}
 	
 	public boolean sendTitle(String identifiant, int priority, Title title) {
-		if(this.plugin.getManagerService().getTitle().isPresent()) {
+		if (this.plugin.getManagerService().getTitle().isPresent()) {
 			return this.plugin.getManagerService().getTitle().get().send(this, identifiant, priority, title);
 		}
 		return false;
@@ -471,21 +471,21 @@ public class EPlayer extends PlayerStats {
 	}
 	
 	public boolean addObjective(DisplaySlot display, Objective objective) {
-		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
+		if (this.plugin.getManagerService().getScoreBoard().isPresent()) {
 			return this.plugin.getManagerService().getScoreBoard().get().addObjective(this, display, objective);
 		}
 		return false;
 	}
 	
 	public boolean addObjective(int priority, DisplaySlot display, Objective objective) {
-		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
+		if (this.plugin.getManagerService().getScoreBoard().isPresent()) {
 			return this.plugin.getManagerService().getScoreBoard().get().addObjective(this, priority, display, objective);
 		}
 		return false;
 	}
 	
 	public boolean removeObjective(DisplaySlot display, Objective objective) {
-		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
+		if (this.plugin.getManagerService().getScoreBoard().isPresent()) {
 			return this.plugin.getManagerService().getScoreBoard().get().removeObjective(this, display, objective);
 		}
 		this.getScoreboard().removeObjective(objective);
@@ -493,11 +493,11 @@ public class EPlayer extends PlayerStats {
 	}
 	
 	public boolean removeObjective(DisplaySlot display, String identifier) {
-		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
+		if (this.plugin.getManagerService().getScoreBoard().isPresent()) {
 			return this.plugin.getManagerService().getScoreBoard().get().removeObjective(this, display, identifier);
 		} else {
 			Optional<Objective> objective = this.getScoreboard().getObjective(identifier);
-			if(objective.isPresent()) {
+			if (objective.isPresent()) {
 				this.getScoreboard().removeObjective(objective.get());
 				return true;
 			}
@@ -514,49 +514,49 @@ public class EPlayer extends PlayerStats {
 	 */
 	
 	public boolean sendNameTag(String identifier, Text teamRepresentation, Text prefix, Text suffix) {
-		if(this.plugin.getManagerService().getNameTag().isPresent()) {
+		if (this.plugin.getManagerService().getNameTag().isPresent()) {
 			return this.plugin.getManagerService().getNameTag().get().sendNameTag(this, identifier, teamRepresentation, prefix, suffix);
 		}
 		return false;
 	}
 	
 	public boolean removeNameTag(String identifier, Text teamRepresentation) {
-		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
+		if (this.plugin.getManagerService().getScoreBoard().isPresent()) {
 			return this.plugin.getManagerService().getNameTag().get().removeNameTag(this, identifier, teamRepresentation);
 		}
 		return false;
 	}
 	
 	public boolean clearNameTag(String identifier) {
-		if(this.plugin.getManagerService().getScoreBoard().isPresent()) {
+		if (this.plugin.getManagerService().getScoreBoard().isPresent()) {
 			return this.plugin.getManagerService().getNameTag().get().clearNameTag(this, identifier);
 		}
 		return false;
 	}
 	
 	public boolean sendTabList(String identifier) {
-		if(this.plugin.getManagerService().getTabList().isPresent()) {
+		if (this.plugin.getManagerService().getTabList().isPresent()) {
 			return this.plugin.getManagerService().getTabList().get().sendTabList(this, identifier);
 		}
 		return false;
 	}
 	
 	public boolean sendTabList(String identifier, int priority) {
-		if(this.plugin.getManagerService().getTabList().isPresent()) {
+		if (this.plugin.getManagerService().getTabList().isPresent()) {
 			return this.plugin.getManagerService().getTabList().get().sendTabList(this, identifier, priority);
 		}
 		return false;
 	}
 	
 	public boolean removeTabList(String identifier) {
-		if(this.plugin.getManagerService().getTabList().isPresent()) {
+		if (this.plugin.getManagerService().getTabList().isPresent()) {
 			return this.plugin.getManagerService().getTabList().get().removeTabList(this, identifier);
 		}
 		return false;
 	}
 	
 	public boolean hasTabList(String identifier) {
-		if(this.plugin.getManagerService().getTabList().isPresent()) {
+		if (this.plugin.getManagerService().getTabList().isPresent()) {
 			return this.plugin.getManagerService().getTabList().get().hasTabList(this, identifier);
 		}
 		return false;
@@ -571,36 +571,36 @@ public class EPlayer extends PlayerStats {
 	 */
 	
 	public boolean addBossBar(String identifier, ServerBossBar bossbar) {
-		if(this.plugin.getManagerService().getBossBar().isPresent()) {
+		if (this.plugin.getManagerService().getBossBar().isPresent()) {
 			return this.plugin.getManagerService().getBossBar().get().add(this, identifier, bossbar);
 		}
 		return false;
 	}
 	
 	public boolean addBossBar(String identifier, int priority, ServerBossBar bossbar) {
-		if(this.plugin.getManagerService().getBossBar().isPresent()) {
+		if (this.plugin.getManagerService().getBossBar().isPresent()) {
 			return this.plugin.getManagerService().getBossBar().get().add(this, identifier, priority, bossbar);
 		}
 		return false;
 	}
 	
 	public boolean removeBossBar(String identifier) {
-		if(this.plugin.getManagerService().getBossBar().isPresent()) {
+		if (this.plugin.getManagerService().getBossBar().isPresent()) {
 			return this.plugin.getManagerService().getBossBar().get().remove(this, identifier);
 		}
 		return true;
 	}
 	
 	public Optional<ServerBossBar> getBossBar(String identifier) {
-		if(this.plugin.getManagerService().getBossBar().isPresent()) {
+		if (this.plugin.getManagerService().getBossBar().isPresent()) {
 			return this.plugin.getManagerService().getBossBar().get().get(this, identifier);
 		}
 		return Optional.empty();
 	}
 
 	public void broadcastMessage(Text message, String permission) {
-		for(EPlayer other : this.plugin.getEServer().getOnlineEPlayers()) {
-			if(!this.equals(other) && other.hasPermission(permission)) {
+		for (EPlayer other : this.plugin.getEServer().getOnlineEPlayers()) {
+			if (!this.equals(other) && other.hasPermission(permission)) {
 				other.sendMessage(message);
 			}
 		}

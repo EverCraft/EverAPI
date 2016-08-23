@@ -40,7 +40,7 @@ public class FlagSetEntity extends Flag {
 	}
 	
 	public boolean setValue(Set<EntityType> value) {
-		if(this.value != value) {
+		if (this.value != value) {
 			this.value = value;
 			return true;
 		}

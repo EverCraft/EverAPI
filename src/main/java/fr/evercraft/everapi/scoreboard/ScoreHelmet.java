@@ -29,7 +29,7 @@ public class ScoreHelmet extends Score {
 	
 	@Override
 	public Integer getValue(EPlayer player) {
-		if(player.getHelmet().isPresent()) {
+		if (player.getHelmet().isPresent()) {
 			return player.getHelmet().get().get(Keys.ITEM_DURABILITY).orElse(DEFAULT);
 		}
 		return DEFAULT;
@@ -42,7 +42,7 @@ public class ScoreHelmet extends Score {
 	
 	@Listener
     public void event(DamageEntityEvent event) {
-		if(event.getTargetEntity() instanceof Player) {
+		if (event.getTargetEntity() instanceof Player) {
 			this.update(event.getTargetEntity().getUniqueId(), TypeScores.HELMET);
 		}
 	}

@@ -179,7 +179,7 @@ public class UtilsLocation {
 	}
 
 	public boolean isBlock(final World world, final Vector3i vector, final boolean safe) {
-		if(safe) {
+		if (safe) {
 			return blockDownSafe(world, vector) && isBlockAir(world, vector);
 		}
 		return blockDownNoEmpty(world, vector) && isBlockAir(world, vector);
@@ -188,7 +188,7 @@ public class UtilsLocation {
 	public boolean isPositionSafe(final Transform<World> location) {
 		Vector3i position = location.getLocation().getBlockPosition().sub(0, 1, 0);
 		
-		if(MATERIALS_EMPTY.contains(location.getExtent().getBlock(position).getType().getId())) {
+		if (MATERIALS_EMPTY.contains(location.getExtent().getBlock(position).getType().getId())) {
 			position = position.sub(0, 1, 0);
 		}
 		
@@ -221,7 +221,7 @@ public class UtilsLocation {
 		while (!isBlock(location.getExtent(), destination, safe) && destination.getY() > 1) {
 			destination = destination.sub(0, 1, 0);
 		}
-		if(destination.getY() > 1){
+		if (destination.getY() > 1){
 			return Optional.of(location.setPosition(destination.toDouble().add(0.5, 0, 0.5)));
 		}
 		return Optional.empty();
@@ -233,7 +233,7 @@ public class UtilsLocation {
 		while (!isBlock(location.getExtent(), destination, false) && destination.getY() > 1) {
 			destination = destination.sub(0, 1, 0);
 		}
-		if(destination.getY() > 1){
+		if (destination.getY() > 1){
 			return Optional.of(location.setPosition(destination.toDouble().add(0.5, 1, 0.5)));
 		}
 		return Optional.empty();
@@ -264,21 +264,21 @@ public class UtilsLocation {
 		Vector3i destinationMin = new Vector3i(location.getLocation().getBlockX(), location.getLocation().getBlockY() - 1, location.getLocation().getBlockZ());
 		Vector3i destination = null;
 		while (destination == null && (destinationMin.getY() >= 0 || destinationMax.getY() <= max)) {
-			if(destinationMax.getY() <= max && isBlock(location.getExtent(), destinationMax, safe)) {
+			if (destinationMax.getY() <= max && isBlock(location.getExtent(), destinationMax, safe)) {
 				destination = destinationMax;
-			} else if(destinationMin.getY() > 0 && isBlock(location.getExtent(), destinationMin, safe)) {
+			} else if (destinationMin.getY() > 0 && isBlock(location.getExtent(), destinationMin, safe)) {
 				destination = destinationMin;
 			}
-			if(destination == null) {
-				if(destinationMax.getY() <= max) {
+			if (destination == null) {
+				if (destinationMax.getY() <= max) {
 					destinationMax = destinationMax.add(0, 1, 0);
 				}
-				if(destinationMin.getY() >= 0) {
+				if (destinationMin.getY() >= 0) {
 					destinationMin = destinationMin.sub(0, 1, 0);
 				}
 			}
 		}
-		if(destination != null){
+		if (destination != null){
 			return Optional.of(location.setPosition(destination.toDouble().add(0.5, 0, 0.5)));
 		}
 		return Optional.empty();
@@ -287,13 +287,13 @@ public class UtilsLocation {
 	public  Optional<Vector3i> getLocation(final CommandSource player, final String pos_x, final String pos_y, final String pos_z){
 		try {
 			int x = Integer.parseInt(pos_x);
-			if(x >= this.X_min && x <= this.X_max) {
+			if (x >= this.X_min && x <= this.X_max) {
 				try {
 					int y = Integer.parseInt(pos_y);
-					if(y >= this.Y_min && y <= this.Y_max) {
+					if (y >= this.Y_min && y <= this.Y_max) {
 						try {
 							int z = Integer.parseInt(pos_z);
-							if(z >= this.Z_min && z <= this.Z_max) {
+							if (z >= this.Z_min && z <= this.Z_max) {
 								return Optional.of(new Vector3i(x, y, z));
 							} else {
 								player.sendMessage(EChat.of(EAMessages.LOCATION_ERROR_NUMBER.get()

@@ -27,7 +27,7 @@ public class ScoreLeggingsMax extends Score {
 	
 	@Override
 	public Integer getValue(EPlayer player) {
-		if(player.getLeggings().isPresent()) {
+		if (player.getLeggings().isPresent()) {
 			return UtilsItemStack.getMaxDurability(player.getLeggings().get());
 		}
 		return DEFAULT;

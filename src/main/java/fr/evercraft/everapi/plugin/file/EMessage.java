@@ -64,20 +64,20 @@ public abstract class EMessage extends EFile {
     
     
     public void load() {
-    	for(EnumMessage message : this.enum_message) {
+    	for (EnumMessage message : this.enum_message) {
     		ConfigurationNode node = get(message.getPath());
-        	if(node != null) {
-        		if(node.getValue() == null){
-        			if(this.name.equals(FRENCH)) {
+        	if (node != null) {
+        		if (node.getValue() == null){
+        			if (this.name.equals(FRENCH)) {
             			node.setValue(message.getFrench());
             		} else {
             			node.setValue(message.getEnglish());
             		}
             	}
         		
-        		if(node.getValue() instanceof List) {
+        		if (node.getValue() instanceof List) {
         			try {
-            			if(this.plugin.getChat() != null) {
+            			if (this.plugin.getChat() != null) {
             				message.set(this.plugin.getChat().replace(node.getList(TypeToken.of(String.class))));
             			} else {
             				message.set(node.getList(TypeToken.of(String.class)));
@@ -87,7 +87,7 @@ public abstract class EMessage extends EFile {
         				message.set("Impossible de charger la liste des messages : '" + message.getName() + "'");
         			}
         		} else {
-        			if(this.plugin.getChat() != null) {
+        			if (this.plugin.getChat() != null) {
         				message.set(this.plugin.getChat().replace(node.getString("")));
     	    		} else {
     	    			message.set(node.getString(""));

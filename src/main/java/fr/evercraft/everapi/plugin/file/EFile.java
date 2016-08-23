@@ -61,7 +61,7 @@ public abstract class EFile {
     	this.plugin = plugin;
     	this.name = name;
     	
-    	if(save) {
+    	if (save) {
     		this.plugin.registerConfiguration(this);    
     	}
     }
@@ -75,9 +75,9 @@ public abstract class EFile {
      * Rechargement de la configuration
      */
     public void loadFile() {
-        if(this.file == null) {
+        if (this.file == null) {
         	this.file = this.plugin.getPath().resolve(this.name + ".conf").toFile();
-        	if(!this.file.getParentFile().exists()){
+        	if (!this.file.getParentFile().exists()){
         		this.file.getParentFile().mkdirs();
         	}
         }
@@ -97,7 +97,7 @@ public abstract class EFile {
      * Sauvegarde du fichier de configuration
      */
     public void save() {
-        if(this.manager != null && this.config != null) {
+        if (this.manager != null && this.config != null) {
 	        try {
 	        	this.manager.save(config);
 	        } catch (IOException ex) {
@@ -121,7 +121,7 @@ public abstract class EFile {
      */
     public void addDefault(final String paths, final Object value){
     	ConfigurationNode node = get(paths);    	
-    	if(node.getValue() == null){
+    	if (node.getValue() == null){
     		node.setValue(value);
     	}
     }
@@ -137,7 +137,7 @@ public abstract class EFile {
     
     public List<String> getListString(String paths){
     	ConfigurationNode resultat = get(paths);
-    	if(resultat != null){
+    	if (resultat != null){
     		try {
 				return resultat.getList(TypeToken.of(String.class));
 			} catch (ObjectMappingException e) {}

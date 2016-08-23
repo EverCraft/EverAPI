@@ -58,33 +58,33 @@ public abstract class EDataBase<T extends EPlugin> {
 		this.plugin.getLogger().debug("SQL : PreInitialization...");
 		
 		// SQLService
-		if(this.plugin.getGame().getServiceManager().provide(SqlService.class).isPresent()) {
+		if (this.plugin.getGame().getServiceManager().provide(SqlService.class).isPresent()) {
 			this.sql = this.plugin.getGame().getServiceManager().provide(SqlService.class).get();
 			
 			// Config
 			this.enable = this.plugin.getConfigs().get("SQL.enable").getBoolean(false);
 			this.prefix = this.plugin.getConfigs().get("SQL.prefix").getString(this.plugin.getName().toLowerCase() + "_");
 			
-			if(this.enable) {			
+			if (this.enable) {			
 				this.url = this.plugin.getConfigs().get("SQL.url").getString("");
 				
-				if(this.url.isEmpty()) {
+				if (this.url.isEmpty()) {
 					this.enable = false;
 				} else {
 					this.enable = testConnection();
 				}
-			} else if(this.force) {
+			} else if (this.force) {
 				this.plugin.getLogger().debug("SQL : Default");
 				this.url = "jdbc:h2:" + this.plugin.getPath().toAbsolutePath() + "/data";
 				this.enable = testConnection();
 			}
 			
 			// Resultat
-			if(this.enable) {
+			if (this.enable) {
 				this.plugin.getLogger().info("SQL : Load complete");
 			} else {
 				this.plugin.getLogger().debug("SQL : Error loading");
-				if(this.force) {
+				if (this.force) {
 					throw new PluginDisableException("This plugin requires a database");
 				}
 			}
@@ -108,7 +108,7 @@ public abstract class EDataBase<T extends EPlugin> {
 			cpt++;
 		}
 		
-		if(connection == null) {
+		if (connection == null) {
 			this.enable = false;
 			throw new ServerDisableException(this.plugin, "Unable to connect to the database : (plugin='" + this.plugin.getName() + ")");
 		}

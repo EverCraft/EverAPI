@@ -40,7 +40,7 @@ public class PlayerAccount extends PlayerCooldown {
 	}
 	
 	private boolean isPresent() {
-		if(this.subject == null && this.plugin.getManagerService().getEconomy().isPresent()) {
+		if (this.subject == null && this.plugin.getManagerService().getEconomy().isPresent()) {
 			this.subject = this.plugin.getManagerService().getEconomy().get().getOrCreateAccount(this.getUniqueId()).orElse(null);
 		}
 		return this.subject != null;
@@ -51,7 +51,7 @@ public class PlayerAccount extends PlayerCooldown {
 	 * @return La monnaie
 	 */
 	public BigDecimal getBalance() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getBalance(this.plugin.getManagerService().getEconomy().get().getDefaultCurrency());
 		}
 		return BigDecimal.ZERO;
@@ -62,7 +62,7 @@ public class PlayerAccount extends PlayerCooldown {
 	 * @return La monnaie
 	 */
 	public BigDecimal getBalanceRound() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.getBalance().setScale(this.plugin.getManagerService().getEconomy().get().getDefaultCurrency().getDefaultFractionDigits(), BigDecimal.ROUND_HALF_UP);
 		}
 		return BigDecimal.ZERO;
@@ -74,7 +74,7 @@ public class PlayerAccount extends PlayerCooldown {
 	 * @return True si il assez d'argent
 	 */
 	public boolean hasBalance(final BigDecimal amount) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getBalance(this.plugin.getManagerService().getEconomy().get().getDefaultCurrency()).compareTo(amount) >= 0;
 		}
 		return false;
@@ -86,7 +86,7 @@ public class PlayerAccount extends PlayerCooldown {
 	 * @return  True si l'argent a bien été déposé sur le compte du joueur
 	 */
 	public boolean deposit(final BigDecimal amount, final Cause cause) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.deposit(this.plugin.getManagerService().getEconomy().get().getDefaultCurrency(), amount, cause).getResult().equals(ResultType.SUCCESS);
 		}
 		return false;
@@ -98,7 +98,7 @@ public class PlayerAccount extends PlayerCooldown {
 	 * @return  True si l'argent a bien été retiré du compte du joueur
 	 */
 	public boolean withdraw(final BigDecimal amount, final Cause cause) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.withdraw(this.plugin.getManagerService().getEconomy().get().getDefaultCurrency(), amount, cause).getResult().equals(ResultType.SUCCESS);
 		}
 		return false;
@@ -110,7 +110,7 @@ public class PlayerAccount extends PlayerCooldown {
 	 * @return True si l'argent du joueur a bien été sauvegardé dans la base de données
 	 */
 	public boolean setBalance(final BigDecimal amount, final Cause cause) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.setBalance(this.plugin.getManagerService().getEconomy().get().getDefaultCurrency(), amount, cause).getResult().equals(ResultType.SUCCESS);
 		}
 		return false;
@@ -125,7 +125,7 @@ public class PlayerAccount extends PlayerCooldown {
 	 */
 	public boolean transfer(final EPlayer playerto, final BigDecimal amount, final Cause cause) {
 		Optional<UniqueAccount> accountTo = playerto.getAccount();
-		if(this.isPresent() && accountTo.isPresent()) {
+		if (this.isPresent() && accountTo.isPresent()) {
 			return this.subject.transfer(accountTo.get(), this.plugin.getManagerService().getEconomy().get().getDefaultCurrency(), amount, cause).getResult().equals(ResultType.SUCCESS);
 		}
 		return false;
@@ -138,7 +138,7 @@ public class PlayerAccount extends PlayerCooldown {
 	 */
 	public boolean resetBalance(final Cause cause) {
 		Optional<UniqueAccount> account = getAccount();
-		if(account.isPresent()) {
+		if (account.isPresent()) {
 			return account.get().resetBalance(this.plugin.getManagerService().getEconomy().get().getDefaultCurrency(), cause).getResult().equals(ResultType.SUCCESS);
 		}
 		return false;

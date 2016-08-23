@@ -34,16 +34,16 @@ public class UtilsGameMode {
 	
 	public String getName(final GameMode gamemode){
 		String name = "";
-		if(gamemode != null){
-			if(gamemode.equals(GameModes.SURVIVAL)){
+		if (gamemode != null){
+			if (gamemode.equals(GameModes.SURVIVAL)){
 				name = EAMessages.GAMEMODE_SURVIVAL.get();
-			} else if(gamemode.equals(GameModes.CREATIVE)) {
+			} else if (gamemode.equals(GameModes.CREATIVE)) {
 				name = EAMessages.GAMEMODE_CREATIVE.get();
-			} else if(gamemode.equals(GameModes.ADVENTURE)) {
+			} else if (gamemode.equals(GameModes.ADVENTURE)) {
 				name = EAMessages.GAMEMODE_ADVENTURE.get();
-			} else if(gamemode.equals(GameModes.SPECTATOR)) {
+			} else if (gamemode.equals(GameModes.SPECTATOR)) {
 				name = EAMessages.GAMEMODE_SPECTATOR.get();
-			} else if(gamemode.equals(GameModes.NOT_SET)) {
+			} else if (gamemode.equals(GameModes.NOT_SET)) {
 				name = EAMessages.GAMEMODE_NOT_SET.get();
 			}
 		}
@@ -52,16 +52,16 @@ public class UtilsGameMode {
 	
 	public static Optional<GameMode> getGameMode(final String arg){
 		GameMode gamemode = null;
-		if(arg != null){
-			if(arg.equalsIgnoreCase("survival") || arg.equalsIgnoreCase("0")){
+		if (arg != null){
+			if (arg.equalsIgnoreCase("survival") || arg.equalsIgnoreCase("0")){
 				gamemode = GameModes.SURVIVAL;
-			} else if(arg.equalsIgnoreCase("creative") || arg.equalsIgnoreCase("1")){
+			} else if (arg.equalsIgnoreCase("creative") || arg.equalsIgnoreCase("1")){
 				gamemode = GameModes.CREATIVE;
-			} else if(arg.equalsIgnoreCase("adventure") || arg.equalsIgnoreCase("2")){
+			} else if (arg.equalsIgnoreCase("adventure") || arg.equalsIgnoreCase("2")){
 				gamemode = GameModes.ADVENTURE;
-			} else if(arg.equalsIgnoreCase("spectator") || arg.equalsIgnoreCase("3")){
+			} else if (arg.equalsIgnoreCase("spectator") || arg.equalsIgnoreCase("3")){
 				gamemode = GameModes.SPECTATOR;
-			} else if(arg.equalsIgnoreCase("empty") || arg.equalsIgnoreCase("4")){
+			} else if (arg.equalsIgnoreCase("empty") || arg.equalsIgnoreCase("4")){
 				gamemode = GameModes.NOT_SET;
 			}
 		}

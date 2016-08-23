@@ -32,7 +32,7 @@ public class PlayerStats extends PlayerEssentials implements StatsSubject {
 	}
 
 	private boolean isPresent() {
-		if(this.subject == null && this.plugin.getManagerService().getStats().isPresent()) {
+		if (this.subject == null && this.plugin.getManagerService().getStats().isPresent()) {
 			this.subject = this.plugin.getManagerService().getStats().get().get(this.player.getUniqueId()).orElse(null);
 		}
 		return this.subject != null;
@@ -40,7 +40,7 @@ public class PlayerStats extends PlayerEssentials implements StatsSubject {
 
 	@Override
 	public int getDeath() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getDeath();
 		}
 		return 0;
@@ -48,7 +48,7 @@ public class PlayerStats extends PlayerEssentials implements StatsSubject {
 
 	@Override
 	public int getKill() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getKill();
 		}
 		return 0;
@@ -56,7 +56,7 @@ public class PlayerStats extends PlayerEssentials implements StatsSubject {
 	
 	@Override
 	public int getKillStreaks() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getKillStreaks();
 		}
 		return 0;
@@ -64,7 +64,7 @@ public class PlayerStats extends PlayerEssentials implements StatsSubject {
 
 	@Override
 	public int getRatio() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getRatio();
 		}
 		return 0;
@@ -72,7 +72,7 @@ public class PlayerStats extends PlayerEssentials implements StatsSubject {
 
 	@Override
 	public int getDeathMonthly() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getDeathMonthly();
 		}
 		return 0;
@@ -80,7 +80,7 @@ public class PlayerStats extends PlayerEssentials implements StatsSubject {
 
 	@Override
 	public int getKillMonthly() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getKillMonthly();
 		}
 		return 0;
@@ -88,7 +88,7 @@ public class PlayerStats extends PlayerEssentials implements StatsSubject {
 
 	@Override
 	public int getRatioMonthly() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getRatioMonthly();
 		}
 		return 0;
@@ -96,14 +96,14 @@ public class PlayerStats extends PlayerEssentials implements StatsSubject {
 
 	@Override
 	public boolean addDeath(Entity killer, DamageType damage, Long time) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.addDeath(killer, damage, time);
 		}
 		return false;
 	}
 	
 	public boolean addDeath(DamageType damage, Long time) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.addDeath(null, damage, time);
 		}
 		return false;

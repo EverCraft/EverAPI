@@ -55,16 +55,16 @@ public class EActionBarService implements ActionBarService {
 	}
 	
 	public void reload() {
-		if(this.task != null) {
+		if (this.task != null) {
 			this.task.cancel();
 		}
 		
 		HashMap<UUID, ActionBarMessage> actionBars = new HashMap<UUID, ActionBarMessage>(this.players);
 		this.players.clear();
 		
-		for(Entry<UUID, ActionBarMessage> actionBar : actionBars.entrySet()) {
+		for (Entry<UUID, ActionBarMessage> actionBar : actionBars.entrySet()) {
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(actionBar.getKey());
-			if(player.isPresent()) {
+			if (player.isPresent()) {
 				player.get().sendMessage(ChatTypes.ACTION_BAR, Text.EMPTY);
 				
 				// Event
@@ -82,7 +82,7 @@ public class EActionBarService implements ActionBarService {
 	public boolean send(EPlayer player, String identifier, int priority, long stay, Text message) {
 		ActionBarMessage actionBar = this.players.get(player.getUniqueId());
 		// Vérifie la priorité
-		if(actionBar == null || this.getPriority(actionBar.getIdentifier()) <= priority) {
+		if (actionBar == null || this.getPriority(actionBar.getIdentifier()) <= priority) {
 			ActionBarMessage newActionBar = new ActionBarMessage(player.getUniqueId(), identifier, System.currentTimeMillis() + stay, message);
 			// Envoie la ActionBar
 			newActionBar.send(player);
@@ -90,7 +90,7 @@ public class EActionBarService implements ActionBarService {
 			this.players.put(player.getUniqueId(), newActionBar);
 			
 			// Event
-			if(actionBar == null) {
+			if (actionBar == null) {
 				this.postAdd(player, newActionBar);
 			} else {
 				this.postReplace(player, actionBar, newActionBar);
@@ -106,7 +106,7 @@ public class EActionBarService implements ActionBarService {
 	@Override
 	public boolean remove(EPlayer player, String identifier) {
 		ActionBarMessage actionBar = this.players.get(player.getUniqueId());
-		if(actionBar != null && actionBar.getIdentifier().equalsIgnoreCase(identifier)) {
+		if (actionBar != null && actionBar.getIdentifier().equalsIgnoreCase(identifier)) {
 			// Supprime
 			player.get().sendMessage(ChatTypes.ACTION_BAR, Text.EMPTY);
 			this.players.remove(player.getUniqueId());
@@ -119,20 +119,20 @@ public class EActionBarService implements ActionBarService {
 	}
 	
 	public void update() {
-		if(this.players.isEmpty()) {
+		if (this.players.isEmpty()) {
 			stop();
 		} else {
 			final List<UUID> removes = new ArrayList<UUID>();
-			for(ActionBarMessage actionBar : this.players.values()) {
+			for (ActionBarMessage actionBar : this.players.values()) {
 				Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(actionBar.getPlayer());
-				if(player.isPresent() && System.currentTimeMillis() + LAST_UPDATE <= actionBar.getTime()) {
+				if (player.isPresent() && System.currentTimeMillis() + LAST_UPDATE <= actionBar.getTime()) {
 					actionBar.send(player.get());
 				} else {
 					removes.add(actionBar.getPlayer());
 				}
 			}
 			
-			if(!removes.isEmpty()) {
+			if (!removes.isEmpty()) {
 				this.plugin.getGame().getScheduler().createTaskBuilder()
 					.execute(() -> this.updateSync(removes))
 					.name("ActionBarService")
@@ -142,13 +142,13 @@ public class EActionBarService implements ActionBarService {
 	}
 	
 	public void updateSync(List<UUID> players) {
-		for(UUID uuid : players) {
+		for (UUID uuid : players) {
 			ActionBarMessage actionBar = this.players.get(uuid);
-			if(actionBar != null && System.currentTimeMillis() + LAST_UPDATE > actionBar.getTime()) {
+			if (actionBar != null && System.currentTimeMillis() + LAST_UPDATE > actionBar.getTime()) {
 				this.players.remove(uuid);
 				
 				Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(uuid);
-				if(player.isPresent()) {
+				if (player.isPresent()) {
 					player.get().sendMessage(ChatTypes.ACTION_BAR, Text.EMPTY);
 					
 					//Event
@@ -158,7 +158,7 @@ public class EActionBarService implements ActionBarService {
 		}
 		
 		
-		if(this.players.isEmpty()) {
+		if (this.players.isEmpty()) {
 			stop();
 		} else {
 			start();
@@ -166,7 +166,7 @@ public class EActionBarService implements ActionBarService {
 	}
 	
 	public void start() {
-		if(!isEnable()) {
+		if (!isEnable()) {
 			this.task = this.plugin.getGame().getScheduler().createTaskBuilder()
 							.execute(() -> this.update())
 							.delay(UPDATE, TimeUnit.MILLISECONDS)
@@ -178,7 +178,7 @@ public class EActionBarService implements ActionBarService {
 	}
 	
 	public void stop() {
-		if(isEnable()) {
+		if (isEnable()) {
 			this.task.cancel();
 			this.task = null;
 		}
@@ -199,7 +199,7 @@ public class EActionBarService implements ActionBarService {
 	}
 	
 	private int getPriority(String identifier) {
-		if(this.plugin.getManagerService().getPriority().isPresent()) {
+		if (this.plugin.getManagerService().getPriority().isPresent()) {
 			return this.plugin.getManagerService().getPriority().get().getActionBar(identifier);
 		}
 		return PriorityService.DEFAULT;

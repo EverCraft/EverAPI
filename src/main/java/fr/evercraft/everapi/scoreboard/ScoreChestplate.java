@@ -29,7 +29,7 @@ public class ScoreChestplate extends Score {
 	
 	@Override
 	public Integer getValue(EPlayer player) {
-		if(player.getBoots().isPresent()) {
+		if (player.getBoots().isPresent()) {
 			return player.getBoots().get().get(Keys.ITEM_DURABILITY).orElse(DEFAULT);
 		}
 		return DEFAULT;
@@ -42,7 +42,7 @@ public class ScoreChestplate extends Score {
 	
 	@Listener
     public void event(DamageEntityEvent event) {
-		if(event.getTargetEntity() instanceof Player) {
+		if (event.getTargetEntity() instanceof Player) {
 			this.update(event.getTargetEntity().getUniqueId(), TypeScores.BOOTS);
 		}
 	}

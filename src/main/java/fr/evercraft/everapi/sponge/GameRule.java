@@ -44,16 +44,16 @@ public class GameRule<T> {
 	public Optional<T> getValue(WorldProperties world) {
 		Optional<String> value = world.getGameRule(this.name);
 		
-		if(value.isPresent()) {
-			if(this.type.equals(String.class)) {
+		if (value.isPresent()) {
+			if (this.type.equals(String.class)) {
 				return (Optional<T>) UtilsBoolean.parseBoolean(value.get());
-			} else if(this.type.equals(Boolean.class)) {
+			} else if (this.type.equals(Boolean.class)) {
 				return (Optional<T>) UtilsBoolean.parseBoolean(value.get());
-			} else if(this.type.equals(Integer.class)) {
+			} else if (this.type.equals(Integer.class)) {
 				try {
 					return (Optional<T>) Optional.of(Integer.parseInt(value.get()));
 				} catch (NumberFormatException e) {}
-			} else if(this.type.equals(Double.class)) {
+			} else if (this.type.equals(Double.class)) {
 				try {
 					return (Optional<T>) Optional.of(Double.parseDouble(value.get()));
 				} catch (NumberFormatException e) {}

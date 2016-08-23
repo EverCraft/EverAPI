@@ -27,7 +27,7 @@ public class ScoreHelmetMax extends Score {
 	
 	@Override
 	public Integer getValue(EPlayer player) {
-		if(player.getHelmet().isPresent()) {
+		if (player.getHelmet().isPresent()) {
 			return UtilsItemStack.getMaxDurability(player.getHelmet().get());
 		}
 		return DEFAULT;

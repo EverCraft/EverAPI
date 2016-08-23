@@ -73,7 +73,7 @@ public class EPriorityService implements PriorityService {
 	public int getActionBar(final String identifier) {
 		Preconditions.checkNotNull(identifier, "identifier");
 		
-		if(this.actionbar.containsKey(identifier)) {
+		if (this.actionbar.containsKey(identifier)) {
 			return this.actionbar.get(identifier);
 		}
 		this.plugin.getLogger().warn("Unknown priority (ActionBar='" + identifier + "')");
@@ -84,7 +84,7 @@ public class EPriorityService implements PriorityService {
 	public int getTitle(final String identifier) {
 		Preconditions.checkNotNull(identifier, "identifier");
 		
-		if(this.title.containsKey(identifier)) {
+		if (this.title.containsKey(identifier)) {
 			return this.title.get(identifier);
 		}
 		this.plugin.getLogger().warn("Unknown priority (Title='" + identifier + "')");
@@ -95,7 +95,7 @@ public class EPriorityService implements PriorityService {
 	public int getNameTag(final String identifier) {
 		Preconditions.checkNotNull(identifier, "identifier");
 		
-		if(this.nametag.containsKey(identifier)) {
+		if (this.nametag.containsKey(identifier)) {
 			return this.nametag.get(identifier);
 		}
 		this.plugin.getLogger().warn("Unknown priority (NameTag='" + identifier + "')");
@@ -106,7 +106,7 @@ public class EPriorityService implements PriorityService {
 	public int getTabList(final String identifier) {
 		Preconditions.checkNotNull(identifier, "identifier");
 		
-		if(this.tablist.containsKey(identifier)) {
+		if (this.tablist.containsKey(identifier)) {
 			return this.tablist.get(identifier);
 		}
 		this.plugin.getLogger().warn("Unknown priority (TabList='" + identifier + "')");
@@ -117,7 +117,7 @@ public class EPriorityService implements PriorityService {
 	public int getBossBar(final String identifier) {
 		Preconditions.checkNotNull(identifier, "identifier");
 		
-		if(this.bossbar.containsKey(identifier)) {
+		if (this.bossbar.containsKey(identifier)) {
 			return this.bossbar.get(identifier);
 		}
 		this.plugin.getLogger().warn("Unknown priority (BossBar='" + identifier + "')");
@@ -128,9 +128,9 @@ public class EPriorityService implements PriorityService {
 	public int getScoreBoard(final DisplaySlot type, final String identifier) {
 		Preconditions.checkNotNull(identifier, "identifier");
 		
-		if(this.scoreboard.containsKey(type)) {
+		if (this.scoreboard.containsKey(type)) {
 			ConcurrentHashMap<String, Integer> map_type = this.scoreboard.get(type);
-			if(map_type.containsKey(identifier)) {
+			if (map_type.containsKey(identifier)) {
 				return map_type.get(identifier);
 			}
 		}

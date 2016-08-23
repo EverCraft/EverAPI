@@ -65,7 +65,7 @@ public enum UtilsPainting {
 	
 	public UtilsPainting next() {
 		int numero = this.getNumero() + 1;
-		if(numero >= values().length) {
+		if (numero >= values().length) {
 			numero = 0;
 		}
 		return values()[numero];

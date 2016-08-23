@@ -33,7 +33,7 @@ public class FlagWeather extends Flag {
 	}
 	
 	public boolean setValue(Weather value) {
-		if(this.value != value) {
+		if (this.value != value) {
 			this.value = value;
 			return true;
 		}

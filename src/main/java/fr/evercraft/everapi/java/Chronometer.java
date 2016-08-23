@@ -26,7 +26,7 @@ public class Chronometer {
     }
  
     public void stop(){
-    	if(this.stop == null) {
+    	if (this.stop == null) {
     		this.stop = System.nanoTime();
     	}
     }

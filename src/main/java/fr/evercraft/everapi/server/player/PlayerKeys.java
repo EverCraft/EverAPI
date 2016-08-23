@@ -182,7 +182,7 @@ public abstract class PlayerKeys extends PlayerSponge {
 	}
 	
 	public boolean setGameMode(final GameMode gamemode){
-		if(gamemode != null){
+		if (gamemode != null){
 			return this.offer((GameModeData)this.getGameModeData().set(Keys.GAME_MODE, gamemode)).isSuccessful();
 		}
 		return false;
@@ -366,14 +366,14 @@ public abstract class PlayerKeys extends PlayerSponge {
 	 */
 	
 	public long getLastDatePlayed() {
-		if(get(Keys.LAST_DATE_PLAYED).isPresent()) {
+		if (get(Keys.LAST_DATE_PLAYED).isPresent()) {
 			return get(Keys.LAST_DATE_PLAYED).get().toEpochMilli();
 		}
 		return System.currentTimeMillis();
 	}
 	
 	public long getFirstDatePlayed() {
-		if(get(Keys.FIRST_DATE_PLAYED).isPresent()) {
+		if (get(Keys.FIRST_DATE_PLAYED).isPresent()) {
 			return get(Keys.FIRST_DATE_PLAYED).get().toEpochMilli();
 		}
 		return 0;

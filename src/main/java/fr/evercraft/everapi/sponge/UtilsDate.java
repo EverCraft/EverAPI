@@ -128,7 +128,7 @@ public class UtilsDate {
 			future = true;
 		}
 		
-		if(toDate.equals(fromDate)) {
+		if (toDate.equals(fromDate)) {
 			resultat = EAMessages.TIME_NOW.get();
 		} else {
 			List<String> sb = new ArrayList<String>();
@@ -137,7 +137,7 @@ public class UtilsDate {
 				Integer diff = dateDiff(this.types[cpt], fromDate, toDate, future);
 				if (diff >= 2) {
 					sb.add(this.names[cpt * 2 + 1].replaceAll("<value>", diff.toString()));
-				} else if(diff >= 1) {
+				} else if (diff >= 1) {
 					sb.add(this.names[cpt * 2].replaceAll("<value>", diff.toString()));
 				}
 				cpt++;
@@ -156,7 +156,7 @@ public class UtilsDate {
 		long savedDate = fromDate.getTimeInMillis();
 		while ((future && !fromDate.after(toDate)) || (!future && !fromDate.before(toDate))) {
 			savedDate = fromDate.getTimeInMillis();
-			if(future) {
+			if (future) {
 				fromDate.add(type, 1);
 			} else {
 				fromDate.add(type, -1);

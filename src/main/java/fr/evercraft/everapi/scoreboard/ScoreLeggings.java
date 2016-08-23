@@ -29,7 +29,7 @@ public class ScoreLeggings extends Score {
 	
 	@Override
 	public Integer getValue(EPlayer player) {
-		if(player.getLeggings().isPresent()) {
+		if (player.getLeggings().isPresent()) {
 			return player.getLeggings().get().get(Keys.ITEM_DURABILITY).orElse(DEFAULT);
 		}
 		return DEFAULT;
@@ -42,7 +42,7 @@ public class ScoreLeggings extends Score {
 	
 	@Listener
     public void event(DamageEntityEvent event) {
-		if(event.getTargetEntity() instanceof Player) {
+		if (event.getTargetEntity() instanceof Player) {
 			this.update(event.getTargetEntity().getUniqueId(), TypeScores.LEGGINGS);
 		}
 	}

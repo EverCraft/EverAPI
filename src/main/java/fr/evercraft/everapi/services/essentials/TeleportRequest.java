@@ -66,7 +66,7 @@ public class TeleportRequest {
 	}
 
 	public void setDelay(long delay) {
-		if(delay > 0) {
+		if (delay > 0) {
 			this.time = Optional.of(delay + System.currentTimeMillis());
 		} else {
 			this.time = Optional.empty();

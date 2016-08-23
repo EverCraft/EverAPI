@@ -30,7 +30,7 @@ public class ScoreLeggingsPourcentage extends Score {
 	
 	@Override
 	public Integer getValue(EPlayer player) {
-		if(player.getLeggings().isPresent()) {
+		if (player.getLeggings().isPresent()) {
 			return (player.getLeggings().get().get(Keys.ITEM_DURABILITY).orElse(DEFAULT)/UtilsItemStack.getMaxDurability(player.getLeggings().get())) * 100;
 		}
 		return DEFAULT;
@@ -43,7 +43,7 @@ public class ScoreLeggingsPourcentage extends Score {
 	
 	@Listener
     public void event(DamageEntityEvent event) {
-		if(event.getTargetEntity() instanceof Player) {
+		if (event.getTargetEntity() instanceof Player) {
 			this.update(event.getTargetEntity().getUniqueId(), TypeScores.LEGGINGS_POURCENTAGE);
 		}
 	}

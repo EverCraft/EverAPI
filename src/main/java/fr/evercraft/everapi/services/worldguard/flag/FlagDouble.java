@@ -31,7 +31,7 @@ public class FlagDouble extends Flag {
 	}
 	
 	public boolean setValue(double value) {
-		if(this.value != value) {
+		if (this.value != value) {
 			this.value = value;
 			return true;
 		}

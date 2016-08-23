@@ -49,9 +49,9 @@ public class ETabListService implements TabListService {
 		HashMap<UUID, String> tablists = new HashMap<UUID, String>(this.players);
 		this.players.clear();
 		
-		for(Entry<UUID, String> tablist : tablists.entrySet()) {
+		for (Entry<UUID, String> tablist : tablists.entrySet()) {
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(tablist.getKey());
-			if(player.isPresent()) {
+			if (player.isPresent()) {
 				player.get().getTabList().setHeaderAndFooter(null, null);
 				
 				// Event
@@ -68,13 +68,13 @@ public class ETabListService implements TabListService {
 	@Override
 	public boolean sendTabList(EPlayer player, String identifier, int priority) {
 		// Avec un TabList
-		if(this.players.containsKey(player.getUniqueId())) {
+		if (this.players.containsKey(player.getUniqueId())) {
 			String player_identifier = this.players.get(player.getUniqueId());
 			// Egale
-			if(player_identifier.equalsIgnoreCase(identifier)) {
+			if (player_identifier.equalsIgnoreCase(identifier)) {
 				return true;
 			// Différent mais inférieur
-			} else if(this.getPriority(player_identifier) <= this.getPriority(identifier)) {
+			} else if (this.getPriority(player_identifier) <= this.getPriority(identifier)) {
 				// Supprime
 				player.getTabList().setHeaderAndFooter(null, null);
 				
@@ -100,7 +100,7 @@ public class ETabListService implements TabListService {
 	
 	@Override
 	public boolean removeTabList(EPlayer player, String identifier) {
-		if(this.players.containsKey(player.getUniqueId()) && this.players.get(player.getUniqueId()).equalsIgnoreCase(identifier)) {
+		if (this.players.containsKey(player.getUniqueId()) && this.players.get(player.getUniqueId()).equalsIgnoreCase(identifier)) {
 			player.getTabList().setHeaderAndFooter(null, null);
 			
 			// Event
@@ -127,7 +127,7 @@ public class ETabListService implements TabListService {
 	}
 
 	private int getPriority(String identifier) {
-		if(this.plugin.getManagerService().getPriority().isPresent()) {
+		if (this.plugin.getManagerService().getPriority().isPresent()) {
 			return this.plugin.getManagerService().getPriority().get().getTabList(identifier);
 		}
 		return PriorityService.DEFAULT;

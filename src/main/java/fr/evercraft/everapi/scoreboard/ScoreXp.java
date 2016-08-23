@@ -31,7 +31,7 @@ public class ScoreXp extends Score {
 	
 	@Listener
     public void event(ChangeEntityExperienceEvent event) {
-		if(event.getTargetEntity() instanceof Player) {
+		if (event.getTargetEntity() instanceof Player) {
 			this.update(event.getTargetEntity().getUniqueId(), TypeScores.XP);
 		}
 	}

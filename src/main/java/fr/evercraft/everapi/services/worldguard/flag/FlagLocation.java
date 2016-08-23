@@ -39,7 +39,7 @@ public class FlagLocation extends Flag {
 	}
 	
 	public boolean setValue(Vector3i value) {
-		if(this.value != value) {
+		if (this.value != value) {
 			this.value = value;
 			return true;
 		}

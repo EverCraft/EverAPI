@@ -30,7 +30,7 @@ public class ScoreHelmetPourcentage extends Score {
 	
 	@Override
 	public Integer getValue(EPlayer player) {
-		if(player.getHelmet().isPresent()) {
+		if (player.getHelmet().isPresent()) {
 			return (player.getHelmet().get().get(Keys.ITEM_DURABILITY).orElse(DEFAULT)/UtilsItemStack.getMaxDurability(player.getHelmet().get())) * 100;
 		}
 		return DEFAULT;
@@ -43,7 +43,7 @@ public class ScoreHelmetPourcentage extends Score {
 	
 	@Listener
     public void event(DamageEntityEvent event) {
-		if(event.getTargetEntity() instanceof Player) {
+		if (event.getTargetEntity() instanceof Player) {
 			this.update(event.getTargetEntity().getUniqueId(), TypeScores.HELMET_POURCENTAGE);
 		}
 	}

@@ -53,10 +53,10 @@ public class ETextBuilder {
 	
 	public Text build(){
 		Builder builder = Text.builder();
-		for(Object text : texts){
-			if(text instanceof String){
+		for (Object text : texts){
+			if (text instanceof String){
 				builder.append(EChat.of((String) text));
-			} else if(text instanceof Text) {
+			} else if (text instanceof Text) {
 				builder.append((Text) text);
 			}
 		}
@@ -71,11 +71,11 @@ public class ETextBuilder {
 		String text;
 		int cpt = 0;
 		while(cpt < this.texts.size()){
-			if(this.texts.get(cpt) instanceof String) {
+			if (this.texts.get(cpt) instanceof String) {
 				text = (String) this.texts.get(cpt);
-				if(text.contains(replace_id)) {
+				if (text.contains(replace_id)) {
 					split = text.split(replace_id, 2);
-					if(split.length == 2) {
+					if (split.length == 2) {
 						this.texts.remove(cpt);
 						this.texts.add(cpt, split[0]);
 						cpt++;
@@ -92,8 +92,8 @@ public class ETextBuilder {
 	
 	public ETextBuilder replace(String replace_id, String replace_text) {
 		List<Object> texts = new ArrayList<Object>();
-		for(Object text : this.texts) {
-			if(text instanceof String) {
+		for (Object text : this.texts) {
+			if (text instanceof String) {
 				texts.add(((String) text).replaceAll(replace_id, replace_text));
 			} else {
 				texts.add(text);

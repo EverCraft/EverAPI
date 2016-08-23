@@ -58,7 +58,7 @@ public abstract class EPermission {
 	 */
 	public String get(String key){
 		key = key.toUpperCase();
-		if(this.permissions.containsKey(key)){
+		if (this.permissions.containsKey(key)){
 			return this. prefix + this.permissions.get(key);
 		}
 		this.plugin.getLogger().warn("La permission '" + key + "' n'est pas définit");

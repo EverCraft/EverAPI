@@ -41,7 +41,7 @@ public class PlayerPermission extends PlayerKeys implements Subject {
 	}
 
 	private boolean isPresent() {
-		if(this.optionSubject == null && this.plugin.getManagerService().getPermission().isPresent()) {
+		if (this.optionSubject == null && this.plugin.getManagerService().getPermission().isPresent()) {
 			this.optionSubject = this.plugin.getManagerService().getPermission().get().getUserSubjects().get(this.player.getIdentifier());
 		}
 		return this.optionSubject != null;
@@ -54,9 +54,9 @@ public class PlayerPermission extends PlayerKeys implements Subject {
 	public Optional<Subject> getGroup(final Set<Context> contexts) {
 		Preconditions.checkNotNull(contexts, "contexts");
 		
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			List<Subject> groups = this.getSubjectData().getParents(contexts);
-			if(!groups.isEmpty()) {
+			if (!groups.isEmpty()) {
 				return Optional.of(groups.get(0));
 			}
 		}
@@ -105,7 +105,7 @@ public class PlayerPermission extends PlayerKeys implements Subject {
 
 	@Override
 	public SubjectData getSubjectData() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.optionSubject.getSubjectData();
 		}
 		return null;
@@ -113,7 +113,7 @@ public class PlayerPermission extends PlayerKeys implements Subject {
 
 	@Override
 	public SubjectData getTransientSubjectData() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.optionSubject.getTransientSubjectData();
 		}
 		return null;
@@ -121,7 +121,7 @@ public class PlayerPermission extends PlayerKeys implements Subject {
 
 	@Override
 	public Optional<String> getOption(Set<Context> contexts, String key) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.optionSubject.getOption(contexts, key);
 		}
 		return Optional.empty();

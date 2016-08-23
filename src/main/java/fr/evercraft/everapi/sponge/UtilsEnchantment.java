@@ -76,11 +76,11 @@ public class UtilsEnchantment {
 	}
 	
 	public static boolean canBeAppliedToItemStack(ItemStack item, Enchantment enchantment) {
-		if(enchantment.canBeAppliedToStack(item)) {
+		if (enchantment.canBeAppliedToStack(item)) {
 			EnchantmentData enchantment_data = item.getOrCreate(EnchantmentData.class).get();
 			
-			for(ItemEnchantment enchantment_item : enchantment_data.enchantments()) {
-				if(!enchantment.isCompatibleWith(enchantment_item.getEnchantment())) {
+			for (ItemEnchantment enchantment_item : enchantment_data.enchantments()) {
+				if (!enchantment.isCompatibleWith(enchantment_item.getEnchantment())) {
 					return false;
 				}
 			}

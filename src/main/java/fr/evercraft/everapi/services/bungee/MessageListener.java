@@ -39,28 +39,28 @@ public class MessageListener implements RawDataListener {
 	public void handlePayload(ChannelBuf data, RemoteConnection connection, Type side) {
 		String subChannel = data.readString();
 
-	    if(subChannel.equals("EPlayer_SET_MUTE")) {
+	    if (subChannel.equals("EPlayer_SET_MUTE")) {
 	        UUID uuid = data.readUniqueId();
 	        Boolean mute = data.readBoolean();
-	        if(uuid != null && mute != null){
+	        if (uuid != null && mute != null){
 	        	Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(uuid);
-	        	if(player.isPresent()){
+	        	if (player.isPresent()){
 	        		//player.get().setMute(mute);
 	        	}
 	        }
-	    } else if(subChannel.equals("EPlayer_ADD_IGNORE")) {
+	    } else if (subChannel.equals("EPlayer_ADD_IGNORE")) {
 	    	UUID uuid = data.readUniqueId();
-	        if(uuid != null){
+	        if (uuid != null){
 	        	Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(uuid);
-	        	if(player.isPresent()){
+	        	if (player.isPresent()){
 	        		//player.get().addIgnore(data.readUniqueId());
 	        	}
 	        }
-	    } else if(subChannel.equals("EPlayer_REMOVE_IGNORE")) {
+	    } else if (subChannel.equals("EPlayer_REMOVE_IGNORE")) {
 	    	UUID uuid = data.readUniqueId();
-	        if(uuid != null){
+	        if (uuid != null){
 	        	Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(uuid);
-	        	if(player.isPresent()){
+	        	if (player.isPresent()){
 	        		//player.get().removeIgnore(data.readUniqueId());
 	        	}
 	        }

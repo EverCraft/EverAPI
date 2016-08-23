@@ -32,7 +32,7 @@ public abstract class Score {
 	}
 	
 	public void addListener(EPlugin plugin, IObjective objective) {
-		if(this.objectives.isEmpty()) {
+		if (this.objectives.isEmpty()) {
 			plugin.getGame().getEventManager().registerListeners(plugin, this);
 		}
 		this.objectives.add(objective);
@@ -40,19 +40,19 @@ public abstract class Score {
 	
 	public void removeListener(EPlugin plugin, IObjective objective) {
 		this.objectives.remove(objective);
-		if(this.objectives.isEmpty()) {
+		if (this.objectives.isEmpty()) {
 			plugin.getGame().getEventManager().unregisterListeners(this);
 		}
 	}
 	
 	protected void update(TypeScores type) {
-		for(IObjective objective : this.objectives) {
+		for (IObjective objective : this.objectives) {
 			objective.update(type);
 		}
 	}
 	
 	protected void update(UUID uniqueId, TypeScores type) {
-		for(IObjective objective : this.objectives) {
+		for (IObjective objective : this.objectives) {
 			objective.update(type);
 		}
 	}

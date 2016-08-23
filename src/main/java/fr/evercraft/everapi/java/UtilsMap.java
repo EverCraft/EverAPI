@@ -88,7 +88,7 @@ public class UtilsMap {
 	
 	private static <K, V extends Comparable<V>> LinkedHashMap<K, V> getLinked(List<Entry<K, V>> hashmap) {
 		LinkedHashMap<K, V> sortedBalanceTop = new LinkedHashMap<K, V>();
-		for(Entry<K, V> value : hashmap) {
+		for (Entry<K, V> value : hashmap) {
 			sortedBalanceTop.put(value.getKey(), value.getValue());
 		}
 		return sortedBalanceTop;
@@ -100,7 +100,7 @@ public class UtilsMap {
 	 * @returnLa HashMap trié par ordre croissant les valeurs
 	 */
 	public static <K, V > TreeMap<K, V> split(final TreeMap<K, V> hashmap, int size) {
-		if(hashmap.size() > size) {
+		if (hashmap.size() > size) {
 			TreeMap<K, V> tempo = new TreeMap<K, V>();
 			Iterator<Entry<K, V>> iterator = hashmap.entrySet().iterator();
 			int cpt = 0;

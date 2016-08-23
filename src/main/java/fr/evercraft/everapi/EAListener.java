@@ -35,7 +35,7 @@ public class EAListener {
 	@Listener(order=Order.FIRST)
 	public void onPlayerJoin(final ClientConnectionEvent.Join event) {
 		Optional<EPlayer> optPlayer = this.plugin.getEServer().getEPlayer(event.getTargetEntity());
-		if(optPlayer.isPresent()) {
+		if (optPlayer.isPresent()) {
 			EPlayer player = optPlayer.get();
 			
 			// Corrige bug
@@ -49,7 +49,7 @@ public class EAListener {
 	@Listener(order=Order.PRE)
 	public void onPlayerDisconnectPre(final ClientConnectionEvent.Disconnect event) {
 		Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(event.getTargetEntity());
-		if(player.isPresent()) {
+		if (player.isPresent()) {
 			player.get().setDisconnected(true);
 		}
 	}

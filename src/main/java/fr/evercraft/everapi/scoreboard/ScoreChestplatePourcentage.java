@@ -30,7 +30,7 @@ public class ScoreChestplatePourcentage extends Score {
 	
 	@Override
 	public Integer getValue(EPlayer player) {
-		if(player.getChestplate().isPresent()) {
+		if (player.getChestplate().isPresent()) {
 			return (player.getChestplate().get().get(Keys.ITEM_DURABILITY).orElse(DEFAULT)/UtilsItemStack.getMaxDurability(player.getChestplate().get())) * 100;
 		}
 		return DEFAULT;
@@ -43,7 +43,7 @@ public class ScoreChestplatePourcentage extends Score {
 	
 	@Listener
     public void event(DamageEntityEvent event) {
-		if(event.getTargetEntity() instanceof Player) {
+		if (event.getTargetEntity() instanceof Player) {
 			this.update(event.getTargetEntity().getUniqueId(), TypeScores.CHESTPLATE_POURCENTAGE);
 		}
 	}

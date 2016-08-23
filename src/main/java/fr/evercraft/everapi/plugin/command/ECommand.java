@@ -54,7 +54,7 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable, Co
 		
 		String[] cmds = new String[1 + alias.length];
 		cmds[0] = name; 
-		for(int cpt = 0; cpt < alias.length; cpt++){
+		for (int cpt = 0; cpt < alias.length; cpt++){
 			cmds[cpt + 1] = alias[cpt];
 		}
 		
@@ -64,9 +64,9 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable, Co
 	public CommandResult process(final CommandSource source, final String arg) throws CommandException {
 		Chronometer chronometer = new Chronometer();
 		try {
-			if(this.plugin.isEnable()) {
-				if(this.testPermission(source)) {		
-					if(source instanceof Player){
+			if (this.plugin.isEnable()) {
+				if (this.testPermission(source)) {		
+					if (source instanceof Player){
 						this.processPlayer((Player) source, getArg(arg));
 					} else {
 						execute(source, getArg(arg));
@@ -90,9 +90,9 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable, Co
 	
 	private void processPlayer(final Player source, final List<String> args) throws CommandException, PluginDisableException, ServerDisableException {
 		Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(source);
-		if(player.isPresent()) {
-			if(!player.get().isDead()) {
-				if(!this.plugin.getGame().getEventManager().post(new ESendCommandEvent(player.get(), this.name, args, Cause.source(this.plugin).build()))) {
+		if (player.isPresent()) {
+			if (!player.get().isDead()) {
+				if (!this.plugin.getGame().getEventManager().post(new ESendCommandEvent(player.get(), this.name, args, Cause.source(this.plugin).build()))) {
 					boolean result = execute(player.get(), args);
 					this.plugin.getGame().getEventManager().post(new EResultCommandEvent(player.get(), this.name, args, result, Cause.source(this.plugin).build()));
 				}
@@ -107,24 +107,24 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable, Co
 	@Override
 	public List<String> getSuggestions(final CommandSource source, final String arguments, Location<World> targetPosition) throws CommandException {
 		Chronometer chronometer = new Chronometer();
-		if(this.plugin.isEnable() && this.testPermission(source)) {
+		if (this.plugin.isEnable() && this.testPermission(source)) {
 			List<String> args = new ArrayList<String>(Arrays.asList(arguments.split(" ")));
-			if(args.size() >= 1 && !args.get(0).isEmpty() && arguments.endsWith(" ")){
+			if (args.size() >= 1 && !args.get(0).isEmpty() && arguments.endsWith(" ")){
 				args.add("");
 			}
 			
 			List<String> suggests = tabCompleter(source, args);
-			if(suggests == null){
+			if (suggests == null){
 				suggests = new ArrayList<String>();
-				for(Player player : this.plugin.getEServer().getOnlinePlayers()){
-					if(player.getName().toLowerCase().startsWith(args.get(args.size() - 1).toLowerCase())){
+				for (Player player : this.plugin.getEServer().getOnlinePlayers()){
+					if (player.getName().toLowerCase().startsWith(args.get(args.size() - 1).toLowerCase())){
 						suggests.add(player.getName());
 					}
 				}
 			} else {
-				if(args.size() > 0 && !args.get(args.size() - 1).isEmpty()){
-					for(String suggest : new ArrayList<String>(suggests)){
-						if(!suggest.toLowerCase().startsWith(args.get(args.size() - 1).toLowerCase())){
+				if (args.size() > 0 && !args.get(args.size() - 1).isEmpty()){
+					for (String suggest : new ArrayList<String>(suggests)){
+						if (!suggest.toLowerCase().startsWith(args.get(args.size() - 1).toLowerCase())){
 							suggests.remove(suggest);
 						}
 					}
@@ -137,22 +137,22 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable, Co
 	}
 	
 	public Optional<Text> getShortDescription(final CommandSource source) {
-		if(this.plugin.isEnable() && this.testPermission(source)) {
+		if (this.plugin.isEnable() && this.testPermission(source)) {
 			return Optional.ofNullable(description(source));
 		}
 		return Optional.empty();
 	}
 	
 	public Optional<Text> getHelp(final CommandSource source) {
-		if(this.plugin.isEnable() && this.testPermission(source)) {
+		if (this.plugin.isEnable() && this.testPermission(source)) {
 			return Optional.ofNullable(help(source));
 		}
 		return Optional.empty();
 	}
 	
 	public Text getUsage(final CommandSource source) {
-		if(this.plugin.isEnable()){
-			if(this.testPermission(source)) {
+		if (this.plugin.isEnable()){
+			if (this.testPermission(source)) {
 				return EAMessages.COMMAND_USAGE.getText().toBuilder()
 						.append(help(source))
 						.color(TextColors.RED).build();
@@ -165,15 +165,15 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable, Co
 	protected List<String> getArg(final String arg) {
 		List<String> args = new ArrayList<String>();
 		boolean alterne = true;
-		for(String guillemet : UtilsString.splitGuillemets(arg)) {
-			if(alterne) {
-				for(String espace : guillemet.split(" ")) {
-					if(!espace.isEmpty()) {
+		for (String guillemet : UtilsString.splitGuillemets(arg)) {
+			if (alterne) {
+				for (String espace : guillemet.split(" ")) {
+					if (!espace.isEmpty()) {
 						args.add(espace);
 					}
 				}
 			} else {
-				if(!guillemet.isEmpty()) {
+				if (!guillemet.isEmpty()) {
 					args.add(guillemet);
 				}
 			}

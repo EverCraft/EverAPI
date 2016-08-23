@@ -24,9 +24,9 @@ import org.spongepowered.api.item.inventory.ItemStack;
 public class UtilsInventory {
 
 	public static void repair(final Inventory inventory) {
-		for(Inventory stack : inventory.slots()){
+		for (Inventory stack : inventory.slots()){
 			Optional<ItemStack> item = stack.poll();
-			if(item.isPresent()) {
+			if (item.isPresent()) {
 				stack.offer(UtilsItemStack.repairInventory(item.get()));
 			}
 		}

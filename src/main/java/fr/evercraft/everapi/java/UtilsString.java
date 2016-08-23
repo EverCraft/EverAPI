@@ -42,7 +42,7 @@ public class UtilsString {
 	 */
 	public static List<String> replace(List<String> messages, String replace, String value){
 		List<String> resultat = new ArrayList<String>();
-		if(messages != null){
+		if (messages != null){
 			for (String line : messages) {
 				resultat.add(line.replaceAll(replace, value));
 			}
@@ -58,9 +58,9 @@ public class UtilsString {
 	public static List<String> splitGuillemets(String message) {
 		String arg = "";
 		List<String> args = new ArrayList<String>();
-		for(char caractere : message.toCharArray()) {
-			if(caractere == '"') {
-				if(arg.endsWith(String.valueOf('\\'))) {
+		for (char caractere : message.toCharArray()) {
+			if (caractere == '"') {
+				if (arg.endsWith(String.valueOf('\\'))) {
 					arg = arg.substring(1, arg.length()-1);
 					arg += caractere;
 				} else {
@@ -71,7 +71,7 @@ public class UtilsString {
 				arg += caractere;
 			}
 		}
-		if(!arg.isEmpty()) {
+		if (!arg.isEmpty()) {
 			args.add(arg);
 		}
 		return args;

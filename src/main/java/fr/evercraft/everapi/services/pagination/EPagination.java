@@ -80,11 +80,11 @@ public class EPagination {
 	public void helpCommands(TreeSet<CommandMapping> commands, Text title, CommandSource source) {
 		List<Text> contents = new ArrayList<Text>();
 		
-		for(CommandMapping command : commands) {
-			if(command.getCallable().testPermission(source)) {
+		for (CommandMapping command : commands) {
+			if (command.getCallable().testPermission(source)) {
 				Optional<Text> optHelp = command.getCallable().getHelp(source);
 				Optional<Text> optDescription = command.getCallable().getShortDescription(source);
-				if(optHelp.isPresent() && optDescription.isPresent() && !optHelp.get().isEmpty() && !optDescription.get().isEmpty()) {
+				if (optHelp.isPresent() && optDescription.isPresent() && !optHelp.get().isEmpty() && !optDescription.get().isEmpty()) {
 					Text help = optHelp.get().toBuilder().color(this.help_color_help).build();
 					Text description = optDescription.get().toBuilder().color(this.help_color_description).build();
 					
@@ -96,7 +96,7 @@ public class EPagination {
 			}
 		}
 		
-		if(contents.isEmpty()) {
+		if (contents.isEmpty()) {
 			contents.add(this.help_empty);
 		}
 		
@@ -106,10 +106,10 @@ public class EPagination {
 	public void helpSubCommand(LinkedHashMap<String, CommandPagination> commands, CommandSource source, EPlugin plugin) {
 		List<Text> contents = new ArrayList<Text>();
 		
-		for(Entry<String, CommandPagination> command : commands.entrySet()) {
+		for (Entry<String, CommandPagination> command : commands.entrySet()) {
 			Text help = command.getValue().help(source);
 			Text description = command.getValue().description(source);
-			if(help != null && description != null && !help.isEmpty() && !description.isEmpty()) {
+			if (help != null && description != null && !help.isEmpty() && !description.isEmpty()) {
 				help = help.toBuilder().color(this.help_color_help).build();
 				description = description.toBuilder().color(this.help_color_description).build();
 				
@@ -130,20 +130,20 @@ public class EPagination {
 						.toBuilder().color(this.help_color_padding);
 		
 		String authors;
-		if(plugin.getAuthors().isEmpty()) {
+		if (plugin.getAuthors().isEmpty()) {
 			authors = EAMessages.HELP_AUTHORS_EMPTY.get();
 		} else {
 			authors = String.join(EAMessages.HELP_AUTHORS_JOIN.get(), plugin.getAuthors());
 		}
 		
-		if(EAMessages.HELP_TITLE_HOVER.has()) {
+		if (EAMessages.HELP_TITLE_HOVER.has()) {
 			title = title.onHover(TextActions.showText(EChat.of(EAMessages.HELP_TITLE_HOVER.get()
 							.replaceAll("<authors>", authors)
 							.replaceAll("<plugin>", plugin.getName())
 							.replaceAll("<version>", plugin.getVersion().orElse("1")))));
 		}
 
-		if(contents.isEmpty()) {
+		if (contents.isEmpty()) {
 			contents.add(this.help_empty);
 		}
 		
@@ -162,14 +162,14 @@ public class EPagination {
 	}
 	
 	private void send(final Text title, final Text padding, final List<Text> contents, CommandSource source) {
-		if(source instanceof EPlayer) {
+		if (source instanceof EPlayer) {
 			Optional<Player> player = ((EPlayer) source).getPlayer();
-			if(player.isPresent()){
+			if (player.isPresent()){
 				source = player.get();
 			}
 		}
 		
-		if(this.plugin.getEverAPI().getManagerService().getPagination().isPresent()) {
+		if (this.plugin.getEverAPI().getManagerService().getPagination().isPresent()) {
 			this.plugin.getEverAPI().getManagerService().getPagination().get().builder()
 			.padding(padding)
 			.title(title)
@@ -177,7 +177,7 @@ public class EPagination {
 			.sendTo(source);
 		} else {
 			source.sendMessage(title);
-			for(Text content : contents) {
+			for (Text content : contents) {
 				source.sendMessage(content);
 			}
 		}

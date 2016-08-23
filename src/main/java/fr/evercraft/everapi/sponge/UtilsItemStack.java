@@ -31,14 +31,14 @@ public class UtilsItemStack {
 
 	public static Optional<ItemStack> getItem(final String itemstack) {
 		Optional<ItemType> type = UtilsItemTypes.getItemType(itemstack);
-		if(type.isPresent()) {
+		if (type.isPresent()) {
 			return Optional.of(ItemStack.of(type.get(), 1));
 		}
 		return Optional.empty();
 	}
 
 	public static Text getName(final ItemStack item){
-		if(item.get(Keys.SPAWNABLE_ENTITY_TYPE).isPresent()) {
+		if (item.get(Keys.SPAWNABLE_ENTITY_TYPE).isPresent()) {
 			return Text.builder(item.getTranslation())
 					.append(Text.of(" "))
 					.append(Text.of(item.get(Keys.SPAWNABLE_ENTITY_TYPE).get().getTranslation()))
@@ -49,7 +49,7 @@ public class UtilsItemStack {
 	
 	public static ItemStack repairInventory(final ItemStack stack) {
 		Optional<Integer> data = stack.get(Keys.ITEM_DURABILITY);
-		if(data.isPresent()) {
+		if (data.isPresent()) {
 			stack.offer(Keys.ITEM_DURABILITY, Integer.MAX_VALUE);
 		}
 		return stack;
@@ -57,7 +57,7 @@ public class UtilsItemStack {
 	
 	public static int getMaxDurability(final ItemStack stack) {
 		Optional<Integer> data = ItemStack.of(stack.getItem(), 1).get(Keys.ITEM_DURABILITY);
-		if(data.isPresent()) {
+		if (data.isPresent()) {
 			return data.get();
 		}
 		return 0;

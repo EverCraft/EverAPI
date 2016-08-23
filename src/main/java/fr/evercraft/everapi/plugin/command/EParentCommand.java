@@ -60,20 +60,20 @@ public abstract class EParentCommand<T extends EPlugin> extends ECommand<T> {
 	
 	public List<String> tabCompleter(final CommandSource source, final List<String> args) throws CommandException {
 		List<String> suggests = new ArrayList<String>();
-		if(args.size() == 1){
-			if(testPermissionHelp(source)) suggests.add("help");
+		if (args.size() == 1){
+			if (testPermissionHelp(source)) suggests.add("help");
 			
-			for(ESubCommand<T> subcommand : this.subcommands) {
-				if(subcommand.testPermission(source)) { 
+			for (ESubCommand<T> subcommand : this.subcommands) {
+				if (subcommand.testPermission(source)) { 
 					suggests.add(subcommand.getSubName());
 				}
 			}
-		} else if(args.size() >= 2) {
+		} else if (args.size() >= 2) {
 			Iterator<ESubCommand<T>> iterator = this.subcommands.iterator();
 			boolean found = false;
 			while(iterator.hasNext() && !found) {
 				ESubCommand<T> subcommand = iterator.next();
-				if(args.get(0).equalsIgnoreCase(subcommand.getSubName())) {
+				if (args.get(0).equalsIgnoreCase(subcommand.getSubName())) {
 					suggests = subcommand.tabCompleter(source, args);
 					found = true;
 				}
@@ -87,22 +87,22 @@ public abstract class EParentCommand<T extends EPlugin> extends ECommand<T> {
 
 		commands.put(this.getName() + " help", "help");
 		
-		for(ESubCommand<T> subcommand : this.subcommands) {
-			if(subcommand.testPermission(source)) { 
+		for (ESubCommand<T> subcommand : this.subcommands) {
+			if (subcommand.testPermission(source)) { 
 				commands.put(subcommand.getName(), subcommand.getSubName());
 			}
 		}
 		
 		Builder build;
-		if(!commands.isEmpty()) {
+		if (!commands.isEmpty()) {
 			build = Text.builder("/" + this.getName() + " <");
 			
 			int cpt = 0;
-			for(Entry<String, String> command : commands.entrySet()) {
+			for (Entry<String, String> command : commands.entrySet()) {
 				build = build.append(Text.builder(command.getValue()).onClick(TextActions.suggestCommand(command.getKey())).build());
 				
 				cpt++;
-				if(cpt < commands.size()){
+				if (cpt < commands.size()){
 					build = build.append(Text.builder("|").build());
 				}
 			}
@@ -119,11 +119,11 @@ public abstract class EParentCommand<T extends EPlugin> extends ECommand<T> {
 		boolean resultat = false;
 		
 		// HELP
-		if(args.isEmpty()) {
+		if (args.isEmpty()) {
 			resultat = commandDefault(source, args);
-		} else if(args.get(0).equalsIgnoreCase("help")) {
+		} else if (args.get(0).equalsIgnoreCase("help")) {
 			// Si il a la permission
-			if(testPermissionHelp(source)){
+			if (testPermissionHelp(source)){
 				return this.commandHelp(source);
 			// Il n'a pas la permission
 			} else {
@@ -135,13 +135,13 @@ public abstract class EParentCommand<T extends EPlugin> extends ECommand<T> {
 			boolean found = false;
 			while(iterator.hasNext() && !found) {
 				ESubCommand<T> subcommand = iterator.next();
-				if(args.get(0).equalsIgnoreCase(subcommand.getSubName())) {
+				if (args.get(0).equalsIgnoreCase(subcommand.getSubName())) {
 					resultat = subcommand.execute(source, args);
 					found = true;
 				}
 			}
 			
-			if(!found) {
+			if (!found) {
 				source.sendMessage(getHelp(source).get());
 			}
 		}
@@ -150,7 +150,7 @@ public abstract class EParentCommand<T extends EPlugin> extends ECommand<T> {
 	
 	protected boolean commandDefault(final CommandSource source, final List<String> args) {
 		// Si il a la permission
-		if(testPermissionHelp(source)){
+		if (testPermissionHelp(source)){
 			return this.commandHelp(source);
 		// Il n'a pas la permission
 		} else {
@@ -162,14 +162,14 @@ public abstract class EParentCommand<T extends EPlugin> extends ECommand<T> {
 	private boolean commandHelp(final CommandSource source) {
 		LinkedHashMap<String, CommandPagination> commands = new LinkedHashMap<String, CommandPagination>();
 		
-		for(ECommand<T> command : this.commands) {
-			if(command.testPermission(source)) { 
+		for (ECommand<T> command : this.commands) {
+			if (command.testPermission(source)) { 
 				commands.put(command.getName(), command);
 			}
 		}
 		
-		for(ESubCommand<T> subcommand : this.subcommands) {
-			if(subcommand.testPermission(source)) { 
+		for (ESubCommand<T> subcommand : this.subcommands) {
+			if (subcommand.testPermission(source)) { 
 				commands.put(subcommand.getName(), subcommand);
 			}
 		}

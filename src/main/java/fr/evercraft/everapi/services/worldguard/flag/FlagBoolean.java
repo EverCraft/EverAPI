@@ -31,7 +31,7 @@ public class FlagBoolean extends Flag {
 	}
 	
 	public boolean setValue(boolean value) {
-		if(this.value != value) {
+		if (this.value != value) {
 			this.value = value;
 			return true;
 		}

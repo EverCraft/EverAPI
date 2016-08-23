@@ -27,7 +27,7 @@ public class ScoreBootsMax extends Score {
 	
 	@Override
 	public Integer getValue(EPlayer player) {
-		if(player.getBoots().isPresent()) {
+		if (player.getBoots().isPresent()) {
 			return UtilsItemStack.getMaxDurability(player.getBoots().get());
 		}
 		return DEFAULT;

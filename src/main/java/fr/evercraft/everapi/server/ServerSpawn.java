@@ -36,77 +36,77 @@ public class ServerSpawn extends ServerSponge {
 	}
 
 	private boolean isPresent() {
-		if(this.service == null && this.plugin.getManagerService().getSpawn().isPresent()) {
+		if (this.service == null && this.plugin.getManagerService().getSpawn().isPresent()) {
 			this.service = this.plugin.getManagerService().getSpawn().get();
 		}
 		return this.service != null;
 	}
 	
 	public Map<String, Transform<World>> getSpawns() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.service.getAll();
 		}
 		return new HashMap<String, Transform<World>>();
 	}
 
 	public Optional<Transform<World>> getSpawn(String identifier) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.service.get(identifier);
 		}
 		return Optional.empty();
 	}
 	
 	public Transform<World> getSpawn(PlayerPermission player) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.service.get(player);
 		}
 		return this.getDefaultSpawn();
 	}
 	
 	public Transform<World> getSpawn(Subject group) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.service.get(group);
 		}
 		return this.getDefaultSpawn();
 	}
 
 	public boolean hasSpawn(String identifier) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.service.has(identifier);
 		}
 		return false;
 	}
 
 	public boolean addSpawn(String identifier, Transform<World> location) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.service.add(identifier, location);
 		}
 		return false;
 	}
 	
 	public boolean updateSpawn(String identifier, Transform<World> location) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.service.add(identifier, location);
 		}
 		return false;
 	}
 
 	public boolean removeSpawn(String identifier) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.service.remove(identifier);
 		}
 		return false;
 	}
 
 	public boolean clearSpawns() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.service.clearAll();
 		}
 		return false;
 	}
 	
 	public Transform<World> getDefaultSpawn() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.service.getDefault();
 		}
 		return this.plugin.getEServer().getSpawn();

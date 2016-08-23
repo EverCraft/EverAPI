@@ -35,42 +35,42 @@ public class PlayerCooldown extends PlayerPermission {
 	}
 
 	private boolean isPresent() {
-		if(this.subject == null && this.plugin.getManagerService().getCooldown().isPresent()) {
+		if (this.subject == null && this.plugin.getManagerService().getCooldown().isPresent()) {
 			this.subject = this.plugin.getManagerService().getCooldown().get().get(this.player.getUniqueId()).orElse(null);
 		}
 		return this.subject != null;
 	}
 
 	public Map<String, Long> getCooldowns() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getAll();
 		}
 		return new HashMap<String, Long>();
 	}
 
 	public boolean addCooldown(final String command) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.add(this.player, command);
 		}
 		return false;
 	}
 
 	public boolean removeCooldown(final String command) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.remove(command);
 		}
 		return false;
 	}
 	
 	public boolean clearCooldown() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.clear();
 		}
 		return false;
 	}
 
 	public Optional<Long> getCooldown(final String command) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.get(command);
 		}
 		return Optional.empty();

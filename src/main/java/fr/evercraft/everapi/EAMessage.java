@@ -440,7 +440,7 @@ public class EAMessage extends EMessage {
 		}
 		
 		public String get() {
-			if(this.message instanceof String) {
+			if (this.message instanceof String) {
 				return (String) this.message;
 			}
 			return this.message.toString();
@@ -448,7 +448,7 @@ public class EAMessage extends EMessage {
 			
 		@SuppressWarnings("unchecked")
 		public List<String> getList() {
-			if(this.message instanceof List) {
+			if (this.message instanceof List) {
 				return (List<String>) this.message;
 			}
 			return Arrays.asList(this.message.toString());
@@ -474,10 +474,10 @@ public class EAMessage extends EMessage {
 		}
 		
 		public boolean has() {
-			if(this.message != null) {
-				if(this.message instanceof String) {
+			if (this.message != null) {
+				if (this.message instanceof String) {
 					return !((String) this.message).isEmpty();
-				} else if(this.message instanceof List) {
+				} else if (this.message instanceof List) {
 					return !((List<?>) this.message).isEmpty();
 				}
 			}

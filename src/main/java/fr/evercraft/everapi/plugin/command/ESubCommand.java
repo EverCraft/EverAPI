@@ -54,8 +54,8 @@ public abstract class ESubCommand<T extends EPlugin> implements CommandPaginatio
 	}
 	
 	public boolean execute(CommandSource source, List<String> args) throws CommandException, PluginDisableException, ServerDisableException {
-		if(this.testPermission(source)) {		
-			if(!args.isEmpty()) {
+		if (this.testPermission(source)) {		
+			if (!args.isEmpty()) {
 				args.remove(0);
 				return this.subExecute(source, args);
 			}
@@ -66,7 +66,7 @@ public abstract class ESubCommand<T extends EPlugin> implements CommandPaginatio
 	}
 	
 	public List<String> tabCompleter(CommandSource source, List<String> args) throws CommandException {
-		if(!args.isEmpty() && this.testPermission(source)) {
+		if (!args.isEmpty() && this.testPermission(source)) {
 			args.remove(0);
 			return this.subTabCompleter(source, args);
 		}

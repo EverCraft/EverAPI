@@ -33,7 +33,7 @@ public class FlagGameMode extends Flag {
 	}
 	
 	public boolean setValue(GameMode value) {
-		if(this.value != value) {
+		if (this.value != value) {
 			this.value = value;
 			return true;
 		}

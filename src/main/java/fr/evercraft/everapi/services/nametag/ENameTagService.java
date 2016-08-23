@@ -54,9 +54,9 @@ public class ENameTagService implements NameTagService {
 		HashMap<UUID, String> nameTags = new HashMap<UUID, String>(this.players);
 		this.players.clear();
 		
-		for(Entry<UUID, String> nameTag : nameTags.entrySet()) {
+		for (Entry<UUID, String> nameTag : nameTags.entrySet()) {
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(nameTag.getKey());
-			if(player.isPresent()) {
+			if (player.isPresent()) {
 				this.removeAllNameTag(player.get());
 				
 				// Event
@@ -67,12 +67,12 @@ public class ENameTagService implements NameTagService {
 	
 	@Override
 	public boolean sendNameTag(EPlayer player, String identifier, Text teamRepresentation ,Text prefix, Text suffix) {
-		if(this.players.containsKey(player.getUniqueId())) {
+		if (this.players.containsKey(player.getUniqueId())) {
 			String player_identifier = this.players.get(player.getUniqueId());
-			if(player_identifier.equalsIgnoreCase(identifier)) {
+			if (player_identifier.equalsIgnoreCase(identifier)) {
 				this.sendNameTag(player, teamRepresentation, prefix, suffix);
 				return true;
-			} else if(this.getPriority(player_identifier) <= this.getPriority(identifier)) {
+			} else if (this.getPriority(player_identifier) <= this.getPriority(identifier)) {
 				this.removeAllNameTag(player);
 				
 				this.players.putIfAbsent(player.getUniqueId(), identifier);
@@ -111,14 +111,14 @@ public class ENameTagService implements NameTagService {
 	
 	@Override
 	public boolean removeNameTag(EPlayer player, String identifier, Text teamRepresentation) {
-		if(this.players.containsKey(player.getUniqueId()) && this.players.get(player.getUniqueId()).equalsIgnoreCase(identifier)) {
+		if (this.players.containsKey(player.getUniqueId()) && this.players.get(player.getUniqueId()).equalsIgnoreCase(identifier)) {
 			Optional<Team> team = player.getScoreboard().getMemberTeam(teamRepresentation);
-			if(team.isPresent()) {
+			if (team.isPresent()) {
 				team.get().unregister();
 			}
 			
 			// Event
-			if(player.getScoreboard().getTeams().isEmpty()) {
+			if (player.getScoreboard().getTeams().isEmpty()) {
 				this.postRemove(player, identifier);
 			}
 			return true;
@@ -129,7 +129,7 @@ public class ENameTagService implements NameTagService {
 	@Override
 	public boolean clearNameTag(EPlayer player, String identifier) {
 		String player_nametag = this.players.get(player.getUniqueId());
-		if(player_nametag != null && player_nametag.equalsIgnoreCase(identifier)) {
+		if (player_nametag != null && player_nametag.equalsIgnoreCase(identifier)) {
 			this.removeAllNameTag(player);
 			
 			return true;
@@ -138,7 +138,7 @@ public class ENameTagService implements NameTagService {
 	}
 		
 	private void removeAllNameTag(Player player) {
-		for(Team team : player.getScoreboard().getTeams()) {
+		for (Team team : player.getScoreboard().getTeams()) {
 			team.unregister();
 		}
 	}
@@ -154,7 +154,7 @@ public class ENameTagService implements NameTagService {
 	}
 
 	private int getPriority(String identifier) {
-		if(this.plugin.getManagerService().getPriority().isPresent()) {
+		if (this.plugin.getManagerService().getPriority().isPresent()) {
 			return this.plugin.getManagerService().getPriority().get().getNameTag(identifier);
 		}
 		return PriorityService.DEFAULT;

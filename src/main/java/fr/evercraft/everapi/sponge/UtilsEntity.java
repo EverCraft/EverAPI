@@ -96,13 +96,13 @@ public enum UtilsEntity {
 	}
 	
 	public Entity getEntity(final Entity entity){
-		if(this.equals(UtilsEntity.ELDER_GUARDIAN)) {
+		if (this.equals(UtilsEntity.ELDER_GUARDIAN)) {
 			entity.offer(Keys.ELDER_GUARDIAN, true);
-		} else if(this.equals(UtilsEntity.CHARGED_CREEPER)) {
+		} else if (this.equals(UtilsEntity.CHARGED_CREEPER)) {
 			entity.offer(Keys.CREEPER_CHARGED, true);
-		} else if(this.equals(UtilsEntity.ZOMBIE_VILLAGER)) {
+		} else if (this.equals(UtilsEntity.ZOMBIE_VILLAGER)) {
 			entity.offer(Keys.VILLAGER_ZOMBIE_PROFESSION, Professions.BUTCHER);
-		} else if(this.equals(UtilsEntity.WITHER_SKELETON)) {
+		} else if (this.equals(UtilsEntity.WITHER_SKELETON)) {
 			entity.offer(Keys.SKELETON_TYPE, SkeletonTypes.WITHER);
 		} else if (this.equals(UtilsEntity.SPIDER_JOCKEY)) {
 		    Entity vehicle = entity.getLocation().getExtent().createEntity(EntityTypes.SPIDER, entity.getLocation().getPosition());

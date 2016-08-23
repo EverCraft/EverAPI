@@ -27,7 +27,7 @@ public class ScoreChestplateMax extends Score {
 	
 	@Override
 	public Integer getValue(EPlayer player) {
-		if(player.getChestplate().isPresent()) {
+		if (player.getChestplate().isPresent()) {
 			return UtilsItemStack.getMaxDurability(player.getChestplate().get());
 		}
 		return DEFAULT;

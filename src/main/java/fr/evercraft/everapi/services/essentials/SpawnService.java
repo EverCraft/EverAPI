@@ -48,7 +48,7 @@ public interface SpawnService {
 		Preconditions.checkNotNull(player, "player");
 		
 		Optional<Subject> group = player.getGroup();
-		if(group.isPresent()) {
+		if (group.isPresent()) {
 			return this.get(group.get());
 		}
 		return this.getDefault();
@@ -58,7 +58,7 @@ public interface SpawnService {
 		Preconditions.checkNotNull(group, "group");
 		
 		Optional<Transform<World>> spawn = this.get(group.getIdentifier());
-		if(spawn.isPresent()) {
+		if (spawn.isPresent()) {
 			return spawn.get();
 		}
 		return this.getDefault();

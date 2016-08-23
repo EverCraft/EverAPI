@@ -38,7 +38,7 @@ public class FlagSetString extends Flag {
 	}
 	
 	public boolean setValue(Set<String> value) {
-		if(this.value != value) {
+		if (this.value != value) {
 			this.value = value;
 			return true;
 		}

@@ -56,7 +56,7 @@ public class MojangCheck {
     }
     
     public boolean update() throws IOException {
-    	if(this.last + UPDATE < System.currentTimeMillis()) {
+    	if (this.last + UPDATE < System.currentTimeMillis()) {
     		this.last = System.currentTimeMillis();
     		this.requete();
     		return true;
@@ -73,14 +73,14 @@ public class MojangCheck {
 
 		for (JsonElement json : services.getAsJsonArray()) {
 			Iterator<Entry<String, JsonElement>> iterator = json.getAsJsonObject().entrySet().iterator();
-			if(iterator.hasNext()) {
+			if (iterator.hasNext()) {
 				Entry<String, JsonElement> service = iterator.next();
 
 				Optional<MojangServer> url = MojangServer.get(service.getKey());
 	        	Optional<Color> color = Color.get(service.getValue().getAsString());
 	        	
-	        	if(url.isPresent() && color.isPresent()) {
-	        		if(!url.get().getColor().equals(color.get())) {
+	        	if (url.isPresent() && color.isPresent()) {
+	        		if (!url.get().getColor().equals(color.get())) {
 	        			this.plugin.getGame().getEventManager().post(new MojangCheckEvent(this.plugin, url.get(), url.get().getColor(), color.get()));
 	        			url.get().setColor(color.get());
 	        		}

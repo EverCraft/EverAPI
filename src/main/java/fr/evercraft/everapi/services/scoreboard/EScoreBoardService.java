@@ -58,19 +58,19 @@ public class EScoreBoardService implements ScoreBoardService {
 	@Override
 	public boolean addObjective(EPlayer player, int priority, DisplaySlot display, Objective objective) {
 		Optional<Objective> objective_player = player.getScoreboard().getObjective(display);
-		if(!objective_player.isPresent() || getPriority(display, objective_player.get()) <= priority) {
+		if (!objective_player.isPresent() || getPriority(display, objective_player.get()) <= priority) {
 			// Supprime l'ancien
-			if(objective_player.isPresent()) {
+			if (objective_player.isPresent()) {
 				player.getScoreboard().removeObjective(objective_player.get());
 			}
 			
 			// Ajoute le nouveau
-			if(!player.getScoreboard().getObjective(objective.getName()).isPresent()) {
+			if (!player.getScoreboard().getObjective(objective.getName()).isPresent()) {
 				player.getScoreboard().addObjective(objective);
 				player.getScoreboard().updateDisplaySlot(objective, display);
 				
 				// Event
-				if(objective_player.isPresent()) {
+				if (objective_player.isPresent()) {
 					this.postReplace(player, objective_player.get(), objective, display);
 				} else {
 					this.postAdd(player, objective, display);
@@ -92,7 +92,7 @@ public class EScoreBoardService implements ScoreBoardService {
 	@Override
 	public boolean removeObjective(EPlayer player, DisplaySlot display, String identifier) {
 		Optional<Objective> objective = player.getScoreboard().getObjective(display);
-		if(objective.isPresent() && objective.get().getName().equals(identifier)) {
+		if (objective.isPresent() && objective.get().getName().equals(identifier)) {
 			player.getScoreboard().removeObjective(objective.get());
 			
 			// Event 
@@ -103,7 +103,7 @@ public class EScoreBoardService implements ScoreBoardService {
 	}
 	
 	private int getPriority(DisplaySlot display, Objective objective) {
-		if(this.plugin.getManagerService().getPriority().isPresent()) {
+		if (this.plugin.getManagerService().getPriority().isPresent()) {
 			return this.plugin.getManagerService().getPriority().get().getScoreBoard(display, objective.getName());
 		}
 		return PriorityService.DEFAULT;

@@ -34,42 +34,42 @@ public class ServerWarp extends ServerSpawn {
 	}
 
 	private boolean isPresent() {
-		if(this.service == null && this.plugin.getManagerService().getWarp().isPresent()) {
+		if (this.service == null && this.plugin.getManagerService().getWarp().isPresent()) {
 			this.service = this.plugin.getManagerService().getWarp().get();
 		}
 		return this.service != null;
 	}
 	
 	public Map<String, Transform<World>> getWarps() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.service.getAll();
 		}
 		return new HashMap<String, Transform<World>>();
 	}
 
 	public Optional<Transform<World>> getWarp(String identifier) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.service.get(identifier);
 		}
 		return Optional.empty();
 	}
 
 	public boolean hasWarp(String identifier) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.service.has(identifier);
 		}
 		return false;
 	}
 
 	public boolean addWarp(String identifier, Transform<World> location) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.service.add(identifier, location);
 		}
 		return false;
 	}
 	
 	public boolean updateWarp(String identifier, Transform<World> location) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.service.update(identifier, location);
 		}
 		return false;
@@ -77,14 +77,14 @@ public class ServerWarp extends ServerSpawn {
 
 
 	public boolean removeWarp(String identifier) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.service.remove(identifier);
 		}
 		return false;
 	}
 
 	public boolean clearWarp() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.service.clearAll();
 		}
 		return false;

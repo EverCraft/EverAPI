@@ -31,7 +31,7 @@ public class ScoreLevel extends Score {
 	
 	@Listener
 	public void event(ChangeLevelEvent event) {
-		if(event.getTargetEntity() instanceof Player) {
+		if (event.getTargetEntity() instanceof Player) {
 			this.update(event.getTargetEntity().getUniqueId(), TypeScores.LEVEL);
 		}
 	}

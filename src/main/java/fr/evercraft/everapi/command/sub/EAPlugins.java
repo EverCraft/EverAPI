@@ -61,7 +61,7 @@ public class EAPlugins extends ESubCommand<EverAPI> {
 	}
 	
 	public boolean subExecute(final CommandSource source, final List<String> args) {
-		if(args.size() == 0) {
+		if (args.size() == 0) {
 			return commandPlugins(source);
 		}
 		source.sendMessage(this.help(source));
@@ -75,19 +75,19 @@ public class EAPlugins extends ESubCommand<EverAPI> {
 			List<Text> hover = new ArrayList<Text>();
 			hover.add(EChat.of(EAMessages.PLUGINS_ID.get().replaceAll("<id>", plugin.getId())));
 			
-			if(plugin.getVersion().isPresent()) {
+			if (plugin.getVersion().isPresent()) {
 				hover.add(EChat.of(EAMessages.PLUGINS_VERSION.get().replaceAll("<version>", plugin.getVersion().get())));
 			}
 			
-			if(plugin.getDescription().isPresent()) {
+			if (plugin.getDescription().isPresent()) {
 				hover.add(EChat.of(EAMessages.PLUGINS_DESCRIPTION.get().replaceAll("<description>", plugin.getDescription().get())));
 			}
 			
-			if(plugin.getUrl().isPresent()) {
+			if (plugin.getUrl().isPresent()) {
 				hover.add(EChat.of(EAMessages.PLUGINS_URL.get().replaceAll("<url>", plugin.getUrl().get())));
 			}
 			
-			if(!plugin.getAuthors().isEmpty()) {
+			if (!plugin.getAuthors().isEmpty()) {
 				hover.add(EChat.of(EAMessages.PLUGINS_AUTHOR.get().replaceAll("<author>", String.join(", ", plugin.getAuthors()))));
 			}
 			

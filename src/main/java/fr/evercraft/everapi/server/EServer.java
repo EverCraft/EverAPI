@@ -68,7 +68,7 @@ public class EServer extends ServerWarp {
 	 * @return
 	 */
 	private void addEPlayer(Player player) {
-		if(player != null) {
+		if (player != null) {
 			players.put(player.getUniqueId(), new EPlayer(this.plugin, player));
 		}
 	}
@@ -89,11 +89,11 @@ public class EServer extends ServerWarp {
 	 */	
 	public Optional<EPlayer> getEPlayer(String name){
 		try {
-			if(name.length() == 36){
+			if (name.length() == 36){
 				return getEPlayer(UUID.fromString(name));
 			} else {
 				Optional<Player> player = this.getPlayer(name);
-				if(player.isPresent()){
+				if (player.isPresent()){
 					return getEPlayer(player.get().getUniqueId());
 				}
 			}
@@ -116,7 +116,7 @@ public class EServer extends ServerWarp {
 	 * @return Un EPlayer
 	 */
 	public Optional<EPlayer> getEPlayer(UUID uniqueId) {
-		if(!this.players.containsKey(uniqueId)){
+		if (!this.players.containsKey(uniqueId)){
 			addEPlayer(getPlayer(uniqueId).orElse(null));
 		}
 		return Optional.ofNullable(players.get(uniqueId));
@@ -132,8 +132,8 @@ public class EServer extends ServerWarp {
 	
 	public Collection<EPlayer> getOnlineEPlayers(EPlayer player) {
 		List<EPlayer> players = new ArrayList<EPlayer>();
-		for(EPlayer onlinePlayer : this.players.values()) {
-			if(!onlinePlayer.isVanish() || player.canSeePlayer(onlinePlayer)) {
+		for (EPlayer onlinePlayer : this.players.values()) {
+			if (!onlinePlayer.isVanish() || player.canSeePlayer(onlinePlayer)) {
 				players.add(onlinePlayer);
 			}
 		}
@@ -145,14 +145,14 @@ public class EServer extends ServerWarp {
 		Preconditions.checkNotNull(identifier, "identifier");
 		
 		try {
-			if(this.plugin.getEverAPI().getManagerService().getUserStorage().isPresent()) {
-				if(identifier.length() == 36) {
+			if (this.plugin.getEverAPI().getManagerService().getUserStorage().isPresent()) {
+				if (identifier.length() == 36) {
 					return this.plugin.getEverAPI().getManagerService().getUserStorage().get().get(UUID.fromString(identifier));
 				} else {
 					return this.plugin.getEverAPI().getManagerService().getUserStorage().get().get(identifier);
 				}
 			} else {
-				if(identifier.length() == 36){
+				if (identifier.length() == 36){
 					return Optional.ofNullable(this.getPlayer(UUID.fromString(identifier)).orElse(null));
 				} else {
 					return Optional.ofNullable(this.getPlayer(identifier).orElse(null));
@@ -165,7 +165,7 @@ public class EServer extends ServerWarp {
 	public Optional<User> getUser(UUID identifier){
 		Preconditions.checkNotNull(identifier, "identifier");
 		
-		if(this.plugin.getEverAPI().getManagerService().getUserStorage().isPresent()) {
+		if (this.plugin.getEverAPI().getManagerService().getUserStorage().isPresent()) {
 			return this.plugin.getEverAPI().getManagerService().getUserStorage().get().get(identifier);
 		} else {
 			return Optional.ofNullable(this.getPlayer(identifier).orElse(null));
@@ -176,11 +176,11 @@ public class EServer extends ServerWarp {
 		Preconditions.checkNotNull(identifier, "identifier");
 		
 		try {
-			if(identifier.length() == 36){
+			if (identifier.length() == 36){
 				return this.getGameProfile(UUID.fromString(identifier));
 			} else {
 				Optional<Player> player = this.getPlayer(identifier);
-				if(player.isPresent()) {
+				if (player.isPresent()) {
 					return Optional.ofNullable(player.get().getProfile());
 				} else {
 					return Optional.ofNullable(this.plugin.getEServer().getGameProfileManager().get(identifier).get());
@@ -194,7 +194,7 @@ public class EServer extends ServerWarp {
 		Preconditions.checkNotNull(identifier, "identifier");
 		
 		Optional<Player> player = this.getPlayer(identifier);
-		if(player.isPresent()) {
+		if (player.isPresent()) {
 			return Optional.ofNullable(player.get().getProfile());
 		} else {
 			try {
@@ -247,7 +247,7 @@ public class EServer extends ServerWarp {
 
 	public Transform<World> getSpawn() {
 		Optional<World> world = this.server.getWorld(this.server.getDefaultWorldName());
-		if(world.isPresent()) {
+		if (world.isPresent()) {
 			return new Transform<World>(world.get().getSpawnLocation());
 		}
 		return null;
@@ -255,7 +255,7 @@ public class EServer extends ServerWarp {
 	
 	public Optional<World> getEWorld(String identifier) {
 		try {
-			if(identifier.length() == 36){
+			if (identifier.length() == 36){
 				return this.getWorld(UUID.fromString(identifier));
 			} else {
 				return this.getWorld(identifier);

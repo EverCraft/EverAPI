@@ -58,9 +58,9 @@ public class ETitleService implements TitleService {
 		HashMap<UUID, TitleMessage> titleMessages = new HashMap<UUID, TitleMessage>(this.players);
 		this.players.clear();
 		
-		for(Entry<UUID, TitleMessage> titleMessage : titleMessages.entrySet()) {
+		for (Entry<UUID, TitleMessage> titleMessage : titleMessages.entrySet()) {
 			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(titleMessage.getKey());
-			if(player.isPresent()) {
+			if (player.isPresent()) {
 				player.get().sendTitle(Title.CLEAR);
 				
 				// Event
@@ -78,15 +78,15 @@ public class ETitleService implements TitleService {
 	public boolean send(EPlayer player, String identifier,  int priority, Title title) {
 		TitleMessage titleMessage = this.players.get(player.getUniqueId());
 		// Vérifie la priorité
-		if(titleMessage == null || this.getPriority(titleMessage.getIdentifier()) <= priority) {
+		if (titleMessage == null || this.getPriority(titleMessage.getIdentifier()) <= priority) {
 			TitleMessage newtitleMessage = new TitleMessage(player.getUniqueId(), identifier, title);
 			// Si l'ActionBar fonctionne
-			if(newtitleMessage.send(player)) {				
+			if (newtitleMessage.send(player)) {				
 				// On ajoute la nouveau Title
 				this.players.put(player.getUniqueId(), newtitleMessage);
 				
 				// Si il y a un déjà une Title on post un event de remplacement
-				if(titleMessage == null) {
+				if (titleMessage == null) {
 					this.postAdd(player, newtitleMessage);
 				} else {
 					this.postReplace(player, titleMessage, newtitleMessage);
@@ -103,7 +103,7 @@ public class ETitleService implements TitleService {
 	@Override
 	public boolean remove(EPlayer player, String identifier) {
 		TitleMessage titleMessage = this.players.get(player.getUniqueId());
-		if(titleMessage != null && titleMessage.getIdentifier().equalsIgnoreCase(identifier)) {
+		if (titleMessage != null && titleMessage.getIdentifier().equalsIgnoreCase(identifier)) {
 			player.sendTitle(Title.CLEAR);
 			
 			// Event
@@ -114,17 +114,17 @@ public class ETitleService implements TitleService {
 	}
 	
 	public void update() {
-		if(this.players.isEmpty()) {
+		if (this.players.isEmpty()) {
 			stop();
 		} else {
 			final List<UUID> removes = new ArrayList<UUID>();
-			for(TitleMessage titleMessage : this.players.values()) {
-				if(System.currentTimeMillis() >= titleMessage.getTime()) {
+			for (TitleMessage titleMessage : this.players.values()) {
+				if (System.currentTimeMillis() >= titleMessage.getTime()) {
 					removes.add(titleMessage.getPlayer());
 				}
 			}
 			
-			if(!removes.isEmpty()) {
+			if (!removes.isEmpty()) {
 				this.plugin.getGame().getScheduler().createTaskBuilder()
 					.execute(() -> this.updateSync(removes))
 					.name("TitleService")
@@ -134,13 +134,13 @@ public class ETitleService implements TitleService {
 	}
 	
 	public void updateSync(List<UUID> players) {
-		for(UUID uuid : players) {
+		for (UUID uuid : players) {
 			TitleMessage titleMessage = this.players.get(uuid);
-			if(titleMessage != null && System.currentTimeMillis() >= titleMessage.getTime()) {
+			if (titleMessage != null && System.currentTimeMillis() >= titleMessage.getTime()) {
 				this.players.remove(uuid);
 				
 				Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(uuid);
-				if(player.isPresent()) {					
+				if (player.isPresent()) {					
 					//Event
 					this.postRemove(player.get(), titleMessage);
 				}
@@ -148,7 +148,7 @@ public class ETitleService implements TitleService {
 		}
 		
 		
-		if(this.players.isEmpty()) {
+		if (this.players.isEmpty()) {
 			stop();
 		} else {
 			start();
@@ -156,7 +156,7 @@ public class ETitleService implements TitleService {
 	}
 	
 	public void start() {
-		if(!isEnable()) {
+		if (!isEnable()) {
 			this.task = this.plugin.getGame().getScheduler().createTaskBuilder()
 							.execute(() -> this.update())
 							.delay(UPDATE, TimeUnit.MILLISECONDS)
@@ -168,7 +168,7 @@ public class ETitleService implements TitleService {
 	}
 	
 	public void stop() {
-		if(isEnable()) {
+		if (isEnable()) {
 			this.task.cancel();
 			this.task = null;
 		}
@@ -189,7 +189,7 @@ public class ETitleService implements TitleService {
 	}
 	
 	private int getPriority(String identifier) {
-		if(this.plugin.getManagerService().getPriority().isPresent()) {
+		if (this.plugin.getManagerService().getPriority().isPresent()) {
 			return this.plugin.getManagerService().getPriority().get().getTitle(identifier);
 		}
 		return PriorityService.DEFAULT;

@@ -91,7 +91,7 @@ public class LocationSQL{
 	public String getWorldName() {
 		Optional<World> world = this.getWorld();
 		String world_name = "...";
-		if(world.isPresent()){
+		if (world.isPresent()){
 			world_name = world.get().getName();
 		}
 		return world_name;
@@ -104,7 +104,7 @@ public class LocationSQL{
 	 */
 	public Optional<Location<World>> getLocation() {
 		Optional<World> world = this.getWorld();
-		if(world.isPresent()) {
+		if (world.isPresent()) {
 			return Optional.ofNullable(world.get().getLocation(this.x, this.y, this.z));
 		}
 		return Optional.empty();
@@ -117,7 +117,7 @@ public class LocationSQL{
 	 */
 	public Optional<Transform<World>> getTransform() {
 		Optional<World> world = this.getWorld();
-		if(world.isPresent()){
+		if (world.isPresent()){
 			return Optional.of(new Transform<World>(world.get(), this.getPosition(), this.getRotation()));
 		}
 		return Optional.empty();

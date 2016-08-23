@@ -46,7 +46,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	}
 
 	private boolean isPresent() {
-		if(this.subject == null && this.plugin.getManagerService().getEssentials().isPresent()) {
+		if (this.subject == null && this.plugin.getManagerService().getEssentials().isPresent()) {
 			this.subject = this.plugin.getManagerService().getEssentials().get().get(this.player.getUniqueId()).orElse(null);
 		}
 		return this.subject != null;
@@ -58,7 +58,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public Optional<String> getReplyTo() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getReplyTo();
 		}
 		return Optional.empty();
@@ -66,7 +66,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public boolean setReplyTo(@Nullable String identifier) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.setReplyTo(identifier);
 		}
 		return false;
@@ -78,7 +78,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean isVanish() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.isVanish();
 		}
 		return false;
@@ -86,14 +86,14 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean setVanish(final boolean vanish) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.setVanish(vanish);
 		}
 		return false;
 	}
 	
 	public boolean canSeePlayer(EPlayer onlinePlayer) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return !onlinePlayer.isVanish() || this.player.hasPermission(this.plugin.getManagerService().getEssentials().get().getPermissionVanishSee());
 		}
 		return !onlinePlayer.isVanish();
@@ -105,7 +105,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean isAfk() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.isAfk();
 		}
 		return false;
@@ -113,7 +113,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean setAfk(final boolean afk) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.setAfk(afk);
 		}
 		return false;
@@ -121,7 +121,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public boolean isAfkAutoFake() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.isAfkAutoFake();
 		}
 		return false;
@@ -129,7 +129,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean setAfkAutoFake(final boolean afk) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.setAfkAutoFake(afk);
 		}
 		return false;
@@ -137,7 +137,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public boolean isAfkKickFake() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.isAfkKickFake();
 		}
 		return false;
@@ -145,7 +145,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean setAfkKickFake(final boolean afk) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.setAfkKickFake(afk);
 		}
 		return false;
@@ -153,14 +153,14 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public void updateLastActivated() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			this.subject.updateLastActivated();
 		}
 	}
 
 	@Override
 	public long getLastActivated() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getLastActivated();
 		}
 		return 0;
@@ -172,7 +172,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public boolean isGod() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.isGod();
 		}
 		return false;
@@ -180,7 +180,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean setGod(final boolean god) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.setGod(god);
 		}
 		return false;
@@ -192,7 +192,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public boolean isToggle() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.isToggle();
 		}
 		return false;
@@ -200,7 +200,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean setToggle(final boolean toggle) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.setToggle(toggle);
 		}
 		return false;
@@ -212,7 +212,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public boolean isFreeze() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.isFreeze();
 		}
 		return false;
@@ -220,7 +220,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean setFreeze(boolean freeze) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.setFreeze(freeze);
 		}
 		return false;
@@ -232,7 +232,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public long getTotalTimePlayed() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getTotalTimePlayed();
 		}
 		return 0;
@@ -240,7 +240,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean startTotalTimePlayed() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.startTotalTimePlayed();
 		}
 		return false;
@@ -248,7 +248,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public boolean stopTotalTimePlayed() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.stopTotalTimePlayed();
 		}
 		return false;
@@ -260,7 +260,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public Map<String, Transform<World>> getHomes() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getHomes();
 		}
 		return ImmutableMap.of();
@@ -268,7 +268,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public boolean hasHome(final String identifier) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.hasHome(identifier);
 		}
 		return false;
@@ -276,7 +276,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public Optional<Transform<World>> getHome(final String identifier) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getHome(identifier);
 		}
 		return Optional.empty();
@@ -288,7 +288,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public boolean addHome(final String identifier, final Transform<World> location) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.addHome(identifier, location);
 		}
 		return false;
@@ -300,7 +300,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public boolean moveHome(final String identifier, final Transform<World> location) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.moveHome(identifier, location);
 		}
 		return false;
@@ -308,7 +308,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean removeHome(final String identifier) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.removeHome(identifier);
 		}
 		return false;
@@ -320,7 +320,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public Optional<Transform<World>> getBack() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getBack();
 		}
 		return Optional.empty();
@@ -332,7 +332,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public boolean setBack(final Transform<World> location) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.setBack(location);
 		}
 		return false;
@@ -340,7 +340,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean clearBack() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.clearBack();
 		}
 		return false;
@@ -352,7 +352,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public Set<UUID> getIgnores() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getIgnores();
 		}
 		return ImmutableSet.of();
@@ -360,7 +360,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public boolean ignore(UUID uuid) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.ignore(uuid);
 		}
 		return false;
@@ -368,7 +368,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean addIgnore(final UUID uuid) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.addIgnore(uuid);
 		}
 		return false;
@@ -376,7 +376,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean removeIgnore(final UUID uuid) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.removeIgnore(uuid);
 		}
 		return false;
@@ -388,7 +388,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public Set<Mail> getMails() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getMails();
 		}
 		return ImmutableSet.of();
@@ -396,7 +396,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean hasMail() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.hasMail();
 		}
 		return false;
@@ -404,7 +404,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean addMail(CommandSource to, String message) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.addMail(to, message);
 		}
 		return false;
@@ -412,7 +412,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public boolean removeMail(Mail mail) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.removeMail(mail);
 		}
 		return false;
@@ -420,7 +420,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean clearMails() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.clearMails();
 		}
 		return false;
@@ -428,7 +428,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public Optional<Mail> getMail(int id) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getMail(id);
 		}
 		return Optional.empty();
@@ -436,7 +436,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean readMail(Mail mail) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.readMail(mail);
 		}
 		return false;
@@ -460,7 +460,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean addTeleportAsk(UUID uuid, long time) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.addTeleportAsk(uuid, time);
 		}
 		return false;
@@ -468,7 +468,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public boolean addTeleportAskHere(UUID uuid, long time, @Nullable Transform<World> location) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.addTeleportAskHere(uuid, time, location);
 		}
 		return false;
@@ -476,7 +476,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean removeTeleportAsk(UUID uuid) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.removeTeleportAsk(uuid);
 		}
 		return false;
@@ -484,7 +484,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public Map<UUID, TeleportRequest> getAllTeleportsAsk() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getAllTeleportsAsk();
 		}
 		return ImmutableMap.of();
@@ -492,7 +492,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public Optional<TeleportRequest> getTeleportAsk(UUID uuid) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getTeleportAsk(uuid);
 		}
 		return Optional.empty();
@@ -504,7 +504,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public boolean hasTeleportDelay() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.hasTeleportDelay();
 		}
 		return false;
@@ -512,7 +512,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public Optional<TeleportDelay> getTeleportDelay() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.getTeleportDelay();
 		}
 		return Optional.empty();
@@ -520,7 +520,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean setTeleport(Runnable runnable, boolean canMove) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.setTeleport(runnable, canMove);
 		}
 		return false;
@@ -528,7 +528,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 
 	@Override
 	public boolean setTeleport(long delay, Runnable runnable, boolean canMove) {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.setTeleport(delay, runnable, canMove);
 		}
 		return false;
@@ -536,7 +536,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public boolean runTeleportDelay() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.runTeleportDelay();
 		}
 		return false;
@@ -544,7 +544,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	@Override
 	public boolean cancelTeleportDelay() {
-		if(this.isPresent()) {
+		if (this.isPresent()) {
 			return this.subject.cancelTeleportDelay();
 		}
 		return false;

@@ -96,7 +96,7 @@ public class EPriorityConfig extends EConfig{
 		ConcurrentHashMap<String, Integer> priority = new ConcurrentHashMap<String, Integer>();
 		List<String> config = this.getListString(name);
 		int cpt = config.size();
-		for(String type : config) {
+		for (String type : config) {
 			priority.put(type, cpt);
 			cpt--;
 		}

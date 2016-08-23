@@ -76,7 +76,7 @@ public enum UtilsEffect {
 	
 	public static List<String> getEffects(){
 		List<String> list = new ArrayList<String>();
-		for(UtilsEffect utils : getUtilsEffects()){
+		for (UtilsEffect utils : getUtilsEffects()){
 			list.add(utils.getName());
 		}
 		return list;

@@ -43,13 +43,13 @@ public class ManagerPlannings{
 	 */
 	private void actualisation(){
 		this.timer.purge();
-		if(!this.schedules.isEmpty()){
+		if (!this.schedules.isEmpty()){
 			this.timer.schedule(new TimerTask() {
 		        public void run() {
 		        	plugin.getGame().getScheduler().createTaskBuilder().execute(new Runnable() {
 		        		@Override
 		        		public void run() {
-		        			if(!schedules.isEmpty()){
+		        			if (!schedules.isEmpty()){
 		        				Schedules schedule = schedules.remove(0);
 		        				actualisation();
 		        				schedule.run();
@@ -67,7 +67,7 @@ public class ManagerPlannings{
 	 * @return L'id du schedules
 	 */
 	public int add(final Schedules schedule){
-		if(this.schedules.isEmpty()){
+		if (this.schedules.isEmpty()){
 			this.schedules.add(schedule);
 			actualisation();
 		} else {
@@ -75,17 +75,17 @@ public class ManagerPlannings{
 			boolean trouver = false;
 			
 			while(cpt < this.schedules.size() && !trouver){
-				if(schedule.getCalendar().before(this.schedules.get(cpt).getCalendar())){
+				if (schedule.getCalendar().before(this.schedules.get(cpt).getCalendar())){
 					this.schedules.add(cpt, schedule);
 					trouver = true;
-					if(cpt == 0){
+					if (cpt == 0){
 						actualisation();
 					}
 				}
 				cpt++;
 			}
 			
-			if(!trouver){
+			if (!trouver){
 				this.schedules.add(schedule);
 			}
 		}
@@ -101,14 +101,14 @@ public class ManagerPlannings{
 		int cpt = 0;
 		boolean trouver = false;
 		while(cpt < this.schedules.size() && !trouver){
-			if(this.schedules.get(cpt).getId() == id){
+			if (this.schedules.get(cpt).getId() == id){
 				this.schedules.remove(cpt);
 				trouver = true;
 			}
 			cpt++;
 		}
 		
-		if(trouver && cpt-- == 0){
+		if (trouver && cpt-- == 0){
 			actualisation();
 		}
 		return trouver;
@@ -123,13 +123,13 @@ public class ManagerPlannings{
 		Iterator<Schedules> iterator = this.schedules.iterator();
 		boolean trouver = false;
 		while(iterator.hasNext()){
-			if(iterator.next().getPlugin().equals(plugin)){
+			if (iterator.next().getPlugin().equals(plugin)){
 				iterator.remove();
 				trouver = true;
 			}
 		}
 		
-		if(trouver){
+		if (trouver){
 			actualisation();
 		}
 		return trouver;

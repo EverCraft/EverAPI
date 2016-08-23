@@ -32,7 +32,7 @@ import com.google.gson.JsonSyntaxException;
 public class UtilsContexts {
 	public static String serialize(final Set<Context> contexts) {
 		JsonArray map = new JsonArray();
-		for(Context context : contexts){
+		for (Context context : contexts){
 			JsonObject entry = new JsonObject();
 			entry.addProperty(context.getKey(), context.getValue());
 			map.add(entry);
@@ -43,8 +43,8 @@ public class UtilsContexts {
 	public static Set<Context> deserialize(final String json) throws JsonSyntaxException, IllegalStateException, ClassCastException {
 		Set<Context> contexts = new HashSet<Context>();
 		JsonArray map = (new Gson()).fromJson(json, JsonArray.class);
-		for(JsonElement context : map){
-			for(Entry<String, JsonElement> entry : context.getAsJsonObject().entrySet()) {
+		for (JsonElement context : map){
+			for (Entry<String, JsonElement> entry : context.getAsJsonObject().entrySet()) {
 				contexts.add(new Context(entry.getKey(), entry.getValue().getAsString()));
 			}
 	    }
