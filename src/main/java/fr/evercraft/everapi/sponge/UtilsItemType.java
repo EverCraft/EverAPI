@@ -43,9 +43,10 @@ import org.spongepowered.api.data.type.StoneType;
 import org.spongepowered.api.data.type.TreeType;
 import org.spongepowered.api.data.type.WallType;
 import org.spongepowered.api.item.ItemType;
+import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 
-public class UtilsItemTypes {
+public class UtilsItemType {
 	public static Collection<ItemType> getItems(){
 		return  Sponge.getGame().getRegistry().getAllOf(ItemType.class);
 	}
@@ -221,5 +222,13 @@ public class UtilsItemTypes {
 		} else {
 			return Optional.empty();
 		}
+	}
+	
+	public static boolean isHelmet(ItemType type) {
+		return type.equals(ItemTypes.DIAMOND_HELMET) ||
+			type.equals(ItemTypes.GOLDEN_HELMET) ||
+			type.equals(ItemTypes.IRON_HELMET) ||
+			type.equals(ItemTypes.LEATHER_HELMET) ||
+			type.equals(ItemTypes.CHAINMAIL_HELMET);
 	}
 }

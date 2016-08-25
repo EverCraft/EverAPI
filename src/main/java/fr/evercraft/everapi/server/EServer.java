@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
@@ -202,6 +203,17 @@ public class EServer extends ServerWarp {
 			} catch (InterruptedException | ExecutionException e) {} 
 		}
 		return Optional.empty();
+	}
+	
+	public CompletableFuture<GameProfile> getGameProfileFuture(String identifier) {
+		Preconditions.checkNotNull(identifier, "identifier");
+		
+		if (identifier.length() == 36) {
+			try {
+				return this.plugin.getEServer().getGameProfileManager().get(UUID.fromString(identifier));
+			} catch(IllegalArgumentException e) {}
+		}
+		return this.plugin.getEServer().getGameProfileManager().get(identifier);
 	}
 	
 	/**

@@ -87,6 +87,12 @@ public enum UtilsEntity {
 	public String getName() {
 		return this.name;
 	}
+	public boolean spawnEntity(final Location<World> spawnLocation, int amount) {
+		for (int cpt = 0; cpt < amount; cpt++){
+			this.spawnEntity(spawnLocation);
+		}
+        return true;
+	}
 	
 	public boolean spawnEntity(final Location<World> spawnLocation) {
 	    Entity entity = spawnLocation.getExtent().createEntity(this.type, spawnLocation.getPosition());

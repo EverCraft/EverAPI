@@ -28,10 +28,12 @@ import org.spongepowered.api.block.BlockState;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataHolder;
 import org.spongepowered.api.data.DataTransactionResult;
+import org.spongepowered.api.data.DataView;
 import org.spongepowered.api.data.Property;
 import org.spongepowered.api.data.key.Key;
 import org.spongepowered.api.data.manipulator.DataManipulator;
 import org.spongepowered.api.data.merge.MergeFunction;
+import org.spongepowered.api.data.persistence.InvalidDataException;
 import org.spongepowered.api.data.type.HandType;
 import org.spongepowered.api.data.type.SkinPart;
 import org.spongepowered.api.data.value.BaseValue;
@@ -40,6 +42,7 @@ import org.spongepowered.api.effect.particle.ParticleEffect;
 import org.spongepowered.api.effect.sound.SoundCategory;
 import org.spongepowered.api.effect.sound.SoundType;
 import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.EntityArchetype;
 import org.spongepowered.api.entity.EntitySnapshot;
 import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.Transform;
@@ -215,16 +218,6 @@ public abstract class PlayerSponge implements Player {
 	@Override
 	public UUID getUniqueId() {
 		return this.player.getUniqueId();
-	}
-
-	@Override
-	public boolean validateRawData(DataContainer container) {
-		return this.player.validateRawData(container);
-	}
-
-	@Override
-	public void setRawData(DataContainer container) {
-		this.player.setRawData(container);
 	}
 
 	@Override
@@ -664,5 +657,20 @@ public abstract class PlayerSponge implements Player {
 	@Override
 	public Optional<AABB> getBoundingBox() {
 		return this.player.getBoundingBox();
+	}
+	
+	@Override
+	public EntityArchetype createArchetype() {
+		return this.player.createArchetype();
+	}
+
+	@Override
+	public boolean validateRawData(DataView container) {
+		return this.player.validateRawData(container);
+	}
+
+	@Override
+	public void setRawData(DataView container) throws InvalidDataException {
+		this.setRawData(container);
 	}
 }

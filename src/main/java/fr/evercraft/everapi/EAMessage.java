@@ -100,6 +100,8 @@ public class EAMessage extends EMessage {
 		PLAYER_NO_LOOK_BLOCK("player.noLookBlock", 
 				"&cErreur : Vous regardez aucun bloc.", 
 				"&cError : You look no block."),
+		PLAYER_INVENTORY_FULL("player.inventoryFull", 
+				"&cErreur : Votre inventaire est plein."),
 		
 		// Reload
 		RELOAD_DESCRIPTION("reload.description", 

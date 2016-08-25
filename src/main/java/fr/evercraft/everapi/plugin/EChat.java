@@ -125,7 +125,7 @@ public class EChat implements ChatService {
 		return this.service != null;
 	}
 	
-	public String replaceGlobal(String message){
+	public String replaceGlobal(String message) {
 		Preconditions.checkNotNull(message, "message");
 		
 		if (message.contains(ONLINE_PLAYERS)) message = message.replaceAll(ONLINE_PLAYERS, String.valueOf(this.plugin.getEServer().playerNotVanish()));
@@ -150,6 +150,14 @@ public class EChat implements ChatService {
 			}
 		}
 		return message;
+	}
+	
+	public List<String> replaceGlobal(List<String> messages) {
+		List<String> list = new ArrayList<String>();
+        for (String message : messages){
+        	list.add(this.replaceGlobal(message));
+        }
+        return list;
 	}
 	
 	public String replacePlayer(final EPlayer player, String message){

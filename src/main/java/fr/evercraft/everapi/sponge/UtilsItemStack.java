@@ -30,7 +30,7 @@ public class UtilsItemStack {
 	
 
 	public static Optional<ItemStack> getItem(final String itemstack) {
-		Optional<ItemType> type = UtilsItemTypes.getItemType(itemstack);
+		Optional<ItemType> type = UtilsItemType.getItemType(itemstack);
 		if (type.isPresent()) {
 			return Optional.of(ItemStack.of(type.get(), 1));
 		}
