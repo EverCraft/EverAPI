@@ -18,8 +18,10 @@ package fr.evercraft.everapi.plugin.command;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.spongepowered.api.command.CommandCallable;
 import org.spongepowered.api.command.CommandException;
@@ -27,6 +29,7 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.Location;
@@ -198,5 +201,47 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable, Co
 	public abstract Text help(CommandSource source);
 	
 	public abstract Text description(CommandSource source);
+	
+	/*
+	 * Tab
+	 */
+	
+	public Set<String> getAllUsers() {
+		if (this.plugin.getEverAPI().getManagerService().getUserStorage().isPresent()) {
+			Set<String> users = new HashSet<String>();
+			
+			for(GameProfile profile : this.plugin.getEverAPI().getManagerService().getUserStorage().get().getAll()) {
+				if (profile.getName().isPresent()) {
+					users.add(profile.getName().get());
+				}
+			}
+			
+			return users;
+		} else {
+			return this.getAllPlayers();
+		}
+	}
+	
+	public Set<String> getAllPlayers() {
+		Set<String> users = new HashSet<String>();
+		for(Player player : this.plugin.getEServer().getOnlinePlayers()) {
+			users.add(player.getName());
+		}
+		return users;
+	}
+	
+	public Set<String> getAllPlayers(Player player) {
+		Set<String> users = this.getAllPlayers();
+		users.remove(player.getName());
+		return users;
+	}
+	
+	public Set<String> getAllWorlds() {
+		Set<String> worlds = this.getAllPlayers();
+		for(World world : this.plugin.getEServer().getWorlds()) {
+			worlds.add(world.getName());
+		}
+		return worlds;
+	}
 
 }

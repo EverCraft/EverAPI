@@ -141,6 +141,9 @@ public class EServer extends ServerWarp {
 		return players;
 	}
 	
+	/*
+	 * User
+	 */
 	
 	public Optional<User> getUser(String identifier){
 		Preconditions.checkNotNull(identifier, "identifier");
@@ -172,6 +175,10 @@ public class EServer extends ServerWarp {
 			return Optional.ofNullable(this.getPlayer(identifier).orElse(null));
 		}
 	}
+	
+	/*
+	 * GameProfile
+	 */
 	
 	public Optional<GameProfile> getGameProfile(String identifier) {
 		Preconditions.checkNotNull(identifier, "identifier");
