@@ -38,7 +38,7 @@ import fr.evercraft.everapi.services.essentials.Mail;
 import fr.evercraft.everapi.services.essentials.TeleportDelay;
 import fr.evercraft.everapi.services.essentials.TeleportRequest;
 
-public class UserEssentials extends UserAccount implements SubjectUserEssentials {
+public class UserEssentials extends UserCooldown implements SubjectUserEssentials {
 	
 	private SubjectUserEssentials subject;
 
