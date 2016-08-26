@@ -38,8 +38,11 @@ import com.google.common.base.Preconditions;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.server.user.EUser;
 
-public class EServer extends ServerWarp {	
+public class EServer extends ServerWarp {
+	public static final int UUID_LENGTH = 36;
+	
 	private String name;
 	
 	private ConcurrentMap<UUID, EPlayer> players;
@@ -90,7 +93,7 @@ public class EServer extends ServerWarp {
 	 */	
 	public Optional<EPlayer> getEPlayer(String name){
 		try {
-			if (name.length() == 36){
+			if (name.length() == EServer.UUID_LENGTH){
 				return getEPlayer(UUID.fromString(name));
 			} else {
 				Optional<Player> player = this.getPlayer(name);
@@ -145,18 +148,30 @@ public class EServer extends ServerWarp {
 	 * User
 	 */
 	
-	public Optional<User> getUser(String identifier){
+	public EUser getEUser(User user) {
+		return new EUser(this.plugin, user);
+	}
+	
+	public Optional<EUser> getEUser(String identifier) {
+		Optional<User> user = this.getUser(identifier);
+		if(user.isPresent()) {
+			return Optional.of(this.getEUser(user.get()));
+		}
+		return Optional.empty();
+	}
+	
+	public Optional<User> getUser(String identifier) {
 		Preconditions.checkNotNull(identifier, "identifier");
 		
 		try {
 			if (this.plugin.getEverAPI().getManagerService().getUserStorage().isPresent()) {
-				if (identifier.length() == 36) {
+				if (identifier.length() == EServer.UUID_LENGTH) {
 					return this.plugin.getEverAPI().getManagerService().getUserStorage().get().get(UUID.fromString(identifier));
 				} else {
 					return this.plugin.getEverAPI().getManagerService().getUserStorage().get().get(identifier);
 				}
 			} else {
-				if (identifier.length() == 36){
+				if (identifier.length() == EServer.UUID_LENGTH){
 					return Optional.ofNullable(this.getPlayer(UUID.fromString(identifier)).orElse(null));
 				} else {
 					return Optional.ofNullable(this.getPlayer(identifier).orElse(null));
@@ -184,7 +199,7 @@ public class EServer extends ServerWarp {
 		Preconditions.checkNotNull(identifier, "identifier");
 		
 		try {
-			if (identifier.length() == 36){
+			if (identifier.length() == EServer.UUID_LENGTH){
 				return this.getGameProfile(UUID.fromString(identifier));
 			} else {
 				Optional<Player> player = this.getPlayer(identifier);
@@ -215,7 +230,7 @@ public class EServer extends ServerWarp {
 	public CompletableFuture<GameProfile> getGameProfileFuture(String identifier) {
 		Preconditions.checkNotNull(identifier, "identifier");
 		
-		if (identifier.length() == 36) {
+		if (identifier.length() == EServer.UUID_LENGTH) {
 			try {
 				return this.plugin.getEServer().getGameProfileManager().get(UUID.fromString(identifier));
 			} catch(IllegalArgumentException e) {}
@@ -274,7 +289,7 @@ public class EServer extends ServerWarp {
 	
 	public Optional<World> getEWorld(String identifier) {
 		try {
-			if (identifier.length() == 36){
+			if (identifier.length() == EServer.UUID_LENGTH){
 				return this.getWorld(UUID.fromString(identifier));
 			} else {
 				return this.getWorld(identifier);

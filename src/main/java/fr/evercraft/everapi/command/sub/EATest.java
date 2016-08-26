@@ -18,8 +18,11 @@ package fr.evercraft.everapi.command.sub;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.spongepowered.api.CatalogType;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.event.cause.entity.damage.DamageType;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
@@ -62,6 +65,10 @@ public class EATest extends ESubCommand<EverAPI> {
 	}
 
 	private boolean commandTest(final CommandSource source) {
+		for (CatalogType type : this.plugin.getGame().getRegistry().getAllOf(DamageType.class)){
+			source.sendMessage(Text.of("id : " + type.getId()));
+			source.sendMessage(Text.of("name : " + type.getId()));
+		}
 		return true;
 	}
 }

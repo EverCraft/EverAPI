@@ -14,14 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.server.player;
+package fr.evercraft.everapi.server.user;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.service.context.Context;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.service.permission.SubjectCollection;
@@ -32,17 +32,17 @@ import com.google.common.base.Preconditions;
 
 import fr.evercraft.everapi.EverAPI;
 
-public class PlayerPermission extends PlayerKeys implements Subject {
+public class UserPermission extends UserKeys implements Subject {
 	
 	private Subject optionSubject;
 
-	public PlayerPermission(EverAPI plugin, Player player) {
-		super(plugin, player);
+	public UserPermission(EverAPI plugin, User user) {
+		super(plugin, user);
 	}
 
 	private boolean isPresent() {
 		if (this.optionSubject == null && this.plugin.getManagerService().getPermission().isPresent()) {
-			this.optionSubject = this.plugin.getManagerService().getPermission().get().getUserSubjects().get(this.player.getIdentifier());
+			this.optionSubject = this.plugin.getManagerService().getPermission().get().getUserSubjects().get(this.user.getIdentifier());
 		}
 		return this.optionSubject != null;
 	}
@@ -65,42 +65,42 @@ public class PlayerPermission extends PlayerKeys implements Subject {
 
 	@Override
 	public Optional<CommandSource> getCommandSource() {
-		return this.player.getCommandSource();
+		return this.user.getCommandSource();
 	}
 
 	@Override
 	public SubjectCollection getContainingCollection() {
-		return this.player.getContainingCollection();
+		return this.user.getContainingCollection();
 	}
 
 	@Override
 	public boolean hasPermission(Set<Context> contexts, String permission) {
-		return this.player.hasPermission(contexts, permission);
+		return this.user.hasPermission(contexts, permission);
 	}
 
 	@Override
 	public Tristate getPermissionValue(Set<Context> contexts, String permission) {
-		return this.player.getPermissionValue(contexts, permission);
+		return this.user.getPermissionValue(contexts, permission);
 	}
 
 	@Override
 	public boolean isChildOf(Set<Context> contexts, Subject parent) {
-		return this.player.isChildOf(contexts, parent);
+		return this.user.isChildOf(contexts, parent);
 	}
 
 	@Override
 	public List<Subject> getParents(Set<Context> contexts) {
-		return this.player.getParents();
+		return this.user.getParents();
 	}
 
 	@Override
 	public String getIdentifier() {
-		return this.player.getIdentifier();
+		return this.user.getIdentifier();
 	}
 
 	@Override
 	public Set<Context> getActiveContexts() {
-		return this.player.getActiveContexts();
+		return this.user.getActiveContexts();
 	}
 
 	@Override

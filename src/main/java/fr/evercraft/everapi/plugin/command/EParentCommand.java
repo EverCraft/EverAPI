@@ -160,7 +160,7 @@ public abstract class EParentCommand<T extends EPlugin> extends ECommand<T> {
 	}
 	
 	private boolean commandHelp(final CommandSource source) {
-		LinkedHashMap<String, CommandPagination> commands = new LinkedHashMap<String, CommandPagination>();
+		LinkedHashMap<String, CommandPagination<?>> commands = new LinkedHashMap<String, CommandPagination<?>>();
 		
 		for (ECommand<T> command : this.commands) {
 			if (command.testPermission(source)) { 

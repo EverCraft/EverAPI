@@ -14,26 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.server.player;
+package fr.evercraft.everapi.server.user;
 
 import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.cause.entity.damage.DamageType;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.StatsSubject;
 
-public class PlayerStats extends PlayerEssentials implements StatsSubject {
+public class UserStats extends UserEssentials implements StatsSubject {
 	
 	private StatsSubject subject;
 
-	public PlayerStats(EverAPI plugin, Player player) {
-		super(plugin, player);
+	public UserStats(EverAPI plugin, User user) {
+		super(plugin, user);
 	}
 
 	private boolean isPresent() {
 		if (this.subject == null && this.plugin.getManagerService().getStats().isPresent()) {
-			this.subject = this.plugin.getManagerService().getStats().get().get(this.player.getUniqueId()).orElse(null);
+			this.subject = this.plugin.getManagerService().getStats().get().get(this.user.getUniqueId()).orElse(null);
 		}
 		return this.subject != null;
 	}

@@ -14,29 +14,29 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.server.player;
+package fr.evercraft.everapi.server.user;
 
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.cooldown.CooldownsSubject;
 
-public class PlayerCooldown extends PlayerPermission {
+public class UserCooldown extends UserAccount {
 	
 	private CooldownsSubject subject;
 
-	public PlayerCooldown(EverAPI plugin, Player player) {
-		super(plugin, player);
+	public UserCooldown(EverAPI plugin, User user) {
+		super(plugin, user);
 	}
 
 	private boolean isPresent() {
 		if (this.subject == null && this.plugin.getManagerService().getCooldown().isPresent()) {
-			this.subject = this.plugin.getManagerService().getCooldown().get().get(this.player.getUniqueId()).orElse(null);
+			this.subject = this.plugin.getManagerService().getCooldown().get().get(this.user.getUniqueId()).orElse(null);
 		}
 		return this.subject != null;
 	}
@@ -50,7 +50,7 @@ public class PlayerCooldown extends PlayerPermission {
 
 	public boolean addCooldown(final String command) {
 		if (this.isPresent()) {
-			return this.subject.add(this.player, command);
+			return this.subject.add(this.user, command);
 		}
 		return false;
 	}

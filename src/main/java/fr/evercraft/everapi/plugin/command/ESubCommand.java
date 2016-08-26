@@ -29,14 +29,14 @@ import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.services.pagination.CommandPagination;
 
-public abstract class ESubCommand<T extends EPlugin> implements CommandPagination {
-	protected final T plugin;
+public abstract class ESubCommand<T extends EPlugin> extends CommandPagination<T> {
 	
 	private final String parent_name;
 	private final String sub_name;
 	
-	public ESubCommand(final T plugin, final ECommand<T> command, final String sub_name){
-		this.plugin = plugin;
+	public ESubCommand(final T plugin, final ECommand<T> command, final String sub_name) {
+		super(plugin, command.getName() + " " + sub_name);
+		
 		this.parent_name = command.getName();
 		this.sub_name = sub_name;
 	}
@@ -48,11 +48,7 @@ public abstract class ESubCommand<T extends EPlugin> implements CommandPaginatio
 	public String getSubName() {
 		return this.sub_name;
 	}
-	
-	public String getName() {
-		return this.parent_name + " " + this.sub_name;
-	}
-	
+
 	public boolean execute(CommandSource source, List<String> args) throws CommandException, PluginDisableException, ServerDisableException {
 		if (this.testPermission(source)) {		
 			if (!args.isEmpty()) {

@@ -14,19 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.server.player;
+package fr.evercraft.everapi.server.user;
 
 import java.math.BigDecimal;
 import java.util.Optional;
 
-import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.service.economy.account.UniqueAccount;
 import org.spongepowered.api.service.economy.transaction.ResultType;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.server.player.EPlayer;
 
-public class PlayerAccount extends PlayerCooldown {
+public class UserAccount extends UserPermission {
 	
 	private UniqueAccount subject;
 	
@@ -35,13 +36,13 @@ public class PlayerAccount extends PlayerCooldown {
 	 * @param plugin EverAPI
 	 * @param player Le joueur
 	 */
-	public PlayerAccount(final EverAPI plugin, final Player player){
-		super(plugin, player);
+	public UserAccount(final EverAPI plugin, final User user){
+		super(plugin, user);
 	}
 	
 	private boolean isPresent() {
 		if (this.subject == null && this.plugin.getManagerService().getEconomy().isPresent()) {
-			this.subject = this.plugin.getManagerService().getEconomy().get().getOrCreateAccount(this.getUniqueId()).orElse(null);
+			this.subject = this.plugin.getManagerService().getEconomy().get().getOrCreateAccount(this.user.getUniqueId()).orElse(null);
 		}
 		return this.subject != null;
 	}

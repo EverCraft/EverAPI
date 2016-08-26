@@ -58,7 +58,7 @@ import com.flowpowered.math.vector.Vector3i;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.EChat;
 
-public class EPlayer extends PlayerStats {
+public class EPlayer extends PlayerSponge {
 	
 	public static final double CONVERSION_FLY = 0.05;
 	public static final double CONVERSION_WALF = 0.1;
@@ -119,27 +119,6 @@ public class EPlayer extends PlayerStats {
 				player.sendMessage(message);
 			}
 		}
-	}
-	
-	/*
-	 * Health
-	 */
-	
-	/**
-	 * Soigner le joueur
-	 * @return True si le joueur a bien été soigné
-	 */
-	public boolean heal(){
-		if (this.getHealth() != 0) {
-			this.setHealth(this.getMaxHealth());
-			this.setFood(20);
-			this.setSaturation(20);
-			this.setFireTicks(0);
-			this.setRemainingAir(this.getMaxAir());
-			this.clearPotions();
-			return true;
-		}
-		return false;
 	}
 	
 	/*
@@ -358,17 +337,14 @@ public class EPlayer extends PlayerStats {
 	 * DisplayName
 	 */
 	
-	public String getDisplayName() {
-		return getDisplayName(getActiveContexts());
-	}
-	
-	public String getDisplayName(Set<Context> contexts) {
-		return getPrefix(contexts).orElse("") + this.getName() + getSuffix(contexts).orElse("");
-	}
-	
 	public Text getDisplayNameHover() {
 		return getDisplayHover(getActiveContexts());
 	}
+	
+	public Optional<Text> getHover() {
+		return getHover(getActiveContexts());
+	}
+	
 	
 	public Text getDisplayHover(Set<Context> contexts) {
 		Optional<String> suggest = getSuggest(contexts);
@@ -390,25 +366,6 @@ public class EPlayer extends PlayerStats {
 		return builder.build();
 	}
 	
-	public Optional<String> getPrefix() {
-		return getPrefix(getActiveContexts());
-	}
-	
-	public Optional<String> getPrefix(Set<Context> contexts) {
-		return this.getOption(contexts, "prefix");
-	}
-	
-	public Optional<String> getSuffix() {
-		return getSuffix(getActiveContexts());
-	}
-	
-	public Optional<String> getSuffix(Set<Context> contexts) {
-		return this.getOption(contexts, "suffix");
-	}
-	
-	public Optional<Text> getHover() {
-		return getHover(getActiveContexts());
-	}
 	
 	public Optional<Text> getHover(Set<Context> contexts) {
 		Optional<String> optHover = this.getOption(contexts, "hover");
@@ -433,6 +390,10 @@ public class EPlayer extends PlayerStats {
 		}
 		return Optional.empty();
 	}
+	
+	/*
+	 * ActionBar
+	 */
 	
 	public boolean sendActionBar(String identifier, long stay, Text message) {
 		if (this.plugin.getManagerService().getActionBar().isPresent()) {
@@ -606,4 +567,23 @@ public class EPlayer extends PlayerStats {
 		}
 	}
 	
+	/*
+	 * Essentials
+	 */
+	
+	public boolean addHome(final String identifier) {
+		return this.addHome(identifier, this.getTransform());
+	}
+	
+	public boolean moveHome(final String identifier) {
+		return this.moveHome(identifier, this.getTransform());
+	}
+	
+	public boolean setBack() {
+		return this.setBack(this.getTransform());
+	}
+	
+	public boolean teleportSpawn() {
+		return this.player.setTransform(this.getSpawn());
+	}
 }

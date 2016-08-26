@@ -103,10 +103,10 @@ public class EPagination {
 		this.send(title.toBuilder().color(this.help_color_padding).build(), this.help_padding, contents, source);
 	}
 	
-	public void helpSubCommand(LinkedHashMap<String, CommandPagination> commands, CommandSource source, EPlugin plugin) {
+	public void helpSubCommand(LinkedHashMap<String, CommandPagination<?>> commands, CommandSource source, EPlugin plugin) {
 		List<Text> contents = new ArrayList<Text>();
 		
-		for (Entry<String, CommandPagination> command : commands.entrySet()) {
+		for (Entry<String, CommandPagination<?>> command : commands.entrySet()) {
 			Text help = command.getValue().help(source);
 			Text description = command.getValue().description(source);
 			if (help != null && description != null && !help.isEmpty() && !description.isEmpty()) {

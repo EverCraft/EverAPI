@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.server.player;
+package fr.evercraft.everapi.server.user;
 
 import java.util.Map;
 import java.util.Optional;
@@ -25,29 +25,30 @@ import javax.annotation.Nullable;
 
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Transform;
-import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.world.World;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.essentials.SubjectUserEssentials;
 import fr.evercraft.everapi.services.essentials.Mail;
 import fr.evercraft.everapi.services.essentials.TeleportDelay;
 import fr.evercraft.everapi.services.essentials.TeleportRequest;
 
-public class PlayerEssentials extends PlayerAccount implements SubjectUserEssentials {
+public class UserEssentials extends UserAccount implements SubjectUserEssentials {
 	
 	private SubjectUserEssentials subject;
 
-	public PlayerEssentials(final EverAPI plugin, final Player player) {
-		super(plugin, player);
+	public UserEssentials(final EverAPI plugin, final User user) {
+		super(plugin, user);
 	}
 
 	private boolean isPresent() {
 		if (this.subject == null && this.plugin.getManagerService().getEssentials().isPresent()) {
-			this.subject = this.plugin.getManagerService().getEssentials().get().get(this.player.getUniqueId()).orElse(null);
+			this.subject = this.plugin.getManagerService().getEssentials().get().get(this.user.getUniqueId()).orElse(null);
 		}
 		return this.subject != null;
 	}
@@ -94,7 +95,7 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	public boolean canSeePlayer(EPlayer onlinePlayer) {
 		if (this.isPresent()) {
-			return !onlinePlayer.isVanish() || this.player.hasPermission(this.plugin.getManagerService().getEssentials().get().getPermissionVanishSee());
+			return !onlinePlayer.isVanish() || this.user.hasPermission(this.plugin.getManagerService().getEssentials().get().getPermissionVanishSee());
 		}
 		return !onlinePlayer.isVanish();
 	}
@@ -281,10 +282,6 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 		}
 		return Optional.empty();
 	}
-
-	public boolean addHome(final String identifier) {
-		return this.addHome(identifier, this.getTransform());
-	}
 	
 	@Override
 	public boolean addHome(final String identifier, final Transform<World> location) {
@@ -292,10 +289,6 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 			return this.subject.addHome(identifier, location);
 		}
 		return false;
-	}
-	
-	public boolean moveHome(final String identifier) {
-		return this.moveHome(identifier, this.getTransform());
 	}
 	
 	@Override
@@ -324,10 +317,6 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 			return this.subject.getBack();
 		}
 		return Optional.empty();
-	}
-
-	public boolean setBack() {
-		return this.setBack(this.getTransform());
 	}
 	
 	@Override
@@ -448,10 +437,6 @@ public class PlayerEssentials extends PlayerAccount implements SubjectUserEssent
 	
 	public Transform<World> getSpawn() {
 		return this.plugin.getEServer().getSpawn(this);
-	}
-	
-	public boolean teleportSpawn() {
-		return this.player.setTransform(this.getSpawn());
 	}
 	
 	/*

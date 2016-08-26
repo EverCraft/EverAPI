@@ -46,14 +46,10 @@ import fr.evercraft.everapi.services.cooldown.event.EResultCommandEvent;
 import fr.evercraft.everapi.services.cooldown.event.ESendCommandEvent;
 import fr.evercraft.everapi.services.pagination.CommandPagination;
 
-public abstract class ECommand<T extends EPlugin> implements CommandCallable, CommandPagination {
-	protected final T plugin;
-	
-	protected final String name;
-	
+public abstract class ECommand<T extends EPlugin> extends CommandPagination<T> implements CommandCallable {
+
 	public ECommand(final T plugin, final String name, final String... alias) {
-		this.plugin = plugin;
-		this.name = name;
+		super(plugin, name);
 		
 		String[] cmds = new String[1 + alias.length];
 		cmds[0] = name; 
@@ -77,7 +73,7 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable, Co
 				} else {
 					source.sendMessage(EAMessages.NO_PERMISSION.getText());
 				}
-				this.plugin.getLogger().debug("The command '" + this.name + "' with arguments '" + arg + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
+				this.plugin.getLogger().debug("The command '" + this.getName() + "' with arguments '" + arg + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
 				return CommandResult.success();
 			}
 		} catch (PluginDisableException e) {
@@ -87,7 +83,7 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable, Co
 		} catch (ServerDisableException e) {
 			e.execute();
 		}
-		this.plugin.getLogger().debug("Error : The command '" + this.name + "' with arguments '" + arg + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
+		this.plugin.getLogger().debug("Error : The command '" + this.getName() + "' with arguments '" + arg + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
         return CommandResult.success();
 	}
 	
@@ -95,9 +91,9 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable, Co
 		Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(source);
 		if (player.isPresent()) {
 			if (!player.get().isDead()) {
-				if (!this.plugin.getGame().getEventManager().post(new ESendCommandEvent(player.get(), this.name, args, Cause.source(this.plugin).build()))) {
+				if (!this.plugin.getGame().getEventManager().post(new ESendCommandEvent(player.get(), this.getName(), args, Cause.source(this.plugin).build()))) {
 					boolean result = execute(player.get(), args);
-					this.plugin.getGame().getEventManager().post(new EResultCommandEvent(player.get(), this.name, args, result, Cause.source(this.plugin).build()));
+					this.plugin.getGame().getEventManager().post(new EResultCommandEvent(player.get(), this.getName(), args, result, Cause.source(this.plugin).build()));
 				}
 			} else {
 				player.get().sendMessage(EAMessages.COMMAND_ERROR_PLAYER_DEAD.getText());
@@ -133,7 +129,7 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable, Co
 					}
 				}
 			}
-			this.plugin.getLogger().debug("The tabulation '" + this.name + "' with arguments '" + arguments + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
+			this.plugin.getLogger().debug("The tabulation '" + this.getName() + "' with arguments '" + arguments + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
 			return suggests;
 		}
 		return Arrays.asList();
@@ -184,14 +180,6 @@ public abstract class ECommand<T extends EPlugin> implements CommandCallable, Co
 		}
 		this.plugin.getLogger().debug("Arguments : '" + String.join("','", args) +  "'");
 		return args;
-	}
-	
-	public String getMessage(final List<String> args){
-		return String.join(" ", args);
-	}
-	
-	public String getName(){
-		return this.name;
 	}
 
 	public abstract boolean execute(CommandSource source, List<String> args) throws CommandException, PluginDisableException, ServerDisableException;
