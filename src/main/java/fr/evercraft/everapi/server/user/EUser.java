@@ -16,12 +16,16 @@
  */
 package fr.evercraft.everapi.server.user;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.service.context.Context;
+import org.spongepowered.api.service.permission.Subject;
+
+import com.google.common.base.Preconditions;
 
 import fr.evercraft.everapi.EverAPI;
 
@@ -85,4 +89,23 @@ public class EUser extends UserStats {
 		}
 		return false;
 	}
+	
+	/*
+	 * Permission
+	 */
+	
+	public Optional<Subject> getGroup() {
+		return this.getGroup(getActiveContexts());
+	}
+	
+	public Optional<Subject> getGroup(final Set<Context> contexts) {
+		Preconditions.checkNotNull(contexts, "contexts");
+		
+		List<Subject> groups = this.getSubjectData().getParents(contexts);
+		if (!groups.isEmpty()) {
+			return Optional.of(groups.get(0));
+		}
+		return Optional.empty();
+    }
+	
 }

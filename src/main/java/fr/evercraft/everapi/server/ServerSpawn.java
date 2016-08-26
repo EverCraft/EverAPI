@@ -25,7 +25,7 @@ import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.server.user.UserPermission;
+import fr.evercraft.everapi.server.user.EUser;
 import fr.evercraft.everapi.services.essentials.SpawnService;
 
 public class ServerSpawn extends ServerSponge {
@@ -56,7 +56,7 @@ public class ServerSpawn extends ServerSponge {
 		return Optional.empty();
 	}
 	
-	public Transform<World> getSpawn(UserPermission player) {
+	public Transform<World> getSpawn(EUser player) {
 		if (this.isPresent()) {
 			return this.service.get(player);
 		}

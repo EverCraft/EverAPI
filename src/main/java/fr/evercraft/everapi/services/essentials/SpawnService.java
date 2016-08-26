@@ -25,7 +25,7 @@ import org.spongepowered.api.world.World;
 
 import com.google.common.base.Preconditions;
 
-import fr.evercraft.everapi.server.user.UserPermission;
+import fr.evercraft.everapi.server.user.EUser;
 
 public interface SpawnService {	
 	
@@ -44,7 +44,7 @@ public interface SpawnService {
 	
 	public Transform<World> getDefault();
 	
-	default public Transform<World> get(final UserPermission player) {
+	default public Transform<World> get(final EUser player) {
 		Preconditions.checkNotNull(player, "player");
 		
 		Optional<Subject> group = player.getGroup();

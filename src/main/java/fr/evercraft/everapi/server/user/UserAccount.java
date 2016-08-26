@@ -27,7 +27,7 @@ import org.spongepowered.api.service.economy.transaction.ResultType;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public class UserAccount extends UserPermission {
+public class UserAccount extends UserKeys {
 	
 	private UniqueAccount subject;
 	
