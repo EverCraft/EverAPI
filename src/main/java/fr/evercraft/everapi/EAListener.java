@@ -18,8 +18,15 @@ package fr.evercraft.everapi;
 
 import java.util.Optional;
 
+import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.block.ChangeBlockEvent;
+import org.spongepowered.api.event.block.CollideBlockEvent;
+import org.spongepowered.api.event.block.NotifyNeighborBlockEvent;
+import org.spongepowered.api.event.block.TickBlockEvent;
+import org.spongepowered.api.event.entity.CollideEntityEvent;
+import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.text.title.Title;
 
@@ -57,5 +64,18 @@ public class EAListener {
 	@Listener(order=Order.POST)
 	public void onPlayerDisconnectPost(final ClientConnectionEvent.Disconnect event) {
 		this.plugin.getEServer().removeEPlayer(event.getTargetEntity());
+	}
+	
+	public void test(final Event event) {
+		if(event instanceof TickBlockEvent || 
+				event instanceof MoveEntityEvent || 
+				event instanceof CollideEntityEvent || 
+				event instanceof CollideBlockEvent || 
+				event instanceof ChangeBlockEvent ||
+				event instanceof ChangeBlockEvent.Pre ||
+				event instanceof NotifyNeighborBlockEvent) {
+		} else {
+			this.plugin.getEServer().broadcast("Event :" + event.toString());
+		}
 	}
 }
