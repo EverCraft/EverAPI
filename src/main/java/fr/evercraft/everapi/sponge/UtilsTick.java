@@ -28,6 +28,6 @@ public class UtilsTick {
 	}
 	
 	public static long parseMinutes(final long minutes){
-		return 60 * parseSeconds(minutes);
+		return parseSeconds(minutes * 60);
 	}
 }
