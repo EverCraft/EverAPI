@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.EntityTypes;
 
@@ -141,5 +143,13 @@ public class UtilsEntityType {
 			cpt++;
 		}
 		return Optional.ofNullable(entity);
+	}
+	
+	public static boolean isAnimal(Entity entity) {
+		return UtilsEntityType.ANIMALS.contains(entity.getType()) && !entity.get(Keys.ANGRY).orElse(false);
+	}
+	
+	public static boolean isMonster(Entity entity) {
+		return UtilsEntityType.MONSTERS.contains(entity.getType()) && entity.get(Keys.ANGRY).orElse(true);
 	}
 }

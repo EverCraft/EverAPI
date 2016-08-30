@@ -62,4 +62,8 @@ public class EAConfig extends EConfig {
 	public String getFormatDateTime() {
 		return this.get("format.datetime").getString("dd MMM yyyy HH:mm:ss");
 	}
+	
+	public int getMaxCaractere() {
+		return this.get("maxCaractere").getInt(16);
+	}
 }
