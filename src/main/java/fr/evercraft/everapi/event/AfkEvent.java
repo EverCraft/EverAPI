@@ -24,7 +24,6 @@ import fr.evercraft.everapi.server.player.EPlayer;
 
 public interface AfkEvent extends Event, Cancellable {	
 	public static enum Action {
-    	COMMAND,
     	AUTO,
     	PLAYER,
     	PLUGIN;

@@ -161,6 +161,19 @@ public class EServer extends ServerWarp {
 		return Optional.empty();
 	}
 	
+	public Optional<EUser> getEUser(UUID uuid) {
+		Optional<EPlayer> player = this.getEPlayer(uuid);
+		if(player.isPresent()) {
+			return Optional.of(player.get());
+		} else {
+			Optional<User> user = this.getUser(uuid);
+			if(user.isPresent()) {
+				return Optional.of(this.getEUser(user.get()));
+			}
+		}
+		return Optional.empty();
+	}
+	
 	public EUser getEUser(User user) {
 		return new EUser(this.plugin, user);
 	}

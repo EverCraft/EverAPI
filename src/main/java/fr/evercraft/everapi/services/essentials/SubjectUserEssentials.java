@@ -23,6 +23,7 @@ import java.util.UUID;
 
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Transform;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.world.World;
 
 public interface SubjectUserEssentials extends SubjectEssentials {
@@ -94,6 +95,7 @@ public interface SubjectUserEssentials extends SubjectEssentials {
 	 * Ignores
 	 */
 	public Set<UUID> getIgnores();
+	public boolean ignore(User user);
 	public boolean ignore(UUID uuid);
 	public boolean addIgnore(UUID uuid);
 	public boolean removeIgnore(UUID uuid);

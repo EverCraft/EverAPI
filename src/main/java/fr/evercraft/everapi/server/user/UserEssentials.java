@@ -348,6 +348,14 @@ public class UserEssentials extends UserCooldown implements SubjectUserEssential
 	}
 	
 	@Override
+	public boolean ignore(User user) {
+		if (this.isPresent()) {
+			return this.subject.ignore(user);
+		}
+		return false;
+	}
+	
+	@Override
 	public boolean ignore(UUID uuid) {
 		if (this.isPresent()) {
 			return this.subject.ignore(uuid);
