@@ -23,9 +23,11 @@ import java.util.Set;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Transform;
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.World;
 
 import com.flowpowered.math.vector.Vector3i;
+import com.google.common.base.Preconditions;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.EverAPI;
@@ -284,7 +286,7 @@ public class UtilsLocation {
 		return Optional.empty();
 	}
 	
-	public  Optional<Vector3i> getLocation(final CommandSource player, final String pos_x, final String pos_y, final String pos_z){
+	public  LocationResult getLocation(final CommandSource player, final String pos_x, final String pos_y, final String pos_z) {
 		try {
 			int x = Integer.parseInt(pos_x);
 			if (x >= this.X_min && x <= this.X_max) {
@@ -294,37 +296,67 @@ public class UtilsLocation {
 						try {
 							int z = Integer.parseInt(pos_z);
 							if (z >= this.Z_min && z <= this.Z_max) {
-								return Optional.of(new Vector3i(x, y, z));
+								return new LocationResult(new Vector3i(x, y, z));
 							} else {
-								player.sendMessage(EChat.of(EAMessages.LOCATION_ERROR_NUMBER.get()
+								return new LocationResult(EChat.of(EAMessages.LOCATION_ERROR_NUMBER.get()
 										.replaceAll("<name>", "Z")
 										.replaceAll("<min>", this.Z_min.toString())
 										.replaceAll("<max>", this.Z_max.toString())));
 							}
 						} catch (NumberFormatException e) {
-							player.sendMessage(EChat.of(EAMessages.IS_NOT_NUMBER.get()
+							return new LocationResult(EChat.of(EAMessages.IS_NOT_NUMBER.get()
 									.replaceAll("<number>", pos_x)));
 						}
 					} else {
-						player.sendMessage(EChat.of(EAMessages.LOCATION_ERROR_NUMBER.get()
+						return new LocationResult(EChat.of(EAMessages.LOCATION_ERROR_NUMBER.get()
 								.replaceAll("<name>", "Y")
 								.replaceAll("<min>", this.Y_min.toString())
 								.replaceAll("<max>", this.Y_max.toString())));
 					}
 				} catch (NumberFormatException e) {
-					player.sendMessage(EChat.of(EAMessages.IS_NOT_NUMBER.get()
+					return new LocationResult(EChat.of(EAMessages.IS_NOT_NUMBER.get()
 							.replaceAll("<number>", pos_x)));
 				}
 			} else {
-				player.sendMessage(EChat.of(EAMessages.LOCATION_ERROR_NUMBER.get()
+				return new LocationResult(EChat.of(EAMessages.LOCATION_ERROR_NUMBER.get()
 						.replaceAll("<name>", "X")
 						.replaceAll("<min>", this.X_min.toString())
 						.replaceAll("<max>", this.X_max.toString())));
 			}
 		} catch (NumberFormatException e) {
-			player.sendMessage(EChat.of(EAMessages.IS_NOT_NUMBER.get()
+			return new LocationResult(EChat.of(EAMessages.IS_NOT_NUMBER.get()
 					.replaceAll("<number>", pos_x)));
 		}
-		return Optional.empty();
+	}
+	
+	public class LocationResult {
+		private Optional<Vector3i> location;
+		private Optional<Text> error;
+		
+		public LocationResult(Text error) {
+			Preconditions.checkNotNull(error);
+			
+			this.error = Optional.ofNullable(error);
+			this.location = Optional.empty();
+		}
+		
+		public LocationResult(Vector3i location) {
+			Preconditions.checkNotNull(location);
+			
+			this.location = Optional.ofNullable(location);
+			this.error = Optional.empty();
+		}
+		
+		public Optional<Vector3i> getLocation() {
+			return this.location;
+		}
+		
+		public Optional<Text> getError() {
+			return this.error;
+		}
+		
+		public boolean isError() {
+			return this.error.isPresent();
+		}
 	}
 }

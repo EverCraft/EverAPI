@@ -218,7 +218,7 @@ public abstract class ECommand<T extends EPlugin> extends CommandPagination<T> i
 		return users;
 	}
 	
-	public Set<String> getAllPlayers(Player player) {
+	public Set<String> getAllPlayers(CommandSource player) {
 		Set<String> users = this.getAllPlayers();
 		users.remove(player.getName());
 		return users;
