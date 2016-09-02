@@ -16,32 +16,9 @@
  */
 package fr.evercraft.everapi.services.sanction.manual;
 
-import java.util.Optional;
-
-import org.spongepowered.api.text.Text;
-
-public interface SanctionManual {
-
-	public Long getCreationDate();
-	public Optional<Long> getExpirationDate();
-	public Optional<Long> getDuration();
-	public Text getReason();
-	public String getSource();
-	public SanctionManualType getType();
-	
-	public default boolean isIndefinite() {
-        return !this.getExpirationDate().isPresent();
-    }
-	
-	/*
-	 * Pardon
-	 */
-	
-	public Optional<Long> getPardonDate();
-	public Optional<String> getPardonSource();
-	public Optional<Text> getPardonReason();
-	
-	public default boolean isPardon() {
-        return !this.getPardonDate().isPresent();
-    }
+public enum SanctionManualType {
+	BAN_PROFILE,
+	BAN_IP,
+	MUTE,
+	JAIL;
 }
