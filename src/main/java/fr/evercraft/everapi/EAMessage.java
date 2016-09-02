@@ -329,6 +329,10 @@ public class EAMessage extends EMessage {
 				"all"),
 		ARGS_GAMERULE("args.gamerule", 
 				"règle"),
+		ARGS_NAME("args.name", 
+				"nom d'épée"),
+		ARGS_DESCRIPTION("args.description", 
+				"description"),
 		// Couleur
 		COLORS_BLACK("colors.black", 
 				"Noir", 
