@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.signs;
+package fr.evercraft.everapi.services.sign;
 
 import java.util.Collection;
 

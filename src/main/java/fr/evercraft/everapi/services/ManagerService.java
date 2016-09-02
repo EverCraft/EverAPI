@@ -38,7 +38,7 @@ import fr.evercraft.everapi.services.nametag.ENameTagService;
 import fr.evercraft.everapi.services.pagination.EPagination;
 import fr.evercraft.everapi.services.priority.EPriorityService;
 import fr.evercraft.everapi.services.scoreboard.EScoreBoardService;
-import fr.evercraft.everapi.services.signs.SignService;
+import fr.evercraft.everapi.services.sign.SignService;
 import fr.evercraft.everapi.services.tablist.ETabListService;
 import fr.evercraft.everapi.services.title.ETitleService;
 
