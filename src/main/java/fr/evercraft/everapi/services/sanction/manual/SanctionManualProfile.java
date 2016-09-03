@@ -21,7 +21,6 @@ import java.time.Instant;
 import java.util.Optional;
 
 import org.spongepowered.api.profile.GameProfile;
-import org.spongepowered.api.util.ban.Ban;
 import org.spongepowered.api.util.ban.Ban.Ip;
 import org.spongepowered.api.util.ban.Ban.Profile;
 import org.spongepowered.api.util.ban.BanTypes;

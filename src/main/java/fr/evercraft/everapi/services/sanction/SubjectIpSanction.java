@@ -26,7 +26,7 @@ public interface SubjectIpSanction {
 	public boolean isBan();
 	public Collection<SanctionManualIP> getAll();
 	
-	public boolean addBan(Long creation, Text reason, String source);
-	public boolean addBan(Long creation, Long duration, Text reason, String source);
+	public boolean add(Long creation, Text reason, String source);
+	public boolean add(Long creation, Long duration, Text reason, String source);
 	public boolean pardon(Long date, Text reason, String source);
 }

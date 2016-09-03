@@ -16,6 +16,7 @@
  */
 package fr.evercraft.everapi.services.sanction;
 
+import java.net.InetAddress;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,4 +25,6 @@ import org.spongepowered.api.service.ban.BanService;
 public interface SanctionService extends BanService {
 	public Optional<SubjectUserSanction> get(UUID uuid);
 	public boolean hasRegistered(UUID uuid);
+	Optional<SubjectIpSanction> get(InetAddress address);
+	public boolean hasRegistered(InetAddress address);
 }
