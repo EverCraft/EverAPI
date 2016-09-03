@@ -17,26 +17,9 @@
 package fr.evercraft.everapi.services.sanction.manual;
 
 import java.net.InetAddress;
-import java.time.Instant;
 
 import org.spongepowered.api.util.ban.Ban;
-import org.spongepowered.api.util.ban.BanTypes;
-import org.spongepowered.api.util.ban.Ban.Builder;
-
-import fr.evercraft.everapi.plugin.EChat;
 
 public interface SanctionManualIP extends SanctionManual {
-	public default Ban.Ip getBan(InetAddress address) {
-		Builder builder = Ban.builder()
-				.address(address)
-				.reason(this.getReason())
-				.startDate(Instant.ofEpochMilli(this.getCreationDate()))
-				.type(BanTypes.IP)
-				.source(EChat.of(this.getSource()));
-		
-		if(this.getExpirationDate().isPresent()) {
-			builder = builder.expirationDate(Instant.ofEpochMilli(this.getExpirationDate().get()));
-		}
-		return (Ban.Ip) builder.build();
-	}
+	public Ban.Ip getBan(InetAddress address);
 }

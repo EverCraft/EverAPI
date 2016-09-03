@@ -35,6 +35,18 @@ public interface SanctionManualProfile extends SanctionManual {
 		BAN_IP,
 		MUTE,
 		JAIL;
+		
+		public static Optional<Type> get(final String name) {
+			Type entity = null;
+			int cpt = 0;
+			while(cpt < values().length && entity == null){
+				if (values()[cpt].name().equalsIgnoreCase(name)) {
+					entity = values()[cpt];
+				}
+				cpt++;
+			}
+			return Optional.ofNullable(entity);
+		}
 	}
 	
 	public Type getType();

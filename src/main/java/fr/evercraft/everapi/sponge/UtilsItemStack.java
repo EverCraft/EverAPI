@@ -19,6 +19,7 @@ package fr.evercraft.everapi.sponge;
 import java.util.Optional;
 
 import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.manipulator.mutable.item.SpawnableData;
 import org.spongepowered.api.data.type.SkullTypes;
 import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.item.ItemTypes;
@@ -37,11 +38,12 @@ public class UtilsItemStack {
 		return Optional.empty();
 	}
 
-	public static Text getName(final ItemStack item){
-		if (item.get(Keys.SPAWNABLE_ENTITY_TYPE).isPresent()) {
+	public static Text getName(final ItemStack item) {
+		Optional<SpawnableData> data = item.getOrCreate(SpawnableData.class);
+		if (data.isPresent()) {
 			return Text.builder(item.getTranslation())
 					.append(Text.of(" "))
-					.append(Text.of(item.get(Keys.SPAWNABLE_ENTITY_TYPE).get().getTranslation()))
+					.append(Text.of(data.get().type().get().getTranslation()))
 					.build();
 		}
 		return Text.of(item.getTranslation());

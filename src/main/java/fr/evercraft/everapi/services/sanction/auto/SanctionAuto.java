@@ -16,17 +16,20 @@
  */
 package fr.evercraft.everapi.services.sanction.auto;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import org.spongepowered.api.text.Text;
+
+import fr.evercraft.everapi.services.sanction.Jail;
 
 public interface SanctionAuto {	
 	public Long getCreationDate();
 	public Optional<Long> getExpirationDate();
 	public Optional<Long> getDuration();
 
-	public SanctionAutoType getType();
-	public SanctionAutoReason getReason();
+	public Type getType();
+	public Reason getReason();
 	public int getLevel();
 	public String getSource();
 	public Optional<String> getOption();
@@ -62,4 +65,70 @@ public interface SanctionAuto {
 	public default boolean isPardon() {
         return !this.getPardonDate().isPresent();
     }
+	
+	public interface Reason {
+		public String getName();
+		public Optional<Level> getLevel(int level);
+		public Collection<Level> getLevels();
+	}
+	
+	public interface Level {
+		public SanctionAuto.Type getType();
+		public Optional<Long> getDuration();
+		public String getReason();	
+		public Optional<Jail> getJail();
+		
+		public default boolean isIndefinite() {
+	        return !this.getDuration().isPresent();
+	    }
+	}
+	
+	public enum Type {
+		BAN_PROFILE(true, false, false, false),
+		BAN_IP(false, true, false, false),
+		MUTE(false, false, true, false),
+		JAIL(false, false, false, true),
+		BAN_PROFILE_AND_BAN_IP(true, true, false, false),
+		MUTE_AND_JAIL(false, false, true, true);
+		
+		private final boolean ban;
+		private final boolean ban_ip;
+		private final boolean mute;
+		private final boolean jail;
+		
+		Type(final boolean ban, final boolean ban_ip, final boolean mute, final boolean jail) {
+			this.ban = ban;
+			this.ban_ip = ban_ip;
+			this.mute = mute;
+			this.jail = jail;
+		}
+		
+		public boolean isBan() {
+			return this.ban;
+		}
+		
+		public boolean isBanIP() {
+			return this.ban_ip;
+		}
+		
+		public boolean isMute() {
+			return this.mute;
+		}
+		
+		public boolean isJail() {
+			return this.jail;
+		}
+		
+		public static Optional<Type> get(final String name) {
+			Type entity = null;
+			int cpt = 0;
+			while(cpt < values().length && entity == null){
+				if (values()[cpt].name().equalsIgnoreCase(name)) {
+					entity = values()[cpt];
+				}
+				cpt++;
+			}
+			return Optional.ofNullable(entity);
+		}
+	}
 }

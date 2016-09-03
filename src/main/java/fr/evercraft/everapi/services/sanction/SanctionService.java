@@ -22,9 +22,14 @@ import java.util.UUID;
 
 import org.spongepowered.api.service.ban.BanService;
 
+import fr.evercraft.everapi.services.sanction.auto.SanctionAuto;
+
 public interface SanctionService extends BanService {
 	public Optional<SubjectUserSanction> get(UUID uuid);
 	public boolean hasRegistered(UUID uuid);
+	
 	Optional<SubjectIpSanction> get(InetAddress address);
 	public boolean hasRegistered(InetAddress address);
+	
+	public Optional<SanctionAuto.Reason> getReason(String identifier);
 }

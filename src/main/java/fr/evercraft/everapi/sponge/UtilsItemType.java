@@ -42,6 +42,7 @@ import org.spongepowered.api.data.type.SlabType;
 import org.spongepowered.api.data.type.StoneType;
 import org.spongepowered.api.data.type.TreeType;
 import org.spongepowered.api.data.type.WallType;
+import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
@@ -95,6 +96,8 @@ public class UtilsItemType {
 			type = CatalogTypes.TREE_TYPE;
 		} else if (item.supports(Keys.WALL_TYPE)){
 			type = CatalogTypes.WALL_TYPE;
+		} else if (item.supports(Keys.SPAWNABLE_ENTITY_TYPE)){
+			type = CatalogTypes.ENTITY_TYPE;
 		}
 		return Optional.ofNullable(type);
 	}
@@ -213,6 +216,12 @@ public class UtilsItemType {
 			Optional<WallType> key = Sponge.getGame().getRegistry().getType(WallType.class, type_string);
 			if (key.isPresent()) {
 				item.offer(Keys.WALL_TYPE, key.get());
+				found = true;
+			}
+		} else if (item.supports(Keys.SPAWNABLE_ENTITY_TYPE)){
+			Optional<EntityType> key = Sponge.getGame().getRegistry().getType(EntityType.class, type_string);
+			if (key.isPresent()) {
+				item.offer(Keys.SPAWNABLE_ENTITY_TYPE, key.get());
 				found = true;
 			}
 		}

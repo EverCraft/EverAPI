@@ -63,10 +63,17 @@ public class EATest extends ESubCommand<EverAPI> {
 	}
 	
 	public boolean subExecute(final CommandSource source, final List<String> args) {
-		if (args.size() == 1) {
+		if (args.size() == 0) {
+			return commandTest((EPlayer) source);
+		} else if (args.size() == 1) {
 			return commandTest((EPlayer) source, args.get(0));
 		}
 		source.sendMessage(this.help(source));
+		return false;
+	}
+	
+	private boolean commandTest(final EPlayer player) {
+		player.sendMessage("ItemType : " + player.getItemInMainHand().get().getItem());
 		return false;
 	}
 

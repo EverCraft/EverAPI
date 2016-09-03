@@ -16,15 +16,20 @@
  */
 package fr.evercraft.everapi.services.sanction;
 
+import java.net.InetAddress;
 import java.util.Collection;
+import java.util.Set;
 
 import fr.evercraft.everapi.services.sanction.auto.SanctionAuto;
 import fr.evercraft.everapi.services.sanction.manual.SanctionManual;
 
 public interface SubjectUserSanction {
 	public boolean isBan();
+	public boolean isBanIp();
 	public boolean isMute();
 	public boolean isJail();
+	
+	public Set<InetAddress> getBanIps();
 	
 	public Collection<SanctionManual> getAllManual();
 	public Collection<SanctionAuto> getAllAuto();
