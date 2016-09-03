@@ -333,6 +333,8 @@ public class EAMessage extends EMessage {
 				"nom d'épée"),
 		ARGS_DESCRIPTION("args.description", 
 				"description"),
+		ARGS_LINE("args.line", 
+				"ligne"),
 		// Couleur
 		COLORS_BLACK("colors.black", 
 				"Noir", 
