@@ -18,14 +18,15 @@ package fr.evercraft.everapi.services.sanction;
 
 import java.util.Collection;
 
-import fr.evercraft.everapi.services.sanction.auto.SanctionAuto;
-import fr.evercraft.everapi.services.sanction.manual.SanctionManual;
+import org.spongepowered.api.text.Text;
 
-public interface SubjectUserSanction {
+import fr.evercraft.everapi.services.sanction.manual.SanctionManualIP;
+
+public interface SubjectIpSanction {
 	public boolean isBan();
-	public boolean isMute();
-	public boolean isJail();
+	public Collection<SanctionManualIP> getAll();
 	
-	public Collection<SanctionManual> getAllManual();
-	public Collection<SanctionAuto> getAllAuto();
+	public boolean addBan(Long creation, Text reason, String source);
+	public boolean addBan(Long creation, Long duration, Text reason, String source);
+	public boolean pardon(Long date, Text reason, String source);
 }

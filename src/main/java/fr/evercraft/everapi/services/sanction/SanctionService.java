@@ -16,29 +16,12 @@
  */
 package fr.evercraft.everapi.services.sanction;
 
-import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.service.ban.BanService;
-import org.spongepowered.api.world.World;
 
 public interface SanctionService extends BanService {
 	public Optional<SubjectUserSanction> get(UUID uuid);
 	public boolean hasRegistered(UUID uuid);
-	
-	/*
-	 * Jails
-	 */
-	public Collection<Jail> getAllJails();
-	
-	public boolean hasJail(String identifier);
-	public Optional<Jail> getJail(String identifier);
-	
-	public boolean addJail(String identifier, int radius, Transform<World> location);
-	public boolean updateJail(String identifier, int radius, Transform<World> location);
-	public boolean removeJail(String identifier);
-	
-	public boolean clearAllJails();
 }

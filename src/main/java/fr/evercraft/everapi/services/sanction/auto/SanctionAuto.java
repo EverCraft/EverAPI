@@ -29,6 +29,7 @@ public interface SanctionAuto {
 	public SanctionAutoReason getReason();
 	public int getLevel();
 	public String getSource();
+	public Optional<String> getOption();
 	
 	public default boolean isBan() {
 		return this.getType().isBan();

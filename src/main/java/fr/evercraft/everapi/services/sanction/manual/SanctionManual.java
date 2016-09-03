@@ -27,10 +27,21 @@ public interface SanctionManual {
 	public Optional<Long> getDuration();
 	public Text getReason();
 	public String getSource();
-	public SanctionManualType getType();
 	
 	public default boolean isIndefinite() {
         return !this.getExpirationDate().isPresent();
+    }
+	
+	public default boolean isExpire() {
+		if(this.isPardon()) {
+			return true;
+		}
+		
+		if(this.isIndefinite()) {
+			return false;
+		}
+		
+        return this.getExpirationDate().orElse(0L) > System.currentTimeMillis();
     }
 	
 	/*
