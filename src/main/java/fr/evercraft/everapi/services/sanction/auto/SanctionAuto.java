@@ -16,6 +16,7 @@
  */
 package fr.evercraft.everapi.services.sanction.auto;
 
+import java.net.InetAddress;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -66,6 +67,18 @@ public interface SanctionAuto {
         return !this.getPardonDate().isPresent();
     }
 	
+	public default boolean isExpire() {
+		if(this.isPardon()) {
+			return true;
+		}
+		
+		if(this.isIndefinite()) {
+			return false;
+		}
+		
+        return this.getExpirationDate().orElse(0L) > System.currentTimeMillis();
+    }
+	
 	public interface Reason {
 		public String getName();
 		public Optional<Level> getLevel(int level);
@@ -77,6 +90,8 @@ public interface SanctionAuto {
 		public Optional<Long> getDuration();
 		public String getReason();	
 		public Optional<Jail> getJail();
+		public Optional<InetAddress> getAddress();
+		public Optional<String> getOption();
 		
 		public default boolean isIndefinite() {
 	        return !this.getDuration().isPresent();

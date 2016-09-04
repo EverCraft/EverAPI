@@ -17,16 +17,11 @@
 package fr.evercraft.everapi.services.sanction.manual;
 
 import java.net.InetAddress;
-import java.time.Instant;
 import java.util.Optional;
 
 import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.util.ban.Ban.Ip;
 import org.spongepowered.api.util.ban.Ban.Profile;
-import org.spongepowered.api.util.ban.BanTypes;
-import org.spongepowered.api.util.ban.Ban.Builder;
-
-import fr.evercraft.everapi.plugin.EChat;
 
 public interface SanctionManualProfile extends SanctionManual {
 	
@@ -56,19 +51,7 @@ public interface SanctionManualProfile extends SanctionManual {
 			return Type.BAN_PROFILE;
 		}
 		
-		public default Profile getBan(GameProfile profile) {
-			Builder builder = org.spongepowered.api.util.ban.Ban.builder()
-					.profile(profile)
-					.reason(this.getReason())
-					.startDate(Instant.ofEpochMilli(this.getCreationDate()))
-					.type(BanTypes.PROFILE)
-					.source(EChat.of(this.getSource()));
-			
-			if(this.getExpirationDate().isPresent()) {
-				builder = builder.expirationDate(Instant.ofEpochMilli(this.getExpirationDate().get()));
-			}
-			return (Profile) builder.build();
-		}
+		public Profile getBan(GameProfile profile);
 	}
 	
 	public interface BanIp extends SanctionManualProfile {
@@ -77,21 +60,7 @@ public interface SanctionManualProfile extends SanctionManual {
 			return Type.BAN_IP;
 		}
 		
-		public default Ip getBan(GameProfile profile, InetAddress address) {
-			Builder builder =  org.spongepowered.api.util.ban.Ban.builder()
-					.profile(profile)
-					.reason(this.getReason())
-					.startDate(Instant.ofEpochMilli(this.getCreationDate()))
-					.profile(profile)
-					.type(BanTypes.IP)
-					.address(address)
-					.source(EChat.of(this.getSource()));
-			
-			if(this.getExpirationDate().isPresent()) {
-				builder = builder.expirationDate(Instant.ofEpochMilli(this.getExpirationDate().get()));
-			}
-			return (Ip) builder.build();
-		}
+		public Ip getBan(GameProfile profile, InetAddress address);
 	}
 	
 	public interface Mute extends SanctionManualProfile {

@@ -29,11 +29,15 @@ public class UtilsNetwork {
 
 
 	public static Optional<InetAddress> getHost(String address) {
-		try {
-			return Optional.of(InetAddress.getByName(address));
-		} catch (UnknownHostException e) {
+		if(address == null) {
 			return Optional.empty();
 		}
+		
+		try {
+			return Optional.of(InetAddress.getByName(address));
+		} catch (UnknownHostException e) {}
+		
+		return Optional.empty();
 	}
 	
 	public static String getHostString(InetAddress address) {

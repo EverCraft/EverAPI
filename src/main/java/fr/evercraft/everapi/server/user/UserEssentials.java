@@ -16,6 +16,7 @@
  */
 package fr.evercraft.everapi.server.user;
 
+import java.net.InetAddress;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -98,6 +99,26 @@ public class UserEssentials extends UserCooldown implements SubjectUserEssential
 			return !onlinePlayer.isVanish() || this.user.hasPermission(this.plugin.getManagerService().getEssentials().get().getPermissionVanishSee());
 		}
 		return !onlinePlayer.isVanish();
+	}
+	
+	/*
+	 * Last ip
+	 */
+	
+	@Override
+	public Optional<InetAddress> getLastIp() {
+		if (this.isPresent()) {
+			return this.subject.getLastIp();
+		}
+		return Optional.empty();
+	}
+
+	@Override
+	public boolean setLastIp(InetAddress address) {
+		if (this.isPresent()) {
+			return this.subject.setLastIp(address);
+		}
+		return false;
 	}
 	
 	/*

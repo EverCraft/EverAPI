@@ -16,6 +16,7 @@
  */
 package fr.evercraft.everapi.services.essentials;
 
+import java.net.InetAddress;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -73,6 +74,12 @@ public interface SubjectUserEssentials extends SubjectEssentials {
 	
 	public boolean startTotalTimePlayed();
 	public boolean stopTotalTimePlayed();
+	
+	/*
+	 * Last ip
+	 */
+	public Optional<InetAddress> getLastIp();
+	public boolean setLastIp(InetAddress address);
 	
 	/*
 	 *  Homes
