@@ -25,6 +25,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.scoreboard.CollisionRules;
 import org.spongepowered.api.scoreboard.Team;
 import org.spongepowered.api.scoreboard.Visibilities;
 import org.spongepowered.api.text.Text;
@@ -99,7 +100,8 @@ public class ENameTagService implements NameTagService {
 				.prefix(prefix)
 				.suffix(suffix)
 				.name(teamRepresentation.toPlain())
-				.nameTagVisibility(Visibilities.ALL)
+				.nameTagVisibility(Visibilities.ALWAYS)
+				.collisionRule(CollisionRules.NEVER)
 				.displayName(teamRepresentation)
 				.color(TextColors.RED)
 				.allowFriendlyFire(true)
