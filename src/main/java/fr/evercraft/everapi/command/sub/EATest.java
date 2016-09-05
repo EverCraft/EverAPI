@@ -27,6 +27,7 @@ import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.entity.spawn.EntitySpawnCause;
 import org.spongepowered.api.event.cause.entity.spawn.SpawnTypes;
+import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
@@ -73,11 +74,16 @@ public class EATest extends ESubCommand<EverAPI> {
 	}
 	
 	private boolean commandTest(final EPlayer player) {
-		player.sendMessage("ItemType : " + player.getItemInMainHand().get().getItem());
+		player.sendMessage("ItemType : " + player.getItemInMainHand().get());
+		ItemStack itemstak = player.getItemInMainHand().get();
+		itemstak.remove(Keys.SPAWNABLE_ENTITY_TYPE);
+		player.setItemInMainHand(itemstak);
+		player.sendMessage("update");
 		return false;
 	}
 
 	private boolean commandTest(final EPlayer player, String name) {
+		player.sendMessage("AREA_EFFECT_CLOUD : " + name);
 		Entity entity = player.getWorld().createEntity(EntityTypes.AREA_EFFECT_CLOUD, player.getLocation().getBlockPosition().add(0, 2, 0));
 		entity.offer(Keys.DISPLAY_NAME, EChat.of(name));
 		entity.offer(Keys.CUSTOM_NAME_VISIBLE, true);
