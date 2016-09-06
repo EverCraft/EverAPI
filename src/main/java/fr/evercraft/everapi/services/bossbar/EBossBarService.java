@@ -27,12 +27,10 @@ import org.spongepowered.api.boss.ServerBossBar;
 import org.spongepowered.api.event.cause.Cause;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.event.ESpongeEventFactory;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.BossBarService;
 import fr.evercraft.everapi.services.PriorityService;
-import fr.evercraft.everapi.services.bossbar.event.EAddBossBarEvent;
-import fr.evercraft.everapi.services.bossbar.event.ERemoveBossBarEvent;
-import fr.evercraft.everapi.services.bossbar.event.EReplaceBossBarEvent;
 
 public class EBossBarService implements BossBarService {	
 	private final EverAPI plugin;
@@ -135,14 +133,14 @@ public class EBossBarService implements BossBarService {
 		this.plugin.getLogger().debug("Event BossBarEvent.Add : ("
 				+ "uuid='" + player.get().getUniqueId() + "';"
 				+ "boosbar='" + bossbar.getServerBossBar().getName().toPlain() + "')");
-		this.plugin.getGame().getEventManager().post(new EAddBossBarEvent(player, bossbar, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createBossBarEventAdd(player, bossbar, Cause.source(this.plugin).build()));
 	}
 	
 	private void postRemove(EPlayer player, EBossBar bossbar) {
 		this.plugin.getLogger().debug("Event BossBarEvent.Remove : ("
 				+ "uuid='" + player.get().getUniqueId() + "';"
 				+ "boosbar='" + bossbar.getServerBossBar().getName().toPlain() + "')");
-		this.plugin.getGame().getEventManager().post(new ERemoveBossBarEvent(player, bossbar, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createBossBarEventRemove(player, bossbar, Cause.source(this.plugin).build()));
 	}
 	
 	private void postReplace(EPlayer player, EBossBar bossbar, EBossBar new_bossbar) {
@@ -150,6 +148,6 @@ public class EBossBarService implements BossBarService {
 				+ "uuid='" + player.get().getUniqueId() + "';"
 				+ "boosbar='" + bossbar.getServerBossBar().getName().toPlain() + "';"
 				+ "new_boosbar='" + new_bossbar.getServerBossBar().getName().toPlain() + "')");
-		this.plugin.getGame().getEventManager().post(new EReplaceBossBarEvent(player, bossbar, new_bossbar, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createBossBarEventReplace(player, bossbar, new_bossbar, Cause.source(this.plugin).build()));
 	}
 }

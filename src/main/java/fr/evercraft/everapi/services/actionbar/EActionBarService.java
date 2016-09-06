@@ -32,12 +32,10 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.chat.ChatTypes;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.event.ESpongeEventFactory;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.ActionBarService;
 import fr.evercraft.everapi.services.PriorityService;
-import fr.evercraft.everapi.services.actionbar.event.EAddActionBarEvent;
-import fr.evercraft.everapi.services.actionbar.event.ERemoveActionBarEvent;
-import fr.evercraft.everapi.services.actionbar.event.EReplaceActionBarEvent;
 
 public class EActionBarService implements ActionBarService {
 	private final static int UPDATE = 1000;
@@ -213,14 +211,14 @@ public class EActionBarService implements ActionBarService {
 		this.plugin.getLogger().debug("Event ActionBarEvent.Add : ("
 				+ "uuid='" + player.get().getUniqueId() + "';"
 				+ "actionbar='" + actionbar.getMessage().toPlain() + "')");
-		this.plugin.getGame().getEventManager().post(new EAddActionBarEvent(player, actionbar, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createActionBarEventAdd(player, actionbar, Cause.source(this.plugin).build()));
 	}
 	
 	private void postRemove(EPlayer player, ActionBarMessage actionbar) {
 		this.plugin.getLogger().debug("Event ActionBarEvent.Remove : ("
 				+ "uuid='" + player.get().getUniqueId() + "';"
 				+ "actionbar='" + actionbar.getMessage().toPlain() + "')");
-		this.plugin.getGame().getEventManager().post(new ERemoveActionBarEvent(player, actionbar, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createActionBarEventRemove(player, actionbar, Cause.source(this.plugin).build()));
 	}
 	
 	private void postReplace(EPlayer player, ActionBarMessage actionbar, ActionBarMessage new_actionbar) {
@@ -228,6 +226,6 @@ public class EActionBarService implements ActionBarService {
 				+ "uuid='" + player.get().getUniqueId() + "';"
 				+ "actionbar='" + actionbar.getMessage().toPlain() + "';"
 				+ "new_actionbar='" + new_actionbar.getMessage().toPlain() + "')");
-		this.plugin.getGame().getEventManager().post(new EReplaceActionBarEvent(player, actionbar, new_actionbar, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createActionBarEventReplace(player, actionbar, new_actionbar, Cause.source(this.plugin).build()));
 	}
 }

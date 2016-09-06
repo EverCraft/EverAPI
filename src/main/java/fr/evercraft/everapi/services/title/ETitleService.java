@@ -31,12 +31,10 @@ import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.title.Title;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.event.ESpongeEventFactory;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.PriorityService;
 import fr.evercraft.everapi.services.TitleService;
-import fr.evercraft.everapi.services.title.event.EAddTitleEvent;
-import fr.evercraft.everapi.services.title.event.ERemoveTitleEvent;
-import fr.evercraft.everapi.services.title.event.EReplaceTitleEvent;
 
 public class ETitleService implements TitleService {
 	private final static int UPDATE = 1000;
@@ -203,14 +201,14 @@ public class ETitleService implements TitleService {
 		this.plugin.getLogger().debug("Event TitleEvent.Add : ("
 				+ "uuid='" + player.get().getUniqueId() + "';"
 				+ "title='" + title + "')");
-		this.plugin.getGame().getEventManager().post(new EAddTitleEvent(player, title, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTitleEventEventAdd(player, title, Cause.source(this.plugin).build()));
 	}
 	
 	private void postRemove(EPlayer player, TitleMessage title) {
 		this.plugin.getLogger().debug("Event TitleEvent.Remove : ("
 				+ "uuid='" + player.get().getUniqueId() + "';"
 				+ "title='" + title + "')");
-		this.plugin.getGame().getEventManager().post(new ERemoveTitleEvent(player, title, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTitleEventEventRemove(player, title, Cause.source(this.plugin).build()));
 	}
 	
 	private void postReplace(EPlayer player, TitleMessage title, TitleMessage new_title) {
@@ -218,6 +216,6 @@ public class ETitleService implements TitleService {
 				+ "uuid='" + player.get().getUniqueId() + "';"
 				+ "title='" + title + "';"
 				+ "new_title='" + new_title + "')");
-		this.plugin.getGame().getEventManager().post(new EReplaceTitleEvent(player, title, new_title, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTitleEventEventReplace(player, title, new_title, Cause.source(this.plugin).build()));
 	}
 }

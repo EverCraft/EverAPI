@@ -24,12 +24,10 @@ import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
 import org.spongepowered.api.scoreboard.objective.Objective;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.event.ESpongeEventFactory;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.PriorityService;
 import fr.evercraft.everapi.services.ScoreBoardService;
-import fr.evercraft.everapi.services.scoreboard.event.EAddScoreBoardEvent;
-import fr.evercraft.everapi.services.scoreboard.event.ERemoveScoreBoardEvent;
-import fr.evercraft.everapi.services.scoreboard.event.EReplaceScoreBoardEvent;
 
 public class EScoreBoardService implements ScoreBoardService {	
 	private final EverAPI plugin;
@@ -119,7 +117,7 @@ public class EScoreBoardService implements ScoreBoardService {
 				+ "uuid='" + player.get().getUniqueId() + "';"
 				+ "objective='" + objective.getName() + "';"
 				+ "display='" + display.getName() + "')");
-		this.plugin.getGame().getEventManager().post(new EAddScoreBoardEvent(player, objective, display, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createScoreBoardEventAdd(player, objective, display, Cause.source(this.plugin).build()));
 	}
 	
 	private void postRemove(EPlayer player, Objective objective, DisplaySlot display) {
@@ -127,7 +125,7 @@ public class EScoreBoardService implements ScoreBoardService {
 				+ "uuid='" + player.get().getUniqueId() + "';"
 				+ "objective='" + objective.getName() + "';"
 				+ "display='" + display.getName() + "')");
-		this.plugin.getGame().getEventManager().post(new ERemoveScoreBoardEvent(player, objective, display, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createScoreBoardEventRemove(player, objective, display, Cause.source(this.plugin).build()));
 	}
 	
 	private void postReplace(EPlayer player, Objective objective, Objective new_objective, DisplaySlot display) {
@@ -136,6 +134,6 @@ public class EScoreBoardService implements ScoreBoardService {
 				+ "objective='" + objective.getName() + "';"
 				+ "new_objective='" + new_objective.getName() + "';"
 				+ "display='" + display.getName() + "')");
-		this.plugin.getGame().getEventManager().post(new EReplaceScoreBoardEvent(player, objective, new_objective, display, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createScoreBoardEventReplace(player, objective, new_objective, display, Cause.source(this.plugin).build()));
 	}
 }

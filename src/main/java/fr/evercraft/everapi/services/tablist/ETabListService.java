@@ -26,12 +26,10 @@ import java.util.concurrent.ConcurrentMap;
 import org.spongepowered.api.event.cause.Cause;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.event.ESpongeEventFactory;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.PriorityService;
 import fr.evercraft.everapi.services.TabListService;
-import fr.evercraft.everapi.services.tablist.event.EAddTabListEvent;
-import fr.evercraft.everapi.services.tablist.event.ERemoveTabListEvent;
-import fr.evercraft.everapi.services.tablist.event.EReplaceTabListEvent;
 
 public class ETabListService implements TabListService {
 	
@@ -141,14 +139,14 @@ public class ETabListService implements TabListService {
 		this.plugin.getLogger().debug("Event TabListEvent.Add : ("
 				+ "uuid='" + player.get().getUniqueId() + "';"
 				+ "tablist='" + identifier + "')");
-		this.plugin.getGame().getEventManager().post(new EAddTabListEvent(player, identifier, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTabListEventAdd(player, identifier, Cause.source(this.plugin).build()));
 	}
 	
 	private void postRemove(EPlayer player, String identifier) {
 		this.plugin.getLogger().debug("Event TabListEvent.Remove : ("
 				+ "uuid='" + player.get().getUniqueId() + "';"
 				+ "tablist='" + identifier + "')");
-		this.plugin.getGame().getEventManager().post(new ERemoveTabListEvent(player, identifier, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTabListEventRemove(player, identifier, Cause.source(this.plugin).build()));
 	}
 	
 	private void postReplace(EPlayer player, String identifier, String new_identifier) {
@@ -156,6 +154,6 @@ public class ETabListService implements TabListService {
 				+ "uuid='" + player.get().getUniqueId() + "';"
 				+ "tablist='" + identifier + "';"
 				+ "new_tablist='" + new_identifier + "')");
-		this.plugin.getGame().getEventManager().post(new EReplaceTabListEvent(player, identifier, new_identifier, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTabListEventReplace(player, identifier, new_identifier, Cause.source(this.plugin).build()));
 	}
 }

@@ -16,11 +16,8 @@
  */
 package fr.evercraft.everapi.event;
 
-import java.util.HashMap;
-
 import org.spongepowered.api.event.Cancellable;
 import org.spongepowered.api.event.Event;
-import org.spongepowered.api.event.SpongeEventFactoryUtils;
 import org.spongepowered.api.event.cause.Cause;
 
 import fr.evercraft.everapi.services.mojang.check.MojangServer;
@@ -36,14 +33,5 @@ public interface MojangCheckEvent extends Event, Cancellable {
 
     @Override
 	public Cause getCause();
-    
-    public static MojangCheckEvent build(MojangServer server, Color beforeColor, Color afterColor, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("server", server);
-        values.put("beforeColor", beforeColor);
-        values.put("afterColor", afterColor);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(MojangCheckEvent.class, values);
-    }
 }
 

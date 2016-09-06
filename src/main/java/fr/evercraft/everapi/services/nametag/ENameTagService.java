@@ -32,12 +32,10 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.event.ESpongeEventFactory;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.NameTagService;
 import fr.evercraft.everapi.services.PriorityService;
-import fr.evercraft.everapi.services.nametag.event.EAddNameTagEvent;
-import fr.evercraft.everapi.services.nametag.event.ERemoveNameTagEvent;
-import fr.evercraft.everapi.services.nametag.event.EReplaceNameTagEvent;
 
 public class ENameTagService implements NameTagService {
 	
@@ -170,14 +168,14 @@ public class ENameTagService implements NameTagService {
 		this.plugin.getLogger().debug("Event NameTagEvent.Add : ("
 				+ "uuid='" + player.get().getUniqueId() + "';"
 				+ "nametag='" + identifier + "')");
-		this.plugin.getGame().getEventManager().post(new EAddNameTagEvent(player, identifier, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createNameTagEventAdd(player, identifier, Cause.source(this.plugin).build()));
 	}
 	
 	private void postRemove(EPlayer player, String identifier) {
 		this.plugin.getLogger().debug("Event NameTagEvent.Remove : ("
 				+ "uuid='" + player.get().getUniqueId() + "';"
 				+ "nametag='" + identifier + "')");
-		this.plugin.getGame().getEventManager().post(new ERemoveNameTagEvent(player, identifier, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createNameTagEventRemove(player, identifier, Cause.source(this.plugin).build()));
 	}
 	
 	private void postReplace(EPlayer player, String identifier, String new_identifier) {
@@ -185,6 +183,6 @@ public class ENameTagService implements NameTagService {
 				+ "uuid='" + player.get().getUniqueId() + "';"
 				+ "nametag='" + identifier + "';"
 				+ "new_nametag='" + new_identifier + "')");
-		this.plugin.getGame().getEventManager().post(new EReplaceNameTagEvent(player, identifier, new_identifier, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createNameTagEventReplace(player, identifier, new_identifier, Cause.source(this.plugin).build()));
 	}
 }

@@ -36,14 +36,13 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
+import fr.evercraft.everapi.event.ESpongeEventFactory;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.java.Chronometer;
 import fr.evercraft.everapi.java.UtilsString;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.services.cooldown.event.EResultCommandEvent;
-import fr.evercraft.everapi.services.cooldown.event.ESendCommandEvent;
 import fr.evercraft.everapi.services.pagination.CommandPagination;
 
 public abstract class ECommand<T extends EPlugin> extends CommandPagination<T> implements CommandCallable {
@@ -66,9 +65,9 @@ public abstract class ECommand<T extends EPlugin> extends CommandPagination<T> i
 			if (this.plugin.isEnable()) {
 				if (this.testPermission(source)) {		
 					if (source instanceof Player){
-						this.processPlayer((Player) source, getArg(arg));
+						this.processPlayer((Player) source, arg, this.getArg(arg));
 					} else {
-						execute(source, getArg(arg));
+						execute(source, this.getArg(arg));
 					}
 				} else {
 					source.sendMessage(EAMessages.NO_PERMISSION.getText());
@@ -87,13 +86,13 @@ public abstract class ECommand<T extends EPlugin> extends CommandPagination<T> i
         return CommandResult.success();
 	}
 	
-	private void processPlayer(final Player source, final List<String> args) throws CommandException, PluginDisableException, ServerDisableException {
+	private void processPlayer(final Player source, final String arg, final List<String> args) throws CommandException, PluginDisableException, ServerDisableException {
 		Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(source);
 		if (player.isPresent()) {
 			if (!player.get().isDead()) {
-				if (!this.plugin.getGame().getEventManager().post(new ESendCommandEvent(player.get(), this.getName(), args, Cause.source(this.plugin).build()))) {
+				if (!this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createCommandEventSend(player.get(), this.getName(), arg, args, Cause.source(this.plugin).build()))) {
 					boolean result = execute(player.get(), args);
-					this.plugin.getGame().getEventManager().post(new EResultCommandEvent(player.get(), this.getName(), args, result, Cause.source(this.plugin).build()));
+					this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createCommandEventResult(player.get(), this.getName(), arg, args, result, Cause.source(this.plugin).build()));
 				}
 			} else {
 				player.get().sendMessage(EAMessages.COMMAND_ERROR_PLAYER_DEAD.getText());

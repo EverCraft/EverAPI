@@ -35,6 +35,8 @@ public interface CommandEvent extends Event {
     
     public String getCommand();
     
+    public String getArg();
+    
     public List<String> getArgs();
     
     public interface Send extends CommandEvent, Cancellable {}
