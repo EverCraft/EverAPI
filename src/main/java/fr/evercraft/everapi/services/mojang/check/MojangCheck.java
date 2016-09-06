@@ -21,6 +21,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.event.MojangCheckEvent;
 import fr.evercraft.everapi.services.mojang.check.MojangServer.Color;
 
 import java.io.IOException;
@@ -30,6 +31,8 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Optional;
+
+import org.spongepowered.api.event.cause.Cause;
 
 public class MojangCheck {
 	
@@ -81,7 +84,7 @@ public class MojangCheck {
 	        	
 	        	if (url.isPresent() && color.isPresent()) {
 	        		if (!url.get().getColor().equals(color.get())) {
-	        			this.plugin.getGame().getEventManager().post(new MojangCheckEvent(this.plugin, url.get(), url.get().getColor(), color.get()));
+	        			this.plugin.getGame().getEventManager().post(MojangCheckEvent.build(url.get(), url.get().getColor(), color.get(), Cause.source(this.plugin).build()));
 	        			url.get().setColor(color.get());
 	        		}
 	        	}
