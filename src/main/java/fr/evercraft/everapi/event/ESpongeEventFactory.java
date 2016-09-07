@@ -155,6 +155,17 @@ public class ESpongeEventFactory extends SpongeEventFactory {
     }
 	
 	/*
+	 * ChatSystemEvent
+	 */
+	
+	public static ChatSystemEvent.Reload createChatSystemEventReload(Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("action", ChatSystemEvent.Action.RELOADED);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(ChatSystemEvent.Reload.class, values);
+    }
+	
+	/*
 	 * Command
 	 */
 	
@@ -550,7 +561,7 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("player", player);
         values.put("objective", objective);
         values.put("identifier", objective.getName());
-        values.put("display", display);
+        values.put("displaySlot", display);
         values.put("action", ScoreBoardEvent.Action.ADD);
         values.put("cause", cause);
         return SpongeEventFactoryUtils.createEventImpl(ScoreBoardEvent.Add.class, values);
@@ -563,7 +574,7 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("identifier", objective.getName());
         values.put("newObjective", new_objective);
         values.put("newIdentifier", new_objective.getName());
-        values.put("display", display);
+        values.put("displaySlot", display);
         values.put("action", ScoreBoardEvent.Action.REPLACE);
         values.put("cause", cause);
         return SpongeEventFactoryUtils.createEventImpl(ScoreBoardEvent.Replace.class, values);
@@ -574,7 +585,7 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("player", player);
         values.put("objective", objective);
         values.put("identifier", objective.getName());
-        values.put("display", display);
+        values.put("displaySlot", display);
         values.put("action", ScoreBoardEvent.Action.REMOVE);
         values.put("cause", cause);
         return SpongeEventFactoryUtils.createEventImpl(ScoreBoardEvent.Remove.class, values);
@@ -673,7 +684,7 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("newIdentifier", new_title.getIdentifier());
         values.put("newTime", new_title.getTime());
         values.put("newTitle", new_title.getTitle());
-        values.put("action", TabListEvent.Action.REPLACE);
+        values.put("action", TitleEvent.Action.REPLACE);
         values.put("cause", cause);
         return SpongeEventFactoryUtils.createEventImpl(TitleEvent.Replace.class, values);
     }
@@ -684,7 +695,7 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("identifier", title.getIdentifier());
         values.put("time", title.getTime());
         values.put("title", title.getTitle());
-        values.put("action", TabListEvent.Action.REMOVE);
+        values.put("action", TitleEvent.Action.REMOVE);
         values.put("cause", cause);
         return SpongeEventFactoryUtils.createEventImpl(TitleEvent.Remove.class, values);
     }
