@@ -22,12 +22,15 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.event.SpongeEventFactory;
 import org.spongepowered.api.event.SpongeEventFactoryUtils;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.entity.damage.DamageType;
 import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
 import org.spongepowered.api.scoreboard.objective.Objective;
+import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.server.player.EPlayer;
@@ -176,6 +179,29 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("action", CommandEvent.Action.RESULT);
         values.put("cause", cause);
         return SpongeEventFactoryUtils.createEventImpl(CommandEvent.Result.class, values);
+    }
+	
+	/*
+	 * Freeze
+	 */
+	
+	public static FightEvent.Start createFightEventStart(EPlayer player, EPlayer other, boolean victim, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("player", player);
+        values.put("other", other);
+        values.put("victim", victim);
+        values.put("type", FightEvent.Type.START);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(FightEvent.Start.class, values);
+    }
+	
+	public static FightEvent.Stop createFightEventStop(EPlayer player, FightEvent.Stop.Reason reason, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("player", player);
+        values.put("reason", reason);
+        values.put("type", FightEvent.Type.STOP);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(FightEvent.Stop.class, values);
     }
 	
 	/*
@@ -352,6 +378,170 @@ public class ESpongeEventFactory extends SpongeEventFactory {
     }
 	
 	/*
+	 * PermSystem
+	 */
+	
+	public static PermSystemEvent.Reload createPermSystemEventReloaded(Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("action", PermSystemEvent.Action.RELOADED);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(PermSystemEvent.Reload.class, values);
+    }
+	
+	public static PermSystemEvent.Default createPermSystemEventDefault(Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("action", PermSystemEvent.Action.DEFAULT_GROUP_CHANGED);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(PermSystemEvent.Default.class, values);
+    }
+	
+	/*
+	 * PermUserEvent
+	 */
+	
+	public static PermUserEvent.Add createPermUserEventAdd(Subject subject, Optional<EPlayer> player, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("subject", subject);
+        values.put("player", player);
+        values.put("action", PermUserEvent.Action.USER_ADDED);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(PermUserEvent.Add.class, values);
+    }
+	
+	public static PermUserEvent.Remove createPermUserEventRemove(Subject subject, Optional<EPlayer> player, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("subject", subject);
+        values.put("player", player);
+        values.put("action", PermUserEvent.Action.USER_REMOVED);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(PermUserEvent.Remove.class, values);
+    }
+	
+	public static PermUserEvent.Permission createPermUserEventPermission(Subject subject, Optional<EPlayer> player, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("subject", subject);
+        values.put("player", player);
+        values.put("action", PermUserEvent.Action.USER_PERMISSION_CHANGED);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(PermUserEvent.Permission.class, values);
+    }
+	
+	public static PermUserEvent.Option createPermUserEventOption(Subject subject, Optional<EPlayer> player, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("subject", subject);
+        values.put("player", player);
+        values.put("action", PermUserEvent.Action.USER_OPTION_CHANGED);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(PermUserEvent.Option.class, values);
+    }
+	
+	public static PermUserEvent.Group createPermUserEventGroup(Subject subject, Optional<EPlayer> player, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("subject", subject);
+        values.put("player", player);
+        values.put("action", PermUserEvent.Action.USER_GROUP_CHANGED);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(PermUserEvent.Group.class, values);
+    }
+	
+	public static PermUserEvent.SubGroup createPermUserEventSubGroup(Subject subject, Optional<EPlayer> player, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("subject", subject);
+        values.put("player", player);
+        values.put("action", PermUserEvent.Action.USER_SUBGROUP_CHANGED);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(PermUserEvent.SubGroup.class, values);
+    }
+	
+	/*
+	 * PermGroupEvent
+	 */
+	
+	public static PermGroupEvent.Add createPermGroupEventAdd(Subject subject, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("subject", subject);
+        values.put("action", PermGroupEvent.Action.GROUP_ADDED);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(PermGroupEvent.Add.class, values);
+    }
+	
+	public static PermGroupEvent.Remove createPermGroupEventRemove(Subject subject, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("subject", subject);
+        values.put("action", PermGroupEvent.Action.GROUP_REMOVED);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(PermGroupEvent.Remove.class, values);
+    }
+	
+	public static PermGroupEvent.Permission createPermGroupEventPermission(Subject subject, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("subject", subject);
+        values.put("action", PermGroupEvent.Action.GROUP_PERMISSION_CHANGED);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(PermGroupEvent.Permission.class, values);
+    }
+	
+	public static PermGroupEvent.Inheritance createPermGroupEventInheritance(Subject subject, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("subject", subject);
+        values.put("action", PermGroupEvent.Action.GROUP_INHERITANCE_CHANGED);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(PermGroupEvent.Inheritance.class, values);
+    }
+	
+	public static PermGroupEvent.Option createPermGroupEventOption(Subject subject, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("subject", subject);
+        values.put("action", PermGroupEvent.Action.GROUP_OPTION_CHANGED);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(PermGroupEvent.Option.class, values);
+    }
+	
+	/*
+	 * PermOtherEvent
+	 */
+	
+	public static PermOtherEvent.Add createPermOtherEventAdd(Subject subject, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("subject", subject);
+        values.put("action", PermOtherEvent.Action.OTHER_ADDED);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(PermOtherEvent.Add.class, values);
+    }
+	
+	public static PermOtherEvent.Remove createPermOtherEventRemove(Subject subject, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("subject", subject);
+        values.put("action", PermOtherEvent.Action.OTHER_REMOVED);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(PermOtherEvent.Remove.class, values);
+    }
+	
+	public static PermOtherEvent.Permission createPermOtherEventPermission(Subject subject, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("subject", subject);
+        values.put("action", PermOtherEvent.Action.OTHER_PERMISSION_CHANGED);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(PermOtherEvent.Permission.class, values);
+    }
+	
+	public static PermOtherEvent.Inheritance createPermOtherEventInheritance(Subject subject, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("subject", subject);
+        values.put("action", PermOtherEvent.Action.OTHER_INHERITANCE_CHANGED);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(PermOtherEvent.Inheritance.class, values);
+    }
+	
+	public static PermOtherEvent.Option createPermOtherEventOption(Subject subject, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("subject", subject);
+        values.put("action", PermOtherEvent.Action.OTHER_OPTION_CHANGED);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(PermOtherEvent.Option.class, values);
+    }
+	
+	/*
 	 * ScoreBoard
 	 */
 	
@@ -388,6 +578,43 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("action", ScoreBoardEvent.Action.REMOVE);
         values.put("cause", cause);
         return SpongeEventFactoryUtils.createEventImpl(ScoreBoardEvent.Remove.class, values);
+    }
+	
+	/*
+	 * StatsReloadEvent
+	 */
+	
+	public static StatsSystemEvent.Reload createStatsSystemEventReload(Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("action", StatsSystemEvent.Action.RELOADED);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(StatsSystemEvent.Reload.class, values);
+    }
+	
+	/*
+	 * StatsUserEvent
+	 */
+	
+	public static StatsUserEvent.Death createStatsUserEventDeath(EPlayer victim, Long time, DamageType damage, Optional<Entity> killer, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("victim", victim);
+        values.put("time", time);
+        values.put("damageType", damage);
+        values.put("type", StatsUserEvent.Type.DEATH);
+        values.put("killer", killer);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(StatsUserEvent.Death.class, values);
+    }
+	
+	public static StatsUserEvent.Kill createStatsUserEventKill(EPlayer victim, Long time, DamageType damage, EPlayer killer, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("victim", victim);
+        values.put("time", time);
+        values.put("damageType", damage);
+        values.put("type", StatsUserEvent.Type.KILL);
+        values.put("killer", killer);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(StatsUserEvent.Kill.class, values);
     }
 	
 	/*

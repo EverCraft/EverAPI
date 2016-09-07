@@ -41,5 +41,15 @@ public interface FightEvent extends Event {
 		public boolean isVictim();
     }
     
-    interface Stop extends FightEvent{};
+    interface Stop extends FightEvent{
+    	public static enum Reason {
+        	TIME,
+        	DEAD,
+        	DISCONNECTED,
+        	COMMAND,
+        	PLUGIN;
+        }
+    	
+    	public Reason getReason();
+    };
 }

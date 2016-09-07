@@ -27,10 +27,10 @@ import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.entity.spawn.EntitySpawnCause;
 import org.spongepowered.api.event.cause.entity.spawn.SpawnTypes;
-import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.text.translation.FixedTranslation;
 
 import fr.evercraft.everapi.EACommand;
 import fr.evercraft.everapi.EAPermissions;
@@ -74,11 +74,8 @@ public class EATest extends ESubCommand<EverAPI> {
 	}
 	
 	private boolean commandTest(final EPlayer player) {
-		player.sendMessage("ItemType : " + player.getItemInMainHand().get());
-		ItemStack itemstak = player.getItemInMainHand().get();
-		itemstak.remove(Keys.SPAWNABLE_ENTITY_TYPE);
-		player.setItemInMainHand(itemstak);
-		player.sendMessage("update");
+		player.sendMessage("ItemType : ");
+		player.sendMessage(Text.of(new FixedTranslation("enchantment.level.1")));
 		return false;
 	}
 
