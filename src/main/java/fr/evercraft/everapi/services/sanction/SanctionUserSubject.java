@@ -19,7 +19,6 @@ package fr.evercraft.everapi.services.sanction;
 import java.net.InetAddress;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.Set;
 
 import org.spongepowered.api.text.Text;
 
@@ -27,16 +26,14 @@ import fr.evercraft.everapi.services.sanction.auto.SanctionAuto;
 import fr.evercraft.everapi.services.sanction.manual.SanctionManual;
 import fr.evercraft.everapi.services.sanction.manual.SanctionManualProfile;
 
-public interface SubjectUserSanction {
+public interface SanctionUserSubject {
 	public boolean isBan();
 	public boolean isBanIp();
 	public boolean isMute();
 	public boolean isJail();
 	
-	public Set<InetAddress> getBanIps();
-	
-	public Collection<SanctionManual> getAllManual();
-	public Collection<SanctionAuto> getAllAuto();
+	public Collection<SanctionManual> getManualBans();
+	public Collection<SanctionAuto> getAutoBans();
 	public boolean ban(long creation, Optional<Long> duration, Text reason, String source);
 	public boolean banIp(InetAddress address, long creation, Optional<Long> duration, Text reason, String source);
 	public boolean mute(long creation, Optional<Long> duration, Text reason, String source);

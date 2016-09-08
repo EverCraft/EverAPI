@@ -20,7 +20,9 @@ import java.net.InetAddress;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.util.ban.Ban;
 
 import fr.evercraft.everapi.services.sanction.Jail;
 
@@ -31,9 +33,14 @@ public interface SanctionAuto {
 
 	public Type getType();
 	public Reason getReason();
-	public int getLevel();
+	public Text getReasonText();
+	public Optional<Level> getLevel();
+	public int getLevelNumber();
 	public String getSource();
 	public Optional<String> getOption();
+	
+	public Optional<Ban.Profile> getBan(GameProfile profile);
+	public Optional<Ban.Ip> getBan(GameProfile profile, InetAddress address);
 	
 	public default boolean isBan() {
 		return this.getType().isBan();

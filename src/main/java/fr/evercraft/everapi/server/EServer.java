@@ -148,7 +148,7 @@ public class EServer extends ServerWarp {
 	 * User
 	 */
 	
-	public EUser getEUser(GameProfile profile) {
+	public EUser getOrCreateEUser(GameProfile profile) {
 		Optional<EPlayer> player = this.getEPlayer(profile.getUniqueId());
 		if(player.isPresent()) {
 			return player.get();

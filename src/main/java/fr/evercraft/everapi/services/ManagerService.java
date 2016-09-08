@@ -37,6 +37,8 @@ import fr.evercraft.everapi.services.mojang.EMojangService;
 import fr.evercraft.everapi.services.nametag.ENameTagService;
 import fr.evercraft.everapi.services.pagination.EPagination;
 import fr.evercraft.everapi.services.priority.EPriorityService;
+import fr.evercraft.everapi.services.sanction.JailService;
+import fr.evercraft.everapi.services.sanction.SanctionService;
 import fr.evercraft.everapi.services.scoreboard.EScoreBoardService;
 import fr.evercraft.everapi.services.sign.SignService;
 import fr.evercraft.everapi.services.tablist.ETabListService;
@@ -181,6 +183,14 @@ public class ManagerService {
 	
 	public Optional<SignService> getSign() {
 		return this.plugin.getGame().getServiceManager().provide(SignService.class);
+	}
+	
+	public Optional<JailService> getJail() {
+		return this.plugin.getGame().getServiceManager().provide(JailService.class);
+	}
+	
+	public Optional<SanctionService> getSanction() {
+		return this.plugin.getGame().getServiceManager().provide(SanctionService.class);
 	}
 	
 	/*

@@ -23,7 +23,9 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Map.Entry;
+import java.util.function.BiPredicate;
 import java.util.TreeMap;
 
 public class UtilsMap {
@@ -99,7 +101,7 @@ public class UtilsMap {
 	 * @param hashmap La HashMap
 	 * @returnLa HashMap trié par ordre croissant les valeurs
 	 */
-	public static <K, V > TreeMap<K, V> split(final TreeMap<K, V> hashmap, int size) {
+	public static <K, V> TreeMap<K, V> split(final TreeMap<K, V> hashmap, int size) {
 		if (hashmap.size() > size) {
 			TreeMap<K, V> tempo = new TreeMap<K, V>();
 			Iterator<Entry<K, V>> iterator = hashmap.entrySet().iterator();
@@ -113,4 +115,18 @@ public class UtilsMap {
 		}
 		return hashmap;
 	}
+	
+	public static <K, V> boolean removeIf(Map<K, V> map, BiPredicate<K, V> filter) {
+        Objects.requireNonNull(filter);
+        boolean removed = false;
+        Iterator<Entry<K, V>> each = map.entrySet().iterator();
+        while (each.hasNext()) {
+        	Entry<K, V> next = each.next();
+            if (filter.test(next.getKey(), next.getValue())) {
+                each.remove();
+                removed = true;
+            }
+        }
+        return removed;
+    }
 }

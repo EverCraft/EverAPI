@@ -22,7 +22,7 @@ import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.services.sanction.manual.SanctionManualIP;
 
-public interface SubjectIpSanction {
+public interface SanctionIpSubject {
 	public boolean isBan();
 	public Collection<SanctionManualIP> getAll();
 	

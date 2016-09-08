@@ -26,7 +26,7 @@ import org.spongepowered.api.entity.living.player.User;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.cooldown.CooldownsSubject;
 
-public class UserCooldown extends UserAccount {
+public class UserCooldown extends UserSanction {
 	
 	private CooldownsSubject subject;
 

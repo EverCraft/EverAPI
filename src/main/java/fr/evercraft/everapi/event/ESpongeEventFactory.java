@@ -39,6 +39,7 @@ import fr.evercraft.everapi.services.bossbar.EBossBar;
 import fr.evercraft.everapi.services.essentials.Mail;
 import fr.evercraft.everapi.services.mojang.check.MojangServer;
 import fr.evercraft.everapi.services.mojang.check.MojangServer.Color;
+import fr.evercraft.everapi.services.sanction.Jail;
 import fr.evercraft.everapi.services.title.TitleMessage;
 
 public class ESpongeEventFactory extends SpongeEventFactory {
@@ -313,6 +314,30 @@ public class ESpongeEventFactory extends SpongeEventFactory {
     }
 	
 	/*
+	 * Jail
+	 */
+	
+	public static JailEvent.Enable createJailEventEnable(EPlayer player, Optional<Long> duration, String identifier, Transform<World> location, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("player", player);
+        values.put("identifier", identifier);
+        values.put("location", location);
+        values.put("duration", duration);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(JailEvent.Enable.class, values);
+    }
+	
+	public static JailEvent.Disable createJailEventDisable(EPlayer player, Optional<Long> duration, Jail jail, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("player", player);
+        values.put("identifier", jail.getName());
+        values.put("location", jail.getTransform());
+        values.put("duration", duration);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(JailEvent.Disable.class, values);
+    }
+	
+	/*
 	 * Mail
 	 */
 	
@@ -354,6 +379,26 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("afterColor", afterColor);
         values.put("cause", cause);
         return SpongeEventFactoryUtils.createEventImpl(MojangCheckEvent.class, values);
+    }
+	
+	/*
+	 * Mute
+	 */
+	
+	public static MuteEvent.Enable createMuteEventEnable(EPlayer player, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("player", player);
+        values.put("value", true);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(MuteEvent.Enable.class, values);
+    }
+	
+	public static MuteEvent.Disable createMuteEventDisable(EPlayer player, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("player", player);
+        values.put("value", false);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(MuteEvent.Disable.class, values);
     }
 	
 	/*
