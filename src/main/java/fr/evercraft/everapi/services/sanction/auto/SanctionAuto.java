@@ -71,7 +71,7 @@ public interface SanctionAuto {
 	public Optional<Text> getPardonReason();
 	
 	public default boolean isPardon() {
-        return !this.getPardonDate().isPresent();
+        return this.getPardonDate().isPresent();
     }
 	
 	public default boolean isExpire() {

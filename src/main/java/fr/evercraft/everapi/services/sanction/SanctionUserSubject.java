@@ -72,4 +72,12 @@ public interface SanctionUserSubject {
 	public default boolean pardonBanJail(Text reason, String source) {
 		return this.pardon(SanctionManualProfile.Type.JAIL, System.currentTimeMillis(), reason, source);
 	}
+	
+	public default boolean pardon(SanctionManualProfile.Type type, Text reason, String source) {
+		return this.pardon(type, System.currentTimeMillis(), reason, source);
+	}
+	
+	public default boolean addSanction(SanctionAuto.Reason reason, String source) {
+		return this.addSanction(reason, System.currentTimeMillis(), source);
+	}
 }

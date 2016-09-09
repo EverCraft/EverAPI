@@ -53,6 +53,6 @@ public interface SanctionManual {
 	public Optional<Text> getPardonReason();
 	
 	public default boolean isPardon() {
-        return !this.getPardonDate().isPresent();
+        return this.getPardonDate().isPresent();
     }
 }

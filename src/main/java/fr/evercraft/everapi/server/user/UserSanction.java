@@ -29,11 +29,10 @@ import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.sanction.Jail;
 import fr.evercraft.everapi.services.sanction.SanctionUserSubject;
 import fr.evercraft.everapi.services.sanction.auto.SanctionAuto;
-import fr.evercraft.everapi.services.sanction.auto.SanctionAuto.Reason;
 import fr.evercraft.everapi.services.sanction.manual.SanctionManual;
-import fr.evercraft.everapi.services.sanction.manual.SanctionManualProfile.Type;
+import fr.evercraft.everapi.services.sanction.manual.SanctionManualProfile;
 
-public class UserSanction extends UserAccount implements SanctionUserSubject {
+public class UserSanction extends UserAccount {
 	
 	private SanctionUserSubject subject;
 
@@ -48,7 +47,6 @@ public class UserSanction extends UserAccount implements SanctionUserSubject {
 		return this.subject != null;
 	}
 
-	@Override
 	public Collection<SanctionManual> getManualBans() {
 		if (this.isPresent()) {
 			return this.subject.getManualBans();
@@ -56,7 +54,6 @@ public class UserSanction extends UserAccount implements SanctionUserSubject {
 		return Arrays.asList();
 	}
 	
-	@Override
 	public Collection<SanctionAuto> getAutoBans() {
 		if (this.isPresent()) {
 			return this.subject.getAutoBans();
@@ -64,7 +61,6 @@ public class UserSanction extends UserAccount implements SanctionUserSubject {
 		return Arrays.asList();
 	}
 
-	@Override
 	public boolean isBan() {
 		if (this.isPresent()) {
 			return this.subject.isBan();
@@ -72,7 +68,6 @@ public class UserSanction extends UserAccount implements SanctionUserSubject {
 		return false;
 	}
 
-	@Override
 	public boolean isBanIp() {
 		if (this.isPresent()) {
 			return this.subject.isBanIp();
@@ -80,7 +75,6 @@ public class UserSanction extends UserAccount implements SanctionUserSubject {
 		return false;
 	}
 
-	@Override
 	public boolean isMute() {
 		if (this.isPresent()) {
 			return this.subject.isMute();
@@ -88,7 +82,6 @@ public class UserSanction extends UserAccount implements SanctionUserSubject {
 		return false;
 	}
 
-	@Override
 	public boolean isJail() {
 		if (this.isPresent()) {
 			return this.subject.isJail();
@@ -96,39 +89,45 @@ public class UserSanction extends UserAccount implements SanctionUserSubject {
 		return false;
 	}
 
-	@Override
-	public boolean ban(long creation, Optional<Long> duration, Text reason, String source) {
-		// TODO Auto-generated method stub
+	public boolean ban(Optional<Long> duration, Text reason, String source) {
+		if (this.isPresent()) {
+			return this.subject.ban(duration, reason, source);
+		}
 		return false;
 	}
 
-	@Override
-	public boolean banIp(InetAddress address, long creation, Optional<Long> duration, Text reason, String source) {
-		// TODO Auto-generated method stub
+	public boolean banIp(InetAddress address, Optional<Long> duration, Text reason, String source) {
+		if (this.isPresent()) {
+			return this.subject.banIp(address, duration, reason, source);
+		}
 		return false;
 	}
 
-	@Override
-	public boolean mute(long creation, Optional<Long> duration, Text reason, String source) {
-		// TODO Auto-generated method stub
+	public boolean mute(Optional<Long> duration, Text reason, String source) {
+		if (this.isPresent()) {
+			return this.subject.mute(duration, reason, source);
+		}
 		return false;
 	}
 
-	@Override
-	public boolean jail(Jail jail, long creation, Optional<Long> duration, Text reason, String source) {
-		// TODO Auto-generated method stub
+	public boolean jail(Jail jail, Optional<Long> duration, Text reason, String source) {
+		if (this.isPresent()) {
+			return this.subject.jail(jail, duration, reason, source);
+		}
 		return false;
 	}
 
-	@Override
-	public boolean pardon(Type type, long date, Text reason, String source) {
-		// TODO Auto-generated method stub
+	public boolean pardon(SanctionManualProfile.Type type, Text reason, String source) {
+		if (this.isPresent()) {
+			return this.subject.pardon(type, reason, source);
+		}
 		return false;
 	}
 
-	@Override
-	public boolean addSanction(Reason reason, long creation, String source) {
-		// TODO Auto-generated method stub
+	public boolean addSanction(SanctionAuto.Reason reason, String source) {
+		if (this.isPresent()) {
+			return this.subject.addSanction(reason, source);
+		}
 		return false;
 	}
 }
