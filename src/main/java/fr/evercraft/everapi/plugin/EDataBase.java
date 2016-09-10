@@ -102,7 +102,7 @@ public abstract class EDataBase<T extends EPlugin> {
 			try {
 				connection = this.sql.getDataSource(this.url).getConnection();
 				this.plugin.getLogger().debug("SQL : Connection in " + chronometer.getMilliseconds() + " ms");
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				this.plugin.getLogger().warn("SQL : Error in connection " + cpt + " : " + e.getMessage());
 			}
 			cpt++;

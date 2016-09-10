@@ -25,6 +25,8 @@ import org.spongepowered.api.service.ban.BanService;
 import fr.evercraft.everapi.services.sanction.auto.SanctionAuto;
 
 public interface SanctionService extends BanService {
+	public static final String UNKNOWN = "unknown";
+	
 	public Optional<SanctionUserSubject> get(UUID uuid);
 	public boolean hasRegistered(UUID uuid);
 	
