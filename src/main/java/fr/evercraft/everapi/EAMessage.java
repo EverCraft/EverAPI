@@ -76,7 +76,7 @@ public class EAMessage extends EMessage {
 		NUMBER_INVALID("numberInvalid",
 				"&cLe nombre est invalid."),
 		IS_NOT_NUMBER("isNotNumber", 
-				"&cErreur : '<number>' n'est pas nombre .", 
+				"&cErreur : '<number>' n'est pas nombre.", 
 				"&cError : '<number>' is not a number"),
 		
 		// Commande
