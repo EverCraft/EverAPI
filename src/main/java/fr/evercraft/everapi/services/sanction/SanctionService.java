@@ -26,6 +26,7 @@ import fr.evercraft.everapi.services.sanction.auto.SanctionAuto;
 
 public interface SanctionService extends BanService {
 	public static final String UNKNOWN = "unknown";
+	public static final String UNLIMITED = "unlimited";
 	
 	public Optional<SanctionUserSubject> get(UUID uuid);
 	public boolean hasRegistered(UUID uuid);
