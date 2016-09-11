@@ -106,8 +106,11 @@ public abstract class ECommand<T extends EPlugin> extends CommandPagination<T> i
 	public List<String> getSuggestions(final CommandSource source, final String arguments, Location<World> targetPosition) throws CommandException {
 		Chronometer chronometer = new Chronometer();
 		if (this.plugin.isEnable() && this.testPermission(source)) {
-			List<String> args = new ArrayList<String>(Arrays.asList(arguments.split(" ")));
-			if (args.size() >= 1 && !args.get(0).isEmpty() && arguments.endsWith(" ")){
+			this.plugin.getLogger().warn("arg='" + arguments + "'");
+			List<String> args = this.getArg(arguments);
+			
+			this.plugin.getLogger().warn("size : " + args.size() + "; arg='" + arguments + "'");
+			if (args.isEmpty() || arguments.endsWith(" ")) {
 				args.add("");
 			}
 			
@@ -194,19 +197,15 @@ public abstract class ECommand<T extends EPlugin> extends CommandPagination<T> i
 	 */
 	
 	public Set<String> getAllUsers() {
-		if (this.plugin.getEverAPI().getManagerService().getUserStorage().isPresent()) {
-			Set<String> users = new HashSet<String>();
-			
-			for(GameProfile profile : this.plugin.getEverAPI().getManagerService().getUserStorage().get().getAll()) {
-				if (profile.getName().isPresent()) {
-					users.add(profile.getName().get());
-				}
+		Set<String> users = new HashSet<String>();
+		
+		for(GameProfile profile : this.plugin.getEServer().getGameProfileManager().getCache().getProfiles()) {
+			if (profile.getName().isPresent()) {
+				users.add(profile.getName().get());
 			}
-			
-			return users;
-		} else {
-			return this.getAllPlayers();
 		}
+		
+		return users;
 	}
 	
 	public Set<String> getAllUsers(CommandSource player) {

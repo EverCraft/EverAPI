@@ -24,7 +24,6 @@ public interface SanctionManual {
 
 	public Long getCreationDate();
 	public Optional<Long> getExpirationDate();
-	public Optional<Long> getDuration();
 	public Text getReason();
 	public String getSource();
 	

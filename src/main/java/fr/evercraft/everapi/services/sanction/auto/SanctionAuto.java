@@ -29,7 +29,6 @@ import fr.evercraft.everapi.services.sanction.Jail;
 public interface SanctionAuto {	
 	public Long getCreationDate();
 	public Optional<Long> getExpirationDate();
-	public Optional<Long> getDuration();
 
 	public Type getType();
 	public Reason getReason();
@@ -94,7 +93,8 @@ public interface SanctionAuto {
 	
 	public interface Level {
 		public SanctionAuto.Type getType();
-		public Optional<Long> getDuration();
+		public Optional<String> getDuration();
+		public Optional<Long> getExpirationDate(long creation);
 		public String getReason();	
 		public Optional<Jail> getJail();
 		public Optional<InetAddress> getAddress();

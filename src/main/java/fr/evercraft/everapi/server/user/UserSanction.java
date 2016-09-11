@@ -88,31 +88,38 @@ public class UserSanction extends UserAccount {
 		}
 		return false;
 	}
-
-	public boolean ban(Optional<Long> duration, Text reason, String source) {
+	
+	public boolean ban(Long creation, Optional<Long> expiration, Text reason, String source) {
 		if (this.isPresent()) {
-			return this.subject.ban(duration, reason, source);
+			return this.subject.ban(creation, expiration, reason, source);
 		}
 		return false;
 	}
 
-	public boolean banIp(InetAddress address, Optional<Long> duration, Text reason, String source) {
+	public boolean ban(Optional<Long> expiration, Text reason, String source) {
 		if (this.isPresent()) {
-			return this.subject.banIp(address, duration, reason, source);
+			return this.subject.ban(expiration, reason, source);
 		}
 		return false;
 	}
 
-	public boolean mute(Optional<Long> duration, Text reason, String source) {
+	public boolean banIp(InetAddress address, Optional<Long> expiration, Text reason, String source) {
 		if (this.isPresent()) {
-			return this.subject.mute(duration, reason, source);
+			return this.subject.banIp(address, expiration, reason, source);
 		}
 		return false;
 	}
 
-	public boolean jail(Jail jail, Optional<Long> duration, Text reason, String source) {
+	public boolean mute(Optional<Long> expiration, Text reason, String source) {
 		if (this.isPresent()) {
-			return this.subject.jail(jail, duration, reason, source);
+			return this.subject.mute(expiration, reason, source);
+		}
+		return false;
+	}
+
+	public boolean jail(Jail jail, Optional<Long> expiration, Text reason, String source) {
+		if (this.isPresent()) {
+			return this.subject.jail(jail, expiration, reason, source);
 		}
 		return false;
 	}

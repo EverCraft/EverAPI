@@ -118,17 +118,29 @@ public class UtilsDate {
 	 */
 	
 	public String diff(final long date) {
-		return formatDateDiff(date + System.currentTimeMillis(), DEFAULT_LENGTH);
+		return formatDate(date + System.currentTimeMillis(), DEFAULT_LENGTH);
 	}
 	
-	public String formatDateDiff(final long date) {
-		return formatDateDiff(date, DEFAULT_LENGTH);
+	public String formatDate(final long date) {
+		return formatDate(date, DEFAULT_LENGTH);
 	}
 
-	public String formatDateDiff(final long date, final int length) {
+	public String formatDate(final long date, final int length) {
 		Calendar c = new GregorianCalendar();
 		c.setTimeInMillis(date);
 		Calendar now = new GregorianCalendar();
+		return this.formatDateDiff(now, c, length);
+	}
+	
+	public String formatDateDiff(final long fromDate, final long toDate) {
+		return this.formatDateDiff(fromDate, toDate, DEFAULT_LENGTH);
+	}
+	
+	public String formatDateDiff(final long fromDate, final long toDate, final int length) {
+		Calendar c = new GregorianCalendar();
+		c.setTimeInMillis(toDate);
+		Calendar now = new GregorianCalendar();
+		now.setTimeInMillis(fromDate);
 		return this.formatDateDiff(now, c, length);
 	}
 
@@ -184,6 +196,10 @@ public class UtilsDate {
 	}
 	
 	public static Optional<Long> parseDateDiff(String time_string, boolean future) {
+		return UtilsDate.parseDateDiff(System.currentTimeMillis(), time_string, future);
+	}
+	
+	public static Optional<Long> parseDateDiff(long creation, String time_string, boolean future) {
 		Matcher m = TIME_PATTERN.matcher(time_string);
 		int years = 0;
 		int months = 0;
@@ -260,5 +276,4 @@ public class UtilsDate {
 		}
 		return Optional.of(calendar.getTimeInMillis());
 	}
-
 }

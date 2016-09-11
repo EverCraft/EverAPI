@@ -335,6 +335,8 @@ public class EAMessage extends EMessage {
 				"description"),
 		ARGS_LINE("args.line", 
 				"ligne"),
+		ARGS_TIME("args.time", 
+				"time"),
 		// Couleur
 		COLORS_BLACK("colors.black", 
 				"Noir", 
