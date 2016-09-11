@@ -674,4 +674,9 @@ public abstract class PlayerSponge extends EUser implements Player {
 	public void setRawData(DataView container) throws InvalidDataException {
 		this.setRawData(container);
 	}
+	
+	@Override
+	public Inventory getEnderChestInventory() {
+		return this.player.getEnderChestInventory();
+	}
 }
