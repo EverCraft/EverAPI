@@ -31,13 +31,15 @@ import fr.evercraft.everapi.services.ManagerService;
 import fr.evercraft.everapi.services.bungee.BungeeCord;
 import fr.evercraft.everapi.sponge.ManagerUtils;
 
-@Plugin(id = "fr.evercraft.everapi", 
+@Plugin(id = "everapi", 
 		name = "EverAPI", 
-		version = "1.2", 
+		version = EverAPI.VERSION, 
 		description = "EverAPI is a library",
 		url = "http://wiki.evercraft.fr/",
 		authors = {"rexbut","lesbleu"})
 public class EverAPI extends EPlugin {
+	
+	public static final String VERSION = "1.2";
 
 	private EChat chat;
 	
