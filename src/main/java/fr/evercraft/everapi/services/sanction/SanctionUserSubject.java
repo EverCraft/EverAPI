@@ -23,7 +23,6 @@ import java.util.Optional;
 import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.services.sanction.auto.SanctionAuto;
-import fr.evercraft.everapi.services.sanction.manual.SanctionManual;
 import fr.evercraft.everapi.services.sanction.manual.SanctionManualProfile;
 
 public interface SanctionUserSubject {
@@ -32,14 +31,18 @@ public interface SanctionUserSubject {
 	public boolean isMute();
 	public boolean isJail();
 	
-	public Collection<SanctionManual> getManualBans();
-	public Collection<SanctionAuto> getAutoBans();
+	public Optional<SanctionManualProfile> getManual(SanctionManualProfile.Type type);
+	public Collection<SanctionAuto> getAuto(SanctionAuto.Type type);
+	
 	public boolean ban(long creation, Optional<Long> duration, Text reason, String source);
 	public boolean banIp(InetAddress address, long creation, Optional<Long> duration, Text reason, String source);
 	public boolean mute(long creation, Optional<Long> duration, Text reason, String source);
 	public boolean jail(Jail jail, long creation, Optional<Long> duration, Text reason, String source);
-	public boolean pardon(SanctionManualProfile.Type type, long date, Text reason, String source);
+	public Optional<SanctionManualProfile> pardon(SanctionManualProfile.Type type, long date, Text reason, String source);
 	public boolean addSanction(SanctionAuto.Reason reason, long creation, String source);
+	
+	public boolean removeManual(SanctionManualProfile profile);
+	public boolean removeAuto(SanctionAuto profile);
 	
 	public default boolean ban(Optional<Long> duration, Text reason, String source) {
 		return this.ban(System.currentTimeMillis(), duration, reason, source);
@@ -57,23 +60,7 @@ public interface SanctionUserSubject {
 		return this.jail(jail, System.currentTimeMillis(), duration, reason, source);
 	}
 	
-	public default boolean pardonBan(Text reason, String source) {
-		return this.pardon(SanctionManualProfile.Type.BAN_PROFILE, System.currentTimeMillis(), reason, source);
-	}
-	
-	public default boolean pardonBanIp(Text reason, String source) {
-		return this.pardon(SanctionManualProfile.Type.BAN_IP, System.currentTimeMillis(), reason, source);
-	}
-	
-	public default boolean pardonBanMute(Text reason, String source) {
-		return this.pardon(SanctionManualProfile.Type.MUTE, System.currentTimeMillis(), reason, source);
-	}
-	
-	public default boolean pardonBanJail(Text reason, String source) {
-		return this.pardon(SanctionManualProfile.Type.JAIL, System.currentTimeMillis(), reason, source);
-	}
-	
-	public default boolean pardon(SanctionManualProfile.Type type, Text reason, String source) {
+	public default Optional<SanctionManualProfile> pardon(SanctionManualProfile.Type type, Text reason, String source) {
 		return this.pardon(type, System.currentTimeMillis(), reason, source);
 	}
 	

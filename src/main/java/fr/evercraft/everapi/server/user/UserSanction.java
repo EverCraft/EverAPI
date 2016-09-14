@@ -29,7 +29,6 @@ import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.sanction.Jail;
 import fr.evercraft.everapi.services.sanction.SanctionUserSubject;
 import fr.evercraft.everapi.services.sanction.auto.SanctionAuto;
-import fr.evercraft.everapi.services.sanction.manual.SanctionManual;
 import fr.evercraft.everapi.services.sanction.manual.SanctionManualProfile;
 
 public class UserSanction extends UserAccount {
@@ -47,16 +46,16 @@ public class UserSanction extends UserAccount {
 		return this.subject != null;
 	}
 
-	public Collection<SanctionManual> getManualBans() {
+	public Optional<SanctionManualProfile> getManual(SanctionManualProfile.Type type) {
 		if (this.isPresent()) {
-			return this.subject.getManualBans();
+			return this.subject.getManual(type);
 		}
-		return Arrays.asList();
+		return Optional.empty();
 	}
 	
-	public Collection<SanctionAuto> getAutoBans() {
+	public Collection<SanctionAuto> getAuto(SanctionAuto.Type type) {
 		if (this.isPresent()) {
-			return this.subject.getAutoBans();
+			return this.subject.getAuto(type);
 		}
 		return Arrays.asList();
 	}
@@ -124,11 +123,11 @@ public class UserSanction extends UserAccount {
 		return false;
 	}
 
-	public boolean pardon(SanctionManualProfile.Type type, Text reason, String source) {
+	public Optional<SanctionManualProfile> pardon(SanctionManualProfile.Type type, Text reason, String source) {
 		if (this.isPresent()) {
 			return this.subject.pardon(type, reason, source);
 		}
-		return false;
+		return Optional.empty();
 	}
 
 	public boolean addSanction(SanctionAuto.Reason reason, String source) {
