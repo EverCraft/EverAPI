@@ -347,6 +347,7 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("to", source);
         values.put("action", MailEvent.Action.ADD);
         values.put("cause", cause);
+        values.put("message", message);
         return SpongeEventFactoryUtils.createEventImpl(MailEvent.Add.class, values);
     }
 	
