@@ -106,10 +106,8 @@ public abstract class ECommand<T extends EPlugin> extends CommandPagination<T> i
 	public List<String> getSuggestions(final CommandSource source, final String arguments, Location<World> targetPosition) throws CommandException {
 		Chronometer chronometer = new Chronometer();
 		if (this.plugin.isEnable() && this.testPermission(source)) {
-			this.plugin.getLogger().warn("arg='" + arguments + "'");
 			List<String> args = this.getArg(arguments);
 			
-			this.plugin.getLogger().warn("size : " + args.size() + "; arg='" + arguments + "'");
 			if (args.isEmpty() || arguments.endsWith(" ")) {
 				args.add("");
 			}
