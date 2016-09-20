@@ -22,8 +22,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.text.Text;
+
+import com.google.common.collect.ImmutableList;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.sanction.Jail;
@@ -88,51 +91,73 @@ public class UserSanction extends UserAccount {
 		return false;
 	}
 	
-	public boolean ban(Long creation, Optional<Long> expiration, Text reason, String source) {
+	/*
+	 * Manual
+	 */
+	
+	public boolean ban(Long creation, Optional<Long> expiration, Text reason, CommandSource source) {
 		if (this.isPresent()) {
 			return this.subject.ban(creation, expiration, reason, source);
 		}
 		return false;
 	}
 
-	public boolean ban(Optional<Long> expiration, Text reason, String source) {
+	public boolean banIp(InetAddress address, Long creation, Optional<Long> expiration, Text reason, CommandSource source) {
 		if (this.isPresent()) {
-			return this.subject.ban(expiration, reason, source);
+			return this.subject.banIp(address, creation, expiration, reason, source);
 		}
 		return false;
 	}
 
-	public boolean banIp(InetAddress address, Optional<Long> expiration, Text reason, String source) {
+	public boolean mute(Long creation, Optional<Long> expiration, Text reason, CommandSource source) {
 		if (this.isPresent()) {
-			return this.subject.banIp(address, expiration, reason, source);
+			return this.subject.mute(creation, expiration, reason, source);
 		}
 		return false;
 	}
 
-	public boolean mute(Optional<Long> expiration, Text reason, String source) {
+	public boolean jail(Jail jail, Long creation, Optional<Long> expiration, Text reason, CommandSource source) {
 		if (this.isPresent()) {
-			return this.subject.mute(expiration, reason, source);
+			return this.subject.jail(jail, creation, expiration, reason, source);
 		}
 		return false;
 	}
 
-	public boolean jail(Jail jail, Optional<Long> expiration, Text reason, String source) {
+	public Optional<SanctionManualProfile.Ban> pardonBan(Long date, Text reason, CommandSource source) {
 		if (this.isPresent()) {
-			return this.subject.jail(jail, expiration, reason, source);
+			return this.subject.pardonBan(date, reason, source);
 		}
-		return false;
+		return Optional.empty();
 	}
-
-	public Optional<SanctionManualProfile> pardon(SanctionManualProfile.Type type, Text reason, String source) {
+	
+	public Collection<SanctionManualProfile.BanIp> pardonBanIp(Long date, Text reason, CommandSource source) {
 		if (this.isPresent()) {
-			return this.subject.pardon(type, reason, source);
+			return this.subject.pardonBanIp(date, reason, source);
+		}
+		return ImmutableList.of();
+	}
+	
+	public Optional<SanctionManualProfile.Mute> pardonMute(Long date, Text reason, CommandSource source) {
+		if (this.isPresent()) {
+			return this.subject.pardonMute(date, reason, source);
+		}
+		return Optional.empty();
+	}
+	
+	public Optional<SanctionManualProfile.Jail> pardonJail(Long date, Text reason, CommandSource source) {
+		if (this.isPresent()) {
+			return this.subject.pardonJail(date, reason, source);
 		}
 		return Optional.empty();
 	}
 
-	public boolean addSanction(SanctionAuto.Reason reason, String source) {
+	/*
+	 * Auto
+	 */
+	
+	public boolean addSanction(SanctionAuto.Reason reason, Long creation, CommandSource source) {
 		if (this.isPresent()) {
-			return this.subject.addSanction(reason, source);
+			return this.subject.addSanction(reason, creation, source);
 		}
 		return false;
 	}

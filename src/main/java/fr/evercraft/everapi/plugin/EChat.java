@@ -275,10 +275,14 @@ public class EChat implements ChatService {
 	}
 	
 	public static Text of(final String message) {
+		Preconditions.checkNotNull(message, "message");
+		
     	return TextSerializers.FORMATTING_CODE.deserialize(message);
     }
 	
 	public static String serialize(final Text message) {
+		Preconditions.checkNotNull(message, "message");
+		
     	return TextSerializers.FORMATTING_CODE.serialize(message);
     }
 	
@@ -302,6 +306,8 @@ public class EChat implements ChatService {
 	}
     
     public static TextColor getTextColor(final String arg){
+    	Preconditions.checkNotNull(arg, "arg");
+    	
     	TextColor color = TextColors.WHITE;
 		if (arg != null){
 			if (arg.equalsIgnoreCase("&0")){

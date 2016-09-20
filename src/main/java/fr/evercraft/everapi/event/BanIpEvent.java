@@ -16,6 +16,7 @@
  */
 package fr.evercraft.everapi.event;
 
+import java.net.InetAddress;
 import java.util.Optional;
 
 import org.spongepowered.api.command.CommandSource;
@@ -26,9 +27,10 @@ import org.spongepowered.api.text.Text;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.server.user.EUser;
 
-public interface MuteEvent extends Event, Cancellable {
+public interface BanIpEvent extends Event, Cancellable {
 	
 	public EUser getUser();
+	public InetAddress getAddress();
 	public boolean getValue();
 	
 	public Text getReason();
@@ -47,11 +49,11 @@ public interface MuteEvent extends Event, Cancellable {
         return !this.getExpirationDate().isPresent();
     }
 	
-	public interface Enable extends MuteEvent {
+	public interface Enable extends BanIpEvent {
 		public CommandSource getCommandSource();
 	}
 	
-	public interface Disable extends MuteEvent {
+	public interface Disable extends BanIpEvent {
 		public default boolean isPardon() {
 	        return this.getPardonDate().isPresent();
 	    }

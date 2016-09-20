@@ -17,7 +17,9 @@
 package fr.evercraft.everapi.services.sanction;
 
 import java.util.Collection;
+import java.util.Optional;
 
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.services.sanction.manual.SanctionManualIP;
@@ -26,7 +28,6 @@ public interface SanctionIpSubject {
 	public boolean isBan();
 	public Collection<SanctionManualIP> getAll();
 	
-	public boolean add(long creation, Text reason, String source);
-	public boolean add(long creation, long duration, Text reason, String source);
-	public boolean pardon(Long date, Text reason, String source);
+	public boolean add(long creation, Optional<Long> duration, Text reason, CommandSource source);
+	public boolean pardon(long date, Text reason, CommandSource source);
 }

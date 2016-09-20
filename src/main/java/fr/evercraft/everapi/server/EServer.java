@@ -148,6 +148,34 @@ public class EServer extends ServerWarp {
 	 * User
 	 */
 	
+	public Optional<EUser> getOrCreateEUser(String identifier) {
+		Optional<EUser> user = this.getEUser(identifier);
+		if(user.isPresent()) {
+			return user;
+		} else {
+			Optional<GameProfile> profile = this.getGameProfile(identifier);
+			if (profile.isPresent()) {
+				return Optional.of(this.getEUser(this.plugin.getEverAPI().getManagerService().getUserStorage().get().getOrCreate(profile.get())));
+			} else {
+				return Optional.empty();
+			}
+		}
+	}
+	
+	public Optional<EUser> getOrCreateEUser(UUID identifier) {
+		Optional<EUser> user = this.getEUser(identifier);
+		if(user.isPresent()) {
+			return user;
+		} else {
+			Optional<GameProfile> profile = this.getGameProfile(identifier);
+			if (profile.isPresent()) {
+				return Optional.of(this.getEUser(this.plugin.getEverAPI().getManagerService().getUserStorage().get().getOrCreate(profile.get())));
+			} else {
+				return Optional.empty();
+			}
+		}
+	}
+	
 	public EUser getOrCreateEUser(GameProfile profile) {
 		Optional<EPlayer> player = this.getEPlayer(profile.getUniqueId());
 		if(player.isPresent()) {

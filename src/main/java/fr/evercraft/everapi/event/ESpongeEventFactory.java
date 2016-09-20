@@ -31,9 +31,11 @@ import org.spongepowered.api.event.cause.entity.damage.DamageType;
 import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
 import org.spongepowered.api.scoreboard.objective.Objective;
 import org.spongepowered.api.service.permission.Subject;
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.server.user.EUser;
 import fr.evercraft.everapi.services.actionbar.ActionBarMessage;
 import fr.evercraft.everapi.services.bossbar.EBossBar;
 import fr.evercraft.everapi.services.essentials.Mail;
@@ -117,6 +119,53 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("afterLocation", after);
         values.put("cause", cause);
         return SpongeEventFactoryUtils.createEventImpl(BackEvent.class, values);
+    }
+	
+	/*
+	 * Ban
+	 */
+	
+	public static BanEvent.Enable createBanEventEnable(EUser user, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("user", user);
+        values.put("value", true);
+        values.put("reason", reason);
+        values.put("creationDate", creationDate);
+        values.put("expirationDate", expirationDate);
+        values.put("commandSource", commandSource);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(BanEvent.Enable.class, values);
+    }
+	
+	public static BanEvent.Disable createBanEventDisable(EUser user, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, 
+			Text pardonReason, Long pardonDate, CommandSource pardonCommandSource, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("user", user);
+        values.put("value", false);
+        values.put("reason", reason);
+        values.put("creationDate", creationDate);
+        values.put("expirationDate", expirationDate);
+        values.put("commandSource", commandSource);
+        values.put("pardonReason", Optional.of(pardonReason));
+        values.put("pardonDate", Optional.of(pardonDate));
+        values.put("pardonCommandSource", Optional.of(pardonCommandSource));
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(BanEvent.Disable.class, values);
+    }
+	
+	public static BanEvent.Disable createBanEventDisable(EUser user, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("user", user);
+        values.put("value", false);
+        values.put("reason", reason);
+        values.put("creationDate", creationDate);
+        values.put("expirationDate", expirationDate);
+        values.put("commandSource", commandSource);
+        values.put("pardonReason", Optional.empty());
+        values.put("pardonDate", Optional.empty());
+        values.put("pardonCommandSource", Optional.empty());
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(BanEvent.Disable.class, values);
     }
 	
 	/*
@@ -317,22 +366,48 @@ public class ESpongeEventFactory extends SpongeEventFactory {
 	 * Jail
 	 */
 	
-	public static JailEvent.Enable createJailEventEnable(EPlayer player, Optional<Long> duration, String identifier, Transform<World> location, Cause cause) {
+	public static JailEvent.Enable createJailEventEnable(EUser user, Jail jail, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, Cause cause) {
         HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("identifier", identifier);
-        values.put("location", location);
-        values.put("duration", duration);
+        values.put("user", user);
+        values.put("value", true);
+        values.put("jail", jail);
+        values.put("reason", reason);
+        values.put("creationDate", creationDate);
+        values.put("expirationDate", expirationDate);
+        values.put("commandSource", commandSource);
         values.put("cause", cause);
         return SpongeEventFactoryUtils.createEventImpl(JailEvent.Enable.class, values);
     }
 	
-	public static JailEvent.Disable createJailEventDisable(EPlayer player, Optional<Long> duration, Jail jail, Cause cause) {
+	public static JailEvent.Disable createJailEventDisable(EUser user, Jail jail, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, 
+			Text pardonReason, Long pardonDate, CommandSource pardonCommandSource, Cause cause) {
         HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("identifier", jail.getName());
-        values.put("location", jail.getTransform());
-        values.put("duration", duration);
+        values.put("user", user);
+        values.put("value", false);
+        values.put("jail", jail);
+        values.put("reason", reason);
+        values.put("creationDate", creationDate);
+        values.put("expirationDate", expirationDate);
+        values.put("commandSource", commandSource);
+        values.put("pardonReason", Optional.of(pardonReason));
+        values.put("pardonDate", Optional.of(pardonDate));
+        values.put("pardonCommandSource", Optional.of(pardonCommandSource));
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(JailEvent.Disable.class, values);
+    }
+	
+	public static JailEvent.Disable createJailEventDisable(EUser user, Jail jail, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("user", user);
+        values.put("value", false);
+        values.put("jail", jail);
+        values.put("reason", reason);
+        values.put("creationDate", creationDate);
+        values.put("expirationDate", expirationDate);
+        values.put("commandSource", commandSource);
+        values.put("pardonReason", Optional.empty());
+        values.put("pardonDate", Optional.empty());
+        values.put("pardonCommandSource", Optional.empty());
         values.put("cause", cause);
         return SpongeEventFactoryUtils.createEventImpl(JailEvent.Disable.class, values);
     }
@@ -386,18 +461,45 @@ public class ESpongeEventFactory extends SpongeEventFactory {
 	 * Mute
 	 */
 	
-	public static MuteEvent.Enable createMuteEventEnable(EPlayer player, Cause cause) {
+	public static MuteEvent.Enable createMuteEventEnable(EUser user, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, Cause cause) {
         HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
+        values.put("user", user);
         values.put("value", true);
+        values.put("reason", reason);
+        values.put("creationDate", creationDate);
+        values.put("expirationDate", expirationDate);
+        values.put("commandSource", commandSource);
         values.put("cause", cause);
         return SpongeEventFactoryUtils.createEventImpl(MuteEvent.Enable.class, values);
     }
 	
-	public static MuteEvent.Disable createMuteEventDisable(EPlayer player, Cause cause) {
+	public static MuteEvent.Disable createMuteEventDisable(EUser user, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, 
+			Text pardonReason, Long pardonDate, CommandSource pardonCommandSource, Cause cause) {
         HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
+        values.put("user", user);
         values.put("value", false);
+        values.put("reason", reason);
+        values.put("creationDate", creationDate);
+        values.put("expirationDate", expirationDate);
+        values.put("commandSource", commandSource);
+        values.put("pardonReason", Optional.of(pardonReason));
+        values.put("pardonDate", Optional.of(pardonDate));
+        values.put("pardonCommandSource", Optional.of(pardonCommandSource));
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(MuteEvent.Disable.class, values);
+    }
+	
+	public static MuteEvent.Disable createMuteEventDisable(EUser user, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("user", user);
+        values.put("value", false);
+        values.put("reason", reason);
+        values.put("creationDate", creationDate);
+        values.put("expirationDate", expirationDate);
+        values.put("commandSource", commandSource);
+        values.put("pardonReason", Optional.empty());
+        values.put("pardonDate", Optional.empty());
+        values.put("pardonCommandSource", Optional.empty());
         values.put("cause", cause);
         return SpongeEventFactoryUtils.createEventImpl(MuteEvent.Disable.class, values);
     }

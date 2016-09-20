@@ -26,7 +26,7 @@ import org.spongepowered.api.text.Text;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.server.user.EUser;
 
-public interface MuteEvent extends Event, Cancellable {
+public interface BanEvent extends Event, Cancellable {
 	
 	public EUser getUser();
 	public boolean getValue();
@@ -47,11 +47,11 @@ public interface MuteEvent extends Event, Cancellable {
         return !this.getExpirationDate().isPresent();
     }
 	
-	public interface Enable extends MuteEvent {
+	public interface Enable extends BanEvent {
 		public CommandSource getCommandSource();
 	}
 	
-	public interface Disable extends MuteEvent {
+	public interface Disable extends BanEvent {
 		public default boolean isPardon() {
 	        return this.getPardonDate().isPresent();
 	    }

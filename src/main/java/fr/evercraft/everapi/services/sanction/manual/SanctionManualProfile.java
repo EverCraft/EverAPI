@@ -60,7 +60,7 @@ public interface SanctionManualProfile extends SanctionManual {
 			return Type.BAN_IP;
 		}
 		
-		public Ip getBan(InetAddress address);
+		public Ip getBan();
 	}
 	
 	public interface Mute extends SanctionManualProfile {

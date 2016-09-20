@@ -20,6 +20,7 @@ import java.net.InetAddress;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.services.sanction.auto.SanctionAuto;
@@ -34,37 +35,30 @@ public interface SanctionUserSubject {
 	public Optional<SanctionManualProfile> getManual(SanctionManualProfile.Type type);
 	public Collection<SanctionAuto> getAuto(SanctionAuto.Type type);
 	
-	public boolean ban(long creation, Optional<Long> duration, Text reason, String source);
-	public boolean banIp(InetAddress address, long creation, Optional<Long> duration, Text reason, String source);
-	public boolean mute(long creation, Optional<Long> duration, Text reason, String source);
-	public boolean jail(Jail jail, long creation, Optional<Long> duration, Text reason, String source);
-	public Optional<SanctionManualProfile> pardon(SanctionManualProfile.Type type, long date, Text reason, String source);
-	public boolean addSanction(SanctionAuto.Reason reason, long creation, String source);
+	/*
+	 * Manual
+	 */
+	
+	public boolean ban(long creation, Optional<Long> duration, Text reason, CommandSource source);
+	public boolean banIp(InetAddress address, long creation, Optional<Long> duration, Text reason, CommandSource source);
+	public boolean mute(long creation, Optional<Long> duration, Text reason, CommandSource source);
+	public boolean jail(Jail jail, long creation, Optional<Long> duration, Text reason, CommandSource source);
+	
+	public Optional<SanctionManualProfile.Ban> pardonBan(long date, Text reason, CommandSource source);
+	public Collection<SanctionManualProfile.BanIp> pardonBanIp(long date, Text reason, CommandSource source);
+	public Optional<SanctionManualProfile.Mute> pardonMute(long date, Text reason, CommandSource source);
+	public Optional<SanctionManualProfile.Jail> pardonJail(long date, Text reason, CommandSource source);
 	
 	public boolean removeManual(SanctionManualProfile profile);
+	
+	/*
+	 * Auto
+	 */
+	
+	public boolean addSanction(SanctionAuto.Reason reason, long creation, CommandSource source);
+	
+	public boolean pardonSanction(SanctionAuto.Reason reason, long creation, CommandSource source);
+	
 	public boolean removeAuto(SanctionAuto profile);
 	
-	public default boolean ban(Optional<Long> duration, Text reason, String source) {
-		return this.ban(System.currentTimeMillis(), duration, reason, source);
-	}
-	
-	public default boolean banIp(InetAddress address, Optional<Long> duration, Text reason, String source) {
-		return this.banIp(address, System.currentTimeMillis(), duration, reason, source);
-	}
-	
-	public default boolean mute(Optional<Long> duration, Text reason, String source) {
-		return this.mute(System.currentTimeMillis(), duration, reason, source);
-	}
-	
-	public default boolean jail(Jail jail, Optional<Long> duration, Text reason, String source) {
-		return this.jail(jail, System.currentTimeMillis(), duration, reason, source);
-	}
-	
-	public default Optional<SanctionManualProfile> pardon(SanctionManualProfile.Type type, Text reason, String source) {
-		return this.pardon(type, System.currentTimeMillis(), reason, source);
-	}
-	
-	public default boolean addSanction(SanctionAuto.Reason reason, String source) {
-		return this.addSanction(reason, System.currentTimeMillis(), source);
-	}
 }

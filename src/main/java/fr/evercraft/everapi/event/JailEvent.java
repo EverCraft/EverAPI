@@ -18,34 +18,48 @@ package fr.evercraft.everapi.event;
 
 import java.util.Optional;
 
-import org.spongepowered.api.entity.Transform;
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.event.Cancellable;
 import org.spongepowered.api.event.Event;
-import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.world.World;
+import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.server.user.EUser;
+import fr.evercraft.everapi.services.sanction.Jail;
 
 public interface JailEvent extends Event, Cancellable {
 	
-	public EPlayer getPlayer();
-    
-	public String getIdentifier();
-    public Optional<Long> getDuration();
-    
-    public default boolean isIndefinite() {
-        return !this.getDuration().isPresent();
+	public EUser getUser();
+	public boolean getValue();
+	public Jail getJail();
+	
+	public Text getReason();
+	public long getCreationDate();
+	public Optional<Long> getExpirationDate();
+	public String getSource();
+	
+	public default Optional<EPlayer> getPlayer() {
+		if(this.getUser() instanceof EPlayer) {
+			return Optional.of((EPlayer) this.getUser());
+		}
+		return Optional.empty();
+	}
+	
+	public default boolean isIndefinite() {
+        return !this.getExpirationDate().isPresent();
     }
-    
-    @Override
-	public Cause getCause();
 	
 	public interface Enable extends JailEvent {
-		public Transform<World> getTransform();
+		public CommandSource getCommandSource();
 	}
 	
 	public interface Disable extends JailEvent {
-		public Optional<Transform<World>> getTransform();
+		public default boolean isPardon() {
+	        return this.getPardonDate().isPresent();
+	    }
+		
+		public Optional<Text> getPardonReason();
+		public Optional<Long> getPardonDate();
+		public Optional<CommandSource> getPardonCommandSource();
 	}
 }
-
