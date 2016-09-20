@@ -387,26 +387,6 @@ public class EAMessage extends EMessage {
 				"Blanc", 
 				"White"),
 		
-		// Format
-		FORMAT_OBFUSCATED("format.obfuscated", 
-				"Aléatoire", 
-				"Random"),
-		FORMAT_BOLD("format.bold", 
-				"Gras", 
-				"Bold"),
-		FORMAT_STRIKETHROUGH("format.strikethrough", 
-				"Barré", 
-				"Strikethrough"),
-		FORMAT_UNDERLINE("format.underline", 
-				"Souligné", 
-				"Underline"),
-		FORMAT_ITALIC("format.italic", 
-				"Italique", 
-				"Italic"),
-		FORMAT_RESET("format.reset", 
-				"Réinitialisation", 
-				"Reset"),
-		
 		// Pagination
 		PAGINATION_COLOR("pagination.color", 
 				"&7"),
