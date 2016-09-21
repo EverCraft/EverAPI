@@ -175,7 +175,7 @@ public class EChat implements ChatService {
 		if (message.contains(IP)) message = message.replaceAll(IP, player.getConnection().getAddress().getAddress().getHostAddress().toString());
 		if (message.contains(PING)) message = message.replaceAll(PING, String.valueOf(player.getConnection().getLatency()));
 		if (message.contains(LAST_DATE_PLAYED)) 
-			message = message.replaceAll(LAST_DATE_PLAYED, this.plugin.getEverAPI().getManagerUtils().getDate().formatDateDiff(player.getLastDatePlayed(), 3));
+			message = message.replaceAll(LAST_DATE_PLAYED, this.plugin.getEverAPI().getManagerUtils().getDate().formatDate(player.getLastDatePlayed()));
 		if (message.contains(FIRST_DATE_PLAYED)) 
 			message = message.replaceAll(FIRST_DATE_PLAYED, this.plugin.getEverAPI().getManagerUtils().getDate().parseDate(player.getFirstDatePlayed()));
 		if (message.contains(FIRST_DATE_TIME_PLAYED))

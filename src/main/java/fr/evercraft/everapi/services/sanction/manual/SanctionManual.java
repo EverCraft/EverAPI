@@ -40,7 +40,7 @@ public interface SanctionManual {
 			return false;
 		}
 		
-        return this.getExpirationDate().get() > System.currentTimeMillis();
+        return this.getExpirationDate().get() < System.currentTimeMillis();
     }
 	
 	/*

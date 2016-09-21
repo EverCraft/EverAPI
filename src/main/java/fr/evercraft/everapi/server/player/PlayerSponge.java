@@ -77,7 +77,7 @@ import com.flowpowered.math.vector.Vector3d;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.server.user.EUser;
 
-public abstract class PlayerSponge extends EUser implements Player {
+public class PlayerSponge extends EUser implements Player {
 	protected final Player player;
 	
 	public PlayerSponge(final EverAPI plugin, final Player player) {
@@ -678,5 +678,10 @@ public abstract class PlayerSponge extends EUser implements Player {
 	@Override
 	public Inventory getEnderChestInventory() {
 		return this.player.getEnderChestInventory();
+	}
+
+	@Override
+	public boolean respawnPlayer() {
+		return this.player.respawnPlayer();
 	}
 }
