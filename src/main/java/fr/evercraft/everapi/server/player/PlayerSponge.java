@@ -682,6 +682,6 @@ public class PlayerSponge extends EUser implements Player {
 	
 	@Override
 	public boolean respawnPlayer() {
-		return ((EUser) this.player).respawnPlayer();
+		return this.player.respawnPlayer();
 	}
 }

@@ -107,8 +107,4 @@ public class EUser extends UserStats {
 		}
 		return Optional.empty();
     }
-
-	public boolean respawnPlayer() {
-		return this.respawnPlayer();
-	}
 }
