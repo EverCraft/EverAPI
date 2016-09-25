@@ -16,6 +16,7 @@
  */
 package fr.evercraft.everapi;
 
+import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.scheduler.SpongeExecutorService;
 
@@ -34,12 +35,16 @@ import fr.evercraft.everapi.sponge.ManagerUtils;
 @Plugin(id = "everapi", 
 		name = "EverAPI", 
 		version = EverAPI.VERSION, 
+		dependencies = {
+			@Dependency(id = "spongeapi", version = EverAPI.SPONGEAPI_VERSION)
+		},
 		description = "EverAPI is a library",
 		url = "http://wiki.evercraft.fr/",
 		authors = {"rexbut","lesbleu"})
 public class EverAPI extends EPlugin {
 	
 	public static final String VERSION = "1.2";
+	public static final String SPONGEAPI_VERSION = "5.0.0-SNAPSHOT-a01e398";
 
 	private EChat chat;
 	

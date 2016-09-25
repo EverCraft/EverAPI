@@ -679,9 +679,10 @@ public class PlayerSponge extends EUser implements Player {
 	public Inventory getEnderChestInventory() {
 		return this.player.getEnderChestInventory();
 	}
-	
-	@Override
+
 	public boolean respawnPlayer() {
-		return this.player.respawnPlayer();
+		// TODO Auto-generated method stub
+		return false;
 	}
+
 }
