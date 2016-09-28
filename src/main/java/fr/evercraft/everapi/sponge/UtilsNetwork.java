@@ -40,8 +40,12 @@ public class UtilsNetwork {
 		return Optional.empty();
 	}
 	
+	public static InetSocketAddress getSocketAddress(InetAddress address) {
+		return new InetSocketAddress(address, 0) ;
+	}
+	
 	public static String getHostString(InetAddress address) {
-		return UtilsNetwork.getHostString(new InetSocketAddress(address, 0));
+		return UtilsNetwork.getHostString(UtilsNetwork.getSocketAddress(address));
 	}
 	
     public static String getHostString(SocketAddress address) {
@@ -53,4 +57,12 @@ public class UtilsNetwork {
 
         return address.toString();
     }
+    
+    public static boolean equals(InetAddress o1, InetAddress o2) {
+		return UtilsNetwork.getHostString(o1).equalsIgnoreCase(UtilsNetwork.getHostString(o2)) ;
+	}
+    
+    public static boolean equals(SocketAddress o1, SocketAddress o2) {
+		return UtilsNetwork.getHostString(o1).equalsIgnoreCase(UtilsNetwork.getHostString(o2)) ;
+	}
 }

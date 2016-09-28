@@ -16,18 +16,26 @@
  */
 package fr.evercraft.everapi.services.sanction;
 
+import java.net.InetAddress;
+import java.net.SocketAddress;
 import java.util.Collection;
 import java.util.Optional;
 
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
+import fr.evercraft.everapi.server.user.EUser;
 import fr.evercraft.everapi.services.sanction.manual.SanctionManualIP;
 
 public interface SanctionIpSubject {
+	public String getIdentifier();
+	public InetAddress getAddress();
+	public SocketAddress getSocketAddress();
+	
 	public boolean isBan();
 	public Collection<SanctionManualIP> getAll();
 	
-	public boolean add(long creation, Optional<Long> duration, Text reason, CommandSource source);
-	public boolean pardon(long date, Text reason, CommandSource source);
+	public boolean ban(long creation, Optional<Long> empty, Text reason, CommandSource source);
+	public boolean ban(EUser user, long creation, Optional<Long> empty, Text reason, CommandSource source);
+	public boolean pardonBan(long date, Text reason, CommandSource source);
 }

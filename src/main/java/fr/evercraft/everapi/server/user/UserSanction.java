@@ -70,9 +70,9 @@ public class UserSanction extends UserAccount {
 		return false;
 	}
 
-	public boolean isBanIp() {
+	public boolean isBanIp(InetAddress inetAddress) {
 		if (this.isPresent()) {
-			return this.subject.isBanIp();
+			return this.subject.isBanIp(inetAddress);
 		}
 		return false;
 	}

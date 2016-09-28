@@ -36,7 +36,9 @@ public interface SanctionAuto {
 	public Optional<Level> getLevel();
 	public int getLevelNumber();
 	public String getSource();
+	
 	public Optional<String> getOption();
+	Optional<InetAddress> getAddress();
 	
 	public Optional<Ban.Profile> getBan(GameProfile profile);
 	public Optional<Ban.Ip> getBan(GameProfile profile, InetAddress address);

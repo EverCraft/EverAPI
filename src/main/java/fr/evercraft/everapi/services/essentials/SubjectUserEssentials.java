@@ -78,7 +78,7 @@ public interface SubjectUserEssentials extends SubjectEssentials {
 	/*
 	 * Last ip
 	 */
-	public Optional<InetAddress> getLastIp();
+	public Optional<InetAddress> getLastIP();
 	public boolean setLastIp(InetAddress address);
 	
 	/*

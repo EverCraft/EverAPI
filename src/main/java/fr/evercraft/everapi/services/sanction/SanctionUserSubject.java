@@ -28,7 +28,7 @@ import fr.evercraft.everapi.services.sanction.manual.SanctionManualProfile;
 
 public interface SanctionUserSubject {
 	public boolean isBan();
-	public boolean isBanIp();
+	public boolean isBanIp(InetAddress inetAddress);
 	public boolean isMute();
 	public boolean isJail();
 	

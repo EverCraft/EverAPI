@@ -106,9 +106,9 @@ public class UserEssentials extends UserCooldown implements SubjectUserEssential
 	 */
 	
 	@Override
-	public Optional<InetAddress> getLastIp() {
+	public Optional<InetAddress> getLastIP() {
 		if (this.isPresent()) {
-			return this.subject.getLastIp();
+			return this.subject.getLastIP();
 		}
 		return Optional.empty();
 	}
