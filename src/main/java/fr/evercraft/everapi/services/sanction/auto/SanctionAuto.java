@@ -19,6 +19,7 @@ package fr.evercraft.everapi.services.sanction.auto;
 import java.net.InetAddress;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.text.Text;
@@ -27,6 +28,9 @@ import org.spongepowered.api.util.ban.Ban;
 import fr.evercraft.everapi.services.sanction.Jail;
 
 public interface SanctionAuto {	
+	
+	public UUID getProfile();
+	
 	public Long getCreationDate();
 	public Optional<Long> getExpirationDate();
 

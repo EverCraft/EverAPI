@@ -24,18 +24,17 @@ import java.util.Optional;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
-import fr.evercraft.everapi.server.user.EUser;
-import fr.evercraft.everapi.services.sanction.manual.SanctionManualIP;
+import fr.evercraft.everapi.services.sanction.auto.SanctionAuto;
+import fr.evercraft.everapi.services.sanction.manual.SanctionManual;
 
 public interface SanctionIpSubject {
 	public String getIdentifier();
 	public InetAddress getAddress();
 	public SocketAddress getSocketAddress();
 	
-	public boolean isBan();
-	public Collection<SanctionManualIP> getAll();
+	public Collection<SanctionManual> getAllManuals();
+	public Collection<SanctionAuto> getAllAutos();
 	
 	public boolean ban(long creation, Optional<Long> empty, Text reason, CommandSource source);
-	public boolean ban(EUser user, long creation, Optional<Long> empty, Text reason, CommandSource source);
 	public boolean pardonBan(long date, Text reason, CommandSource source);
 }

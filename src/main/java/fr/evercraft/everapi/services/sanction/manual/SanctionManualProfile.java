@@ -18,6 +18,7 @@ package fr.evercraft.everapi.services.sanction.manual;
 
 import java.net.InetAddress;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.util.ban.Ban.Ip;
@@ -44,23 +45,24 @@ public interface SanctionManualProfile extends SanctionManual {
 		}
 	}
 	
+	public UUID getProfile();
 	public Type getType();
 	
 	public interface Ban extends SanctionManualProfile {
+		public Profile getBan(GameProfile profile);
+		
 		public default Type getType() {
 			return Type.BAN_PROFILE;
 		}
-		
-		public Profile getBan(GameProfile profile);
 	}
 	
 	public interface BanIp extends SanctionManualProfile {
 		public InetAddress getAddress();
+		public Ip getBan();
+		
 		public default Type getType() {
 			return Type.BAN_IP;
 		}
-		
-		public Ip getBan();
 	}
 	
 	public interface Mute extends SanctionManualProfile {
