@@ -285,8 +285,8 @@ public class EPlayer extends PlayerSponge {
 	 * @param limit La distance maximum du block
 	 * @return La position du block
 	 */
-	public Optional<Vector3i> getViewBlock(final int limit) {
-		BlockRay<World> blocks = BlockRay.from(this.player).blockLimit(limit).build();
+	public Optional<Vector3i> getViewBlock(final double limit) {
+		BlockRay<World> blocks = BlockRay.from(this.player).distanceLimit(limit).build();
 		BlockRayHit<World> block = null;
 		while(blocks.hasNext() && block == null) {
 			BlockRayHit<World> tempoBlock = blocks.next();
