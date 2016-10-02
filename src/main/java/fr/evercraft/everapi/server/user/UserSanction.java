@@ -69,6 +69,13 @@ public class UserSanction extends UserAccount {
 		}
 		return false;
 	}
+	
+	public boolean isBanIp() {
+		if (this.isPresent()) {
+			return this.subject.isBanIp();
+		}
+		return false;
+	}
 
 	public boolean isBanIp(InetAddress inetAddress) {
 		if (this.isPresent()) {
