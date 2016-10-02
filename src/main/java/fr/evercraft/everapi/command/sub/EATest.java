@@ -25,7 +25,7 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.text.translation.FixedTranslation;
+import org.spongepowered.api.util.ban.Ban;
 
 import fr.evercraft.everapi.EACommand;
 import fr.evercraft.everapi.EAPermissions;
@@ -69,8 +69,10 @@ public class EATest extends ESubCommand<EverAPI> {
 	}
 	
 	private boolean commandTest(final EPlayer player) {
-		player.sendMessage("ItemType : ");
-		player.sendMessage(Text.of(new FixedTranslation("enchantment.level.1")));
+		for(Ban.Ip ip : this.plugin.getManagerService().getBan().get().getIpBans()) {
+			player.sendMessage(Text.of("getBanSource" + ip.getBanSource()));
+			player.sendMessage(Text.of("getReason" + ip.getReason()));
+		}
 		return false;
 	}
 
