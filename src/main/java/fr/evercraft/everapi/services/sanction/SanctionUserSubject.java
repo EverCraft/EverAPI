@@ -25,10 +25,12 @@ import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.services.sanction.auto.SanctionAuto;
 import fr.evercraft.everapi.services.sanction.manual.SanctionManualProfile;
+import fr.evercraft.everapi.services.sanction.manual.SanctionManualProfile.BanIp;
 
 public interface SanctionUserSubject {
 	public boolean isBan();
 	public boolean isBanIp(InetAddress inetAddress);
+	public boolean isBanIp();
 	public boolean isMute();
 	public boolean isJail();
 	
@@ -46,6 +48,7 @@ public interface SanctionUserSubject {
 	
 	public Optional<SanctionManualProfile.Ban> pardonBan(long date, Text reason, CommandSource source);
 	public Collection<SanctionManualProfile.BanIp> pardonBanIp(long date, Text reason, CommandSource source);
+	public Optional<BanIp> pardonBanIp(InetAddress address, long date, Text reason, CommandSource source);
 	public Optional<SanctionManualProfile.Mute> pardonMute(long date, Text reason, CommandSource source);
 	public Optional<SanctionManualProfile.Jail> pardonJail(long date, Text reason, CommandSource source);
 	

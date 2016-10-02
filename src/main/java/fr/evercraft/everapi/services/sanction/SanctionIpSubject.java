@@ -32,9 +32,12 @@ public interface SanctionIpSubject {
 	public InetAddress getAddress();
 	public SocketAddress getSocketAddress();
 	
+	public boolean isBanManual();
+	public boolean isBanAuto();
+	
 	public Collection<SanctionManual> getAllManuals();
 	public Collection<SanctionAuto> getAllAutos();
 	
 	public boolean ban(long creation, Optional<Long> empty, Text reason, CommandSource source);
-	public boolean pardonBan(long date, Text reason, CommandSource source);
+	public Collection<SanctionManual> pardonBan(long date, Text reason, CommandSource source);
 }
