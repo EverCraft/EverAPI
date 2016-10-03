@@ -16,8 +16,12 @@
  */
 package fr.evercraft.everapi.sponge;
 
+import java.util.Collection;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.type.SkeletonTypes;
 import org.spongepowered.api.data.type.ZombieTypes;
@@ -101,7 +105,7 @@ public enum UtilsEntity {
         return true;
 	}
 	
-	public Entity getEntity(final Entity entity){
+	public Entity getEntity(final Entity entity) {
 		if (this.equals(UtilsEntity.ELDER_GUARDIAN)) {
 			entity.offer(Keys.ELDER_GUARDIAN, true);
 		} else if (this.equals(UtilsEntity.CHARGED_CREEPER)) {
@@ -127,5 +131,9 @@ public enum UtilsEntity {
 			cpt++;
 		}
 		return Optional.ofNullable(entity);
+	}
+	
+	public static Collection<EntityType> getEntities(Predicate<? super EntityType> predicate) {
+		return Sponge.getGame().getRegistry().getAllOf(EntityType.class).stream().filter(predicate).collect(Collectors.toList());
 	}
 }
