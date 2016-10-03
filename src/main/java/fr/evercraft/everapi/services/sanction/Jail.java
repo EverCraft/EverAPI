@@ -16,13 +16,11 @@
  */
 package fr.evercraft.everapi.services.sanction;
 
-import java.util.Optional;
-
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.world.World;
 
 public interface Jail {
 	public String getName();
 	public int getRadius();
-	public Optional<Transform<World>> getTransform();
+	public Transform<World> getTransform();
 }

@@ -28,8 +28,7 @@ public interface JailService {
 	public boolean has(String identifier);
 	public Optional<Jail> get(String identifier);
 	
-	public boolean add(String identifier, int radius, Transform<World> location);
-	public boolean update(String identifier, int radius, Transform<World> location);
+	public boolean add(String identifier, Transform<World> location, Optional<Integer> radius);
 	public boolean remove(String identifier);
 	
 	public boolean clearAll();

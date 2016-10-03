@@ -339,6 +339,8 @@ public class EAMessage extends EMessage {
 				"time"),
 		ARGS_IP("args.ip", 
 				"IP"),
+		ARGS_JAIL("args.jail", 
+				"prison"),
 		
 		// Couleur
 		COLORS_BLACK("colors.black", 
