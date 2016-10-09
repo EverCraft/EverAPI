@@ -41,6 +41,8 @@ public interface SanctionAuto {
 	public int getLevelNumber();
 	public String getSource();
 	
+	public Optional<Jail> getJail();
+	
 	public Optional<String> getOption();
 	Optional<InetAddress> getAddress();
 	

@@ -98,6 +98,13 @@ public class UserSanction extends UserAccount {
 		return false;
 	}
 	
+	public Optional<Jail> getJail() {
+		if (this.isPresent()) {
+			return this.subject.getJail();
+		}
+		return Optional.empty();
+	}
+	
 	/*
 	 * Manual
 	 */

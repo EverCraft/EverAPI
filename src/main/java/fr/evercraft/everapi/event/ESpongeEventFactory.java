@@ -132,6 +132,7 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("reason", reason);
         values.put("creationDate", creationDate);
         values.put("expirationDate", expirationDate);
+        values.put("source", commandSource.getName());
         values.put("commandSource", commandSource);
         values.put("cause", cause);
         return SpongeEventFactoryUtils.createEventImpl(BanEvent.Enable.class, values);
@@ -145,9 +146,11 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("reason", reason);
         values.put("creationDate", creationDate);
         values.put("expirationDate", expirationDate);
+        values.put("source", commandSource.getName());
         values.put("commandSource", commandSource);
         values.put("pardonReason", Optional.of(pardonReason));
         values.put("pardonDate", Optional.of(pardonDate));
+        values.put("pardonSource", Optional.of(pardonCommandSource.getName()));
         values.put("pardonCommandSource", Optional.of(pardonCommandSource));
         values.put("cause", cause);
         return SpongeEventFactoryUtils.createEventImpl(BanEvent.Disable.class, values);
@@ -160,9 +163,11 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("reason", reason);
         values.put("creationDate", creationDate);
         values.put("expirationDate", expirationDate);
+        values.put("source", commandSource.getName());
         values.put("commandSource", commandSource);
         values.put("pardonReason", Optional.empty());
         values.put("pardonDate", Optional.empty());
+        values.put("pardonSource", Optional.empty());
         values.put("pardonCommandSource", Optional.empty());
         values.put("cause", cause);
         return SpongeEventFactoryUtils.createEventImpl(BanEvent.Disable.class, values);
@@ -373,9 +378,17 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("jail", jail);
         values.put("reason", reason);
         values.put("creationDate", creationDate);
+        values.put("indefinite", !expirationDate.isPresent());
         values.put("expirationDate", expirationDate);
+        values.put("source", commandSource.getName());
         values.put("commandSource", commandSource);
         values.put("cause", cause);
+
+        if(user instanceof EPlayer) {
+            values.put("player", Optional.of((EPlayer) user));
+        } else {
+            values.put("player", Optional.empty());
+        }
         return SpongeEventFactoryUtils.createEventImpl(JailEvent.Enable.class, values);
     }
 	
@@ -387,15 +400,24 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("jail", jail);
         values.put("reason", reason);
         values.put("creationDate", creationDate);
+        values.put("indefinite", !expirationDate.isPresent());
         values.put("expirationDate", expirationDate);
+        values.put("source", commandSource.getName());
         values.put("commandSource", commandSource);
         values.put("pardonReason", Optional.of(pardonReason));
         values.put("pardonDate", Optional.of(pardonDate));
+        values.put("pardonSource", Optional.of(pardonCommandSource.getName()));
         values.put("pardonCommandSource", Optional.of(pardonCommandSource));
         values.put("cause", cause);
+
+        if(user instanceof EPlayer) {
+            values.put("player", Optional.of((EPlayer) user));
+        } else {
+            values.put("player", Optional.empty());
+        }
         return SpongeEventFactoryUtils.createEventImpl(JailEvent.Disable.class, values);
     }
-	
+
 	public static JailEvent.Disable createJailEventDisable(EUser user, Jail jail, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, Cause cause) {
         HashMap<String, Object> values = new HashMap<String, Object>();
         values.put("user", user);
@@ -403,12 +425,21 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("jail", jail);
         values.put("reason", reason);
         values.put("creationDate", creationDate);
+        values.put("indefinite", !expirationDate.isPresent());
         values.put("expirationDate", expirationDate);
+        values.put("source", commandSource.getName());
         values.put("commandSource", commandSource);
         values.put("pardonReason", Optional.empty());
         values.put("pardonDate", Optional.empty());
+        values.put("pardonSource", Optional.empty());
         values.put("pardonCommandSource", Optional.empty());
         values.put("cause", cause);
+
+        if(user instanceof EPlayer) {
+            values.put("player", Optional.of((EPlayer) user));
+        } else {
+            values.put("player", Optional.empty());
+        }
         return SpongeEventFactoryUtils.createEventImpl(JailEvent.Disable.class, values);
     }
 	
@@ -468,6 +499,7 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("reason", reason);
         values.put("creationDate", creationDate);
         values.put("expirationDate", expirationDate);
+        values.put("source", commandSource.getName());
         values.put("commandSource", commandSource);
         values.put("cause", cause);
         return SpongeEventFactoryUtils.createEventImpl(MuteEvent.Enable.class, values);
@@ -481,9 +513,11 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("reason", reason);
         values.put("creationDate", creationDate);
         values.put("expirationDate", expirationDate);
+        values.put("source", commandSource.getName());
         values.put("commandSource", commandSource);
         values.put("pardonReason", Optional.of(pardonReason));
         values.put("pardonDate", Optional.of(pardonDate));
+        values.put("pardonSource", Optional.of(pardonCommandSource.getName()));
         values.put("pardonCommandSource", Optional.of(pardonCommandSource));
         values.put("cause", cause);
         return SpongeEventFactoryUtils.createEventImpl(MuteEvent.Disable.class, values);
@@ -496,9 +530,11 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("reason", reason);
         values.put("creationDate", creationDate);
         values.put("expirationDate", expirationDate);
+        values.put("source", commandSource.getName());
         values.put("commandSource", commandSource);
         values.put("pardonReason", Optional.empty());
         values.put("pardonDate", Optional.empty());
+        values.put("pardonSource", Optional.empty());
         values.put("pardonCommandSource", Optional.empty());
         values.put("cause", cause);
         return SpongeEventFactoryUtils.createEventImpl(MuteEvent.Disable.class, values);

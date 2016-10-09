@@ -30,36 +30,29 @@ import fr.evercraft.everapi.services.sanction.Jail;
 public interface JailEvent extends Event, Cancellable {
 	
 	public EUser getUser();
+	public Optional<EPlayer> getPlayer();
+	
 	public boolean getValue();
 	public Jail getJail();
 	
 	public Text getReason();
 	public long getCreationDate();
+	public boolean isIndefinite();
 	public Optional<Long> getExpirationDate();
 	public String getSource();
-	
-	public default Optional<EPlayer> getPlayer() {
-		if(this.getUser() instanceof EPlayer) {
-			return Optional.of((EPlayer) this.getUser());
-		}
-		return Optional.empty();
-	}
-	
-	public default boolean isIndefinite() {
-        return !this.getExpirationDate().isPresent();
-    }
 	
 	public interface Enable extends JailEvent {
 		public CommandSource getCommandSource();
 	}
 	
 	public interface Disable extends JailEvent {
-		public default boolean isPardon() {
+		default boolean isPardon() {
 	        return this.getPardonDate().isPresent();
 	    }
 		
 		public Optional<Text> getPardonReason();
 		public Optional<Long> getPardonDate();
+		public Optional<String> getPardonSource();
 		public Optional<CommandSource> getPardonCommandSource();
 	}
 }

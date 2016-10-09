@@ -33,6 +33,7 @@ public interface SanctionUserSubject {
 	public boolean isBanIp();
 	public boolean isMute();
 	public boolean isJail();
+	public Optional<Jail> getJail();
 	
 	public Optional<SanctionManualProfile> getManual(SanctionManualProfile.Type type);
 	public Collection<SanctionAuto> getAuto(SanctionAuto.Type type);
