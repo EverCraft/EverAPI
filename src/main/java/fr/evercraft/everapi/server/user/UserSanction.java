@@ -30,6 +30,9 @@ import com.google.common.collect.ImmutableList;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.sanction.Jail;
+import fr.evercraft.everapi.services.sanction.Sanction.SanctionBanProfile;
+import fr.evercraft.everapi.services.sanction.Sanction.SanctionJail;
+import fr.evercraft.everapi.services.sanction.Sanction.SanctionMute;
 import fr.evercraft.everapi.services.sanction.SanctionUserSubject;
 import fr.evercraft.everapi.services.sanction.auto.SanctionAuto;
 import fr.evercraft.everapi.services.sanction.manual.SanctionManualProfile;
@@ -62,13 +65,6 @@ public class UserSanction extends UserAccount {
 		}
 		return Arrays.asList();
 	}
-
-	public boolean isBan() {
-		if (this.isPresent()) {
-			return this.subject.isBan();
-		}
-		return false;
-	}
 	
 	public boolean isBanIp() {
 		if (this.isPresent()) {
@@ -80,6 +76,13 @@ public class UserSanction extends UserAccount {
 	public boolean isBanIp(InetAddress inetAddress) {
 		if (this.isPresent()) {
 			return this.subject.isBanIp(inetAddress);
+		}
+		return false;
+	}
+	
+	public boolean isBanProfile() {
+		if (this.isPresent()) {
+			return this.subject.isBanProfile();
 		}
 		return false;
 	}
@@ -98,7 +101,21 @@ public class UserSanction extends UserAccount {
 		return false;
 	}
 	
-	public Optional<Jail> getJail() {
+	public Optional<SanctionBanProfile> getBanProfile() {
+		if (this.isPresent()) {
+			return this.subject.getBanProfile();
+		}
+		return Optional.empty();
+	}
+	
+	public Optional<SanctionMute> getMute() {
+		if (this.isPresent()) {
+			return this.subject.getMute();
+		}
+		return Optional.empty();
+	}
+	
+	public Optional<SanctionJail> getJail() {
 		if (this.isPresent()) {
 			return this.subject.getJail();
 		}

@@ -152,8 +152,8 @@ public class EPlayer extends PlayerSponge {
 	 * @param location La location
 	 * @return True si le joueur a bien été téléporté
 	 */
-	public boolean teleport(final Location<World> location) {
-		return teleport(this.getTransform().setLocation(location));
+	public boolean teleport(final Location<World> location, boolean back) {
+		return this.teleport(this.getTransform().setLocation(location), back);
 	}
 	
 	/**
@@ -161,9 +161,13 @@ public class EPlayer extends PlayerSponge {
 	 * @param transform Le transform
 	 * @return True si le joueur a bien été téléporté
 	 */
-	public boolean teleport(final Transform<World> transform) {
-		Transform<World> back = this.getTransform();
-		return this.setTransform(transform) && this.setBack(back);
+	public boolean teleport(final Transform<World> transform, boolean back) {
+		if (back) {
+			Transform<World> back_transform = this.getTransform();
+			return this.setTransform(transform) && this.setBack(back_transform);
+		} else {
+			return this.setTransform(transform);
+		}
 	}
 	
 	/**
@@ -171,8 +175,8 @@ public class EPlayer extends PlayerSponge {
 	 * @param location La location
 	 * @return True si le joueur a bien été téléporté
 	 */
-	public boolean teleportSafe(final Location<World> location) {
-		return teleportSafe(this.getTransform().setLocation(location));
+	public boolean teleportSafe(final Location<World> location, boolean back) {
+		return teleportSafe(this.getTransform().setLocation(location), back);
 	}
 	
 	/**
@@ -180,10 +184,9 @@ public class EPlayer extends PlayerSponge {
 	 * @param transform Le transform
 	 * @return True si le joueur a bien été téléporté
 	 */
-	public boolean teleportSafe(final Transform<World> transform) {
+	public boolean teleportSafe(final Transform<World> transform, boolean back) {
 		if (this.isGod() || this.getGameMode().equals(GameModes.CREATIVE) || this.plugin.getEverAPI().getManagerUtils().getLocation().isPositionSafe(transform)) {
-			Transform<World> back = this.getTransform();
-			return this.setTransform(transform) && this.setBack(back);
+			return this.teleport(transform, back);
 		}
 		return false;
 	}
@@ -193,8 +196,8 @@ public class EPlayer extends PlayerSponge {
 	 * @param location La location
 	 * @return True si le joueur a bien été téléporté
 	 */
-	public boolean teleportSafeZone(final Location<World> location) {
-		return teleportSafeZone(this.getTransform().setLocation(location));
+	public boolean teleportSafeZone(final Location<World> location, boolean back) {
+		return teleportSafeZone(this.getTransform().setLocation(location), back);
 	}
 	
 	/**
@@ -202,25 +205,24 @@ public class EPlayer extends PlayerSponge {
 	 * @param transform Le transform
 	 * @return True si le joueur a bien été téléporté
 	 */
-	public boolean teleportSafeZone(final Transform<World> transform) {
+	public boolean teleportSafeZone(final Transform<World> transform, boolean back) {
 		Optional<Transform<World>> optTransform = this.plugin.getEverAPI().getManagerUtils().getLocation().getBlock(
 														transform, !(this.isGod() || this.getGameMode().equals(GameModes.CREATIVE)));
 		if (optTransform.isPresent()) {
-			Transform<World> back = this.getTransform();
-			return this.setTransform(optTransform.get()) && this.setBack(back);
+			return this.teleport(optTransform.get(), back);
 		}
 		return false;
 	}
 	
 	
 	public boolean teleportBottom() {
-		return this.teleportBottom(this.getTransform());
+		return this.teleportBottom(this.getTransform(), false);
 	}
 	
-	public boolean teleportBottom(final Transform<World> transform) {
+	public boolean teleportBottom(final Transform<World> transform, boolean back) {
 		Optional<Transform<World>> optTransform = this.plugin.getEverAPI().getManagerUtils().getLocation().getBlockBottom(transform);
 		if (optTransform.isPresent()) {
-			return this.setTransform(optTransform.get());
+			return this.teleport(optTransform.get(), back);
 		}
 		return false;
 	}

@@ -25,7 +25,6 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.services.sanction.auto.SanctionAuto;
-import fr.evercraft.everapi.services.sanction.manual.SanctionManual;
 
 public interface SanctionIpSubject {
 	public String getIdentifier();
@@ -35,9 +34,9 @@ public interface SanctionIpSubject {
 	public boolean isBanManual();
 	public boolean isBanAuto();
 	
-	public Collection<SanctionManual> getAllManuals();
+	public Collection<Sanction> getAllManuals();
 	public Collection<SanctionAuto> getAllAutos();
 	
 	public boolean ban(long creation, Optional<Long> empty, Text reason, CommandSource source);
-	public Collection<SanctionManual> pardonBan(long date, Text reason, CommandSource source);
+	public Collection<Sanction> pardonBan(long date, Text reason, CommandSource source);
 }

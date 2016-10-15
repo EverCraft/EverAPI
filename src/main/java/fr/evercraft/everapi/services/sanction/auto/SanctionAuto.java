@@ -26,72 +26,82 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.util.ban.Ban;
 
 import fr.evercraft.everapi.services.sanction.Jail;
+import fr.evercraft.everapi.services.sanction.Sanction;
 
-public interface SanctionAuto {	
+public interface SanctionAuto extends Sanction {	
 	
 	public UUID getProfile();
 	
-	public Long getCreationDate();
-	public Optional<Long> getExpirationDate();
 
-	public Type getType();
-	public Reason getReason();
+	public Type getTypeSanction();
+	public Reason getReasonSanction();
 	public Text getReasonText();
 	public Optional<Level> getLevel();
 	public int getLevelNumber();
-	public String getSource();
-	
-	public Optional<Jail> getJail();
-	
 	public Optional<String> getOption();
-	Optional<InetAddress> getAddress();
 	
 	public Optional<Ban.Profile> getBan(GameProfile profile);
 	public Optional<Ban.Ip> getBan(GameProfile profile, InetAddress address);
 	
 	public default boolean isBan() {
-		return this.getType().isBan();
+		return this.getTypeSanction().isBan();
 	}
 	
 	public default boolean isBanIP() {
-		return this.getType().isBanIP();
+		return this.getTypeSanction().isBanIP();
 	}
 	
 	public default boolean isMute() {
-		return this.getType().isMute();
+		return this.getTypeSanction().isMute();
 	}
 	
 	public default boolean isJail() {
-		return this.getType().isJail();
-	}	
-	
-	public default boolean isIndefinite() {
-        return !this.getExpirationDate().isPresent();
-    }
+		return this.getTypeSanction().isJail();
+	}
 	
 	/*
-	 * Pardon
+	 * Sanctions
 	 */
 	
-	public Optional<Long> getPardonDate();
-	public Optional<String> getPardonSource();
-	public Optional<Text> getPardonReason();
+	public interface SanctionBanProfile extends SanctionAuto, Sanction.SanctionBanProfile {
+		public default Type getType() {
+	        return Type.BAN_PROFILE;
+	    }
+	}
 	
-	public default boolean isPardon() {
-        return this.getPardonDate().isPresent();
-    }
+	public interface SanctionBanIp extends SanctionAuto, Sanction.SanctionBanIp {
+		public default Type getType() {
+	        return Type.BAN_IP;
+	    }
+	}
 	
-	public default boolean isExpire() {
-		if(this.isPardon()) {
-			return true;
-		}
-		
-		if(this.isIndefinite()) {
-			return false;
-		}
-		
-        return this.getExpirationDate().orElse(0L) > System.currentTimeMillis();
-    }
+	public interface SanctionBanProfileAndIp extends SanctionAuto, SanctionBanProfile, SanctionBanIp {
+		public default Type getType() {
+	        return Type.BAN_PROFILE_AND_IP;
+	    }
+	}
+	
+	public interface SanctionMute extends SanctionAuto, Sanction.SanctionMute {
+		public default Type getType() {
+	        return Type.MUTE;
+	    }
+	}
+	
+	public interface SanctionJail extends SanctionAuto, Sanction.SanctionJail {
+		public default Type getType() {
+	        return Type.JAIL;
+	    }
+	}
+	
+	public interface SanctionMuteAndJail extends SanctionAuto, SanctionMute, SanctionJail {
+		public default Type getType() {
+	        return Type.MUTE_AND_JAIL;
+	    }
+	}
+	
+	/*
+	 * Type
+	 */
 	
 	public interface Reason {
 		public String getName();
@@ -105,20 +115,19 @@ public interface SanctionAuto {
 		public Optional<Long> getExpirationDate(long creation);
 		public String getReason();	
 		public Optional<Jail> getJail();
-		public Optional<InetAddress> getAddress();
-		public Optional<String> getOption();
 		
 		public default boolean isIndefinite() {
 	        return !this.getDuration().isPresent();
 	    }
 	}
 	
+	
 	public enum Type {
 		BAN_PROFILE(true, false, false, false),
 		BAN_IP(false, true, false, false),
 		MUTE(false, false, true, false),
 		JAIL(false, false, false, true),
-		BAN_PROFILE_AND_BAN_IP(true, true, false, false),
+		BAN_PROFILE_AND_IP(true, true, false, false),
 		MUTE_AND_JAIL(false, false, true, true);
 		
 		private final boolean ban;

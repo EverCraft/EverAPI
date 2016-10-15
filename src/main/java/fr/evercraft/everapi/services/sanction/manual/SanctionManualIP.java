@@ -20,6 +20,8 @@ import java.net.InetAddress;
 
 import org.spongepowered.api.util.ban.Ban;
 
-public interface SanctionManualIP extends SanctionManual {
+import fr.evercraft.everapi.services.sanction.Sanction;
+
+public interface SanctionManualIP extends Sanction {
 	public Ban.Ip getBan(InetAddress address);
 }

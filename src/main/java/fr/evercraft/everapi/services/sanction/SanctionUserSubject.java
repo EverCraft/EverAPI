@@ -23,17 +23,24 @@ import java.util.Optional;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
+import fr.evercraft.everapi.services.sanction.Sanction.SanctionBanProfile;
+import fr.evercraft.everapi.services.sanction.Sanction.SanctionJail;
+import fr.evercraft.everapi.services.sanction.Sanction.SanctionMute;
 import fr.evercraft.everapi.services.sanction.auto.SanctionAuto;
 import fr.evercraft.everapi.services.sanction.manual.SanctionManualProfile;
 import fr.evercraft.everapi.services.sanction.manual.SanctionManualProfile.BanIp;
 
 public interface SanctionUserSubject {
-	public boolean isBan();
 	public boolean isBanIp(InetAddress inetAddress);
 	public boolean isBanIp();
+	
+	public boolean isBanProfile();
 	public boolean isMute();
 	public boolean isJail();
-	public Optional<Jail> getJail();
+	
+	public Optional<SanctionBanProfile> getBanProfile();
+	public Optional<SanctionMute> getMute();
+	public Optional<SanctionJail> getJail();
 	
 	public Optional<SanctionManualProfile> getManual(SanctionManualProfile.Type type);
 	public Collection<SanctionAuto> getAuto(SanctionAuto.Type type);
@@ -59,10 +66,8 @@ public interface SanctionUserSubject {
 	 * Auto
 	 */
 	
-	public boolean addSanction(SanctionAuto.Reason reason, long creation, CommandSource source);
-	
-	public boolean pardonSanction(SanctionAuto.Reason reason, long creation, CommandSource source);
-	
-	public boolean removeAuto(SanctionAuto profile);
+	public boolean addSanction(SanctionAuto.Reason reason_sanction, long creation, CommandSource source);
+	public boolean pardonSanction(SanctionAuto.Reason reason_sanction, long date, Text reason_text, CommandSource source);
+	public boolean removeSanction(SanctionAuto profile);
 	
 }

@@ -131,10 +131,17 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("value", true);
         values.put("reason", reason);
         values.put("creationDate", creationDate);
+        values.put("indefinite", !expirationDate.isPresent());
         values.put("expirationDate", expirationDate);
         values.put("source", commandSource.getName());
         values.put("commandSource", commandSource);
         values.put("cause", cause);
+        
+        if(user instanceof EPlayer) {
+            values.put("player", Optional.of((EPlayer) user));
+        } else {
+            values.put("player", Optional.empty());
+        }
         return SpongeEventFactoryUtils.createEventImpl(BanEvent.Enable.class, values);
     }
 	
@@ -145,14 +152,22 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("value", false);
         values.put("reason", reason);
         values.put("creationDate", creationDate);
+        values.put("indefinite", !expirationDate.isPresent());
         values.put("expirationDate", expirationDate);
         values.put("source", commandSource.getName());
         values.put("commandSource", commandSource);
+        values.put("pardon", true);
         values.put("pardonReason", Optional.of(pardonReason));
         values.put("pardonDate", Optional.of(pardonDate));
         values.put("pardonSource", Optional.of(pardonCommandSource.getName()));
         values.put("pardonCommandSource", Optional.of(pardonCommandSource));
         values.put("cause", cause);
+        
+        if(user instanceof EPlayer) {
+            values.put("player", Optional.of((EPlayer) user));
+        } else {
+            values.put("player", Optional.empty());
+        }
         return SpongeEventFactoryUtils.createEventImpl(BanEvent.Disable.class, values);
     }
 	
@@ -162,14 +177,22 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("value", false);
         values.put("reason", reason);
         values.put("creationDate", creationDate);
+        values.put("indefinite", !expirationDate.isPresent());
         values.put("expirationDate", expirationDate);
         values.put("source", commandSource.getName());
         values.put("commandSource", commandSource);
+        values.put("pardon", false);
         values.put("pardonReason", Optional.empty());
         values.put("pardonDate", Optional.empty());
         values.put("pardonSource", Optional.empty());
         values.put("pardonCommandSource", Optional.empty());
         values.put("cause", cause);
+        
+        if(user instanceof EPlayer) {
+            values.put("player", Optional.of((EPlayer) user));
+        } else {
+            values.put("player", Optional.empty());
+        }
         return SpongeEventFactoryUtils.createEventImpl(BanEvent.Disable.class, values);
     }
 	
@@ -404,6 +427,7 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("expirationDate", expirationDate);
         values.put("source", commandSource.getName());
         values.put("commandSource", commandSource);
+        values.put("pardon", true);
         values.put("pardonReason", Optional.of(pardonReason));
         values.put("pardonDate", Optional.of(pardonDate));
         values.put("pardonSource", Optional.of(pardonCommandSource.getName()));
@@ -429,6 +453,7 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("expirationDate", expirationDate);
         values.put("source", commandSource.getName());
         values.put("commandSource", commandSource);
+        values.put("pardon", false);
         values.put("pardonReason", Optional.empty());
         values.put("pardonDate", Optional.empty());
         values.put("pardonSource", Optional.empty());
@@ -498,10 +523,17 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("value", true);
         values.put("reason", reason);
         values.put("creationDate", creationDate);
+        values.put("indefinite", !expirationDate.isPresent());
         values.put("expirationDate", expirationDate);
         values.put("source", commandSource.getName());
         values.put("commandSource", commandSource);
         values.put("cause", cause);
+        
+        if(user instanceof EPlayer) {
+            values.put("player", Optional.of((EPlayer) user));
+        } else {
+            values.put("player", Optional.empty());
+        }
         return SpongeEventFactoryUtils.createEventImpl(MuteEvent.Enable.class, values);
     }
 	
@@ -512,14 +544,22 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("value", false);
         values.put("reason", reason);
         values.put("creationDate", creationDate);
+        values.put("indefinite", !expirationDate.isPresent());
         values.put("expirationDate", expirationDate);
         values.put("source", commandSource.getName());
         values.put("commandSource", commandSource);
+        values.put("pardon", true);
         values.put("pardonReason", Optional.of(pardonReason));
         values.put("pardonDate", Optional.of(pardonDate));
         values.put("pardonSource", Optional.of(pardonCommandSource.getName()));
         values.put("pardonCommandSource", Optional.of(pardonCommandSource));
         values.put("cause", cause);
+        
+        if(user instanceof EPlayer) {
+            values.put("player", Optional.of((EPlayer) user));
+        } else {
+            values.put("player", Optional.empty());
+        }
         return SpongeEventFactoryUtils.createEventImpl(MuteEvent.Disable.class, values);
     }
 	
@@ -529,14 +569,22 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("value", false);
         values.put("reason", reason);
         values.put("creationDate", creationDate);
+        values.put("indefinite", !expirationDate.isPresent());
         values.put("expirationDate", expirationDate);
         values.put("source", commandSource.getName());
         values.put("commandSource", commandSource);
+        values.put("pardon", false);
         values.put("pardonReason", Optional.empty());
         values.put("pardonDate", Optional.empty());
         values.put("pardonSource", Optional.empty());
         values.put("pardonCommandSource", Optional.empty());
         values.put("cause", cause);
+        
+        if(user instanceof EPlayer) {
+            values.put("player", Optional.of((EPlayer) user));
+        } else {
+            values.put("player", Optional.empty());
+        }
         return SpongeEventFactoryUtils.createEventImpl(MuteEvent.Disable.class, values);
     }
 	

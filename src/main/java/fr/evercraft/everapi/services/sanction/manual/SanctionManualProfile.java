@@ -24,7 +24,9 @@ import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.util.ban.Ban.Ip;
 import org.spongepowered.api.util.ban.Ban.Profile;
 
-public interface SanctionManualProfile extends SanctionManual {
+import fr.evercraft.everapi.services.sanction.Sanction;
+
+public interface SanctionManualProfile extends Sanction {
 	
 	public enum Type {
 		BAN_PROFILE,

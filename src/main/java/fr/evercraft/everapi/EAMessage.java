@@ -78,6 +78,8 @@ public class EAMessage extends EMessage {
 		IS_NOT_NUMBER("isNotNumber", 
 				"&cErreur : '<number>' n'est pas nombre.", 
 				"&cError : '<number>' is not a number"),
+		IS_NOT_TIME("isNotTime", 
+				"&cErreur : &6'<time>' &cn'est pas une durée."),
 		
 		// Commande
 		COMMAND_USAGE("command.usage",

@@ -46,10 +46,7 @@ public interface JailEvent extends Event, Cancellable {
 	}
 	
 	public interface Disable extends JailEvent {
-		default boolean isPardon() {
-	        return this.getPardonDate().isPresent();
-	    }
-		
+		public boolean isPardon();		
 		public Optional<Text> getPardonReason();
 		public Optional<Long> getPardonDate();
 		public Optional<String> getPardonSource();
