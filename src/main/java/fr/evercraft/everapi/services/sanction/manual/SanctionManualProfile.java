@@ -50,7 +50,7 @@ public interface SanctionManualProfile extends Sanction {
 	public UUID getProfile();
 	public Type getType();
 	
-	public interface Ban extends SanctionManualProfile {
+	public interface Ban extends SanctionManualProfile, SanctionBanProfile {
 		public Profile getBan(GameProfile profile);
 		
 		public default Type getType() {
@@ -58,7 +58,7 @@ public interface SanctionManualProfile extends Sanction {
 		}
 	}
 	
-	public interface BanIp extends SanctionManualProfile {
+	public interface BanIp extends SanctionManualProfile, SanctionBanIp {
 		public InetAddress getAddress();
 		public Ip getBan();
 		
@@ -67,13 +67,13 @@ public interface SanctionManualProfile extends Sanction {
 		}
 	}
 	
-	public interface Mute extends SanctionManualProfile {
+	public interface Mute extends SanctionManualProfile, SanctionMute {
 		public default Type getType() {
 			return Type.MUTE;
 		}
 	}
 	
-	public interface Jail extends SanctionManualProfile {
+	public interface Jail extends SanctionManualProfile, SanctionJail {
 		public String getJailName();
 		public Optional<fr.evercraft.everapi.services.sanction.Jail> getJail();
 		

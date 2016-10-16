@@ -31,6 +31,8 @@ import fr.evercraft.everapi.services.sanction.manual.SanctionManualProfile;
 import fr.evercraft.everapi.services.sanction.manual.SanctionManualProfile.BanIp;
 
 public interface SanctionUserSubject {
+	public Collection<Sanction> getAll();
+	
 	public boolean isBanIp(InetAddress inetAddress);
 	public boolean isBanIp();
 	
@@ -68,6 +70,5 @@ public interface SanctionUserSubject {
 	
 	public boolean addSanction(SanctionAuto.Reason reason_sanction, long creation, CommandSource source);
 	public boolean pardonSanction(SanctionAuto.Reason reason_sanction, long date, Text reason_text, CommandSource source);
-	public boolean removeSanction(SanctionAuto profile);
-	
+	public boolean removeSanction(SanctionAuto profile);	
 }

@@ -30,6 +30,7 @@ import com.google.common.collect.ImmutableList;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.sanction.Jail;
+import fr.evercraft.everapi.services.sanction.Sanction;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionBanProfile;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionJail;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionMute;
@@ -191,5 +192,16 @@ public class UserSanction extends UserAccount {
 			return this.subject.addSanction(reason, creation, source);
 		}
 		return false;
+	}
+	
+	/*
+	 * All
+	 */
+	
+	public Collection<Sanction> getAllSanctions() {
+		if (this.isPresent()) {
+			return this.subject.getAll();
+		}
+		return ImmutableList.of();
 	}
 }
