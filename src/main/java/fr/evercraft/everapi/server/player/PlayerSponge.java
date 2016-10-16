@@ -52,6 +52,7 @@ import org.spongepowered.api.entity.projectile.Projectile;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.entity.damage.source.DamageSource;
 import org.spongepowered.api.item.inventory.Carrier;
+import org.spongepowered.api.item.inventory.Container;
 import org.spongepowered.api.item.inventory.Inventory;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.equipment.EquipmentType;
@@ -92,18 +93,18 @@ public class PlayerSponge extends EUser implements Player {
 	}
 
 	@Override
-	public Optional<Inventory> getOpenInventory() {
+	public Optional<Container> getOpenInventory() {
 		return this.player.getOpenInventory();
 	}
 
 	@Override
-	public void openInventory(Inventory inventory, Cause cause) {
-		this.player.openInventory(inventory, cause);
+	public Optional<Container> openInventory(Inventory inventory, Cause cause) {
+		return this.player.openInventory(inventory, cause);
 	}
 
 	@Override
-	public void closeInventory(Cause cause) {
-		this.player.closeInventory(cause);
+	public boolean closeInventory(Cause cause) {
+		return this.player.closeInventory(cause);
 	}
 
 	@Override

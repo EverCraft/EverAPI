@@ -352,12 +352,12 @@ public class EChat implements ChatService {
 	public static Text getButtomItem(final ItemStack item, final TextColor color){
 		if (item.get(Keys.DISPLAY_NAME).isPresent()) {
 			return item.get(Keys.DISPLAY_NAME).get().toBuilder()
-					.onHover(TextActions.showItem(item))
+					.onHover(TextActions.showItem(item.createSnapshot()))
 					.build();
 		}
 		return UtilsItemStack.getName(item).toBuilder()
 				.color(color)
-				.onHover(TextActions.showItem(item))
+				.onHover(TextActions.showItem(item.createSnapshot()))
 				.build();
 	}
 	
