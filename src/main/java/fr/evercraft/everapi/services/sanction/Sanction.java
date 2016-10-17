@@ -52,6 +52,7 @@ public interface Sanction {
 	
 	public Optional<Long> getPardonDate();
 	public Optional<String> getPardonSource();
+	public Optional<String> getPardonSourceName();
 	public Optional<Text> getPardonReason();
 	
 	public default boolean isPardon() {
@@ -77,6 +78,7 @@ public interface Sanction {
 	}
 	
 	public interface SanctionJail extends Sanction {
+		public String getJailName();
 		public Optional<Jail> getJail();
 	}
 }

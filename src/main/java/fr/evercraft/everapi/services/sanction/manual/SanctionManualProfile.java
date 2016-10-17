@@ -26,7 +26,7 @@ import org.spongepowered.api.util.ban.Ban.Profile;
 
 import fr.evercraft.everapi.services.sanction.Sanction;
 
-public interface SanctionManualProfile extends Sanction {
+public interface SanctionManualProfile extends SanctionManual {
 	
 	public enum Type {
 		BAN_PROFILE,
@@ -50,7 +50,7 @@ public interface SanctionManualProfile extends Sanction {
 	public UUID getProfile();
 	public Type getType();
 	
-	public interface Ban extends SanctionManualProfile, SanctionBanProfile {
+	public interface Ban extends SanctionManualProfile, Sanction.SanctionBanProfile {
 		public Profile getBan(GameProfile profile);
 		
 		public default Type getType() {
@@ -58,7 +58,7 @@ public interface SanctionManualProfile extends Sanction {
 		}
 	}
 	
-	public interface BanIp extends SanctionManualProfile, SanctionBanIp {
+	public interface BanIp extends SanctionManualProfile, Sanction.SanctionBanIp {
 		public InetAddress getAddress();
 		public Ip getBan();
 		
@@ -67,14 +67,13 @@ public interface SanctionManualProfile extends Sanction {
 		}
 	}
 	
-	public interface Mute extends SanctionManualProfile, SanctionMute {
+	public interface Mute extends SanctionManualProfile, Sanction.SanctionMute {
 		public default Type getType() {
 			return Type.MUTE;
 		}
 	}
 	
-	public interface Jail extends SanctionManualProfile, SanctionJail {
-		public String getJailName();
+	public interface Jail extends SanctionManualProfile, Sanction.SanctionJail {
 		public Optional<fr.evercraft.everapi.services.sanction.Jail> getJail();
 		
 		public default Type getType() {
