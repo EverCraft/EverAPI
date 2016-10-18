@@ -77,11 +77,11 @@ public abstract class EConfig extends EFile {
 
     public boolean isDebug() {
     	this.plugin.getLogger().info("Debug : " + this.get("debug").getBoolean(false));
-		return this.get("debug").getBoolean(false);
+		return this.get("DEBUG").getBoolean(false);
 	}
 
 	public String getLanguage() {
-		return this.get("language").getString(EMessage.ENGLISH);
+		return this.get("LANGUAGE").getString(EMessage.ENGLISH);
 	}
 	
 	/**
