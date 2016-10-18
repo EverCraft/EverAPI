@@ -38,7 +38,7 @@ import fr.evercraft.everapi.services.pagination.CommandPagination;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
 
-public abstract class EParentCommand<T extends EPlugin> extends ECommand<T> {
+public abstract class EParentCommand<T extends EPlugin<?>> extends ECommand<T> {
 
 	private final ConcurrentSkipListSet<ECommand<T>> commands;
 	private final ConcurrentSkipListSet<ESubCommand<T>> subcommands;

@@ -18,7 +18,7 @@ package fr.evercraft.everapi.plugin.command;
 
 import fr.evercraft.everapi.plugin.EPlugin;
 
-public abstract class EReloadCommand<T extends EPlugin> extends ECommand<T> {
+public abstract class EReloadCommand<T extends EPlugin<?>> extends ECommand<T> {
 	
 	public EReloadCommand(final T plugin, final String name, final String... alias) {
 		super(plugin, name, alias);

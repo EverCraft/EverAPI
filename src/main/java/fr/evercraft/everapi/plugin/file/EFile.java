@@ -31,8 +31,8 @@ import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 
-public abstract class EFile {
-	protected final EPlugin plugin;
+public abstract class EFile<T extends EPlugin<T>> {
+	protected final T plugin;
 	
 	protected final String name;
 	
@@ -44,7 +44,7 @@ public abstract class EFile {
      * Création d'un fichier de configuration
      * @param plugin Le plugin 
      */
-    public EFile(final EPlugin plugin){
+    public EFile(final T plugin){
     	this(plugin, "config", true);
     }
     
@@ -53,11 +53,11 @@ public abstract class EFile {
      * @param plugin Le plugin 
      * @param name Le nom du fichier de configuration
      */
-    public EFile(final EPlugin plugin, final String name){
+    public EFile(final T plugin, final String name){
     	this(plugin, name, true);
     }
     
-    public EFile(final EPlugin plugin, final String name, final boolean save){
+    public EFile(final T plugin, final String name, final boolean save){
     	this.plugin = plugin;
     	this.name = name;
     	

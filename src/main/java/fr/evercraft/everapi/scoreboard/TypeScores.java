@@ -84,11 +84,11 @@ public enum TypeScores {
 		return this.score.isUpdate();
 	}
 	
-	public void addListener(EPlugin plugin, IObjective objective) {
+	public void addListener(EPlugin<?> plugin, IObjective objective) {
 		this.score.addListener(plugin, objective);
 	}
 	
-	public void removeListener(EPlugin plugin, IObjective objective) {
+	public void removeListener(EPlugin<?> plugin, IObjective objective) {
 		this.score.removeListener(plugin, objective);
 	}
 	

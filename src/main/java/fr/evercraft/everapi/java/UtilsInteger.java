@@ -16,6 +16,7 @@
  */
 package fr.evercraft.everapi.java;
 
+import java.util.Optional;
 import java.util.Random;
 
 public class UtilsInteger {
@@ -30,6 +31,14 @@ public class UtilsInteger {
 		} else {
 			Random random = new Random();
 			return random.nextInt(max) + min;
+		}
+	}
+	
+	public static Optional<Integer> parseInt(String value) {
+		try {
+			return Optional.of(Integer.parseInt(value));
+		} catch (NumberFormatException e) {
+			return Optional.empty();
 		}
 	}
 }

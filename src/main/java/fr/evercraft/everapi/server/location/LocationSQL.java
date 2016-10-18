@@ -29,7 +29,7 @@ import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.plugin.EPlugin;
 
 public class LocationSQL{
-	private final EPlugin plugin;
+	private final EPlugin<?> plugin;
 	
 	private final String world;
 	private final double x;
@@ -38,7 +38,7 @@ public class LocationSQL{
 	private final double yaw;
 	private final double pitch;
 	
-	public LocationSQL(final EPlugin plugin, final String world, final double x, final double y, final double z, final double yaw, final double pitch) {
+	public LocationSQL(final EPlugin<?> plugin, final String world, final double x, final double y, final double z, final double yaw, final double pitch) {
 		this.plugin = plugin;
 
         this.world = world;
@@ -54,7 +54,7 @@ public class LocationSQL{
 	 * @param location La localisation
 	 * @throws ServerDisableException 
 	 */
-	public LocationSQL(final EPlugin plugin, final Transform<World> transform) {
+	public LocationSQL(final EPlugin<?> plugin, final Transform<World> transform) {
 		this(plugin, transform.getLocation(), transform.getRotation());
 	}
 	
@@ -63,11 +63,11 @@ public class LocationSQL{
 	 * @param location La localisation
 	 * @throws ServerDisableException 
 	 */
-	public LocationSQL(final EPlugin plugin, final Location<World> location) {
+	public LocationSQL(final EPlugin<?> plugin, final Location<World> location) {
 		this(plugin, location, null);
 	}
 	
-	public LocationSQL(final EPlugin plugin, final Location<World> location, final Vector3d rotation) {
+	public LocationSQL(final EPlugin<?> plugin, final Location<World> location, final Vector3d rotation) {
 		this(plugin, location.getExtent().getUniqueId().toString(), location.getX(), location.getY(), location.getZ(), rotation.getX(), rotation.getY());
 	}
 	

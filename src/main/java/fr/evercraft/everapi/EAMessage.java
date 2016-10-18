@@ -29,7 +29,7 @@ import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.file.EMessage;
 import fr.evercraft.everapi.plugin.file.EnumMessage;
 
-public class EAMessage extends EMessage {
+public class EAMessage extends EMessage<EverAPI> {
 	
 	public enum EAMessages implements EnumMessage {
 		PREFIX("prefix",  							

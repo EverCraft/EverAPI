@@ -41,7 +41,7 @@ import fr.evercraft.everapi.sponge.ManagerUtils;
 		description = "EverAPI is a library",
 		url = "http://wiki.evercraft.fr/",
 		authors = {"rexbut","lesbleu"})
-public class EverAPI extends EPlugin {
+public class EverAPI extends EPlugin<EverAPI> {
 	
 	public static final String VERSION = "1.2";
 	public static final String SPONGEAPI_VERSION = "5.0.0-SNAPSHOT-a01e398";

@@ -29,7 +29,7 @@ import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.services.pagination.CommandPagination;
 
-public abstract class ESubCommand<T extends EPlugin> extends CommandPagination<T> {
+public abstract class ESubCommand<T extends EPlugin<?>> extends CommandPagination<T> {
 	
 	private final String parent_name;
 	private final String sub_name;

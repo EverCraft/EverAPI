@@ -46,7 +46,7 @@ import fr.evercraft.everapi.plugin.file.EFile;
 import fr.evercraft.everapi.plugin.file.EMessage;
 import fr.evercraft.everapi.server.EServer;
 
-public abstract class EPlugin {
+public abstract class EPlugin<T extends EPlugin<T>> {
 
 	@Inject
     private Game game;
@@ -58,7 +58,7 @@ public abstract class EPlugin {
 	
 	private EverAPI everapi;
 	private boolean enable;	
-	private final CopyOnWriteArraySet<EFile> files;
+	private final CopyOnWriteArraySet<EFile<T>> files;
 	private ELogger logger;
 	
 	protected void onPreEnable() throws PluginDisableException, ServerDisableException{}
@@ -70,12 +70,12 @@ public abstract class EPlugin {
 	protected void onStopServer() throws PluginDisableException, ServerDisableException{}
 	protected abstract void onDisable() throws PluginDisableException, ServerDisableException;
 
-	public abstract EConfig getConfigs();
-	public abstract EMessage getMessages();
+	public abstract EConfig<T> getConfigs();
+	public abstract EMessage<T> getMessages();
 	
 	public EPlugin(){
 		this.enable = true;
-		this.files = new CopyOnWriteArraySet<EFile>();
+		this.files = new CopyOnWriteArraySet<EFile<T>>();
 	}
 	
 	@Listener
@@ -362,14 +362,14 @@ public abstract class EPlugin {
 	/**
 	 * Ajoute un fichier de configuration à la liste
 	 */
-	public void registerConfiguration(final EFile file) {
+	public void registerConfiguration(final EFile<T> file) {
 		this.files.add(file);
 	}
 	
 	/**
 	 * Supprime un fichier de configuration à la liste
 	 */
-	public void removeConfiguration(final EFile file) {
+	public void removeConfiguration(final EFile<T> file) {
 		this.files.remove(file);
 	}
 	
@@ -377,7 +377,7 @@ public abstract class EPlugin {
 	 * Recharge tous les fichiers de configuration du plugin
 	 */
 	public void reloadConfigurations(){
-		for (EFile file : this.files){
+		for (EFile<T> file : this.files){
 			file.reload();
         }
 	}

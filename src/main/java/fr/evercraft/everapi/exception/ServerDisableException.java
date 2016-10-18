@@ -21,9 +21,9 @@ import fr.evercraft.everapi.plugin.EPlugin;
 
 public class ServerDisableException extends Exception {
 	private static final long serialVersionUID = 2L;
-	private final EPlugin plugin;
+	private final EPlugin<?> plugin;
 	
-	public ServerDisableException(final EPlugin plugin, final String message){
+	public ServerDisableException(final EPlugin<?> plugin, final String message){
 		super(message);
 		this.plugin = plugin;
 	}

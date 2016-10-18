@@ -119,7 +119,7 @@ public class ManagerPlannings{
 	 * @param plugin Le plugin
 	 * @return True si les horaire ont bien été supprimé
 	 */
-	public boolean remove(final EPlugin plugin){
+	public boolean remove(final EPlugin<?> plugin){
 		Iterator<Schedules> iterator = this.schedules.iterator();
 		boolean trouver = false;
 		while(iterator.hasNext()){

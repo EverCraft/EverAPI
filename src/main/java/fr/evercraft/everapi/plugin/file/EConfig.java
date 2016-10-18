@@ -19,13 +19,13 @@ package fr.evercraft.everapi.plugin.file;
 import fr.evercraft.everapi.plugin.EPlugin;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 
-public abstract class EConfig extends EFile {
+public abstract class EConfig<T extends EPlugin<T>> extends EFile<T> {
 
     /**
      * Création d'un fichier de configuration
      * @param plugin Le plugin 
      */
-    public EConfig(final EPlugin plugin){
+    public EConfig(final T plugin){
     	this(plugin, "config", true);
     }
     
@@ -34,11 +34,11 @@ public abstract class EConfig extends EFile {
      * @param plugin Le plugin 
      * @param name Le nom du fichier de configuration
      */
-    public EConfig(final EPlugin plugin, final String name){
+    public EConfig(final T plugin, final String name){
     	this(plugin, name, true);
     }
     
-    public EConfig(final EPlugin plugin, final String name, final boolean save){
+    public EConfig(final T plugin, final String name, final boolean save){
     	super(plugin, name, save);
     	
     	reload();

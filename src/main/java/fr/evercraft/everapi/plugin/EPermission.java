@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class EPermission {
-	private final EPlugin plugin;
+	private final EPlugin<?> plugin;
 	
 	/**
 	 * La liste des permissions
@@ -36,7 +36,7 @@ public abstract class EPermission {
 	 * Création de Permissions
 	 * @param plugin
 	 */
-	public EPermission(final EPlugin plugin) {
+	public EPermission(final EPlugin<?> plugin) {
 		this.plugin = plugin;
 		this.permissions = new HashMap<String, String>();
 		this.prefix = this.plugin.getName().toLowerCase() + "." ;

@@ -27,7 +27,7 @@ import fr.evercraft.everapi.plugin.EPlugin;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 
-public abstract class EMessage extends EFile {
+public abstract class EMessage<T extends EPlugin<T>> extends EFile<T> {
 	public static final String FRENCH = "FR_fr";
 	public static final String ENGLISH = "EN_en";
 	
@@ -37,7 +37,7 @@ public abstract class EMessage extends EFile {
      * Création d'un fichier de configuration
      * @param plugin Le plugin 
      */    
-    public EMessage(final EPlugin plugin, final EnumMessage[] enum_message){
+    public EMessage(final T plugin, final EnumMessage[] enum_message){
     	super(plugin, plugin.getConfigs().getLanguage(), true);
     	
     	this.plugin.getGame().getEventManager().registerListeners(this.plugin, this);

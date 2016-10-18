@@ -45,7 +45,7 @@ import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.pagination.CommandPagination;
 
-public abstract class ECommand<T extends EPlugin> extends CommandPagination<T> implements CommandCallable {
+public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T> implements CommandCallable {
 
 	public ECommand(final T plugin, final String name, final String... alias) {
 		super(plugin, name);

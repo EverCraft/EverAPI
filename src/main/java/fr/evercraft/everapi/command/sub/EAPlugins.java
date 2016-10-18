@@ -69,9 +69,9 @@ public class EAPlugins extends ESubCommand<EverAPI> {
 	}
 
 	private boolean commandPlugins(CommandSource player) {
-		Collection<EPlugin> plugins = getEPlugins();
+		Collection<EPlugin<?>> plugins = getEPlugins();
 		List<Text> list = new ArrayList<Text>();
-		for (EPlugin plugin :  plugins){
+		for (EPlugin<?> plugin :  plugins){
 			List<Text> hover = new ArrayList<Text>();
 			hover.add(EChat.of(EAMessages.PLUGINS_ID.get().replaceAll("<id>", plugin.getId())));
 			
@@ -108,12 +108,12 @@ public class EAPlugins extends ESubCommand<EverAPI> {
 		return true;
 	}
 	
-	private Collection<EPlugin> getEPlugins(){
-		Collection<EPlugin> plugins = new ArrayList<EPlugin>();
+	private Collection<EPlugin<?>> getEPlugins(){
+		Collection<EPlugin<?>> plugins = new ArrayList<EPlugin<?>>();
 		for (PluginContainer plugin : this.plugin.getGame().getPluginManager().getPlugins()){
 			if (plugin.getInstance().isPresent())
 				if (plugin.getInstance().get() instanceof EPlugin){
-					EPlugin pl = (EPlugin) plugin.getInstance().get();
+					EPlugin<?> pl = (EPlugin<?>) plugin.getInstance().get();
 					plugins.add(pl);
 				}
 		}

@@ -31,14 +31,14 @@ public abstract class Score {
 		this.objectives = new CopyOnWriteArrayList<IObjective>();
 	}
 	
-	public void addListener(EPlugin plugin, IObjective objective) {
+	public void addListener(EPlugin<?> plugin, IObjective objective) {
 		if (this.objectives.isEmpty()) {
 			plugin.getGame().getEventManager().registerListeners(plugin, this);
 		}
 		this.objectives.add(objective);
 	}
 	
-	public void removeListener(EPlugin plugin, IObjective objective) {
+	public void removeListener(EPlugin<?> plugin, IObjective objective) {
 		this.objectives.remove(objective);
 		if (this.objectives.isEmpty()) {
 			plugin.getGame().getEventManager().unregisterListeners(this);

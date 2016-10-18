@@ -27,7 +27,7 @@ import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.plugin.EPlugin;
 
-public abstract class CommandPagination<T extends EPlugin> {
+public abstract class CommandPagination<T extends EPlugin<?>> {
 	
 	protected final T plugin;
 	

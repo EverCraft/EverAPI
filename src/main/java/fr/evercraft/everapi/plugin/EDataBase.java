@@ -26,7 +26,7 @@ import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.java.Chronometer;
 
-public abstract class EDataBase<T extends EPlugin> {
+public abstract class EDataBase<T extends EPlugin<T>> {
 	private static final int MAX_TRY = 10;
 
 	protected final T plugin;

@@ -103,7 +103,7 @@ public class EPagination {
 		this.send(title.toBuilder().color(this.help_color_padding).build(), this.help_padding, contents, source);
 	}
 	
-	public void helpSubCommand(LinkedHashMap<String, CommandPagination<?>> commands, CommandSource source, EPlugin plugin) {
+	public void helpSubCommand(LinkedHashMap<String, CommandPagination<?>> commands, CommandSource source, EPlugin<?> plugin) {
 		List<Text> contents = new ArrayList<Text>();
 		
 		for (Entry<String, CommandPagination<?>> command : commands.entrySet()) {
@@ -123,7 +123,7 @@ public class EPagination {
 		this.help(contents, source, plugin);
 	}
 	
-	private <T extends EPlugin> void help(List<Text> contents, CommandSource source, EPlugin plugin) {
+	private void help(List<Text> contents, CommandSource source, EPlugin<?> plugin) {
 		Builder title = EChat.of(EAMessages.HELP_TITLE.get()
 							.replaceAll("<plugin>", plugin.getName())
 							.replaceAll("<version>", plugin.getVersion().orElse("1")))

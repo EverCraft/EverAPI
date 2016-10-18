@@ -27,7 +27,7 @@ import org.spongepowered.api.scoreboard.displayslot.DisplaySlots;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.file.EConfig;
 
-public class EPriorityConfig extends EConfig{
+public class EPriorityConfig extends EConfig<EverAPI> {
 
 	public EPriorityConfig(final EverAPI plugin) {
 		super(plugin, "priority");

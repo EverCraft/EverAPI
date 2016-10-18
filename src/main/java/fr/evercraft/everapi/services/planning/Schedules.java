@@ -28,9 +28,9 @@ public class Schedules implements Runnable {
 	
 	private final Runnable task;
 	private final Calendar calendar;
-	private final EPlugin plugin;
+	private final EPlugin<?> plugin;
 	
-	public Schedules(final EPlugin plugin, final Runnable task, final Calendar calendar){
+	public Schedules(final EPlugin<?> plugin, final Runnable task, final Calendar calendar){
 		this.id = NEXT_ID++;
 		
 		this.plugin = plugin;
@@ -46,7 +46,7 @@ public class Schedules implements Runnable {
 		return calendar;
 	}
 
-	public EPlugin getPlugin() {
+	public EPlugin<?> getPlugin() {
 		return plugin;
 	}
 
