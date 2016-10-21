@@ -17,8 +17,8 @@
 package fr.evercraft.everapi.services.sanction.auto;
 
 import java.net.InetAddress;
-import java.util.Collection;
 import java.util.Optional;
+import java.util.TreeMap;
 import java.util.UUID;
 
 import org.spongepowered.api.profile.GameProfile;
@@ -106,7 +106,7 @@ public interface SanctionAuto extends Sanction {
 	public interface Reason {
 		public String getName();
 		public Optional<Level> getLevel(int level);
-		public Collection<Level> getLevels();
+		public TreeMap<Integer, Level> getLevels();
 	}
 	
 	public interface Level {

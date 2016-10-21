@@ -195,11 +195,20 @@ public class UtilsDate {
 		return diff;
 	}
 	
-	public static Optional<Long> parseDateDiff(String time_string, boolean future) {
-		return UtilsDate.parseDateDiff(System.currentTimeMillis(), time_string, future);
+	public Optional<String> parseDuration(String duration_string) {
+		long time = System.currentTimeMillis();
+		Optional<Long> date = UtilsDate.parseDuration(time, duration_string, true);
+		if (date.isPresent()) {
+			return Optional.of(this.formatDateDiff(time, date.get()));
+		}
+		return Optional.empty();
 	}
 	
-	public static Optional<Long> parseDateDiff(long creation, String time_string, boolean future) {
+	public static Optional<Long> parseDuration(String time_string, boolean future) {
+		return UtilsDate.parseDuration(System.currentTimeMillis(), time_string, future);
+	}
+	
+	public static Optional<Long> parseDuration(long creation, String time_string, boolean future) {
 		Matcher m = TIME_PATTERN.matcher(time_string);
 		int years = 0;
 		int months = 0;

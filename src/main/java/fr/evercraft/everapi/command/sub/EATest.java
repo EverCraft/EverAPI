@@ -77,7 +77,7 @@ public class EATest extends ESubCommand<EverAPI> {
 	}
 
 	private boolean commandTest(final CommandSource player, String name) {
-		Optional<Long> time = UtilsDate.parseDateDiff(name, true);
+		Optional<Long> time = UtilsDate.parseDuration(name, true);
 		if (time.isPresent()) {
 			player.sendMessage(Text.of("time : " + time.get()));
 		} else {

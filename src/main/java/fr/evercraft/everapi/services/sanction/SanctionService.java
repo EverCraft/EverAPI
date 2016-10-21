@@ -17,12 +17,14 @@
 package fr.evercraft.everapi.services.sanction;
 
 import java.net.InetAddress;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.spongepowered.api.service.ban.BanService;
 
 import fr.evercraft.everapi.services.sanction.auto.SanctionAuto;
+import fr.evercraft.everapi.services.sanction.auto.SanctionAuto.Reason;
 
 public interface SanctionService extends BanService {
 	public static final String UNKNOWN = "unknown";
@@ -31,8 +33,9 @@ public interface SanctionService extends BanService {
 	public Optional<SanctionUserSubject> get(UUID uuid);
 	public boolean hasRegistered(UUID uuid);
 	
-	Optional<SanctionIpSubject> get(InetAddress address);
+	public Optional<SanctionIpSubject> get(InetAddress address);
 	public boolean hasRegistered(InetAddress address);
 	
 	public Optional<SanctionAuto.Reason> getReason(String identifier);
+	public Collection<Reason> getAllReasons();
 }
