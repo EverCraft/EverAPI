@@ -45,7 +45,7 @@ public interface SanctionUserSubject {
 	public Optional<SanctionJail> getJail();
 	
 	public Optional<SanctionManualProfile> getManual(SanctionManualProfile.Type type);
-	public Collection<SanctionAuto> getAuto(SanctionAuto.Type type);
+	public Optional<SanctionAuto> getAuto(SanctionAuto.Reason reason);
 	
 	/*
 	 * Manual
@@ -68,7 +68,7 @@ public interface SanctionUserSubject {
 	 * Auto
 	 */
 	
-	public boolean addSanction(SanctionAuto.Reason reason_sanction, long creation, CommandSource source);
-	public boolean pardonSanction(SanctionAuto.Reason reason_sanction, long date, Text reason_text, CommandSource source);
+	public Optional<SanctionAuto> addSanction(SanctionAuto.Reason reason_sanction, long creation, CommandSource source);
+	public Optional<SanctionAuto> pardonSanction(SanctionAuto.Reason reason_sanction, long date, Text reason_text, CommandSource source);
 	public boolean removeSanction(SanctionAuto profile);	
 }

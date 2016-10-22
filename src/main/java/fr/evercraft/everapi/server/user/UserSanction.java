@@ -18,7 +18,6 @@ package fr.evercraft.everapi.server.user;
 
 
 import java.net.InetAddress;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -60,11 +59,11 @@ public class UserSanction extends UserAccount {
 		return Optional.empty();
 	}
 	
-	public Collection<SanctionAuto> getAuto(SanctionAuto.Type type) {
+	public Optional<SanctionAuto> getAuto(SanctionAuto.Reason reason) {
 		if (this.isPresent()) {
-			return this.subject.getAuto(type);
+			return this.subject.getAuto(reason);
 		}
-		return Arrays.asList();
+		return Optional.empty();
 	}
 	
 	public boolean isBanIp() {
@@ -187,11 +186,18 @@ public class UserSanction extends UserAccount {
 	 * Auto
 	 */
 	
-	public boolean addSanction(SanctionAuto.Reason reason, Long creation, CommandSource source) {
+	public Optional<SanctionAuto> addSanction(SanctionAuto.Reason reason, Long creation, CommandSource source) {
 		if (this.isPresent()) {
 			return this.subject.addSanction(reason, creation, source);
 		}
-		return false;
+		return Optional.empty();
+	}
+	
+	public Optional<SanctionAuto> pardonSanction(SanctionAuto.Reason reason, Long date, Text reason_text, CommandSource source) {
+		if (this.isPresent()) {
+			return this.subject.pardonSanction(reason, date, reason_text, source);
+		}
+		return Optional.empty();
 	}
 	
 	/*
