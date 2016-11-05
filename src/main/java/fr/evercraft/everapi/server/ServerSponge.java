@@ -216,5 +216,10 @@ public class ServerSponge implements Server {
 	public void setPlayerIdleTimeout(int timeout) {
 		this.server.setPlayerIdleTimeout(timeout);
 	}
+
+	@Override
+	public boolean isMainThread() {
+		return this.server.isMainThread();
+	}
 	
 }

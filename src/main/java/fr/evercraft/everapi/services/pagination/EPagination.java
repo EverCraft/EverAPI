@@ -25,7 +25,6 @@ import java.util.TreeSet;
 
 import org.spongepowered.api.command.CommandMapping;
 import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Text.Builder;
 import org.spongepowered.api.text.action.TextActions;
@@ -38,7 +37,7 @@ import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.text.ETextBuilder;
 
-public class EPagination {
+public class EPagination {	
 	private final EverAPI plugin;
 	
 	private TextColor pagination_color;
@@ -163,10 +162,7 @@ public class EPagination {
 	
 	private void send(final Text title, final Text padding, final List<Text> contents, CommandSource source) {
 		if (source instanceof EPlayer) {
-			Optional<Player> player = ((EPlayer) source).getPlayer();
-			if (player.isPresent()){
-				source = player.get();
-			}
+			source = ((EPlayer) source).get();
 		}
 		
 		if (this.plugin.getEverAPI().getManagerService().getPagination().isPresent()) {
