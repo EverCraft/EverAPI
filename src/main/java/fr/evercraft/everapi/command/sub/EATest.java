@@ -17,8 +17,8 @@
 package fr.evercraft.everapi.command.sub;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
@@ -30,9 +30,9 @@ import org.spongepowered.api.util.ban.Ban;
 import fr.evercraft.everapi.EACommand;
 import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.sponge.UtilsDate;
 
 public class EATest extends ESubCommand<EverAPI> {
 	public EATest(final EverAPI plugin, final EACommand command) {
@@ -77,12 +77,7 @@ public class EATest extends ESubCommand<EverAPI> {
 	}
 
 	private boolean commandTest(final CommandSource player, String name) {
-		Optional<Long> time = UtilsDate.parseDuration(name, true);
-		if (time.isPresent()) {
-			player.sendMessage(Text.of("time : " + time.get()));
-		} else {
-			player.sendMessage(Text.of("time : empty"));
-		}
+		this.plugin.getManagerService().getEPagination().sendTo(Text.of("test"), Arrays.asList(EChat.of("a\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na")), player);
 		
 		/*
 		player.sendMessage("AREA_EFFECT_CLOUD : " + name);

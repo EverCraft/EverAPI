@@ -27,6 +27,9 @@ import fr.evercraft.everapi.services.sanction.auto.SanctionAuto;
 import fr.evercraft.everapi.services.sanction.auto.SanctionAuto.Reason;
 
 public interface SanctionService extends BanService {
+	
+	public static final String MESSAGE_JAIL = "eversanctions.jail";
+	public static final String MESSAGE_MUTE = "eversanctions.mute";
 	public static final String UNKNOWN = "unknown";
 	public static final String UNLIMITED = "unlimited";
 	

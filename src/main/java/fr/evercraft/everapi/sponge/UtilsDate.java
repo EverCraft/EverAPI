@@ -26,9 +26,6 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.spongepowered.api.Sponge;
-import org.spongepowered.api.text.Text;
-
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.EverAPI;
 
@@ -249,33 +246,28 @@ public class UtilsDate {
 		}
 		
 		Calendar calendar = new GregorianCalendar();
+		int value = future ? 1 : -1;
+		
 		if (years > 0) {
-			calendar.add(Calendar.YEAR, years * (future ? 1 : -1));
-			Sponge.getServer().getBroadcastChannel().send(Text.of("YEAR : " + years));
+			calendar.add(Calendar.YEAR, years * value);
 		}
 		if (months > 0) {
-			calendar.add(Calendar.MONTH, months * (future ? 1 : -1));
-			Sponge.getServer().getBroadcastChannel().send(Text.of("MONTH : " + months));
+			calendar.add(Calendar.MONTH, months * value);
 		}
 		if (weeks > 0) {
-			calendar.add(Calendar.WEEK_OF_YEAR, weeks * (future ? 1 : -1));
-			Sponge.getServer().getBroadcastChannel().send(Text.of("WEEK_OF_YEAR : " + weeks));
+			calendar.add(Calendar.WEEK_OF_YEAR, weeks * value);
 		}
 		if (days > 0) {
-			calendar.add(Calendar.DAY_OF_MONTH, days * (future ? 1 : -1));
-			Sponge.getServer().getBroadcastChannel().send(Text.of("DAY_OF_MONTH : " + days));
+			calendar.add(Calendar.DAY_OF_MONTH, days * value);
 		}
 		if (hours > 0) {
-			calendar.add(Calendar.HOUR_OF_DAY, hours * (future ? 1 : -1));
-			Sponge.getServer().getBroadcastChannel().send(Text.of("HOUR_OF_DAY : " + hours));
+			calendar.add(Calendar.HOUR_OF_DAY, hours * value);
 		}
 		if (minutes > 0) {
-			calendar.add(Calendar.MINUTE, minutes * (future ? 1 : -1));
-			Sponge.getServer().getBroadcastChannel().send(Text.of("MINUTE : " + minutes));
+			calendar.add(Calendar.MINUTE, minutes * value);
 		}
 		if (seconds > 0) {
-			calendar.add(Calendar.SECOND, seconds * (future ? 1 : -1));
-			Sponge.getServer().getBroadcastChannel().send(Text.of("SECOND : " + seconds));
+			calendar.add(Calendar.SECOND, seconds * value);
 		}
 		
 		Calendar max = new GregorianCalendar();

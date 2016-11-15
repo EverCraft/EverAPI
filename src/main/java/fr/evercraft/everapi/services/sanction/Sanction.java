@@ -18,15 +18,31 @@ package fr.evercraft.everapi.services.sanction;
 
 import java.net.InetAddress;
 import java.util.Optional;
+import java.util.UUID;
 
+import org.spongepowered.api.Server;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
+
+import fr.evercraft.everapi.server.EServer;
 
 public interface Sanction {
 	public Long getCreationDate();
 	public Optional<Long> getExpirationDate();
 	public Text getReason();
 	public String getSource();
-	public String getSourceName();
+	
+	public default String getSourceName(Server server) {
+		if (this.getSource().length() == EServer.UUID_LENGTH) {
+			try {
+				Optional<Player> player = server.getPlayer(UUID.fromString(this.getSource()));
+				if (player.isPresent()) {
+					return player.get().getName();
+				}
+			} catch(IllegalArgumentException e) {}
+		}
+		return this.getSource();
+	}
 	
 	public default boolean isIndefinite() {
         return !this.getExpirationDate().isPresent();
@@ -46,14 +62,27 @@ public interface Sanction {
         return this.getExpirationDate().get() < System.currentTimeMillis();
     }
 	
+	
+	
 	/*
 	 * Pardon
 	 */
 	
 	public Optional<Long> getPardonDate();
 	public Optional<String> getPardonSource();
-	public Optional<String> getPardonSourceName();
 	public Optional<Text> getPardonReason();
+	
+	public default Optional<String> getPardonSourceName(Server server) {
+		if (this.getSource().length() == EServer.UUID_LENGTH) {
+			try {
+				Optional<Player> player = server.getPlayer(UUID.fromString(this.getSource()));
+				if (player.isPresent()) {
+					return  Optional.of(player.get().getName());
+				}
+			} catch(IllegalArgumentException e) {}
+		}
+		return Optional.of(this.getSource());
+	}
 	
 	public default boolean isPardon() {
         return this.getPardonDate().isPresent();

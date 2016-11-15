@@ -26,6 +26,7 @@ import org.spongepowered.api.scoreboard.displayslot.DisplaySlots;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.file.EConfig;
+import fr.evercraft.everapi.services.sanction.SanctionService;
 
 public class EPriorityConfig extends EConfig<EverAPI> {
 
@@ -36,6 +37,8 @@ public class EPriorityConfig extends EConfig<EverAPI> {
 	@Override
 	public void loadDefault() {
 		addDefault("actionbar", Arrays.asList(
+				SanctionService.MESSAGE_MUTE,
+				SanctionService.MESSAGE_JAIL,
 				"everinformations.newbie.player", 
 				"everinformations.newbie.others", 
 				"everinformations.connection.player", 

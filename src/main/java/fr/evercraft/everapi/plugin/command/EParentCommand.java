@@ -99,7 +99,7 @@ public abstract class EParentCommand<T extends EPlugin<?>> extends ECommand<T> {
 			
 			int cpt = 0;
 			for (Entry<String, String> command : commands.entrySet()) {
-				build = build.append(Text.builder(command.getValue()).onClick(TextActions.suggestCommand(command.getKey())).build());
+				build = build.append(Text.builder(command.getValue()).onClick(TextActions.suggestCommand("/" + command.getKey())).build());
 				
 				cpt++;
 				if (cpt < commands.size()){
