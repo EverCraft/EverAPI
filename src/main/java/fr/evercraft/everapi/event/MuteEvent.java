@@ -25,12 +25,14 @@ import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.server.user.EUser;
+import fr.evercraft.everapi.services.sanction.Sanction.SanctionMute;
 
-public interface MuteEvent extends Event, Cancellable {
+public interface MuteEvent extends Event {
 	
 	public EUser getUser();
 	public Optional<EPlayer> getPlayer();
 	public boolean getValue();
+	public SanctionMute getSanction();
 	
 	public Text getReason();
 	public long getCreationDate();
@@ -38,7 +40,7 @@ public interface MuteEvent extends Event, Cancellable {
 	public Optional<Long> getExpirationDate();
 	public String getSource();
 	
-	public interface Enable extends MuteEvent {
+	public interface Enable extends MuteEvent, Cancellable {
 		public CommandSource getCommandSource();
 	}
 	

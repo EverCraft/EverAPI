@@ -17,6 +17,7 @@
 package fr.evercraft.everapi.services.sanction.auto;
 
 import java.net.InetAddress;
+import java.time.Instant;
 import java.util.Optional;
 import java.util.TreeMap;
 import java.util.UUID;
@@ -24,8 +25,11 @@ import java.util.UUID;
 import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.util.ban.Ban;
+import org.spongepowered.api.util.ban.BanTypes;
+import org.spongepowered.api.util.ban.Ban.Builder;
 
-import fr.evercraft.everapi.services.sanction.Jail;
+import fr.evercraft.everapi.plugin.EChat;
+import fr.evercraft.everapi.services.jail.Jail;
 import fr.evercraft.everapi.services.sanction.Sanction;
 
 public interface SanctionAuto extends Sanction {	
@@ -36,12 +40,8 @@ public interface SanctionAuto extends Sanction {
 	public Type getTypeSanction();
 	public Reason getReasonSanction();
 	public Text getReasonText();
-	public Optional<Level> getLevel();
+	public Level getLevel();
 	public int getLevelNumber();
-	public Optional<String> getOption();
-	
-	public Optional<Ban.Profile> getBan(GameProfile profile);
-	public Optional<Ban.Ip> getBan(GameProfile profile, InetAddress address);
 	
 	public default boolean isBan() {
 		return this.getTypeSanction().isBan();
@@ -67,12 +67,40 @@ public interface SanctionAuto extends Sanction {
 		public default Type getType() {
 	        return Type.BAN_PROFILE;
 	    }
+		
+		public default Ban.Profile getBan(GameProfile profile) {
+			Builder builder = Ban.builder()
+					.type(BanTypes.PROFILE)
+					.profile(profile)
+					.reason(this.getReasonText())
+					.startDate(Instant.ofEpochMilli(this.getCreationDate()))
+					.source(EChat.of(this.getSource()));
+			
+			if(this.getExpirationDate().isPresent()) {
+				builder = builder.expirationDate(Instant.ofEpochMilli(this.getExpirationDate().get()));
+			}
+			return (Ban.Profile) builder.build();
+		}
 	}
 	
 	public interface SanctionBanIp extends SanctionAuto, Sanction.SanctionBanIp {
 		public default Type getType() {
 	        return Type.BAN_IP;
 	    }
+		
+		public default Ban.Ip getBan(GameProfile profile, InetAddress address) {
+			Builder builder = Ban.builder()
+					.type(BanTypes.IP)
+					.address(address)
+					.reason(this.getReasonText())
+					.startDate(Instant.ofEpochMilli(this.getCreationDate()))
+					.source(EChat.of(this.getSource()));
+			
+			if(this.getExpirationDate().isPresent()) {
+				builder = builder.expirationDate(Instant.ofEpochMilli(this.getExpirationDate().get()));
+			}
+			return (Ban.Ip) builder.build();
+		}
 	}
 	
 	public interface SanctionBanProfileAndIp extends SanctionAuto, SanctionBanProfile, SanctionBanIp {
@@ -91,6 +119,9 @@ public interface SanctionAuto extends Sanction {
 		public default Type getType() {
 	        return Type.JAIL;
 	    }
+		
+		public String getJailName();
+		public Optional<Jail> getJail();
 	}
 	
 	public interface SanctionMuteAndJail extends SanctionAuto, SanctionMute, SanctionJail {
@@ -105,7 +136,7 @@ public interface SanctionAuto extends Sanction {
 	
 	public interface Reason {
 		public String getName();
-		public Optional<Level> getLevel(int level);
+		public Level getLevel(int level);
 		public TreeMap<Integer, Level> getLevels();
 	}
 	

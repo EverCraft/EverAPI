@@ -26,13 +26,15 @@ import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.server.user.EUser;
+import fr.evercraft.everapi.services.sanction.Sanction.SanctionBanIp;
 
-public interface BanIpEvent extends Event, Cancellable {
+public interface BanIpEvent extends Event {
 	
 	public EUser getUser();
 	public Optional<EPlayer> getPlayer();
 	public InetAddress getAddress();
 	public boolean getValue();
+	public SanctionBanIp getSanction();
 	
 	public Text getReason();
 	public long getCreationDate();
@@ -40,7 +42,7 @@ public interface BanIpEvent extends Event, Cancellable {
 	public Optional<Long> getExpirationDate();
 	public String getSource();
 	
-	public interface Enable extends BanIpEvent {
+	public interface Enable extends BanIpEvent, Cancellable {
 		public CommandSource getCommandSource();
 	}
 	

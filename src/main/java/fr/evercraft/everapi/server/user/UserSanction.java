@@ -28,7 +28,7 @@ import org.spongepowered.api.text.Text;
 import com.google.common.collect.ImmutableList;
 
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.services.sanction.Jail;
+import fr.evercraft.everapi.services.jail.Jail;
 import fr.evercraft.everapi.services.sanction.Sanction;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionBanProfile;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionJail;

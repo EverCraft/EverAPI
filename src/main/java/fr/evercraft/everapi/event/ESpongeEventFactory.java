@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.spongepowered.api.Server;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.Transform;
@@ -39,9 +40,11 @@ import fr.evercraft.everapi.server.user.EUser;
 import fr.evercraft.everapi.services.actionbar.ActionBarMessage;
 import fr.evercraft.everapi.services.bossbar.EBossBar;
 import fr.evercraft.everapi.services.essentials.Mail;
+import fr.evercraft.everapi.services.jail.Jail;
 import fr.evercraft.everapi.services.mojang.check.MojangServer;
 import fr.evercraft.everapi.services.mojang.check.MojangServer.Color;
-import fr.evercraft.everapi.services.sanction.Jail;
+import fr.evercraft.everapi.services.sanction.Sanction.SanctionJail;
+import fr.evercraft.everapi.services.sanction.Sanction.SanctionMute;
 import fr.evercraft.everapi.services.title.TitleMessage;
 
 public class ESpongeEventFactory extends SpongeEventFactory {
@@ -394,17 +397,17 @@ public class ESpongeEventFactory extends SpongeEventFactory {
 	 * Jail
 	 */
 	
-	public static JailEvent.Enable createJailEventEnable(EUser user, Jail jail, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, Cause cause) {
+	public static JailEvent.Enable createJailEventEnable(EUser user, SanctionJail sanction, Jail jail, CommandSource source, Cause cause) {
         HashMap<String, Object> values = new HashMap<String, Object>();
         values.put("user", user);
         values.put("value", true);
         values.put("jail", jail);
-        values.put("reason", reason);
-        values.put("creationDate", creationDate);
-        values.put("indefinite", !expirationDate.isPresent());
-        values.put("expirationDate", expirationDate);
-        values.put("source", commandSource.getName());
-        values.put("commandSource", commandSource);
+        values.put("reason", sanction.getReason());
+        values.put("creationDate", sanction.getCreationDate());
+        values.put("indefinite", sanction.isIndefinite());
+        values.put("expirationDate", sanction.getExpirationDate());
+        values.put("source", sanction.getSource());
+        values.put("commandSource", source);
         values.put("cause", cause);
 
         if(user instanceof EPlayer) {
@@ -413,51 +416,25 @@ public class ESpongeEventFactory extends SpongeEventFactory {
             values.put("player", Optional.empty());
         }
         return SpongeEventFactoryUtils.createEventImpl(JailEvent.Enable.class, values);
-    }
-	
-	public static JailEvent.Disable createJailEventDisable(EUser user, Jail jail, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, 
-			Text pardonReason, Long pardonDate, CommandSource pardonCommandSource, Cause cause) {
+	}
+
+	public static JailEvent.Disable createJailEventDisable(EUser user, SanctionJail jail, Cause cause, Server server) {
         HashMap<String, Object> values = new HashMap<String, Object>();
         values.put("user", user);
         values.put("value", false);
-        values.put("jail", jail);
-        values.put("reason", reason);
-        values.put("creationDate", creationDate);
-        values.put("indefinite", !expirationDate.isPresent());
-        values.put("expirationDate", expirationDate);
-        values.put("source", commandSource.getName());
-        values.put("commandSource", commandSource);
-        values.put("pardon", true);
-        values.put("pardonReason", Optional.of(pardonReason));
-        values.put("pardonDate", Optional.of(pardonDate));
-        values.put("pardonSource", Optional.of(pardonCommandSource.getName()));
-        values.put("pardonCommandSource", Optional.of(pardonCommandSource));
-        values.put("cause", cause);
-
-        if(user instanceof EPlayer) {
-            values.put("player", Optional.of((EPlayer) user));
-        } else {
-            values.put("player", Optional.empty());
-        }
-        return SpongeEventFactoryUtils.createEventImpl(JailEvent.Disable.class, values);
-    }
-
-	public static JailEvent.Disable createJailEventDisable(EUser user, Jail jail, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("user", user);
-        values.put("value", false);
-        values.put("jail", jail);
-        values.put("reason", reason);
-        values.put("creationDate", creationDate);
-        values.put("indefinite", !expirationDate.isPresent());
-        values.put("expirationDate", expirationDate);
-        values.put("source", commandSource.getName());
-        values.put("commandSource", commandSource);
-        values.put("pardon", false);
-        values.put("pardonReason", Optional.empty());
-        values.put("pardonDate", Optional.empty());
-        values.put("pardonSource", Optional.empty());
-        values.put("pardonCommandSource", Optional.empty());
+        values.put("jail", jail.getJail());
+        values.put("jailName", jail.getJailName());
+        values.put("reason", jail.getReason());
+        values.put("creationDate", jail.getCreationDate());
+        values.put("indefinite", jail.isIndefinite());
+        values.put("expirationDate", jail.getExpirationDate());
+        values.put("source", jail.getSource());
+        values.put("commandSource", jail.getSourceName(server));
+        values.put("pardon", jail.isPardon());
+        values.put("pardonReason", jail.getPardonReason());
+        values.put("pardonDate", jail.getPardonDate());
+        values.put("pardonSource", jail.getPardonSource());
+        values.put("pardonCommandSource", jail.getPardonSourceName(server));
         values.put("cause", cause);
 
         if(user instanceof EPlayer) {
@@ -517,16 +494,16 @@ public class ESpongeEventFactory extends SpongeEventFactory {
 	 * Mute
 	 */
 	
-	public static MuteEvent.Enable createMuteEventEnable(EUser user, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, Cause cause) {
+	public static MuteEvent.Enable createMuteEventEnable(EUser user, SanctionMute sanction, CommandSource source, Cause cause) {
         HashMap<String, Object> values = new HashMap<String, Object>();
         values.put("user", user);
         values.put("value", true);
-        values.put("reason", reason);
-        values.put("creationDate", creationDate);
-        values.put("indefinite", !expirationDate.isPresent());
-        values.put("expirationDate", expirationDate);
-        values.put("source", commandSource.getName());
-        values.put("commandSource", commandSource);
+        values.put("reason", sanction.getReason());
+        values.put("creationDate", sanction.getCreationDate());
+        values.put("indefinite", sanction.isIndefinite());
+        values.put("expirationDate", sanction.getExpirationDate());
+        values.put("source", sanction.getSource());
+        values.put("commandSource", source);
         values.put("cause", cause);
         
         if(user instanceof EPlayer) {
@@ -537,47 +514,21 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         return SpongeEventFactoryUtils.createEventImpl(MuteEvent.Enable.class, values);
     }
 	
-	public static MuteEvent.Disable createMuteEventDisable(EUser user, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, 
-			Text pardonReason, Long pardonDate, CommandSource pardonCommandSource, Cause cause) {
+	public static MuteEvent.Disable createMuteEventDisable(EUser user, SanctionMute sanction, Cause cause, Server server) {
         HashMap<String, Object> values = new HashMap<String, Object>();
         values.put("user", user);
         values.put("value", false);
-        values.put("reason", reason);
-        values.put("creationDate", creationDate);
-        values.put("indefinite", !expirationDate.isPresent());
-        values.put("expirationDate", expirationDate);
-        values.put("source", commandSource.getName());
-        values.put("commandSource", commandSource);
-        values.put("pardon", true);
-        values.put("pardonReason", Optional.of(pardonReason));
-        values.put("pardonDate", Optional.of(pardonDate));
-        values.put("pardonSource", Optional.of(pardonCommandSource.getName()));
-        values.put("pardonCommandSource", Optional.of(pardonCommandSource));
-        values.put("cause", cause);
-        
-        if(user instanceof EPlayer) {
-            values.put("player", Optional.of((EPlayer) user));
-        } else {
-            values.put("player", Optional.empty());
-        }
-        return SpongeEventFactoryUtils.createEventImpl(MuteEvent.Disable.class, values);
-    }
-	
-	public static MuteEvent.Disable createMuteEventDisable(EUser user, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("user", user);
-        values.put("value", false);
-        values.put("reason", reason);
-        values.put("creationDate", creationDate);
-        values.put("indefinite", !expirationDate.isPresent());
-        values.put("expirationDate", expirationDate);
-        values.put("source", commandSource.getName());
-        values.put("commandSource", commandSource);
-        values.put("pardon", false);
-        values.put("pardonReason", Optional.empty());
-        values.put("pardonDate", Optional.empty());
-        values.put("pardonSource", Optional.empty());
-        values.put("pardonCommandSource", Optional.empty());
+        values.put("reason", sanction.getReason());
+        values.put("creationDate", sanction.getCreationDate());
+        values.put("indefinite", sanction.isIndefinite());
+        values.put("expirationDate", sanction.getExpirationDate());
+        values.put("source", sanction.getSource());
+        values.put("commandSource", sanction.getSourceName(server));
+        values.put("pardon", sanction.isPardon());
+        values.put("pardonReason", sanction.getPardonReason());
+        values.put("pardonDate", sanction.getPardonDate());
+        values.put("pardonSource", sanction.getPardonSource());
+        values.put("pardonCommandSource", sanction.getPardonSourceName(server));
         values.put("cause", cause);
         
         if(user instanceof EPlayer) {

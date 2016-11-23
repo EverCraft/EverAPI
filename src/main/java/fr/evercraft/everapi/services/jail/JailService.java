@@ -14,13 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.sanction;
+package fr.evercraft.everapi.services.jail;
+
+import java.util.Collection;
+import java.util.Optional;
 
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.world.World;
 
-public interface Jail {
-	public String getName();
-	public int getRadius();
-	public Transform<World> getTransform();
+public interface JailService {
+	public Collection<Jail> getAll();
+	public Collection<String> getAllNames();
+	
+	public boolean has(String identifier);
+	public Optional<Jail> get(String identifier);
+	
+	public Optional<Jail> add(String identifier, Transform<World> location, Optional<Integer> radius);
+	public boolean remove(String identifier);
+	
+	public boolean clearAll();
 }

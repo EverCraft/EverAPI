@@ -23,6 +23,7 @@ import java.util.Optional;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
+import fr.evercraft.everapi.services.jail.Jail;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionBanProfile;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionJail;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionMute;

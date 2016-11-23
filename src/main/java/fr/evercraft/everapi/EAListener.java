@@ -40,7 +40,7 @@ public class EAListener {
 	}
 	
 	@Listener(order=Order.FIRST)
-	public void onPlayerJoin(final ClientConnectionEvent.Join event) {
+	public void onPlayerJoin(final ClientConnectionEvent.Join event) {		
 		Optional<EPlayer> optPlayer = this.plugin.getEServer().getEPlayer(event.getTargetEntity());
 		if (optPlayer.isPresent()) {
 			EPlayer player = optPlayer.get();

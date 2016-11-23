@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.spongepowered.api.Platform.Component;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.scoreboard.Team;
@@ -131,7 +132,7 @@ public class EChat implements ChatService {
 		if (message.contains(ONLINE_PLAYERS)) message = message.replaceAll(ONLINE_PLAYERS, String.valueOf(this.plugin.getEServer().playerNotVanish()));
 		if (message.contains(MAX_PLAYERS)) message = message.replaceAll(MAX_PLAYERS, String.valueOf(this.plugin.getGame().getServer().getMaxPlayers()));
 		if (message.contains(SERVER_NAME)) message = message.replaceAll(SERVER_NAME, this.plugin.getEServer().getName());
-		if (message.contains(VERSION)) message = message.replaceAll(VERSION, this.plugin.getGame().getPlatform().getApi().getVersion().orElse(""));
+		if (message.contains(VERSION)) message = message.replaceAll(VERSION, this.plugin.getGame().getPlatform().getContainer(Component.API).getVersion().orElse(""));
 		if (message.contains(DATE)) message = message.replaceAll(DATE, this.plugin.getManagerUtils().getDate().parseDate());
 		if (message.contains(TIME)) message = message.replaceAll(TIME, this.plugin.getManagerUtils().getDate().parseTime());
 		if (message.contains(DATETIME)) message = message.replaceAll(DATETIME, this.plugin.getManagerUtils().getDate().parseDateTime());

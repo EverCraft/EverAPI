@@ -22,10 +22,17 @@ import java.util.List;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.effect.particle.ParticleTypes;
+import org.spongepowered.api.effect.potion.PotionEffect;
+import org.spongepowered.api.effect.potion.PotionEffectTypes;
+import org.spongepowered.api.entity.AreaEffectCloud;
+import org.spongepowered.api.entity.EntityTypes;
+import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.util.ban.Ban;
+import org.spongepowered.api.util.Color;
 
 import fr.evercraft.everapi.EACommand;
 import fr.evercraft.everapi.EAPermissions;
@@ -35,6 +42,8 @@ import fr.evercraft.everapi.plugin.command.ESubCommand;
 import fr.evercraft.everapi.server.player.EPlayer;
 
 public class EATest extends ESubCommand<EverAPI> {
+	private AreaEffectCloud area;
+	
 	public EATest(final EverAPI plugin, final EACommand command) {
         super(plugin, command, "test");
     }
@@ -60,32 +69,82 @@ public class EATest extends ESubCommand<EverAPI> {
 	
 	public boolean subExecute(final CommandSource source, final List<String> args) {
 		if (args.size() == 0) {
-			return commandTest((EPlayer) source);
+			//return commandTest((EPlayer) source);
 		} else if (args.size() == 1) {
-			return commandTest(source, args.get(0));
+			//return commandTest((EPlayer) source, args.get(0));
 		}
 		source.sendMessage(this.help(source));
 		return false;
 	}
-	
-	private boolean commandTest(final EPlayer player) {
-		for(Ban.Ip ip : this.plugin.getManagerService().getBan().get().getIpBans()) {
-			player.sendMessage(Text.of("getBanSource" + ip.getBanSource()));
-			player.sendMessage(Text.of("getReason" + ip.getReason()));
+	/*
+	private boolean commandTest(final EPlayer player) {		
+		this.area = (AreaEffectCloud) player.getWorld().createEntity(EntityTypes.AREA_EFFECT_CLOUD, player.getLocation().getPosition());
+		area.offer(Keys.DISPLAY_NAME, EChat.of("&4Test"));
+		area.offer(Keys.CUSTOM_NAME_VISIBLE, true);
+		area.offer(Keys.AREA_EFFECT_CLOUD_COLOR, Color.GREEN);
+		area.offer(Keys.AREA_EFFECT_CLOUD_RADIUS, 3D);
+		area.offer(Keys.AREA_EFFECT_CLOUD_PARTICLE_TYPE, ParticleTypes.MOB_SPELL);
+		area.offer(Keys.AREA_EFFECT_CLOUD_WAIT_TIME, 0);
+		this.area.offer(Keys.AREA_EFFECT_CLOUD_DURATION, 5000);
+		area.offer(Keys.POTION_EFFECTS, Arrays.asList(PotionEffect.builder().potionType(PotionEffectTypes.JUMP_BOOST).duration(3000).amplifier(3).build()));
+		
+		if(player.getWorld().spawnEntity(area, Cause.source(player).build())) {
+			player.sendMessage("&aSpawn entity");
+		} else {
+			player.sendMessage("&4Error : spawn entity");
 		}
 		return false;
 	}
 
-	private boolean commandTest(final CommandSource player, String name) {
-		this.plugin.getManagerService().getEPagination().sendTo(Text.of("test"), Arrays.asList(EChat.of("a\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na\na")), player);
+	private boolean commandTest(final EPlayer player, String name) {
+		if (this.area == null) {
+			this.commandTest(player);
+		}
 		
-		/*
-		player.sendMessage("AREA_EFFECT_CLOUD : " + name);
-		Entity entity = player.getWorld().createEntity(EntityTypes.AREA_EFFECT_CLOUD, player.getLocation().getBlockPosition().add(0, 2, 0));
-		entity.offer(Keys.DISPLAY_NAME, EChat.of(name));
-		entity.offer(Keys.CUSTOM_NAME_VISIBLE, true);
-		player.getWorld().spawnEntity(entity, Cause.source(EntitySpawnCause.builder().entity(entity).type(SpawnTypes.PLUGIN).build()).build());
-		*/
+		if (name.equals("0")) {
+			player.sendMessage("teleport debut : " + this.area.getLocation().getBlockPosition());
+			this.area.setTransform(player.getTransform());
+			player.sendMessage("teleport fin : " + this.area.getLocation().getBlockPosition());
+		} else if (name.equals("d")) {
+			player.sendMessage("AREA_EFFECT_CLOUD_DURATION : " + this.area.get(Keys.AREA_EFFECT_CLOUD_DURATION).get());
+		} else if (name.equals("-1")) {
+			player.sendMessage("AREA_EFFECT_CLOUD_DURATION_ON_USE debut : " + this.area.get(Keys.AREA_EFFECT_CLOUD_DURATION_ON_USE).get());
+			this.area.offer(Keys.AREA_EFFECT_CLOUD_DURATION_ON_USE, 20);
+			player.sendMessage("AREA_EFFECT_CLOUD_DURATION_ON_USE fin : " + this.area.get(Keys.AREA_EFFECT_CLOUD_DURATION_ON_USE).get());
+		} else if (name.equals("1")) {
+			player.sendMessage("AREA_EFFECT_CLOUD_RADIUS debut : " + this.area.get(Keys.AREA_EFFECT_CLOUD_RADIUS).get());
+			this.area.offer(Keys.AREA_EFFECT_CLOUD_RADIUS, this.area.get(Keys.AREA_EFFECT_CLOUD_RADIUS).get() + 10);
+			player.sendMessage("AREA_EFFECT_CLOUD_RADIUS fin : " + this.area.get(Keys.AREA_EFFECT_CLOUD_RADIUS).get());
+		} else if (name.equals("2")) {
+			player.sendMessage("AREA_EFFECT_CLOUD_RADIUS debut : " + this.area.get(Keys.AREA_EFFECT_CLOUD_RADIUS).get());
+			this.area.offer(Keys.AREA_EFFECT_CLOUD_RADIUS, this.area.get(Keys.AREA_EFFECT_CLOUD_RADIUS).get() - 1);
+			player.sendMessage("AREA_EFFECT_CLOUD_RADIUS fin : " + this.area.get(Keys.AREA_EFFECT_CLOUD_RADIUS).get());
+		} else if (name.equals("3")) {
+			player.sendMessage("COLOR : RED");
+			this.area.offer(Keys.COLOR, Color.RED);
+		} else if (name.equals("4")) {
+			player.sendMessage("COLOR : GREEN");
+			this.area.offer(Keys.COLOR, Color.GREEN);
+		} else if (name.equals("5")) {
+			player.sendMessage("AREA_EFFECT_CLOUD_DURATION : 5000");
+			this.area.offer(Keys.AREA_EFFECT_CLOUD_DURATION, 5000);
+		} else if (name.equals("6")) {
+			player.sendMessage("AREA_EFFECT_CLOUD_DURATION : 40");
+			this.area.offer(Keys.AREA_EFFECT_CLOUD_DURATION, 40);
+		} else if (name.equals("7")) {
+			player.sendMessage("POTION_EFFECTS : 5000");
+			this.area.offer(Keys.POTION_EFFECTS, Arrays.asList(PotionEffect.builder().potionType(PotionEffectTypes.JUMP_BOOST).duration(3000).amplifier(3).build()));
+		} else if (name.equals("8")) {
+			player.sendMessage("POTION_EFFECTS : 40");
+			this.area.offer(Keys.POTION_EFFECTS, Arrays.asList(PotionEffect.builder().potionType(PotionEffectTypes.GLOWING).duration(3000).amplifier(3).build()));
+		} else if (name.equals("9")) {
+			player.sendMessage("AREA_EFFECT_CLOUD_PARTICLE_TYPE : LAVA");
+			area.offer(Keys.AREA_EFFECT_CLOUD_PARTICLE_TYPE, ParticleTypes.LAVA);
+		} else if (name.equals("10")) {
+			player.sendMessage("AREA_EFFECT_CLOUD_PARTICLE_TYPE : MOB_SPELL");
+			area.offer(Keys.AREA_EFFECT_CLOUD_PARTICLE_TYPE, ParticleTypes.MOB_SPELL);
+		}
+		
 		return true;
-	}
+	}*/
 }

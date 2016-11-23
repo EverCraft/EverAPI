@@ -74,7 +74,7 @@ public interface SanctionManualProfile extends SanctionManual {
 	}
 	
 	public interface Jail extends SanctionManualProfile, Sanction.SanctionJail {
-		public Optional<fr.evercraft.everapi.services.sanction.Jail> getJail();
+		public Optional<fr.evercraft.everapi.services.jail.Jail> getJail();
 		
 		public default Type getType() {
 			return Type.JAIL;

@@ -25,6 +25,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.server.EServer;
+import fr.evercraft.everapi.services.jail.Jail;
 
 public interface Sanction {
 	public Long getCreationDate();

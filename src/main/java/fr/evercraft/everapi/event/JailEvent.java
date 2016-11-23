@@ -25,15 +25,15 @@ import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.server.user.EUser;
-import fr.evercraft.everapi.services.sanction.Jail;
+import fr.evercraft.everapi.services.jail.Jail;
+import fr.evercraft.everapi.services.sanction.Sanction.SanctionJail;
 
-public interface JailEvent extends Event, Cancellable {
+public interface JailEvent extends Event {
 	
 	public EUser getUser();
 	public Optional<EPlayer> getPlayer();
-	
 	public boolean getValue();
-	public Jail getJail();
+	public SanctionJail getSanction();
 	
 	public Text getReason();
 	public long getCreationDate();
@@ -41,11 +41,15 @@ public interface JailEvent extends Event, Cancellable {
 	public Optional<Long> getExpirationDate();
 	public String getSource();
 	
-	public interface Enable extends JailEvent {
+	public interface Enable extends JailEvent, Cancellable {
+		public Jail getJail();
 		public CommandSource getCommandSource();
 	}
 	
 	public interface Disable extends JailEvent {
+		public Optional<Jail> getJail();
+		public String getJailName();
+		
 		public boolean isPardon();		
 		public Optional<Text> getPardonReason();
 		public Optional<Long> getPardonDate();
