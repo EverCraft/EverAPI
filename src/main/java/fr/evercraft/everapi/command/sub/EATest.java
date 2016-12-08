@@ -42,7 +42,7 @@ public class EATest extends ESubCommand<EverAPI> {
 	}
 
 	public Text description(final CommandSource source) {
-		return Text.of("Commande de test");
+		return Text.of("Commande de test1");
 	}
 	
 	public List<String> subTabCompleter(final CommandSource source, final List<String> args) throws CommandException {
