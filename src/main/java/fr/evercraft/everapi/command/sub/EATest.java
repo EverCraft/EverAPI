@@ -17,32 +17,21 @@
 package fr.evercraft.everapi.command.sub;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.effect.particle.ParticleTypes;
-import org.spongepowered.api.effect.potion.PotionEffect;
-import org.spongepowered.api.effect.potion.PotionEffectTypes;
-import org.spongepowered.api.entity.AreaEffectCloud;
-import org.spongepowered.api.entity.EntityTypes;
-import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.util.Color;
 
 import fr.evercraft.everapi.EACommand;
 import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
-import fr.evercraft.everapi.server.player.EPlayer;
 
 public class EATest extends ESubCommand<EverAPI> {
-	private AreaEffectCloud area;
 	
 	public EATest(final EverAPI plugin, final EACommand command) {
         super(plugin, command, "test");
@@ -69,6 +58,10 @@ public class EATest extends ESubCommand<EverAPI> {
 	
 	public boolean subExecute(final CommandSource source, final List<String> args) {
 		if (args.size() == 0) {
+			this.plugin.getGame().getScheduler().getScheduledTasks().forEach(task -> {
+				source.sendMessage(EChat.of("- name : " + task.getName() + "; plugin : " + task.getOwner().getName()));
+			});
+			
 			//return commandTest((EPlayer) source);
 		} else if (args.size() == 1) {
 			//return commandTest((EPlayer) source, args.get(0));
