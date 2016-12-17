@@ -23,14 +23,26 @@ import org.spongepowered.api.boss.ServerBossBar;
 import fr.evercraft.everapi.server.player.EPlayer;
 
 public interface BossBarService {
-
-	public boolean add(EPlayer player, String identifier, ServerBossBar bossbar);
-
-	public boolean add(EPlayer player, String identifier, int priority, ServerBossBar bossbar);
 	
-	public boolean remove(EPlayer player, String identifier);
+	boolean add(EPlayer player, String identifier, int priority, ServerBossBar bossbar, Optional<Long> stay);
+	boolean remove(EPlayer player, String identifier);
+	Optional<ServerBossBar> get(EPlayer player, String identifier);
 
-	public Optional<ServerBossBar> get(EPlayer ePlayer, String identifier);
-
+	int getPriority(String identifier);
 	
+	default boolean add(EPlayer player, String identifier, ServerBossBar bossbar) {
+		return this.add(player, identifier, this.getPriority(identifier), bossbar);
+	}
+	
+	default boolean add(EPlayer player, String identifier, int priority, ServerBossBar bossbar) {
+		return this.add(player, identifier, priority, bossbar, Optional.empty());
+	}
+	
+	default boolean add(EPlayer player, String identifier, long stay, ServerBossBar bossbar) {
+		return this.add(player, identifier, this.getPriority(identifier), bossbar, Optional.of(stay));
+	}
+	
+	default boolean add(EPlayer player, String identifier, int priority, long stay, ServerBossBar bossbar) {
+		return this.add(player, identifier, priority, bossbar, Optional.of(stay));
+	}
 }

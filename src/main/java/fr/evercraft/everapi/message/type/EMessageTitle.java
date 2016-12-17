@@ -84,8 +84,7 @@ public class EMessageTitle {
 		return this.priority;
 	}
 
-	public Object send(EFormat eFormat, EPlayer player, Map<String, Supplier<Object>> replaces) {
+	public void send(EFormat prefix, EPlayer player, Map<String, Supplier<Object>> replaces) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 }

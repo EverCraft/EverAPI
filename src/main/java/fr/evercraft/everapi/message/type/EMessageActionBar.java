@@ -25,12 +25,12 @@ import fr.evercraft.everapi.server.player.EPlayer;
 public class EMessageActionBar {
 	
 	private final EFormat message;
-	private final double stay;
+	private final long stay;
 	
 	private final String priority;
 	private final boolean prefix;
 
-	public EMessageActionBar(final EFormat message, final double stay, final String priority, final boolean prefix) {
+	public EMessageActionBar(final EFormat message, final long stay, final String priority, final boolean prefix) {
 		this.message = message;
 		this.stay = stay;
 		this.priority = priority;
@@ -41,7 +41,7 @@ public class EMessageActionBar {
 		return this.message;
 	}
 
-	public double getStay() {
+	public long getStay() {
 		return this.stay;
 	}
 
@@ -53,8 +53,11 @@ public class EMessageActionBar {
 		return this.prefix;
 	}
 
-	public Object send(EFormat eFormat, EPlayer player, Map<String, Supplier<Object>> replaces) {
-		// TODO Auto-generated method stub
-		return null;
+	public void send(EFormat prefix, EPlayer player, Map<String, Supplier<Object>> replaces) {
+		if (this.prefix) {
+			player.sendActionBar(this.priority, this.stay, prefix.toText().concat(this.message.replaces(replaces)));
+		} else {
+			player.sendActionBar(this.priority, this.stay, this.message.replaces(replaces));
+		}
 	}
 }

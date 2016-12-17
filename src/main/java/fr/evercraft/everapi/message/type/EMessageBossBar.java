@@ -19,8 +19,7 @@ package fr.evercraft.everapi.message.type;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import org.spongepowered.api.boss.BossBarColor;
-import org.spongepowered.api.boss.BossBarOverlay;
+import org.spongepowered.api.boss.ServerBossBar;
 
 import fr.evercraft.everapi.message.format.EFormat;
 import fr.evercraft.everapi.server.player.EPlayer;
@@ -30,26 +29,15 @@ public class EMessageBossBar {
 	private final EFormat message;
 	
 	private final double stay;
-	private final float percent;
-	private final BossBarColor color;
-	private final BossBarOverlay overlay;
-	private final boolean darkenSky;
-	private final boolean playEndBossMusic;
-	private final boolean createFog;
+	private final ServerBossBar bossbar;
 	
 	private final String priority;
 	private final boolean prefix;
 
-	public EMessageBossBar(final EFormat message, final double stay, float percent, BossBarColor color, final BossBarOverlay overlay, 
-			final boolean darkenSky, final boolean playEndBossMusic, final boolean createFog, final String priority, final boolean prefix) {
+	public EMessageBossBar(final EFormat message, final double stay, final ServerBossBar bossbar, final String priority, final boolean prefix) {
 		this.message = message;
 		this.stay = stay;
-		this.percent = percent;
-		this.color = color;
-		this.overlay = overlay;
-		this.darkenSky = darkenSky;
-		this.playEndBossMusic = playEndBossMusic;
-		this.createFog = createFog;
+		this.bossbar = bossbar;
 		this.priority = priority;
 		this.prefix = prefix;
 	}
@@ -62,28 +50,8 @@ public class EMessageBossBar {
 		return this.stay;
 	}
 
-	public float getPercent() {
-		return percent;
-	}
-
-	public BossBarColor getColor() {
-		return color;
-	}
-
-	public BossBarOverlay getOverlay() {
-		return overlay;
-	}
-
-	public boolean isDarkenSky() {
-		return darkenSky;
-	}
-
-	public boolean isPlayEndBossMusic() {
-		return playEndBossMusic;
-	}
-
-	public boolean isCreateFog() {
-		return createFog;
+	public ServerBossBar getServerBossBar() {
+		return this.bossbar;
 	}
 
 	public String getPriority() {
@@ -94,8 +62,11 @@ public class EMessageBossBar {
 		return this.prefix;
 	}
 
-	public Object send(EFormat eFormat, EPlayer player, Map<String, Supplier<Object>> replaces) {
-		// TODO Auto-generated method stub
-		return null;
+	public void send(EFormat prefix, EPlayer player, Map<String, Supplier<Object>> replaces) {		
+		if (this.prefix) {
+			//player(this.priority, this.stay, prefix.toText().concat(this.message.replaces(replaces)));
+		} else {
+			//player.sendActionBar(this.priority, this.stay, this.message.replaces(replaces));
+		}
 	}
 }

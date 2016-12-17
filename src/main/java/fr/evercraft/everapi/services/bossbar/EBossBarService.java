@@ -22,9 +22,14 @@ import java.util.UUID;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.spongepowered.api.boss.ServerBossBar;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.scheduler.Task;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.event.ESpongeEventFactory;
@@ -33,9 +38,17 @@ import fr.evercraft.everapi.services.BossBarService;
 import fr.evercraft.everapi.services.PriorityService;
 
 public class EBossBarService implements BossBarService {	
+	private final static int UPDATE = 1000;
+	
 	private final EverAPI plugin;
-		
+	
+	private Task task;
 	private final ConcurrentMap<UUID, EBossBar> players;
+	
+	// MultiThearding
+	private final ReadWriteLock lock = new ReentrantReadWriteLock();
+	private final Lock write_lock = lock.writeLock();
+	private final Lock read_lock = lock.readLock();
 	
 	public EBossBarService(final EverAPI plugin){
 		this.plugin = plugin;
@@ -44,72 +57,170 @@ public class EBossBarService implements BossBarService {
 	}
 	
 	public void reload() {
-		HashMap<UUID, EBossBar> bossbars = new HashMap<UUID, EBossBar>(this.players);
-		this.players.clear();
-		
-		for (Entry<UUID, EBossBar> bossbar : bossbars.entrySet()) {
-			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(bossbar.getKey());
-			if (player.isPresent()) {
-				bossbar.getValue().removePlayer(player.get());
-				this.postRemove(player.get(), bossbar.getValue());
+		this.write_lock.lock();
+		try {
+			if (this.task != null) {
+				this.task.cancel();
 			}
+			
+			HashMap<UUID, EBossBar> bossbars = new HashMap<UUID, EBossBar>(this.players);
+			this.players.clear();
+			
+			for (Entry<UUID, EBossBar> bossbar : bossbars.entrySet()) {
+				Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(bossbar.getKey());
+				if (player.isPresent()) {
+					bossbar.getValue().removePlayer(player.get());
+					this.postRemove(player.get(), bossbar.getValue());
+				}
+			}
+		} finally {
+			this.write_lock.unlock();
 		}
 	}
 	
-	
-	
 	@Override
-	public boolean add(EPlayer player, String identifier, ServerBossBar bossbar) {
-		return this.add(player, identifier, this.getPriority(identifier), bossbar);
-	}
-	
-	@Override
-	public boolean add(EPlayer player, String identifier, int priority, ServerBossBar bossbar) {
-		EBossBar bossbar_player = this.players.get(player.getUniqueId());
-		// Vérifie la priorité
-		if (bossbar_player == null) {
-			// Ajoute
-			bossbar_player = new EBossBar(identifier, bossbar);
-			this.players.put(player.getUniqueId(), bossbar_player);
-			bossbar.addPlayer(player.get());
-			
-			//Event
-			this.postAdd(player, bossbar_player);
-			
-			return true;
-		} else if (this.getPriority(bossbar_player.getIdentifier()) <= priority && !bossbar_player.getServerBossBar().equals(bossbar)) {
-			// Supprime
-			bossbar_player.getServerBossBar().removePlayer(player.get());
-			
-			// Ajoute
-			EBossBar new_bossbar_player = new EBossBar(identifier, bossbar);
-			this.players.put(player.getUniqueId(), new_bossbar_player);
-			bossbar.addPlayer(player.get());
-			
-			//Event
-			this.postReplace(player, bossbar_player, new_bossbar_player);
-			
-			return true;
+	public boolean add(EPlayer player, String identifier, int priority, ServerBossBar bossbar, Optional<Long> stay) {
+		boolean result = false;
+		
+		this.write_lock.lock();
+		try {
+			EBossBar bossbar_player = this.players.get(player.getUniqueId());
+			// Vérifie la priorité
+			if (bossbar_player == null) {
+				// Ajoute
+				bossbar_player = new EBossBar(identifier, bossbar, stay);
+				this.players.put(player.getUniqueId(), bossbar_player);
+				bossbar.addPlayer(player.get());
+				
+				//Event
+				this.postAdd(player, bossbar_player);
+				
+				// On réactive le cooldown
+				start();
+				result = true;
+			} else if (this.getPriority(bossbar_player.getIdentifier()) <= priority && !bossbar_player.getServerBossBar().equals(bossbar)) {
+				// Supprime
+				bossbar_player.getServerBossBar().removePlayer(player.get());
+				
+				// Ajoute
+				EBossBar new_bossbar_player = new EBossBar(identifier, bossbar, stay);
+				this.players.put(player.getUniqueId(), new_bossbar_player);
+				bossbar.addPlayer(player.get());
+				
+				//Event
+				this.postReplace(player, bossbar_player, new_bossbar_player);
+				
+				// On réactive le cooldown
+				start();
+				result = true;
+			}
+		} finally {
+			this.write_lock.unlock();
 		}
-		return false;
+		return result;
 	}
 
 	@Override
 	public boolean remove(EPlayer player, String identifier) {
-		EBossBar bossbar = this.players.get(player.getUniqueId());
-		if (bossbar != null && bossbar.getIdentifier().equalsIgnoreCase(identifier)) {
-			// Supprime
-			bossbar.getServerBossBar().removePlayer(player.get());
-			this.players.remove(player.getUniqueId());
-			
-			//Event
-			this.postRemove(player, bossbar);
-			return true;
+		boolean result = false;
+		
+		this.write_lock.lock();
+		try {
+			EBossBar bossbar = this.players.get(player.getUniqueId());
+			if (bossbar != null && bossbar.getIdentifier().equalsIgnoreCase(identifier)) {
+				// Supprime
+				bossbar.getServerBossBar().removePlayer(player.get());
+				this.players.remove(player.getUniqueId());
+				
+				//Event
+				this.postRemove(player, bossbar);
+				return true;
+			}
+		} finally {
+			this.write_lock.unlock();
 		}
-		return false;
+		return result;
 	}
 	
-	private int getPriority(String identifier) {
+	public void update() {
+		this.write_lock.lock();
+		try {
+			if (this.isEmpty()) {
+				stop();
+			} else {
+				for (Entry<UUID, EBossBar> bossBar : this.players.entrySet()) {
+					Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(bossBar.getKey());
+					if (!player.isPresent() || (bossBar.getValue().getTime().isPresent() && System.currentTimeMillis() > bossBar.getValue().getTime().get())) {
+						this.remove(player.get(), bossBar.getValue().getIdentifier());
+					}
+				}
+				
+				if (this.isEmpty()) {
+					stop();
+				} else {
+					start();
+				}
+			}
+		} finally {
+			this.write_lock.unlock();
+		}
+	}
+
+	public void start() {
+		this.write_lock.lock();
+		try {
+			if (!this.isEnable()) {
+				this.task = this.plugin.getGame().getScheduler().createTaskBuilder()
+								.execute(() -> this.update())
+								.delay(UPDATE, TimeUnit.MILLISECONDS)
+								.interval(UPDATE, TimeUnit.MILLISECONDS)
+								.name("ActionBarService")
+								.submit(this.plugin);
+			}
+		} finally {
+			this.write_lock.unlock();
+		}
+	}
+	
+	public void stop() {
+		this.write_lock.lock();
+		try {
+			if (isEnable()) {
+				this.task.cancel();
+				this.task = null;
+			}
+		} finally {
+			this.write_lock.unlock();
+		}
+	}
+
+	public boolean isEnable() {
+		boolean result = false;
+		
+		this.read_lock.lock();
+		try {
+			result = this.task != null;
+		} finally {
+			this.read_lock.unlock();
+		}
+		
+		return result;
+	}
+	
+	private boolean isEmpty() {
+		boolean result = false;
+		
+		this.read_lock.lock();
+		try {
+			result = !this.players.values().stream().filter(bossbar -> bossbar.getTime().isPresent()).findFirst().isPresent();
+		} finally {
+			this.read_lock.unlock();
+		}
+		
+		return result;
+	}
+
+	public int getPriority(String identifier) {
 		if (this.plugin.getManagerService().getPriority().isPresent()) {
 			return this.plugin.getManagerService().getPriority().get().getBossBar(identifier);
 		}
@@ -118,12 +229,21 @@ public class EBossBarService implements BossBarService {
 
 	@Override
 	public Optional<ServerBossBar> get(EPlayer player, String identifier) {
-		EBossBar bossbar = this.players.get(player.getUniqueId());
-		if (bossbar != null && bossbar.getIdentifier().equalsIgnoreCase(identifier)) {
-			return Optional.of(bossbar.getServerBossBar());
+		Optional<ServerBossBar> result = Optional.empty();
+		
+		this.read_lock.lock();
+		try {
+			EBossBar bossbar = this.players.get(player.getUniqueId());
+			if (bossbar != null && bossbar.getIdentifier().equalsIgnoreCase(identifier)) {
+				return Optional.of(bossbar.getServerBossBar());
+			}
+		} finally {
+			this.read_lock.unlock();
 		}
-		return Optional.empty();
+		
+		return result;
 	}
+	
 	
 	/*
 	 * Event

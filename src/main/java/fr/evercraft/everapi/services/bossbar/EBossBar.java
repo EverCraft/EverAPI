@@ -16,6 +16,8 @@
  */
 package fr.evercraft.everapi.services.bossbar;
 
+import java.util.Optional;
+
 import org.spongepowered.api.boss.ServerBossBar;
 
 import fr.evercraft.everapi.server.player.EPlayer;
@@ -23,11 +25,12 @@ import fr.evercraft.everapi.server.player.EPlayer;
 public class EBossBar {
 
 	private final String identifier;
-	
+	private final Optional<Long> time;
 	private final ServerBossBar bossbar;
 	
-	public EBossBar(final String identifier, final ServerBossBar bossbar) {
+	public EBossBar(final String identifier, final ServerBossBar bossbar, final Optional<Long> stay) {
 		this.identifier = identifier;
+		this.time = stay;
 		this.bossbar = bossbar;
 	}
 
@@ -35,6 +38,10 @@ public class EBossBar {
 		return this.identifier;
 	}
 
+	public Optional<Long> getTime() {
+		return this.time;
+	}
+	
 	public ServerBossBar getServerBossBar() {
 		return this.bossbar;
 	}

@@ -18,8 +18,7 @@ package fr.evercraft.everapi.message;
 
 import java.util.Optional;
 
-import org.spongepowered.api.boss.BossBarColor;
-import org.spongepowered.api.boss.BossBarOverlay;
+import org.spongepowered.api.boss.ServerBossBar;
 
 import com.google.common.base.Preconditions;
 
@@ -50,7 +49,7 @@ public final class EMessageBuilder {
 		return this;
 	}
 	
-	public EMessageBuilder actionbar(final EFormat message, final double stay, final String priority, final boolean prefix) {
+	public EMessageBuilder actionbar(final EFormat message, final long stay, final String priority, final boolean prefix) {
 		Preconditions.checkNotNull(message, "message");
 		Preconditions.checkNotNull(priority, "priority");
 		Preconditions.checkArgument(!priority.isEmpty(), "Priority is empty");
@@ -71,15 +70,13 @@ public final class EMessageBuilder {
 		return this;
 	}
 	
-	public EMessageBuilder bossbar(final EFormat message, final double stay, float percent, BossBarColor color, final BossBarOverlay overlay, 
-			final boolean darkenSky, final boolean playEndBossMusic, final boolean createFog, final String priority, final boolean prefix) {
+	public EMessageBuilder bossbar(final EFormat message, final double stay, final ServerBossBar bossbar, final String priority, final boolean prefix) {
 		Preconditions.checkNotNull(message, "message");
-		Preconditions.checkNotNull(color, "color");
-		Preconditions.checkNotNull(overlay, "overlay");
+		Preconditions.checkNotNull(bossbar, "bossbar");
 		Preconditions.checkNotNull(priority, "priority");
 		Preconditions.checkArgument(!priority.isEmpty(), "Priority is empty");
 		
-		this.bossbar = new EMessageBossBar(message, stay, percent, color, overlay, darkenSky, playEndBossMusic, createFog, priority, prefix);
+		this.bossbar = new EMessageBossBar(message, stay, bossbar, priority, prefix);
 		return this;
 	}
 	
