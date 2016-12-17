@@ -64,7 +64,7 @@ public class EATest extends ESubCommand<EverAPI> {
 			
 			//return commandTest((EPlayer) source);
 		} else if (args.size() == 1) {
-			//return commandTest((EPlayer) source, args.get(0));
+
 		}
 		source.sendMessage(this.help(source));
 		return false;

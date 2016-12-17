@@ -17,38 +17,28 @@
 package fr.evercraft.everapi.message.type;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
-import org.spongepowered.api.text.Text;
-
-import fr.evercraft.everapi.message.EMessageType;
+import fr.evercraft.everapi.message.format.EFormat;
 import fr.evercraft.everapi.server.player.EPlayer;
 
 public class EMessageActionBar {
 	
-	/*
-	 * String ou TextTemplate
-	 */
-	private final Object message;
-	private final EMessageType format;
+	private final EFormat message;
 	private final double stay;
 	
 	private final String priority;
 	private final boolean prefix;
 
-	public EMessageActionBar(final Object message, final EMessageType format, final double stay, final String priority, final boolean prefix) {
+	public EMessageActionBar(final EFormat message, final double stay, final String priority, final boolean prefix) {
 		this.message = message;
-		this.format = format;
 		this.stay = stay;
 		this.priority = priority;
 		this.prefix = prefix;
 	}
 
-	public String getMessage() {
-		return this.message.toString();
-	}
-
-	public EMessageType getFormat() {
-		return this.format;
+	public EFormat getMessage() {
+		return this.message;
 	}
 
 	public double getStay() {
@@ -63,7 +53,7 @@ public class EMessageActionBar {
 		return this.prefix;
 	}
 
-	public Object send(Text prefix, EPlayer player, Map<String, Object> replaces) {
+	public Object send(EFormat eFormat, EPlayer player, Map<String, Supplier<Object>> replaces) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -17,43 +17,35 @@
 package fr.evercraft.everapi.message.type;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.serializer.TextSerializer;
-
-import fr.evercraft.everapi.message.EMessageType;
+import fr.evercraft.everapi.message.format.EFormat;
 import fr.evercraft.everapi.server.player.EPlayer;
 
 public class EMessageChat {
 	
-	private final Object message;
-	private final EMessageType format;
+	private final EFormat message;
 	
 	private final boolean prefix;
 
-	public EMessageChat(final Object message, final EMessageType format, final boolean prefix) {
+	public EMessageChat(final EFormat message, final boolean prefix) {
 		this.message = message;
-		this.format = format;
 		this.prefix = prefix;
 	}
 
-	public String getMessage() {
-		return message.toString();
-	}
-
-	public EMessageType getFormat() {
-		return format;
+	public EFormat getMessage() {
+		return this.message;
 	}
 
 	public boolean isPrefix() {
 		return prefix;
 	}
 
-	public void send(Text prefix, EPlayer player, Map<String, Object> replaces) {
-		
-	}
-	
-	public static Text replace(String message, TextSerializer format, boolean prefix) {
-		return null;
+	public void send(EFormat prefix, EPlayer player, Map<String, Supplier<Object>> replaces) {
+		if (this.prefix) {
+			player.sendMessage(prefix.toText().concat(this.message.replaces(replaces)));
+		} else {
+			player.sendMessage(this.message.replaces(replaces));
+		}
 	}
 }

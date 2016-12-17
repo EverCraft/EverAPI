@@ -17,18 +17,17 @@
 package fr.evercraft.everapi.message.type;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
 import org.spongepowered.api.boss.BossBarColor;
 import org.spongepowered.api.boss.BossBarOverlay;
-import org.spongepowered.api.text.Text;
 
-import fr.evercraft.everapi.message.EMessageType;
+import fr.evercraft.everapi.message.format.EFormat;
 import fr.evercraft.everapi.server.player.EPlayer;
 
 public class EMessageBossBar {
 	
-	private final Object message;
-	private final EMessageType format;
+	private final EFormat message;
 	
 	private final double stay;
 	private final float percent;
@@ -41,10 +40,9 @@ public class EMessageBossBar {
 	private final String priority;
 	private final boolean prefix;
 
-	public EMessageBossBar(final Object message, final EMessageType format, final double stay, float percent, BossBarColor color, final BossBarOverlay overlay, 
+	public EMessageBossBar(final EFormat message, final double stay, float percent, BossBarColor color, final BossBarOverlay overlay, 
 			final boolean darkenSky, final boolean playEndBossMusic, final boolean createFog, final String priority, final boolean prefix) {
 		this.message = message;
-		this.format = format;
 		this.stay = stay;
 		this.percent = percent;
 		this.color = color;
@@ -56,12 +54,8 @@ public class EMessageBossBar {
 		this.prefix = prefix;
 	}
 
-	public Object getMessage() {
-		return this.message.toString();
-	}
-
-	public EMessageType getFormat() {
-		return this.format;
+	public EFormat getMessage() {
+		return this.message;
 	}
 
 	public double getStay() {
@@ -100,7 +94,7 @@ public class EMessageBossBar {
 		return this.prefix;
 	}
 
-	public Object send(Text prefix, EPlayer player, Map<String, Object> replaces) {
+	public Object send(EFormat eFormat, EPlayer player, Map<String, Supplier<Object>> replaces) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -18,6 +18,7 @@ package fr.evercraft.everapi.message;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
@@ -30,11 +31,11 @@ import fr.evercraft.everapi.server.player.EPlayer;
 
 public final class EMessageSend {	
 	private final EMessageFormat messages;
-	private final Map<String, Object> replaces;
+	private final Map<String, Supplier<Object>> replaces;
 	
 	public EMessageSend(EMessageFormat messages) {
 		this.messages = messages;
-		this.replaces = new HashMap<String, Object>();
+		this.replaces = new HashMap<String, Supplier<Object>>();
 		this.clear();
 	}
 	
@@ -42,7 +43,7 @@ public final class EMessageSend {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
-		this.replaces.put(key, value); 
+		this.replaces.put(key, () -> value); 
 		return this;
 	}
 	
@@ -50,7 +51,7 @@ public final class EMessageSend {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
-		this.replaces.put(key, value); 
+		this.replaces.put(key, () -> value); 
 		return this;
 	}
 	
@@ -58,7 +59,7 @@ public final class EMessageSend {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
-		this.replaces.put(key, value); 
+		this.replaces.put(key, () -> value); 
 		return this;
 	}
 	
@@ -66,7 +67,25 @@ public final class EMessageSend {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
-		this.replaces.put(key, value); 
+		this.replaces.put(key, () -> value); 
+		return this;
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public EMessageSend replaceString(String key, Supplier<String> value) {
+		Preconditions.checkNotNull(key, "key");
+		Preconditions.checkNotNull(value, "value");
+		
+		this.replaces.put(key, (Supplier) value); 
+		return this;
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public EMessageSend replaceText(String key, Supplier<Text> value) {
+		Preconditions.checkNotNull(key, "key");
+		Preconditions.checkNotNull(value, "value");
+		
+		this.replaces.put(key, (Supplier) value); 
 		return this;
 	}
 	

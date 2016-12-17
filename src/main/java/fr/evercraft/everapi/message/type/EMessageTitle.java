@@ -17,20 +17,17 @@
 package fr.evercraft.everapi.message.type;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
-import org.spongepowered.api.text.Text;
-
-import fr.evercraft.everapi.message.EMessageType;
+import fr.evercraft.everapi.message.format.EFormat;
 import fr.evercraft.everapi.server.player.EPlayer;
 
 public class EMessageTitle {
 	
-	private final Object message;
-	private final EMessageType format;
+	private final EFormat message;
 	private final boolean prefix;
 	
-	private final Object sub_message;
-	private final EMessageType sub_format;
+	private final EFormat sub_message;
 	private final boolean sub_prefix;
 	
 	private final double stay;
@@ -39,15 +36,13 @@ public class EMessageTitle {
 	
 	private final String priority;
 
-	public EMessageTitle(final Object message, final EMessageType format, final boolean prefix, 
-			final Object sub_message, final EMessageType sub_format, final boolean sub_prefix,
+	public EMessageTitle(final EFormat message, final boolean prefix, 
+			final EFormat sub_message, final boolean sub_prefix,
 			final double stay, final double fadeIn, final double fadeOut, final String priority) {
 		this.message = message;
-		this.format = format;
 		this.prefix = prefix;
 		
 		this.sub_message = sub_message;
-		this.sub_format = sub_format;
 		this.sub_prefix = sub_prefix;
 		
 		this.stay = stay;
@@ -57,24 +52,16 @@ public class EMessageTitle {
 		this.priority = priority;
 	}
 
-	public String getMessage() {
-		return this.message.toString();
+	public EFormat getMessage() {
+		return this.message;
 	}
 
-	public EMessageType getFormat() {
-		return this.format;
-	}
-	
 	public boolean isPrefix() {
 		return this.prefix;
 	}
 	
-	public String getSubMessage() {
-		return this.sub_message.toString();
-	}
-
-	public EMessageType getSubFormat() {
-		return this.sub_format;
+	public EFormat getSubMessage() {
+		return this.sub_message;
 	}
 	
 	public boolean isSubPrefix() {
@@ -97,7 +84,7 @@ public class EMessageTitle {
 		return this.priority;
 	}
 
-	public Object send(Text prefix, EPlayer player, Map<String, Object> replaces) {
+	public Object send(EFormat eFormat, EPlayer player, Map<String, Supplier<Object>> replaces) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -20,18 +20,18 @@ import java.util.Optional;
 
 import org.spongepowered.api.boss.BossBarColor;
 import org.spongepowered.api.boss.BossBarOverlay;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.serializer.TextSerializer;
 
 import com.google.common.base.Preconditions;
 
+import fr.evercraft.everapi.message.format.EFormatString;
+import fr.evercraft.everapi.message.format.EFormat;
 import fr.evercraft.everapi.message.type.EMessageActionBar;
 import fr.evercraft.everapi.message.type.EMessageBossBar;
 import fr.evercraft.everapi.message.type.EMessageChat;
 import fr.evercraft.everapi.message.type.EMessageTitle;
 
 public final class EMessageBuilder {
-	private Text prefix;
+	private EFormat prefix;
 	
 	private EMessageChat chat;
 	private EMessageActionBar actionbar;
@@ -42,61 +42,56 @@ public final class EMessageBuilder {
 		this.clear();
 	}
 	
-	public EMessageBuilder chat(final String message, final EMessageType format, final boolean prefix) {
+	public EMessageBuilder chat(final EFormat message, final boolean prefix) {
 		Preconditions.checkNotNull(message, "message");
-		Preconditions.checkNotNull(format, "format");
 		Preconditions.checkArgument(!message.isEmpty(), "Message is empty");
 		
-		this.chat = new EMessageChat(message, format, prefix);
+		this.chat = new EMessageChat(message, prefix);
 		return this;
 	}
 	
-	public EMessageBuilder actionbar(final Object message, final EMessageType format, final double stay, final String priority, final boolean prefix) {
+	public EMessageBuilder actionbar(final EFormat message, final double stay, final String priority, final boolean prefix) {
 		Preconditions.checkNotNull(message, "message");
-		Preconditions.checkNotNull(format, "format");
 		Preconditions.checkNotNull(priority, "priority");
 		Preconditions.checkArgument(!priority.isEmpty(), "Priority is empty");
 		
-		this.actionbar = new EMessageActionBar(message, format, stay, priority, prefix);
+		this.actionbar = new EMessageActionBar(message, stay, priority, prefix);
 		return this;
 	}
 	
-	public EMessageBuilder title(final Object message, final EMessageType format, final boolean prefix, 
-			final Object sub_message, final EMessageType sub_format, final boolean sub_prefix,
+	public EMessageBuilder title(final EFormat message, final boolean prefix, 
+			final EFormat sub_message, final boolean sub_prefix,
 			final double stay, final double fadeIn, final double fadeOut, final String priority) {
 		Preconditions.checkNotNull(message, "message");
-		Preconditions.checkNotNull(format, "format");
 		Preconditions.checkNotNull(sub_message, "sub_message");
-		Preconditions.checkNotNull(sub_format, "sub_format");
 		Preconditions.checkNotNull(priority, "priority");
 		Preconditions.checkArgument(!priority.isEmpty(), "Priority is empty");
 		
-		this.title = new EMessageTitle(message, format, prefix, sub_message, sub_format, sub_prefix, stay, fadeIn, fadeOut, priority);
+		this.title = new EMessageTitle(message, prefix, sub_message, sub_prefix, stay, fadeIn, fadeOut, priority);
 		return this;
 	}
 	
-	public EMessageBuilder bossbar(final Object message, final EMessageType format, final double stay, float percent, BossBarColor color, final BossBarOverlay overlay, 
+	public EMessageBuilder bossbar(final EFormat message, final double stay, float percent, BossBarColor color, final BossBarOverlay overlay, 
 			final boolean darkenSky, final boolean playEndBossMusic, final boolean createFog, final String priority, final boolean prefix) {
 		Preconditions.checkNotNull(message, "message");
-		Preconditions.checkNotNull(format, "format");
 		Preconditions.checkNotNull(color, "color");
 		Preconditions.checkNotNull(overlay, "overlay");
 		Preconditions.checkNotNull(priority, "priority");
 		Preconditions.checkArgument(!priority.isEmpty(), "Priority is empty");
 		
-		this.bossbar = new EMessageBossBar(message, format, stay, percent, color, overlay, darkenSky, playEndBossMusic, createFog, priority, prefix);
+		this.bossbar = new EMessageBossBar(message, stay, percent, color, overlay, darkenSky, playEndBossMusic, createFog, priority, prefix);
 		return this;
 	}
 	
-	public EMessageBuilder prefix(final String prefix, final TextSerializer format) {
+	public EMessageBuilder prefix(final EFormat format) {
 		Preconditions.checkNotNull(prefix, "prefix");
 		
-		this.prefix = format.deserialize(prefix);
+		this.prefix = format;
 		return this;
 	}
 	
 	public EMessageBuilder clear() {
-		this.prefix = Text.EMPTY;
+		this.prefix = new EFormatString("");
 		this.chat = null;
 		this.actionbar = null;
 		this.title = null;
