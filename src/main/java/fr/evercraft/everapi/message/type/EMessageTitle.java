@@ -19,6 +19,8 @@ package fr.evercraft.everapi.message.type;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import org.spongepowered.api.text.Text;
+
 import fr.evercraft.everapi.message.format.EFormat;
 import fr.evercraft.everapi.server.player.EPlayer;
 
@@ -85,6 +87,13 @@ public class EMessageTitle {
 	}
 
 	public void send(EFormat prefix, EPlayer player, Map<String, Supplier<Object>> replaces) {
-		// TODO Auto-generated method stub
+		Text title;
+		if (!this.message.isEmpty()) {
+			
+		} else {
+			title = Text.EMPTY;
+		}
+		
+		Text sub_title;
 	}
 }

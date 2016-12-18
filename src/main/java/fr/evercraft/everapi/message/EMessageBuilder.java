@@ -70,7 +70,7 @@ public final class EMessageBuilder {
 		return this;
 	}
 	
-	public EMessageBuilder bossbar(final EFormat message, final double stay, final ServerBossBar bossbar, final String priority, final boolean prefix) {
+	public EMessageBuilder bossbar(final EFormat message, final long stay, final ServerBossBar bossbar, final String priority, final boolean prefix) {
 		Preconditions.checkNotNull(message, "message");
 		Preconditions.checkNotNull(bossbar, "bossbar");
 		Preconditions.checkNotNull(priority, "priority");

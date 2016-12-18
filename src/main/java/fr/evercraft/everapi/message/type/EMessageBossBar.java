@@ -28,13 +28,13 @@ public class EMessageBossBar {
 	
 	private final EFormat message;
 	
-	private final double stay;
+	private final long stay;
 	private final ServerBossBar bossbar;
 	
 	private final String priority;
 	private final boolean prefix;
 
-	public EMessageBossBar(final EFormat message, final double stay, final ServerBossBar bossbar, final String priority, final boolean prefix) {
+	public EMessageBossBar(final EFormat message, final long stay, final ServerBossBar bossbar, final String priority, final boolean prefix) {
 		this.message = message;
 		this.stay = stay;
 		this.bossbar = bossbar;
@@ -46,7 +46,7 @@ public class EMessageBossBar {
 		return this.message;
 	}
 
-	public double getStay() {
+	public long getStay() {
 		return this.stay;
 	}
 
@@ -62,11 +62,13 @@ public class EMessageBossBar {
 		return this.prefix;
 	}
 
-	public void send(EFormat prefix, EPlayer player, Map<String, Supplier<Object>> replaces) {		
+	public void send(EFormat prefix, EPlayer player, Map<String, Supplier<Object>> replaces) {
+		ServerBossBar bossbar;
 		if (this.prefix) {
-			//player(this.priority, this.stay, prefix.toText().concat(this.message.replaces(replaces)));
+			bossbar = ServerBossBar.builder().from(this.bossbar).name(prefix.toText().concat(this.message.replaces(replaces))).build();
 		} else {
-			//player.sendActionBar(this.priority, this.stay, this.message.replaces(replaces));
+			bossbar = ServerBossBar.builder().from(this.bossbar).name(this.message.replaces(replaces)).build();
 		}
+		player.sendBossBar(this.priority, this.stay, bossbar);
 	}
 }

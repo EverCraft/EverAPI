@@ -533,16 +533,30 @@ public class EPlayer extends PlayerSponge {
 	 * BossBar
 	 */
 	
-	public boolean addBossBar(String identifier, ServerBossBar bossbar) {
+	public boolean sendBossBar(String identifier, ServerBossBar bossbar) {
 		if (this.plugin.getManagerService().getBossBar().isPresent()) {
 			return this.plugin.getManagerService().getBossBar().get().add(this, identifier, bossbar);
 		}
 		return false;
 	}
 	
-	public boolean addBossBar(String identifier, int priority, ServerBossBar bossbar) {
+	public boolean sendBossBar(String identifier, int priority, ServerBossBar bossbar) {
 		if (this.plugin.getManagerService().getBossBar().isPresent()) {
 			return this.plugin.getManagerService().getBossBar().get().add(this, identifier, priority, bossbar);
+		}
+		return false;
+	}
+	
+	public boolean sendBossBar(String identifier, long stay, ServerBossBar bossbar) {
+		if (this.plugin.getManagerService().getBossBar().isPresent()) {
+			return this.plugin.getManagerService().getBossBar().get().add(this, identifier, stay, bossbar);
+		}
+		return false;
+	}
+	
+	public boolean sendBossBar(String identifier, int priority, long stay, ServerBossBar bossbar) {
+		if (this.plugin.getManagerService().getBossBar().isPresent()) {
+			return this.plugin.getManagerService().getBossBar().get().add(this, identifier, priority, stay, bossbar);
 		}
 		return false;
 	}
