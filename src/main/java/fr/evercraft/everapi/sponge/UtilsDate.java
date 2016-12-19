@@ -68,18 +68,18 @@ public class UtilsDate {
 		this.formatDateTime = this.plugin.getConfigs().getFormatDateTime();
 		
 		this.names = new String[] { 
-				EAMessages.TIME_YEAR.get(),
-				EAMessages.TIME_YEARS.get(), 
-				EAMessages.TIME_MONTH.get(),
-				EAMessages.TIME_MONTHS.get(),
-				EAMessages.TIME_DAY.get(),
-				EAMessages.TIME_DAYS.get(),
-				EAMessages.TIME_HOUR.get(),
-				EAMessages.TIME_HOURS.get(),
-				EAMessages.TIME_MINUTE.get(),
-				EAMessages.TIME_MINUTES.get(),
-				EAMessages.TIME_SECOND.get(),
-				EAMessages.TIME_SECONDS.get()};
+				EAMessages.TIME_YEAR.getString(),
+				EAMessages.TIME_YEARS.getString(), 
+				EAMessages.TIME_MONTH.getString(),
+				EAMessages.TIME_MONTHS.getString(),
+				EAMessages.TIME_DAY.getString(),
+				EAMessages.TIME_DAYS.getString(),
+				EAMessages.TIME_HOUR.getString(),
+				EAMessages.TIME_HOURS.getString(),
+				EAMessages.TIME_MINUTE.getString(),
+				EAMessages.TIME_MINUTES.getString(),
+				EAMessages.TIME_SECOND.getString(),
+				EAMessages.TIME_SECONDS.getString()};
 	}
 	
 	/*
@@ -153,7 +153,7 @@ public class UtilsDate {
 		}
 		
 		if (toDate.equals(fromDate)) {
-			resultat = EAMessages.TIME_NOW.get();
+			resultat = EAMessages.TIME_NOW.getString();
 		} else {
 			List<String> sb = new ArrayList<String>();
 			int cpt = 0;
@@ -167,9 +167,9 @@ public class UtilsDate {
 				cpt++;
 			}
 			if (sb.size() == 0) {
-				resultat = EAMessages.TIME_NOW.get();
+				resultat = EAMessages.TIME_NOW.getString();
 			} else {
-				resultat = String.join(EAMessages.TIME_JOIN.get(), sb);
+				resultat = String.join(EAMessages.TIME_JOIN.getString(), sb);
 			}
 		}
 		return resultat;

@@ -31,10 +31,8 @@ import fr.evercraft.everapi.EACommand;
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
-import fr.evercraft.everapi.text.ETextBuilder;
 
 public class EAPlugins extends ESubCommand<EverAPI> {
 	public EAPlugins(final EverAPI plugin, final EACommand command) {
@@ -73,38 +71,31 @@ public class EAPlugins extends ESubCommand<EverAPI> {
 		List<Text> list = new ArrayList<Text>();
 		for (EPlugin<?> plugin :  plugins){
 			List<Text> hover = new ArrayList<Text>();
-			hover.add(EChat.of(EAMessages.PLUGINS_ID.get().replaceAll("<id>", plugin.getId())));
-			
+			hover.add(EAMessages.PLUGINS_ID.getFormat().toText("<id>", () -> plugin.getId()));
 			if (plugin.getVersion().isPresent()) {
-				hover.add(EChat.of(EAMessages.PLUGINS_VERSION.get().replaceAll("<version>", plugin.getVersion().get())));
+				hover.add(EAMessages.PLUGINS_VERSION.getFormat().toText("<version>", () -> plugin.getVersion().get()));
 			}
 			
 			if (plugin.getDescription().isPresent()) {
-				hover.add(EChat.of(EAMessages.PLUGINS_DESCRIPTION.get().replaceAll("<description>", plugin.getDescription().get())));
+				hover.add(EAMessages.PLUGINS_DESCRIPTION.getFormat().toText("<description>", () -> plugin.getDescription().get()));
 			}
 			
 			if (plugin.getUrl().isPresent()) {
-				hover.add(EChat.of(EAMessages.PLUGINS_URL.get().replaceAll("<url>", plugin.getUrl().get())));
+				hover.add(EAMessages.PLUGINS_URL.getFormat().toText("<url>", () -> plugin.getUrl().get()));
 			}
 			
 			if (!plugin.getAuthors().isEmpty()) {
-				hover.add(EChat.of(EAMessages.PLUGINS_AUTHOR.get().replaceAll("<author>", String.join(", ", plugin.getAuthors()))));
+				hover.add(EAMessages.PLUGINS_AUTHOR.getFormat().toText("<author>", () -> String.join(", ", plugin.getAuthors())));
 			}
 			
-			if (plugin.isEnable()){
-				list.add(EChat.of(EAMessages.PLUGINS_ENABLE.get().replace("<plugin>", plugin.getName())).toBuilder()
-						.onHover(TextActions.showText(Text.joinWith(Text.of("\n"), hover)))
-						.build());	
-			} else {
-				list.add(EChat.of(EAMessages.PLUGINS_DISABLE.get().replace("<plugin>", plugin.getName())).toBuilder()
-						.onHover(TextActions.showText(Text.joinWith(Text.of("\n"), hover)))
-						.build());	
-			}
-		}
-		player.sendMessage(ETextBuilder.toBuilder(EAMessages.PLUGINS_MESSAGE.get()
-					.replaceAll("<count>", String.valueOf(plugins.size())))
-				.replace("<plugins>", Text.joinWith(Text.of(", "), list))
+			list.add((plugin.isEnable() ? EAMessages.PLUGINS_ENABLE : EAMessages.PLUGINS_DISABLE).getFormat().toText("<plugin>", () -> plugin.getName()).toBuilder()
+				.onHover(TextActions.showText(Text.joinWith(Text.of("\n"), hover)))
 				.build());
+		}
+		EAMessages.PLUGINS_MESSAGE.sender()
+			.replace("<count>", () -> String.valueOf(plugins.size()))
+			.replace("<plugins>", () -> Text.joinWith(Text.of(", "), list))
+			.sendTo(player);
 		return true;
 	}
 	

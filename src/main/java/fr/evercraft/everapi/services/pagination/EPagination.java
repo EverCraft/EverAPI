@@ -30,12 +30,12 @@ import org.spongepowered.api.text.Text.Builder;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColor;
 
+
 import fr.evercraft.everapi.EAMessage.EAMessages;
+import fr.evercraft.everapi.message.replace.EReplace;
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.text.ETextBuilder;
 
 public class EPagination {	
 	private final EverAPI plugin;
@@ -68,12 +68,14 @@ public class EPagination {
 		this.help_padding = EAMessages.HELP_PADDING.getText();
 	}
 	
-	public void sendTo(Text title, List<Text> contents, CommandSource source) {		
-		title = ETextBuilder.toBuilder(EAMessages.PAGINATION_TITLE.get())
-				.replace("<title>", title)
-				.build().toBuilder().color(this.pagination_color).build();
+	public void sendTo(final Text title, List<Text> contents, CommandSource source) {		
+		Text text_title = EAMessages.PAGINATION_TITLE.getFormat()
+								.toText("<title>", () -> title)
+								.toBuilder()
+								.color(this.pagination_color)
+								.build();
 		
-		this.send(title, this.pagination_padding, contents, source);
+		this.send(text_title, this.pagination_padding, contents, source);
 	}
 	
 	public void helpCommands(TreeSet<CommandMapping> commands, Text title, CommandSource source) {
@@ -87,10 +89,9 @@ public class EPagination {
 					Text help = optHelp.get().toBuilder().color(this.help_color_help).build();
 					Text description = optDescription.get().toBuilder().color(this.help_color_description).build();
 					
-					contents.add(ETextBuilder.toBuilder(EAMessages.HELP_LINE.get())
-								.replace("<name>", getButtonName(command.getPrimaryAlias(), help))
-								.replace("<description>", description)
-								.build());
+					contents.add(EAMessages.HELP_LINE.getFormat().toText(
+								"<name>", () -> this.getButtonName(command.getPrimaryAlias(), help),
+								"<description>", () ->  description));
 				}
 			}
 		}
@@ -112,10 +113,9 @@ public class EPagination {
 				help = help.toBuilder().color(this.help_color_help).build();
 				description = description.toBuilder().color(this.help_color_description).build();
 				
-				contents.add(ETextBuilder.toBuilder(EAMessages.HELP_LINE.get())
-							.replace("<name>", getButtonName(command.getKey(), help))
-							.replace("<description>", description)
-							.build());
+				contents.add(EAMessages.HELP_LINE.getFormat().toText(
+							"<name>", this.getButtonName(command.getKey(), help),
+							"<description>", description));
 			}
 		}
 		
@@ -123,23 +123,23 @@ public class EPagination {
 	}
 	
 	private void help(List<Text> contents, CommandSource source, EPlugin<?> plugin) {
-		Builder title = EChat.of(EAMessages.HELP_TITLE.get()
-							.replaceAll("<plugin>", plugin.getName())
-							.replaceAll("<version>", plugin.getVersion().orElse("1")))
+		Builder title = EAMessages.HELP_TITLE.getFormat().toText(
+							"<plugin>", EReplace.of(plugin.getName()),
+							"<version>", EReplace.of(plugin.getVersion().orElse("1")))
 						.toBuilder().color(this.help_color_padding);
 		
 		String authors;
 		if (plugin.getAuthors().isEmpty()) {
-			authors = EAMessages.HELP_AUTHORS_EMPTY.get();
+			authors = EAMessages.HELP_AUTHORS_EMPTY.getString();
 		} else {
-			authors = String.join(EAMessages.HELP_AUTHORS_JOIN.get(), plugin.getAuthors());
+			authors = String.join(EAMessages.HELP_AUTHORS_JOIN.getString(), plugin.getAuthors());
 		}
 		
 		if (EAMessages.HELP_TITLE_HOVER.has()) {
-			title = title.onHover(TextActions.showText(EChat.of(EAMessages.HELP_TITLE_HOVER.get()
-							.replaceAll("<authors>", authors)
-							.replaceAll("<plugin>", plugin.getName())
-							.replaceAll("<version>", plugin.getVersion().orElse("1")))));
+			title = title.onHover(TextActions.showText(EAMessages.HELP_TITLE_HOVER.getFormat().toText(
+							"<authors>", authors,
+							"<plugin>", plugin.getName(),
+							"<version>", plugin.getVersion().orElse("1"))));
 		}
 
 		if (contents.isEmpty()) {
@@ -150,12 +150,9 @@ public class EPagination {
 	}
 	
 	public Text getButtonName(final String command, Text help){
-		return EChat.of(EAMessages.HELP_LINE_NAME.get()
-				.replaceAll("<command>", command)).toBuilder()
+		return EAMessages.HELP_LINE_NAME.getFormat().toText("<command>", command).toBuilder()
 					.onHover(TextActions.showText(
-							ETextBuilder.toBuilder(EAMessages.HELP_LINE_NAME_HOVER.get())
-								.replace("<help>", help)
-								.build()))
+						EAMessages.HELP_LINE_NAME_HOVER.getFormat().toText("<help>", help)))
 					.onClick(TextActions.suggestCommand("/" + command))
 					.build();
 	}

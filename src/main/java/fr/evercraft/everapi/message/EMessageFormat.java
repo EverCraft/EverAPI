@@ -66,7 +66,7 @@ public final class EMessageFormat {
 		return new EMessageBuilder();
 	}
 	
-	public static EMessageBuilder send() {
-		return new EMessageBuilder();
+	public EMessageSender sender() {
+		return new EMessageSender(this);
 	}
 }

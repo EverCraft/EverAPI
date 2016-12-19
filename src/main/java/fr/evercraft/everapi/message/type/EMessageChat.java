@@ -17,10 +17,11 @@
 package fr.evercraft.everapi.message.type;
 
 import java.util.Map;
-import java.util.function.Supplier;
+
+import org.spongepowered.api.command.CommandSource;
 
 import fr.evercraft.everapi.message.format.EFormat;
-import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.message.replace.EReplace;
 
 public class EMessageChat {
 	
@@ -41,11 +42,11 @@ public class EMessageChat {
 		return prefix;
 	}
 
-	public void send(EFormat prefix, EPlayer player, Map<String, Supplier<Object>> replaces) {
+	public void send(EFormat prefix, CommandSource player, Map<String, EReplace<?>> replaces) {
 		if (this.prefix) {
-			player.sendMessage(prefix.toText().concat(this.message.replaces(replaces)));
+			player.sendMessage(prefix.toText().concat(this.message.toText(replaces)));
 		} else {
-			player.sendMessage(this.message.replaces(replaces));
+			player.sendMessage(this.message.toText(replaces));
 		}
 	}
 }

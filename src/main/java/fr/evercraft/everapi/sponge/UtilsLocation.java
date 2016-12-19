@@ -23,15 +23,15 @@ import java.util.Set;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Transform;
-import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.World;
 
 import com.flowpowered.math.vector.Vector3i;
 import com.google.common.base.Preconditions;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
+import fr.evercraft.everapi.java.UtilsInteger;
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.plugin.EChat;
+import fr.evercraft.everapi.message.EMessageSender;
 
 public class UtilsLocation {
 
@@ -286,54 +286,54 @@ public class UtilsLocation {
 		return Optional.empty();
 	}
 	
-	public  LocationResult getLocation(final CommandSource player, final String pos_x, final String pos_y, final String pos_z) {
-		try {
-			int x = Integer.parseInt(pos_x);
-			if (x >= this.X_min && x <= this.X_max) {
-				try {
-					int y = Integer.parseInt(pos_y);
-					if (y >= this.Y_min && y <= this.Y_max) {
-						try {
-							int z = Integer.parseInt(pos_z);
-							if (z >= this.Z_min && z <= this.Z_max) {
-								return new LocationResult(new Vector3i(x, y, z));
-							} else {
-								return new LocationResult(EChat.of(EAMessages.LOCATION_ERROR_NUMBER.get()
-										.replaceAll("<name>", "Z")
-										.replaceAll("<min>", this.Z_min.toString())
-										.replaceAll("<max>", this.Z_max.toString())));
-							}
-						} catch (NumberFormatException e) {
-							return new LocationResult(EChat.of(EAMessages.IS_NOT_NUMBER.get()
-									.replaceAll("<number>", pos_x)));
-						}
-					} else {
-						return new LocationResult(EChat.of(EAMessages.LOCATION_ERROR_NUMBER.get()
-								.replaceAll("<name>", "Y")
-								.replaceAll("<min>", this.Y_min.toString())
-								.replaceAll("<max>", this.Y_max.toString())));
-					}
-				} catch (NumberFormatException e) {
-					return new LocationResult(EChat.of(EAMessages.IS_NOT_NUMBER.get()
-							.replaceAll("<number>", pos_x)));
-				}
-			} else {
-				return new LocationResult(EChat.of(EAMessages.LOCATION_ERROR_NUMBER.get()
-						.replaceAll("<name>", "X")
-						.replaceAll("<min>", this.X_min.toString())
-						.replaceAll("<max>", this.X_max.toString())));
-			}
-		} catch (NumberFormatException e) {
-			return new LocationResult(EChat.of(EAMessages.IS_NOT_NUMBER.get()
-					.replaceAll("<number>", pos_x)));
+	public LocationResult getLocation(final CommandSource player, final String pos_x, final String pos_y, final String pos_z) {
+		Optional<Integer> x = UtilsInteger.parseInt(pos_x);
+		if (!x.isPresent()) {
+			return new LocationResult(EAMessages.IS_NOT_NUMBER.sender()
+					.replace("<number>", pos_x));
 		}
+		
+		Optional<Integer> y = UtilsInteger.parseInt(pos_y);
+		if (!y.isPresent()) {
+			return new LocationResult(EAMessages.IS_NOT_NUMBER.sender()
+					.replace("<number>", pos_y));
+		}
+		
+		Optional<Integer> z = UtilsInteger.parseInt(pos_z);
+		if (!z.isPresent()) {
+			return new LocationResult(EAMessages.IS_NOT_NUMBER.sender()
+					.replace("<number>", pos_z));
+		}
+		
+		if (x.get() < this.X_min || x.get() > this.X_max) {
+			return new LocationResult(EAMessages.LOCATION_ERROR_NUMBER.sender()
+					.replace("<name>", "X")
+					.replace("<min>", this.X_min.toString())
+					.replace("<max>", this.X_max.toString()));
+		}
+		
+		if (y.get() < this.Y_min || y.get() > this.Y_max) {
+			return new LocationResult(EAMessages.LOCATION_ERROR_NUMBER.sender()
+					.replace("<name>", "Y")
+					.replace("<min>", this.Y_min.toString())
+					.replace("<max>", this.Y_max.toString()));
+		}
+		
+		if (z.get() < this.Z_min || z.get() > this.Z_max) {
+			return new LocationResult(EAMessages.LOCATION_ERROR_NUMBER.sender()
+					.replace("<name>", "Z")
+					.replace("<min>", this.Z_min.toString())
+					.replace("<max>", this.Z_max.toString()));
+		}
+		
+		return new LocationResult(new Vector3i(x.get(), y.get(), z.get()));
 	}
 	
 	public class LocationResult {
 		private Optional<Vector3i> location;
-		private Optional<Text> error;
+		private Optional<EMessageSender> error;
 		
-		public LocationResult(Text error) {
+		public LocationResult(EMessageSender error) {
 			Preconditions.checkNotNull(error);
 			
 			this.error = Optional.ofNullable(error);
@@ -351,7 +351,7 @@ public class UtilsLocation {
 			return this.location;
 		}
 		
-		public Optional<Text> getError() {
+		public Optional<EMessageSender> getError() {
 			return this.error;
 		}
 		

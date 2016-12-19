@@ -16,16 +16,14 @@
  */
 package fr.evercraft.everapi;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
-import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColor;
 
 import com.google.common.base.Preconditions;
 
-import fr.evercraft.everapi.plugin.EChat;
+import fr.evercraft.everapi.message.EMessageFormat;
+import fr.evercraft.everapi.message.format.EFormatString;
 import fr.evercraft.everapi.plugin.file.EMessage;
 import fr.evercraft.everapi.plugin.file.EnumMessage;
 
@@ -403,15 +401,27 @@ public class EAMessage extends EMessage<EverAPI> {
 				"&6[ <title> &6]");
 		
 		private final String path;
-	    private final Object french;
-	    private final Object english;
-	    private Object message;
+	    private final EMessageFormat french;
+	    private final EMessageFormat english;
+	    private EMessageFormat message;
 	    
-	    private EAMessages(final String path, final Object french) {   	
+	    private EAMessages(final String path, final String french) {   	
+	    	this(path, 
+	    		EMessageFormat.builder().chat(new EFormatString(french), true).build(), 
+	    		EMessageFormat.builder().chat(new EFormatString(french), true).build());
+	    }
+	    
+	    private EAMessages(final String path, final String french, final String english) {   	
+	    	this(path, 
+	    		EMessageFormat.builder().chat(new EFormatString(french), true).build(), 
+	    		EMessageFormat.builder().chat(new EFormatString(english), true).build());
+	    }
+	    
+	    private EAMessages(final String path, final EMessageFormat french) {   	
 	    	this(path, french, french);
 	    }
 	    
-	    private EAMessages(final String path, final Object french, final Object english) {
+	    private EAMessages(final String path, final EMessageFormat french, final EMessageFormat english) {
 	    	Preconditions.checkNotNull(french, "Le message '" + this.name() + "' n'est pas définit");
 	    	
 	    	this.path = path;	    	
@@ -436,31 +446,12 @@ public class EAMessage extends EMessage<EverAPI> {
 			return this.english;
 		}
 		
-		public String get() {
-			if (this.message instanceof String) {
-				return (String) this.message;
-			}
-			return this.message.toString();
-		}
-			
-		@SuppressWarnings("unchecked")
-		public List<String> getList() {
-			if (this.message instanceof List) {
-				return (List<String>) this.message;
-			}
-			return Arrays.asList(this.message.toString());
+		public EMessageFormat getMessage() {
+			return this.message;
 		}
 		
-		public void set(Object message) {
+		public void set(EMessageFormat message) {
 			this.message = message;
-		}
-
-		public Text getText() {
-			return EChat.of(this.get());
-		}
-		
-		public TextColor getColor() {
-			return EChat.getTextColor(this.get());
 		}
 
 		public static Optional<EAMessages> getColor(TextColor color) {
@@ -471,14 +462,10 @@ public class EAMessage extends EMessage<EverAPI> {
 		}
 		
 		public boolean has() {
-			if (this.message != null) {
-				if (this.message instanceof String) {
-					return !((String) this.message).isEmpty();
-				} else if (this.message instanceof List) {
-					return !((List<?>) this.message).isEmpty();
-				}
-			}
-			return false;
+			return this.message.getChat().isPresent() || 
+				   this.message.getActionbar().isPresent() || 
+				   this.message.getBossbar().isPresent() || 
+				   this.message.getTitle().isPresent();
 		}
 	}
 

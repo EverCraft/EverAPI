@@ -4,14 +4,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.Supplier;
 
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Text.Builder;
 
+import fr.evercraft.everapi.message.replace.EReplace;
 import fr.evercraft.everapi.plugin.EChat;
 
 public class EFormatString extends EFormat {
+	
+	public static final EFormatString EMPTY = new EFormatString("");
 	
 	public final String message;
 
@@ -21,19 +23,28 @@ public class EFormatString extends EFormat {
 
 	@Override
 	public boolean isEmpty() {
-		return message.isEmpty();
+		return this.message.isEmpty();
 	}
 
 	@Override
 	public Text toText() {
-		return EChat.of(message);
+		return EChat.of(this.message);
 	}
 
 	@Override
-	public Text replaces(Map<String, Supplier<Object>> replaces) {
-		List<Object> texts = Arrays.asList(this.message);
+	public String toString() {
+		return this.message;
+	}
+	
+	@Override
+	public Text toText(Map<String, EReplace<?>> replaces) {
+		return EFormatString.apply(this.message, replaces);
+	}
+	
+	public static Text apply(String message, Map<String, EReplace<?>> replaces) {
+		List<Object> texts = Arrays.asList(message);
 		
-		for (Entry<String, Supplier<Object>> replace : replaces.entrySet()) {
+		for (Entry<String, EReplace<?>> replace : replaces.entrySet()) {
 			String[] split;
 			String text;
 			int cpt = 0;
@@ -63,12 +74,11 @@ public class EFormatString extends EFormat {
 			} else if (text instanceof Text) {
 				builder.append((Text) text);
 			} else if (text instanceof EFormat) {
-				builder.append(((EFormat) text).replaces(replaces));
+				builder.append(((EFormat) text).toText(replaces));
 			} else {
 				builder.append(EChat.of(text.toString()));
 			}
 		}
 		return builder.build();
 	}
-
 }

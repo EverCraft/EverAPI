@@ -17,11 +17,13 @@
 package fr.evercraft.everapi.message.type;
 
 import java.util.Map;
-import java.util.function.Supplier;
 
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.title.Title;
 
 import fr.evercraft.everapi.message.format.EFormat;
+import fr.evercraft.everapi.message.replace.EReplace;
 import fr.evercraft.everapi.server.player.EPlayer;
 
 public class EMessageTitle {
@@ -32,15 +34,15 @@ public class EMessageTitle {
 	private final EFormat sub_message;
 	private final boolean sub_prefix;
 	
-	private final double stay;
-	private final double fadeIn;
-	private final double fadeOut;
+	private final int stay;
+	private final int fadeIn;
+	private final int fadeOut;
 	
 	private final String priority;
 
 	public EMessageTitle(final EFormat message, final boolean prefix, 
 			final EFormat sub_message, final boolean sub_prefix,
-			final double stay, final double fadeIn, final double fadeOut, final String priority) {
+			final int stay, final int fadeIn, final int fadeOut, final String priority) {
 		this.message = message;
 		this.prefix = prefix;
 		
@@ -70,15 +72,15 @@ public class EMessageTitle {
 		return this.sub_prefix;
 	}
 
-	public double getStay() {
+	public int getStay() {
 		return this.stay;
 	}
 	
-	public double getFadeIn() {
+	public int getFadeIn() {
 		return this.fadeIn;
 	}
 	
-	public double getFadeOut() {
+	public int getFadeOut() {
 		return this.fadeOut;
 	}
 
@@ -86,14 +88,45 @@ public class EMessageTitle {
 		return this.priority;
 	}
 
-	public void send(EFormat prefix, EPlayer player, Map<String, Supplier<Object>> replaces) {
-		Text title;
+	public void send(EFormat prefix, EPlayer player, Map<String, EReplace<?>> replaces) {
+		Text title = Text.EMPTY;
 		if (!this.message.isEmpty()) {
-			
-		} else {
-			title = Text.EMPTY;
+			if (this.prefix) {
+				title = prefix.toText().toText().concat(this.message.toText(replaces));
+			} else {
+				title = this.message.toText(replaces);
+			}
 		}
 		
-		Text sub_title;
+		Text sub_title = Text.EMPTY;
+		if (!this.sub_message.isEmpty()) {
+			if (this.sub_prefix) {
+				title = prefix.toText().toText().concat(this.sub_message.toText(replaces));
+			} else {
+				title = this.message.toText(replaces);
+			}
+		}
+		
+		player.sendTitle(Title.builder()
+				.title(title)
+				.subtitle(sub_title)
+				.fadeIn(this.fadeIn)
+				.fadeOut(this.fadeOut)
+				.stay(this.stay)
+				.build());
+	}
+	
+	public void send(EFormat prefix, CommandSource source, Map<String, EReplace<?>> replaces) {
+		if (source instanceof EPlayer) {
+			this.send(prefix, (EPlayer) source, replaces);
+		} else {
+			if (this.prefix) {
+				source.sendMessage(prefix.toText().concat(this.message.toText(replaces)));
+				source.sendMessage(prefix.toText().concat(this.sub_message.toText(replaces)));
+			} else {
+				source.sendMessage(this.message.toText(replaces));
+				source.sendMessage(this.sub_message.toText(replaces));
+			}
+		}
 	}
 }

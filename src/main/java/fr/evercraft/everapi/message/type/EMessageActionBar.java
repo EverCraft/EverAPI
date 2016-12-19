@@ -17,9 +17,11 @@
 package fr.evercraft.everapi.message.type;
 
 import java.util.Map;
-import java.util.function.Supplier;
+
+import org.spongepowered.api.command.CommandSource;
 
 import fr.evercraft.everapi.message.format.EFormat;
+import fr.evercraft.everapi.message.replace.EReplace;
 import fr.evercraft.everapi.server.player.EPlayer;
 
 public class EMessageActionBar {
@@ -53,11 +55,23 @@ public class EMessageActionBar {
 		return this.prefix;
 	}
 
-	public void send(EFormat prefix, EPlayer player, Map<String, Supplier<Object>> replaces) {
+	public void send(EFormat prefix, EPlayer player, Map<String, EReplace<?>> replaces) {
 		if (this.prefix) {
-			player.sendActionBar(this.priority, this.stay, prefix.toText().concat(this.message.replaces(replaces)));
+			player.sendActionBar(this.priority, this.stay, prefix.toText().concat(this.message.toText(replaces)));
 		} else {
-			player.sendActionBar(this.priority, this.stay, this.message.replaces(replaces));
+			player.sendActionBar(this.priority, this.stay, this.message.toText(replaces));
+		}
+	}
+	
+	public void send(EFormat prefix, CommandSource source, Map<String, EReplace<?>> replaces) {
+		if (source instanceof EPlayer) {
+			this.send(prefix, (EPlayer) source, replaces);
+		} else {
+			if (this.prefix) {
+				source.sendMessage(prefix.toText().concat(this.message.toText(replaces)));
+			} else {
+				source.sendMessage(this.message.toText(replaces));
+			}
 		}
 	}
 }

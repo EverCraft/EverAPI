@@ -60,7 +60,7 @@ public final class EMessageBuilder {
 	
 	public EMessageBuilder title(final EFormat message, final boolean prefix, 
 			final EFormat sub_message, final boolean sub_prefix,
-			final double stay, final double fadeIn, final double fadeOut, final String priority) {
+			final int stay, final int fadeIn, final int fadeOut, final String priority) {
 		Preconditions.checkNotNull(message, "message");
 		Preconditions.checkNotNull(sub_message, "sub_message");
 		Preconditions.checkNotNull(priority, "priority");

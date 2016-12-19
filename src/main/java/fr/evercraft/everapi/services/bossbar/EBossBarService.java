@@ -45,7 +45,7 @@ public class EBossBarService implements BossBarService {
 	private Task task;
 	private final ConcurrentMap<UUID, EBossBar> players;
 	
-	// MultiThearding
+	// MultiThreading
 	private final ReadWriteLock lock = new ReentrantReadWriteLock();
 	private final Lock write_lock = lock.writeLock();
 	private final Lock read_lock = lock.readLock();

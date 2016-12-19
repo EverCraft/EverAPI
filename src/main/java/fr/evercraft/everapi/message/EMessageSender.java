@@ -26,70 +26,60 @@ import org.spongepowered.api.text.translation.Translation;
 
 import com.google.common.base.Preconditions;
 
-import fr.evercraft.everapi.server.EServer;
+import fr.evercraft.everapi.message.replace.EReplace;
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public final class EMessageSend {	
+public final class EMessageSender {	
 	private final EMessageFormat messages;
-	private final Map<String, Supplier<Object>> replaces;
+	private final Map<String, EReplace<?>> replaces;
 	
-	public EMessageSend(EMessageFormat messages) {
+	public EMessageSender(EMessageFormat messages) {
 		this.messages = messages;
-		this.replaces = new HashMap<String, Supplier<Object>>();
+		this.replaces = new HashMap<String, EReplace<?>>();
 		this.clear();
 	}
 	
-	public EMessageSend replace(String key, Text value) {
+	public EMessageSender replace(String key, Text value) {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
-		this.replaces.put(key, () -> value); 
+		this.replaces.put(key, new EReplace<Text>(() -> value)); 
 		return this;
 	}
 	
-	public EMessageSend replace(String key, String value) {
+	public EMessageSender replace(String key, String value) {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
-		this.replaces.put(key, () -> value); 
+		this.replaces.put(key, new EReplace<String>(() -> value)); 
 		return this;
 	}
 	
-	public EMessageSend replace(String key, Translation value) {
+	public EMessageSender replace(String key, Translation value) {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
-		this.replaces.put(key, () -> value); 
+		this.replaces.put(key, new EReplace<Translation>(() -> value)); 
 		return this;
 	}
 	
-	public EMessageSend replace(String key, EMessageSend value) {
+	public EMessageSender replace(String key, EMessageSender value) {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
-		this.replaces.put(key, () -> value); 
+		this.replaces.put(key, new EReplace<EMessageSender>(() -> value)); 
 		return this;
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public EMessageSend replaceString(String key, Supplier<String> value) {
+	public EMessageSender replace(String key, Supplier<Object> value) {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
-		this.replaces.put(key, (Supplier) value); 
+		this.replaces.put(key, new EReplace<Object>(value)); 
 		return this;
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public EMessageSend replaceText(String key, Supplier<Text> value) {
-		Preconditions.checkNotNull(key, "key");
-		Preconditions.checkNotNull(value, "value");
-		
-		this.replaces.put(key, (Supplier) value); 
-		return this;
-	}
-	
-	public EMessageSend clear() {
+	public EMessageSender clear() {
 		this.replaces.clear();
 		return this;
 	}
@@ -103,12 +93,11 @@ public final class EMessageSend {
 		
 	}
 	
-	public boolean sendAll(EServer server) {
-		return false;
-		
-	}
-	
-	public boolean sendTo(CommandSource commandSource) {
+	public boolean sendTo(CommandSource source) {
+		this.messages.getChat().ifPresent(message -> message.send(this.messages.getPrefix(), source, this.replaces));
+		this.messages.getActionbar().ifPresent(message -> message.send(this.messages.getPrefix(), source, this.replaces));
+		this.messages.getBossbar().ifPresent(message -> message.send(this.messages.getPrefix(), source, this.replaces));
+		this.messages.getTitle().ifPresent(message -> message.send(this.messages.getPrefix(), source, this.replaces));
 		return false;
 	}
 }

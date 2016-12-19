@@ -29,7 +29,6 @@ import fr.evercraft.everapi.EACommand;
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
 
 public class EAReload extends ESubCommand<EverAPI> {
@@ -66,7 +65,7 @@ public class EAReload extends ESubCommand<EverAPI> {
 
 	private boolean commandReload(final CommandSource player) {
 		this.plugin.reload();
-		player.sendMessage(EChat.of(EAMessages.PREFIX.get() + EAMessages.RELOAD_COMMAND.get()));
+		EAMessages.RELOAD_COMMAND.sendTo(player);
 		return true;
 	}
 }
