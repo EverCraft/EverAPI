@@ -83,6 +83,7 @@ public enum EReplacePlayer {
 	LEGGINGS_POURCENTAGE((plugin, player) -> TypeScores.LEGGINGS_POURCENTAGE.getValue(player).toString()),
 	BOOTS_POURCENTAGE((plugin, player) -> TypeScores.BOOTS_POURCENTAGE.getValue(player).toString()),
 	
+	DISPLAYNAME_FORMAT((plugin, player) -> player.getDisplayNameHover()),
 	TEAM_PREFIX_FORMAT((plugin, player) -> {
 		Optional<Team> team = player.getTeam();
 		return team.isPresent() ? team.get().getPrefix() : Text.EMPTY;
@@ -118,7 +119,7 @@ public enum EReplacePlayer {
 		this.fun= fun;
 	}
 	
-	public String getKey() {
+	public String getName() {
 		return "<" + this.name() + ">";
 	}
 	

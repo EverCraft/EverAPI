@@ -57,7 +57,7 @@ public class EChat implements ChatService {
 	public Map<String, EReplace<?>> getReplaceServer() {
 		Builder<String, EReplace<?>> builder = ImmutableMap.builder();
 		for(EReplaceServer value : EReplaceServer.values()) {
-			builder.put(value.getKey(), new EReplace<Object>(() -> value.getValue().apply(this.plugin)));
+			builder.put(value.getName(), new EReplace<Object>(() -> value.getValue().apply(this.plugin)));
 		}
 		return builder.build();
 	}
@@ -65,7 +65,7 @@ public class EChat implements ChatService {
 	public Map<String, EReplace<?>> getReplacePlayer(final EPlayer player) {
 		Builder<String, EReplace<?>> builder = ImmutableMap.builder();
 		for(EReplacePlayer value : EReplacePlayer.values()) {
-			builder.put(value.getKey(), new EReplace<Object>(() -> value.getValue().apply(this.plugin, player)));
+			builder.put(value.getName(), new EReplace<Object>(() -> value.getValue().apply(this.plugin, player)));
 		}
 		return builder.build();
 	}

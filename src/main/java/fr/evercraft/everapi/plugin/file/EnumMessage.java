@@ -79,4 +79,11 @@ public interface EnumMessage{
 	public default void sendTo(CommandSource player) {
 		this.sender().sendTo(player);
 	}
+	
+	public default boolean has() {
+		return this.getMessage().getChat().isPresent() || 
+			   this.getMessage().getActionbar().isPresent() || 
+			   this.getMessage().getBossbar().isPresent() || 
+			   this.getMessage().getTitle().isPresent();
+	}
 }

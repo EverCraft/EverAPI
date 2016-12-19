@@ -54,7 +54,7 @@ public enum EReplaceServer {
 		this.fun= fun;
 	}
 	
-	public String getKey() {
+	public String getName() {
 		return "<" + this.name() + ">";
 	}
 	

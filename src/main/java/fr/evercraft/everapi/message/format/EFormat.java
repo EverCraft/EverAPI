@@ -18,30 +18,6 @@ public abstract class EFormat {
 	public abstract String toString();
 	public abstract Text toText(Map<String, EReplace<?>> replaces);
 	
-	public Text toText(String k1, Supplier<Object> v1) {
-		return this.toText(ImmutableMap.of(k1, EReplace.of(v1)));
-	}
-	
-	public Text toText(String k1, Supplier<Object> v1, String k2, Supplier<Object> v2) {
-		return this.toText(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2)));
-	}
-	
-	public Text toText(String k1, Supplier<Object> v1, String k2, Supplier<Object> v2, String k3, Supplier<Object> v3) {
-		return this.toText(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2), k3, EReplace.of(v3)));
-	}
-	
-	public Text toText(String k1, Object v1) {
-		return this.toText(ImmutableMap.of(k1, EReplace.of(v1)));
-	}
-	
-	public Text toText(String k1, Object v1, String k2, Object v2) {
-		return this.toText(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2)));
-	}
-	
-	public Text toText(String k1, Object v1, String k2, Object v2, String k3, Object v3) {
-		return this.toText(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2), k3, EReplace.of(v3)));
-	}
-	
 	public String toString(Map<String, EReplace<?>> replaces) {
 		String message = this.toString();
 		for (Entry<String, EReplace<?>> replace : replaces.entrySet()) {
@@ -56,10 +32,6 @@ public abstract class EFormat {
 			}
 		}
 		return message;
-	}
-	
-	public String toString(String key, Supplier<Object> value) {
-		return this.toString(key, new EReplace<Object>(value));
 	}
 	
 	public String toString(String key, EReplace<?> value) {
@@ -85,5 +57,53 @@ public abstract class EFormat {
 			return ((EFormat) value).toText(replaces);
 		}
 		return EChat.of(value.toString());
+	}
+	
+	public Text toText(String k1, Supplier<Object> v1) {
+		return this.toText(ImmutableMap.of(k1, EReplace.of(v1)));
+	}
+	
+	public Text toText(String k1, Supplier<Object> v1, String k2, Supplier<Object> v2) {
+		return this.toText(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2)));
+	}
+	
+	public Text toText(String k1, Supplier<Object> v1, String k2, Supplier<Object> v2, String k3, Supplier<Object> v3) {
+		return this.toText(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2), k3, EReplace.of(v3)));
+	}
+	
+	public Text toText(String k1, Object v1) {
+		return this.toText(ImmutableMap.of(k1, EReplace.of(v1)));
+	}
+	
+	public Text toText(String k1, Object v1, String k2, Object v2) {
+		return this.toText(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2)));
+	}
+	
+	public Text toText(String k1, Object v1, String k2, Object v2, String k3, Object v3) {
+		return this.toText(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2), k3, EReplace.of(v3)));
+	}
+	
+	public String toString(String k1, Supplier<Object> v1) {
+		return this.toString(ImmutableMap.of(k1, EReplace.of(v1)));
+	}
+	
+	public String toString(String k1, Supplier<Object> v1, String k2, Supplier<Object> v2) {
+		return this.toString(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2)));
+	}
+	
+	public String toString(String k1, Supplier<Object> v1, String k2, Supplier<Object> v2, String k3, Supplier<Object> v3) {
+		return this.toString(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2), k3, EReplace.of(v3)));
+	}
+	
+	public String toString(String k1, Object v1) {
+		return this.toString(ImmutableMap.of(k1, EReplace.of(v1)));
+	}
+	
+	public String toString(String k1, Object v1, String k2, Object v2) {
+		return this.toString(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2)));
+	}
+	
+	public String toString(String k1, Object v1, String k2, Object v2, String k3, Object v3) {
+		return this.toString(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2), k3, EReplace.of(v3)));
 	}
 }

@@ -26,10 +26,13 @@ import org.spongepowered.api.text.translation.Translation;
 
 import com.google.common.base.Preconditions;
 
+import fr.evercraft.everapi.message.format.EFormat;
 import fr.evercraft.everapi.message.replace.EReplace;
+import fr.evercraft.everapi.plugin.file.EnumMessage;
 import fr.evercraft.everapi.server.player.EPlayer;
 
 public final class EMessageSender {	
+	private EFormat prefix;
 	private final EMessageFormat messages;
 	private final Map<String, EReplace<?>> replaces;
 	
@@ -79,25 +82,33 @@ public final class EMessageSender {
 		return this;
 	}
 	
+	public EMessageSender prefix(EnumMessage prefix) {
+		Preconditions.checkNotNull(prefix, "prefix");
+		
+		this.prefix = prefix.getFormat();
+		return this;
+	}
+	
 	public EMessageSender clear() {
+		this.prefix = messages.getPrefix();
 		this.replaces.clear();
 		return this;
 	}
 	
 	public boolean sendTo(EPlayer player) {
-		this.messages.getChat().ifPresent(message -> message.send(this.messages.getPrefix(), player, this.replaces));
-		this.messages.getActionbar().ifPresent(message -> message.send(this.messages.getPrefix(), player, this.replaces));
-		this.messages.getBossbar().ifPresent(message -> message.send(this.messages.getPrefix(), player, this.replaces));
-		this.messages.getTitle().ifPresent(message -> message.send(this.messages.getPrefix(), player, this.replaces));
+		this.messages.getChat().ifPresent(message -> message.send(this.prefix, player, this.replaces));
+		this.messages.getActionbar().ifPresent(message -> message.send(this.prefix, player, this.replaces));
+		this.messages.getBossbar().ifPresent(message -> message.send(this.prefix, player, this.replaces));
+		this.messages.getTitle().ifPresent(message -> message.send(this.prefix, player, this.replaces));
 		return false;
 		
 	}
 	
 	public boolean sendTo(CommandSource source) {
-		this.messages.getChat().ifPresent(message -> message.send(this.messages.getPrefix(), source, this.replaces));
-		this.messages.getActionbar().ifPresent(message -> message.send(this.messages.getPrefix(), source, this.replaces));
-		this.messages.getBossbar().ifPresent(message -> message.send(this.messages.getPrefix(), source, this.replaces));
-		this.messages.getTitle().ifPresent(message -> message.send(this.messages.getPrefix(), source, this.replaces));
+		this.messages.getChat().ifPresent(message -> message.send(this.prefix, source, this.replaces));
+		this.messages.getActionbar().ifPresent(message -> message.send(this.prefix, source, this.replaces));
+		this.messages.getBossbar().ifPresent(message -> message.send(this.prefix, source, this.replaces));
+		this.messages.getTitle().ifPresent(message -> message.send(this.prefix, source, this.replaces));
 		return false;
 	}
 }

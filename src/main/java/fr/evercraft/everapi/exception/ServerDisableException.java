@@ -16,8 +16,6 @@
  */
 package fr.evercraft.everapi.exception;
 
-import com.google.common.collect.ImmutableMap;
-
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.message.replace.EReplace;
 import fr.evercraft.everapi.plugin.EPlugin;
@@ -36,14 +34,14 @@ public class ServerDisableException extends Exception {
 		if (this.plugin.getEverAPI() != null && this.plugin.getEverAPI().getMessages() != null) {
 			if (this.plugin.getEverAPI().getManagerService() != null && this.plugin.getEverAPI().getManagerService().getMail().isPresent()) {
 				this.plugin.getEverAPI().getManagerService().getMail().get().alert(
-						EAMessages.MAIL_SERVER_DISABLE_OBJECT.getFormat().toString(ImmutableMap.of(
-								"<server>", EReplace.of(this.plugin.getEServer().getName()),
-								"<reason>", EReplace.of(this.getMessage())
-						)),
-						EAMessages.MAIL_SERVER_DISABLE_MESSAGE.getFormat().toString(ImmutableMap.of(
-								"<server>", EReplace.of(this.plugin.getEServer().getName()),
-								"<reason>", EReplace.of(this.getMessage())
-						)));
+						EAMessages.MAIL_SERVER_DISABLE_OBJECT.getFormat().toString(
+							"<server>", EReplace.of(this.plugin.getEServer().getName()),
+							"<reason>", EReplace.of(this.getMessage())
+						),
+						EAMessages.MAIL_SERVER_DISABLE_MESSAGE.getFormat().toString(
+							"<server>", EReplace.of(this.plugin.getEServer().getName()),
+							"<reason>", EReplace.of(this.getMessage())
+						));
 			}
 			this.plugin.getEverAPI().disable();
 			this.plugin.getGame().getServer().shutdown(EAMessages.SERVER_ERROR.getText());

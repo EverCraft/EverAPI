@@ -22,15 +22,15 @@ import org.spongepowered.api.boss.ServerBossBar;
 
 import com.google.common.base.Preconditions;
 
-import fr.evercraft.everapi.message.format.EFormatString;
 import fr.evercraft.everapi.message.format.EFormat;
 import fr.evercraft.everapi.message.type.EMessageActionBar;
 import fr.evercraft.everapi.message.type.EMessageBossBar;
 import fr.evercraft.everapi.message.type.EMessageChat;
 import fr.evercraft.everapi.message.type.EMessageTitle;
+import fr.evercraft.everapi.plugin.file.EnumMessage;
 
 public final class EMessageBuilder {
-	private EFormat prefix;
+	private EnumMessage prefix;
 	
 	private EMessageChat chat;
 	private EMessageActionBar actionbar;
@@ -80,7 +80,7 @@ public final class EMessageBuilder {
 		return this;
 	}
 	
-	public EMessageBuilder prefix(final EFormat format) {
+	public EMessageBuilder prefix(final EnumMessage format) {
 		Preconditions.checkNotNull(prefix, "prefix");
 		
 		this.prefix = format;
@@ -88,7 +88,7 @@ public final class EMessageBuilder {
 	}
 	
 	public EMessageBuilder clear() {
-		this.prefix = new EFormatString("");
+		this.prefix = null;
 		this.chat = null;
 		this.actionbar = null;
 		this.title = null;
@@ -97,6 +97,7 @@ public final class EMessageBuilder {
 	}
 	
 	public EMessageFormat build() {
+		Preconditions.checkNotNull(this.prefix, "prefix");
 		return new EMessageFormat(this.prefix, Optional.ofNullable(chat), Optional.ofNullable(actionbar), Optional.ofNullable(title), Optional.ofNullable(bossbar));
 	}
 }

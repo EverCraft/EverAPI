@@ -460,13 +460,6 @@ public class EAMessage extends EMessage<EverAPI> {
 			} catch (IllegalArgumentException e) {}
 			return Optional.empty();
 		}
-		
-		public boolean has() {
-			return this.message.getChat().isPresent() || 
-				   this.message.getActionbar().isPresent() || 
-				   this.message.getBossbar().isPresent() || 
-				   this.message.getTitle().isPresent();
-		}
 	}
 
 	public EAMessage(final EverAPI plugin) {
