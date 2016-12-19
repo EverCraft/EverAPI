@@ -19,6 +19,7 @@ package fr.evercraft.everapi.message;
 import java.util.Optional;
 
 import fr.evercraft.everapi.message.format.EFormat;
+import fr.evercraft.everapi.message.format.EFormatString;
 import fr.evercraft.everapi.message.type.EMessageActionBar;
 import fr.evercraft.everapi.message.type.EMessageBossBar;
 import fr.evercraft.everapi.message.type.EMessageChat;
@@ -27,14 +28,14 @@ import fr.evercraft.everapi.plugin.file.EnumMessage;
 
 public final class EMessageFormat {
 	
-	private final EnumMessage prefix;
+	private final Optional<EnumMessage> prefix;
 	
 	private final Optional<EMessageChat> chat;
 	private final Optional<EMessageActionBar> actionbar;
 	private final Optional<EMessageTitle> title;
 	private final Optional<EMessageBossBar> bossbar;
 	
-	public EMessageFormat(final EnumMessage prefix, final Optional<EMessageChat> chat, final Optional<EMessageActionBar> actionbar,
+	public EMessageFormat(final Optional<EnumMessage> prefix, final Optional<EMessageChat> chat, final Optional<EMessageActionBar> actionbar,
 			final Optional<EMessageTitle> title, final Optional<EMessageBossBar> bossbar) {
 		this.prefix = prefix;
 		this.chat = chat;
@@ -44,7 +45,7 @@ public final class EMessageFormat {
 	}
 
 	public EFormat getPrefix() {
-		return this.prefix.getFormat();
+		return this.prefix.isPresent() ? this.prefix.get().getFormat() : new EFormatString("");
 	}
 	
 	public Optional<EMessageChat> getChat() {

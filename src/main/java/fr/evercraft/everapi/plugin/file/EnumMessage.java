@@ -29,7 +29,7 @@ import fr.evercraft.everapi.message.format.EFormat;
 import fr.evercraft.everapi.message.format.EFormatString;
 import fr.evercraft.everapi.plugin.EChat;
 
-public interface EnumMessage{
+public interface EnumMessage {
 	
 	public String getName();
 

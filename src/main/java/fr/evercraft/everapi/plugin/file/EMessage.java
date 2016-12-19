@@ -24,6 +24,7 @@ import org.spongepowered.api.boss.BossBarOverlays;
 import org.spongepowered.api.boss.ServerBossBar;
 import org.spongepowered.api.event.Listener;
 
+import com.google.common.base.Preconditions;
 import com.google.common.reflect.TypeToken;
 
 import fr.evercraft.everapi.event.ChatSystemEvent;
@@ -73,6 +74,14 @@ public abstract class EMessage<T extends EPlugin<T>> extends EFile<T> {
     
     
     public void load() {
+    	EnumMessage prefix = null;
+    	for (EnumMessage message : this.enum_message) {
+    		if (message.getName().equalsIgnoreCase("PREFIX")) {
+    			prefix = message;
+    		}
+    	}
+    	Preconditions.checkNotNull(prefix, "PREFIX");
+    	
     	for (EnumMessage message : this.enum_message) {
 			ConfigurationNode node = get(message.getPath());
 			message.set(null);
@@ -86,13 +95,13 @@ public abstract class EMessage<T extends EPlugin<T>> extends EFile<T> {
             		}
             	}
         		
+        		EMessageBuilder builder = EMessageFormat.builder();
         		if (node.getValue() instanceof List) {
-        			message.set(this.getList(message.getName(), EMessageFormat.builder(), node, false).build());
+        			this.getList(message.getName(), builder, node, false);
         		} else if (node.getValue() instanceof String) {
-        			message.set(this.getString(message.getName(), EMessageFormat.builder(), node, true).build());
+        			this.getString(message.getName(), builder, node, true);
         		} else if (!node.getNode("chat").isVirtual() || !node.getNode("actionbar").isVirtual() ||
         					!node.getNode("title").isVirtual() || !node.getNode("bossbar").isVirtual()) {
-        			EMessageBuilder builder = EMessageFormat.builder();
         			if (!node.getNode("chat").isVirtual()) {
         				ConfigurationNode node_chat = node.getNode("chat");
         				if (node_chat.getValue() instanceof List) {
@@ -170,12 +179,15 @@ public abstract class EMessage<T extends EPlugin<T>> extends EFile<T> {
 						}
 					}
         		}
+        		
+        		builder.prefix(prefix);
+        		message.set(builder.build());
         	} else {
         		this.plugin.getLogger().warn("Le message '" + message.getName() + "' n'est pas définit");
         	}
         	
         	if (message.getFormat() == null) {
-        		message.set(EMessageFormat.builder().chat(new EFormatString(message.getPath()), false).build());
+        		message.set(EMessageFormat.builder().prefix(prefix).chat(new EFormatString(message.getPath()), false).build());
         	}
     	}
     }
@@ -203,11 +215,11 @@ public abstract class EMessage<T extends EPlugin<T>> extends EFile<T> {
     }
     
     public Optional<EFormatString> getFormatString(ConfigurationNode node) {
-    	if (node.getString("").isEmpty()) {
+    	if (!node.getString("").isEmpty()) {
 			if (this.plugin.getChat() != null) {
 				return Optional.of(new EFormatString(this.plugin.getChat().replace(node.getString(""))));
     		} else {
-    			return Optional.of(new EFormatString(this.plugin.getChat().replace(node.getString(""))));
+    			return Optional.of(new EFormatString(node.getString("")));
     		}
 		}
     	return Optional.empty();

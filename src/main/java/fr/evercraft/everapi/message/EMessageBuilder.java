@@ -43,9 +43,10 @@ public final class EMessageBuilder {
 	
 	public EMessageBuilder chat(final EFormat message, final boolean prefix) {
 		Preconditions.checkNotNull(message, "message");
-		Preconditions.checkArgument(!message.isEmpty(), "Message is empty");
 		
-		this.chat = new EMessageChat(message, prefix);
+		if (!message.isEmpty()) {
+			this.chat = new EMessageChat(message, prefix);
+		}
 		return this;
 	}
 	
@@ -54,7 +55,9 @@ public final class EMessageBuilder {
 		Preconditions.checkNotNull(priority, "priority");
 		Preconditions.checkArgument(!priority.isEmpty(), "Priority is empty");
 		
-		this.actionbar = new EMessageActionBar(message, stay, priority, prefix);
+		if (!message.isEmpty()) {
+			this.actionbar = new EMessageActionBar(message, stay, priority, prefix);
+		}
 		return this;
 	}
 	
@@ -66,7 +69,9 @@ public final class EMessageBuilder {
 		Preconditions.checkNotNull(priority, "priority");
 		Preconditions.checkArgument(!priority.isEmpty(), "Priority is empty");
 		
-		this.title = new EMessageTitle(message, prefix, sub_message, sub_prefix, stay, fadeIn, fadeOut, priority);
+		if (!message.isEmpty() || !sub_message.isEmpty()) {
+			this.title = new EMessageTitle(message, prefix, sub_message, sub_prefix, stay, fadeIn, fadeOut, priority);
+		}
 		return this;
 	}
 	
@@ -76,14 +81,16 @@ public final class EMessageBuilder {
 		Preconditions.checkNotNull(priority, "priority");
 		Preconditions.checkArgument(!priority.isEmpty(), "Priority is empty");
 		
-		this.bossbar = new EMessageBossBar(message, stay, bossbar, priority, prefix);
+		if (!message.isEmpty()) {
+			this.bossbar = new EMessageBossBar(message, stay, bossbar, priority, prefix);
+		}
 		return this;
 	}
 	
-	public EMessageBuilder prefix(final EnumMessage format) {
+	public EMessageBuilder prefix(final EnumMessage prefix) {
 		Preconditions.checkNotNull(prefix, "prefix");
 		
-		this.prefix = format;
+		this.prefix = prefix;
 		return this;
 	}
 	
@@ -97,7 +104,6 @@ public final class EMessageBuilder {
 	}
 	
 	public EMessageFormat build() {
-		Preconditions.checkNotNull(this.prefix, "prefix");
-		return new EMessageFormat(this.prefix, Optional.ofNullable(chat), Optional.ofNullable(actionbar), Optional.ofNullable(title), Optional.ofNullable(bossbar));
+		return new EMessageFormat(Optional.ofNullable(this.prefix), Optional.ofNullable(chat), Optional.ofNullable(actionbar), Optional.ofNullable(title), Optional.ofNullable(bossbar));
 	}
 }
