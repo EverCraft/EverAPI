@@ -82,13 +82,18 @@ public class EBossBarService implements BossBarService {
 	public boolean add(EPlayer player, String identifier, int priority, ServerBossBar bossbar, Optional<Long> stay) {
 		boolean result = false;
 		
+		Optional<Long> time = Optional.empty();
+		if (stay.isPresent()) {
+			time = Optional.of(System.currentTimeMillis() + stay.get());
+		}
+		
 		this.write_lock.lock();
 		try {
 			EBossBar bossbar_player = this.players.get(player.getUniqueId());
 			// Vérifie la priorité
 			if (bossbar_player == null) {
 				// Ajoute
-				bossbar_player = new EBossBar(identifier, bossbar, stay);
+				bossbar_player = new EBossBar(identifier, bossbar, time);
 				this.players.put(player.getUniqueId(), bossbar_player);
 				bossbar.addPlayer(player.get());
 				
@@ -103,7 +108,7 @@ public class EBossBarService implements BossBarService {
 				bossbar_player.getServerBossBar().removePlayer(player.get());
 				
 				// Ajoute
-				EBossBar new_bossbar_player = new EBossBar(identifier, bossbar, stay);
+				EBossBar new_bossbar_player = new EBossBar(identifier, bossbar, time);
 				this.players.put(player.getUniqueId(), new_bossbar_player);
 				bossbar.addPlayer(player.get());
 				

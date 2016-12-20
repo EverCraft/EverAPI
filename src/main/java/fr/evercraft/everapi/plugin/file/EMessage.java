@@ -101,7 +101,7 @@ public abstract class EMessage<T extends EPlugin<T>> extends EFile<T> {
         		}
            	}
         	
-        	if (message.getFormat() == null) {
+        	if (message.getMessage() == null) {
         		message.set(EMessageFormat.builder().prefix(prefix).chat(new EFormatString(message.getPath()), false).build());
         	}
     	}

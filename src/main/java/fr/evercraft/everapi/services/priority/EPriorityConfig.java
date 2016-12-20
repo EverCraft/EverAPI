@@ -44,6 +44,7 @@ public class EPriorityConfig extends EConfig<EverAPI> {
 				"everinformations.connection.player", 
 				"everinformations.connection.others", 
 				"everinformations.join", 
+				"message",
 				"everinformations.automessages"));
 		addDefault("title", Arrays.asList(
 				"everinformations.newbie.player", 
@@ -51,6 +52,7 @@ public class EPriorityConfig extends EConfig<EverAPI> {
 				"everinformations.connection.player", 
 				"everinformations.connection.others", 
 				"everinformations.join", 
+				"message",
 				"everinformations.automessages"));
 		addDefault("bossbar", Arrays.asList(
 				"everpvp",
@@ -58,7 +60,8 @@ public class EPriorityConfig extends EConfig<EverAPI> {
 				"everinformations.newbie.others", 
 				"everinformations.connection.player", 
 				"everinformations.connection.others", 
-				"everinformations.join", 
+				"everinformations.join",
+				"message",
 				"everinformations.automessages"));
 		addDefault("nametag", Arrays.asList("everinformations"));
 		addDefault("tablist", Arrays.asList("everinformations"));

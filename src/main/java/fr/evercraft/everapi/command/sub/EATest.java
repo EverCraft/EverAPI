@@ -24,11 +24,12 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.text.title.Title;
 
 import fr.evercraft.everapi.EACommand;
 import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.message.EMessageFormat;
+import fr.evercraft.everapi.message.format.EFormatString;
 import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
 import fr.evercraft.everapi.server.player.EPlayer;
@@ -67,7 +68,16 @@ public class EATest extends ESubCommand<EverAPI> {
 			//return commandTest((EPlayer) source);
 		} else if (args.size() == 1) {
 			EPlayer player = (EPlayer) source;
-			player.sendTitle(Title.builder().actionBar(EChat.of("&4Action bar test")).stay(6000).build());
+			EMessageFormat.builder()
+					.chatMessage(new EFormatString("&4chatMessage"))
+					.actionbarStay(60*1000)
+					.actionbarMessage(new EFormatString("&4action Message"))
+					.bossbarStay(60*1000)
+					.bossbarMessage(new EFormatString("&4bossbar Message"))
+					.titleMessage(new EFormatString("&4title Message"))
+					.titleSubMessage(new EFormatString("&4title SubMessage"))
+					.titleStay(60*1000)
+					.build().sender().sendTo(player);
 		}
 		source.sendMessage(this.help(source));
 		return false;

@@ -65,11 +65,13 @@ public class EverAPI extends EPlugin<EverAPI> {
 	
 	private SpongeExecutorService thread;
 	
-	@Override
-	protected void onPreEnable() throws PluginDisableException, ServerDisableException {	
+	public EverAPI() {
 		TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(EMessageBuilder.class), new EMessageBuilderSerializer(this));
 		TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(EFormat.class), new EFormatSerializer());
-		
+	}
+	
+	@Override
+	protected void onPreEnable() throws PluginDisableException, ServerDisableException {		
 		this.thread = this.getGame().getScheduler().createAsyncExecutor(this);
 		this.chat = new EChat(this);
 		this.configs = new EAConfig(this);

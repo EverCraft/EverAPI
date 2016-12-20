@@ -28,6 +28,7 @@ import com.google.common.reflect.TypeToken;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.message.EMessageBuilder;
 import fr.evercraft.everapi.message.EMessageFormat;
+import fr.evercraft.everapi.message.format.EFormat;
 import fr.evercraft.everapi.message.format.EFormatListString;
 import fr.evercraft.everapi.message.format.EFormatString;
 import fr.evercraft.everapi.message.format.EFormatTemplate;
@@ -153,7 +154,7 @@ public final class EMessageBuilderSerializer implements TypeSerializer<EMessageB
 							builder.bossbarOverlay(UtilsBossBar.getOverlay(node_bossbar.getNode("overlay").getString("")).orElse(BossBarOverlays.PROGRESS));
 						}
 						if(!node_bossbar.getNode("percent").isVirtual()) {
-							builder.bossbarPercent(node_bossbar.getNode("percent").getFloat(100));
+							builder.bossbarPercent(node_bossbar.getNode("percent").getFloat(1));
 						}
 						if(!node_bossbar.getNode("playEndBossMusic").isVirtual()) {
 							builder.bossbarPlayEndBossMusic(node_bossbar.getNode("playEndBossMusic").getBoolean(false));
@@ -170,7 +171,7 @@ public final class EMessageBuilderSerializer implements TypeSerializer<EMessageB
 		} else {
 			this.getFormatTemplate(node).ifPresent(format -> builder.chatMessage(format));
 		}
-		return null;
+		return builder;
 	}
 
 	@Override
@@ -263,7 +264,7 @@ public final class EMessageBuilderSerializer implements TypeSerializer<EMessageB
 		
 		if (builder.getChatMessage() != null && !builder.getChatMessage().isEmpty()) {
 			if (node.isVirtual() && builder.getPrefix() == null) {
-				node.setValue(builder.getChatMessage());
+				node.setValue(TypeToken.of(EFormat.class), builder.getChatMessage());
 			} else {
 				if (builder.getChatMessage().isListString()) {
 					node.getNode("chat", "messages").setValue(builder.getChatMessage());

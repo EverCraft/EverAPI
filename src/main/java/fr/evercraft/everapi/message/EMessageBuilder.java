@@ -23,6 +23,7 @@ import org.spongepowered.api.boss.BossBarColors;
 import org.spongepowered.api.boss.BossBarOverlay;
 import org.spongepowered.api.boss.BossBarOverlays;
 import org.spongepowered.api.boss.ServerBossBar;
+import org.spongepowered.api.text.Text;
 
 import com.google.common.base.Preconditions;
 
@@ -309,13 +310,11 @@ public final class EMessageBuilder {
 					this.chat_prefix != null ? this.chat_prefix : true));
 		}
 		
-		if (this.actionbar_message != null && !this.actionbar_message.isEmpty()) {
-			Preconditions.checkNotNull(this.actionbar_priority, "actionbar_priority");
-			
+		if (this.actionbar_message != null && !this.actionbar_message.isEmpty()) {			
 			actionbar = Optional.of(new EMessageActionBar(
 					this.actionbar_message, 
 					this.actionbar_stay != null ? this.actionbar_stay : 5, 
-					this.actionbar_priority, 
+					this.actionbar_priority != null ? this.actionbar_priority : "message", 
 					this.actionbar_prefix != null ? this.actionbar_prefix : false));
 		}
 		
@@ -331,7 +330,7 @@ public final class EMessageBuilder {
 					this.title_stay != null ? this.title_stay : 5, 
 					this.title_fadeIn != null ? this.title_fadeIn : 1, 
 					this.title_fadeOut != null ? this.title_fadeOut : 1, 
-					this.title_priority));
+					this.title_priority != null ? this.title_priority : "message"));
 		}
 
 		if (this.bossbar_message != null) {			
@@ -339,11 +338,12 @@ public final class EMessageBuilder {
 					this.bossbar_message, 
 					this.bossbar_stay != null ? this.title_stay : 5, 
 					ServerBossBar.builder()
+							.name(Text.EMPTY)
 							.color(this.bossbar_color != null ? this.bossbar_color : BossBarColors.WHITE)
 							.createFog(this.bossbar_createFog != null ? this.bossbar_createFog : false)
 							.darkenSky(this.bossbar_darkenSky != null ? this.bossbar_darkenSky : false)
 							.overlay(this.bossbar_overlay != null ? this.bossbar_overlay : BossBarOverlays.PROGRESS)
-							.percent(this.bossbar_percent != null ? this.bossbar_percent : 100)
+							.percent(this.bossbar_percent != null ? this.bossbar_percent : 1)
 							.playEndBossMusic(this.bossbar_playEndBossMusic != null ? this.bossbar_playEndBossMusic : false)
 							.build(), 
 					this.title_priority != null ? this.title_priority : "message",

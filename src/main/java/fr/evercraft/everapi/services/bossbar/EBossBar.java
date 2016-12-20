@@ -28,9 +28,9 @@ public class EBossBar {
 	private final Optional<Long> time;
 	private final ServerBossBar bossbar;
 	
-	public EBossBar(final String identifier, final ServerBossBar bossbar, final Optional<Long> stay) {
+	public EBossBar(final String identifier, final ServerBossBar bossbar, final Optional<Long> time) {
 		this.identifier = identifier;
-		this.time = stay;
+		this.time = time;
 		this.bossbar = bossbar;
 	}
 
