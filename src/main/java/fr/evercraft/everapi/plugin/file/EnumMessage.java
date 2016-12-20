@@ -23,6 +23,7 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColor;
 
+import fr.evercraft.everapi.message.EMessageBuilder;
 import fr.evercraft.everapi.message.EMessageFormat;
 import fr.evercraft.everapi.message.EMessageSender;
 import fr.evercraft.everapi.message.format.EFormat;
@@ -35,9 +36,9 @@ public interface EnumMessage {
 
 	public String getPath();
 	
-	public Object getFrench();
+	public EMessageBuilder getFrench();
 
-	public Object getEnglish();
+	public EMessageBuilder getEnglish();
 	
 	public EMessageFormat getMessage();
 

@@ -45,4 +45,8 @@ public class EFormatTemplate extends EFormat {
 		}
 		return this.message.apply(elements).build();
 	}
+
+	public TextTemplate getMessage() {
+		return this.message;
+	}
 }

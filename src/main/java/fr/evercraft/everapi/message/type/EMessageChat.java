@@ -39,7 +39,7 @@ public class EMessageChat {
 	}
 
 	public boolean isPrefix() {
-		return prefix;
+		return this.prefix;
 	}
 
 	public void send(EFormat prefix, CommandSource player, Map<String, EReplace<?>> replaces) {

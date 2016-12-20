@@ -81,4 +81,8 @@ public class EFormatString extends EFormat {
 		}
 		return builder.build();
 	}
+
+	public String getMessage() {
+		return this.message;
+	}
 }

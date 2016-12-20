@@ -39,4 +39,8 @@ public class EFormatListString extends EFormat {
 		return Text.joinWith(Text.of("\n"), texts);
 	}
 
+	public List<String> getMessage() {
+		return this.messages;
+	}
+
 }

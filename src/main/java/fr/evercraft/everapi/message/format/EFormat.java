@@ -106,4 +106,16 @@ public abstract class EFormat {
 	public String toString(String k1, Object v1, String k2, Object v2, String k3, Object v3) {
 		return this.toString(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2), k3, EReplace.of(v3)));
 	}
+	
+	public boolean isListString() {
+		return this instanceof EFormatListString;
+	}
+	
+	public boolean isString() {
+		return this instanceof EFormatString;
+	}
+	
+	public boolean isTemplate() {
+		return this instanceof EFormatTemplate;
+	}
 }

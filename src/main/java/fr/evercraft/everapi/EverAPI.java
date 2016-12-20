@@ -20,17 +20,24 @@ import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.scheduler.SpongeExecutorService;
 
+import com.google.common.reflect.TypeToken;
+
 import fr.evercraft.everapi.command.sub.EAPlugins;
 import fr.evercraft.everapi.command.sub.EAReload;
 import fr.evercraft.everapi.command.sub.EATest;
+import fr.evercraft.everapi.config.EFormatSerializer;
+import fr.evercraft.everapi.config.EMessageBuilderSerializer;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
+import fr.evercraft.everapi.message.EMessageBuilder;
+import fr.evercraft.everapi.message.format.EFormat;
 import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.server.EServer;
 import fr.evercraft.everapi.services.ManagerService;
 import fr.evercraft.everapi.services.bungee.BungeeCord;
 import fr.evercraft.everapi.sponge.ManagerUtils;
+import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 
 @Plugin(id = "everapi", 
 		name = "EverAPI", 
@@ -60,6 +67,9 @@ public class EverAPI extends EPlugin<EverAPI> {
 	
 	@Override
 	protected void onPreEnable() throws PluginDisableException, ServerDisableException {	
+		TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(EMessageBuilder.class), new EMessageBuilderSerializer(this));
+		TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(EFormat.class), new EFormatSerializer());
+		
 		this.thread = this.getGame().getScheduler().createAsyncExecutor(this);
 		this.chat = new EChat(this);
 		this.configs = new EAConfig(this);
