@@ -25,6 +25,7 @@ import org.spongepowered.api.text.translation.Translation;
 
 import fr.evercraft.everapi.plugin.EChat;
 
+@Deprecated
 public class ETextBuilder {
 	
 	public static ETextBuilder toBuilder(String message) {

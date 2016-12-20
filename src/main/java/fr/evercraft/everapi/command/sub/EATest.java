@@ -45,7 +45,7 @@ public class EATest extends ESubCommand<EverAPI> {
 	}
 
 	public Text description(final CommandSource source) {
-		return Text.of("Commande de test1");
+		return Text.of("Commande de test");
 	}
 	
 	public List<String> subTabCompleter(final CommandSource source, final List<String> args) throws CommandException {
@@ -68,7 +68,7 @@ public class EATest extends ESubCommand<EverAPI> {
 			//return commandTest((EPlayer) source);
 		} else if (args.size() == 1) {
 			EPlayer player = (EPlayer) source;
-			EMessageFormat.builder()
+			EMessageFormat message = EMessageFormat.builder()
 					.chatMessage(new EFormatString("&4chatMessage"))
 					.actionbarStay(60*1000)
 					.actionbarMessage(new EFormatString("&4action Message"))
@@ -77,7 +77,13 @@ public class EATest extends ESubCommand<EverAPI> {
 					.titleMessage(new EFormatString("&4title Message"))
 					.titleSubMessage(new EFormatString("&4title SubMessage"))
 					.titleStay(60*1000)
-					.build().sender().sendTo(player);
+					.build();
+			player.sendMessage("message.getTitle().isPresent() : " + message.getTitle().isPresent());
+			if (message.getTitle().isPresent()) {
+				player.sendMessage("Title : " + message.getTitle().get().getMessage().toText());
+				player.sendMessage("SubTitle : " + message.getTitle().get().getMessage().toText());
+			}
+			message.sender().sendTo(player);
 		}
 		source.sendMessage(this.help(source));
 		return false;

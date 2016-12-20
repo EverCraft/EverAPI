@@ -17,6 +17,7 @@
 package fr.evercraft.everapi.plugin;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -55,19 +56,30 @@ public class EChat implements ChatService {
 	}
 	
 	public Map<String, EReplace<?>> getReplaceServer() {
-		Builder<String, EReplace<?>> builder = ImmutableMap.builder();
+		Map<String, EReplace<?>> builder = new HashMap<String, EReplace<?>>();
 		for(EReplaceServer value : EReplaceServer.values()) {
 			builder.put(value.getName(), new EReplace<Object>(() -> value.getValue().apply(this.plugin)));
 		}
-		return builder.build();
+		return builder;
 	}
 	
 	public Map<String, EReplace<?>> getReplacePlayer(final EPlayer player) {
-		Builder<String, EReplace<?>> builder = ImmutableMap.builder();
+		Map<String, EReplace<?>> builder = new HashMap<String, EReplace<?>>();
 		for(EReplacePlayer value : EReplacePlayer.values()) {
 			builder.put(value.getName(), new EReplace<Object>(() -> value.getValue().apply(this.plugin, player)));
 		}
-		return builder.build();
+		return builder;
+	}
+	
+	public Map<String, EReplace<?>> getReplaceAll(final EPlayer player) {
+		Map<String, EReplace<?>> builder = new HashMap<String, EReplace<?>>();
+		for(EReplaceServer value : EReplaceServer.values()) {
+			builder.put(value.getName(), new EReplace<Object>(() -> value.getValue().apply(this.plugin)));
+		}
+		for(EReplacePlayer value : EReplacePlayer.values()) {
+			builder.put(value.getName(), new EReplace<Object>(() -> value.getValue().apply(this.plugin, player)));
+		}
+		return builder;
 	}
 	
 	private boolean isPresent() {
@@ -98,16 +110,19 @@ public class EChat implements ChatService {
 		return message;
 	}
 	
+	@Deprecated
 	public Text replaceFormat(final EPlayer player, String message) {
 		return replaceFormat(player, ETextBuilder.toBuilder(message));
 	}
 	
+	@Deprecated
 	public Text replaceFormat(final EPlayer player, ETextBuilder message) {
 		Preconditions.checkNotNull(player, "player");
 		Preconditions.checkNotNull(message, "message");
 		return message.build();
 	}
 	
+	@Deprecated
 	public Text replaceAllVariables(final EPlayer player, String message) {
 		message = this.replaceGlobal(message);
 		message = this.replacePlayer(player, message);

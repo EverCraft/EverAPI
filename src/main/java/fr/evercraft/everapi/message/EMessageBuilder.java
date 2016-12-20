@@ -318,9 +318,8 @@ public final class EMessageBuilder {
 					this.actionbar_prefix != null ? this.actionbar_prefix : false));
 		}
 		
-		if ((this.title_message != null && this.title_message.isEmpty()) || 
-				(this.title_submessage != null && this.title_submessage.isEmpty())) {
-			Preconditions.checkNotNull(this.title_priority, "title_priority");
+		if ((this.title_message != null && !this.title_message.isEmpty()) || 
+				(this.title_submessage != null && !this.title_submessage.isEmpty())) {
 			
 			title = Optional.of(new EMessageTitle(
 					this.title_message != null ? this.title_message : EFormatString.EMPTY, 

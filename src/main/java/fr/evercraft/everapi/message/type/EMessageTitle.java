@@ -25,6 +25,7 @@ import org.spongepowered.api.text.title.Title;
 import fr.evercraft.everapi.message.format.EFormat;
 import fr.evercraft.everapi.message.replace.EReplace;
 import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.sponge.UtilsTick;
 
 public class EMessageTitle {
 	
@@ -49,9 +50,9 @@ public class EMessageTitle {
 		this.sub_message = sub_message;
 		this.sub_prefix = sub_prefix;
 		
-		this.stay = stay;
-		this.fadeIn = fadeIn;
-		this.fadeOut = fadeOut;
+		this.stay = UtilsTick.parseMillis(stay);
+		this.fadeIn = UtilsTick.parseMillis(fadeIn);
+		this.fadeOut = UtilsTick.parseMillis(fadeOut);
 		
 		this.priority = priority;
 	}
@@ -101,9 +102,9 @@ public class EMessageTitle {
 		Text sub_title = Text.EMPTY;
 		if (!this.sub_message.isEmpty()) {
 			if (this.sub_prefix) {
-				title = prefix.toText().toText().concat(this.sub_message.toText(replaces));
+				sub_title = prefix.toText().toText().concat(this.sub_message.toText(replaces));
 			} else {
-				title = this.message.toText(replaces);
+				sub_title = this.sub_message.toText(replaces);
 			}
 		}
 		

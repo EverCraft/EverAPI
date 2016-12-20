@@ -1,6 +1,6 @@
 package fr.evercraft.everapi.message.format;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -14,6 +14,10 @@ import fr.evercraft.everapi.plugin.EChat;
 public class EFormatString extends EFormat {
 	
 	public static final EFormatString EMPTY = new EFormatString("");
+	
+	public static EFormatString of(String message) {
+		return new EFormatString(message);
+	}
 	
 	public final String message;
 
@@ -42,7 +46,8 @@ public class EFormatString extends EFormat {
 	}
 	
 	public static Text apply(String message, Map<String, EReplace<?>> replaces) {
-		List<Object> texts = Arrays.asList(message);
+		List<Object> texts = new ArrayList<Object>();
+		texts.add(message);
 		
 		for (Entry<String, EReplace<?>> replace : replaces.entrySet()) {
 			String[] split;
