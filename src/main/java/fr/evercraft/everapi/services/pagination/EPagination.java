@@ -32,7 +32,6 @@ import org.spongepowered.api.text.format.TextColor;
 
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
-import fr.evercraft.everapi.message.replace.EReplace;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.server.player.EPlayer;
@@ -124,8 +123,8 @@ public class EPagination {
 	
 	private void help(List<Text> contents, CommandSource source, EPlugin<?> plugin) {
 		Builder title = EAMessages.HELP_TITLE.getFormat().toText(
-							"<plugin>", EReplace.of(plugin.getName()),
-							"<version>", EReplace.of(plugin.getVersion().orElse("1")))
+							"<plugin>", plugin.getName(),
+							"<version>",plugin.getVersion().orElse("1"))
 						.toBuilder().color(this.help_color_padding);
 		
 		String authors;

@@ -30,6 +30,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColor;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.text.format.TextFormat;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
 import com.google.common.base.Preconditions;
@@ -281,5 +282,21 @@ public class EChat implements ChatService {
 			return this.service.getFormat(subject, contexts);
 		}
 		return null;
+	}
+	
+	public static TextFormat getLastFormat(Text.Builder text) {
+		if (text.getChildren().isEmpty()) {
+			return text.getFormat();
+		} else {
+			return EChat.getLastFormat(text.getChildren().get(text.getChildren().size() - 1));
+		}
+	}
+	
+	public static TextFormat getLastFormat(Text text) {
+		if (text.getChildren().isEmpty()) {
+			return text.getFormat();
+		} else {
+			return EChat.getLastFormat(text.getChildren().get(text.getChildren().size() - 1));
+		}
 	}
 }

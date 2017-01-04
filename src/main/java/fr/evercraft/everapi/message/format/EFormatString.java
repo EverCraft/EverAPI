@@ -72,16 +72,24 @@ public class EFormatString extends EFormat {
 			}
 		}
 		
+		System.out.println("builder");
 		Builder builder = Text.builder();
-		for (Object text : texts){
-			if (text instanceof String) {
-				builder.append(EChat.of((String) text));
-			} else if (text instanceof Text) {
-				builder.append((Text) text);
-			} else if (text instanceof EFormat) {
-				builder.append(((EFormat) text).toText(replaces));
+		for (Object value : texts) {
+			Text text = null;
+			if (value instanceof String) {
+				text = EChat.of((String) value);
+			} else if (value instanceof Text) {
+				text = (Text) value;
+			} else if (value instanceof EFormat) {
+				text = ((EFormat) value).toText(replaces);
 			} else {
-				builder.append(EChat.of(text.toString()));
+				text = EChat.of(value.toString());
+			}
+			
+			if (!text.getFormat().isEmpty()) {
+				builder.append(text);
+			} else {
+				builder.append(text.toBuilder().format(EChat.getLastFormat(builder)).build());
 			}
 		}
 		return builder.build();

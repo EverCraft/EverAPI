@@ -63,7 +63,7 @@ public interface EnumMessage {
 	}
 	
 	public default TextColor getColor() {
-		return EChat.getTextColor(this.get());
+		return EChat.getTextColor(this.getString());
 	}
 	
 	public default EFormat getFormat() {

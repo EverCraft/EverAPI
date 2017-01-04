@@ -190,8 +190,8 @@ public class EAMessage extends EMessage<EverAPI> {
 		
 		// Help
 		HELP_TITLE("help.title", 
-				"&a [ Aide : <plugin> v<version> ] ", 
-				"&a [ Help : <plugin> v<version> ] "),
+				"&a [ Aide : <plugin> v<version> &a] ", 
+				"&a [ Help : <plugin> v<version> &a] "),
 		HELP_TITLE_HOVER("help.titleHover", 
 				"&cAuteur(s) :[RT]&c  - <authors>"),
 		HELP_AUTHORS_JOIN("help.authorsJoin", 

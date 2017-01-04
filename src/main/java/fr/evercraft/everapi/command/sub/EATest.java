@@ -68,6 +68,18 @@ public class EATest extends ESubCommand<EverAPI> {
 			//return commandTest((EPlayer) source);
 		} else if (args.size() == 1) {
 			EPlayer player = (EPlayer) source;
+			Text text = EChat.of("&aSalut");
+			player.sendMessage(Text.of("text : ", text));
+			player.sendMessage(Text.of("plain : ", text.toPlain()));
+			player.sendMessage(Text.of("serialize : ", EChat.serialize(text)));
+			player.sendMessage(Text.of("color : " + text.getColor()));
+			player.sendMessage(Text.of("size : " + text.getChildren().size()));
+			player.sendMessage(Text.of("subtext : ", text.getChildren().get(0)));
+			player.sendMessage(Text.of("subplain : ", text.getChildren().get(0).toPlain()));
+			player.sendMessage(Text.of("subserialize : ", EChat.serialize(text.getChildren().get(0))));
+			player.sendMessage(Text.of("subcolor : " + text.getChildren().get(0).getColor()));
+			player.sendMessage(Text.of("subsize : " + text.getChildren().get(0).getChildren().size()));
+			/*EPlayer player = (EPlayer) source;
 			EMessageFormat message = EMessageFormat.builder()
 					.chatMessage(new EFormatString("&4chatMessage"))
 					.actionbarStay(60*1000)
@@ -83,7 +95,7 @@ public class EATest extends ESubCommand<EverAPI> {
 				player.sendMessage("Title : " + message.getTitle().get().getMessage().toText());
 				player.sendMessage("SubTitle : " + message.getTitle().get().getMessage().toText());
 			}
-			message.sender().sendTo(player);
+			message.sender().sendTo(player);*/
 		}
 		source.sendMessage(this.help(source));
 		return false;

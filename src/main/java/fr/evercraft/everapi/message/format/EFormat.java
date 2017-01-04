@@ -21,14 +21,15 @@ public abstract class EFormat {
 	public String toString(Map<String, EReplace<?>> replaces) {
 		String message = this.toString();
 		for (Entry<String, EReplace<?>> replace : replaces.entrySet()) {
-			if (replace.getValue().get() instanceof String){
-				message = message.replaceAll(replace.getKey(), (String) replace.getValue().get());
+			Object value = replace.getValue().get();
+			if (value instanceof String){
+				message = message.replaceAll(replace.getKey(), (String) value);
 			} else if (replace.getValue().get() instanceof Text) {
-				message = message.replaceAll(replace.getKey(), EChat.serialize((Text) replace.getValue().get()));
+				message = message.replaceAll(replace.getKey(), EChat.serialize((Text) value));
 			} else if (replace.getValue().get() instanceof EFormat) {
-				message = message.replaceAll(replace.getKey(), ((EFormat) replace.getValue().get()).toString(replaces));
+				message = message.replaceAll(replace.getKey(), ((EFormat) value).toString(replaces));
 			} else {
-				message = message.replaceAll(replace.getKey(), replace.getValue().get().toString());
+				message = message.replaceAll(replace.getKey(), value.toString());
 			}
 		}
 		return message;
