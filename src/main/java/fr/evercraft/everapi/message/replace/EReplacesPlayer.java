@@ -28,7 +28,7 @@ import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.scoreboard.TypeScores;
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public enum EReplacePlayer {
+public enum EReplacesPlayer {
 	
 	UUID((plugin, player) -> player.getUniqueId().toString()),
 	NAME((plugin, player) -> player.getName()),
@@ -115,7 +115,7 @@ public enum EReplacePlayer {
 	
 	private BiFunction<EPlugin<?>, EPlayer, Object> fun;
 	
-	EReplacePlayer(BiFunction<EPlugin<?>, EPlayer, Object> fun) {
+	EReplacesPlayer(BiFunction<EPlugin<?>, EPlayer, Object> fun) {
 		this.fun= fun;
 	}
 	

@@ -46,7 +46,7 @@ public final class EMessageSender {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
-		this.replaces.put(key, new EReplace<Text>(() -> value)); 
+		this.replaces.put(key, EReplace.of(value)); 
 		return this;
 	}
 	
@@ -54,7 +54,7 @@ public final class EMessageSender {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
-		this.replaces.put(key, new EReplace<String>(() -> value)); 
+		this.replaces.put(key, EReplace.of(value)); 
 		return this;
 	}
 	
@@ -62,7 +62,7 @@ public final class EMessageSender {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
-		this.replaces.put(key, new EReplace<Translation>(() -> value)); 
+		this.replaces.put(key, EReplace.of(value)); 
 		return this;
 	}
 	
@@ -70,15 +70,22 @@ public final class EMessageSender {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
-		this.replaces.put(key, new EReplace<EMessageSender>(() -> value)); 
+		this.replaces.put(key, EReplace.of(value)); 
 		return this;
 	}
 	
-	public EMessageSender replace(String key, Supplier<Object> value) {
+	public EMessageSender replace(String key, Supplier<?> value) {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
-		this.replaces.put(key, new EReplace<Object>(value)); 
+		this.replaces.put(key, EReplace.of(value)); 
+		return this;
+	}
+	
+	public EMessageSender replace(Map<String, EReplace<?>> replaces) {
+		Preconditions.checkNotNull(replaces, "replaces");
+		
+		this.replaces.putAll(replaces); 
 		return this;
 	}
 	
@@ -90,7 +97,7 @@ public final class EMessageSender {
 	}
 	
 	public EMessageSender clear() {
-		this.prefix = messages.getPrefix();
+		this.prefix = this.messages.getPrefix();
 		this.replaces.clear();
 		return this;
 	}

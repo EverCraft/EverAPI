@@ -74,7 +74,7 @@ public class EFormatString extends EFormat {
 		
 		Builder builder = Text.builder();
 		for (Object text : texts){
-			if (text instanceof String){
+			if (text instanceof String) {
 				builder.append(EChat.of((String) text));
 			} else if (text instanceof Text) {
 				builder.append((Text) text);

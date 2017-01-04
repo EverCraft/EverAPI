@@ -2,36 +2,19 @@ package fr.evercraft.everapi.message.replace;
 
 import java.util.function.Supplier;
 
-public class EReplace<T> {
+public interface EReplace<T> {
 	
-	private T value;
-	private Supplier<T> fun;
+	T get();
 	
-	public EReplace(Supplier<T> fun) {
-		this.fun = fun;
-	}
+	EReplace<T> reset();
 	
-	public T get() {
-		if (value == null) {
-			this.value = this.fun.get();
-		}
-		return this.value;
-	}
-	
-	public EReplace<T> reset() {
-		this.value = null;
-		return this;
-	}
-	
-	public EReplace<T> clone() {
-		return new EReplace<T>(this.fun);
-	}
+	EReplace<T> clone();
 
 	public static <T> EReplace<T> of(T value) {
-		return new EReplace<T>(() -> value);
+		return new EReplaceValue<T>(value);
 	}
 	
-	public static <T> EReplace<T> of(Supplier<T> value) {
-		return new EReplace<T>(value);
+	public static <T> EReplace<T> of(Supplier<T> fun) {
+		return new EReplaceFun<T>(fun);
 	}
 }

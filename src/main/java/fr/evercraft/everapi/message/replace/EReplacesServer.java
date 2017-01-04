@@ -26,7 +26,7 @@ import com.google.common.base.Function;
 
 import fr.evercraft.everapi.plugin.EPlugin;
 
-public enum EReplaceServer {
+public enum EReplacesServer {
 	
 	ONLINE_PLAYERS(plugin -> String.valueOf(plugin.getEServer().playerNotVanish())),
 	MAX_PLAYERS(plugin -> String.valueOf(plugin.getGame().getServer().getMaxPlayers())),
@@ -50,7 +50,7 @@ public enum EReplaceServer {
 	
 	private Function<EPlugin<?>, Object> fun;
 	
-	EReplaceServer(Function<EPlugin<?>, Object> fun) {
+	EReplacesServer(Function<EPlugin<?>, Object> fun) {
 		this.fun= fun;
 	}
 	

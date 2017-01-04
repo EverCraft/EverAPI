@@ -33,13 +33,11 @@ import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMap.Builder;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.message.replace.EReplace;
-import fr.evercraft.everapi.message.replace.EReplacePlayer;
-import fr.evercraft.everapi.message.replace.EReplaceServer;
+import fr.evercraft.everapi.message.replace.EReplacesPlayer;
+import fr.evercraft.everapi.message.replace.EReplacesServer;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.ChatService;
 import fr.evercraft.everapi.sponge.UtilsItemStack;
@@ -57,27 +55,27 @@ public class EChat implements ChatService {
 	
 	public Map<String, EReplace<?>> getReplaceServer() {
 		Map<String, EReplace<?>> builder = new HashMap<String, EReplace<?>>();
-		for(EReplaceServer value : EReplaceServer.values()) {
-			builder.put(value.getName(), new EReplace<Object>(() -> value.getValue().apply(this.plugin)));
+		for(EReplacesServer value : EReplacesServer.values()) {
+			builder.put(value.getName(), EReplace.of(() -> value.getValue().apply(this.plugin)));
 		}
 		return builder;
 	}
 	
 	public Map<String, EReplace<?>> getReplacePlayer(final EPlayer player) {
 		Map<String, EReplace<?>> builder = new HashMap<String, EReplace<?>>();
-		for(EReplacePlayer value : EReplacePlayer.values()) {
-			builder.put(value.getName(), new EReplace<Object>(() -> value.getValue().apply(this.plugin, player)));
+		for(EReplacesPlayer value : EReplacesPlayer.values()) {
+			builder.put(value.getName(), EReplace.of(() -> value.getValue().apply(this.plugin, player)));
 		}
 		return builder;
 	}
 	
 	public Map<String, EReplace<?>> getReplaceAll(final EPlayer player) {
 		Map<String, EReplace<?>> builder = new HashMap<String, EReplace<?>>();
-		for(EReplaceServer value : EReplaceServer.values()) {
-			builder.put(value.getName(), new EReplace<Object>(() -> value.getValue().apply(this.plugin)));
+		for(EReplacesServer value : EReplacesServer.values()) {
+			builder.put(value.getName(), EReplace.of(() -> value.getValue().apply(this.plugin)));
 		}
-		for(EReplacePlayer value : EReplacePlayer.values()) {
-			builder.put(value.getName(), new EReplace<Object>(() -> value.getValue().apply(this.plugin, player)));
+		for(EReplacesPlayer value : EReplacesPlayer.values()) {
+			builder.put(value.getName(), EReplace.of(() -> value.getValue().apply(this.plugin, player)));
 		}
 		return builder;
 	}

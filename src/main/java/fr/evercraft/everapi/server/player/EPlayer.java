@@ -56,6 +56,8 @@ import com.flowpowered.math.vector.Vector3d;
 import com.flowpowered.math.vector.Vector3i;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.message.format.EFormatString;
+import fr.evercraft.everapi.message.replace.EReplace;
 import fr.evercraft.everapi.plugin.EChat;
 
 public class EPlayer extends PlayerSponge {
@@ -349,13 +351,11 @@ public class EPlayer extends PlayerSponge {
 	
 	
 	public Text getDisplayHover(Set<Context> contexts) {
-		Optional<String> suggest = getSuggest(contexts);
-		Optional<Text> hover = getHover(contexts);
+		Optional<String> suggest = this.getSuggest(contexts);
+		Optional<Text> hover = this.getHover(contexts);
 		
-		String name = this.plugin.getChat().replace(getDisplayName(contexts));
-		name = this.plugin.getChat().replaceGlobal(name);
-		name = this.plugin.getChat().replacePlayer(this, name);
-		Builder builder = this.plugin.getChat().replaceFormat(this, name).toBuilder();
+		String name = this.plugin.getChat().replace(this.getDisplayName(contexts));
+		Builder builder = EFormatString.of(name).toText(this.getReplacesAll()).toBuilder();
 		
 		if (suggest.isPresent()) {
 			builder.onClick(TextActions.suggestCommand(suggest.get()));
@@ -373,15 +373,13 @@ public class EPlayer extends PlayerSponge {
 		Optional<String> optHover = this.getOption(contexts, "hover");
 		if (optHover.isPresent()) {
 			String hover = this.plugin.getChat().replace(optHover.get());
-			hover = this.plugin.getChat().replaceGlobal(hover);
-			hover = this.plugin.getChat().replacePlayer(this, hover);
-			return Optional.of(this.plugin.getChat().replaceFormat(this, hover));
+			return Optional.of(EFormatString.of(hover).toText(this.getReplacesAll()));
 		}
 		return Optional.empty();
 	}
 	
 	public Optional<String> getSuggest() {
-		return getSuggest(getActiveContexts());
+		return this.getSuggest(this.getActiveContexts());
 	}
 	
 	public Optional<String> getSuggest(Set<Context> contexts) {
@@ -425,12 +423,22 @@ public class EPlayer extends PlayerSponge {
 		return false;
 	}
 
+	@Deprecated
 	public void sendMessageVariables(String message) {
 		this.sendMessage(this.plugin.getChat().replaceAllVariables(this, message));
 	}
 
+	@Deprecated
 	public Text replaceVariable(String message) {
 		return this.plugin.getChat().replaceAllVariables(this, message);
+	}
+	
+	public Map<String, EReplace<?>> getReplacesAll() {
+		return this.plugin.getChat().getReplaceAll(this);
+	}
+	
+	public Map<String, EReplace<?>> getReplacesPlayer() {
+		return this.plugin.getChat().getReplacePlayer(this);
 	}
 	
 	public boolean addObjective(DisplaySlot display, Objective objective) {
