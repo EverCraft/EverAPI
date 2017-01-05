@@ -72,7 +72,6 @@ public class EFormatString extends EFormat {
 			}
 		}
 		
-		System.out.println("builder");
 		Builder builder = Text.builder();
 		for (Object value : texts) {
 			Text text = null;

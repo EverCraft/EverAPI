@@ -84,6 +84,10 @@ public abstract class EFormat {
 		return this.toText(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2), k3, EReplace.of(v3)));
 	}
 	
+	public Text toText(String k1, Object v1, String k2, Object v2, String k3, Object v3, String k4, Object v4) {
+		return this.toText(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2), k3, EReplace.of(v3), k4, EReplace.of(v4)));
+	}
+	
 	public String toString(String k1, Supplier<Object> v1) {
 		return this.toString(ImmutableMap.of(k1, EReplace.of(v1)));
 	}
@@ -106,6 +110,10 @@ public abstract class EFormat {
 	
 	public String toString(String k1, Object v1, String k2, Object v2, String k3, Object v3) {
 		return this.toString(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2), k3, EReplace.of(v3)));
+	}
+	
+	public String toString(String k1, Object v1, String k2, Object v2, String k3, Object v3, String k4, Object v4) {
+		return this.toString(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2), k3, EReplace.of(v3), k4, EReplace.of(v4)));
 	}
 	
 	public boolean isListString() {
