@@ -101,6 +101,8 @@ public class EAMessage extends EMessage<EverAPI> {
 				"&cError : You look no block."),
 		PLAYER_INVENTORY_FULL("player.inventoryFull", 
 				"&cErreur : Votre inventaire est plein."),
+		PLAYER_INVENTORY_FULL_AND_DROP("player.inventoryFullAndDrop", 
+				"&cVotre inventaire est plein ! Le reste des objects est au sol."),
 		
 		// Reload
 		RELOAD_DESCRIPTION("reload.description", 

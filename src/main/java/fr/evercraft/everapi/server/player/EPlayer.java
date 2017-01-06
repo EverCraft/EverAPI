@@ -236,12 +236,15 @@ public class EPlayer extends PlayerSponge {
 	/**
 	 * Ajouter un item dans l'inventaire du joueur et de faire drop le reste au sol
 	 * @param itemstack L'itemstack
+	 * @return True si il y a des items au sol
 	 */
-	public void giveItemAndDrop(final ItemStack itemstack) {
-		Optional<ItemStack> reste = giveItem(itemstack);
+	public boolean giveItemAndDrop(final ItemStack itemstack) {
+		Optional<ItemStack> reste = this.giveItem(itemstack);
 		if (reste.isPresent()) {
-			dropItem(reste.get());
+			this.dropItem(reste.get());
+			return true;
 		}
+		return false;
 	}
 	
 	/**

@@ -13,6 +13,10 @@ public class EFormatListString extends EFormat {
 	
 	public final List<String> messages;
 
+	public static EFormatListString of(List<String> messages) {
+		return new EFormatListString(messages);
+	}
+	
 	public EFormatListString(List<String> messages) {
 		this.messages = messages;
 	}
