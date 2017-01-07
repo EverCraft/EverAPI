@@ -88,6 +88,10 @@ public abstract class EFormat {
 		return this.toText(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2), k3, EReplace.of(v3), k4, EReplace.of(v4)));
 	}
 	
+	public Text toText(String k1, Object v1, String k2, Object v2, String k3, Object v3, String k4, Object v4, String k5, Object v5) {
+		return this.toText(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2), k3, EReplace.of(v3), k4, EReplace.of(v4), k5, EReplace.of(v5)));
+	}
+	
 	public Text toText(String k1, EReplace<?> v1) {
 		return this.toText(ImmutableMap.of(k1, v1));
 	}

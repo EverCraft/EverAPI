@@ -170,7 +170,7 @@ public class EChat implements ChatService {
     public static TextColor getTextColor(final String arg){
     	Preconditions.checkNotNull(arg, "arg");
     	
-    	TextColor color = TextColors.WHITE;
+    	TextColor color = TextColors.NONE;
 		if (arg != null){
 			if (arg.equalsIgnoreCase("&0")){
 				color = TextColors.BLACK;
@@ -202,6 +202,8 @@ public class EChat implements ChatService {
 				color = TextColors.LIGHT_PURPLE;
 			} else if (arg.equalsIgnoreCase("&e")){
 				color = TextColors.YELLOW;
+			} else if (arg.equalsIgnoreCase("&f")){
+				color = TextColors.WHITE;
 			}
 		}
 		return color;

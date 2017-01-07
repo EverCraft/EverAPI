@@ -16,11 +16,14 @@
  */
 package fr.evercraft.everapi.message;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.translation.Translation;
 
@@ -116,6 +119,11 @@ public final class EMessageSender {
 		this.messages.getActionbar().ifPresent(message -> message.send(this.prefix, source, this.replaces));
 		this.messages.getBossbar().ifPresent(message -> message.send(this.prefix, source, this.replaces));
 		this.messages.getTitle().ifPresent(message -> message.send(this.prefix, source, this.replaces));
+		return false;
+	}
+	
+	public boolean sendAll(Collection<EPlayer> collection, Predicate<Player> predicate) {
+		collection.stream().filter(predicate).forEach(player -> this.sendTo(player));
 		return false;
 	}
 }

@@ -66,6 +66,12 @@ public abstract class CommandPagination<T extends EPlugin<?>> {
 		}
 	}
 	
+	public Set<String> getAllUsers(CommandSource player) {
+		Set<String> users = this.getAllUsers();
+		users.remove(player.getName());
+		return users;
+	}
+	
 	public Set<String> getAllPlayers() {
 		Set<String> users = new HashSet<String>();
 		for(Player player : this.plugin.getEServer().getOnlinePlayers()) {
@@ -74,7 +80,7 @@ public abstract class CommandPagination<T extends EPlugin<?>> {
 		return users;
 	}
 	
-	public Set<String> getAllPlayers(Player player) {
+	public Set<String> getAllPlayers(CommandSource player) {
 		Set<String> users = this.getAllPlayers();
 		users.remove(player.getName());
 		return users;
