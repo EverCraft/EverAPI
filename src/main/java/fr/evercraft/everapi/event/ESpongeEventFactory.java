@@ -449,14 +449,14 @@ public class ESpongeEventFactory extends SpongeEventFactory {
 	 * Mail
 	 */
 	
-	public static MailEvent.Add createMailEventAdd(EPlayer player, CommandSource source, String message, Cause cause) {
+	public static MailEvent.Send createMailEventSend(EPlayer player, CommandSource source, String message, Cause cause) {
         HashMap<String, Object> values = new HashMap<String, Object>();
         values.put("player", player);
         values.put("to", source);
         values.put("action", MailEvent.Action.ADD);
         values.put("cause", cause);
         values.put("message", message);
-        return SpongeEventFactoryUtils.createEventImpl(MailEvent.Add.class, values);
+        return SpongeEventFactoryUtils.createEventImpl(MailEvent.Send.class, values);
     }
 	
 	public static MailEvent.Read createMailEventRead(EPlayer player, Mail mail, Cause cause) {
@@ -475,6 +475,15 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("action", MailEvent.Action.REMOVE);
         values.put("cause", cause);
         return SpongeEventFactoryUtils.createEventImpl(MailEvent.Remove.class, values);
+    }
+	
+	public static MailEvent.Receive createMailEventReceive(EPlayer player, Mail mail, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("player", player);
+        values.put("mail", mail);
+        values.put("action", MailEvent.Action.RECEIVE);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(MailEvent.Receive.class, values);
     }
 	
 	/*

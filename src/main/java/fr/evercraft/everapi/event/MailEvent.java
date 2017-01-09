@@ -24,12 +24,13 @@ import org.spongepowered.api.event.cause.Cause;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.essentials.Mail;
 
-public interface MailEvent extends Event, Cancellable {
+public interface MailEvent extends Event {
 	
 	public static enum Action {
     	ADD,
     	REMOVE,
-    	READ;
+    	READ,
+    	RECEIVE;
     }
 	
 	public EPlayer getPlayer();
@@ -39,7 +40,7 @@ public interface MailEvent extends Event, Cancellable {
     @Override
 	public Cause getCause();
 	
-	public interface Add extends MailEvent {
+	public interface Send extends MailEvent, Cancellable {
 		public CommandSource getTo();
 		
 		public String getMessage();
@@ -48,6 +49,9 @@ public interface MailEvent extends Event, Cancellable {
 		public Mail getMail();
 	}
 	public interface Read extends MailEvent {
+		public Mail getMail();
+	}
+	public interface Receive extends MailEvent {
 		public Mail getMail();
 	}
 }
