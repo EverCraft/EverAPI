@@ -28,8 +28,6 @@ import org.spongepowered.api.text.format.TextColors;
 import fr.evercraft.everapi.EACommand;
 import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.message.EMessageFormat;
-import fr.evercraft.everapi.message.format.EFormatString;
 import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
 import fr.evercraft.everapi.server.player.EPlayer;

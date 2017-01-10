@@ -453,7 +453,7 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         HashMap<String, Object> values = new HashMap<String, Object>();
         values.put("player", player);
         values.put("to", source);
-        values.put("action", MailEvent.Action.ADD);
+        values.put("action", MailEvent.Action.SEND);
         values.put("cause", cause);
         values.put("message", message);
         return SpongeEventFactoryUtils.createEventImpl(MailEvent.Send.class, values);

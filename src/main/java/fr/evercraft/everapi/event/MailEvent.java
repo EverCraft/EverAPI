@@ -27,7 +27,7 @@ import fr.evercraft.everapi.services.essentials.Mail;
 public interface MailEvent extends Event {
 	
 	public static enum Action {
-    	ADD,
+    	SEND,
     	REMOVE,
     	READ,
     	RECEIVE;
