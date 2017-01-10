@@ -122,6 +122,11 @@ public final class EMessageSender {
 		return false;
 	}
 	
+	public boolean sendAll(Collection<EPlayer> collection) {
+		collection.stream().forEach(player -> this.sendTo(player));
+		return false;
+	}
+	
 	public boolean sendAll(Collection<EPlayer> collection, Predicate<Player> predicate) {
 		collection.stream().filter(predicate).forEach(player -> this.sendTo(player));
 		return false;
