@@ -39,7 +39,6 @@ public interface SanctionAuto extends Sanction {
 
 	public Type getTypeSanction();
 	public Reason getReasonSanction();
-	public Text getReasonText();
 	public Level getLevel();
 	public int getLevelNumber();
 	
@@ -72,7 +71,7 @@ public interface SanctionAuto extends Sanction {
 			Builder builder = Ban.builder()
 					.type(BanTypes.PROFILE)
 					.profile(profile)
-					.reason(this.getReasonText())
+					.reason(this.getReason())
 					.startDate(Instant.ofEpochMilli(this.getCreationDate()))
 					.source(EChat.of(this.getSource()));
 			
@@ -92,7 +91,7 @@ public interface SanctionAuto extends Sanction {
 			Builder builder = Ban.builder()
 					.type(BanTypes.IP)
 					.address(address)
-					.reason(this.getReasonText())
+					.reason(this.getReason())
 					.startDate(Instant.ofEpochMilli(this.getCreationDate()))
 					.source(EChat.of(this.getSource()));
 			
@@ -144,7 +143,7 @@ public interface SanctionAuto extends Sanction {
 		public SanctionAuto.Type getType();
 		public Optional<String> getDuration();
 		public Optional<Long> getExpirationDate(long creation);
-		public String getReason();	
+		public Text getReason();	
 		public Optional<Jail> getJail();
 		
 		public default boolean isIndefinite() {

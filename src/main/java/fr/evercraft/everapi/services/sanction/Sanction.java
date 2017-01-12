@@ -24,6 +24,7 @@ import org.spongepowered.api.Server;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 
+import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.server.EServer;
 import fr.evercraft.everapi.services.jail.Jail;
 
@@ -33,16 +34,27 @@ public interface Sanction {
 	public Text getReason();
 	public String getSource();
 	
-	public default String getSourceName(Server server) {
-		if (this.getSource().length() == EServer.UUID_LENGTH) {
+	public static Text getSourceName(Optional<Text> source, Server server) {
+		if (source.isPresent()) {
+			return EChat.of(Sanction.getSourceName(EChat.serialize(source.get()), server));
+		}
+		return EChat.of(SanctionService.UNKNOWN);
+	}
+	
+	public static String getSourceName(String source, Server server) {
+		if (source.length() == EServer.UUID_LENGTH) {
 			try {
-				Optional<Player> player = server.getPlayer(UUID.fromString(this.getSource()));
+				Optional<Player> player = server.getPlayer(UUID.fromString(source));
 				if (player.isPresent()) {
 					return player.get().getName();
 				}
 			} catch(IllegalArgumentException e) {}
 		}
-		return this.getSource();
+		return source;
+	}
+	
+	public default String getSourceName(Server server) {
+		return Sanction.getSourceName(this.getSource(), server);
 	}
 	
 	public default boolean isIndefinite() {
