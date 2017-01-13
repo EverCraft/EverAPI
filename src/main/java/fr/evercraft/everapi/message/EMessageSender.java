@@ -24,6 +24,7 @@ import java.util.function.Supplier;
 
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.translation.Translation;
 
@@ -33,6 +34,7 @@ import fr.evercraft.everapi.message.format.EFormat;
 import fr.evercraft.everapi.message.replace.EReplace;
 import fr.evercraft.everapi.plugin.file.EnumMessage;
 import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.server.user.EUser;
 
 public final class EMessageSender {	
 	private EFormat prefix;
@@ -110,15 +112,26 @@ public final class EMessageSender {
 		this.messages.getActionbar().ifPresent(message -> message.send(this.prefix, player, this.replaces));
 		this.messages.getBossbar().ifPresent(message -> message.send(this.prefix, player, this.replaces));
 		this.messages.getTitle().ifPresent(message -> message.send(this.prefix, player, this.replaces));
-		return false;
+		return true;
 		
 	}
 	
 	public boolean sendTo(CommandSource source) {
-		this.messages.getChat().ifPresent(message -> message.send(this.prefix, source, this.replaces));
-		this.messages.getActionbar().ifPresent(message -> message.send(this.prefix, source, this.replaces));
-		this.messages.getBossbar().ifPresent(message -> message.send(this.prefix, source, this.replaces));
-		this.messages.getTitle().ifPresent(message -> message.send(this.prefix, source, this.replaces));
+		if (source instanceof EPlayer) {
+			return this.sendTo((EPlayer) source);
+		} else {
+			this.messages.getChat().ifPresent(message -> message.send(this.prefix, source, this.replaces));
+			this.messages.getActionbar().ifPresent(message -> message.send(this.prefix, source, this.replaces));
+			this.messages.getBossbar().ifPresent(message -> message.send(this.prefix, source, this.replaces));
+			this.messages.getTitle().ifPresent(message -> message.send(this.prefix, source, this.replaces));
+			return true;
+		}
+	}
+	
+	public boolean sendTo(EUser user) {
+		if (user instanceof EPlayer) {
+			return this.sendTo((EPlayer) user);
+		}
 		return false;
 	}
 	
