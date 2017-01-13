@@ -42,7 +42,6 @@ import fr.evercraft.everapi.message.replace.EReplacesServer;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.ChatService;
 import fr.evercraft.everapi.sponge.UtilsItemStack;
-import fr.evercraft.everapi.text.ETextBuilder;
 
 public class EChat implements ChatService {
 	
@@ -107,25 +106,6 @@ public class EChat implements ChatService {
 		Preconditions.checkNotNull(message, "message");
 
 		return message;
-	}
-	
-	@Deprecated
-	public Text replaceFormat(final EPlayer player, String message) {
-		return replaceFormat(player, ETextBuilder.toBuilder(message));
-	}
-	
-	@Deprecated
-	public Text replaceFormat(final EPlayer player, ETextBuilder message) {
-		Preconditions.checkNotNull(player, "player");
-		Preconditions.checkNotNull(message, "message");
-		return message.build();
-	}
-	
-	@Deprecated
-	public Text replaceAllVariables(final EPlayer player, String message) {
-		message = this.replaceGlobal(message);
-		message = this.replacePlayer(player, message);
-		return this.replaceFormat(player, message);
 	}
 	
 	public static Text of(final String message) {

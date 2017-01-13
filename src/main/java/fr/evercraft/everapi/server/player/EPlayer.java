@@ -425,16 +425,6 @@ public class EPlayer extends PlayerSponge {
 		}
 		return false;
 	}
-
-	@Deprecated
-	public void sendMessageVariables(String message) {
-		this.sendMessage(this.plugin.getChat().replaceAllVariables(this, message));
-	}
-
-	@Deprecated
-	public Text replaceVariable(String message) {
-		return this.plugin.getChat().replaceAllVariables(this, message);
-	}
 	
 	public Map<String, EReplace<?>> getReplacesAll() {
 		return this.plugin.getChat().getReplaceAll(this);
