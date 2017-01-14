@@ -29,7 +29,7 @@ import com.google.common.base.Preconditions;
 
 import fr.evercraft.everapi.EverAPI;
 
-public class EUser extends UserStats {
+public class EUser extends UserWorldGuard {
 	
 	public EUser(EverAPI plugin, User user) {
 		super(plugin, user);

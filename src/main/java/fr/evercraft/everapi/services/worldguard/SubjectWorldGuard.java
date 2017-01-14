@@ -16,6 +16,26 @@
  */
 package fr.evercraft.everapi.services.worldguard;
 
-public interface SubjectWorldGuard {
+import java.util.List;
+import java.util.Optional;
 
+import javax.annotation.Nullable;
+
+import com.flowpowered.math.vector.Vector3i;
+
+public interface SubjectWorldGuard {	
+	Optional<Vector3i> getSelectPos1();
+	boolean setSelectPos1(@Nullable Vector3i pos);
+	
+	Optional<Vector3i> getSelectPos2();
+	boolean setSelectPos2(@Nullable Vector3i pos);
+	
+	List<Vector3i> getSelectPoints();
+	boolean addSelectPoint(Vector3i pos);
+	boolean removeSelectPoint(Vector3i pos);
+	boolean clearSelectPoints();
+	
+	SelectType getSelectType();
+	boolean setSelectType(@Nullable SelectType type);
+	Optional<Integer> getSelectArea();
 }

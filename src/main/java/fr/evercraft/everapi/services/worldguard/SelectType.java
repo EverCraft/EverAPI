@@ -17,12 +17,26 @@
 package fr.evercraft.everapi.services.worldguard;
 
 import java.util.Optional;
-import java.util.UUID;
 
-public interface WorldGuardService {
-
-	Optional<SubjectWorldGuard> get(UUID uuid);
-
-	boolean hasRegistered(UUID uuid);
-
+public enum  SelectType {
+	CUBOID(),
+	POLY(),
+	CYLINDER();
+	
+	public String getName() {
+        return this.name();
+    }
+	
+	public static Optional<SelectType> getSelectType(final String name) {
+		SelectType result = null;
+		int cpt = 0;
+		SelectType[] type = SelectType.values();
+		while(cpt < type.length && result == null){
+			if (type[cpt].getName().equalsIgnoreCase(name)) {
+				result = type[cpt];
+			}
+			cpt++;
+		}
+		return Optional.ofNullable(result);
+	}
 }

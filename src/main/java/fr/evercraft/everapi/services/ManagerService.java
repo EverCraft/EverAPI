@@ -43,6 +43,7 @@ import fr.evercraft.everapi.services.scoreboard.EScoreBoardService;
 import fr.evercraft.everapi.services.sign.SignService;
 import fr.evercraft.everapi.services.tablist.ETabListService;
 import fr.evercraft.everapi.services.title.ETitleService;
+import fr.evercraft.everapi.services.worldguard.WorldGuardService;
 
 public class ManagerService {
 	private final EverAPI plugin;
@@ -191,6 +192,10 @@ public class ManagerService {
 	
 	public Optional<SanctionService> getSanction() {
 		return this.plugin.getGame().getServiceManager().provide(SanctionService.class);
+	}
+	
+	public Optional<WorldGuardService> getWorldGuard() {
+		return this.plugin.getGame().getServiceManager().provide(WorldGuardService.class);
 	}
 	
 	/*
