@@ -30,6 +30,7 @@ import com.google.common.collect.ImmutableList;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.worldguard.SelectType;
 import fr.evercraft.everapi.services.worldguard.SubjectWorldGuard;
+import fr.evercraft.everapi.services.worldguard.regions.Region;
 
 public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 	
@@ -101,6 +102,14 @@ public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 		}
 		return false;
 	}
+	
+	@Override
+	public boolean removeSelectPoint(int num) {
+		if (this.isPresent()) {
+			return this.subject.removeSelectPoint(num);
+		}
+		return false;
+	}
 
 	@Override
 	public boolean clearSelectPoints() {
@@ -130,6 +139,14 @@ public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 	public Optional<Integer> getSelectArea() {
 		if (this.isPresent()) {
 			return this.subject.getSelectArea();
+		}
+		return Optional.empty();
+    }
+	
+	@Override
+	public Optional<Region> getSelectRegion() {
+		if (this.isPresent()) {
+			return this.subject.getSelectRegion();
 		}
 		return Optional.empty();
     }

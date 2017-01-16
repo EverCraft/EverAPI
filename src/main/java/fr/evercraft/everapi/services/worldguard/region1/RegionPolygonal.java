@@ -14,32 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.worldguard;
+package fr.evercraft.everapi.services.worldguard.region1;
 
 import java.util.List;
-import java.util.Optional;
-
-import javax.annotation.Nullable;
 
 import com.flowpowered.math.vector.Vector3i;
 
-import fr.evercraft.everapi.services.worldguard.regions.Region;
+import fr.evercraft.everapi.services.worldguard.regions.RegionType;
 
-public interface SubjectWorldGuard {	
-	Optional<Vector3i> getSelectPos1();
-	boolean setSelectPos1(@Nullable Vector3i pos);
+public interface RegionPolygonal extends Region {
 	
-	Optional<Vector3i> getSelectPos2();
-	boolean setSelectPos2(@Nullable Vector3i pos);
+	public List<Vector3i> getPoints();
 	
-	List<Vector3i> getSelectPoints();
-	boolean addSelectPoint(Vector3i pos);
-	boolean removeSelectPoint(Vector3i pos);
-	boolean removeSelectPoint(int num);
-	boolean clearSelectPoints();
-	
-	SelectType getSelectType();
-	boolean setSelectType(@Nullable SelectType type);
-	Optional<Integer> getSelectArea();
-	Optional<Region> getSelectRegion();
+	public default RegionType getType() {
+		return RegionType.POLYGONAL;
+	}
 }

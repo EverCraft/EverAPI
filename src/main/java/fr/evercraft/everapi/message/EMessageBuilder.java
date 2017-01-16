@@ -106,6 +106,11 @@ public final class EMessageBuilder {
 		return this;
 	}
 	
+	public EMessageBuilder actionbarMessage(String message) {
+		this.actionbar_message = EFormatString.of(message);
+		return this;
+	}
+	
 	public EMessageBuilder actionbarMessage(EFormat message) {
 		this.actionbar_message = message;
 		return this;
