@@ -17,6 +17,7 @@
 package fr.evercraft.everapi.java;
 
 import java.text.Normalizer;
+import java.text.Normalizer.Form;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,4 +77,14 @@ public class UtilsString {
 		}
 		return args;
 	}
+	
+	/**
+     * Normalize a string according to the rules of this class.
+     *
+     * @param name an string
+     * @return the normalized string
+     */
+    public static String normalize(String name) {
+        return Normalizer.normalize(name.toLowerCase(), Form.NFC);
+    }
 }

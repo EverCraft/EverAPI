@@ -16,15 +16,37 @@
  */
 package fr.evercraft.everapi.services.worldguard.flag;
 
-public abstract class Flag {
+import com.google.common.base.Preconditions;
+import com.google.common.reflect.TypeToken;
 
-	private final String name;
-	
-	public Flag(final String name) {
-		this.name = name;
-	}
-	
-	public String getName(){
-		return this.name;
-	}
+import java.util.regex.Pattern;
+
+public abstract class Flag<T> {
+
+    private static final Pattern VALID_NAME = Pattern.compile("^[:A-Za-z0-9\\-]{1,40}$");
+    private final String name;
+    private final TypeToken<T> token;
+    
+    protected Flag(String name, TypeToken<T> token) {
+    	Preconditions.checkArgument(name != null && !Flag.isValidName(name), "Invalid flag name used");
+    	Preconditions.checkNotNull(token, "token");
+    	
+        this.name = name;
+        this.token = token;
+    }
+    
+    public final String getName() {
+        return this.name;
+    }
+    
+    public TypeToken<T> getToken() {
+        return this.token;
+    }
+    
+    public static boolean isValidName(String name) {
+    	Preconditions.checkNotNull(name, "name");
+    	
+        return VALID_NAME.matcher(name).matches();
+    }
+
 }

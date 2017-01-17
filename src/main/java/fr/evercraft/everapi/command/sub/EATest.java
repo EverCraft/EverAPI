@@ -17,28 +17,17 @@
 package fr.evercraft.everapi.command.sub;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-
-import org.spongepowered.api.block.BlockState;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.data.type.LogAxes;
-import org.spongepowered.api.data.type.TreeTypes;
-import org.spongepowered.api.item.ItemTypes;
-import org.spongepowered.api.item.inventory.ItemStack;
-import org.spongepowered.api.item.inventory.ItemStack.Builder;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
 
-import com.flowpowered.math.vector.Vector3i;
-
 import fr.evercraft.everapi.EACommand;
 import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
 import fr.evercraft.everapi.server.player.EPlayer;
@@ -77,7 +66,27 @@ public class EATest extends ESubCommand<EverAPI> {
 			//return commandTest((EPlayer) source);
 		} else if (args.size() == 1) {
 			EPlayer player = (EPlayer) source;
-			Optional<Vector3i> block = player.getViewBlock();
+			player.sendMessage("Salut :\n");
+			player.sendMessage("Salut :\n\n\n\ne");
+			
+			List<Text> texts = Arrays.asList(
+					Text.of("Salut1"),
+					Text.of("Salut2"),
+					Text.of("Salut3\nSuite"),
+					Text.of("Salut4"),
+					Text.of("&6Salut5", Text.of("\n"), Text.of("\n\n"), Text.of("\n\n\nSuite")),
+					Text.of("Salut6"),
+					Text.of("Salut7"),
+					Text.of("Salut8"),
+					Text.of("Salut9"),
+					Text.of("Salut10"),
+					Text.of("Salut11")
+				);
+			
+			this.plugin.getManagerService().getEPagination().sendTo(Text.of("Text"), texts, source);
+			return true;
+			
+			/*Optional<Vector3i> block = player.getViewBlock();
 			
 			if (!block.isPresent()) {
 				EAMessages.PLAYER_NO_LOOK_BLOCK.sendTo(player);
@@ -86,7 +95,7 @@ public class EATest extends ESubCommand<EverAPI> {
 				item.offer(Keys.TREE_TYPE, TreeTypes.JUNGLE);
 				player.sendMessage(Text.of("item2 : ", item.getItem().getId()));
 				player.giveItem(item);
-			}
+			}*/
 			
 			/*Text text = EChat.of("&aSalut");
 			player.sendMessage(Text.of("text : ", text));

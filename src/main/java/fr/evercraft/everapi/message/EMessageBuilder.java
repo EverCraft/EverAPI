@@ -12,7 +12,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * aInteger with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
+ * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
 package fr.evercraft.everapi.message;
 
