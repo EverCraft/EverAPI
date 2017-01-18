@@ -24,24 +24,41 @@ import java.util.regex.Pattern;
 public abstract class Flag<T> {
 
     private static final Pattern VALID_NAME = Pattern.compile("^[:A-Za-z0-9\\-]{1,40}$");
+    
+    private final String id;
     private final String name;
+    private final String description;
     private final TypeToken<T> token;
     
-    protected Flag(String name, TypeToken<T> token) {
+    protected Flag(String name, String description, TypeToken<T> token) {
     	Preconditions.checkArgument(name != null && !Flag.isValidName(name), "Invalid flag name used");
     	Preconditions.checkNotNull(token, "token");
     	
-        this.name = name;
+        this.id = name.toLowerCase();
+        this.name = name.toUpperCase();
+        this.description = description;
         this.token = token;
+    }
+    
+    public final String getID() {
+        return this.id;
     }
     
     public final String getName() {
         return this.name;
     }
     
+    public final String getDescription() {
+        return this.description;
+    }
+    
     public TypeToken<T> getToken() {
         return this.token;
     }
+    
+    public abstract String serialize();
+    
+    public abstract T deserialize(String value);
     
     public static boolean isValidName(String name) {
     	Preconditions.checkNotNull(name, "name");

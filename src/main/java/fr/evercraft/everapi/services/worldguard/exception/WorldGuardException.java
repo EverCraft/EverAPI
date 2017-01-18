@@ -14,20 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.worldguard;
+package fr.evercraft.everapi.services.worldguard.exception;
 
-/**
- * Parent for all WorldEdit exceptions.
- */
 public abstract class WorldGuardException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Create a new exception with a message.
-	 *
-	 * @param message the message
-	 */
 	protected WorldGuardException(String message) {
 		super(message);
 	}

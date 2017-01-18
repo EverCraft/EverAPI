@@ -17,12 +17,19 @@
 package fr.evercraft.everapi.services.worldguard;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+
+import fr.evercraft.everapi.services.worldguard.flag.Flag;
 
 public interface WorldGuardService {
 
 	Optional<SubjectWorldGuard> get(UUID uuid);
-
 	boolean hasRegistered(UUID uuid);
 
+	Optional<Flag<?>> getFlag(String name);
+	void registerFlag(Flag<?> flag);
+	void registerFlag(Set<Flag<?>> flags);
+	boolean hasRegisteredFlag(Flag<?> flag);
+	void clearFlags();
 }

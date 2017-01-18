@@ -14,16 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.worldguard.regions;
+package fr.evercraft.everapi.services.worldguard.exception;
 
-import fr.evercraft.everapi.services.worldguard.exception.WorldGuardException;
+public abstract class StorageException extends Exception {
 
-public class RegionOperationException extends WorldGuardException {
-	
 	private static final long serialVersionUID = 1L;
 
-	public RegionOperationException(String msg) {
-		super(msg);
+	protected StorageException(String message) {
+		super(message);
 	}
-
 }

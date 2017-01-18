@@ -46,14 +46,19 @@ public class EBossBarService implements BossBarService {
 	private final ConcurrentMap<UUID, EBossBar> players;
 	
 	// MultiThreading
-	private final ReadWriteLock lock = new ReentrantReadWriteLock();
-	private final Lock write_lock = lock.writeLock();
-	private final Lock read_lock = lock.readLock();
+	private final ReadWriteLock lock;
+	private final Lock write_lock;
+	private final Lock read_lock;
 	
 	public EBossBarService(final EverAPI plugin){
 		this.plugin = plugin;
 		
 		this.players = new ConcurrentHashMap<UUID, EBossBar>();
+		
+		// MultiThreading
+		this.lock = new ReentrantReadWriteLock();
+		this.write_lock = this.lock.writeLock();
+		this.read_lock = this.lock.readLock();
 	}
 	
 	public void reload() {
