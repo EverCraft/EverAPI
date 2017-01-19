@@ -24,7 +24,7 @@ import org.spongepowered.api.service.sql.SqlService;
 
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
-import fr.evercraft.everapi.java.Chronometer;
+import fr.evercraft.everapi.util.Chronometer;
 
 public abstract class EDataBase<T extends EPlugin<T>> {
 	private static final int MAX_TRY = 10;

@@ -57,6 +57,12 @@ public abstract class EFile<T extends EPlugin<T>> {
     	this(plugin, name, true);
     }
     
+    /**
+     * Création d'un fichier de configuration
+     * @param plugin Le plugin 
+     * @param name Le nom du fichier de configuration
+     * @param save Sauvegarde automatique
+     */
     public EFile(final T plugin, final String name, final boolean save){
     	this.plugin = plugin;
     	this.name = name;

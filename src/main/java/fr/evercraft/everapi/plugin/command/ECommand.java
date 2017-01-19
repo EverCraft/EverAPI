@@ -39,11 +39,11 @@ import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.event.ESpongeEventFactory;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
-import fr.evercraft.everapi.java.Chronometer;
 import fr.evercraft.everapi.java.UtilsString;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.pagination.CommandPagination;
+import fr.evercraft.everapi.util.Chronometer;
 
 public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T> implements CommandCallable {
 

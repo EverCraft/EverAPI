@@ -38,7 +38,13 @@ public abstract class EConfig<T extends EPlugin<T>> extends EFile<T> {
     	this(plugin, name, true);
     }
     
-    public EConfig(final T plugin, final String name, final boolean save){
+    /**
+     * Création d'un fichier de configuration
+     * @param plugin Le plugin 
+     * @param name Le nom du fichier de configuration
+     * @param save Sauvegarde automatique
+     */
+    public EConfig(final T plugin, final String name, final boolean save) {
     	super(plugin, name, save);
     	
     	reload();
