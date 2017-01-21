@@ -16,9 +16,12 @@
  */
 package fr.evercraft.everapi.services.worldguard.regions;
 
+import java.util.Optional;
+
 public enum  RegionType {
 	CUBOID("cuboid"),
 	POLYGONAL("poly2d"),
+	TEMPLATE("template"),
 	GLOBAL("global");
 
 	private final String name;
@@ -30,4 +33,16 @@ public enum  RegionType {
 	public String getName() {
         return this.name;
     }
+
+	public static Optional<RegionType> of(String name) {
+		RegionType type = null;
+		int cpt = 0;
+		while(cpt < values().length && type == null){
+			if (values()[cpt].getName().equalsIgnoreCase(name)) {
+				type = values()[cpt];
+			}
+			cpt++;
+		}
+		return Optional.ofNullable(type);
+	}
 }

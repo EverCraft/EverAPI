@@ -3,6 +3,9 @@ package fr.evercraft.everapi.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class LongHashTable<V> {
 	
@@ -16,15 +19,23 @@ public class LongHashTable<V> {
 	}
 	
 	private EntryKey[][][] values;
-	EntryValue cache;
+	
+	// MultiThreading
+	private final ReadWriteLock lock;
+	private final Lock write_lock;
+	private final Lock read_lock;
 	
 	public LongHashTable() {
 		this.values = new EntryKey[256][][];
-		this.cache = null;
+		
+		// MultiThreading
+		this.lock = new ReentrantReadWriteLock();
+		this.write_lock = this.lock.writeLock();
+		this.read_lock = this.lock.readLock();
 	}
 	
 	/*
-	 * Accesseur
+	 * Accesseurs
 	 */
 	
 	public boolean containsKey(int msw, int lsw) {
@@ -39,110 +50,143 @@ public class LongHashTable<V> {
 		this.put(new EntryValue(LongHashTable.toLong(msw, lsw), value));
 	}
 	
-	public void remove(int msw, int lsw) {
-		this.remove(LongHashTable.toLong(msw, lsw));
+	public V remove(int msw, int lsw) {
+		return this.remove(LongHashTable.toLong(msw, lsw));
 	}
 	
 	/*
-	 * Fonction
+	 * Fonctions
 	 */
 
-	private synchronized void put(EntryValue entry) {
-		int mainKey = (int) (entry.key & 255);
-		EntryKey[][] outer = this.values[mainKey];
-		if (outer == null) this.values[mainKey] = outer = new EntryKey[256][];
-
-		int outerKey = (int) ((entry.key >> 32) & 255);
-		EntryKey[] inner = outer[outerKey];
-
-		if (inner == null) {
-			outer[outerKey] = inner = new EntryKey[5];
-			inner[0] = this.cache = entry;
-		} else {
-			int i;
-			for (i = 0; i < inner.length; i++) {
-				if (inner[i] == null || inner[i].key == entry.key) {
-					inner[i] = this.cache = entry;
-					return;
+	private void put(EntryValue entry) {
+		this.write_lock.lock();
+		try {
+			int mainKey = (int) (entry.key & 255);
+			EntryKey[][] outer = this.values[mainKey];
+			if (outer == null) this.values[mainKey] = outer = new EntryKey[256][];
+	
+			int outerKey = (int) ((entry.key >> 32) & 255);
+			EntryKey[] inner = outer[outerKey];
+	
+			if (inner == null) {
+				outer[outerKey] = inner = new EntryKey[5];
+				inner[0] = entry;
+			} else {
+				int i;
+				for (i = 0; i < inner.length; i++) {
+					if (inner[i] == null || inner[i].key == entry.key) {
+						inner[i] = entry;
+						return;
+					}
 				}
+	
+				outer[outerKey] = inner = Arrays.copyOf(inner, i + i);
+				inner[i] = entry;
 			}
-
-			outer[outerKey] = inner = Arrays.copyOf(inner, i + i);
-			inner[i] = entry;
+		} finally {
+			this.write_lock.unlock();
 		}
 	}
 
-	private synchronized EntryValue getEntry(long key) {
-		return this.containsKey(key) ? this.cache : null;
-	}
-
-	@SuppressWarnings("unchecked")
-	public synchronized boolean containsKey(long key) {
-		if (this.cache != null && cache.key == key) return true;
-
-		int outerIdx = (int) ((key >> 32) & 255);
-		EntryKey[][] outer = this.values[(int) (key & 255)];
-		if (outer == null) return false;
-
-		EntryKey[] inner = outer[outerIdx];
-		if (inner == null) return false;
-
-		for (int i = 0; i < inner.length; i++) {
-			EntryKey e = inner[i];
-			if (e == null) {
-				return false;
-			} else if (e.key == key) {
-				this.cache = (EntryValue) e;
-				return true;
+	private boolean containsKey(long key) {
+		this.read_lock.lock();
+		try {
+			int outerIdx = (int) ((key >> 32) & 255);
+			EntryKey[][] outer = this.values[(int) (key & 255)];
+			if (outer == null) return false;
+	
+			EntryKey[] inner = outer[outerIdx];
+			if (inner == null) return false;
+	
+			for (int i = 0; i < inner.length; i++) {
+				EntryKey e = inner[i];
+				if (e == null) {
+					return false;
+				} else if (e.key == key) {
+					return true;
+				}
 			}
+		} finally {
+			this.read_lock.unlock();
 		}
 		return false;
 	}
 
-	private synchronized void remove(long key) {
-		EntryKey[][] outer = this.values[(int) (key & 255)];
-		if (outer == null) return;
-
-		EntryKey[] inner = outer[(int) ((key >> 32) & 255)];
-		if (inner == null) return;
-
-		for (int i = 0; i < inner.length; i++) {
-			if (inner[i] == null) continue;
-
-			if (inner[i].key == key) {
-				for (i++; i < inner.length; i++) {
-					if (inner[i] == null) break;
-					inner[i - 1] = inner[i];
+	@SuppressWarnings("unchecked")
+	private V remove(long key) {
+		this.write_lock.lock();
+		try {
+			EntryKey[][] outer = this.values[(int) (key & 255)];
+			if (outer == null) return null;
+	
+			EntryKey[] inner = outer[(int) ((key >> 32) & 255)];
+			if (inner == null) return null;
+	
+			for (int i = 0; i < inner.length; i++) {
+				if (inner[i] == null) continue;
+	
+				if (inner[i].key == key) {
+					V value = ((EntryValue) inner[i]).value;
+					for (i++; i < inner.length; i++) {
+						if (inner[i] == null) break;
+						inner[i - 1] = inner[i];
+					}
+					inner[i-1] = null;
+					return value;
 				}
-
-				inner[i-1] = null;
-				this.cache = null;
-				return;
 			}
+		} finally {
+			this.write_lock.unlock();
 		}
-	}
-
-	public synchronized V get(long key) {
-		EntryValue entry = ((EntryValue) getEntry(key));
-		return entry != null ? entry.value : null;
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
-	public synchronized List<V> values() {
-		List<V> ret = new ArrayList<V>();
-
-		for (EntryKey[][] outer : this.values) {
-			if (outer == null) continue;
-
-			for (EntryKey[] inner : outer) {
-				if (inner == null) continue;
-
-				for (EntryKey entry : inner) {
-					if (entry == null) break;
-
-					ret.add(((EntryValue) entry).value);
+	public V get(long key) {
+		this.read_lock.lock();
+		try {
+			int outerIdx = (int) ((key >> 32) & 255);
+			EntryKey[][] outer = this.values[(int) (key & 255)];
+			if (outer == null) return null;
+	
+			EntryKey[] inner = outer[outerIdx];
+			if (inner == null) return null;
+	
+			for (int i = 0; i < inner.length; i++) {
+				EntryKey e = inner[i];
+				if (e == null) {
+					return null;
+				} else if (e.key == key) {
+					return ((EntryValue) e).value;
 				}
 			}
+		} finally {
+			this.read_lock.unlock();
+		}
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<V> values() {
+		List<V> ret = new ArrayList<V>();
+
+		this.read_lock.lock();
+		try {
+			for (EntryKey[][] outer : this.values) {
+				if (outer == null) continue;
+	
+				for (EntryKey[] inner : outer) {
+					if (inner == null) continue;
+	
+					for (EntryKey entry : inner) {
+						if (entry == null) break;
+	
+						ret.add(((EntryValue) entry).value);
+					}
+				}
+			}
+		} finally {
+			this.read_lock.unlock();
 		}
 		return ret;
 	}

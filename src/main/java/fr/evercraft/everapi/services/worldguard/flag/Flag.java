@@ -56,9 +56,9 @@ public abstract class Flag<T> {
         return this.token;
     }
     
-    public abstract String serialize();
+    public abstract String serialize(T value);
     
-    public abstract T deserialize(String value);
+    public abstract T deserialize(String value) throws IllegalArgumentException;
     
     public static boolean isValidName(String name) {
     	Preconditions.checkNotNull(name, "name");
