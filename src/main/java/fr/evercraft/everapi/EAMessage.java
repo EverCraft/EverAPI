@@ -342,6 +342,8 @@ public class EAMessage extends EMessage<EverAPI> {
 				"IP"),
 		ARGS_JAIL("args.jail", 
 				"prison"),
+		ARGS_REGION("args.region", 
+				"region"),
 		
 		// Couleur
 		COLORS_BLACK("colors.black", 

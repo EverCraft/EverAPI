@@ -24,8 +24,19 @@ import javax.annotation.Nullable;
 import com.flowpowered.math.vector.Vector3i;
 
 import fr.evercraft.everapi.services.worldguard.regions.Region;
+import fr.evercraft.everapi.services.worldguard.regions.SetProtectedRegion;
 
-public interface SubjectWorldGuard {	
+public interface SubjectWorldGuard {
+	/*
+	 * Region
+	 */
+	
+	SetProtectedRegion getRegions();
+	
+	/*
+	 * Select
+	 */
+	
 	Optional<Vector3i> getSelectPos1();
 	boolean setSelectPos1(@Nullable Vector3i pos);
 	
