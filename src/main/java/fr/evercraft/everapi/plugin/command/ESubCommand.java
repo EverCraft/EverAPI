@@ -17,6 +17,7 @@
 package fr.evercraft.everapi.plugin.command;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.spongepowered.api.command.CommandException;
@@ -61,7 +62,7 @@ public abstract class ESubCommand<T extends EPlugin<?>> extends CommandPaginatio
 		return false;
 	}
 	
-	public List<String> tabCompleter(CommandSource source, List<String> args) throws CommandException {
+	public Collection<String> tabCompleter(CommandSource source, List<String> args) throws CommandException {
 		if (!args.isEmpty() && this.testPermission(source)) {
 			args.remove(0);
 			return this.subTabCompleter(source, args);
@@ -71,7 +72,7 @@ public abstract class ESubCommand<T extends EPlugin<?>> extends CommandPaginatio
 	
 	public abstract boolean subExecute(CommandSource source, List<String> args) throws CommandException, PluginDisableException, ServerDisableException;
 	
-	public abstract List<String> subTabCompleter(CommandSource source, List<String> args) throws CommandException;
+	public abstract Collection<String> subTabCompleter(CommandSource source, List<String> args) throws CommandException;
 	
 	public abstract Text help(CommandSource source);
 	

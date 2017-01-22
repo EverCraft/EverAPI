@@ -87,7 +87,7 @@ public abstract class CommandPagination<T extends EPlugin<?>> {
 	}
 	
 	public Set<String> getAllWorlds() {
-		Set<String> worlds = this.getAllPlayers();
+		Set<String> worlds = new HashSet<String>();
 		for(World world : this.plugin.getEServer().getWorlds()) {
 			worlds.add(world.getName());
 		}

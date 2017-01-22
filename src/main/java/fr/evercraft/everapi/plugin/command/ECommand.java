@@ -18,6 +18,7 @@ package fr.evercraft.everapi.plugin.command;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -112,25 +113,27 @@ public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T
 				args.add("");
 			}
 			
-			List<String> suggests = tabCompleter(source, args);
-			if (suggests == null){
-				suggests = new ArrayList<String>();
+			Collection<String> suggests = this.tabCompleter(source, args);
+			List<String> result = new ArrayList<String>();
+			if (suggests == null) {
 				for (Player player : this.plugin.getEServer().getOnlinePlayers()){
 					if (player.getName().toLowerCase().startsWith(args.get(args.size() - 1).toLowerCase())){
-						suggests.add(player.getName());
+						result.add(player.getName());
 					}
 				}
 			} else {
 				if (args.size() > 0 && !args.get(args.size() - 1).isEmpty()){
-					for (String suggest : new ArrayList<String>(suggests)){
-						if (!suggest.toLowerCase().startsWith(args.get(args.size() - 1).toLowerCase())){
-							suggests.remove(suggest);
+					for (String suggest : suggests){
+						if (suggest.toLowerCase().startsWith(args.get(args.size() - 1).toLowerCase())){
+							result.add(suggest);
 						}
 					}
+				} else {
+					result.addAll(suggests);
 				}
 			}
 			this.plugin.getLogger().debug("The tabulation '" + this.getName() + "' with arguments '" + arguments + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
-			return suggests;
+			return result;
 		}
 		return Arrays.asList();
 	}
@@ -184,7 +187,7 @@ public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T
 
 	public abstract boolean execute(CommandSource source, List<String> args) throws CommandException, PluginDisableException, ServerDisableException;
 	
-	public abstract List<String> tabCompleter(CommandSource source, List<String> args) throws CommandException;
+	public abstract Collection<String> tabCompleter(CommandSource source, List<String> args) throws CommandException;
 	
 	public abstract Text help(CommandSource source);
 	
@@ -205,33 +208,4 @@ public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T
 		
 		return users;
 	}
-	
-	public Set<String> getAllUsers(CommandSource player) {
-		Set<String> users = this.getAllUsers();
-		users.remove(player.getName());
-		return users;
-	}
-	
-	public Set<String> getAllPlayers() {
-		Set<String> users = new HashSet<String>();
-		for(Player player : this.plugin.getEServer().getOnlinePlayers()) {
-			users.add(player.getName());
-		}
-		return users;
-	}
-	
-	public Set<String> getAllPlayers(CommandSource player) {
-		Set<String> users = this.getAllPlayers();
-		users.remove(player.getName());
-		return users;
-	}
-	
-	public Set<String> getAllWorlds() {
-		Set<String> worlds = this.getAllPlayers();
-		for(World world : this.plugin.getEServer().getWorlds()) {
-			worlds.add(world.getName());
-		}
-		return worlds;
-	}
-
 }

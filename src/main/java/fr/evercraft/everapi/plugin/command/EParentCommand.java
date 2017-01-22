@@ -17,6 +17,7 @@
 package fr.evercraft.everapi.plugin.command;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -58,7 +59,7 @@ public abstract class EParentCommand<T extends EPlugin<?>> extends ECommand<T> {
 		this.commands.add(command);
 	}
 	
-	public List<String> tabCompleter(final CommandSource source, final List<String> args) throws CommandException {
+	public Collection<String> tabCompleter(final CommandSource source, final List<String> args) throws CommandException {
 		List<String> suggests = new ArrayList<String>();
 		if (args.size() == 1){
 			if (testPermissionHelp(source)) suggests.add("help");
@@ -74,7 +75,7 @@ public abstract class EParentCommand<T extends EPlugin<?>> extends ECommand<T> {
 			while(iterator.hasNext() && !found) {
 				ESubCommand<T> subcommand = iterator.next();
 				if (args.get(0).equalsIgnoreCase(subcommand.getSubName())) {
-					suggests = subcommand.tabCompleter(source, args);
+					suggests.addAll(subcommand.tabCompleter(source, args));
 					found = true;
 				}
 			}
