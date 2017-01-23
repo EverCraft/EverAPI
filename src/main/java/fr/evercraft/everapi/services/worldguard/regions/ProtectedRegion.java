@@ -50,6 +50,8 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	
 	Optional<ProtectedRegion> getParent();
 	
+	List<ProtectedRegion> getHeritage() throws CircularInheritanceException;
+	
 	void setParent(@Nullable ProtectedRegion parent) throws CircularInheritanceException;
 	
 	Domain getOwners();

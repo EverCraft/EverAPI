@@ -53,6 +53,8 @@ public class EAMessage extends EMessage<EverAPI> {
 		WORLD_NOT_FOUND("worldNotFound",
 				"&cErreur : Le monde '&6<world>&c' est introuvable.",
 				"&cError : The world '&6<world>&c' is not found"),
+		REGION_NOT_FOUND("regionNotFound",
+				"&cErreur : La région '&6<region>&c' est introuvable."),
 		EMPTY_ITEM_IN_HAND("emptyItemInHand", 
 				"&cErreur : Vous n'avez aucun objet dans votre main.", 
 				"&cError : You have no item in your hand."),
@@ -394,6 +396,24 @@ public class EAMessage extends EMessage<EverAPI> {
 		COLORS_WHITE("colors.white", 
 				"Blanc", 
 				"White"),
+		
+		// Region
+		REGION_TYPE_CUBOID("regionType.cudoid",						
+				"Cuboid"),
+		REGION_TYPE_CUBOID_HOVER("regionType.cudoidHover",			
+				"&7Région rectangulaire."),
+		REGION_TYPE_POLYGONAL("regionType.polygonal",				
+				"Polygonal"),
+		REGION_TYPE_POLYGONAL_HOVER("regionType.polygonalHover",	
+				"&7Région avec plusieurs positions."),
+		REGION_TYPE_TEMPLATE("regionType.template",					
+				"Template"),
+		REGION_TYPE_TEMPLATE_HOVER("regionType.templateHover",		
+				"&7Région virtuelle."),
+		REGION_TYPE_GLOBAL("regionType.global",						
+				"Global"),
+		REGION_TYPE_GLOBAL_HOVER("regionType.globalHover",			
+				"&7Région qui recouvre tout le monde."),
 		
 		// Pagination
 		PAGINATION_COLOR("pagination.color", 

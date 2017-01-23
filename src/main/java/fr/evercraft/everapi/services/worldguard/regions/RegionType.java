@@ -18,27 +18,44 @@ package fr.evercraft.everapi.services.worldguard.regions;
 
 import java.util.Optional;
 
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.action.TextActions;
+
+import fr.evercraft.everapi.EAMessage.EAMessages;
+
 public enum  RegionType {
-	CUBOID("cuboid"),
-	POLYGONAL("poly2d"),
-	TEMPLATE("template"),
-	GLOBAL("global");
+	CUBOID(EAMessages.REGION_TYPE_CUBOID, EAMessages.REGION_TYPE_CUBOID_HOVER),
+	POLYGONAL(EAMessages.REGION_TYPE_POLYGONAL, EAMessages.REGION_TYPE_POLYGONAL_HOVER),
+	TEMPLATE(EAMessages.REGION_TYPE_TEMPLATE, EAMessages.REGION_TYPE_TEMPLATE_HOVER),
+	GLOBAL(EAMessages.REGION_TYPE_GLOBAL, EAMessages.REGION_TYPE_GLOBAL_HOVER);
 
-	private final String name;
-
-	RegionType(final String name) {
-        this.name = name;
+	private final EAMessages name;
+	private final EAMessages format;
+	
+	RegionType(EAMessages name, EAMessages format) {
+		this.name = name;
+		this.format = format;
     }
 	
 	public String getName() {
-        return this.name;
+        return this.name.getString();
+    }
+	
+	public Text getHover() {
+        return this.format.getText();
+    }
+	
+	public Text getNameFormat() {
+        return this.name.getText().toBuilder()
+        				.onHover(TextActions.showText(this.format.getText()))
+        				.build();
     }
 
 	public static Optional<RegionType> of(String name) {
 		RegionType type = null;
 		int cpt = 0;
 		while(cpt < values().length && type == null){
-			if (values()[cpt].getName().equalsIgnoreCase(name)) {
+			if (values()[cpt].name().equalsIgnoreCase(name)) {
 				type = values()[cpt];
 			}
 			cpt++;
