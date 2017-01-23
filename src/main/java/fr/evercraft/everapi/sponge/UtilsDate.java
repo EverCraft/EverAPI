@@ -48,7 +48,7 @@ public class UtilsDate {
 	private String formatTime;
 	private String formatDateTime;
 
-	public UtilsDate(final EverAPI plugin){
+	public UtilsDate(final EverAPI plugin) {
 		this.plugin = plugin;
 		
 		this.types = new int[] { 

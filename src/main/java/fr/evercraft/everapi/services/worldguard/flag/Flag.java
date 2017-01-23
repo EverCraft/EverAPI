@@ -19,7 +19,11 @@ package fr.evercraft.everapi.services.worldguard.flag;
 import com.google.common.base.Preconditions;
 import com.google.common.reflect.TypeToken;
 
+import fr.evercraft.everapi.EAMessage.EAMessages;
+
 import java.util.regex.Pattern;
+
+import org.spongepowered.api.text.Text;
 
 public abstract class Flag<T> {
 
@@ -40,7 +44,7 @@ public abstract class Flag<T> {
         this.token = token;
     }
     
-    public final String getID() {
+    public final String getIdentifier() {
         return this.id;
     }
     
@@ -65,5 +69,10 @@ public abstract class Flag<T> {
     	
         return VALID_NAME.matcher(name).matches();
     }
+
+	public Text getNameFormat() {
+		return EAMessages.FLAG_DESCRIPTION.getFormat()
+					.toText("<description>", this.getDescription());
+	}
 
 }

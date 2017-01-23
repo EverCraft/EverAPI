@@ -399,21 +399,25 @@ public class EAMessage extends EMessage<EverAPI> {
 		
 		// Region
 		REGION_TYPE_CUBOID("regionType.cudoid",						
-				"Cuboid"),
+				"CUBOID"),
 		REGION_TYPE_CUBOID_HOVER("regionType.cudoidHover",			
 				"&7Région rectangulaire."),
 		REGION_TYPE_POLYGONAL("regionType.polygonal",				
-				"Polygonal"),
+				"POLYGONAL"),
 		REGION_TYPE_POLYGONAL_HOVER("regionType.polygonalHover",	
 				"&7Région avec plusieurs positions."),
 		REGION_TYPE_TEMPLATE("regionType.template",					
-				"Template"),
+				"TEMPLATE"),
 		REGION_TYPE_TEMPLATE_HOVER("regionType.templateHover",		
 				"&7Région virtuelle."),
 		REGION_TYPE_GLOBAL("regionType.global",						
-				"Global"),
+				"GLOBAL"),
 		REGION_TYPE_GLOBAL_HOVER("regionType.globalHover",			
 				"&7Région qui recouvre tout le monde."),
+		
+		// Flag
+		FLAG_DESCRIPTION("flag.description",			
+				"&7<description>"),
 		
 		// Pagination
 		PAGINATION_COLOR("pagination.color", 
