@@ -48,6 +48,7 @@ public enum  RegionType {
 	public Text getNameFormat() {
         return this.name.getText().toBuilder()
         				.onHover(TextActions.showText(this.format.getText()))
+        				.onShiftClick(TextActions.insertText(this.name()))
         				.build();
     }
 
