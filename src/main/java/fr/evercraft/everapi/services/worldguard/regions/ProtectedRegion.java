@@ -9,8 +9,6 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
 
-import org.spongepowered.api.entity.living.player.Player;
-
 import com.flowpowered.math.vector.Vector3i;
 import com.google.common.base.Preconditions;
 
@@ -62,11 +60,17 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 
 	boolean hasMembersOrOwners();
 
-	boolean isOwner(Player player);
+	boolean isOwner(EPlayer player);
 
-	boolean isMember(Player player);
+	boolean isMember(EPlayer player);
+	
+	boolean isOwnerOrMember(EPlayer player);
+	
+	boolean isOwner(String group);
 
-	boolean isMemberOnly(EPlayer player);
+	boolean isMember(String group);
+	
+	boolean isOwnerOrMember(String group);
 
 	<T extends Flag<V>, V> FlagValue<V> getFlag(T flag);
 

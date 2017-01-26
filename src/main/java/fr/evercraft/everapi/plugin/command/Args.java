@@ -35,6 +35,13 @@ public class Args {
 		return this.args;
 	}
 	
+	public Optional<String> getArg(int index) {
+		if (index > this.args.size()-1) {
+			return Optional.empty();
+		}
+		return Optional.ofNullable(this.args.get(index));
+	}
+	
 	public boolean isMarkerOpen() {
 		return this.markerOpen;
 	}

@@ -93,4 +93,11 @@ public abstract class CommandPagination<T extends EPlugin<?>> {
 		}
 		return worlds;
 	}
+	
+	public Set<String> getAllGroups(World world) {
+		Set<String> groups = new HashSet<String>();
+		this.plugin.getEverAPI().getManagerService().getPermission().ifPresent(service ->
+			service.getGroupSubjects().getAllSubjects().forEach(subject -> groups.add(subject.getIdentifier())));
+		return groups;
+	}
 }
