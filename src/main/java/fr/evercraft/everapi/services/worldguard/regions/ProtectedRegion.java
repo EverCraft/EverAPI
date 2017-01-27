@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
 import com.flowpowered.math.vector.Vector3i;
 import com.google.common.base.Preconditions;
 
-import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.server.user.EUser;
 import fr.evercraft.everapi.services.worldguard.exception.CircularInheritanceException;
 import fr.evercraft.everapi.services.worldguard.flag.Flag;
 import fr.evercraft.everapi.services.worldguard.flag.FlagValue;
@@ -60,11 +60,11 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 
 	boolean hasMembersOrOwners();
 
-	boolean isOwner(EPlayer player);
+	boolean isOwner(EUser player);
 
-	boolean isMember(EPlayer player);
+	boolean isMember(EUser player);
 	
-	boolean isOwnerOrMember(EPlayer player);
+	boolean isOwnerOrMember(EUser player);
 	
 	boolean isOwner(String group);
 

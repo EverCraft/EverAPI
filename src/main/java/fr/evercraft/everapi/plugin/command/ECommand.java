@@ -19,10 +19,8 @@ package fr.evercraft.everapi.plugin.command;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.spongepowered.api.command.CommandCallable;
 import org.spongepowered.api.command.CommandException;
@@ -30,7 +28,6 @@ import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.world.Location;
@@ -68,7 +65,7 @@ public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T
 					if (source instanceof Player){
 						this.processPlayer((Player) source, arg, this.getArg(arg));
 					} else {
-						execute(source, this.getArg(arg));
+						this.execute(source, this.getArg(arg));
 					}
 				} else {
 					source.sendMessage(EAMessages.NO_PERMISSION.getText());
@@ -192,20 +189,4 @@ public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T
 	public abstract Text help(CommandSource source);
 	
 	public abstract Text description(CommandSource source);
-	
-	/*
-	 * Tab
-	 */
-	
-	public Set<String> getAllUsers() {
-		Set<String> users = new HashSet<String>();
-		
-		for(GameProfile profile : this.plugin.getEServer().getGameProfileManager().getCache().getProfiles()) {
-			if (profile.getName().isPresent()) {
-				users.add(profile.getName().get());
-			}
-		}
-		
-		return users;
-	}
 }

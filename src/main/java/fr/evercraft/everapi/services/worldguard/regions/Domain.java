@@ -19,11 +19,11 @@ package fr.evercraft.everapi.services.worldguard.regions;
 import java.util.Set;
 import java.util.UUID;
 
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.service.context.Context;
 import org.spongepowered.api.service.permission.Subject;
 
 import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.server.user.EUser;
 
 public interface Domain {
 	
@@ -57,8 +57,8 @@ public interface Domain {
 	void clear();
 	void addAll(Domain other);
 	void removeAll(Domain other);
-	boolean contains(Player player, Set<Context> contexts);
-	default boolean contains(Player player) {
+	boolean contains(EUser player, Set<Context> contexts);
+	default boolean contains(EUser player) {
 		return this.contains(player, player.getActiveContexts());
 	}
 }

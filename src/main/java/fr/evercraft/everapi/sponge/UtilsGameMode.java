@@ -23,17 +23,9 @@ import org.spongepowered.api.entity.living.player.gamemode.GameModes;
 import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
-import fr.evercraft.everapi.EverAPI;
 
 public class UtilsGameMode {
-	@SuppressWarnings("unused")
-	private final EverAPI plugin;
-	
-	public UtilsGameMode(final EverAPI plugin) {
-		this.plugin = plugin;
-	}
-	
-	public Text getName(final GameMode gamemode){
+	public static Text getName(final GameMode gamemode){
 		Text name = Text.EMPTY;
 		if (gamemode != null){
 			if (gamemode.equals(GameModes.SURVIVAL)){

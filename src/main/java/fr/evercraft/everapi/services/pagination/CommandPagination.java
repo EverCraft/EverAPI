@@ -17,7 +17,9 @@
 package fr.evercraft.everapi.services.pagination;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
@@ -26,8 +28,11 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.plugin.EPlugin;
+import fr.evercraft.everapi.server.player.EPlayer;
 
 public abstract class CommandPagination<T extends EPlugin<?>> {
+	
+	private final int TAB_LENGTH = 2;
 	
 	protected final T plugin;
 	
@@ -50,15 +55,25 @@ public abstract class CommandPagination<T extends EPlugin<?>> {
 	 * Tab
 	 */
 	
-	public Set<String> getAllUsers() {
+	public Set<String> getAllGameProfile() {
+		Set<String> users = new HashSet<String>();
+		
+		for(GameProfile profile : this.plugin.getEServer().getGameProfileManager().getCache().getProfiles()) {
+			if (profile.getName().isPresent()) {
+				users.add(profile.getName().get());
+			}
+		}
+		
+		return users;
+	}
+	
+	private Set<String> getAllUsers(Predicate<? super GameProfile> predicate) {
 		if (this.plugin.getEverAPI().getManagerService().getUserStorage().isPresent()) {
 			Set<String> users = new HashSet<String>();
 			
-			for(GameProfile profile : this.plugin.getEverAPI().getManagerService().getUserStorage().get().getAll()) {
-				if (profile.getName().isPresent()) {
-					users.add(profile.getName().get());
-				}
-			}
+			this.plugin.getEverAPI().getManagerService().getUserStorage().get().getAll().stream()
+				.filter(predicate)
+				.forEach(profile -> users.add(profile.getName().get()));
 			
 			return users;
 		} else {
@@ -66,27 +81,52 @@ public abstract class CommandPagination<T extends EPlugin<?>> {
 		}
 	}
 	
-	public Set<String> getAllUsers(CommandSource player) {
-		Set<String> users = this.getAllUsers();
-		users.remove(player.getName());
-		return users;
+	protected Set<String> getAllUsers() {
+		return this.getAllUsers(profile -> profile.getName().isPresent());
 	}
 	
-	public Set<String> getAllPlayers() {
-		Set<String> users = new HashSet<String>();
-		for(Player player : this.plugin.getEServer().getOnlinePlayers()) {
-			users.add(player.getName());
+	protected Set<String> getAllUsers(String arg) {
+		if (arg.length() < TAB_LENGTH) {
+			return this.getAllPlayers();
+		} else {
+			String prefix = arg.toLowerCase();
+			return this.getAllUsers(profile -> profile.getName().isPresent() && profile.getName().get().toLowerCase().startsWith(prefix));
 		}
+	}
+	
+	protected Set<String> getAllUsers(String arg, CommandSource player) {
+		if (arg.length() < TAB_LENGTH) {
+			return this.getAllPlayers(player, false);
+		} else {
+			String prefix = arg.toLowerCase();
+			return this.getAllUsers(profile -> profile.getName().isPresent() && 
+					profile.getName().get().toLowerCase().startsWith(prefix) &&
+					!profile.getUniqueId().toString().equalsIgnoreCase(player.getIdentifier()));
+		}
+	}
+	
+	protected Set<String> getAllPlayers(EPlayer player, boolean remove) {
+		Set<String> users = new HashSet<String>();
+		this.plugin.getEServer().getOnlineEPlayers().stream()
+			.filter(others -> player.canSeePlayer(others) && (!remove || !player.equals(others)))
+			.forEach(other -> users.add(other.getName()));
 		return users;
 	}
 	
-	public Set<String> getAllPlayers(CommandSource player) {
-		Set<String> users = this.getAllPlayers();
-		users.remove(player.getName());
-		return users;
+	protected Set<String> getAllPlayers(CommandSource source, boolean remove) {
+		if (source instanceof EPlayer) {
+			return this.getAllPlayers((EPlayer) source, remove);
+		} else if (source instanceof Player) {
+			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer((Player) source);
+			if (player.isPresent()) {
+				return this.getAllPlayers(player.get(), remove);
+			}
+		}
+		
+		return this.getAllPlayers();
 	}
 	
-	public Set<String> getAllWorlds() {
+	protected Set<String> getAllWorlds() {
 		Set<String> worlds = new HashSet<String>();
 		for(World world : this.plugin.getEServer().getWorlds()) {
 			worlds.add(world.getName());
@@ -94,10 +134,32 @@ public abstract class CommandPagination<T extends EPlugin<?>> {
 		return worlds;
 	}
 	
-	public Set<String> getAllGroups(World world) {
+	protected Set<String> getAllGroups(World world) {
 		Set<String> groups = new HashSet<String>();
 		this.plugin.getEverAPI().getManagerService().getPermission().ifPresent(service ->
 			service.getGroupSubjects().getAllSubjects().forEach(subject -> groups.add(subject.getIdentifier())));
 		return groups;
+	}	
+	
+	@Deprecated
+	public Set<String> getAllUsers(CommandSource player) {
+		Set<String> users = this.getAllUsers();
+		users.remove(player.getName());
+		return users;
+	}
+	
+	@Deprecated
+	public Set<String> getAllPlayers() {
+		Set<String> users = new HashSet<String>();
+		this.plugin.getEServer().getOnlineEPlayers()
+			.forEach(other -> users.add(other.getName()));
+		return users;
+	}
+	
+	@Deprecated
+	public Set<String> getAllPlayers(CommandSource player) {
+		Set<String> users = this.getAllPlayers();
+		users.remove(player.getName());
+		return users;
 	}
 }
