@@ -19,6 +19,7 @@ package fr.evercraft.everapi.services.pagination;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.function.Predicate;
 
 import org.spongepowered.api.command.CommandSource;
@@ -134,12 +135,31 @@ public abstract class CommandPagination<T extends EPlugin<?>> {
 		return worlds;
 	}
 	
+	protected Set<String> getAllGroups() {
+		Set<String> groups = new HashSet<String>();
+		this.plugin.getEverAPI().getManagerService().getPermission().ifPresent(service ->
+			service.getGroupSubjects().getAllSubjects()
+				.forEach(subject -> groups.add(subject.getIdentifier())));
+		return groups;
+	}
+	
 	protected Set<String> getAllGroups(World world) {
 		Set<String> groups = new HashSet<String>();
 		this.plugin.getEverAPI().getManagerService().getPermission().ifPresent(service ->
 			service.getGroupSubjects().getAllSubjects().forEach(subject -> groups.add(subject.getIdentifier())));
 		return groups;
-	}	
+	}
+	
+	protected Set<String> getAllPermissions() {
+		TreeSet<String> suggests = new TreeSet<String>();
+		this.plugin.getEverAPI().getManagerService().getPermission().ifPresent(service -> 
+			service.getDescriptions().forEach(permission -> suggests.add(permission.getId())));
+		
+		if (suggests.isEmpty()) {
+			suggests.add("ever...");
+		}
+		return suggests;
+	}
 	
 	@Deprecated
 	public Set<String> getAllUsers(CommandSource player) {
