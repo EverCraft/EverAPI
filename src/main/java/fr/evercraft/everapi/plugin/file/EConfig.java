@@ -57,7 +57,7 @@ public abstract class EConfig<T extends EPlugin<T>> extends EFile<T> {
     	this.loadFile();
     	this.loadDefault();
     	
-    	this.save();
+    	this.save(false);
     }
     
     public void addDefault(final String paths, final Object value, final String comment){

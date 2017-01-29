@@ -65,7 +65,7 @@ public abstract class EMessage<T extends EPlugin<T>> extends EFile<T> {
     	this.loadFile();
     	this.load();
     	
-    	this.save();
+    	this.save(false);
     }
     
     
@@ -79,7 +79,7 @@ public abstract class EMessage<T extends EPlugin<T>> extends EFile<T> {
     	Preconditions.checkNotNull(prefix, "PREFIX");
     	
     	for (EnumMessage message : this.enum_message) {
-			ConfigurationNode node = get(message.getPath());
+			ConfigurationNode node = this.get(message.getPath());
 			message.set(null);
 			
         	if (node.isVirtual()) {
@@ -89,6 +89,7 @@ public abstract class EMessage<T extends EPlugin<T>> extends EFile<T> {
 	        		} else {
 	        			node.setValue(TypeToken.of(EMessageBuilder.class), message.getEnglish());
 	        		}
+	    			this.setModified(true);
         		} catch (ObjectMappingException e) {
         			this.plugin.getLogger().warn("Impossible de sérialiser : '" + message.getName() + "'");
 				}
@@ -102,7 +103,7 @@ public abstract class EMessage<T extends EPlugin<T>> extends EFile<T> {
            	}
         	
         	if (message.getMessage() == null) {
-        		message.set(EMessageFormat.builder().prefix(prefix).chat(new EFormatString(message.getPath()), false).build());
+        		message.set(EMessageFormat.builder().build());
         	}
     	}
     }

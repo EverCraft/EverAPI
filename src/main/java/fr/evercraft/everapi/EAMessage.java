@@ -106,6 +106,10 @@ public class EAMessage extends EMessage<EverAPI> {
 		PLAYER_INVENTORY_FULL_AND_DROP("player.inventoryFullAndDrop", 
 				"&cVotre inventaire est plein ! Le reste des objects est au sol."),
 		
+		GROUP_NOT_FOUND("plugin.messages.groupNotFound", 				
+				"&cErreur : Ce groupe n'existe pas.", 
+				"&cError: This group doesn't exist."),
+		
 		// Reload
 		RELOAD_DESCRIPTION("reload.description", 
 				"Permet de recharger le plugin.", 
@@ -349,6 +353,14 @@ public class EAMessage extends EMessage<EverAPI> {
 				"prison"),
 		ARGS_REGION("args.region", 
 				"region"),
+		ARGS_OWNER_PLAYER("args.ownerPlayer", 
+				"joueur_owner"),
+		ARGS_OWNER_GROUP("args.ownerGroup", 
+				"group_owner"),
+		ARGS_MEMBER_PLAYER("args.memberPlayer", 
+				"joueur_member"),
+		ARGS_MEMBER_GROUP("args.memberGroup", 
+				"group_member"),
 		
 		// Couleur
 		COLORS_BLACK("colors.black", 

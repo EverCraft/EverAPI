@@ -39,6 +39,8 @@ public abstract class EFile<T extends EPlugin<T>> {
 	private File file = null;
 	private HoconConfigurationLoader manager = null;
     private CommentedConfigurationNode config = null;
+    
+    private boolean modified;
 
     /**
      * Création d'un fichier de configuration
@@ -66,6 +68,7 @@ public abstract class EFile<T extends EPlugin<T>> {
     public EFile(final T plugin, final String name, final boolean save){
     	this.plugin = plugin;
     	this.name = name;
+    	this.modified = false;
     	
     	if (save) {
     		this.plugin.registerConfiguration(this);    
@@ -102,10 +105,11 @@ public abstract class EFile<T extends EPlugin<T>> {
     /**
      * Sauvegarde du fichier de configuration
      */
-    public void save() {
-        if (this.manager != null && this.config != null) {
+    public void save(boolean force) {
+        if (this.manager != null && this.config != null && (force || this.modified)) {
 	        try {
 	        	this.manager.save(config);
+	        	this.modified = false;
 	        } catch (IOException ex) {
 	            this.plugin.getLogger().warn("Impossible de sauvegarder le fichier : " + this.name + ".conf : " + this.file.getAbsolutePath());
 	        }
@@ -119,16 +123,21 @@ public abstract class EFile<T extends EPlugin<T>> {
     public ConfigurationNode getNode() {
         return this.config;
     }
+    
+    protected void setModified(boolean modified) {
+    	this.modified = true;
+    }
 
     /**
      * Ajoute une valeur par défaut
      * @param paths Le path
      * @param value La valeur
      */
-    public void addDefault(final String paths, final Object value){
+    protected void addDefault(final String paths, final Object value){
     	ConfigurationNode node = get(paths);    	
     	if (node.getValue() == null){
     		node.setValue(value);
+    		this.setModified(true);
     	}
     }
     
