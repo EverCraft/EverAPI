@@ -19,38 +19,18 @@ package fr.evercraft.everapi.services.worldguard;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.Nullable;
-
 import com.flowpowered.math.vector.Vector3i;
 
-import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
-import fr.evercraft.everapi.services.worldguard.regions.Region;
+import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
+import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion.RemoveType;
 
-public interface SubjectWorldGuard {
-	/*
-	 * Region
-	 */
+public interface WorldWorldGuard {
+
+	// Create
+	ProtectedRegion.Cuboid createRegionCuboid(String region, Vector3i pos1, Vector3i pos2);
+	ProtectedRegion.Polygonal createRegionPolygonal(String region, List<Vector3i> positions);
+	ProtectedRegion.Template createRegionTemplate(String region);
 	
-	SetProtectedRegion getRegions();
-	
-	/*
-	 * Select
-	 */
-	
-	Optional<Vector3i> getSelectPos1();
-	boolean setSelectPos1(@Nullable Vector3i pos);
-	
-	Optional<Vector3i> getSelectPos2();
-	boolean setSelectPos2(@Nullable Vector3i pos);
-	
-	List<Vector3i> getSelectPoints();
-	boolean addSelectPoint(Vector3i pos);
-	boolean removeSelectPoint(Vector3i pos);
-	boolean removeSelectPoint(int num);
-	boolean clearSelectPoints();
-	
-	SelectType getSelectType();
-	boolean setSelectType(@Nullable SelectType type);
-	Optional<Integer> getSelectArea();
-	Optional<Region> getSelectRegion();
+	Optional<ProtectedRegion> getRegion(String region);
+	Optional<ProtectedRegion> removeRegion(String region, RemoveType type);
 }

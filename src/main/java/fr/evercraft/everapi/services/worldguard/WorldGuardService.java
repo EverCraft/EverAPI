@@ -23,7 +23,7 @@ import java.util.UUID;
 import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.services.worldguard.flag.Flag;
-import fr.evercraft.everapi.services.worldguard.regions.ProtectedRegion;
+import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 
 public interface WorldGuardService {
 

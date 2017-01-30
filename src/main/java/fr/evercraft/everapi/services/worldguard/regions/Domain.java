@@ -22,7 +22,6 @@ import java.util.UUID;
 import org.spongepowered.api.service.context.Context;
 import org.spongepowered.api.service.permission.Subject;
 
-import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.server.user.EUser;
 
 public interface Domain {
@@ -32,9 +31,9 @@ public interface Domain {
 	 */
 	
 	void addPlayer(UUID uniqueId);
-	void addPlayer(EPlayer player);
+	void addPlayer(EUser player);
 	void removePlayer(UUID uniqueId);
-	void removePlayer(EPlayer player);
+	void removePlayer(EUser player);
 	Set<UUID> getPlayers();
 	boolean containsPlayers(UUID uniqueId);
 	

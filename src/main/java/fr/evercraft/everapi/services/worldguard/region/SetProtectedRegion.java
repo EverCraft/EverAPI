@@ -1,9 +1,10 @@
-package fr.evercraft.everapi.services.worldguard.regions;
+package fr.evercraft.everapi.services.worldguard.region;
 
 import java.util.Set;
 
 import fr.evercraft.everapi.services.worldguard.flag.Flag;
 import fr.evercraft.everapi.services.worldguard.flag.FlagValue;
+import fr.evercraft.everapi.services.worldguard.regions.EmptySetProtectedRegion;
 
 public interface SetProtectedRegion {
 

@@ -30,8 +30,8 @@ import com.google.common.collect.ImmutableList;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.worldguard.SelectType;
 import fr.evercraft.everapi.services.worldguard.SubjectWorldGuard;
+import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 import fr.evercraft.everapi.services.worldguard.regions.Region;
-import fr.evercraft.everapi.services.worldguard.regions.SetProtectedRegion;
 
 public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 	

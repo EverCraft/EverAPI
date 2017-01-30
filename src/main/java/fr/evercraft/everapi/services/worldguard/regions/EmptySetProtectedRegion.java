@@ -6,6 +6,8 @@ import com.google.common.collect.ImmutableSet;
 
 import fr.evercraft.everapi.services.worldguard.flag.Flag;
 import fr.evercraft.everapi.services.worldguard.flag.FlagValue;
+import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
+import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 
 public class EmptySetProtectedRegion implements SetProtectedRegion {
 

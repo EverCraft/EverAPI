@@ -20,7 +20,7 @@ import java.util.Optional;
 
 public enum  SelectType {
 	CUBOID(),
-	POLY(),
+	POLYGONAL(),
 	CYLINDER();
 	
 	public String getName() {
