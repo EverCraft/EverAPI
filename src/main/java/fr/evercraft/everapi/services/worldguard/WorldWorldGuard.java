@@ -18,18 +18,22 @@ package fr.evercraft.everapi.services.worldguard;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
+import org.spongepowered.api.service.permission.Subject;
 
 import com.flowpowered.math.vector.Vector3i;
 
+import fr.evercraft.everapi.server.user.EUser;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion.RemoveType;
 
 public interface WorldWorldGuard {
 
 	// Create
-	ProtectedRegion.Cuboid createRegionCuboid(String region, Vector3i pos1, Vector3i pos2);
-	ProtectedRegion.Polygonal createRegionPolygonal(String region, List<Vector3i> positions);
-	ProtectedRegion.Template createRegionTemplate(String region);
+	ProtectedRegion.Cuboid createRegionCuboid(String region, Vector3i pos1, Vector3i pos2, Set<EUser> owner_players, Set<Subject> owner_groups);
+	ProtectedRegion.Polygonal createRegionPolygonal(String region, List<Vector3i> positions, Set<EUser> owner_players, Set<Subject> owner_groups);
+	ProtectedRegion.Template createRegionTemplate(String region, Set<EUser> owner_players, Set<Subject> owner_groups);
 	
 	Optional<ProtectedRegion> getRegion(String region);
 	Optional<ProtectedRegion> removeRegion(String region, RemoveType type);

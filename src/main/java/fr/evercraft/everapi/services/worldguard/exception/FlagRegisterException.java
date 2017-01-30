@@ -19,7 +19,7 @@
 
 package fr.evercraft.everapi.services.worldguard.exception;
 
-import fr.evercraft.everapi.services.worldguard.flag.Flag;
+import fr.evercraft.everapi.services.worldguard.flag.EFlag;
 
 public class FlagRegisterException extends RuntimeException {
 
@@ -31,9 +31,9 @@ public class FlagRegisterException extends RuntimeException {
 	}
 	
 	private final Type type;
-	private final Flag<?> flag;
+	private final EFlag<?> flag;
 
-	public FlagRegisterException(Type type, Flag<?> flag) {
+	public FlagRegisterException(Type type, EFlag<?> flag) {
         this.type = type;
         this.flag = flag;
     }

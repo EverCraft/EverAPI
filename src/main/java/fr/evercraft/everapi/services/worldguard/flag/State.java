@@ -16,26 +16,8 @@
  */
 package fr.evercraft.everapi.services.worldguard.flag;
 
-import com.google.common.reflect.TypeToken;
-
-import org.spongepowered.api.text.Text;
-
-public interface Flag<T> {
-    
-    public String getIdentifier();
-    
-    public String getName();
-    
-    public String getDescription();
-    
-	public Text getNameFormat();
-	
-    public TypeToken<T> getToken();
-    
-    public String serialize(T value);
-    
-    public T deserialize(String value) throws IllegalArgumentException;
-	
-	public T getDefault();
-
+public enum State {
+	ALLOW,
+	DENY,
+	NONE;
 }

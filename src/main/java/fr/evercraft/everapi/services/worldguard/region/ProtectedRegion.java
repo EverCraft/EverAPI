@@ -20,7 +20,7 @@ import com.google.common.base.Preconditions;
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.server.user.EUser;
 import fr.evercraft.everapi.services.worldguard.exception.CircularInheritanceException;
-import fr.evercraft.everapi.services.worldguard.flag.Flag;
+import fr.evercraft.everapi.services.worldguard.flag.EFlag;
 import fr.evercraft.everapi.services.worldguard.flag.FlagValue;
 import fr.evercraft.everapi.services.worldguard.regions.Association;
 import fr.evercraft.everapi.services.worldguard.regions.Domain;
@@ -144,19 +144,19 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	boolean isOwnerOrMember(EUser player);
 	boolean isOwnerOrMember(Subject group);
 
-	<T extends Flag<V>, V> FlagValue<V> getFlag(T flag);
+	<T extends EFlag<V>, V> FlagValue<V> getFlag(T flag);
 
-	<T extends Flag<V>, V> void setFlag(T flag, Association association, V value);
+	<T extends EFlag<V>, V> void setFlag(T flag, Association association, V value);
 
-	Map<Flag<?>, FlagValue<?>> getFlags();
+	Map<EFlag<?>, FlagValue<?>> getFlags();
 
-	void setFlags(Map<Flag<?>, FlagValue<?>> flags);
+	void setFlags(Map<EFlag<?>, FlagValue<?>> flags);
 
 	boolean containsPosition(int x, int y, int z);
 
 	boolean containsAnyPosition(List<Vector3i> positions);
 
-	boolean containsChunk(Vector3i position);
+	boolean containsChunck(Vector3i position);
 
 	List<ProtectedRegion> getIntersecting(ProtectedRegion region);
 

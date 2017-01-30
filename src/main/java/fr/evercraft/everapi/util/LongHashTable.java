@@ -2,6 +2,7 @@ package fr.evercraft.everapi.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -167,7 +168,7 @@ public class LongHashTable<V> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<V> values() {
+	public Collection<V> values() {
 		List<V> ret = new ArrayList<V>();
 
 		this.read_lock.lock();
