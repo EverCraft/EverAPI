@@ -18,24 +18,26 @@ package fr.evercraft.everapi.services.worldguard.flag;
 
 import com.google.common.reflect.TypeToken;
 
+import fr.evercraft.everapi.server.player.EPlayer;
+
+import java.util.Collection;
+
 import org.spongepowered.api.text.Text;
 
 public interface Flag<T> {
     
-    public String getIdentifier();
-    
-    public String getName();
-    
-    public String getDescription();
-    
-	public Text getNameFormat();
+    String getIdentifier();
+    String getName();
+    String getDescription();
+	Text getNameFormat();
 	
-    public TypeToken<T> getToken();
+    TypeToken<T> getToken();
     
-    public String serialize(T value);
+    T getDefault();
+    Collection<String> getSuggests();
     
-    public T deserialize(String value) throws IllegalArgumentException;
-	
-	public T getDefault();
+    String serialize(T value);
+    T deserialize(String value) throws IllegalArgumentException;
+    T deserialize(EPlayer player, String value) throws IllegalArgumentException;
 
 }

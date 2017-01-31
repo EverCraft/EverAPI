@@ -2,13 +2,13 @@ package fr.evercraft.everapi.services.worldguard.region;
 
 import java.util.Set;
 
-import fr.evercraft.everapi.services.worldguard.flag.EFlag;
-import fr.evercraft.everapi.services.worldguard.flag.FlagValue;
+import fr.evercraft.everapi.server.user.EUser;
+import fr.evercraft.everapi.services.worldguard.flag.Flag;
 import fr.evercraft.everapi.services.worldguard.regions.EmptySetProtectedRegion;
 
 public interface SetProtectedRegion {
 
-	<T extends EFlag<V>, V> FlagValue<V> getFlag(T flag);
+	<V> V getFlag(EUser user, Flag<V> flag);
 	
 	Set<ProtectedRegion> getAll();
 	

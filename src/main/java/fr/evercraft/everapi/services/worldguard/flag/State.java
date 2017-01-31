@@ -18,6 +18,5 @@ package fr.evercraft.everapi.services.worldguard.flag;
 
 public enum State {
 	ALLOW,
-	DENY,
-	NONE;
+	DENY;
 }

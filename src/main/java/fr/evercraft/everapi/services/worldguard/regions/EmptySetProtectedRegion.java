@@ -4,16 +4,16 @@ import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 
-import fr.evercraft.everapi.services.worldguard.flag.EFlag;
-import fr.evercraft.everapi.services.worldguard.flag.FlagValue;
+import fr.evercraft.everapi.server.user.EUser;
+import fr.evercraft.everapi.services.worldguard.flag.Flag;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 
 public class EmptySetProtectedRegion implements SetProtectedRegion {
 
 	@Override
-	public <T extends EFlag<V>, V> FlagValue<V> getFlag(T flag) {
-		return FlagValue.empty();
+	public <V> V getFlag(EUser user, Flag<V> flag) {
+		return flag.getDefault();
 	}
 
 	@Override

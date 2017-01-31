@@ -20,6 +20,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.reflect.TypeToken;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
+import fr.evercraft.everapi.server.player.EPlayer;
 
 import java.util.regex.Pattern;
 
@@ -53,16 +54,20 @@ public abstract class EFlag<T> implements Flag<T> {
     public TypeToken<T> getToken() {
         return this.token;
     }
-    
-    public static boolean isValidName(String name) {
-    	Preconditions.checkNotNull(name, "name");
-    	
-        return VALID_NAME.matcher(name).matches();
-    }
 
 	public Text getNameFormat() {
 		return EAMessages.FLAG_DESCRIPTION.getFormat()
 					.toText("<description>", this.getDescription());
 	}
+	
+	@Override
+	public T deserialize(EPlayer player, String value) {
+		return this.deserialize(value);
+	}
 
+	public static boolean isValidName(String name) {
+    	Preconditions.checkNotNull(name, "name");
+    	
+        return VALID_NAME.matcher(name).matches();
+    }
 }

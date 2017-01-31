@@ -28,7 +28,7 @@ import com.flowpowered.math.vector.Vector3d;
 import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.plugin.EPlugin;
 
-public class LocationSQL{
+public class VirtualLocation {
 	private final EPlugin<?> plugin;
 	
 	private final String world;
@@ -38,7 +38,7 @@ public class LocationSQL{
 	private final double yaw;
 	private final double pitch;
 	
-	public LocationSQL(final EPlugin<?> plugin, final String world, final double x, final double y, final double z, final double yaw, final double pitch) {
+	public VirtualLocation(final EPlugin<?> plugin, final String world, final double x, final double y, final double z, final double yaw, final double pitch) {
 		this.plugin = plugin;
 
         this.world = world;
@@ -54,7 +54,7 @@ public class LocationSQL{
 	 * @param location La localisation
 	 * @throws ServerDisableException 
 	 */
-	public LocationSQL(final EPlugin<?> plugin, final Transform<World> transform) {
+	public VirtualLocation(final EPlugin<?> plugin, final Transform<World> transform) {
 		this(plugin, transform.getLocation(), transform.getRotation());
 	}
 	
@@ -63,11 +63,11 @@ public class LocationSQL{
 	 * @param location La localisation
 	 * @throws ServerDisableException 
 	 */
-	public LocationSQL(final EPlugin<?> plugin, final Location<World> location) {
+	public VirtualLocation(final EPlugin<?> plugin, final Location<World> location) {
 		this(plugin, location, null);
 	}
 	
-	public LocationSQL(final EPlugin<?> plugin, final Location<World> location, final Vector3d rotation) {
+	public VirtualLocation(final EPlugin<?> plugin, final Location<World> location, final Vector3d rotation) {
 		this(plugin, location.getExtent().getUniqueId().toString(), location.getX(), location.getY(), location.getZ(), rotation.getX(), rotation.getY());
 	}
 	
@@ -138,16 +138,28 @@ public class LocationSQL{
 	public Vector3d getRotation() {
 		return new Vector3d(this.yaw, this.pitch, 0);
 	}
+	
+	public double getX(){
+		return this.x;
+    }
     
-    public Integer getX(){
+    public double getY(){
+		return this.y;
+    }
+    
+    public double getZ(){
+		return this.z;
+    }
+    
+    public Integer getFloorX(){
 		return (int) this.x;
     }
     
-    public Integer getY(){
+    public Integer getFloorY(){
 		return (int) this.y;
     }
     
-    public Integer getZ(){
+    public Integer getFloorZ(){
 		return (int) this.z;
     }
     
@@ -165,7 +177,7 @@ public class LocationSQL{
 
 	@Override
 	public String toString() {
-		return "LocationSQL [world=" + this.world + ", x=" + this.x + ", y=" + this.y
+		return "VirtualLocation [world=" + this.world + ", x=" + this.x + ", y=" + this.y
 				+ ", z=" + this.z + ", yaw=" + this.yaw + ", pitch=" + this.pitch + "]";
 	}
 }

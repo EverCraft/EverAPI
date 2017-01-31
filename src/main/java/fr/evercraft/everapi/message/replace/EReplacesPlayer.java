@@ -37,7 +37,7 @@ public enum EReplacesPlayer {
 	SHORT_WORLD_NAME((plugin, player) -> String.valueOf(player.getWorld().getName().toUpperCase().charAt(0))),
 	HEALTH((plugin, player) -> String.valueOf(player.getHealth())),
 	MAX_HEALTH((plugin, player) -> String.valueOf(player.getMaxHealth())),
-	ONLINE_PLAYERS_CANSEE((plugin, player) -> player.getOnlinePlayers()),
+	ONLINE_PLAYERS_CANSEE((plugin, player) -> player.getOnlinePlayers().size()),
 	IP((plugin, player) -> player.getConnection().getAddress().getAddress().getHostAddress().toString()),
 	PING((plugin, player) -> String.valueOf(player.getConnection().getLatency())),
 	LAST_DATE_PLAYED((plugin, player) -> plugin.getEverAPI().getManagerUtils().getDate().formatDate(player.getLastDatePlayed())),
