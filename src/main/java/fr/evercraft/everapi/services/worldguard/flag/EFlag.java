@@ -21,6 +21,7 @@ import com.google.common.reflect.TypeToken;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 
 import java.util.regex.Pattern;
 
@@ -58,6 +59,11 @@ public abstract class EFlag<T> implements Flag<T> {
 	public Text getNameFormat() {
 		return EAMessages.FLAG_DESCRIPTION.getFormat()
 					.toText("<description>", this.getDescription());
+	}
+	
+	@Override
+	public T getDefault(ProtectedRegion region) {
+		return this.getDefault();
 	}
 	
 	@Override

@@ -29,6 +29,10 @@ import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.plugin.EPlugin;
 
 public class VirtualLocation {
+	public static VirtualLocation empty() {
+		return new VirtualLocation(null, "empty", 0, 0, 0, 0, 0);
+	}
+	
 	private final EPlugin<?> plugin;
 	
 	private final String world;
@@ -75,12 +79,20 @@ public class VirtualLocation {
 	 * Interface
 	 */
 	
+	public boolean isEmpty() {
+		return this.plugin == null;
+	}
+	
 	/**
 	 * Retourne le monde
 	 * @param server Le serveur
 	 * @return Le monde
 	 */
 	public Optional<World> getWorld() {
+		if (this.plugin == null) {
+			return Optional.empty();
+		}
+		
 		return this.plugin.getEServer().getWorld(UUID.fromString(this.world));
 	}
 	
