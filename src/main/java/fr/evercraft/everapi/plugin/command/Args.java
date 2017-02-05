@@ -1,5 +1,6 @@
 package fr.evercraft.everapi.plugin.command;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,18 @@ public class Args {
 			return Optional.empty();
 		}
 		return Optional.ofNullable(this.args.get(index));
+	}
+	
+	public List<String> getArgs(int index) {
+		List<String> list = new ArrayList<String>();
+		int cpt = 0;
+		for (String arg : args) {
+			if (cpt >= index) {
+				list.add(arg);
+			}
+			cpt++;
+		}
+		return list;
 	}
 	
 	public boolean isMarkerOpen() {

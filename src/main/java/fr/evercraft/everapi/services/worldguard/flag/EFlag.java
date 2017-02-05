@@ -17,15 +17,19 @@
 package fr.evercraft.everapi.services.worldguard.flag;
 
 import com.google.common.base.Preconditions;
-import com.google.common.reflect.TypeToken;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
-import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.action.TextActions;
 
 public abstract class EFlag<T> implements Flag<T> {
 
@@ -33,15 +37,12 @@ public abstract class EFlag<T> implements Flag<T> {
     
     private final String id;
     private final String name;
-    private final TypeToken<T> token;
     
-    protected EFlag(String name, TypeToken<T> token) {
-    	Preconditions.checkArgument(name != null && !EFlag.isValidName(name), "Invalid flag name used");
-    	Preconditions.checkNotNull(token, "token");
+    protected EFlag(String name) {
+    	Preconditions.checkArgument(name != null && EFlag.isValidName(name), "Invalid flag name used");
     	
         this.id = name.toLowerCase();
         this.name = name.toUpperCase();
-        this.token = token;
     }
     
     public String getIdentifier() {
@@ -52,13 +53,11 @@ public abstract class EFlag<T> implements Flag<T> {
         return this.name;
     }
     
-    public TypeToken<T> getToken() {
-        return this.token;
-    }
-
 	public Text getNameFormat() {
-		return EAMessages.FLAG_DESCRIPTION.getFormat()
-					.toText("<description>", this.getDescription());
+		return Text.builder(this.getName())
+				.onHover(TextActions.showText(EAMessages.FLAG_DESCRIPTION.getFormat()
+						.toText("<description>", this.getDescription())))
+				.build();
 	}
 	
 	@Override
@@ -67,8 +66,21 @@ public abstract class EFlag<T> implements Flag<T> {
 	}
 	
 	@Override
-	public T deserialize(EPlayer player, String value) {
-		return this.deserialize(value);
+	public T parseAdd(CommandSource source, ProtectedRegion region, ProtectedRegion.Group group, List<String> values) {
+		if (values.isEmpty()) {
+			return this.deserialize("");
+		}
+		return this.deserialize(values.get(0));
+	}
+	
+	@Override
+	public Optional<T> parseRemove(CommandSource source, ProtectedRegion region, ProtectedRegion.Group group, List<String> values) {
+		return Optional.empty();
+	}
+	
+	@Override
+	public Collection<String> getSuggestRemove(List<String> args) {
+		return Arrays.asList();
 	}
 
 	public static boolean isValidName(String name) {

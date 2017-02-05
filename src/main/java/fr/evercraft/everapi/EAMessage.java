@@ -353,6 +353,12 @@ public class EAMessage extends EMessage<EverAPI> {
 				"prison"),
 		ARGS_REGION("args.region", 
 				"region"),
+		ARGS_FLAG("args.flag", 
+				"flag"),
+		ARGS_FLAG_VALUE("args.flagValue", 
+				"flagValue"),
+		ARGS_REGION_GROUP("args.regionGroup", 
+				"region_groupe"),
 		ARGS_OWNER_PLAYER("args.ownerPlayer", 
 				"joueur_owner"),
 		ARGS_OWNER_GROUP("args.ownerGroup", 
@@ -360,7 +366,7 @@ public class EAMessage extends EMessage<EverAPI> {
 		ARGS_MEMBER_PLAYER("args.memberPlayer", 
 				"joueur_member"),
 		ARGS_MEMBER_GROUP("args.memberGroup", 
-				"group_member"),
+				"groupe_member"),
 		
 		// Couleur
 		COLORS_BLACK("colors.black", 
@@ -429,6 +435,13 @@ public class EAMessage extends EMessage<EverAPI> {
 				"GLOBAL"),
 		REGION_TYPE_GLOBAL_HOVER("regionType.globalHover",			
 				"&7Région qui recouvre tout le monde."),
+		
+		REGION_GROUP_OWNER_HOVER("regionGroup.ownerHover",						
+				"&7Les propriétaires de la région."),
+		REGION_GROUP_MEMBER_HOVER("regionGroup.memberHover",						
+				"&7Les membres de la région"),
+		REGION_GROUP_DEFAULT_HOVER("regionGroup.defaultHover",						
+				"&7Les autres joueurs."),
 		
 		// Flag
 		FLAG_DESCRIPTION("flag.description",			

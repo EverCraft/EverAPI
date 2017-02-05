@@ -23,22 +23,21 @@ import java.util.concurrent.ConcurrentMap;
 
 import com.google.common.collect.ImmutableMap;
 
-import fr.evercraft.everapi.services.worldguard.regions.Association;
+import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion.Group;
 
-public class FlagValue<T> {
-	
+public class FlagValue<T> {	
 	@SuppressWarnings("unchecked")
 	public static <T> FlagValue<T> empty() {
 		return (FlagValue<T>) new FlagValue<Object>();
 	}
 	
-	private ConcurrentMap<Association, T> values;
+	private ConcurrentMap<Group, T> values;
 	
 	public FlagValue() {
-		this.values = new ConcurrentHashMap<Association, T>();
+		this.values = new ConcurrentHashMap<Group, T>();
 	}
 	
-	public void set(Association association, T value) {
+	public void set(Group association, T value) {
 		if (value == null) {
 			this.values.remove(association);
 		} else {
@@ -46,11 +45,11 @@ public class FlagValue<T> {
 		}
 	}
 
-	public Optional<T> get(Association association) {
+	public Optional<T> get(Group association) {
 		return Optional.ofNullable(this.values.get(association));
 	}
 	
-	public Map<Association, T> getAll() {
+	public Map<Group, T> getAll() {
 		return ImmutableMap.copyOf(this.values);
 	}
 }

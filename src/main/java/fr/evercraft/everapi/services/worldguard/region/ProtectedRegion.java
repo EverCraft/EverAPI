@@ -20,9 +20,8 @@ import com.google.common.base.Preconditions;
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.server.user.EUser;
 import fr.evercraft.everapi.services.worldguard.exception.CircularInheritanceException;
-import fr.evercraft.everapi.services.worldguard.flag.EFlag;
+import fr.evercraft.everapi.services.worldguard.flag.Flag;
 import fr.evercraft.everapi.services.worldguard.flag.FlagValue;
-import fr.evercraft.everapi.services.worldguard.regions.Association;
 import fr.evercraft.everapi.services.worldguard.regions.Domain;
 
 public interface ProtectedRegion extends Comparable<ProtectedRegion> {
@@ -33,6 +32,45 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 		Preconditions.checkNotNull(id);
 		
 		return VALID_ID_PATTERN.matcher(id).matches();
+	}
+	
+	public enum Group {
+		OWNER(EAMessages.REGION_GROUP_OWNER_HOVER),
+		MEMBER(EAMessages.REGION_GROUP_MEMBER_HOVER),
+		DEFAULT(EAMessages.REGION_GROUP_DEFAULT_HOVER);
+
+		private final EAMessages format;
+		
+		Group(EAMessages format) {
+			this.format = format;
+	    }
+		
+		public String getName() {
+	        return this.name();
+	    }
+		
+		public Text getHover() {
+	        return this.format.getText();
+	    }
+		
+		public Text getNameFormat() {
+	        return Text.builder(this.name())
+	        				.onHover(TextActions.showText(this.format.getText()))
+	        				.onShiftClick(TextActions.insertText(this.name()))
+	        				.build();
+	    }
+		
+		public static Optional<Group> get(final String name) {
+			Group entity = null;
+			int cpt = 0;
+			while(cpt < values().length && entity == null){
+				if (values()[cpt].name().equalsIgnoreCase(name)) {
+					entity = values()[cpt];
+				}
+				cpt++;
+			}
+			return Optional.ofNullable(entity);
+		}
 	}
 	
 	public enum  Type {
@@ -144,13 +182,13 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	boolean isOwnerOrMember(EUser player);
 	boolean isOwnerOrMember(Subject group);
 
-	<T extends EFlag<V>, V> FlagValue<V> getFlag(T flag);
+	<V> FlagValue<V> getFlag(Flag<V> flag);
 
-	<T extends EFlag<V>, V> void setFlag(T flag, Association association, V value);
+	<V> void setFlag(Flag<V> flag, Group group, V value);
 
-	Map<EFlag<?>, FlagValue<?>> getFlags();
+	Map<Flag<?>, FlagValue<?>> getFlags();
 
-	void setFlags(Map<EFlag<?>, FlagValue<?>> flags);
+	void setFlags(Map<Flag<?>, FlagValue<?>> flags);
 
 	boolean containsPosition(int x, int y, int z);
 

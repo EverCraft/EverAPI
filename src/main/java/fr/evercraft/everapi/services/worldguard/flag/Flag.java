@@ -16,13 +16,13 @@
  */
 package fr.evercraft.everapi.services.worldguard.flag;
 
-import com.google.common.reflect.TypeToken;
-
-import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
 public interface Flag<T> {
@@ -32,15 +32,15 @@ public interface Flag<T> {
 	String getDescription();
 	Text getNameFormat();
 	
-	TypeToken<T> getToken();
-	
 	T getDefault();
 	T getDefault(ProtectedRegion region);
 	
-	Collection<String> getSuggests();
+	Collection<String> getSuggestAdd(List<String> args);
+	Collection<String> getSuggestRemove(List<String> args);
 	
 	String serialize(T value);
 	T deserialize(String value) throws IllegalArgumentException;
-	T deserialize(EPlayer player, String value) throws IllegalArgumentException;
+	T parseAdd(CommandSource source, ProtectedRegion region, ProtectedRegion.Group group, List<String> values) throws IllegalArgumentException;
+	Optional<T> parseRemove(CommandSource source, ProtectedRegion region, ProtectedRegion.Group group, List<String> values) throws IllegalArgumentException;
 
 }

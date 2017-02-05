@@ -22,7 +22,7 @@ import java.util.UUID;
 
 import org.spongepowered.api.world.World;
 
-import fr.evercraft.everapi.services.worldguard.flag.EFlag;
+import fr.evercraft.everapi.services.worldguard.flag.Flag;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 
 public interface WorldGuardService {
@@ -30,10 +30,11 @@ public interface WorldGuardService {
 	Optional<SubjectWorldGuard> get(UUID uuid);
 	boolean hasRegistered(UUID uuid);
 
-	Optional<EFlag<?>> getFlag(String name);
-	void registerFlag(EFlag<?> flag);
-	void registerFlag(Set<EFlag<?>> flags);
-	boolean hasRegisteredFlag(EFlag<?> flag);
+	Optional<Flag<?>> getFlag(String name);
+	void registerFlag(Flag<?> flag);
+	void registerFlag(Set<Flag<?>> flags);
+	boolean hasRegisteredFlag(Flag<?> flag);
+	Set<Flag<?>> getFlags();
 	void clearFlags();
 	
 	Set<ProtectedRegion> getRegion(World world);
