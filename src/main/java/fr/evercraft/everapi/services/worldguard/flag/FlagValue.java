@@ -18,38 +18,47 @@ package fr.evercraft.everapi.services.worldguard.flag;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 import com.google.common.collect.ImmutableMap;
 
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion.Group;
 
-public class FlagValue<T> {	
-	@SuppressWarnings("unchecked")
-	public static <T> FlagValue<T> empty() {
-		return (FlagValue<T>) new FlagValue<Object>();
-	}
-	
-	private ConcurrentMap<Group, T> values;
-	
-	public FlagValue() {
-		this.values = new ConcurrentHashMap<Group, T>();
-	}
-	
-	public void set(Group association, T value) {
-		if (value == null) {
-			this.values.remove(association);
-		} else {
-			this.values.put(association, value);
-		}
-	}
+public interface FlagValue<T> {
 
-	public Optional<T> get(Group association) {
-		return Optional.ofNullable(this.values.get(association));
+	public Optional<T> get(Group group);
+	public Optional<T> contains(Group group);
+	public Map<Group, T> getAll();	
+	public boolean isEmpty();
+	
+	/*
+	 * Empty
+	 */
+	
+	public static <T> FlagValue<T> empty() {
+		return (FlagValue<T>) new Empty<T>();
 	}
 	
-	public Map<Group, T> getAll() {
-		return ImmutableMap.copyOf(this.values);
+	class Empty<T> implements FlagValue<T> {
+		
+		@Override
+		public Optional<T> get(Group group) {
+			return Optional.empty();
+		}
+		
+		@Override
+		public Optional<T> contains(Group group) {
+			return Optional.empty();
+		}
+
+		@Override
+		public Map<Group, T> getAll() {
+			return ImmutableMap.of();
+		}
+
+		@Override
+		public boolean isEmpty() {
+			return true;
+		}
+		
 	}
 }

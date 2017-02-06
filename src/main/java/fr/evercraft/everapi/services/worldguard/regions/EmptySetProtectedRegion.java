@@ -2,9 +2,11 @@ package fr.evercraft.everapi.services.worldguard.regions;
 
 import java.util.Set;
 
+import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.service.context.Context;
+
 import com.google.common.collect.ImmutableSet;
 
-import fr.evercraft.everapi.server.user.EUser;
 import fr.evercraft.everapi.services.worldguard.flag.Flag;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
@@ -12,7 +14,7 @@ import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 public class EmptySetProtectedRegion implements SetProtectedRegion {
 
 	@Override
-	public <V> V getFlag(EUser user, Flag<V> flag) {
+	public <V> V getFlag(User user, Set<Context> context, Flag<V> flag) {
 		return flag.getDefault();
 	}
 

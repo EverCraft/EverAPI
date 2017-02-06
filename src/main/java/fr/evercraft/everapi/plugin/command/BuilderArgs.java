@@ -21,10 +21,14 @@ public class BuilderArgs implements Args.Builder {
 	private final List<BiFunction<CommandSource, Args, Collection<String>>> suggests_args;
 	private final Map<String, BiFunction<CommandSource, Args, Collection<String>>> suggests_types;
 	
+	private boolean arg_list;
+	
 	public BuilderArgs() {
 		this.types = new HashMap<String, Type>();
 		this.suggests_args = new ArrayList<BiFunction<CommandSource, Args, Collection<String>>>();
 		this.suggests_types = new HashMap<String, BiFunction<CommandSource, Args, Collection<String>>>();
+		
+		this.arg_list = false;
 	}
 	
 	@Override
@@ -50,6 +54,14 @@ public class BuilderArgs implements Args.Builder {
 	@Override
 	public BuilderArgs arg(BiFunction<CommandSource, Args, Collection<String>> suggests) {
 		this.suggests_args.add(suggests);
+		this.arg_list = false;
+		return this;
+	}
+	
+	@Override
+	public BuilderArgs args(BiFunction<CommandSource, Args, Collection<String>> suggests) {
+		this.suggests_args.add(suggests);
+		this.arg_list = true;
 		return this;
 	}
 	
@@ -121,8 +133,12 @@ public class BuilderArgs implements Args.Builder {
 			if (function != null) {
 				return function.apply(source, args);
 			}
-		} else if (!this.suggests_args.isEmpty() && args.getArgs().size() <= this.suggests_args.size()) {
-			suggests.addAll(this.suggests_args.get(Math.max(0, args.getArgs().size()-1)).apply(source, args));
+		} else if (!this.suggests_args.isEmpty()) {
+			if (args.getArgs().size() <= this.suggests_args.size()) {
+				suggests.addAll(this.suggests_args.get(args.getArgs().size()-1).apply(source, args));
+			} else if (this.arg_list) {
+				suggests.addAll(this.suggests_args.get(args.getArgs().size()-1).apply(source, args));
+			}
 		}
 		
 		if (!args.isMarkerOpen()) {

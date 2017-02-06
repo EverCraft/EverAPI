@@ -22,11 +22,13 @@ import java.util.Set;
 
 import org.spongepowered.api.service.permission.Subject;
 
+import com.flowpowered.math.vector.Vector3d;
 import com.flowpowered.math.vector.Vector3i;
 
 import fr.evercraft.everapi.server.user.EUser;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion.RemoveType;
+import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 
 public interface WorldWorldGuard {
 
@@ -37,4 +39,10 @@ public interface WorldWorldGuard {
 	
 	Optional<ProtectedRegion> getRegion(String region);
 	Optional<ProtectedRegion> removeRegion(String region, RemoveType type);
+	
+	SetProtectedRegion getRegions(Vector3i position);
+	default SetProtectedRegion getRegions(Vector3d position) {
+		return this.getRegions(position.toInt());
+	}
+	Set<ProtectedRegion> getAll();
 }

@@ -16,9 +16,6 @@
  */
 package fr.evercraft.everapi.plugin.file;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColor;
@@ -50,16 +47,6 @@ public interface EnumMessage {
 	
 	public default String getString() {
 		return this.getFormat().toString();
-	}
-	
-	@Deprecated
-	public default String get() {
-		return EChat.serialize(this.getFormat().toText());
-	}
-	
-	@Deprecated
-	public default List<String> getList() {
-		return Arrays.asList(EChat.serialize(this.getText()).split("\n"));
 	}
 	
 	public default TextColor getColor() {

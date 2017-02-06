@@ -17,14 +17,17 @@
 package fr.evercraft.everapi.services.worldguard.flag;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableSet;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
+import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion.Group;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.spongepowered.api.command.CommandSource;
@@ -58,6 +61,11 @@ public abstract class EFlag<T> implements Flag<T> {
 				.onHover(TextActions.showText(EAMessages.FLAG_DESCRIPTION.getFormat()
 						.toText("<description>", this.getDescription())))
 				.build();
+	}
+	
+	@Override
+	public Set<Group> getGroups() {
+		return ImmutableSet.copyOf(Group.values());
 	}
 	
 	@Override

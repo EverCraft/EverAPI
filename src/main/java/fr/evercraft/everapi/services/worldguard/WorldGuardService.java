@@ -23,7 +23,6 @@ import java.util.UUID;
 import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.services.worldguard.flag.Flag;
-import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 
 public interface WorldGuardService {
 
@@ -37,5 +36,7 @@ public interface WorldGuardService {
 	Set<Flag<?>> getFlags();
 	void clearFlags();
 	
-	Set<ProtectedRegion> getRegion(World world);
+	WorldWorldGuard getOrCreateWorld(World world);
+	void unLoadWorld(World world);
+	Set<WorldWorldGuard> getAll();
 }

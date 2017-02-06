@@ -21,6 +21,7 @@ import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
@@ -31,6 +32,8 @@ public interface Flag<T> {
 	String getName();
 	String getDescription();
 	Text getNameFormat();
+	
+	Set<ProtectedRegion.Group> getGroups();
 	
 	T getDefault();
 	T getDefault(ProtectedRegion region);

@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
 
+import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.service.context.Context;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
@@ -18,7 +20,6 @@ import com.flowpowered.math.vector.Vector3i;
 import com.google.common.base.Preconditions;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
-import fr.evercraft.everapi.server.user.EUser;
 import fr.evercraft.everapi.services.worldguard.exception.CircularInheritanceException;
 import fr.evercraft.everapi.services.worldguard.flag.Flag;
 import fr.evercraft.everapi.services.worldguard.flag.FlagValue;
@@ -129,79 +130,60 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	}
 	
 	String getIdentifier();
-	
 	ProtectedRegion.Type getType();
-	
+	ProtectedRegion.Group getGroup(User user, Set<Context> contexts);
 	Vector3i getMinimumPoint();
-	
 	Vector3i getMaximumPoint();
-	
 	List<Vector3i> getPoints();
-	
 	int getPriority();
-	
 	void setPriority(int priority);
-	
 	int getVolume();
-	
 	boolean isTransient();
-	
 	Optional<ProtectedRegion> getParent();
-	
 	List<ProtectedRegion> getHeritage() throws CircularInheritanceException;
-	
 	void setParent(@Nullable ProtectedRegion parent) throws CircularInheritanceException;
-	
-	boolean containsPosition(Vector3i pos);
 	
 	/*
 	 * Owner
 	 */
 	Domain getOwners();
 	
-	boolean isOwner(EUser player);
-	void addOwner(Set<EUser> players);
-	void removeOwner(Set<EUser> players);
+	boolean isPlayerOwner(User player, Set<Context> contexts);
+	void addPlayerOwner(Set<User> players);
+	void removePlayerOwner(Set<User> players);
 	
-	boolean isOwner(Subject group);
-	void addOwnerGroup(Set<Subject> groups);
-	void removeOwnerGroup(Set<Subject> groups);
+	boolean isGroupOwner(Subject group);
+	void addGroupOwner(Set<Subject> groups);
+	void removeGroupOwner(Set<Subject> groups);
 
 	/*
 	 * Member
 	 */
 	Domain getMembers();
-	boolean isMember(EUser player);
-	void addMember(Set<EUser> players);
-	void removeMember(Set<EUser> players);
-	boolean isMember(Subject group);
-	void addMemberGroup(Set<Subject> groups);
-	void removeMemberGroup(Set<Subject> groups);
+	boolean isPlayerMember(User player, Set<Context> contexts);
+	void addPlayerMember(Set<User> players);
+	void removePlayerMember(Set<User> players);
+	
+	boolean isGroupMember(Subject group);
+	void addGroupMember(Set<Subject> groups);
+	void removeGroupMember(Set<Subject> groups);
 
 	boolean hasMembersOrOwners();
-	boolean isOwnerOrMember(EUser player);
+	boolean isOwnerOrMember(User player, Set<Context> contexts);
 	boolean isOwnerOrMember(Subject group);
 
 	<V> FlagValue<V> getFlag(Flag<V> flag);
-
 	<V> void setFlag(Flag<V> flag, Group group, V value);
-
 	Map<Flag<?>, FlagValue<?>> getFlags();
 
-	void setFlags(Map<Flag<?>, FlagValue<?>> flags);
-
+	boolean containsPosition(Vector3i pos);
 	boolean containsPosition(int x, int y, int z);
-
 	boolean containsAnyPosition(List<Vector3i> positions);
-
 	boolean containsChunck(Vector3i position);
 
 	List<ProtectedRegion> getIntersecting(ProtectedRegion region);
-
 	List<ProtectedRegion> getIntersectingRegions(Collection<ProtectedRegion> regions);
-
 	boolean isPhysicalArea();
-
 	Optional<Area> toArea();	
 	
 	public interface Cuboid extends ProtectedRegion {

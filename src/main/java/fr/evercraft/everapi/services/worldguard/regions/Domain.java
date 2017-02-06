@@ -19,10 +19,9 @@ package fr.evercraft.everapi.services.worldguard.regions;
 import java.util.Set;
 import java.util.UUID;
 
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.service.context.Context;
 import org.spongepowered.api.service.permission.Subject;
-
-import fr.evercraft.everapi.server.user.EUser;
 
 public interface Domain {
 	
@@ -31,9 +30,9 @@ public interface Domain {
 	 */
 	
 	void addPlayer(UUID uniqueId);
-	void addPlayer(EUser player);
+	void addPlayer(User player);
 	void removePlayer(UUID uniqueId);
-	void removePlayer(EUser player);
+	void removePlayer(User player);
 	Set<UUID> getPlayers();
 	boolean containsPlayers(UUID uniqueId);
 	
@@ -56,8 +55,8 @@ public interface Domain {
 	void clear();
 	void addAll(Domain other);
 	void removeAll(Domain other);
-	boolean contains(EUser player, Set<Context> contexts);
-	default boolean contains(EUser player) {
+	boolean contains(User player, Set<Context> contexts);
+	default boolean contains(User player) {
 		return this.contains(player, player.getActiveContexts());
 	}
 }

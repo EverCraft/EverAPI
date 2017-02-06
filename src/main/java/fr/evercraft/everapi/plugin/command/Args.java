@@ -80,6 +80,7 @@ public class Args {
 		Builder value(String marker, BiFunction<CommandSource, Args, Collection<String>> suggests);
 		Builder list(String marker, BiFunction<CommandSource, Args, Collection<String>> suggests);
 		Builder arg(BiFunction<CommandSource, Args, Collection<String>> suggests);
+		Builder args(BiFunction<CommandSource, Args, Collection<String>> suggests);
 		Args build(List<String> command);
 		Collection<String> suggest(final CommandSource source, List<String> args);
 	}

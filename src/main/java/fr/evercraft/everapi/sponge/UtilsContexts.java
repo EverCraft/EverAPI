@@ -23,6 +23,7 @@ import java.util.Set;
 
 import org.spongepowered.api.service.context.Context;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -30,6 +31,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 
 public class UtilsContexts {
+	
+	public static Set<Context> get(final String world) {
+		ImmutableSet.Builder<Context> contexts = ImmutableSet.builder();
+		contexts.add(new Context(Context.WORLD_KEY, world));
+		return contexts.build();
+    }
+	
 	public static String serialize(final Set<Context> contexts) {
 		JsonArray map = new JsonArray();
 		for (Context context : contexts){
