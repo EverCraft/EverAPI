@@ -137,7 +137,7 @@ public class BuilderArgs implements Args.Builder {
 			if (args.getArgs().size() <= this.suggests_args.size()) {
 				suggests.addAll(this.suggests_args.get(args.getArgs().size()-1).apply(source, args));
 			} else if (this.arg_list) {
-				suggests.addAll(this.suggests_args.get(args.getArgs().size()-1).apply(source, args));
+				suggests.addAll(this.suggests_args.get(this.suggests_args.size()-1).apply(source, args));
 			}
 		}
 		

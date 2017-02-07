@@ -34,7 +34,8 @@ public interface Domain {
 	void removePlayer(UUID uniqueId);
 	void removePlayer(User player);
 	Set<UUID> getPlayers();
-	boolean containsPlayers(UUID uniqueId);
+	boolean containsPlayer(UUID uniqueId);
+	boolean containsPlayer(User player);
 	
 	/*
 	 * Groups
@@ -45,7 +46,8 @@ public interface Domain {
 	void removeGroup(String group);
 	void removeGroup(Subject group);
 	Set<String> getGroups();
-	boolean containsGroups(String group);
+	boolean containsGroup(String group);
+	boolean containsGroup(Subject group);
 	
 	/*
 	 * Accesseurs
