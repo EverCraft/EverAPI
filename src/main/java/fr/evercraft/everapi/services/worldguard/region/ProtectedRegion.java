@@ -173,6 +173,7 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	boolean isOwnerOrMember(Subject group);
 
 	<V> FlagValue<V> getFlag(Flag<V> flag);
+	<V> FlagValue<V> getFlagInherit(Flag<V> flag);
 	<V> void setFlag(Flag<V> flag, Group group, V value);
 	Map<Flag<?>, FlagValue<?>> getFlags();
 

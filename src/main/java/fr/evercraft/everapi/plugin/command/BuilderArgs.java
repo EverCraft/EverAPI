@@ -33,7 +33,7 @@ public class BuilderArgs implements Args.Builder {
 	
 	@Override
 	public BuilderArgs empty(String marker) {
-		this.types.put(marker, Type.VALUE);
+		this.types.put(marker, Type.EMPTY);
 		return this;
 	}
 	
