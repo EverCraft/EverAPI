@@ -371,6 +371,10 @@ public class EAMessage extends EMessage<EverAPI> {
 				"joueur_member"),
 		ARGS_MEMBER_GROUP("args.memberGroup", 
 				"groupe_member"),
+		ARGS_PARENT("args.parent", 
+				"parent"),
+		ARGS_PRIORITY("args.priority", 
+				"priority"),
 		
 		// Couleur
 		COLORS_BLACK("colors.black", 

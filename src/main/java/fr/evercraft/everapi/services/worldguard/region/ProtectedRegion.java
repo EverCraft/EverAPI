@@ -141,6 +141,7 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	boolean isTransient();
 	Optional<ProtectedRegion> getParent();
 	List<ProtectedRegion> getHeritage() throws CircularInheritanceException;
+	void clearParent();
 	void setParent(@Nullable ProtectedRegion parent) throws CircularInheritanceException;
 	
 	/*
