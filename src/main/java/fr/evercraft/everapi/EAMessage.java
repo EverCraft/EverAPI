@@ -106,6 +106,9 @@ public class EAMessage extends EMessage<EverAPI> {
 		PLAYER_INVENTORY_FULL_AND_DROP("player.inventoryFullAndDrop", 
 				"&cVotre inventaire est plein ! Le reste des objects est au sol."),
 		
+		PLAYER_ERROR_TELEPORT("player.errorTeleport", 
+				"&cErreur : Impossible de trouver une position pour réaliser une téléportation."),
+		
 		GROUP_NOT_FOUND("plugin.messages.groupNotFound", 				
 				"&cErreur : Ce groupe n'existe pas.", 
 				"&cError: This group doesn't exist."),

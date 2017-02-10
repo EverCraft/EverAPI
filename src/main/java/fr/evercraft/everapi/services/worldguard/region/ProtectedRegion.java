@@ -21,6 +21,7 @@ import com.google.common.base.Preconditions;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.services.worldguard.exception.CircularInheritanceException;
+import fr.evercraft.everapi.services.worldguard.exception.RegionIdentifierException;
 import fr.evercraft.everapi.services.worldguard.flag.Flag;
 import fr.evercraft.everapi.services.worldguard.flag.FlagValue;
 import fr.evercraft.everapi.services.worldguard.regions.Domain;
@@ -130,6 +131,8 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	}
 	
 	String getIdentifier();
+	void setIdentifier(String identifier) throws RegionIdentifierException;
+	
 	ProtectedRegion.Type getType();
 	ProtectedRegion.Group getGroup(User user, Set<Context> contexts);
 	Vector3i getMinimumPoint();

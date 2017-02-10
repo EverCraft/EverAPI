@@ -141,12 +141,17 @@ public class EPlayer extends PlayerSponge {
 					if (this.getUniqueId().equals(owner)){
 						this.setVehicle(null);
 						horse.transferToWorld(world, vector);
+						
+						if (this.setLocation(world.getLocation(vector))) {
+							this.setVehicle(horse);
+							return true;
+						}
 					}
 				}
 			}
 		}
-		this.setLocation(world.getLocation(vector));
-		return true;
+		
+		return this.setLocation(world.getLocation(vector));
 	}
 	
 	/**
@@ -173,7 +178,7 @@ public class EPlayer extends PlayerSponge {
 	}
 	
 	/**
-	 * Téléporter un joueur à un endroit sûr
+	 * Téléporter un joueur seulement si la position est SAFE
 	 * @param location La location
 	 * @return True si le joueur a bien été téléporté
 	 */
@@ -182,7 +187,7 @@ public class EPlayer extends PlayerSponge {
 	}
 	
 	/**
-	 * Téléporter un joueur à un endroit sûr
+	 * Téléporter un joueur seulement si la position est SAFE
 	 * @param transform Le transform
 	 * @return True si le joueur a bien été téléporté
 	 */
@@ -194,7 +199,7 @@ public class EPlayer extends PlayerSponge {
 	}
 	
 	/**
-	 * Téléporter un joueur à un endroit sûr
+	 * Téléporter un joueur seulement si il existe un endroit SAFE : changement de y
 	 * @param location La location
 	 * @return True si le joueur a bien été téléporté
 	 */
@@ -203,7 +208,7 @@ public class EPlayer extends PlayerSponge {
 	}
 	
 	/**
-	 * Téléporter un joueur à un endroit sûr
+	 * Téléporter un joueur seulement si il existe un endroit SAFE : changement de y
 	 * @param transform Le transform
 	 * @return True si le joueur a bien été téléporté
 	 */

@@ -26,7 +26,7 @@ import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion.Group;
 public interface FlagValue<T> {
 
 	public Optional<T> get(Group group);
-	public Optional<T> contains(Group group);
+	public Optional<T> getInherit(Group group);
 	public Map<Group, T> getAll();	
 	public boolean isEmpty();
 	
@@ -46,7 +46,7 @@ public interface FlagValue<T> {
 		}
 		
 		@Override
-		public Optional<T> contains(Group group) {
+		public Optional<T> getInherit(Group group) {
 			return Optional.empty();
 		}
 

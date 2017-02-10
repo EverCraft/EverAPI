@@ -26,6 +26,7 @@ import com.flowpowered.math.vector.Vector3d;
 import com.flowpowered.math.vector.Vector3i;
 
 import fr.evercraft.everapi.server.user.EUser;
+import fr.evercraft.everapi.services.worldguard.exception.RegionIdentifierException;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion.RemoveType;
 import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
@@ -33,9 +34,14 @@ import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 public interface WorldWorldGuard {
 
 	// Create
-	ProtectedRegion.Cuboid createRegionCuboid(String region, Vector3i pos1, Vector3i pos2, Set<EUser> owner_players, Set<Subject> owner_groups);
-	ProtectedRegion.Polygonal createRegionPolygonal(String region, List<Vector3i> positions, Set<EUser> owner_players, Set<Subject> owner_groups);
-	ProtectedRegion.Template createRegionTemplate(String region, Set<EUser> owner_players, Set<Subject> owner_groups);
+	ProtectedRegion.Cuboid createRegionCuboid(String region, Vector3i pos1, Vector3i pos2, Set<EUser> owner_players, Set<Subject> owner_groups) throws RegionIdentifierException;
+	ProtectedRegion.Polygonal createRegionPolygonal(String region, List<Vector3i> positions, Set<EUser> owner_players, Set<Subject> owner_groups) throws RegionIdentifierException;
+	ProtectedRegion.Template createRegionTemplate(String region, Set<EUser> owner_players, Set<Subject> owner_groups) throws RegionIdentifierException;
+	
+	// Redefine
+	Optional<ProtectedRegion.Cuboid> redefineRegionCuboid(ProtectedRegion region, Vector3i pos1, Vector3i pos2);
+	Optional<ProtectedRegion.Polygonal> redefineRegionPolygonal(ProtectedRegion region, List<Vector3i> positions);
+	Optional<ProtectedRegion.Template> redefineRegionTemplate(ProtectedRegion region);
 	
 	Optional<ProtectedRegion> getRegion(String region);
 	Optional<ProtectedRegion> removeRegion(String region, RemoveType type);
