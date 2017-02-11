@@ -38,11 +38,6 @@ public interface WorldWorldGuard {
 	ProtectedRegion.Polygonal createRegionPolygonal(String region, List<Vector3i> positions, Set<EUser> owner_players, Set<Subject> owner_groups) throws RegionIdentifierException;
 	ProtectedRegion.Template createRegionTemplate(String region, Set<EUser> owner_players, Set<Subject> owner_groups) throws RegionIdentifierException;
 	
-	// Redefine
-	Optional<ProtectedRegion.Cuboid> redefineRegionCuboid(ProtectedRegion region, Vector3i pos1, Vector3i pos2);
-	Optional<ProtectedRegion.Polygonal> redefineRegionPolygonal(ProtectedRegion region, List<Vector3i> positions);
-	Optional<ProtectedRegion.Template> redefineRegionTemplate(ProtectedRegion region);
-	
 	Optional<ProtectedRegion> getRegion(String region);
 	Optional<ProtectedRegion> removeRegion(String region, RemoveType type);
 	

@@ -214,4 +214,8 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 			return ProtectedRegion.Type.GLOBAL;
 		}
 	}
+
+	Optional<ProtectedRegion.Cuboid> redefineCuboid(Vector3i pos1, Vector3i pos2);
+	Optional<ProtectedRegion.Polygonal> redefinePolygonal(List<Vector3i> positions);
+	Optional<ProtectedRegion.Template> redefineTemplate();
 }
