@@ -34,9 +34,11 @@ public abstract class StateFlag extends EFlag<StateFlag.State> {
 
 	@Override
 	public StateFlag.State deserialize(String value) throws IllegalArgumentException {
-		try {
-			return StateFlag.State.valueOf(value);
-		} catch (Exception e) {
+		if (value.equalsIgnoreCase("ALLOW")) {
+			return StateFlag.State.ALLOW;
+		} else if (value.equalsIgnoreCase("DENY")) {
+			return StateFlag.State.DENY;
+		} else {
 			throw new IllegalArgumentException();
 		}
 	}

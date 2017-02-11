@@ -83,6 +83,9 @@ public abstract class EFlag<T> implements Flag<T> {
 	
 	@Override
 	public Optional<T> parseRemove(CommandSource source, ProtectedRegion region, ProtectedRegion.Group group, List<String> values) {
+		if (!values.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
 		return Optional.empty();
 	}
 	
