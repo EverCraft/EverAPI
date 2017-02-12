@@ -24,6 +24,6 @@ public abstract class LocationFlag extends EFlag<VirtualLocation> {
 	
 	@Override
 	public VirtualLocation deserialize(String value) throws IllegalArgumentException {
-		return null;
+		throw new IllegalArgumentException();
 	}
 }
