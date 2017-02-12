@@ -103,6 +103,14 @@ public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 		}
 		return ImmutableList.of();
 	}
+	
+	@Override
+	public boolean setSelectPoints(List<Vector3i> pos) {
+		if (this.isPresent()) {
+			return this.subject.setSelectPoints(pos);
+		}
+		return false;
+	}
 
 	@Override
 	public boolean addSelectPoint(Vector3i pos) {

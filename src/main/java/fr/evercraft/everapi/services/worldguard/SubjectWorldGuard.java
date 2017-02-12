@@ -45,6 +45,7 @@ public interface SubjectWorldGuard {
 	
 	List<Vector3i> getSelectPoints();
 	boolean addSelectPoint(Vector3i pos);
+	boolean setSelectPoints(List<Vector3i> pos);
 	boolean removeSelectPoint(Vector3i pos);
 	boolean removeSelectPoint(int num);
 	boolean clearSelectPoints();
