@@ -14,6 +14,11 @@ import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 public class EmptySetProtectedRegion implements SetProtectedRegion {
 
 	@Override
+	public <V> V getFlagDefault(Flag<V> flag) {
+		return flag.getDefault();
+	}
+	
+	@Override
 	public <V> V getFlag(User user, Set<Context> context, Flag<V> flag) {
 		return flag.getDefault();
 	}

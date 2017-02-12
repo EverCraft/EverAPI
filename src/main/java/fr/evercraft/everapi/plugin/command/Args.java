@@ -76,12 +76,21 @@ public class Args {
 	}
 	
 	public interface Builder {
-		BuilderArgs empty(String marker);
-		Builder value(String marker, BiFunction<CommandSource, Args, Collection<String>> suggests);
-		Builder list(String marker, BiFunction<CommandSource, Args, Collection<String>> suggests);
 		Builder arg(BiFunction<CommandSource, Args, Collection<String>> suggests);
 		Builder args(BiFunction<CommandSource, Args, Collection<String>> suggests);
+		
 		Args build(List<String> command);
 		Collection<String> suggest(final CommandSource source, List<String> args);
+		
+		BuilderArgs empty(String marker);
+		BuilderArgs empty(String marker, BiFunction<CommandSource, Args, Boolean> check);
+		Builder value(String marker, BiFunction<CommandSource, Args, Collection<String>> suggests);
+		BuilderArgs value(String marker, 
+				BiFunction<CommandSource, Args, Collection<String>> suggests,
+				BiFunction<CommandSource, Args, Boolean> check);
+		Builder list(String marker, BiFunction<CommandSource, Args, Collection<String>> suggests);
+		BuilderArgs list(String marker, 
+				BiFunction<CommandSource, Args, Collection<String>> suggests,
+				BiFunction<CommandSource, Args, Boolean> check);
 	}
 }

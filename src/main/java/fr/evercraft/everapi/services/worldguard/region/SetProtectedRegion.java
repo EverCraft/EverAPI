@@ -10,6 +10,7 @@ import fr.evercraft.everapi.services.worldguard.regions.EmptySetProtectedRegion;
 
 public interface SetProtectedRegion {
 
+	<V> V getFlagDefault(Flag<V> flag);
 	<V> V getFlag(User user, Set<Context> context, Flag<V> flag);
 	
 	default <V> V getFlag(User user, Flag<V> flag) {

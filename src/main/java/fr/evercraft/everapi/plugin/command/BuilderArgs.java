@@ -17,14 +17,32 @@ public class BuilderArgs implements Args.Builder {
 		LIST;
 	}
 	
-	private final Map<String, Type> types;
+	public class Value {
+		private final Type type;
+		private final BiFunction<CommandSource, Args, Boolean> check;
+		
+		public Value(Type type, BiFunction<CommandSource, Args, Boolean> check) {
+			this.type = type;
+			this.check = check;
+		}
+
+		public Type getType() {
+			return type;
+		}
+
+		public BiFunction<CommandSource, Args, Boolean> getCheck() {
+			return check;
+		}
+	}
+	
+	private final Map<String, Value> types;
 	private final List<BiFunction<CommandSource, Args, Collection<String>>> suggests_args;
 	private final Map<String, BiFunction<CommandSource, Args, Collection<String>>> suggests_types;
 	
 	private boolean arg_list;
 	
 	public BuilderArgs() {
-		this.types = new HashMap<String, Type>();
+		this.types = new HashMap<String, Value>();
 		this.suggests_args = new ArrayList<BiFunction<CommandSource, Args, Collection<String>>>();
 		this.suggests_types = new HashMap<String, BiFunction<CommandSource, Args, Collection<String>>>();
 		
@@ -33,20 +51,39 @@ public class BuilderArgs implements Args.Builder {
 	
 	@Override
 	public BuilderArgs empty(String marker) {
-		this.types.put(marker, Type.EMPTY);
+		return this.empty(marker, (source, args) -> true);
+	}
+	
+	@Override
+	public BuilderArgs empty(String marker, BiFunction<CommandSource, Args, Boolean> check) {
+		this.types.put(marker, new Value(Type.EMPTY, check));
 		return this;
 	}
 	
 	@Override
 	public BuilderArgs value(String marker, BiFunction<CommandSource, Args, Collection<String>> suggests) {
-		this.types.put(marker, Type.VALUE);
+		return this.value(marker, suggests, (source, args) -> true);
+	}
+	
+	@Override
+	public BuilderArgs value(String marker, 
+			BiFunction<CommandSource, Args, Collection<String>> suggests,
+			BiFunction<CommandSource, Args, Boolean> check) {
+		this.types.put(marker, new Value(Type.VALUE, check));
 		this.suggests_types.put(marker, suggests);
 		return this;
 	}
 	
 	@Override
 	public BuilderArgs list(String marker, BiFunction<CommandSource, Args, Collection<String>> suggests) {
-		this.types.put(marker, Type.LIST);
+		return this.list(marker, suggests, (source, args) -> true);
+	}
+	
+	@Override
+	public BuilderArgs list(String marker, 
+			BiFunction<CommandSource, Args, Collection<String>> suggests, 
+			BiFunction<CommandSource, Args, Boolean> check) {
+		this.types.put(marker, new Value(Type.LIST, check));
 		this.suggests_types.put(marker, suggests);
 		return this;
 	}
@@ -79,9 +116,9 @@ public class BuilderArgs implements Args.Builder {
 		for (String arg : command) {
 			cpt++;
 			
-			Type type = this.types.get(arg);
-			if (type != null) {
-				if (type.equals(Type.EMPTY)) {
+			Value value = this.types.get(arg);
+			if (value != null) {
+				if (value.getType().equals(Type.EMPTY)) {
 					options.add(arg);
 				} else {
 					if (lastMarker != null && lastType.equals(Type.VALUE)) {
@@ -89,9 +126,9 @@ public class BuilderArgs implements Args.Builder {
 					}
 					
 					lastMarker = arg;
-					lastType = type;
+					lastType = value.getType();
 					
-					if (type.equals(Type.LIST) && lists.get(type) == null) {
+					if (lastType.equals(Type.LIST) && lists.get(lastType) == null) {
 						lists.put(lastMarker, new ArrayList<String>());
 					}
 				}
@@ -142,14 +179,14 @@ public class BuilderArgs implements Args.Builder {
 		}
 		
 		if (!args.isMarkerOpen()) {
-			this.types.forEach((marker, type) -> {
-				if (!command.contains(marker)) {
-					if (type.equals(Type.VALUE)) {
-						suggests.add(marker);
-					} else if (type.equals(Type.LIST)) {
+			this.types.forEach((marker, value) -> {
+				if (!command.contains(marker) && value.getCheck().apply(source, args)) {
+					if (value.getType().equals(Type.LIST)) {
 						if (args.getArgs().size() > this.suggests_args.size()) {
 							suggests.add(marker);
 						}
+					} else {
+						suggests.add(marker);
 					}
 				}
 			});
