@@ -23,6 +23,7 @@ import java.util.Set;
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Transform;
+import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import com.flowpowered.math.vector.Vector3i;
@@ -358,5 +359,13 @@ public class UtilsLocation {
 		public boolean isError() {
 			return this.error.isPresent();
 		}
+	}
+	
+	public static boolean isDifferentBlock(Transform<World> transform1, Transform<World> transform2) {
+		return UtilsLocation.isDifferentBlock(transform1.getLocation(), transform2.getLocation());
+	}
+	
+	public static boolean isDifferentBlock(Location<World> location1, Location<World> location2) {
+		return !location1.getExtent().equals(location2.getExtent()) || !location1.getBlockPosition().equals(location2.getBlockPosition());
 	}
 }

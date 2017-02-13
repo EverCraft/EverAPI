@@ -14,13 +14,32 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.scoreboard;
+package fr.evercraft.everapi.services.worldguard;
 
-import org.spongepowered.api.entity.living.player.Player;
-
-import fr.evercraft.everapi.scoreboard.TypeScores;
-
-public interface IObjective  {
-	public void update(TypeScores type);
-	public void update(Player player, TypeScores type);
+public enum  MoveType {
+	RESPAWN(false, true),
+	TELEPORT(true, true),
+	
+	MOVE(true, false),
+	RIDE(true, false),
+	EMBARK(true, false),
+	
+	OTHER_NON_CANCELLABLE(true, false),
+	OTHER_CANCELLABLE(true, false);
+	
+	private final boolean cancellable;
+	private final boolean teleport;
+	
+	MoveType(boolean cancellable, boolean teleport) {
+		this.cancellable = cancellable;
+		this.teleport = teleport;
+	}
+	
+	public boolean isCancellable() {
+		return this.cancellable;
+	}
+	
+	public boolean isTeleport() {
+		return this.teleport;
+	}
 }

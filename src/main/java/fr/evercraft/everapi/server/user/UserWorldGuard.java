@@ -23,11 +23,16 @@ import java.util.Optional;
 import javax.annotation.Nullable;
 
 import org.spongepowered.api.entity.living.player.User;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import com.flowpowered.math.vector.Vector3i;
 import com.google.common.collect.ImmutableList;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.services.worldguard.MoveType;
 import fr.evercraft.everapi.services.worldguard.SelectType;
 import fr.evercraft.everapi.services.worldguard.SubjectWorldGuard;
 import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
@@ -175,4 +180,12 @@ public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 		}
 		return Optional.empty();
     }
+
+	@Override
+	public Optional<Location<World>> canMoveTo(EPlayer player, Location<World> toTransform, MoveType move, Cause cause) {
+		if (this.isPresent()) {
+			return this.subject.canMoveTo(player, toTransform, move, cause);
+		}
+		return Optional.empty();
+	}
 }

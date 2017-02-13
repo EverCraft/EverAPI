@@ -79,11 +79,15 @@ import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.server.user.EUser;
 
 public class PlayerSponge extends EUser implements Player {
-	protected final Player player;
+	protected Player player;
 	
 	public PlayerSponge(final EverAPI plugin, final Player player) {
 		super(plugin, player);
 		
+		this.player = player;
+	}
+	
+	public void setPlayer(Player player) {
 		this.player = player;
 	}
 

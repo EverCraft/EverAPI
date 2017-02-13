@@ -65,8 +65,6 @@ public class EPlayer extends PlayerSponge {
 	public static final double CONVERSION_FLY = 0.05;
 	public static final double CONVERSION_WALF = 0.1;
 	
-	private boolean disconnect;
-	
 	/**
 	 * Constructeur d'un EPlayer
 	 * @param plugin EverAPI
@@ -74,16 +72,10 @@ public class EPlayer extends PlayerSponge {
 	 */
 	public EPlayer(final EverAPI plugin, final Player player){
 		super(plugin, player);
-		
-		this.disconnect = false;
 	}
 	
 	public boolean isDisconnected() {
-		return this.disconnect;
-	}
-	
-	public void setDisconnected(boolean disconnect) {
-		this.disconnect = disconnect;
+		return this.plugin.getEServer().disconnects.contains(this.getUniqueId());
 	}
 	
 	public Optional<Team> getTeam() {

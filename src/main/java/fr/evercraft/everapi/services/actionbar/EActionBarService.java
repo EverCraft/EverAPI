@@ -106,7 +106,7 @@ public class EActionBarService implements ActionBarService {
 		ActionBarMessage actionBar = this.players.get(player.getUniqueId());
 		if (actionBar != null && actionBar.getIdentifier().equalsIgnoreCase(identifier)) {
 			// Supprime
-			player.get().sendMessage(ChatTypes.ACTION_BAR, Text.EMPTY);
+			player.sendMessage(ChatTypes.ACTION_BAR, Text.EMPTY);
 			this.players.remove(player.getUniqueId());
 			
 			//Event
@@ -209,21 +209,21 @@ public class EActionBarService implements ActionBarService {
 	
 	private void postAdd(EPlayer player, ActionBarMessage actionbar) {
 		this.plugin.getLogger().debug("Event ActionBarEvent.Add : ("
-				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "uuid='" + player.getUniqueId() + "';"
 				+ "actionbar='" + actionbar.getMessage().toPlain() + "')");
 		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createActionBarEventAdd(player, actionbar, Cause.source(this.plugin).build()));
 	}
 	
 	private void postRemove(EPlayer player, ActionBarMessage actionbar) {
 		this.plugin.getLogger().debug("Event ActionBarEvent.Remove : ("
-				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "uuid='" + player.getUniqueId() + "';"
 				+ "actionbar='" + actionbar.getMessage().toPlain() + "')");
 		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createActionBarEventRemove(player, actionbar, Cause.source(this.plugin).build()));
 	}
 	
 	private void postReplace(EPlayer player, ActionBarMessage actionbar, ActionBarMessage new_actionbar) {
 		this.plugin.getLogger().debug("Event ActionBarEvent.Replace : ("
-				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "uuid='" + player.getUniqueId() + "';"
 				+ "actionbar='" + actionbar.getMessage().toPlain() + "';"
 				+ "new_actionbar='" + new_actionbar.getMessage().toPlain() + "')");
 		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createActionBarEventReplace(player, actionbar, new_actionbar, Cause.source(this.plugin).build()));

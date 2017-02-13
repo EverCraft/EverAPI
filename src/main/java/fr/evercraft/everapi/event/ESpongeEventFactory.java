@@ -33,6 +33,7 @@ import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
 import org.spongepowered.api.scoreboard.objective.Objective;
 import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.server.player.EPlayer;
@@ -46,6 +47,7 @@ import fr.evercraft.everapi.services.mojang.check.MojangServer.Color;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionJail;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionMute;
 import fr.evercraft.everapi.services.title.TitleMessage;
+import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 
 public class ESpongeEventFactory extends SpongeEventFactory {
 	
@@ -932,4 +934,55 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         return SpongeEventFactoryUtils.createEventImpl(VanishEvent.Disable.class, values);
     }
 
+	/*
+	 * WorldGuard
+	 */
+	
+	public static CanMoveEvent createCanMoveEvent(EPlayer player, 
+			Location<World> fromLocation, Location<World> toLocation, 
+			SetProtectedRegion fromRegions, SetProtectedRegion toRegions,
+			SetProtectedRegion enterRegions, SetProtectedRegion exitRegions, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("player", player);
+        values.put("fromLocation", fromLocation);
+        values.put("toLocation", toLocation);
+        values.put("fromRegions", fromRegions);
+        values.put("toRegions", toRegions);
+        values.put("enterRegions", enterRegions);
+        values.put("exitRegions", exitRegions);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(CanMoveEvent.class, values);
+    }
+	
+	public static CanMoveEvent.Cancellable createCanMoveEventCancellable(EPlayer player, 
+			Location<World> fromLocation, Location<World> toLocation, 
+			SetProtectedRegion fromRegions, SetProtectedRegion toRegions,
+			SetProtectedRegion enterRegions, SetProtectedRegion exitRegions, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("player", player);
+        values.put("fromLocation", fromLocation);
+        values.put("toLocation", toLocation);
+        values.put("fromRegions", fromRegions);
+        values.put("toRegions", toRegions);
+        values.put("enterRegions", enterRegions);
+        values.put("exitRegions", exitRegions);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(CanMoveEvent.Cancellable.class, values);
+    }
+	
+	public static MoveEvent creatMoveEvent(EPlayer player, 
+			Location<World> fromLocation, Location<World> toLocation, 
+			SetProtectedRegion fromRegions, SetProtectedRegion toRegions,
+			SetProtectedRegion enterRegions, SetProtectedRegion exitRegions, Cause cause) {
+        HashMap<String, Object> values = new HashMap<String, Object>();
+        values.put("player", player);
+        values.put("fromLocation", fromLocation);
+        values.put("toLocation", toLocation);
+        values.put("fromRegions", fromRegions);
+        values.put("toRegions", toRegions);
+        values.put("enterRegions", enterRegions);
+        values.put("exitRegions", exitRegions);
+        values.put("cause", cause);
+        return SpongeEventFactoryUtils.createEventImpl(MoveEvent.class, values);
+    }
 }

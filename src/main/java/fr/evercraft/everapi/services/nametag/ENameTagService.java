@@ -166,21 +166,21 @@ public class ENameTagService implements NameTagService {
 	
 	private void postAdd(EPlayer player, String identifier) {
 		this.plugin.getLogger().debug("Event NameTagEvent.Add : ("
-				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "uuid='" + player.getUniqueId() + "';"
 				+ "nametag='" + identifier + "')");
 		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createNameTagEventAdd(player, identifier, Cause.source(this.plugin).build()));
 	}
 	
 	private void postRemove(EPlayer player, String identifier) {
 		this.plugin.getLogger().debug("Event NameTagEvent.Remove : ("
-				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "uuid='" + player.getUniqueId() + "';"
 				+ "nametag='" + identifier + "')");
 		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createNameTagEventRemove(player, identifier, Cause.source(this.plugin).build()));
 	}
 	
 	private void postReplace(EPlayer player, String identifier, String new_identifier) {
 		this.plugin.getLogger().debug("Event NameTagEvent.Replace : ("
-				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "uuid='" + player.getUniqueId() + "';"
 				+ "nametag='" + identifier + "';"
 				+ "new_nametag='" + new_identifier + "')");
 		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createNameTagEventReplace(player, identifier, new_identifier, Cause.source(this.plugin).build()));

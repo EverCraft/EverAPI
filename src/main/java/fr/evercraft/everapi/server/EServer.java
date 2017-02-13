@@ -16,15 +16,13 @@
  */
 package fr.evercraft.everapi.server;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
@@ -45,12 +43,12 @@ public class EServer extends ServerWarp {
 	
 	private String name;
 	
-	private ConcurrentMap<UUID, EPlayer> players;
+	public CopyOnWriteArraySet<UUID> disconnects;
 	
 	public EServer(EverAPI plugin){
 		super(plugin);
 		
-		this.players = new ConcurrentHashMap<UUID, EPlayer>();
+		this.disconnects = new CopyOnWriteArraySet<UUID>();
 		
 		reload();
 	}
@@ -65,26 +63,7 @@ public class EServer extends ServerWarp {
 	
 	/*
 	 * EPlayers
-	 */	
-	/**
-	 * Ajouter un EPlayer
-	 * @param player
-	 * @return
 	 */
-	private void addEPlayer(Player player) {
-		if (player != null) {
-			players.put(player.getUniqueId(), new EPlayer(this.plugin, player));
-		}
-	}
-	
-	/**
-	 * Supprimer un EPlayer
-	 * @param player
-	 * @return
-	 */
-	public EPlayer removeEPlayer(Player player) {
-		 return players.remove(player.getUniqueId());
-	}
 	
 	/**
 	 * Retourne un EPlayer
@@ -98,7 +77,7 @@ public class EServer extends ServerWarp {
 			} else {
 				Optional<Player> player = this.getPlayer(name);
 				if (player.isPresent()){
-					return getEPlayer(player.get().getUniqueId());
+					return Optional.of(this.getEPlayer(player.get()));
 				}
 			}
 		} catch(IllegalArgumentException e) {}
@@ -110,8 +89,8 @@ public class EServer extends ServerWarp {
 	 * @param player Un Player
 	 * @return  Un EPlayer
 	 */
-	public Optional<EPlayer> getEPlayer(Player player) {
-		return getEPlayer(player.getUniqueId());
+	public EPlayer getEPlayer(Player player) {
+		return new EPlayer(this.plugin, player);
 	}
 	
 	/**
@@ -120,10 +99,11 @@ public class EServer extends ServerWarp {
 	 * @return Un EPlayer
 	 */
 	public Optional<EPlayer> getEPlayer(UUID uniqueId) {
-		if (!this.players.containsKey(uniqueId)){
-			addEPlayer(getPlayer(uniqueId).orElse(null));
+		Optional<Player> player = this.getPlayer(uniqueId);
+		if (player.isPresent()) {
+			return Optional.of(this.getEPlayer(player.get()));
 		}
-		return Optional.ofNullable(players.get(uniqueId));
+		return Optional.empty();
 	}
 	
 	/**
@@ -131,17 +111,16 @@ public class EServer extends ServerWarp {
 	 * @return
 	 */
 	public Collection<EPlayer> getOnlineEPlayers() {
-		return this.players.values();
+		return this.getOnlinePlayers().stream()
+				.map(player -> new EPlayer(this.plugin, player))
+				.collect(Collectors.toSet());
 	}
 	
 	public Collection<EPlayer> getOnlineEPlayers(EPlayer player) {
-		List<EPlayer> players = new ArrayList<EPlayer>();
-		for (EPlayer onlinePlayer : this.players.values()) {
-			if (!onlinePlayer.isVanish() || player.canSeePlayer(onlinePlayer)) {
-				players.add(onlinePlayer);
-			}
-		}
-		return players;
+		return this.getOnlinePlayers().stream()
+				.map(onlinePlayer -> new EPlayer(this.plugin, onlinePlayer))
+				.filter(onlinePlayer -> !onlinePlayer.isVanish() || player.canSeePlayer(onlinePlayer))
+				.collect(Collectors.toSet());
 	}
 	
 	/*

@@ -16,17 +16,8 @@
  */
 package fr.evercraft.everapi;
 
-import java.util.Optional;
-
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
-import org.spongepowered.api.event.block.ChangeBlockEvent;
-import org.spongepowered.api.event.block.CollideBlockEvent;
-import org.spongepowered.api.event.block.NotifyNeighborBlockEvent;
-import org.spongepowered.api.event.block.TickBlockEvent;
-import org.spongepowered.api.event.entity.CollideEntityEvent;
-import org.spongepowered.api.event.entity.MoveEntityEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.text.title.Title;
 
@@ -41,41 +32,22 @@ public class EAListener {
 	
 	@Listener(order=Order.FIRST)
 	public void onPlayerJoin(final ClientConnectionEvent.Join event) {		
-		Optional<EPlayer> optPlayer = this.plugin.getEServer().getEPlayer(event.getTargetEntity());
-		if (optPlayer.isPresent()) {
-			EPlayer player = optPlayer.get();
-			
-			// Corrige bug
-			player.sendTitle(Title.CLEAR);
-			player.getTabList().setHeaderAndFooter(null, null);
-			
-			this.plugin.getManagerService().getEScoreBoard().addPlayer(player);
-		}
+		EPlayer player = this.plugin.getEServer().getEPlayer(event.getTargetEntity());
+		
+		// Corrige bug
+		player.sendTitle(Title.CLEAR);
+		player.getTabList().setHeaderAndFooter(null, null);
+		
+		this.plugin.getManagerService().getEScoreBoard().addPlayer(player);
 	}
 	
 	@Listener(order=Order.PRE)
 	public void onPlayerDisconnectPre(final ClientConnectionEvent.Disconnect event) {
-		Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(event.getTargetEntity());
-		if (player.isPresent()) {
-			player.get().setDisconnected(true);
-		}
+		this.plugin.getEServer().disconnects.add(event.getTargetEntity().getUniqueId());
 	}
 	
 	@Listener(order=Order.POST)
 	public void onPlayerDisconnectPost(final ClientConnectionEvent.Disconnect event) {
-		this.plugin.getEServer().removeEPlayer(event.getTargetEntity());
-	}
-	
-	public void test(final Event event) {
-		if(event instanceof TickBlockEvent || 
-				event instanceof MoveEntityEvent || 
-				event instanceof CollideEntityEvent || 
-				event instanceof CollideBlockEvent || 
-				event instanceof ChangeBlockEvent ||
-				event instanceof ChangeBlockEvent.Pre ||
-				event instanceof NotifyNeighborBlockEvent) {
-		} else {
-			this.plugin.getEServer().broadcast("Event :" + event.toString());
-		}
+		this.plugin.getEServer().disconnects.add(event.getTargetEntity().getUniqueId());
 	}
 }

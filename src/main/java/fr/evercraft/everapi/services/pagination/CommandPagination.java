@@ -17,7 +17,6 @@
 package fr.evercraft.everapi.services.pagination;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Predicate;
@@ -125,10 +124,8 @@ public abstract class CommandPagination<T extends EPlugin<?>> {
 		if (source instanceof EPlayer) {
 			return this.getAllPlayers((EPlayer) source, remove);
 		} else if (source instanceof Player) {
-			Optional<EPlayer> player = this.plugin.getEServer().getEPlayer((Player) source);
-			if (player.isPresent()) {
-				return this.getAllPlayers(player.get(), remove);
-			}
+			EPlayer player = this.plugin.getEServer().getEPlayer((Player) source);
+			return this.getAllPlayers(player, remove);
 		}
 		
 		return this.getAllPlayers();

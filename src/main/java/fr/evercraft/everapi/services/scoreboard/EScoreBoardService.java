@@ -114,7 +114,7 @@ public class EScoreBoardService implements ScoreBoardService {
 	
 	private void postAdd(EPlayer player, Objective objective, DisplaySlot display) {
 		this.plugin.getLogger().debug("Event ScoreBoardEvent.Add : ("
-				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "uuid='" + player.getUniqueId() + "';"
 				+ "objective='" + objective.getName() + "';"
 				+ "display='" + display.getName() + "')");
 		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createScoreBoardEventAdd(player, objective, display, Cause.source(this.plugin).build()));
@@ -122,7 +122,7 @@ public class EScoreBoardService implements ScoreBoardService {
 	
 	private void postRemove(EPlayer player, Objective objective, DisplaySlot display) {
 		this.plugin.getLogger().debug("Event ScoreBoardEvent.Remove : ("
-				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "uuid='" + player.getUniqueId() + "';"
 				+ "objective='" + objective.getName() + "';"
 				+ "display='" + display.getName() + "')");
 		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createScoreBoardEventRemove(player, objective, display, Cause.source(this.plugin).build()));
@@ -130,7 +130,7 @@ public class EScoreBoardService implements ScoreBoardService {
 	
 	private void postReplace(EPlayer player, Objective objective, Objective new_objective, DisplaySlot display) {
 		this.plugin.getLogger().debug("Event ScoreBoardEvent.Replace : ("
-				+ "uuid='" + player.get().getUniqueId() + "';"
+				+ "uuid='" + player.getUniqueId() + "';"
 				+ "objective='" + objective.getName() + "';"
 				+ "new_objective='" + new_objective.getName() + "';"
 				+ "display='" + display.getName() + "')");

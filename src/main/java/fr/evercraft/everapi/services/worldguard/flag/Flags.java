@@ -8,8 +8,8 @@ public class Flags {
 	
 	public static Flag<State> BUILD = FakeFlag.of("BUILD");
 	public static Flag<State> PVP = FakeFlag.of("PVP");
+	public static Flag<State> INVINCIBILITY = FakeFlag.of("INVINCIBILITY");
 	
 	public static Flag<VirtualLocation> SPAWN = FakeFlag.of("SPAWN");
-	public static Flag<VirtualLocation> TELEPORT = FakeFlag.of("TELEPORT");
-	
+	public static Flag<VirtualLocation> TELEPORT = FakeFlag.of("TELEPORT");	
 }

@@ -85,18 +85,14 @@ public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T
 	}
 	
 	private void processPlayer(final Player source, final String arg, final List<String> args) throws CommandException, PluginDisableException, ServerDisableException {
-		Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(source);
-		if (player.isPresent()) {
-			if (!player.get().isDead()) {
-				if (!this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createCommandEventSend(player.get(), this.getName(), arg, args, Cause.source(this.plugin).build()))) {
-					boolean result = execute(player.get(), args);
-					this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createCommandEventResult(player.get(), this.getName(), arg, args, result, Cause.source(this.plugin).build()));
-				}
-			} else {
-				player.get().sendMessage(EAMessages.COMMAND_ERROR_PLAYER_DEAD.getText());
+		EPlayer player = this.plugin.getEServer().getEPlayer(source);
+		if (!player.isDead()) {
+			if (!this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createCommandEventSend(player, this.getName(), arg, args, Cause.source(this.plugin).build()))) {
+				boolean result = execute(player, args);
+				this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createCommandEventResult(player, this.getName(), arg, args, result, Cause.source(this.plugin).build()));
 			}
 		} else {
-			source.sendMessage(EAMessages.PLAYER_NOT_FOUND.getText());
+			player.sendMessage(EAMessages.COMMAND_ERROR_PLAYER_DEAD.getText());
 		}
 	}
 	
