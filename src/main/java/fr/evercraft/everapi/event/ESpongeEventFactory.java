@@ -938,7 +938,7 @@ public class ESpongeEventFactory extends SpongeEventFactory {
 	 * WorldGuard
 	 */
 	
-	public static CanMoveEvent createCanMoveEvent(EPlayer player, 
+	public static MoveRegionEvent.Pre createMoveRegionEventPre(EPlayer player, 
 			Location<World> fromLocation, Location<World> toLocation, 
 			SetProtectedRegion fromRegions, SetProtectedRegion toRegions,
 			SetProtectedRegion enterRegions, SetProtectedRegion exitRegions, Cause cause) {
@@ -951,10 +951,10 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("enterRegions", enterRegions);
         values.put("exitRegions", exitRegions);
         values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(CanMoveEvent.class, values);
+        return SpongeEventFactoryUtils.createEventImpl(MoveRegionEvent.Pre.class, values);
     }
 	
-	public static CanMoveEvent.Cancellable createCanMoveEventCancellable(EPlayer player, 
+	public static MoveRegionEvent.Pre.Cancellable createMoveRegionEventPreCancellable(EPlayer player, 
 			Location<World> fromLocation, Location<World> toLocation, 
 			SetProtectedRegion fromRegions, SetProtectedRegion toRegions,
 			SetProtectedRegion enterRegions, SetProtectedRegion exitRegions, Cause cause) {
@@ -967,10 +967,10 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("enterRegions", enterRegions);
         values.put("exitRegions", exitRegions);
         values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(CanMoveEvent.Cancellable.class, values);
+        return SpongeEventFactoryUtils.createEventImpl(MoveRegionEvent.Pre.Cancellable.class, values);
     }
 	
-	public static MoveEvent creatMoveEvent(EPlayer player, 
+	public static MoveRegionEvent createMoveRegionEventPost(EPlayer player, 
 			Location<World> fromLocation, Location<World> toLocation, 
 			SetProtectedRegion fromRegions, SetProtectedRegion toRegions,
 			SetProtectedRegion enterRegions, SetProtectedRegion exitRegions, Cause cause) {
@@ -983,6 +983,6 @@ public class ESpongeEventFactory extends SpongeEventFactory {
         values.put("enterRegions", enterRegions);
         values.put("exitRegions", exitRegions);
         values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(MoveEvent.class, values);
+        return SpongeEventFactoryUtils.createEventImpl(MoveRegionEvent.Post.class, values);
     }
 }

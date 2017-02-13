@@ -21,13 +21,8 @@ import java.util.Optional;
 
 import javax.annotation.Nullable;
 
-import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.world.Location;
-import org.spongepowered.api.world.World;
-
 import com.flowpowered.math.vector.Vector3i;
 
-import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 import fr.evercraft.everapi.services.worldguard.regions.Region;
 
@@ -59,6 +54,4 @@ public interface SubjectWorldGuard {
 	boolean setSelectType(@Nullable SelectType type);
 	Optional<Integer> getSelectArea();
 	Optional<Region> getSelectRegion();
-
-	Optional<Location<World>> canMoveTo(EPlayer player, Location<World> toTransform, MoveType move, Cause cause);
 }

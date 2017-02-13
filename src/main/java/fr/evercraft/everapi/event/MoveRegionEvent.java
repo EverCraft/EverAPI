@@ -24,7 +24,7 @@ import org.spongepowered.api.world.World;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 
-public interface CanMoveEvent extends Event {
+public interface MoveRegionEvent extends Event {
 	
 	public EPlayer getPlayer();
 	
@@ -40,6 +40,10 @@ public interface CanMoveEvent extends Event {
 	@Override
 	public Cause getCause();
 	
-	public interface Cancellable extends CanMoveEvent, org.spongepowered.api.event.Cancellable {}
+	public interface Pre extends MoveRegionEvent {
+		public interface Cancellable extends MoveRegionEvent, org.spongepowered.api.event.Cancellable {}
+	}
+	
+	public interface Post extends MoveRegionEvent {}
 }
 
