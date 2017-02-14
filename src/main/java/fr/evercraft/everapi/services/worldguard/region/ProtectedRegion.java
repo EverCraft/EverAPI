@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
@@ -153,24 +154,24 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	Domain getOwners();
 	
 	boolean isPlayerOwner(User player, Set<Context> contexts);
-	void addPlayerOwner(Set<User> players);
-	void removePlayerOwner(Set<User> players);
+	void addPlayerOwner(Set<UUID> players);
+	void removePlayerOwner(Set<UUID> players);
 	
 	boolean isGroupOwner(Subject group);
-	void addGroupOwner(Set<Subject> groups);
-	void removeGroupOwner(Set<Subject> groups);
+	void addGroupOwner(Set<String> groups);
+	void removeGroupOwner(Set<String> groups);
 
 	/*
 	 * Member
 	 */
 	Domain getMembers();
 	boolean isPlayerMember(User player, Set<Context> contexts);
-	void addPlayerMember(Set<User> players);
-	void removePlayerMember(Set<User> players);
+	void addPlayerMember(Set<UUID> players);
+	void removePlayerMember(Set<UUID> players);
 	
 	boolean isGroupMember(Subject group);
-	void addGroupMember(Set<Subject> groups);
-	void removeGroupMember(Set<Subject> groups);
+	void addGroupMember(Set<String> groups);
+	void removeGroupMember(Set<String> groups);
 
 	boolean hasMembersOrOwners();
 	boolean isOwnerOrMember(User player, Set<Context> contexts);

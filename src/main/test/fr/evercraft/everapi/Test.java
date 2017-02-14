@@ -1,5 +1,10 @@
 package fr.evercraft.everapi;
 
+import java.util.Set;
+
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
+
 import junit.framework.TestCase;
 
 public class Test extends TestCase {
@@ -16,6 +21,11 @@ public class Test extends TestCase {
         System.out.println("z : " + lsw(to));
         System.out.println("mainIdx : " + mainIdx);
         System.out.println("outerIdx : " + outerIdx);
+        
+        Set<String> set1 = ImmutableSet.of("string1", "string2", "string3");
+        Set<String> set2 = ImmutableSet.of("string3", "string4", "string5");
+        Set<String> set3 = Sets.difference(set2, set1);
+        System.out.println("out : " + set3);
     }
     
     public static long toLong(int msw, int lsw) {
