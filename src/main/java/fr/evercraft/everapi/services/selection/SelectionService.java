@@ -14,29 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.worldguard;
+package fr.evercraft.everapi.services.selection;
 
 import java.util.Optional;
+import java.util.UUID;
 
-public enum  SelectType {
-	CUBOID(),
-	POLYGONAL(),
-	CYLINDER();
-	
-	public String getName() {
-        return this.name();
-    }
-	
-	public static Optional<SelectType> getSelectType(final String name) {
-		SelectType result = null;
-		int cpt = 0;
-		SelectType[] type = SelectType.values();
-		while(cpt < type.length && result == null){
-			if (type[cpt].getName().equalsIgnoreCase(name)) {
-				result = type[cpt];
-			}
-			cpt++;
-		}
-		return Optional.ofNullable(result);
-	}
+public interface SelectionService {
+
+	Optional<SubjectSelection> get(UUID uuid);
+	boolean hasRegistered(UUID uuid);
 }

@@ -27,7 +27,7 @@ import com.flowpowered.math.vector.Vector3i;
 import com.google.common.collect.ImmutableList;
 
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.services.worldguard.SelectType;
+import fr.evercraft.everapi.services.selection.SelectionType;
 import fr.evercraft.everapi.services.worldguard.SubjectWorldGuard;
 import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 import fr.evercraft.everapi.services.worldguard.regions.Region;
@@ -144,15 +144,15 @@ public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 	}
 
 	@Override
-	public SelectType getSelectType() {
+	public SelectionType getSelectType() {
 		if (this.isPresent()) {
 			return this.subject.getSelectType();
 		}
-		return SelectType.CUBOID;
+		return SelectionType.CUBOID;
 	}
 
 	@Override
-	public boolean setSelectType(@Nullable SelectType type) {
+	public boolean setSelectType(@Nullable SelectionType type) {
 		if (this.isPresent()) {
 			return this.subject.setSelectType(type);
 		}

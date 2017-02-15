@@ -154,31 +154,31 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	Domain getOwners();
 	
 	boolean isPlayerOwner(User player, Set<Context> contexts);
-	void addPlayerOwner(Set<UUID> players);
-	void removePlayerOwner(Set<UUID> players);
+	Set<UUID> addPlayerOwner(Set<UUID> players);
+	Set<UUID> removePlayerOwner(Set<UUID> players);
 	
 	boolean isGroupOwner(Subject group);
-	void addGroupOwner(Set<String> groups);
-	void removeGroupOwner(Set<String> groups);
+	Set<String> addGroupOwner(Set<String> groups);
+	Set<String> removeGroupOwner(Set<String> groups);
 
 	/*
 	 * Member
 	 */
 	Domain getMembers();
 	boolean isPlayerMember(User player, Set<Context> contexts);
-	void addPlayerMember(Set<UUID> players);
-	void removePlayerMember(Set<UUID> players);
+	Set<UUID> addPlayerMember(Set<UUID> players);
+	Set<UUID> removePlayerMember(Set<UUID> players);
 	
 	boolean isGroupMember(Subject group);
-	void addGroupMember(Set<String> groups);
-	void removeGroupMember(Set<String> groups);
+	Set<String> addGroupMember(Set<String> groups);
+	Set<String> removeGroupMember(Set<String> groups);
 
 	boolean hasMembersOrOwners();
 	boolean isOwnerOrMember(User player, Set<Context> contexts);
 	boolean isOwnerOrMember(Subject group);
 
 	<V> FlagValue<V> getFlag(Flag<V> flag);
-	<V> FlagValue<V> getFlagInherit(Flag<V> flag);
+	<V> Optional<V> getFlagInherit(Flag<V> flag, Group group);
 	<V> void setFlag(Flag<V> flag, Group group, V value);
 	Map<Flag<?>, FlagValue<?>> getFlags();
 
@@ -190,7 +190,11 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	List<ProtectedRegion> getIntersecting(ProtectedRegion region);
 	List<ProtectedRegion> getIntersectingRegions(Collection<ProtectedRegion> regions);
 	boolean isPhysicalArea();
-	Optional<Area> toArea();	
+	Optional<Area> toArea();
+	
+	Optional<ProtectedRegion.Cuboid> redefineCuboid(Vector3i pos1, Vector3i pos2);
+	Optional<ProtectedRegion.Polygonal> redefinePolygonal(List<Vector3i> positions);
+	Optional<ProtectedRegion.Template> redefineTemplate();
 	
 	public interface Cuboid extends ProtectedRegion {
 		default ProtectedRegion.Type getType() {
@@ -215,8 +219,4 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 			return ProtectedRegion.Type.GLOBAL;
 		}
 	}
-
-	Optional<ProtectedRegion.Cuboid> redefineCuboid(Vector3i pos1, Vector3i pos2);
-	Optional<ProtectedRegion.Polygonal> redefinePolygonal(List<Vector3i> positions);
-	Optional<ProtectedRegion.Template> redefineTemplate();
 }

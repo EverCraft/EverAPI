@@ -23,6 +23,7 @@ import javax.annotation.Nullable;
 
 import com.flowpowered.math.vector.Vector3i;
 
+import fr.evercraft.everapi.services.selection.SelectionType;
 import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 import fr.evercraft.everapi.services.worldguard.regions.Region;
 
@@ -50,8 +51,8 @@ public interface SubjectWorldGuard {
 	boolean removeSelectPoint(int num);
 	boolean clearSelectPoints();
 	
-	SelectType getSelectType();
-	boolean setSelectType(@Nullable SelectType type);
+	SelectionType getSelectType();
+	boolean setSelectType(@Nullable SelectionType type);
 	Optional<Integer> getSelectArea();
 	Optional<Region> getSelectRegion();
 }

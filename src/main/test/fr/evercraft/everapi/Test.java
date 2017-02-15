@@ -24,8 +24,10 @@ public class Test extends TestCase {
         
         Set<String> set1 = ImmutableSet.of("string1", "string2", "string3");
         Set<String> set2 = ImmutableSet.of("string3", "string4", "string5");
-        Set<String> set3 = Sets.difference(set2, set1);
-        System.out.println("out : " + set3);
+        Set<String> set3 = Sets.intersection(set2, set1);
+        System.out.println("out1 : " + set3);
+        set3 = Sets.intersection(set1, set2);
+        System.out.println("out2 : " + set3);
     }
     
     public static long toLong(int msw, int lsw) {

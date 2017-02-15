@@ -28,11 +28,6 @@ public interface Domain {
 	/*
 	 * Players
 	 */
-	
-	void addPlayer(UUID uniqueId);
-	void addPlayer(User player);
-	void removePlayer(UUID uniqueId);
-	void removePlayer(User player);
 	Set<UUID> getPlayers();
 	boolean containsPlayer(UUID uniqueId);
 	boolean containsPlayer(User player);
@@ -40,11 +35,6 @@ public interface Domain {
 	/*
 	 * Groups
 	 */
-	
-	void addGroup(String group);
-	void addGroup(Subject group);
-	void removeGroup(String group);
-	void removeGroup(Subject group);
 	Set<String> getGroups();
 	boolean containsGroup(String group);
 	boolean containsGroup(Subject group);
@@ -55,8 +45,6 @@ public interface Domain {
 	
 	int size();
 	void clear();
-	void addAll(Domain other);
-	void removeAll(Domain other);
 	boolean contains(User player, Set<Context> contexts);
 	default boolean contains(User player) {
 		return this.contains(player, player.getActiveContexts());
