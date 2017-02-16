@@ -16,8 +16,6 @@
  */
 package fr.evercraft.everapi;
 
-import java.util.List;
-
 import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.scheduler.SpongeExecutorService;
@@ -30,7 +28,6 @@ import fr.evercraft.everapi.command.sub.EAReload;
 import fr.evercraft.everapi.command.sub.EATest;
 import fr.evercraft.everapi.config.EFormatSerializer;
 import fr.evercraft.everapi.config.EMessageBuilderSerializer;
-import fr.evercraft.everapi.config.ListVector3iSerializer;
 import fr.evercraft.everapi.config.Vector3iSerializer;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;

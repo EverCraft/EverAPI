@@ -52,12 +52,7 @@ public interface SelectionRegion {
 	public Optional<World> getWorld();
 	public void setWorld(@Nullable World world);
 	
-	public boolean selectPrimary(@Nullable Vector3i position);
-	public boolean selectSecondary(@Nullable Vector3i position);
-	public void clear();
-	
 	public Vector3i getPrimaryPosition();
-	public Vector3i getSecondaryPosition();
 	public List<Vector3i> getPositions();
 	
 	public Type getType();
@@ -69,25 +64,31 @@ public interface SelectionRegion {
 	public int getHeight();
 	public int getLength();
 	
-	public void expand(Vector3i... changes) throws RegionOperationException;
-	public void contract(Vector3i... changes) throws RegionOperationException;
-	public void shift(Vector3i change) throws RegionOperationException;
+	public boolean expand(Vector3i... changes);
+	public boolean contract(Vector3i... changes);
+	public boolean shift(Vector3i change);
 	
 	public boolean containsPosition(Vector3i position);
 	
 	public interface Cuboid extends SelectionRegion {
+		public Vector3i getSecondaryPosition();
+		
 		default SelectionRegion.Type getType() {
 			return SelectionRegion.Type.CUBOID;
 		}
 	}
 	
 	public interface Polygonal extends SelectionRegion {
+		public List<Vector3i> getPositions();
+		
 		default SelectionRegion.Type getType() {
 			return SelectionRegion.Type.POLYGONAL;
 		}
 	}
 	
 	public interface Cylinder extends SelectionRegion {
+		public Vector3i getSecondaryPosition();
+		
 		default SelectionRegion.Type getType() {
 			return SelectionRegion.Type.CYLINDER;
 		}

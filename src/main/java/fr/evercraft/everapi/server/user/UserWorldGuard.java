@@ -62,7 +62,7 @@ public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 	/*
 	 * Select
 	 */
-	
+	@Deprecated
 	@Override
 	public Optional<Vector3i> getSelectPos1() {
 		if (this.isPresent()) {
@@ -71,6 +71,7 @@ public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 		return Optional.empty();
 	}
 
+	@Deprecated
 	@Override
 	public boolean setSelectPos1(@Nullable Vector3i pos) {
 		if (this.isPresent()) {
@@ -79,6 +80,7 @@ public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 		return false;
 	}
 
+	@Deprecated
 	@Override
 	public Optional<Vector3i> getSelectPos2() {
 		if (this.isPresent()) {
@@ -87,6 +89,7 @@ public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 		return Optional.empty();
 	}
 
+	@Deprecated
 	@Override
 	public boolean setSelectPos2(@Nullable Vector3i pos) {
 		if (this.isPresent()) {
@@ -95,6 +98,7 @@ public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 		return false;
 	}
 
+	@Deprecated
 	@Override
 	public List<Vector3i> getSelectPoints() {
 		if (this.isPresent()) {
@@ -103,6 +107,7 @@ public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 		return ImmutableList.of();
 	}
 	
+	@Deprecated
 	@Override
 	public boolean setSelectPoints(List<Vector3i> pos) {
 		if (this.isPresent()) {
@@ -111,6 +116,7 @@ public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 		return false;
 	}
 
+	@Deprecated
 	@Override
 	public boolean addSelectPoint(Vector3i pos) {
 		if (this.isPresent()) {
@@ -119,6 +125,7 @@ public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 		return false;
 	}
 
+	@Deprecated
 	@Override
 	public boolean removeSelectPoint(Vector3i pos) {
 		if (this.isPresent()) {
@@ -127,6 +134,7 @@ public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 		return false;
 	}
 	
+	@Deprecated
 	@Override
 	public boolean removeSelectPoint(int num) {
 		if (this.isPresent()) {
@@ -135,6 +143,7 @@ public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 		return false;
 	}
 
+	@Deprecated
 	@Override
 	public boolean clearSelectPoints() {
 		if (this.isPresent()) {
@@ -143,6 +152,7 @@ public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 		return false;
 	}
 
+	@Deprecated
 	@Override
 	public SelectionType getSelectType() {
 		if (this.isPresent()) {
@@ -151,6 +161,7 @@ public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 		return SelectionType.CUBOID;
 	}
 
+	@Deprecated
 	@Override
 	public boolean setSelectType(@Nullable SelectionType type) {
 		if (this.isPresent()) {
@@ -159,6 +170,7 @@ public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 		return false;
 	}
 	
+	@Deprecated
 	@Override
 	public Optional<Integer> getSelectArea() {
 		if (this.isPresent()) {
@@ -167,6 +179,7 @@ public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 		return Optional.empty();
     }
 	
+	@Deprecated
 	@Override
 	public Optional<Region> getSelectRegion() {
 		if (this.isPresent()) {

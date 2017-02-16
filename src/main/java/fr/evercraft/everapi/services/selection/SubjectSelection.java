@@ -16,11 +16,10 @@
  */
 package fr.evercraft.everapi.services.selection;
 
-import fr.evercraft.everapi.services.selection.SelectionRegion.Type;
-
 public interface SubjectSelection {	
-	public Type setType(SelectionRegion.Type type);
-	public SelectionRegion.Type getType();
 	
-	public SelectionRegion getRegion();
+	public Selector getSelector();
+	
+	public void setType(SelectionRegion.Type type);
+	public SelectionRegion.Type getType();
 }
