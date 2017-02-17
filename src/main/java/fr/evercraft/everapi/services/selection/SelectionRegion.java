@@ -26,36 +26,13 @@ import org.spongepowered.api.world.World;
 import com.flowpowered.math.vector.Vector3i;
 
 public interface SelectionRegion {
-	public enum Type {
-		CUBOID(),
-		POLYGONAL(),
-		CYLINDER();
-		
-		public String getName() {
-	        return this.name();
-	    }
-		
-		public static Optional<SelectionRegion.Type> getSelectType(final String name) {
-			Type result = null;
-			int cpt = 0;
-			Type[] type = Type.values();
-			while(cpt < type.length && result == null){
-				if (type[cpt].getName().equalsIgnoreCase(name)) {
-					result = type[cpt];
-				}
-				cpt++;
-			}
-			return Optional.ofNullable(result);
-		}
-	}
-
 	public Optional<World> getWorld();
 	public void setWorld(@Nullable World world);
 	
 	public Vector3i getPrimaryPosition();
 	public List<Vector3i> getPositions();
 	
-	public Type getType();
+	public SelectionType getType();
 	public Vector3i getMinimumPoint();
 	public Vector3i getMaximumPoint();
 	public Vector3i getCenter();
@@ -64,8 +41,8 @@ public interface SelectionRegion {
 	public int getHeight();
 	public int getLength();
 	
-	public boolean expand(Vector3i... changes);
-	public boolean contract(Vector3i... changes);
+	public boolean expand(Vector3i... changes) throws RegionOperationException;
+	public boolean contract(Vector3i... changes) throws RegionOperationException;
 	public boolean shift(Vector3i change);
 	
 	public boolean containsPosition(Vector3i position);
@@ -73,24 +50,24 @@ public interface SelectionRegion {
 	public interface Cuboid extends SelectionRegion {
 		public Vector3i getSecondaryPosition();
 		
-		default SelectionRegion.Type getType() {
-			return SelectionRegion.Type.CUBOID;
+		default SelectionType getType() {
+			return SelectionType.CUBOID;
 		}
 	}
 	
 	public interface Polygonal extends SelectionRegion {
 		public List<Vector3i> getPositions();
 		
-		default SelectionRegion.Type getType() {
-			return SelectionRegion.Type.POLYGONAL;
+		default SelectionType getType() {
+			return SelectionType.POLYGONAL;
 		}
 	}
 	
 	public interface Cylinder extends SelectionRegion {
 		public Vector3i getSecondaryPosition();
 		
-		default SelectionRegion.Type getType() {
-			return SelectionRegion.Type.CYLINDER;
+		default SelectionType getType() {
+			return SelectionType.CYLINDER;
 		}
 	}
 }

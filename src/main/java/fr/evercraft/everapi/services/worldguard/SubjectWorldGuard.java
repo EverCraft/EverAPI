@@ -16,16 +16,7 @@
  */
 package fr.evercraft.everapi.services.worldguard;
 
-import java.util.List;
-import java.util.Optional;
-
-import javax.annotation.Nullable;
-
-import com.flowpowered.math.vector.Vector3i;
-
-import fr.evercraft.everapi.services.selection.SelectionType;
 import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
-import fr.evercraft.everapi.services.worldguard.regions.Region;
 
 public interface SubjectWorldGuard {
 	/*
@@ -33,26 +24,4 @@ public interface SubjectWorldGuard {
 	 */
 	
 	SetProtectedRegion getRegions();
-	
-	/*
-	 * Select
-	 */
-	
-	Optional<Vector3i> getSelectPos1();
-	boolean setSelectPos1(@Nullable Vector3i pos);
-	
-	Optional<Vector3i> getSelectPos2();
-	boolean setSelectPos2(@Nullable Vector3i pos);
-	
-	List<Vector3i> getSelectPoints();
-	boolean addSelectPoint(Vector3i pos);
-	boolean setSelectPoints(List<Vector3i> pos);
-	boolean removeSelectPoint(Vector3i pos);
-	boolean removeSelectPoint(int num);
-	boolean clearSelectPoints();
-	
-	SelectionType getSelectType();
-	boolean setSelectType(@Nullable SelectionType type);
-	Optional<Integer> getSelectArea();
-	Optional<Region> getSelectRegion();
 }

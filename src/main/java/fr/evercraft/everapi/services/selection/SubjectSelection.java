@@ -20,6 +20,6 @@ public interface SubjectSelection {
 	
 	public Selector getSelector();
 	
-	public void setType(SelectionRegion.Type type);
-	public SelectionRegion.Type getType();
+	public void setType(SelectionType type);
+	public SelectionType getType();
 }

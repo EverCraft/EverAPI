@@ -22,8 +22,6 @@ import java.util.Optional;
 
 import javax.annotation.Nullable;
 
-import org.spongepowered.api.world.World;
-
 import com.flowpowered.math.vector.Vector3i;
 
 import fr.evercraft.everapi.services.selection.SelectionRegion;
@@ -35,62 +33,68 @@ public interface Selector {
 	}
 	
 	public Optional<SelectionRegion> getRegion();
-	
-	public Optional<World> getWorld();
-	public void setWorld(@Nullable World world);
+	public Optional<SelectionRegion.Cuboid> getRegionCuboid();
+	public Optional<SelectionRegion.Polygonal> getRegionPolygonal();
+	public Optional<SelectionRegion.Cylinder> getRegionCylinder();
 	
 	public boolean selectPrimary(@Nullable Vector3i position);
-	public boolean selectSecondary(@Nullable Vector3i position);
-	public void clear();
+	public boolean selectSecondary(@Nullable Vector3i position) throws SelectorSecondaryException;
+	public boolean clear();
 	public int getVolume();
 	
-	public boolean expand(Vector3i... changes);
-	public boolean contract(Vector3i... changes);
+	public boolean expand(Vector3i... changes) throws RegionOperationException;
+	public boolean contract(Vector3i... changes) throws RegionOperationException;
 	public boolean shift(Vector3i change);
 	
 	public Optional<Vector3i> getPrimaryPosition();
 	public List<Vector3i> getPositions();
-	SelectionRegion.Type getType();
+	SelectionType getType();
 	
 	public interface Cuboid extends Selector {
-		public Vector3i getSecondaryPosition();
+		public Optional<Vector3i> getSecondaryPosition();
 		
-		default SelectionRegion.Type getType() {
-			return SelectionRegion.Type.CUBOID;
+		default SelectionType getType() {
+			return SelectionType.CUBOID;
 		}
 	}
 	
 	public interface Polygonal extends Selector {		
-		default SelectionRegion.Type getType() {
-			return SelectionRegion.Type.POLYGONAL;
+		default SelectionType getType() {
+			return SelectionType.POLYGONAL;
 		}
 	}
 	
 	public interface Cylinder extends Selector {
-		public Vector3i getSecondaryPosition();
+		public Optional<Vector3i> getSecondaryPosition();
 		
-		default SelectionRegion.Type getType() {
-			return SelectionRegion.Type.CYLINDER;
+		default SelectionType getType() {
+			return SelectionType.CYLINDER;
 		}
 	}
 	
-	public class Empty implements Selector {
+	public class Empty implements Selector.Cuboid {
 		private static Empty EMPTY = new Empty();
 
 		@Override
 		public Optional<SelectionRegion> getRegion() {
 			return Optional.empty();
 		}
-
+		
 		@Override
-		public Optional<World> getWorld() {
+		public Optional<SelectionRegion.Cuboid> getRegionCuboid() {
 			return Optional.empty();
 		}
-
+		
 		@Override
-		public void setWorld(World world) {
+		public Optional<SelectionRegion.Polygonal> getRegionPolygonal() {
+			return Optional.empty();
 		}
-
+		
+		@Override
+		public Optional<SelectionRegion.Cylinder> getRegionCylinder() {
+			return Optional.empty();
+		}
+		
 		@Override
 		public boolean selectPrimary(Vector3i position) {
 			return false;
@@ -102,7 +106,8 @@ public interface Selector {
 		}
 
 		@Override
-		public void clear() {
+		public boolean clear() {
+			return false;
 		}
 
 		@Override
@@ -114,10 +119,15 @@ public interface Selector {
 		public Optional<Vector3i> getPrimaryPosition() {
 			return Optional.empty();
 		}
+		
+		@Override
+		public Optional<Vector3i> getSecondaryPosition() {
+			return Optional.empty();
+		}
 
 		@Override
-		public SelectionRegion.Type getType() {
-			return SelectionRegion.Type.CUBOID;
+		public SelectionType getType() {
+			return SelectionType.CUBOID;
 		}
 
 		@Override
