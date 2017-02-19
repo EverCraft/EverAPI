@@ -23,48 +23,52 @@ import javax.annotation.Nullable;
 
 import org.spongepowered.api.world.World;
 
+import com.flowpowered.math.vector.Vector3d;
 import com.flowpowered.math.vector.Vector3i;
 
 public interface SelectionRegion {
-	public Optional<World> getWorld();
-	public void setWorld(@Nullable World world);
+	Optional<World> getWorld();
+	void setWorld(@Nullable World world);
 	
-	public Vector3i getPrimaryPosition();
-	public List<Vector3i> getPositions();
+	Vector3i getPrimaryPosition();
+	List<Vector3i> getPositions();
 	
-	public SelectionType getType();
-	public Vector3i getMinimumPoint();
-	public Vector3i getMaximumPoint();
-	public Vector3i getCenter();
-	public int getVolume();
-	public int getWidth();
-	public int getHeight();
-	public int getLength();
+	SelectionType getType();
+	Vector3i getMinimumPoint();
+	Vector3i getMaximumPoint();
+	Vector3i getCenter();
+	int getVolume();
+	int getWidth();
+	int getHeight();
+	int getLength();
 	
-	public boolean expand(Vector3i... changes) throws RegionOperationException;
-	public boolean contract(Vector3i... changes) throws RegionOperationException;
-	public boolean shift(Vector3i change);
+	boolean expand(Vector3i... changes) throws RegionOperationException;
+	boolean contract(Vector3i... changes) throws RegionOperationException;
+	boolean shift(Vector3i change);
 	
-	public boolean containsPosition(Vector3i position);
+	boolean containsPosition(Vector3i position);
 	
-	public interface Cuboid extends SelectionRegion {
-		public Vector3i getSecondaryPosition();
+	interface Cuboid extends SelectionRegion {
+		Vector3i getSecondaryPosition();
 		
 		default SelectionType getType() {
 			return SelectionType.CUBOID;
 		}
 	}
 	
-	public interface Polygonal extends SelectionRegion {
-		public List<Vector3i> getPositions();
+	interface Polygonal extends SelectionRegion {
+		List<Vector3i> getPositions();
 		
 		default SelectionType getType() {
 			return SelectionType.POLYGONAL;
 		}
 	}
 	
-	public interface Cylinder extends SelectionRegion {
-		public Vector3i getSecondaryPosition();
+	interface Cylinder extends SelectionRegion {
+		Vector3i getCenter();
+		Vector3d getRadius();
+		int getMinimumY();
+		int getMaximumY();
 		
 		default SelectionType getType() {
 			return SelectionType.CYLINDER;

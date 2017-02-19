@@ -64,9 +64,7 @@ public interface Selector {
 		}
 	}
 	
-	public interface Cylinder extends Selector {
-		public Optional<Vector3i> getSecondaryPosition();
-		
+	public interface Cylinder extends Selector {		
 		default SelectionType getType() {
 			return SelectionType.CYLINDER;
 		}

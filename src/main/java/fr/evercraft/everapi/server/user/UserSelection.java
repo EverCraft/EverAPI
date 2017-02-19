@@ -84,8 +84,6 @@ public class UserSelection extends UserWorldGuard {
 		Selector selector = this.getSelector();
 		if (selector instanceof Selector.Cuboid) {
 			return ((Selector.Cuboid) selector).getSecondaryPosition();
-		} else if (selector instanceof Selector.Cylinder) {
-			return ((Selector.Cylinder) selector).getSecondaryPosition();
 		}
 		return Optional.empty();
 	}
