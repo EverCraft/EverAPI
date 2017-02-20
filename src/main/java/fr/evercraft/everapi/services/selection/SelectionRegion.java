@@ -56,6 +56,14 @@ public interface SelectionRegion {
 		}
 	}
 	
+	interface Extend extends SelectionRegion {
+		Vector3i getSecondaryPosition();
+		
+		default SelectionType getType() {
+			return SelectionType.EXTEND;
+		}
+	}
+	
 	interface Polygonal extends SelectionRegion {
 		List<Vector3i> getPositions();
 		
@@ -72,6 +80,15 @@ public interface SelectionRegion {
 		
 		default SelectionType getType() {
 			return SelectionType.CYLINDER;
+		}
+	}
+	
+	interface Ellipsoid extends SelectionRegion {
+		Vector3i getCenter();
+		Vector3d getRadius();
+		
+		default SelectionType getType() {
+			return SelectionType.ELLIPSOID;
 		}
 	}
 }

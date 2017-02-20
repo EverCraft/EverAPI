@@ -19,9 +19,11 @@ package fr.evercraft.everapi.services.selection;
 import java.util.Optional;
 
 public enum  SelectionType {
-	CUBOID(),
-	POLYGONAL(),
-	CYLINDER();
+	CUBOID,
+	POLYGONAL,
+	CYLINDER, 
+	EXTEND, 
+	ELLIPSOID;
 	
 	public String getName() {
         return this.name();
