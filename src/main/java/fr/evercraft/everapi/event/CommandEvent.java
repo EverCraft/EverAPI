@@ -19,28 +19,94 @@ package fr.evercraft.everapi.event;
 import java.util.List;
 
 import org.spongepowered.api.event.Cancellable;
-import org.spongepowered.api.event.Event;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public interface CommandEvent extends Event {
+public abstract class CommandEvent extends AbstractEvent {
 	public static enum Action {
     	SEND,
     	RESULT;
     }
 
-    public EPlayer getPlayer();
+	private final EPlayer player;
+	private final String command;
+	private final String arg;
+	private final List<String> args;
+	private final Cause cause;
+	
+	public CommandEvent(EPlayer player, String command, String arg, List<String> args, Cause cause) {
+		super();
+		this.player = player;
+		this.command = command;
+		this.arg = arg;
+		this.args = args;
+		this.cause = cause;
+	}
+
+	public abstract Action getAction();
+	
+    public EPlayer getPlayer() {
+    	return this.player;
+    }
     
-    public Action getAction();
+    public String getCommand() {
+    	return this.command;
+    }
     
-    public String getCommand();
+    public String getArg() {
+    	return this.arg;
+    }
     
-    public String getArg();
+    public List<String> getArgs() {
+    	return this.args;
+    }
     
-    public List<String> getArgs();
+    @Override
+	public Cause getCause() {
+		return this.cause;
+	}
     
-    public interface Send extends CommandEvent, Cancellable {}
-    public interface Result extends CommandEvent {
-    	public boolean getResult();
+    public static class Send extends CommandEvent implements Cancellable {
+    	private boolean cancelled;
+
+		public Send(EPlayer player, String command, String arg, List<String> args, Cause cause) {
+			super(player, command, arg, args, cause);
+			this.cancelled = false;
+		}
+
+		@Override
+		public boolean isCancelled() {
+			return this.cancelled;
+		}
+
+		@Override
+		public void setCancelled(boolean cancel) {
+			this.cancelled = cancel;
+		}
+
+		@Override
+		public Action getAction() {
+			return Action.SEND;
+		}
+	}
+    
+    public static class Result extends CommandEvent {
+    	private final boolean result;
+    	
+    	public Result(EPlayer player, String command, String arg, List<String> args, boolean result, Cause cause) {
+			super(player, command, arg, args, cause);
+			this.result = result;
+		}
+
+		public boolean getResult() {
+    		return this.result;
+    	}
+    	
+    	@Override
+		public Action getAction() {
+			return Action.RESULT;
+		}
     }
 }

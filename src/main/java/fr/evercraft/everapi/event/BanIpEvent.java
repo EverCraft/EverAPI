@@ -21,36 +21,151 @@ import java.util.Optional;
 
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.event.Cancellable;
-import org.spongepowered.api.event.Event;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.server.user.EUser;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionBanIp;
 
-public interface BanIpEvent extends Event {
+public abstract class BanIpEvent extends AbstractEvent {
 	
-	public EUser getUser();
-	public Optional<EPlayer> getPlayer();
-	public InetAddress getAddress();
-	public boolean getValue();
-	public SanctionBanIp getSanction();
+	private final EUser user;
+	private final Optional<EPlayer> player;
+	private final InetAddress address;
+	private final SanctionBanIp sanction;
 	
-	public Text getReason();
-	public long getCreationDate();
-	public boolean isIndefinite();
-	public Optional<Long> getExpirationDate();
-	public String getSource();
+	private final Text reason;
+	private final long creationDate;
+	private final Optional<Long> expirationDate;
+	private final String source;
+	private final Cause cause;
 	
-	public interface Enable extends BanIpEvent, Cancellable {
-		public CommandSource getCommandSource();
+	public BanIpEvent(EUser user, Optional<EPlayer> player, InetAddress address, Text reason, long creationDate, 
+			Optional<Long> expirationDate, String source, SanctionBanIp sanction, Cause cause) {
+		super();
+		this.user = user;
+		this.player = player;
+		this.address = address;
+		this.sanction = sanction;
+		this.reason = reason;
+		this.creationDate = creationDate;
+		this.expirationDate = expirationDate;
+		this.source = source;
+		this.cause = cause;
+	}
+
+	public abstract boolean getValue();
+	
+	public EUser getUser() {
+		return this.user;
 	}
 	
-	public interface Disable extends BanIpEvent {
-		public boolean isPardon();		
-		public Optional<Text> getPardonReason();
-		public Optional<Long> getPardonDate();
-		public Optional<CommandSource> getPardonCommandSource();
+	public Optional<EPlayer> getPlayer() {
+		return this.player;
+	}
+	
+	public InetAddress getAddress() {
+		return this.address;
+	}
+	
+	public SanctionBanIp getSanction() {
+		return this.sanction;
+	}
+	
+	public Text getReason() {
+		return this.reason;
+	}
+	
+	public long getCreationDate() {
+		return this.creationDate;
+	}
+	
+	public boolean isIndefinite() {
+		return !this.expirationDate.isPresent();
+	}
+	
+	public Optional<Long> getExpirationDate() {
+		return this.expirationDate;
+	}
+	
+	public String getSource() {
+		return this.source;
+	}
+	
+	public Cause getCause() {
+		return this.cause;
+	}
+	
+	public static class Enable extends BanIpEvent implements Cancellable {
+		private final CommandSource commandSource;
+		private boolean cancelled;
+		
+		public Enable(EUser user, Optional<EPlayer> player, InetAddress address, Text reason, long creationDate, 
+				Optional<Long> expirationDate, SanctionBanIp sanction, CommandSource commandSource, Cause cause) {
+			super(user, player, address, reason, creationDate, expirationDate, commandSource.getName(), sanction, cause);
+
+			this.commandSource = commandSource;
+			this.cancelled = false;
+		}
+
+		public CommandSource getCommandSource() {
+			return this.commandSource;
+		}
+
+		@Override
+		public boolean isCancelled() {
+			return this.cancelled;
+		}
+
+		@Override
+		public void setCancelled(boolean cancel) {
+			this.cancelled = cancel;
+		}
+
+		@Override
+		public boolean getValue() {
+			return true;
+		}
+	}
+	
+	public static class Disable extends BanIpEvent {
+		private final Optional<Text> pardonReason; 
+		private final Optional<Long> pardonDate; 
+		private final Optional<CommandSource> pardonCommandSource; 
+		
+		public Disable(EUser user, Optional<EPlayer> player, InetAddress address, Text reason, long creationDate, 
+				Optional<Long> expirationDate, SanctionBanIp sanction, String source, 
+				Optional<Text> pardonReason, Optional<Long> pardonDate, 
+				Optional<CommandSource> pardonCommandSource, Cause cause) {
+			super(user, player, address, reason, creationDate, expirationDate, source, sanction, cause);
+			
+			this.pardonReason = pardonReason;
+			this.pardonDate = pardonDate;
+			this.pardonCommandSource = pardonCommandSource;
+		}
+		
+		public boolean isPardon() {
+			return this.pardonDate.isPresent();
+		}
+		
+		public Optional<Text> getPardonReason() {
+			return this.pardonReason;
+		}
+		
+		public Optional<Long> getPardonDate() {
+			return this.pardonDate;
+		}
+		
+		public Optional<CommandSource> getPardonCommandSource() {
+			return this.pardonCommandSource;
+		}
+		
+		@Override
+		public boolean getValue() {
+			return false;
+		}
 	}
 }
 

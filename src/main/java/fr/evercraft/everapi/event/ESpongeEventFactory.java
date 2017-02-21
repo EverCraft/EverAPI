@@ -16,6 +16,7 @@
  */
 package fr.evercraft.everapi.event;
 
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +27,6 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.event.SpongeEventFactory;
-import org.spongepowered.api.event.SpongeEventFactoryUtils;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.entity.damage.DamageType;
 import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
@@ -36,6 +36,9 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+import fr.evercraft.everapi.event.ActionBarEvent.Add;
+import fr.evercraft.everapi.event.ActionBarEvent.Remove;
+import fr.evercraft.everapi.event.ActionBarEvent.Replace;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.server.user.EUser;
 import fr.evercraft.everapi.services.actionbar.ActionBarMessage;
@@ -44,51 +47,29 @@ import fr.evercraft.everapi.services.essentials.Mail;
 import fr.evercraft.everapi.services.jail.Jail;
 import fr.evercraft.everapi.services.mojang.check.MojangServer;
 import fr.evercraft.everapi.services.mojang.check.MojangServer.Color;
+import fr.evercraft.everapi.services.sanction.Sanction.SanctionBanProfile;
+import fr.evercraft.everapi.services.sanction.Sanction.SanctionBanIp;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionJail;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionMute;
 import fr.evercraft.everapi.services.title.TitleMessage;
 import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 
-public class ESpongeEventFactory extends SpongeEventFactory {
+public class ESpongeEventFactory {
 	
 	/*
 	 * ActionBar
 	 */
-	
 	public static ActionBarEvent.Add createActionBarEventAdd(EPlayer player, ActionBarMessage actionBar, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("identifier", actionBar.getIdentifier());
-        values.put("time", actionBar.getTime());
-        values.put("message", actionBar.getMessage());
-        values.put("action", ActionBarEvent.Action.ADD);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(ActionBarEvent.Add.class, values);
+		return new ActionBarEvent.Add(player, actionBar.getIdentifier(), actionBar.getTime(), actionBar.getMessage(), cause);
     }
 	
 	public static ActionBarEvent.Remove createActionBarEventRemove(EPlayer player, ActionBarMessage actionBar, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("identifier", actionBar.getIdentifier());
-        values.put("time", actionBar.getTime());
-        values.put("message", actionBar.getMessage());
-        values.put("action", ActionBarEvent.Action.REMOVE);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(ActionBarEvent.Remove.class, values);
+		return new ActionBarEvent.Remove(player, actionBar.getIdentifier(), actionBar.getTime(), actionBar.getMessage(), cause);
     }
 	
-	public static ActionBarEvent.Replace createActionBarEventReplace(EPlayer player, ActionBarMessage actionBar, ActionBarMessage new_actionBar, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("identifier", actionBar.getIdentifier());
-        values.put("time", actionBar.getTime());
-        values.put("message", actionBar.getMessage());
-        values.put("newIdentifier", new_actionBar.getIdentifier());
-        values.put("newTime", new_actionBar.getTime());
-        values.put("newMessage", new_actionBar.getMessage());
-        values.put("action", ActionBarEvent.Action.REPLACE);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(ActionBarEvent.Replace.class, values);
+	public static ActionBarEvent.Replace createActionBarEventReplace(EPlayer player, ActionBarMessage actionBar, ActionBarMessage newActionBar, Cause cause) {
+		return new ActionBarEvent.Replace(player, actionBar.getIdentifier(), actionBar.getTime(), actionBar.getMessage(), 
+				newActionBar.getIdentifier(), newActionBar.getTime(), newActionBar.getMessage(), cause);
     }
 	
 	/*
@@ -96,21 +77,11 @@ public class ESpongeEventFactory extends SpongeEventFactory {
 	 */
 	
 	public static AfkEvent.Enable createAfkEventEnable(EPlayer player, AfkEvent.Action action, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("value", true);
-        values.put("action", action);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(AfkEvent.Enable.class, values);
+		return new AfkEvent.Enable(player, action, cause);
     }
 	
 	public static AfkEvent.Disable createAfkEventDisable(EPlayer player, AfkEvent.Action action, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("value", false);
-        values.put("action", action);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(AfkEvent.Disable.class, values);
+		return new AfkEvent.Disable(player, action, cause);
     }
 	
 	/*
@@ -118,87 +89,57 @@ public class ESpongeEventFactory extends SpongeEventFactory {
 	 */
 	
 	public static BackEvent createBackEvent(EPlayer player, Optional<Transform<World>> before, Optional<Transform<World>> after, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("beforeLocation", before);
-        values.put("afterLocation", after);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(BackEvent.class, values);
+		return new BackEvent(player, before, after, cause);
     }
 	
 	/*
-	 * Ban
+	 * BanProfile
 	 */
 	
-	public static BanEvent.Enable createBanEventEnable(EUser user, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("user", user);
-        values.put("value", true);
-        values.put("reason", reason);
-        values.put("creationDate", creationDate);
-        values.put("indefinite", !expirationDate.isPresent());
-        values.put("expirationDate", expirationDate);
-        values.put("source", commandSource.getName());
-        values.put("commandSource", commandSource);
-        values.put("cause", cause);
-        
-        if(user instanceof EPlayer) {
-            values.put("player", Optional.of((EPlayer) user));
-        } else {
-            values.put("player", Optional.empty());
-        }
-        return SpongeEventFactoryUtils.createEventImpl(BanEvent.Enable.class, values);
+	public static BanEvent.Enable createBanEventEnable(EUser user, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, SanctionBanProfile sanction, Cause cause) {
+		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) :Optional.empty();
+		
+		return new BanEvent.Enable(user, player, reason, creationDate, expirationDate, sanction, commandSource, cause);
     }
 	
-	public static BanEvent.Disable createBanEventDisable(EUser user, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, 
+	public static BanEvent.Disable createBanEventDisable(EUser user, Text reason, long creationDate, Optional<Long> expirationDate, String source, SanctionBanProfile sanction, 
 			Text pardonReason, Long pardonDate, CommandSource pardonCommandSource, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("user", user);
-        values.put("value", false);
-        values.put("reason", reason);
-        values.put("creationDate", creationDate);
-        values.put("indefinite", !expirationDate.isPresent());
-        values.put("expirationDate", expirationDate);
-        values.put("source", commandSource.getName());
-        values.put("commandSource", commandSource);
-        values.put("pardon", true);
-        values.put("pardonReason", Optional.of(pardonReason));
-        values.put("pardonDate", Optional.of(pardonDate));
-        values.put("pardonSource", Optional.of(pardonCommandSource.getName()));
-        values.put("pardonCommandSource", Optional.of(pardonCommandSource));
-        values.put("cause", cause);
-        
-        if(user instanceof EPlayer) {
-            values.put("player", Optional.of((EPlayer) user));
-        } else {
-            values.put("player", Optional.empty());
-        }
-        return SpongeEventFactoryUtils.createEventImpl(BanEvent.Disable.class, values);
+		
+		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) :Optional.empty();
+		
+		return new BanEvent.Disable(user, player, reason, creationDate, expirationDate, sanction, source, Optional.of(pardonReason), Optional.of(pardonDate), Optional.of(pardonCommandSource), cause);
     }
 	
-	public static BanEvent.Disable createBanEventDisable(EUser user, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("user", user);
-        values.put("value", false);
-        values.put("reason", reason);
-        values.put("creationDate", creationDate);
-        values.put("indefinite", !expirationDate.isPresent());
-        values.put("expirationDate", expirationDate);
-        values.put("source", commandSource.getName());
-        values.put("commandSource", commandSource);
-        values.put("pardon", false);
-        values.put("pardonReason", Optional.empty());
-        values.put("pardonDate", Optional.empty());
-        values.put("pardonSource", Optional.empty());
-        values.put("pardonCommandSource", Optional.empty());
-        values.put("cause", cause);
-        
-        if(user instanceof EPlayer) {
-            values.put("player", Optional.of((EPlayer) user));
-        } else {
-            values.put("player", Optional.empty());
-        }
-        return SpongeEventFactoryUtils.createEventImpl(BanEvent.Disable.class, values);
+	public static BanEvent.Disable createBanEventDisable(EUser user, Text reason, long creationDate, Optional<Long> expirationDate, String source, SanctionBanProfile sanction, Cause cause) {
+		
+		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) :Optional.empty();
+		
+		return new BanEvent.Disable(user, player, reason, creationDate, expirationDate, sanction, source, Optional.empty(), Optional.empty(), Optional.empty(), cause);
+    }
+	
+	/*
+	 * BanIp
+	 */
+	
+	public static BanIpEvent.Enable createBanIpEventEnable(EUser user, InetAddress address, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, SanctionBanIp sanction, Cause cause) {
+		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) :Optional.empty();
+		
+		return new BanIpEvent.Enable(user, player, address, reason, creationDate, expirationDate, sanction, commandSource, cause);
+    }
+	
+	public static BanIpEvent.Disable createBanIpEventDisable(EUser user, InetAddress address, Text reason, long creationDate, Optional<Long> expirationDate, String source, SanctionBanIp sanction, 
+			Text pardonReason, Long pardonDate, CommandSource pardonCommandSource, Cause cause) {
+		
+		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) :Optional.empty();
+		
+		return new BanIpEvent.Disable(user, player, address, reason, creationDate, expirationDate, sanction, source, Optional.of(pardonReason), Optional.of(pardonDate), Optional.of(pardonCommandSource), cause);
+    }
+	
+	public static BanIpEvent.Disable createBanIpEventDisable(EUser user, InetAddress address, Text reason, long creationDate, Optional<Long> expirationDate, String source, SanctionBanIp sanction, Cause cause) {
+		
+		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) :Optional.empty();
+		
+		return new BanIpEvent.Disable(user, player, address, reason, creationDate, expirationDate, sanction, source, Optional.empty(), Optional.empty(), Optional.empty(), cause);
     }
 	
 	/*
@@ -206,35 +147,15 @@ public class ESpongeEventFactory extends SpongeEventFactory {
 	 */
 	
 	public static BossBarEvent.Add createBossBarEventAdd(EPlayer player, EBossBar bossbar, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("identifier", bossbar.getIdentifier());
-        values.put("serverBossBar", bossbar.getServerBossBar());
-        values.put("action", BossBarEvent.Action.ADD);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(BossBarEvent.Add.class, values);
+		return new BossBarEvent.Add(player, bossbar.getIdentifier(), bossbar.getServerBossBar(), cause);
     }
 	
-	public static BossBarEvent.Replace createBossBarEventReplace(EPlayer player, EBossBar bossbar, EBossBar new_bossbar, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("identifier", bossbar.getIdentifier());
-        values.put("serverBossBar", bossbar.getServerBossBar());
-        values.put("newIdentifier", new_bossbar.getIdentifier());
-        values.put("newServerBossBar", new_bossbar.getServerBossBar());
-        values.put("action", BossBarEvent.Action.REPLACE);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(BossBarEvent.Replace.class, values);
+	public static BossBarEvent.Replace createBossBarEventReplace(EPlayer player, EBossBar bossBar, EBossBar newBossBar, Cause cause) {
+		return new BossBarEvent.Replace(player, bossBar.getIdentifier(), bossBar.getServerBossBar(), newBossBar.getIdentifier(), newBossBar.getServerBossBar(), cause);
     }
 	
 	public static BossBarEvent.Remove createBossBarEventRemove(EPlayer player, EBossBar bossbar, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("identifier", bossbar.getIdentifier());
-        values.put("serverBossBar", bossbar.getServerBossBar());
-        values.put("action", BossBarEvent.Action.REMOVE);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(BossBarEvent.Remove.class, values);
+		return new BossBarEvent.Remove(player, bossbar.getIdentifier(), bossbar.getServerBossBar(), cause);
     }
 	
 	/*
@@ -242,10 +163,7 @@ public class ESpongeEventFactory extends SpongeEventFactory {
 	 */
 	
 	public static ChatSystemEvent.Reload createChatSystemEventReload(Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("action", ChatSystemEvent.Action.RELOADED);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(ChatSystemEvent.Reload.class, values);
+		return new ChatSystemEvent.Reload(cause);
     }
 	
 	/*
@@ -253,26 +171,11 @@ public class ESpongeEventFactory extends SpongeEventFactory {
 	 */
 	
 	public static CommandEvent.Send createCommandEventSend(EPlayer player, String command, String arg, final List<String> args, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("command", command);
-        values.put("arg", arg);
-        values.put("args", args);
-        values.put("action", CommandEvent.Action.SEND);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(CommandEvent.Send.class, values);
+		return new CommandEvent.Send(player, command, arg, args, cause);
     }
 	
 	public static CommandEvent.Result createCommandEventResult(EPlayer player, String command, String arg, final List<String> args, boolean result, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("command", command);
-        values.put("arg", arg);
-        values.put("args", args);
-        values.put("result", result);
-        values.put("action", CommandEvent.Action.RESULT);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(CommandEvent.Result.class, values);
+		return new CommandEvent.Result(player, command, arg, args, result, cause);
     }
 	
 	/*
@@ -280,22 +183,11 @@ public class ESpongeEventFactory extends SpongeEventFactory {
 	 */
 	
 	public static FightEvent.Start createFightEventStart(EPlayer player, EPlayer other, boolean victim, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("other", other);
-        values.put("victim", victim);
-        values.put("type", FightEvent.Type.START);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(FightEvent.Start.class, values);
+		return new FightEvent.Start(player, other, victim, cause);
     }
 	
 	public static FightEvent.Stop createFightEventStop(EPlayer player, FightEvent.Stop.Reason reason, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("reason", reason);
-        values.put("type", FightEvent.Type.STOP);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(FightEvent.Stop.class, values);
+		return new FightEvent.Stop(player, reason, cause);
     }
 	
 	/*
@@ -303,19 +195,11 @@ public class ESpongeEventFactory extends SpongeEventFactory {
 	 */
 	
 	public static FreezeEvent.Enable createFreezeEventEnable(EPlayer player, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("value", true);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(FreezeEvent.Enable.class, values);
+		return new FreezeEvent.Enable(player, cause);
     }
 	
 	public static FreezeEvent.Disable createFreezeEventDisable(EPlayer player, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("value", false);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(FreezeEvent.Disable.class, values);
+		return new FreezeEvent.Disable(player, cause);
     }
 
 	/*

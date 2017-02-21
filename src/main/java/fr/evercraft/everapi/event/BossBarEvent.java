@@ -17,56 +17,113 @@
 package fr.evercraft.everapi.event;
 
 import org.spongepowered.api.boss.ServerBossBar;
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public interface BossBarEvent extends Event {
+public abstract class BossBarEvent extends AbstractEvent {
 	public static enum Action {
     	ADD,
     	REMOVE,
     	REPLACE;
     }
 
+	private final EPlayer player;
+	private final String identifier;
+	private final ServerBossBar serverBossBar;
+	private final Cause cause;
+	
+	public BossBarEvent(EPlayer player, String identifier, ServerBossBar serverBossBar, Cause cause) {
+		this.player = player;
+		this.identifier = identifier;
+		this.serverBossBar = serverBossBar;
+		this.cause = cause;
+	}
+
 	/**
 	 * Retourne le joueur
 	 * @return Le joueur
 	 */
-	public EPlayer getPlayer();
+	public EPlayer getPlayer() {
+		return this.player;
+	}
     
 	/**
 	 * Retourne l'identifiant
 	 * @return L'identifiant
 	 */
-	public String getIdentifier();
+	public String getIdentifier() {
+		return this.identifier;
+	}
 
 	/**
 	 * Retourne le ServerBossBar
 	 * @return ServerBossBar
 	 */
-	public ServerBossBar getServerBossBar();
+	public ServerBossBar getServerBossBar() {
+		return this.serverBossBar;
+	}
 
 	/**
 	 * Retourne l'action
 	 * @return L'action
 	 */
-    public Action getAction();
+    public abstract Action getAction();
 
     @Override
-	public Cause getCause();
+	public Cause getCause() {
+    	return this.cause;
+    }
     
-    interface Add extends BossBarEvent {}
+    public static class Add extends BossBarEvent {
+		public Add(EPlayer player, String identifier, ServerBossBar serverBossBar, Cause cause) {
+			super(player, identifier, serverBossBar, cause);
+		}
+		
+		@Override
+		public Action getAction() {
+			return Action.ADD;
+		}
+	}
     
-    interface Remove extends BossBarEvent {}
+    public static class Remove extends BossBarEvent {
+    	public Remove(EPlayer player, String identifier, ServerBossBar serverBossBar, Cause cause) {
+			super(player, identifier, serverBossBar, cause);
+		}
+		
+		@Override
+		public Action getAction() {
+			return Action.REMOVE;
+		}
+    }
     
-    interface Replace extends BossBarEvent {
+    public static class Replace extends BossBarEvent {
+    	private final String newIdentifier;
+    	private final ServerBossBar newServerBossBar;
+    	
+    	public Replace(EPlayer player, String identifier, ServerBossBar serverBossBar, String newIdentifier, ServerBossBar newServerBossBar, Cause cause) {
+			super(player, identifier, serverBossBar, cause);
+			
+			this.newIdentifier = newIdentifier;
+			this.newServerBossBar = newServerBossBar;
+		}
+    	
+    	@Override
+		public Action getAction() {
+			return Action.REPLACE;
+		}
     	
     	/**
     	 * Retourne le nouvelle identifiant
     	 * @return Le nouvelle identifiant
     	 */
-		public String getNewIdentifier();
-		public ServerBossBar getNewServerBossBar();
+		public String getNewIdentifier() {
+			return this.newIdentifier;
+		}
+		
+		public ServerBossBar getNewServerBossBar() {
+			return this.newServerBossBar;
+		}
 	}
 }

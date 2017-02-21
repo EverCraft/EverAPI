@@ -16,23 +16,52 @@
  */
 package fr.evercraft.everapi.event;
 
-import org.spongepowered.api.event.Cancellable;
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public interface GodEvent extends Event, Cancellable {
+public abstract class GodEvent extends AbstractCancellableEvent {
 	
-	public EPlayer getPlayer();
-    
-    public boolean getValue();
+	private final EPlayer player;
+	private final Cause cause;
+	
+	public GodEvent(EPlayer player, Cause cause) {
+		super();
+		this.player = player;
+		this.cause = cause;
+	}
+
+	public EPlayer getPlayer() {
+		return this.player;
+	}
+	
+    public abstract boolean getValue();
     
     @Override
-	public Cause getCause();
+	public Cause getCause() {
+    	return this.cause;
+    }
 	
-	public interface Enable extends GodEvent {}
-	public interface Disable extends GodEvent {}
+	public static class Enable extends GodEvent {
+		public Enable(EPlayer player, Cause cause) {
+			super(player, cause);
+		}
+		
+		@Override
+		public boolean getValue() {
+			return true;
+		}
+	}
+	
+	public static class Disable extends GodEvent {
+		public Disable(EPlayer player, Cause cause) {
+			super(player, cause);
+		}
+		
+		@Override
+		public boolean getValue() {
+			return false;
+		}
+	}
 }
-
 

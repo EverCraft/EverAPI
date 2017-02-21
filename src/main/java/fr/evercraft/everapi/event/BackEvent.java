@@ -19,22 +19,43 @@ package fr.evercraft.everapi.event;
 import java.util.Optional;
 
 import org.spongepowered.api.entity.Transform;
-import org.spongepowered.api.event.Cancellable;
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public interface BackEvent extends Event, Cancellable {
+public class BackEvent extends AbstractCancellableEvent {
 	
-	public EPlayer getPlayer();
+	private final EPlayer player;
+	private final Optional<Transform<World>> beforeLocation;
+	private final Optional<Transform<World>> afterLocation;
+	private final Cause cause;
+	
+	
+	public BackEvent(EPlayer player, Optional<Transform<World>> beforeLocation,
+			Optional<Transform<World>> afterLocation, Cause cause) {
+		super();
+		this.player = player;
+		this.beforeLocation = beforeLocation;
+		this.afterLocation = afterLocation;
+		this.cause = cause;
+	}
+
+	public EPlayer getPlayer() {
+		return this.player;
+	}
     
-	public Optional<Transform<World>> getBeforeLocation();
+	public Optional<Transform<World>> getBeforeLocation() {
+		return this.beforeLocation;
+	}
 	
-    public Optional<Transform<World>> getAfterLocation();
+    public Optional<Transform<World>> getAfterLocation() {
+    	return this.afterLocation;
+    }
     
     @Override
-	public Cause getCause();
+	public Cause getCause() {
+    	return this.cause;
+    }
 }
 

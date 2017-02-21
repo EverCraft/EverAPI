@@ -16,19 +16,36 @@
  */
 package fr.evercraft.everapi.event;
 
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 
-public interface ChatSystemEvent extends Event {
+public abstract class ChatSystemEvent extends AbstractEvent {
 
     public static enum Action {
     	RELOADED;
     };
     
-    public Action getAction();
+    private final Cause cause;
+    
+    public ChatSystemEvent(Cause cause) {
+		this.cause = cause;
+	}
+
+	public abstract Action getAction();
 
 	@Override
-	public Cause getCause();
+	public Cause getCause() {
+		return this.cause;
+	}
 	
-	public interface Reload extends ChatSystemEvent {}
+	public static class Reload extends ChatSystemEvent {
+		public Reload(Cause cause) {
+			super(cause);
+		}
+
+		@Override
+		public Action getAction() {
+			return Action.RELOADED;
+		}
+	}
 }

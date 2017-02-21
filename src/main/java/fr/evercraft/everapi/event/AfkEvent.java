@@ -16,28 +16,61 @@
  */
 package fr.evercraft.everapi.event;
 
-import org.spongepowered.api.event.Cancellable;
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
-
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public interface AfkEvent extends Event, Cancellable {	
+public abstract class AfkEvent extends AbstractCancellableEvent {	
 	public static enum Action {
     	AUTO,
     	PLAYER,
     	PLUGIN;
     }
 	
-	public EPlayer getPlayer();
+	private final EPlayer player;
+	private final Action action;
+	private final Cause cause;
+	
+	public AfkEvent(EPlayer player, Action action, Cause cause) {
+		super();
+		this.player = player;
+		this.action = action;
+		this.cause = cause;
+	}
+
+	public EPlayer getPlayer() {
+		return this.player;
+	}
     
-    public boolean getValue();
+    public Action getAction() {
+    	return this.action;
+    }
     
-    public Action getAction();
+    public abstract boolean getValue();
     
     @Override
-	public Cause getCause();
+	public Cause getCause() {
+    	return this.cause;
+    }
 	
-	public interface Enable extends AfkEvent {}
-	public interface Disable extends AfkEvent {}
+	public static class Enable extends AfkEvent {
+		public Enable(EPlayer player, Action action, Cause cause) {
+			super(player, action, cause);
+		}
+		
+		@Override
+		public boolean getValue() {
+			return true;
+		}
+	}
+	
+	public static class Disable extends AfkEvent {
+		public Disable(EPlayer player, Action action, Cause cause) {
+			super(player, action, cause);
+		}
+		
+		@Override
+		public boolean getValue() {
+			return false;
+		}
+	}
 }

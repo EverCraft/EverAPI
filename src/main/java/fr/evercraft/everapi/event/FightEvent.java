@@ -16,32 +16,62 @@
  */
 package fr.evercraft.everapi.event;
 
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public interface FightEvent extends Event {	
+public abstract class FightEvent extends AbstractEvent {	
 	public static enum Type {
     	START,
     	STOP;
     }
 
-    public Type getType();
-    
-    public EPlayer getPlayer();
-    
-    @Override
-	public Cause getCause();
-    
-    interface Start extends FightEvent {
-    	
-		public EPlayer getOther();
+	private final EPlayer player;
+	private final Cause cause;
+	
+    public FightEvent(EPlayer player, Cause cause) {
+		this.player = player;
+		this.cause = cause;
+	}
 
-		public boolean isVictim();
+	public abstract Type getType();
+    
+    public EPlayer getPlayer() {
+    	return this.player;
     }
     
-    interface Stop extends FightEvent{
+    @Override
+	public Cause getCause() {
+    	return this.cause;
+    }
+    
+    public static class Start extends FightEvent {
+    	private final EPlayer other;
+    	private final boolean victim;
+    	
+		public Start(EPlayer player, EPlayer other, boolean victim, Cause cause) {
+			super(player, cause);
+
+			this.other = other;
+			this.victim = victim;
+		}
+
+		public EPlayer getOther() {
+			return this.other;
+		}
+
+		public boolean isVictim() {
+			return this.victim;
+		}
+		
+		@Override
+		public Type getType() {
+			return Type.START;
+		}
+    }
+    
+    public static class Stop extends FightEvent {
     	public static enum Reason {
         	TIME,
         	DEAD,
@@ -50,6 +80,20 @@ public interface FightEvent extends Event {
         	PLUGIN;
         }
     	
-    	public Reason getReason();
-    };
+    	private final Reason reason;
+    	
+    	public Stop(EPlayer player, Reason reason, Cause cause) {
+			super(player, cause);
+			this.reason = reason;
+		}
+
+		public Reason getReason() {
+    		return this.reason;
+    	}
+    	
+    	@Override
+		public Type getType() {
+			return Type.START;
+		}
+    }
 }
