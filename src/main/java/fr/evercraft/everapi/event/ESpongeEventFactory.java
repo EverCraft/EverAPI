@@ -207,19 +207,11 @@ public class ESpongeEventFactory {
 	 */
 	
 	public static GodEvent.Enable createGodEventEnable(EPlayer player, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("value", true);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(GodEvent.Enable.class, values);
+		return new GodEvent.Enable(player, cause);
     }
 	
 	public static GodEvent.Disable createGodEventDisable(EPlayer player, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("value", false);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(GodEvent.Disable.class, values);
+		return new GodEvent.Disable(player, cause);
     }
 	
 	/*
@@ -227,34 +219,15 @@ public class ESpongeEventFactory {
 	 */
 	
 	public static HomeEvent.Add createHomeEventAdd(EPlayer player, String name, Transform<World> location, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("name", name);
-        values.put("location", location);
-        values.put("action", HomeEvent.Action.ADD);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(HomeEvent.Add.class, values);
+		return new HomeEvent.Add(player, name, location, cause);
     }
 	
 	public static HomeEvent.Move createHomeEventMove(EPlayer player, String name, Optional<Transform<World>> before, Transform<World> after, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("name", name);
-        values.put("beforeLocation", before);
-        values.put("afterLocation", after);
-        values.put("action", HomeEvent.Action.MOVE);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(HomeEvent.Move.class, values);
+		return new HomeEvent.Move(player, name, before, after, cause);
     }
 	
 	public static HomeEvent.Remove createHomeEventRemove(EPlayer player, String name, Optional<Transform<World>> location, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("name", name);
-        values.put("location", location);
-        values.put("action", HomeEvent.Action.REMOVE);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(HomeEvent.Remove.class, values);
+		return new HomeEvent.Remove(player, name, location, cause);
     }
 	
 	/*
@@ -262,21 +235,11 @@ public class ESpongeEventFactory {
 	 */
 	
 	public static IgnoreEvent.Add createIgnoreEventAdd(EPlayer player, UUID uuid, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("ignore", uuid);
-        values.put("action", IgnoreEvent.Action.ADD);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(IgnoreEvent.Add.class, values);
+		return new IgnoreEvent.Add(player, uuid, cause);
     }
 	
 	public static IgnoreEvent.Remove createIgnoreEventRemove(EPlayer player, UUID uuid, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("ignore", uuid);
-        values.put("action", IgnoreEvent.Action.REMOVE);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(IgnoreEvent.Remove.class, values);
+		return new IgnoreEvent.Remove(player, uuid, cause);
     }
 	
 	/*

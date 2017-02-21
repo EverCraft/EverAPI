@@ -18,27 +18,58 @@ package fr.evercraft.everapi.event;
 
 import java.util.UUID;
 
-import org.spongepowered.api.event.Cancellable;
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public interface IgnoreEvent extends Event, Cancellable {	
+public abstract class IgnoreEvent extends AbstractCancellableEvent {	
 	public static enum Action {
     	ADD,
     	REMOVE;
     }
 	
-	public EPlayer getPlayer();
+	private final EPlayer player;
+	private final UUID ignore;
+	private final Cause cause;
 	
-	public UUID getIgnore();
-    
-    public Action getAction();
+	public IgnoreEvent(EPlayer player, UUID ignore, Cause cause) {
+		super();
+		this.player = player;
+		this.ignore = ignore;
+		this.cause = cause;
+	}
+
+	public abstract Action getAction();
+	
+	public EPlayer getPlayer() {
+		return this.player;
+	}
+	
+	public UUID getIgnore() {
+		return this.ignore;
+	}
     
     @Override
-	public Cause getCause();
+	public Cause getCause() {
+    	return this.cause;
+    }
 	
-	public interface Add extends IgnoreEvent {}
-	public interface Remove extends IgnoreEvent {}
+	public static class Add extends IgnoreEvent {
+		public Add(EPlayer player, UUID ignore, Cause cause) {
+			super(player, ignore, cause);
+		}
+		
+		public Action getAction() {
+			return Action.ADD;
+		}
+	}
+	public static class Remove extends IgnoreEvent {
+		public Remove(EPlayer player, UUID ignore, Cause cause) {
+			super(player, ignore, cause);
+		}
+		
+		public Action getAction() {
+			return Action.REMOVE;
+		}
+	}
 }
