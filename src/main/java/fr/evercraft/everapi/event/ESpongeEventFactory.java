@@ -46,7 +46,7 @@ import fr.evercraft.everapi.services.bossbar.EBossBar;
 import fr.evercraft.everapi.services.essentials.Mail;
 import fr.evercraft.everapi.services.jail.Jail;
 import fr.evercraft.everapi.services.mojang.check.MojangServer;
-import fr.evercraft.everapi.services.mojang.check.MojangServer.Color;
+import fr.evercraft.everapi.services.mojang.check.MojangServer.Status;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionBanProfile;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionBanIp;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionJail;
@@ -246,7 +246,7 @@ public class ESpongeEventFactory {
 	 * Jail
 	 */
 	
-	public static JailEvent.Enable createJailEventEnable(EUser user, SanctionJail sanction, Jail jail, CommandSource source, Cause cause) {
+	public static JailEvent1.Enable createJailEventEnable(EUser user, SanctionJail sanction, Jail jail, CommandSource source, Cause cause) {
         HashMap<String, Object> values = new HashMap<String, Object>();
         values.put("user", user);
         values.put("value", true);
@@ -264,10 +264,10 @@ public class ESpongeEventFactory {
         } else {
             values.put("player", Optional.empty());
         }
-        return SpongeEventFactoryUtils.createEventImpl(JailEvent.Enable.class, values);
+        return SpongeEventFactoryUtils.createEventImpl(JailEvent1.Enable.class, values);
 	}
 
-	public static JailEvent.Disable createJailEventDisable(EUser user, SanctionJail jail, Cause cause, Server server) {
+	public static JailEvent1.Disable createJailEventDisable(EUser user, SanctionJail jail, Cause cause, Server server) {
         HashMap<String, Object> values = new HashMap<String, Object>();
         values.put("user", user);
         values.put("value", false);
@@ -291,7 +291,7 @@ public class ESpongeEventFactory {
         } else {
             values.put("player", Optional.empty());
         }
-        return SpongeEventFactoryUtils.createEventImpl(JailEvent.Disable.class, values);
+        return SpongeEventFactoryUtils.createEventImpl(JailEvent1.Disable.class, values);
     }
 	
 	/*
@@ -339,7 +339,7 @@ public class ESpongeEventFactory {
 	 * MojangCheck
 	 */
 	
-	public static MojangCheckEvent createMojangCheckEvent(MojangServer server, Color beforeColor, Color afterColor, Cause cause) {
+	public static MojangCheckEvent createMojangCheckEvent(MojangServer server, Status beforeColor, Status afterColor, Cause cause) {
         HashMap<String, Object> values = new HashMap<String, Object>();
         values.put("server", server);
         values.put("beforeColor", beforeColor);

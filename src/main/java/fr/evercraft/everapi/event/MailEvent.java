@@ -16,15 +16,18 @@
  */
 package fr.evercraft.everapi.event;
 
+import java.util.Optional;
+
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.event.Cancellable;
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 
 import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.server.user.EUser;
 import fr.evercraft.everapi.services.essentials.Mail;
 
-public interface MailEvent extends Event {
+public abstract class MailEvent extends AbstractEvent {
 	
 	public static enum Action {
     	SEND,
@@ -33,25 +36,101 @@ public interface MailEvent extends Event {
     	RECEIVE;
     }
 	
-	public EPlayer getPlayer();
+	private final EUser user;
+	private final Optional<EPlayer> player;
+	private final Action action;
+	private final Cause cause;
 	
-    public Action getAction();
+	public MailEvent(EUser user, Optional<EPlayer> player, Action action, Cause cause) {
+		super();
+		this.user = user;
+		this.player = player;
+		this.action = action;
+		this.cause = cause;
+	}
+
+	public EUser getUser() {
+		return this.user;
+	}
+	
+	public Optional<EPlayer> getPlayer() {
+		return this.player;
+	}
+	
+    public Action getAction() {
+    	return this.action;
+    }
     
     @Override
-	public Cause getCause();
+	public Cause getCause() {
+    	return this.cause;
+    }
 	
-	public interface Send extends MailEvent, Cancellable {
-		public CommandSource getTo();
+	public final class Send extends MailEvent implements Cancellable {
+		private final CommandSource to;
+		private final String message;
+		private boolean cancelled;
 		
-		public String getMessage();
+		public Send(EUser user, Optional<EPlayer> player, Action action, Cause cause, CommandSource to, String message,
+				boolean cancelled) {
+			super(user, player, action, cause);
+			this.to = to;
+			this.message = message;
+			this.cancelled = cancelled;
+		}
+
+		public CommandSource getTo() {
+			return this.to;
+		}
+		
+		public String getMessage() {
+			return this.message;
+		}
+
+		@Override
+		public boolean isCancelled() {
+			return this.cancelled;
+		}
+
+		@Override
+		public void setCancelled(boolean cancel) {
+			this.cancelled = cancel;
+		}
 	}
-	public interface Remove extends MailEvent {
-		public Mail getMail();
+	public final class Remove extends MailEvent {
+		private final Mail mail;
+		
+		public Remove(EUser user, Optional<EPlayer> player, Action action, Mail mail, Cause cause) {
+			super(user, player, action, cause);
+			this.mail = mail;
+		}
+
+		public Mail getMail() {
+			return this.mail;
+		}
 	}
-	public interface Read extends MailEvent {
-		public Mail getMail();
+	public final class Read extends MailEvent {
+		private final Mail mail;
+		
+		public Read(EUser user, Optional<EPlayer> player, Action action, Mail mail, Cause cause) {
+			super(user, player, action, cause);
+			this.mail = mail;
+		}
+		
+		public Mail getMail() {
+			return this.mail;
+		}
 	}
-	public interface Receive extends MailEvent {
-		public Mail getMail();
+	public final class Receive extends MailEvent {
+		private final Mail mail;
+		
+		public Receive(EUser user, Optional<EPlayer> player, Action action, Mail mail, Cause cause) {
+			super(user, player, action, cause);
+			this.mail = mail;
+		}
+		
+		public Mail getMail() {
+			return this.mail;
+		}
 	}
 }

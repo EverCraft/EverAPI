@@ -22,7 +22,7 @@ import com.google.gson.JsonElement;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.event.ESpongeEventFactory;
-import fr.evercraft.everapi.services.mojang.check.MojangServer.Color;
+import fr.evercraft.everapi.services.mojang.check.MojangServer.Status;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -80,7 +80,7 @@ public class MojangCheck {
 				Entry<String, JsonElement> service = iterator.next();
 
 				Optional<MojangServer> url = MojangServer.get(service.getKey());
-	        	Optional<Color> color = Color.get(service.getValue().getAsString());
+	        	Optional<Status> color = Status.get(service.getValue().getAsString());
 	        	
 	        	if (url.isPresent() && color.isPresent() && !url.get().getColor().equals(color.get())) {
         			this.plugin.getGame().getEventManager().post(

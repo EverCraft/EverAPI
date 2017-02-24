@@ -31,22 +31,22 @@ public enum MojangServer {
 	MOJANG("mojang.com");
 	
 	private final String url;
-	private Color color;
+	private Status color;
 	
 	private MojangServer(String url) {
 		this.url = url;
-		this.color = Color.YELLOW;
+		this.color = Status.YELLOW;
 	}
 	
 	public String getURL() {
 		return this.url;
 	}
 	
-	public void setColor(Color color) {
+	public void setColor(Status color) {
 		this.color = color;
 	}
 	
-	public Color getColor() {
+	public Status getColor() {
 		return this.color;
 	}
 	
@@ -62,13 +62,13 @@ public enum MojangServer {
 		return Optional.ofNullable(server);
 	}
 	
-	public enum Color {
+	public enum Status {
 		GREEN ("green"),
 		YELLOW ("yellow"),
 		RED ("red");
 		
 		private final String name;
-		private Color(String name) {
+		private Status(String name) {
 			this.name = name;
 		}
 		
@@ -76,8 +76,8 @@ public enum MojangServer {
 			return this.name;
 		}
 		
-		public static Optional<Color> get(final String name) {
-			Color color = null;
+		public static Optional<Status> get(final String name) {
+			Status color = null;
 			int cpt = 0;
 			while(cpt < values().length && color == null){
 				if (values()[cpt].getName().equalsIgnoreCase(name)) {

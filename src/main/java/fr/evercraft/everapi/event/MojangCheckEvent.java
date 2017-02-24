@@ -16,22 +16,41 @@
  */
 package fr.evercraft.everapi.event;
 
-import org.spongepowered.api.event.Cancellable;
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 
 import fr.evercraft.everapi.services.mojang.check.MojangServer;
-import fr.evercraft.everapi.services.mojang.check.MojangServer.Color;
+import fr.evercraft.everapi.services.mojang.check.MojangServer.Status;
 
-public interface MojangCheckEvent extends Event, Cancellable {
-    
-    public MojangServer getServer();
-    
-	public Color getBeforeColor();
+public class MojangCheckEvent extends AbstractEvent {
 	
-    public Color getAfterColor();
+	private final MojangServer server;
+	private final Status beforeStatus;
+	private final Status afterStatus;
+	private final Cause cause;
+	
+    public MojangCheckEvent(MojangServer server, Status beforeStatus, Status afterStatus, Cause cause) {
+		this.server = server;
+		this.beforeStatus = beforeStatus;
+		this.afterStatus = afterStatus;
+		this.cause = cause;
+	}
+
+	public MojangServer getServer() {
+    	return this.server;
+    }
+    
+	public Status getBeforeStatus() {
+		return this.beforeStatus;
+	}
+	
+    public Status getAfterStatus() {
+    	return this.afterStatus;
+    }
 
     @Override
-	public Cause getCause();
+	public Cause getCause() {
+    	return this.cause;
+    }
 }
 

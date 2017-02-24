@@ -20,7 +20,8 @@ import java.util.Optional;
 
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.event.Cancellable;
-import org.spongepowered.api.event.Event;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.server.player.EPlayer;
@@ -28,32 +29,158 @@ import fr.evercraft.everapi.server.user.EUser;
 import fr.evercraft.everapi.services.jail.Jail;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionJail;
 
-public interface JailEvent extends Event {
+public abstract class JailEvent extends AbstractEvent {
 	
-	public EUser getUser();
-	public Optional<EPlayer> getPlayer();
-	public boolean getValue();
-	public SanctionJail getSanction();
+	private final EUser user;
+	private final Optional<EPlayer> player;
+	private final Text reason;
+	private final long creationDate;
+	private final Optional<Long> expirationDate;
+	private final String source;
+	private final SanctionJail sanction;
+	private final Cause cause;
 	
-	public Text getReason();
-	public long getCreationDate();
-	public boolean isIndefinite();
-	public Optional<Long> getExpirationDate();
-	public String getSource();
 	
-	public interface Enable extends JailEvent, Cancellable {
-		public Jail getJail();
-		public CommandSource getCommandSource();
+	public JailEvent(EUser user, Optional<EPlayer> player, Text reason, long creationDate, 
+			Optional<Long> expirationDate, String source, SanctionJail sanction, Cause cause) {
+		super();
+		this.user = user;
+		this.player = player;
+		this.reason = reason;
+		this.creationDate = creationDate;
+		this.expirationDate = expirationDate;
+		this.source = source;
+		this.sanction = sanction;
+		this.cause = cause;
+	}
+
+	public abstract boolean getValue();
+	
+	public EUser getUser() {
+		return this.user;
 	}
 	
-	public interface Disable extends JailEvent {
-		public Optional<Jail> getJail();
-		public String getJailName();
+	public Optional<EPlayer> getPlayer() {
+		return this.player;
+	}
+	
+	public Text getReason() {
+		return this.reason;
+	}
+	
+	public long getCreationDate() {
+		return this.creationDate;
+	}
+	
+	public boolean isIndefinite() {
+		return !this.expirationDate.isPresent();
+	}
+	
+	public Optional<Long> getExpirationDate() {
+		return this.expirationDate;
+	}
+	
+	public String getSource() {
+		return this.source;
+	}
+	
+	public SanctionJail getSanction() {
+		return this.sanction;
+	}
+	
+	public Cause getCause() {
+		return this.cause;
+	}
+	
+	public static class Enable extends JailEvent implements Cancellable {
+		private final CommandSource commandSource;
+		private final Jail jail;
+		private boolean cancelled;
 		
-		public boolean isPardon();		
-		public Optional<Text> getPardonReason();
-		public Optional<Long> getPardonDate();
-		public Optional<String> getPardonSource();
-		public Optional<CommandSource> getPardonCommandSource();
+		public Enable(EUser user, Optional<EPlayer> player, Text reason, long creationDate, 
+				Optional<Long> expirationDate, SanctionJail sanction, Jail jail, CommandSource commandSource, Cause cause) {
+			super(user, player, reason, creationDate, expirationDate, commandSource.getName(), sanction, cause);
+
+			this.jail = jail;
+			this.commandSource = commandSource;
+			this.cancelled = false;
+		}
+		
+		public Jail getJail() {
+			return this.jail;
+		}
+
+		public CommandSource getCommandSource() {
+			return this.commandSource;
+		}
+
+		@Override
+		public boolean isCancelled() {
+			return this.cancelled;
+		}
+
+		@Override
+		public void setCancelled(boolean cancel) {
+			this.cancelled = cancel;
+		}
+
+		@Override
+		public boolean getValue() {
+			return true;
+		}
+	}
+	
+	public static class Disable extends JailEvent {
+		private final Optional<Jail> jail;
+		private final String jailName;
+		
+		private final Optional<Text> pardonReason; 
+		private final Optional<Long> pardonDate; 
+		private final Optional<CommandSource> pardonCommandSource; 
+		
+		public Disable(EUser user, Optional<EPlayer> player, Text reason, long creationDate, 
+				Optional<Long> expirationDate, SanctionJail sanction, 
+				Optional<Jail> jail, String jailName, String source, 
+				Optional<Text> pardonReason, Optional<Long> pardonDate, 
+				Optional<CommandSource> pardonCommandSource, Cause cause) {
+			super(user, player, reason, creationDate, expirationDate, source, sanction, cause);
+			
+			this.jail = jail;
+			this.jailName = jailName;
+			
+			this.pardonReason = pardonReason;
+			this.pardonDate = pardonDate;
+			this.pardonCommandSource = pardonCommandSource;
+		}
+		
+		public Optional<Jail> getJail() {
+			return this.jail;
+		}
+		
+		public String getJailName() {
+			return this.jailName;
+		}
+		
+		public boolean isPardon() {
+			return this.pardonDate.isPresent();
+		}
+		
+		public Optional<Text> getPardonReason() {
+			return this.pardonReason;
+		}
+		
+		public Optional<Long> getPardonDate() {
+			return this.pardonDate;
+		}
+		
+		public Optional<CommandSource> getPardonCommandSource() {
+			return this.pardonCommandSource;
+		}
+		
+		@Override
+		public boolean getValue() {
+			return false;
+		}
 	}
 }
+

@@ -20,35 +20,145 @@ import java.util.Optional;
 
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.event.Cancellable;
-import org.spongepowered.api.event.Event;
+import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.server.user.EUser;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionMute;
 
-public interface MuteEvent extends Event {
+public abstract class MuteEvent extends AbstractEvent {
 	
-	public EUser getUser();
-	public Optional<EPlayer> getPlayer();
-	public boolean getValue();
-	public SanctionMute getSanction();
+	private final EUser user;
+	private final Optional<EPlayer> player;
+	private final Text reason;
+	private final long creationDate;
+	private final Optional<Long> expirationDate;
+	private final String source;
+	private final SanctionMute sanction;
+	private final Cause cause;
 	
-	public Text getReason();
-	public long getCreationDate();
-	public boolean isIndefinite();
-	public Optional<Long> getExpirationDate();
-	public String getSource();
 	
-	public interface Enable extends MuteEvent, Cancellable {
-		public CommandSource getCommandSource();
+	public MuteEvent(EUser user, Optional<EPlayer> player, Text reason, long creationDate, 
+			Optional<Long> expirationDate, String source, SanctionMute sanction, Cause cause) {
+		super();
+		this.user = user;
+		this.player = player;
+		this.reason = reason;
+		this.creationDate = creationDate;
+		this.expirationDate = expirationDate;
+		this.source = source;
+		this.sanction = sanction;
+		this.cause = cause;
+	}
+
+	public abstract boolean getValue();
+	
+	public EUser getUser() {
+		return this.user;
 	}
 	
-	public interface Disable extends MuteEvent {
-		public boolean isPardon();		
-		public Optional<Text> getPardonReason();
-		public Optional<Long> getPardonDate();
-		public Optional<CommandSource> getPardonCommandSource();
+	public Optional<EPlayer> getPlayer() {
+		return this.player;
+	}
+	
+	public Text getReason() {
+		return this.reason;
+	}
+	
+	public long getCreationDate() {
+		return this.creationDate;
+	}
+	
+	public boolean isIndefinite() {
+		return !this.expirationDate.isPresent();
+	}
+	
+	public Optional<Long> getExpirationDate() {
+		return this.expirationDate;
+	}
+	
+	public String getSource() {
+		return this.source;
+	}
+	
+	public SanctionMute getSanction() {
+		return this.sanction;
+	}
+	
+	public Cause getCause() {
+		return this.cause;
+	}
+	
+	public static class Enable extends MuteEvent implements Cancellable {
+		private final CommandSource commandSource;
+		private boolean cancelled;
+		
+		public Enable(EUser user, Optional<EPlayer> player, Text reason, long creationDate, 
+				Optional<Long> expirationDate, SanctionMute sanction, CommandSource commandSource, Cause cause) {
+			super(user, player, reason, creationDate, expirationDate, commandSource.getName(), sanction, cause);
+
+			this.commandSource = commandSource;
+			this.cancelled = false;
+		}
+
+		public CommandSource getCommandSource() {
+			return this.commandSource;
+		}
+
+		@Override
+		public boolean isCancelled() {
+			return this.cancelled;
+		}
+
+		@Override
+		public void setCancelled(boolean cancel) {
+			this.cancelled = cancel;
+		}
+
+		@Override
+		public boolean getValue() {
+			return true;
+		}
+	}
+	
+	public static class Disable extends MuteEvent {
+		private final Optional<Text> pardonReason; 
+		private final Optional<Long> pardonDate; 
+		private final Optional<CommandSource> pardonCommandSource; 
+		
+		public Disable(EUser user, Optional<EPlayer> player, Text reason, long creationDate, 
+				Optional<Long> expirationDate, SanctionMute sanction, String source, 
+				Optional<Text> pardonReason, Optional<Long> pardonDate, 
+				Optional<CommandSource> pardonCommandSource, Cause cause) {
+			super(user, player, reason, creationDate, expirationDate, source, sanction, cause);
+			
+			this.pardonReason = pardonReason;
+			this.pardonDate = pardonDate;
+			this.pardonCommandSource = pardonCommandSource;
+		}
+		
+		public boolean isPardon() {
+			return this.pardonDate.isPresent();
+		}
+		
+		public Optional<Text> getPardonReason() {
+			return this.pardonReason;
+		}
+		
+		public Optional<Long> getPardonDate() {
+			return this.pardonDate;
+		}
+		
+		public Optional<CommandSource> getPardonCommandSource() {
+			return this.pardonCommandSource;
+		}
+		
+		@Override
+		public boolean getValue() {
+			return false;
+		}
 	}
 }
 
