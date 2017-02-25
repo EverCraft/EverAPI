@@ -26,7 +26,6 @@ import org.spongepowered.api.Server;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.Transform;
-import org.spongepowered.api.event.SpongeEventFactory;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.entity.damage.DamageType;
 import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
@@ -97,7 +96,7 @@ public class ESpongeEventFactory {
 	 */
 	
 	public static BanEvent.Enable createBanEventEnable(EUser user, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, SanctionBanProfile sanction, Cause cause) {
-		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) :Optional.empty();
+		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) : Optional.empty();
 		
 		return new BanEvent.Enable(user, player, reason, creationDate, expirationDate, sanction, commandSource, cause);
     }
@@ -105,14 +104,14 @@ public class ESpongeEventFactory {
 	public static BanEvent.Disable createBanEventDisable(EUser user, Text reason, long creationDate, Optional<Long> expirationDate, String source, SanctionBanProfile sanction, 
 			Text pardonReason, Long pardonDate, CommandSource pardonCommandSource, Cause cause) {
 		
-		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) :Optional.empty();
+		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) : Optional.empty();
 		
 		return new BanEvent.Disable(user, player, reason, creationDate, expirationDate, sanction, source, Optional.of(pardonReason), Optional.of(pardonDate), Optional.of(pardonCommandSource), cause);
     }
 	
 	public static BanEvent.Disable createBanEventDisable(EUser user, Text reason, long creationDate, Optional<Long> expirationDate, String source, SanctionBanProfile sanction, Cause cause) {
 		
-		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) :Optional.empty();
+		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) : Optional.empty();
 		
 		return new BanEvent.Disable(user, player, reason, creationDate, expirationDate, sanction, source, Optional.empty(), Optional.empty(), Optional.empty(), cause);
     }
@@ -122,7 +121,7 @@ public class ESpongeEventFactory {
 	 */
 	
 	public static BanIpEvent.Enable createBanIpEventEnable(EUser user, InetAddress address, Text reason, long creationDate, Optional<Long> expirationDate, CommandSource commandSource, SanctionBanIp sanction, Cause cause) {
-		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) :Optional.empty();
+		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) : Optional.empty();
 		
 		return new BanIpEvent.Enable(user, player, address, reason, creationDate, expirationDate, sanction, commandSource, cause);
     }
@@ -130,14 +129,14 @@ public class ESpongeEventFactory {
 	public static BanIpEvent.Disable createBanIpEventDisable(EUser user, InetAddress address, Text reason, long creationDate, Optional<Long> expirationDate, String source, SanctionBanIp sanction, 
 			Text pardonReason, Long pardonDate, CommandSource pardonCommandSource, Cause cause) {
 		
-		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) :Optional.empty();
+		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) : Optional.empty();
 		
 		return new BanIpEvent.Disable(user, player, address, reason, creationDate, expirationDate, sanction, source, Optional.of(pardonReason), Optional.of(pardonDate), Optional.of(pardonCommandSource), cause);
     }
 	
 	public static BanIpEvent.Disable createBanIpEventDisable(EUser user, InetAddress address, Text reason, long creationDate, Optional<Long> expirationDate, String source, SanctionBanIp sanction, Cause cause) {
 		
-		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) :Optional.empty();
+		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) : Optional.empty();
 		
 		return new BanIpEvent.Disable(user, player, address, reason, creationDate, expirationDate, sanction, source, Optional.empty(), Optional.empty(), Optional.empty(), cause);
     }
@@ -246,106 +245,55 @@ public class ESpongeEventFactory {
 	 * Jail
 	 */
 	
-	public static JailEvent1.Enable createJailEventEnable(EUser user, SanctionJail sanction, Jail jail, CommandSource source, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("user", user);
-        values.put("value", true);
-        values.put("jail", jail);
-        values.put("reason", sanction.getReason());
-        values.put("creationDate", sanction.getCreationDate());
-        values.put("indefinite", sanction.isIndefinite());
-        values.put("expirationDate", sanction.getExpirationDate());
-        values.put("source", sanction.getSource());
-        values.put("commandSource", source);
-        values.put("cause", cause);
-
-        if(user instanceof EPlayer) {
-            values.put("player", Optional.of((EPlayer) user));
-        } else {
-            values.put("player", Optional.empty());
-        }
-        return SpongeEventFactoryUtils.createEventImpl(JailEvent1.Enable.class, values);
+	public static JailEvent.Enable createJailEventEnable(EUser user, SanctionJail sanction, Jail jail, CommandSource source, Cause cause) {
+        Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) : Optional.empty();
+        
+        return new JailEvent.Enable(user, player, sanction.getReason(), sanction.getCreationDate(), 
+        		sanction.getExpirationDate(), sanction, jail, source, cause);
 	}
 
-	public static JailEvent1.Disable createJailEventDisable(EUser user, SanctionJail jail, Cause cause, Server server) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("user", user);
-        values.put("value", false);
-        values.put("jail", jail.getJail());
-        values.put("jailName", jail.getJailName());
-        values.put("reason", jail.getReason());
-        values.put("creationDate", jail.getCreationDate());
-        values.put("indefinite", jail.isIndefinite());
-        values.put("expirationDate", jail.getExpirationDate());
-        values.put("source", jail.getSource());
-        values.put("commandSource", jail.getSourceName(server));
-        values.put("pardon", jail.isPardon());
-        values.put("pardonReason", jail.getPardonReason());
-        values.put("pardonDate", jail.getPardonDate());
-        values.put("pardonSource", jail.getPardonSource());
-        values.put("pardonCommandSource", jail.getPardonSourceName(server));
-        values.put("cause", cause);
-
-        if(user instanceof EPlayer) {
-            values.put("player", Optional.of((EPlayer) user));
-        } else {
-            values.put("player", Optional.empty());
-        }
-        return SpongeEventFactoryUtils.createEventImpl(JailEvent1.Disable.class, values);
-    }
+	public static JailEvent.Disable createJailEventDisable(EUser user, SanctionJail sanction, Optional<CommandSource> pardonSource, Cause cause) {
+		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) : Optional.empty();
+        
+        return new JailEvent.Disable(user, player, sanction.getReason(), sanction.getCreationDate(), 
+        		sanction.getExpirationDate(), sanction, sanction.getJail(), sanction.getJailName(), 
+        		sanction.getSource(), sanction.getPardonReason(), sanction.getPardonDate(), pardonSource, cause);
+	}
 	
 	/*
 	 * Mail
 	 */
 	
-	public static MailEvent.Send createMailEventSend(EPlayer player, CommandSource source, String message, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("to", source);
-        values.put("action", MailEvent.Action.SEND);
-        values.put("cause", cause);
-        values.put("message", message);
-        return SpongeEventFactoryUtils.createEventImpl(MailEvent.Send.class, values);
+	public static MailEvent.Send createMailEventSend(EUser user, CommandSource to, String message, Cause cause) {
+		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) : Optional.empty();
+		
+        return new MailEvent.Send(user, player , to, message, cause);
     }
 	
-	public static MailEvent.Read createMailEventRead(EPlayer player, Mail mail, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("mail", mail);
-        values.put("action", MailEvent.Action.READ);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(MailEvent.Read.class, values);
+	public static MailEvent.Read createMailEventRead(EUser user, Mail mail, Cause cause) {
+		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) : Optional.empty();
+		
+        return new MailEvent.Read(user, player , mail, cause);
     }
 	
-	public static MailEvent.Remove createMailEventRemove(EPlayer player, Mail mail, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("mail", mail);
-        values.put("action", MailEvent.Action.REMOVE);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(MailEvent.Remove.class, values);
+	public static MailEvent.Remove createMailEventRemove(EUser user, Mail mail, Cause cause) {
+		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) : Optional.empty();
+		
+        return new MailEvent.Remove(user, player , mail, cause);
     }
 	
-	public static MailEvent.Receive createMailEventReceive(EPlayer player, Mail mail, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("player", player);
-        values.put("mail", mail);
-        values.put("action", MailEvent.Action.RECEIVE);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(MailEvent.Receive.class, values);
+	public static MailEvent.Receive createMailEventReceive(EUser user, Mail mail, Cause cause) {
+		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) : Optional.empty();
+		
+        return new MailEvent.Receive(user, player , mail, cause);
     }
 	
 	/*
 	 * MojangCheck
 	 */
 	
-	public static MojangCheckEvent createMojangCheckEvent(MojangServer server, Status beforeColor, Status afterColor, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("server", server);
-        values.put("beforeColor", beforeColor);
-        values.put("afterColor", afterColor);
-        values.put("cause", cause);
-        return SpongeEventFactoryUtils.createEventImpl(MojangCheckEvent.class, values);
+	public static MojangCheckEvent createMojangCheckEvent(MojangServer server, Status beforeStatus, Status afterStatus, Cause cause) {
+        return new MojangCheckEvent(server, beforeStatus, afterStatus, cause);
     }
 	
 	/*
@@ -353,48 +301,15 @@ public class ESpongeEventFactory {
 	 */
 	
 	public static MuteEvent.Enable createMuteEventEnable(EUser user, SanctionMute sanction, CommandSource source, Cause cause) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("user", user);
-        values.put("value", true);
-        values.put("reason", sanction.getReason());
-        values.put("creationDate", sanction.getCreationDate());
-        values.put("indefinite", sanction.isIndefinite());
-        values.put("expirationDate", sanction.getExpirationDate());
-        values.put("source", sanction.getSource());
-        values.put("commandSource", source);
-        values.put("cause", cause);
-        
-        if(user instanceof EPlayer) {
-            values.put("player", Optional.of((EPlayer) user));
-        } else {
-            values.put("player", Optional.empty());
-        }
-        return SpongeEventFactoryUtils.createEventImpl(MuteEvent.Enable.class, values);
+		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) : Optional.empty();
+		
+		return new MuteEvent.Enable(user, player, sanction.getReason(), sanction.getCreationDate(), sanction.getExpirationDate(), sanction, source, cause);
     }
 	
-	public static MuteEvent.Disable createMuteEventDisable(EUser user, SanctionMute sanction, Cause cause, Server server) {
-        HashMap<String, Object> values = new HashMap<String, Object>();
-        values.put("user", user);
-        values.put("value", false);
-        values.put("reason", sanction.getReason());
-        values.put("creationDate", sanction.getCreationDate());
-        values.put("indefinite", sanction.isIndefinite());
-        values.put("expirationDate", sanction.getExpirationDate());
-        values.put("source", sanction.getSource());
-        values.put("commandSource", sanction.getSourceName(server));
-        values.put("pardon", sanction.isPardon());
-        values.put("pardonReason", sanction.getPardonReason());
-        values.put("pardonDate", sanction.getPardonDate());
-        values.put("pardonSource", sanction.getPardonSource());
-        values.put("pardonCommandSource", sanction.getPardonSourceName(server));
-        values.put("cause", cause);
-        
-        if(user instanceof EPlayer) {
-            values.put("player", Optional.of((EPlayer) user));
-        } else {
-            values.put("player", Optional.empty());
-        }
-        return SpongeEventFactoryUtils.createEventImpl(MuteEvent.Disable.class, values);
+	public static MuteEvent.Disable createMuteEventDisable(EUser user, SanctionMute sanction, Optional<CommandSource> pardonSource, Cause cause) {
+		Optional<EPlayer> player = (user instanceof EPlayer) ? Optional.of((EPlayer) user) : Optional.empty();
+		
+		return new MuteEvent.Disable(user, player, sanction.getReason(), sanction.getCreationDate(), sanction.getExpirationDate(), sanction, sanction.getSource(), sanction.getPardonReason(), sanction.getPardonDate(), pardonSource, cause);
     }
 	
 	/*

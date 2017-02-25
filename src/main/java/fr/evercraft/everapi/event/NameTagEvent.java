@@ -70,7 +70,7 @@ public abstract class NameTagEvent extends AbstractEvent {
     	return this.cause;
     }
     
-    public final class Add extends NameTagEvent {
+    public static class Add extends NameTagEvent {
 
 		public Add(EPlayer player, String identifier, Action action, Cause cause) {
 			super(player, identifier, action, cause);
@@ -78,7 +78,7 @@ public abstract class NameTagEvent extends AbstractEvent {
     	
     }
     
-    public final class Remove extends NameTagEvent {
+    public static class Remove extends NameTagEvent {
 
 		public Remove(EPlayer player, String identifier, Action action, Cause cause) {
 			super(player, identifier, action, cause);
@@ -86,7 +86,7 @@ public abstract class NameTagEvent extends AbstractEvent {
 		
     }
     
-    public final class Replace extends NameTagEvent {
+    public static class Replace extends NameTagEvent {
     	
     	private final String newIdentifier;
     	

@@ -16,19 +16,36 @@
  */
 package fr.evercraft.everapi.event;
 
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 
-public interface StatsSystemEvent extends Event {
+public abstract class StatsSystemEvent extends AbstractEvent {
 	
 	public static enum Action {
     	RELOADED;
     };
     
-    public Action getAction();
+    private final Action action;
+    private final Cause cause;
+    
+    public StatsSystemEvent(Action action, Cause cause) {
+		super();
+		this.action = action;
+		this.cause = cause;
+	}
+
+	public Action getAction() {
+		return this.action;
+	}
 	
 	@Override
-	public Cause getCause();
+	public Cause getCause() {
+		return this.cause;
+	}
 	
-	public interface Reload extends StatsSystemEvent {}
+	public static class Reload extends StatsSystemEvent {
+		public Reload(Action action, Cause cause) {
+			super(action, cause);
+		}
+	}
 }

@@ -86,7 +86,7 @@ public abstract class MoveRegionEvent extends AbstractEvent {
 		return this.cause;
 	}
 	
-	public final class Pre extends MoveRegionEvent {
+	public static class Pre extends MoveRegionEvent {
 		
 		public Pre(EPlayer player, Location<World> fromLocation, Location<World> toLocation,
 				SetProtectedRegion fromRegions, SetProtectedRegion toRegions, SetProtectedRegion enterRegions,
@@ -94,7 +94,7 @@ public abstract class MoveRegionEvent extends AbstractEvent {
 			super(player, fromLocation, toLocation, fromRegions, toRegions, enterRegions, exitRegions, cause);
 		}
 
-		public final class Cancellable extends MoveRegionEvent implements org.spongepowered.api.event.Cancellable {
+		public static class Cancellable extends MoveRegionEvent implements org.spongepowered.api.event.Cancellable {
 
 			private boolean cancelled;
 			
@@ -118,7 +118,7 @@ public abstract class MoveRegionEvent extends AbstractEvent {
 		}
 	}
 	
-	public final class Post extends MoveRegionEvent {
+	public static class Post extends MoveRegionEvent {
 
 		public Post(EPlayer player, Location<World> fromLocation, Location<World> toLocation,
 				SetProtectedRegion fromRegions, SetProtectedRegion toRegions, SetProtectedRegion enterRegions,

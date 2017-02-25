@@ -16,49 +16,86 @@
  */
 package fr.evercraft.everapi.event;
 
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public interface TabListEvent extends Event {
+public abstract class TabListEvent extends AbstractEvent {
 	public static enum Action {
     	ADD,
     	REMOVE,
     	REPLACE;
     }
 
+	private final EPlayer player;
+	private final String identifier;
+	private final Action action;
+	private final Cause cause;
+	
+	public TabListEvent(EPlayer player, String identifier, Action action, Cause cause) {
+		super();
+		this.player = player;
+		this.identifier = identifier;
+		this.action = action;
+		this.cause = cause;
+	}
+
 	/**
 	 * Retourne le joueur
 	 * @return Le joueur
 	 */
-	public EPlayer getPlayer();
+	public EPlayer getPlayer() {
+		return this.player;
+	}
     
 	/**
 	 * Retourne l'identifiant du TabList
 	 * @return
 	 */
-	public String getIdentifier();
+	public String getIdentifier() {
+		return this.identifier;
+	}
 	
 	/**
 	 * Retourne l'action
 	 * @return L'action
 	 */
-    public Action getAction();
+    public Action getAction() {
+    	return this.action;
+    }
 
     @Override
-	public Cause getCause();
+	public Cause getCause() {
+    	return this.cause;
+    }
     
-    interface Add extends TabListEvent {}
+    public static class Add extends TabListEvent {
+		public Add(EPlayer player, String identifier, Cause cause) {
+			super(player, identifier, Action.ADD, cause);
+		}
+	}
     
-    interface Remove extends TabListEvent {}
+    public static class Remove extends TabListEvent {
+		public Remove(EPlayer player, String identifier, Cause cause) {
+			super(player, identifier, Action.REMOVE, cause);
+		}
+	}
     
-    interface Replace extends TabListEvent {
+    public static class Replace extends TabListEvent {
+    	private final String newIdentifier;
+    	
+    	public Replace(EPlayer player, String identifier, String newIdentifier, Cause cause) {
+			super(player, identifier, Action.REPLACE, cause);
+			this.newIdentifier = newIdentifier;
+		}
     	
     	/**
     	 * Retourne le nouvelle identifiant du TabList
     	 * @return Le nouvelle identifiant du TabList
     	 */
-		public String getNewIdentifier();
+		public String getNewIdentifier() {
+			return this.newIdentifier;
+		}
 	}
 }

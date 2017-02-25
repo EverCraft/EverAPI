@@ -16,11 +16,11 @@
  */
 package fr.evercraft.everapi.event;
 
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 import org.spongepowered.api.service.permission.Subject;
 
-public interface PermGroupEvent extends Event {
+public abstract class PermGroupEvent extends AbstractEvent {
 
     public static enum Action {
     	GROUP_PERMISSION_CHANGED,
@@ -30,16 +30,57 @@ public interface PermGroupEvent extends Event {
     	GROUP_REMOVED;
     };
 
-    public Subject getSubject();
+    private final Subject subject;
+    private final Action action;
+    private final Cause cause;
     
-    public Action getAction();
+    public PermGroupEvent(Subject subject, Action action, Cause cause) {
+		super();
+		this.subject = subject;
+		this.action = action;
+		this.cause = cause;
+	}
+
+	public Subject getSubject() {
+    	return this.subject;
+    }
+    
+    public Action getAction() {
+    	return this.action;
+    }
 
 	@Override
-	public Cause getCause();
+	public Cause getCause() {
+		return this.cause;
+	}
 	
-	public interface Permission extends PermGroupEvent {}
-	public interface Inheritance extends PermGroupEvent {}
-	public interface Option extends PermGroupEvent {}
-	public interface Add extends PermGroupEvent {}
-	public interface Remove extends PermGroupEvent {}
+	public static class Permission extends PermGroupEvent {
+		public Permission(Subject subject, Cause cause) {
+			super(subject, Action.GROUP_PERMISSION_CHANGED, cause);
+		}
+	}
+	
+	public static class Inheritance extends PermGroupEvent {
+		public Inheritance(Subject subject, Cause cause) {
+			super(subject, Action.GROUP_INHERITANCE_CHANGED, cause);
+		}
+	}
+	
+	public static class Option extends PermGroupEvent {
+		public Option(Subject subject, Cause cause) {
+			super(subject, Action.GROUP_OPTION_CHANGED, cause);
+		}
+	}
+	
+	public static class Add extends PermGroupEvent {
+		public Add(Subject subject, Cause cause) {
+			super(subject, Action.GROUP_ADDED, cause);
+		}
+	}
+	
+	public static class Remove extends PermGroupEvent {
+		public Remove(Subject subject, Cause cause) {
+			super(subject, Action.GROUP_REMOVED, cause);
+		}
+	}
 }

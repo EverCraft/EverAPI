@@ -16,37 +16,92 @@
  */
 package fr.evercraft.everapi.event;
 
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
 import org.spongepowered.api.scoreboard.objective.Objective;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public interface ScoreBoardEvent extends Event {
+public abstract class ScoreBoardEvent extends AbstractEvent {
 	public static enum Action {
     	ADD,
     	REMOVE,
     	REPLACE;
     }
 
-    public EPlayer getPlayer();
+	private final EPlayer player;
+	private final Action action;
+	private final Objective objective;
+	private final String identifier;
+	private final DisplaySlot displaySlot;
+	private final Cause cause;
+	
+    public ScoreBoardEvent(EPlayer player, Action action, Objective objective, String identifier,
+			DisplaySlot displaySlot, Cause cause) {
+		super();
+		this.player = player;
+		this.action = action;
+		this.objective = objective;
+		this.identifier = identifier;
+		this.displaySlot = displaySlot;
+		this.cause = cause;
+	}
+
+	public EPlayer getPlayer() {
+		return this.player;
+	}
     
-    public Action getAction();
+    public Action getAction() {
+    	return this.action;
+    }
     
-    public Objective getObjective();
+    public Objective getObjective() {
+    	return this.objective;
+    }
     
-    public String getIdentifier();
+    public String getIdentifier() {
+    	return this.identifier;
+    }
     
-    public DisplaySlot getDisplaySlot();
+    public DisplaySlot getDisplaySlot() {
+    	return this.displaySlot;
+    }
     
     @Override
-	public Cause getCause();
+	public Cause getCause() {
+    	return this.cause;
+    }
     
-    public interface Add extends ScoreBoardEvent {}
-    public interface Remove extends ScoreBoardEvent {}
-    public interface Replace extends ScoreBoardEvent {
-    	public Objective getNewObjective();
-    	public String getNewIdentifier();
+    public final class Add extends ScoreBoardEvent {
+		public Add(EPlayer player, Objective objective, String identifier, DisplaySlot displaySlot,
+				Cause cause) {
+			super(player, Action.ADD, objective, identifier, displaySlot, cause);
+		}
+	}
+    public final class Remove extends ScoreBoardEvent {
+		public Remove(EPlayer player, Objective objective, String identifier, DisplaySlot displaySlot,
+				Cause cause) {
+			super(player, Action.REMOVE, objective, identifier, displaySlot, cause);
+		}
+	}
+    public final class Replace extends ScoreBoardEvent {
+    	private final Objective newObjective;
+    	private final String newIdentifier;
+		
+    	public Replace(EPlayer player, Objective objective, String identifier, DisplaySlot displaySlot,
+				Cause cause, Objective newObjective, String newIdentifier) {
+			super(player, Action.REPLACE, objective, identifier, displaySlot, cause);
+			this.newObjective = newObjective;
+			this.newIdentifier = newIdentifier;
+		}
+    	
+		public Objective getNewObjective() {
+			return this.newObjective;
+		}
+		
+    	public String getNewIdentifier() {
+    		return this.newIdentifier;
+    	}
     }
 }

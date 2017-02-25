@@ -16,21 +16,42 @@
  */
 package fr.evercraft.everapi.event;
 
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 
-public interface PermSystemEvent extends Event {
+public abstract class PermSystemEvent extends AbstractEvent {
 
     public static enum Action {
     	RELOADED,
     	DEFAULT_GROUP_CHANGED;
     };
     
-    public Action getAction();
+    private final Action action;
+    private final Cause cause;
+    
+    public PermSystemEvent(Action action, Cause cause) {
+		super();
+		this.action = action;
+		this.cause = cause;
+	}
+
+	public Action getAction() {
+		return this.action;
+	}
 
 	@Override
-	public Cause getCause();
+	public Cause getCause() {
+		return this.cause;
+	}
 	
-	public interface Reload extends PermSystemEvent {}
-	public interface Default extends PermSystemEvent {}
+	public static class Reload extends PermSystemEvent {
+		public Reload(Cause cause) {
+			super(Action.RELOADED, cause);
+		}
+	}
+	public static class Default extends PermSystemEvent {
+		public Default(Cause cause) {
+			super(Action.DEFAULT_GROUP_CHANGED, cause);
+		}
+	}
 }

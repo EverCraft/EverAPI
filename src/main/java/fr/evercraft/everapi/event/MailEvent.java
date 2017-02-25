@@ -66,17 +66,16 @@ public abstract class MailEvent extends AbstractEvent {
     	return this.cause;
     }
 	
-	public final class Send extends MailEvent implements Cancellable {
+	public static class Send extends MailEvent implements Cancellable {
 		private final CommandSource to;
 		private final String message;
 		private boolean cancelled;
 		
-		public Send(EUser user, Optional<EPlayer> player, Action action, Cause cause, CommandSource to, String message,
-				boolean cancelled) {
-			super(user, player, action, cause);
+		public Send(EUser user, Optional<EPlayer> player, CommandSource to, String message, Cause cause) {
+			super(user, player, Action.SEND, cause);
 			this.to = to;
 			this.message = message;
-			this.cancelled = cancelled;
+			this.cancelled = false;
 		}
 
 		public CommandSource getTo() {
@@ -97,11 +96,11 @@ public abstract class MailEvent extends AbstractEvent {
 			this.cancelled = cancel;
 		}
 	}
-	public final class Remove extends MailEvent {
+	public static class Remove extends MailEvent {
 		private final Mail mail;
 		
-		public Remove(EUser user, Optional<EPlayer> player, Action action, Mail mail, Cause cause) {
-			super(user, player, action, cause);
+		public Remove(EUser user, Optional<EPlayer> player, Mail mail, Cause cause) {
+			super(user, player, Action.REMOVE, cause);
 			this.mail = mail;
 		}
 
@@ -109,11 +108,11 @@ public abstract class MailEvent extends AbstractEvent {
 			return this.mail;
 		}
 	}
-	public final class Read extends MailEvent {
+	public static class Read extends MailEvent {
 		private final Mail mail;
 		
-		public Read(EUser user, Optional<EPlayer> player, Action action, Mail mail, Cause cause) {
-			super(user, player, action, cause);
+		public Read(EUser user, Optional<EPlayer> player, Mail mail, Cause cause) {
+			super(user, player, Action.READ, cause);
 			this.mail = mail;
 		}
 		
@@ -121,11 +120,11 @@ public abstract class MailEvent extends AbstractEvent {
 			return this.mail;
 		}
 	}
-	public final class Receive extends MailEvent {
+	public static class Receive extends MailEvent {
 		private final Mail mail;
 		
-		public Receive(EUser user, Optional<EPlayer> player, Action action, Mail mail, Cause cause) {
-			super(user, player, action, cause);
+		public Receive(EUser user, Optional<EPlayer> player, Mail mail, Cause cause) {
+			super(user, player, Action.RECEIVE, cause);
 			this.mail = mail;
 		}
 		

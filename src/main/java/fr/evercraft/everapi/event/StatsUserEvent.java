@@ -19,34 +19,81 @@ package fr.evercraft.everapi.event;
 import java.util.Optional;
 
 import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.entity.damage.DamageType;
+import org.spongepowered.api.event.impl.AbstractEvent;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public interface StatsUserEvent extends Event {	
+public abstract class StatsUserEvent extends AbstractEvent {	
 	public static enum Type {
     	DEATH,
     	KILL;
     }
 
-    public EPlayer getVictim();
+	private final EPlayer victim;
+	private final Long time;
+	private final DamageType damageType;
+	private final Type type;
+	private final Cause cause;
+	
+    public StatsUserEvent(EPlayer victim, Long time, DamageType damageType, Type type, Cause cause) {
+		super();
+		this.victim = victim;
+		this.time = time;
+		this.damageType = damageType;
+		this.type = type;
+		this.cause = cause;
+	}
 
-    public Long getTime();
-    
-    public DamageType getDamageType();
-    
-    public Type getType();
-    
-    @Override
-  	public Cause getCause();
-    
-    interface Death extends StatsUserEvent {
-    	public Optional<Entity> getKiller();
+	public EPlayer getVictim() {
+    	return this.victim;
+    }
+
+    public Long getTime() {
+    	return this.time;
     }
     
-    interface Kill extends StatsUserEvent{
-    	public EPlayer getKiller();
+    public DamageType getDamageType() {
+    	return this.damageType;
+    }
+    
+    public Type getType() {
+    	return this.type;
+    }
+    
+    @Override
+  	public Cause getCause() {
+    	return this.cause;
+    }
+    
+    public static class Death extends StatsUserEvent {
+    	private final Optional<Entity> killer;
+    	
+    	public Death(EPlayer victim, Long time, DamageType damageType, Cause cause,
+				Optional<Entity> killer) {
+			super(victim, time, damageType, Type.DEATH, cause);
+			
+			this.killer = killer;
+		}
+
+		public Optional<Entity> getKiller() {
+			return this.killer;
+		}
+    }
+    
+    public static class Kill extends StatsUserEvent{
+    	private final EPlayer killer;
+    	
+    	public Kill(EPlayer victim, Long time, DamageType damageType, Cause cause,
+    			EPlayer killer) {
+			super(victim, time, damageType, Type.DEATH, cause);
+			
+			this.killer = killer;
+		}
+
+		public EPlayer getKiller() {
+			return this.killer;
+		}
     }
 }

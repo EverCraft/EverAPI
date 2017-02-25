@@ -16,22 +16,52 @@
  */
 package fr.evercraft.everapi.event;
 
-import org.spongepowered.api.event.Cancellable;
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public interface ToggleEvent extends Event, Cancellable {
+public abstract class ToggleEvent extends AbstractCancellableEvent {
 	
-	public EPlayer getPlayer();
-    
-    public boolean getValue();
+	private final EPlayer player;
+	private final Cause cause;
+	
+	public ToggleEvent(EPlayer player, Cause cause) {
+		super();
+		this.player = player;
+		this.cause = cause;
+	}
+
+	public EPlayer getPlayer() {
+		return this.player;
+	}
+	
+    public abstract boolean getValue();
     
     @Override
-	public Cause getCause();
+	public Cause getCause() {
+    	return this.cause;
+    }
 	
-	public interface Enable extends ToggleEvent {}
-	public interface Disable extends ToggleEvent {}
+	public static class Enable extends ToggleEvent {
+		public Enable(EPlayer player, Cause cause) {
+			super(player, cause);
+		}
+		
+		@Override
+		public boolean getValue() {
+			return true;
+		}
+	}
+	
+	public static class Disable extends ToggleEvent {
+		public Disable(EPlayer player, Cause cause) {
+			super(player, cause);
+		}
+		
+		@Override
+		public boolean getValue() {
+			return false;
+		}
+	}
 }
 

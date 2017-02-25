@@ -18,13 +18,13 @@ package fr.evercraft.everapi.event;
 
 import java.util.Optional;
 
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 import org.spongepowered.api.service.permission.Subject;
 
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public interface PermUserEvent extends Event {
+public abstract class PermUserEvent extends AbstractEvent {
 
     public static enum Action {
     	USER_PERMISSION_CHANGED,
@@ -34,21 +34,66 @@ public interface PermUserEvent extends Event {
     	USER_ADDED,
     	USER_REMOVED;
     };
+    
+    private final Subject subject;
+    private final Action action;
+    private final Optional<EPlayer> player;
+    private final Cause cause;
 
-    public Subject getSubject();
+    public PermUserEvent(Subject subject, Action action, Optional<EPlayer> player, Cause cause) {
+		super();
+		this.subject = subject;
+		this.action = action;
+		this.player = player;
+		this.cause = cause;
+	}
+
+	public Subject getSubject() {
+    	return this.subject;
+    }
     
-    public Action getAction();
+    public Action getAction() {
+    	return this.action;
+    }
     
-    public Optional<EPlayer> getPlayer();
+    public Optional<EPlayer> getPlayer() {
+    	return this.player;
+    }
 
 	@Override
-	public Cause getCause();
+	public Cause getCause() {
+		return this.cause;
+	}
 	
-	public interface Permission extends PermUserEvent {}
-	public interface Option extends PermUserEvent {}
-	public interface Group extends PermUserEvent {}
-	public interface SubGroup extends PermUserEvent {}
-	public interface Add extends PermUserEvent {}
-	public interface Remove extends PermUserEvent {}
+	public static class Permission extends PermUserEvent {
+		public Permission(Subject subject, Optional<EPlayer> player, Cause cause) {
+			super(subject, Action.USER_PERMISSION_CHANGED, player, cause);
+		}
+	}
+	public static class Option extends PermUserEvent {
+		public Option(Subject subject, Optional<EPlayer> player, Cause cause) {
+			super(subject, Action.USER_OPTION_CHANGED, player, cause);
+		}
+	}
+	public static class Group extends PermUserEvent {
+		public Group(Subject subject, Optional<EPlayer> player, Cause cause) {
+			super(subject, Action.USER_GROUP_CHANGED, player, cause);
+		}
+	}
+	public static class SubGroup extends PermUserEvent {
+		public SubGroup(Subject subject, Optional<EPlayer> player, Cause cause) {
+			super(subject, Action.USER_SUBGROUP_CHANGED, player, cause);
+		}
+	}
+	public static class Add extends PermUserEvent {
+		public Add(Subject subject, Optional<EPlayer> player, Cause cause) {
+			super(subject, Action.USER_ADDED, player, cause);
+		}
+	}
+	public static class Remove extends PermUserEvent {
+		public Remove(Subject subject, Optional<EPlayer> player, Cause cause) {
+			super(subject, Action.USER_REMOVED, player, cause);
+		}
+	}
 	
 }

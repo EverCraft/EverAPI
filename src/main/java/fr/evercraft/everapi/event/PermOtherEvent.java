@@ -16,11 +16,11 @@
  */
 package fr.evercraft.everapi.event;
 
-import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.impl.AbstractEvent;
 import org.spongepowered.api.service.permission.Subject;
 
-public interface PermOtherEvent extends Event {
+public abstract class PermOtherEvent extends AbstractEvent {
 
     public static enum Action {
     	OTHER_PERMISSION_CHANGED,
@@ -30,16 +30,57 @@ public interface PermOtherEvent extends Event {
     	OTHER_REMOVED;
     };
 
-    public Subject getSubject();
+    private final Subject subject;
+    private final Action action;
+    private final Cause cause;
+    
+    public PermOtherEvent(Subject subject, Action action, Cause cause) {
+		super();
+		this.subject = subject;
+		this.action = action;
+		this.cause = cause;
+	}
 
-    public Action getAction();
+	public Subject getSubject() {
+    	return this.subject;
+    }
+    
+    public Action getAction() {
+    	return this.action;
+    }
 
 	@Override
-	public Cause getCause();
+	public Cause getCause() {
+		return this.cause;
+	}
 	
-	public interface Permission extends PermOtherEvent {}
-	public interface Option extends PermOtherEvent {}
-	public interface Inheritance extends PermOtherEvent {}
-	public interface Add extends PermOtherEvent {}
-	public interface Remove extends PermOtherEvent {}
+	public static class Permission extends PermOtherEvent {
+		public Permission(Subject subject, Cause cause) {
+			super(subject, Action.OTHER_PERMISSION_CHANGED, cause);
+		}
+	}
+	
+	public static class Inheritance extends PermOtherEvent {
+		public Inheritance(Subject subject, Cause cause) {
+			super(subject, Action.OTHER_INHERITANCE_CHANGED, cause);
+		}
+	}
+	
+	public static class Option extends PermOtherEvent {
+		public Option(Subject subject, Cause cause) {
+			super(subject, Action.OTHER_OPTION_CHANGED, cause);
+		}
+	}
+	
+	public static class Add extends PermOtherEvent {
+		public Add(Subject subject, Cause cause) {
+			super(subject, Action.OTHER_ADDED, cause);
+		}
+	}
+	
+	public static class Remove extends PermOtherEvent {
+		public Remove(Subject subject, Cause cause) {
+			super(subject, Action.OTHER_REMOVED, cause);
+		}
+	}
 }
