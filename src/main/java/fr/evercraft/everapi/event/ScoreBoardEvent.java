@@ -73,24 +73,24 @@ public abstract class ScoreBoardEvent extends AbstractEvent {
     	return this.cause;
     }
     
-    public final class Add extends ScoreBoardEvent {
+    public static class Add extends ScoreBoardEvent {
 		public Add(EPlayer player, Objective objective, String identifier, DisplaySlot displaySlot,
 				Cause cause) {
 			super(player, Action.ADD, objective, identifier, displaySlot, cause);
 		}
 	}
-    public final class Remove extends ScoreBoardEvent {
+    public static class Remove extends ScoreBoardEvent {
 		public Remove(EPlayer player, Objective objective, String identifier, DisplaySlot displaySlot,
 				Cause cause) {
 			super(player, Action.REMOVE, objective, identifier, displaySlot, cause);
 		}
 	}
-    public final class Replace extends ScoreBoardEvent {
+    public static class Replace extends ScoreBoardEvent {
     	private final Objective newObjective;
     	private final String newIdentifier;
 		
-    	public Replace(EPlayer player, Objective objective, String identifier, DisplaySlot displaySlot,
-				Cause cause, Objective newObjective, String newIdentifier) {
+    	public Replace(EPlayer player, Objective objective, String identifier, Objective newObjective, 
+    			String newIdentifier, DisplaySlot displaySlot, Cause cause) {
 			super(player, Action.REPLACE, objective, identifier, displaySlot, cause);
 			this.newObjective = newObjective;
 			this.newIdentifier = newIdentifier;

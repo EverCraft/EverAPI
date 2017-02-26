@@ -51,6 +51,7 @@ import org.spongepowered.api.entity.living.player.tab.TabList;
 import org.spongepowered.api.entity.projectile.Projectile;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.entity.damage.source.DamageSource;
+import org.spongepowered.api.event.message.MessageChannelEvent.Chat;
 import org.spongepowered.api.item.inventory.Carrier;
 import org.spongepowered.api.item.inventory.Container;
 import org.spongepowered.api.item.inventory.Inventory;
@@ -693,5 +694,20 @@ public class PlayerSponge extends EUser implements Player {
 	@Override
 	public boolean respawnPlayer() {
 		return this.player.respawnPlayer();
+	}
+
+	@Override
+	public Chat simulateChat(Text message, Cause cause) {
+		return this.player.simulateChat(message, cause);
+	}
+
+	@Override
+	public Optional<Entity> getSpectatorTarget() {
+		return this.player.getSpectatorTarget();
+	}
+
+	@Override
+	public void setSpectatorTarget(Entity entity) {
+		this.player.setSpectatorTarget(entity);
 	}
 }

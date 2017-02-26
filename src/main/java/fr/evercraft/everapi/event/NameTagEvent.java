@@ -72,16 +72,16 @@ public abstract class NameTagEvent extends AbstractEvent {
     
     public static class Add extends NameTagEvent {
 
-		public Add(EPlayer player, String identifier, Action action, Cause cause) {
-			super(player, identifier, action, cause);
+		public Add(EPlayer player, String identifier, Cause cause) {
+			super(player, identifier, Action.ADD, cause);
 		}
     	
     }
     
     public static class Remove extends NameTagEvent {
 
-		public Remove(EPlayer player, String identifier, Action action, Cause cause) {
-			super(player, identifier, action, cause);
+		public Remove(EPlayer player, String identifier, Cause cause) {
+			super(player, identifier, Action.REMOVE, cause);
 		}
 		
     }
@@ -90,8 +90,8 @@ public abstract class NameTagEvent extends AbstractEvent {
     	
     	private final String newIdentifier;
     	
-    	public Replace(EPlayer player, String identifier, Action action, Cause cause, String newIdentifier) {
-			super(player, identifier, action, cause);
+    	public Replace(EPlayer player, String identifier, String newIdentifier, Cause cause) {
+			super(player, identifier, Action.REPLACE, cause);
 			this.newIdentifier = newIdentifier;
 		}
 

@@ -70,8 +70,7 @@ public abstract class StatsUserEvent extends AbstractEvent {
     public static class Death extends StatsUserEvent {
     	private final Optional<Entity> killer;
     	
-    	public Death(EPlayer victim, Long time, DamageType damageType, Cause cause,
-				Optional<Entity> killer) {
+    	public Death(EPlayer victim, Long time, DamageType damageType, Optional<Entity> killer, Cause cause) {
 			super(victim, time, damageType, Type.DEATH, cause);
 			
 			this.killer = killer;
@@ -85,8 +84,7 @@ public abstract class StatsUserEvent extends AbstractEvent {
     public static class Kill extends StatsUserEvent{
     	private final EPlayer killer;
     	
-    	public Kill(EPlayer victim, Long time, DamageType damageType, Cause cause,
-    			EPlayer killer) {
+    	public Kill(EPlayer victim, Long time, DamageType damageType, EPlayer killer, Cause cause) {
 			super(victim, time, damageType, Type.DEATH, cause);
 			
 			this.killer = killer;

@@ -44,8 +44,8 @@ public abstract class StatsSystemEvent extends AbstractEvent {
 	}
 	
 	public static class Reload extends StatsSystemEvent {
-		public Reload(Action action, Cause cause) {
-			super(action, cause);
+		public Reload(Cause cause) {
+			super(Action.RELOADED, cause);
 		}
 	}
 }
