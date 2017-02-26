@@ -600,4 +600,12 @@ public class EPlayer extends PlayerSponge {
 	public boolean teleportSpawn() {
 		return this.player.setTransform(this.getSpawn());
 	}
+	
+	/*
+	 * WorldGuard
+	 */
+	
+	public boolean sendCui() {
+		return this.sendCui(this.player);
+	}
 }

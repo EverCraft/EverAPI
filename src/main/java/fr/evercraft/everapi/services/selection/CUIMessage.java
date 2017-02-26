@@ -14,12 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.util;
+package fr.evercraft.everapi.services.selection;
 
-public class EntryKey {
-	protected long key;
+public interface CUIMessage {
 
-	EntryKey(long k) {
-    	this.key = k;
-    }
+    public String getTypeId();
+
+    public String[] getParameters();
 }

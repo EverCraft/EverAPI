@@ -19,6 +19,7 @@ package fr.evercraft.everapi.server.user;
 import java.util.List;
 import java.util.Optional;
 
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 
 import com.flowpowered.math.vector.Vector3i;
@@ -126,6 +127,30 @@ public class UserSelection extends UserWorldGuard {
 	
 	public Optional<SelectionRegion.Cylinder> getSelectorRegionCylinder() {
 		return this.getSelector().getRegionCylinder();
+	}
+	
+	public boolean isCuiSupport() {
+		if (this.isPresent()) {
+			this.subject.isCuiSupport();
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean setCuiSupport(boolean support) {
+		if (this.isPresent()) {
+			this.subject.setCuiSupport(support);
+			return true;
+		}
+		return false;
+	}
+	
+	protected boolean sendCui(Player player) {
+		if (this.isPresent()) {
+			this.subject.describeCUI(player);
+			return true;
+		}
+		return false;
 	}
 	
 }

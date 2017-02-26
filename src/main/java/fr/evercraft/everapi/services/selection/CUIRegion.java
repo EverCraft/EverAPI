@@ -14,12 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.util;
+package fr.evercraft.everapi.services.selection;
 
-public class EntryKey {
-	protected long key;
-
-	EntryKey(long k) {
-    	this.key = k;
-    }
+public interface CUIRegion {
+    
+    public void describeCUI();
+    
+    public void describeLegacyCUI();
+    
+    public int getProtocolVersion();
+    
+    public String getTypeID();
+    
+    public String getLegacyTypeID();
 }

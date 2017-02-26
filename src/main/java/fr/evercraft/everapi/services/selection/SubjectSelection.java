@@ -16,10 +16,21 @@
  */
 package fr.evercraft.everapi.services.selection;
 
+import org.spongepowered.api.entity.living.player.Player;
+
 public interface SubjectSelection {	
 	
 	public Selector getSelector();
 	
 	public void setType(SelectionType type);
 	public SelectionType getType();
+
+	boolean isCuiSupport();
+	int getCUIVersion();
+
+	public void dispatchCUIEvent(Player player, CUIMessage point2dCuiMessage);
+
+	void setCuiSupport(boolean cuiSupport);
+
+	void describeCUI(Player player);
 }
