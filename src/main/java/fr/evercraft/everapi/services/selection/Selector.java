@@ -32,19 +32,17 @@ public interface Selector {
 		return Empty.EMPTY;
 	}
 	
-	public Optional<SelectionRegion> getRegion();
-	public Optional<SelectionRegion.Cuboid> getRegionCuboid();
-	public Optional<SelectionRegion.Polygonal> getRegionPolygonal();
-	public Optional<SelectionRegion.Cylinder> getRegionCylinder();
+	Optional<SelectionRegion> getRegion();
+	<T extends SelectionRegion> Optional<T> getRegion(Class<T> type);
 	
-	public boolean selectPrimary(@Nullable Vector3i position);
-	public boolean selectSecondary(@Nullable Vector3i position) throws SelectorSecondaryException;
-	public boolean clear();
-	public int getVolume();
+	boolean selectPrimary(@Nullable Vector3i position);
+	boolean selectSecondary(@Nullable Vector3i position) throws SelectorSecondaryException;
+	boolean clear();
+	int getVolume();
 	
-	public boolean expand(Vector3i... changes) throws RegionOperationException;
-	public boolean contract(Vector3i... changes) throws RegionOperationException;
-	public boolean shift(Vector3i change);
+	boolean expand(Vector3i... changes) throws RegionOperationException;
+	boolean contract(Vector3i... changes) throws RegionOperationException;
+	boolean shift(Vector3i change);
 	
 	public Optional<Vector3i> getPrimaryPosition();
 	public List<Vector3i> getPositions();
@@ -79,17 +77,7 @@ public interface Selector {
 		}
 		
 		@Override
-		public Optional<SelectionRegion.Cuboid> getRegionCuboid() {
-			return Optional.empty();
-		}
-		
-		@Override
-		public Optional<SelectionRegion.Polygonal> getRegionPolygonal() {
-			return Optional.empty();
-		}
-		
-		@Override
-		public Optional<SelectionRegion.Cylinder> getRegionCylinder() {
+		public <T extends SelectionRegion> Optional<T> getRegion(Class<T> type) {
 			return Optional.empty();
 		}
 		

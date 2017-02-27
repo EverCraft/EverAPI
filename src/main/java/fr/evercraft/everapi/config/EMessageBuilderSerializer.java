@@ -191,7 +191,7 @@ public final class EMessageBuilderSerializer implements TypeSerializer<EMessageB
 			if (actionbar.isVirtual()) {
 				actionbar.setValue(builder.getActionbarMessage());
 			} else {
-				actionbar.getNode("message").setValue(builder.getActionbarMessage());
+				actionbar.getNode("message").setValue(TypeToken.of(EFormat.class), builder.getActionbarMessage());
 			}
 		}
 		

@@ -117,16 +117,8 @@ public class UserSelection extends UserWorldGuard {
 		return this.getSelector().getRegion();
 	}
 	
-	public Optional<SelectionRegion.Cuboid> getSelectorRegionCuboid() {
-		return this.getSelector().getRegionCuboid();
-	}
-	
-	public Optional<SelectionRegion.Polygonal> getSelectorRegionPolygonal() {
-		return this.getSelector().getRegionPolygonal();
-	}
-	
-	public Optional<SelectionRegion.Cylinder> getSelectorRegionCylinder() {
-		return this.getSelector().getRegionCylinder();
+	public <T extends SelectionRegion> Optional<T> getSelectorRegion(Class<T> type) {
+		return this.getSelector().getRegion(type);
 	}
 	
 	public boolean isCuiSupport() {
