@@ -97,7 +97,7 @@ public enum UtilsEntity {
 	}
 	
 	public boolean spawnEntity(final Location<World> spawnLocation) {
-	    Entity entity = spawnLocation.getExtent().createEntityNaturally(this.type, spawnLocation.getPosition());
+	    Entity entity = spawnLocation.getExtent().createEntity(this.type, spawnLocation.getPosition());
 	    spawnLocation.getExtent().spawnEntity(getEntity(entity), Cause.source(EntitySpawnCause.builder()
                 .entity(entity).type(SpawnTypes.PLUGIN).build()).build());
         return true;
