@@ -33,11 +33,14 @@ import org.spongepowered.api.text.format.TextColors;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.event.ESpongeEventFactory;
+import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.NameTagService;
 import fr.evercraft.everapi.services.PriorityService;
 
 public class ENameTagService implements NameTagService {
+	
+	public final int MAX_CHARACTERS = 16;
 	
 	private final EverAPI plugin;
 	
@@ -65,7 +68,7 @@ public class ENameTagService implements NameTagService {
 	}
 	
 	@Override
-	public boolean sendNameTag(EPlayer player, String identifier, Text teamRepresentation ,Text prefix, Text suffix) {
+	public boolean sendNameTag(EPlayer player, String identifier, Text teamRepresentation ,Text prefix, Text suffix) {		
 		if (this.players.containsKey(player.getUniqueId())) {
 			String player_identifier = this.players.get(player.getUniqueId());
 			if (player_identifier.equalsIgnoreCase(identifier)) {
@@ -93,10 +96,10 @@ public class ENameTagService implements NameTagService {
 		return false;
 	}
 	
-	private boolean sendNameTag(EPlayer player, Text teamRepresentation ,Text prefix, Text suffix) {
+	private boolean sendNameTag(EPlayer player, Text teamRepresentation, Text prefix, Text suffix) {		
 		Team team = Team.builder()
-				.prefix(prefix)
-				.suffix(suffix)
+				.prefix(EChat.fixLength(prefix, MAX_CHARACTERS))
+				.suffix(EChat.fixLength(suffix, MAX_CHARACTERS))
 				.name(teamRepresentation.toPlain())
 				.nameTagVisibility(Visibilities.ALWAYS)
 				.collisionRule(CollisionRules.NEVER)

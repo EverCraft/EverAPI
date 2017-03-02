@@ -141,11 +141,31 @@ public class EChat implements ChatService {
     }
     
     public static String fixLength(final String message, final int length) {
+    	Preconditions.checkArgument(length > 0);
+    	
 		if (message.length() > length) {
 			return message.substring(0, length);
 		}
 		return message;
 	}
+    
+    public static Text fixLength(final Text message) {
+    	return EChat.fixLength(message, 16);
+    }
+    
+    public static Text fixLength(Text message, final int length) {
+    	Preconditions.checkArgument(length > 0);
+    	
+    	String serialize = EChat.serialize(message);
+    	while (serialize.length() > length) {
+    		serialize = serialize.substring(0, serialize.length()-1);
+    		message = EChat.of(serialize);
+    		serialize = EChat.serialize(message);
+    	}
+    	
+    	return message;
+	}
+
     
     public static TextColor getTextColor(final String arg){
     	Preconditions.checkNotNull(arg, "arg");
