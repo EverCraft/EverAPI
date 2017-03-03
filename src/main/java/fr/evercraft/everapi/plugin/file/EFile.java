@@ -120,7 +120,7 @@ public abstract class EFile<T extends EPlugin<T>> {
      * Retourne la configuration
      * @return La configuration
      */
-    public ConfigurationNode getNode() {
+    public CommentedConfigurationNode getNode() {
         return this.config;
     }
     

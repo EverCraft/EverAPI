@@ -64,6 +64,7 @@ public abstract class EConfig<T extends EPlugin<T>> extends EFile<T> {
     	CommentedConfigurationNode node = get(paths);    	
     	if (node.getValue() == null){
     		node.setComment(comment).setValue(value);
+    		this.setModified(true);
     	}
     }
     
@@ -71,13 +72,15 @@ public abstract class EConfig<T extends EPlugin<T>> extends EFile<T> {
     	CommentedConfigurationNode node = get(paths);    	
     	if (node.getValue() == null){
     		node.setComment(String.join("\n", comments)).setValue(value);
+    		this.setModified(true);
     	}
     }
     
     public void addComment(final String paths, final String... comments){
-    	CommentedConfigurationNode node = get(paths);    	
+    	CommentedConfigurationNode node = get(paths);
     	if (node.getValue() == null){
     		node.setComment(String.join("\n", comments));
+    		this.setModified(true);
     	}
     }
 
