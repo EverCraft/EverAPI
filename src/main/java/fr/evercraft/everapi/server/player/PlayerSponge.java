@@ -612,23 +612,28 @@ public class PlayerSponge extends EUser implements Player {
 	}
 	
 	@Override
-	public DataTransactionResult addPassenger(Entity entity) {
+	public boolean addPassenger(Entity entity) {
 		return this.player.addPassenger(entity);
 	}
 
 	@Override
-	public DataTransactionResult removePassenger(Entity entity) {
-		return this.player.removePassenger(entity);	
+	public void removePassenger(Entity entity) {
+		this.player.removePassenger(entity);	
 	}
 
 	@Override
-	public DataTransactionResult clearPassengers() {
-		return this.player.clearPassengers();
+	public void clearPassengers() {
+		this.player.clearPassengers();
 	}
 
 	@Override
-	public DataTransactionResult setVehicle(Entity entity) {
+	public boolean setVehicle(Entity entity) {
 		return this.player.setVehicle(entity);
+	}
+	
+	@Override
+	public boolean hasPassenger(Entity entity) {
+		return this.player.hasPassenger(entity);
 	}
 
 	@Override
