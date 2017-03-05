@@ -36,7 +36,7 @@ public class UtilsDirection {
 			}
 		} else {
 			for (Direction direction : Direction.values()) {
-				if (direction.name().equals(identifier)) {
+				if (direction.name().equalsIgnoreCase(identifier)) {
 					return Optional.of(direction);
 				}
 			}
