@@ -14,16 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.selection;
+package fr.evercraft.everapi.services.selection.exception;
 
 /*
- * Erreur : Il faut d'abord selectionner la premiere position
+ * Erreur : Aucune région selectionné
  */
-public class SelectorSecondaryException extends Exception {
+public class NoSelectedRegionException extends Exception {
+	
+	private static final long serialVersionUID = 1926885126740878382L;
 
-	private static final long serialVersionUID = -2975193019359714465L;
-
-	public SelectorSecondaryException(String msg) {
-        super(msg);
+	public NoSelectedRegionException(String message) {
+        super(message);
     }
 }

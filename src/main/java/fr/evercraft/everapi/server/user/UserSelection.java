@@ -19,18 +19,18 @@ package fr.evercraft.everapi.server.user;
 import java.util.List;
 import java.util.Optional;
 
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
 
 import com.flowpowered.math.vector.Vector3i;
 
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.services.selection.RegionOperationException;
 import fr.evercraft.everapi.services.selection.SelectionRegion;
 import fr.evercraft.everapi.services.selection.SelectionType;
 import fr.evercraft.everapi.services.selection.Selector;
-import fr.evercraft.everapi.services.selection.SelectorSecondaryException;
 import fr.evercraft.everapi.services.selection.SubjectSelection;
+import fr.evercraft.everapi.services.selection.exception.NoSelectedRegionException;
+import fr.evercraft.everapi.services.selection.exception.RegionOperationException;
+import fr.evercraft.everapi.services.selection.exception.SelectorSecondaryException;
 
 public class UserSelection extends UserWorldGuard {
 	
@@ -93,15 +93,15 @@ public class UserSelection extends UserWorldGuard {
 		return this.getSelector().getPositions();
 	}
 	
-	public boolean expandSelector(Vector3i... changes) throws RegionOperationException {
+	public boolean expandSelector(Vector3i... changes) throws RegionOperationException, NoSelectedRegionException {
 		return this.getSelector().expand(changes);
 	}
 	
-	public boolean contractSelector(Vector3i... changes) throws RegionOperationException {
+	public boolean contractSelector(Vector3i... changes) throws RegionOperationException, NoSelectedRegionException {
 		return this.getSelector().contract(changes);
 	}
 	
-	public boolean shiftSelector(Vector3i change) {
+	public boolean shiftSelector(Vector3i change) throws NoSelectedRegionException  {
 		return this.getSelector().shift(change);
 	}
 	
@@ -127,22 +127,5 @@ public class UserSelection extends UserWorldGuard {
 			return true;
 		}
 		return false;
-	}
-	
-	public boolean setCuiSupport(boolean support) {
-		if (this.isPresent()) {
-			this.subject.setCuiSupport(support);
-			return true;
-		}
-		return false;
-	}
-	
-	protected boolean sendCui(Player player) {
-		if (this.isPresent()) {
-			this.subject.describeCUI(player);
-			return true;
-		}
-		return false;
-	}
-	
+	}	
 }

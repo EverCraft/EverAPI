@@ -47,6 +47,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Text.Builder;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.title.Title;
+import org.spongepowered.api.util.Direction;
 import org.spongepowered.api.util.blockray.BlockRay;
 import org.spongepowered.api.util.blockray.BlockRayHit;
 import org.spongepowered.api.world.Location;
@@ -59,6 +60,7 @@ import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.message.format.EFormatString;
 import fr.evercraft.everapi.message.replace.EReplace;
 import fr.evercraft.everapi.plugin.EChat;
+import fr.evercraft.everapi.sponge.UtilsDirection;
 
 public class EPlayer extends PlayerSponge {
 	
@@ -302,6 +304,11 @@ public class EPlayer extends PlayerSponge {
 			return Optional.of(block.getBlockPosition());
 		}
 		return Optional.empty();
+	}
+	
+	public Direction getDirection() {
+		Transform<World> transform = this.getTransform();
+		return UtilsDirection.of(transform.getPitch(), transform.getYaw());
 	}
 	
 	/*
@@ -599,13 +606,5 @@ public class EPlayer extends PlayerSponge {
 	
 	public boolean teleportSpawn() {
 		return this.player.setTransform(this.getSpawn());
-	}
-	
-	/*
-	 * WorldGuard
-	 */
-	
-	public boolean sendCui() {
-		return this.sendCui(this.player);
 	}
 }

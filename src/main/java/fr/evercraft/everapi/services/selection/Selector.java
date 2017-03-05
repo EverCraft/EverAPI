@@ -25,6 +25,9 @@ import javax.annotation.Nullable;
 import com.flowpowered.math.vector.Vector3i;
 
 import fr.evercraft.everapi.services.selection.SelectionRegion;
+import fr.evercraft.everapi.services.selection.exception.NoSelectedRegionException;
+import fr.evercraft.everapi.services.selection.exception.RegionOperationException;
+import fr.evercraft.everapi.services.selection.exception.SelectorSecondaryException;
 
 public interface Selector {
 	
@@ -40,9 +43,9 @@ public interface Selector {
 	boolean clear();
 	int getVolume();
 	
-	boolean expand(Vector3i... changes) throws RegionOperationException;
-	boolean contract(Vector3i... changes) throws RegionOperationException;
-	boolean shift(Vector3i change);
+	boolean expand(Vector3i... changes) throws RegionOperationException, NoSelectedRegionException;
+	boolean contract(Vector3i... changes) throws RegionOperationException, NoSelectedRegionException;
+	boolean shift(Vector3i change) throws NoSelectedRegionException;
 	
 	public Optional<Vector3i> getPrimaryPosition();
 	public List<Vector3i> getPositions();

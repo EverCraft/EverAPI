@@ -26,6 +26,8 @@ import org.spongepowered.api.world.World;
 import com.flowpowered.math.vector.Vector3d;
 import com.flowpowered.math.vector.Vector3i;
 
+import fr.evercraft.everapi.services.selection.exception.RegionOperationException;
+
 public interface SelectionRegion {
 	Optional<World> getWorld();
 	void setWorld(@Nullable World world);

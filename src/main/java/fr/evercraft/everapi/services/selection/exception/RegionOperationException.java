@@ -14,11 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.selection;
+package fr.evercraft.everapi.services.selection.exception;
 
-public interface CUIMessage {
+public class RegionOperationException extends Exception {
 
-    public String getTypeId();
+	private static final long serialVersionUID = -3273745123539207996L;
 
-    public String[] getParameters();
+	public RegionOperationException(String message) {
+        super(message);
+    }
 }

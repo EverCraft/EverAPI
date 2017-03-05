@@ -23,7 +23,6 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
-import org.spongepowered.api.text.chat.ChatTypes;
 import org.spongepowered.api.text.format.TextColors;
 
 import fr.evercraft.everapi.EACommand;
@@ -59,8 +58,7 @@ public class EATest extends ESubCommand<EverAPI> {
 	}
 	
 	public boolean subExecute(final CommandSource source, final List<String> args) {
-		EPlayer player = (EPlayer) source;
-		player.sendMessage(ChatTypes.SYSTEM, Text.of("ChatTypes.SYSTEM"));
+		source.sendMessage(Text.of("Test1"));
 		if (args.size() == 0) {
 			this.plugin.getGame().getScheduler().getScheduledTasks().forEach(task -> {
 				source.sendMessage(EChat.of("- name : " + task.getName() + "; plugin : " + task.getOwner().getName()));
@@ -68,6 +66,7 @@ public class EATest extends ESubCommand<EverAPI> {
 			
 			//return commandTest((EPlayer) source);
 		} else if (args.size() == 1) {
+			EPlayer player = (EPlayer) source;
 			player.sendMessage("Salut :\n");
 			player.sendMessage("Salut :\n\n\n\ne");
 			List<Text> texts = Arrays.asList(

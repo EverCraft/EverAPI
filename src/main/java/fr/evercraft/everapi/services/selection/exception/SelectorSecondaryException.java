@@ -14,17 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.selection;
+package fr.evercraft.everapi.services.selection.exception;
 
-public interface CUIRegion {
-    
-    public void describeCUI();
-    
-    public void describeLegacyCUI();
-    
-    public int getProtocolVersion();
-    
-    public String getTypeID();
-    
-    public String getLegacyTypeID();
+/*
+ * Erreur : Il faut d'abord selectionner la premiere position
+ */
+public class SelectorSecondaryException extends Exception {
+
+	private static final long serialVersionUID = -2975193019359714465L;
+
+	public SelectorSecondaryException(String message) {
+        super(message);
+    }
 }

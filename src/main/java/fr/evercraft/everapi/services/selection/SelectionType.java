@@ -23,7 +23,8 @@ public enum  SelectionType {
 	POLYGONAL,
 	CYLINDER, 
 	EXTEND, 
-	ELLIPSOID;
+	ELLIPSOID,
+	SPHERE;
 	
 	public String getName() {
         return this.name();
