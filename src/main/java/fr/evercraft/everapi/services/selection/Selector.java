@@ -71,6 +71,12 @@ public interface Selector {
 		}
 	}
 	
+	public interface Ellipsoid extends Selector {		
+		default SelectionType getType() {
+			return SelectionType.ELLIPSOID;
+		}
+	}
+	
 	public class Empty implements Selector.Cuboid {
 		private static Empty EMPTY = new Empty();
 

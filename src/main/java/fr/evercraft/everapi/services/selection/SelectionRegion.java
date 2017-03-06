@@ -39,7 +39,7 @@ public interface SelectionRegion {
 	Vector3i getMinimumPoint();
 	Vector3i getMaximumPoint();
 	Vector3i getCenter();
-	int getVolume();
+	int getArea();
 	int getWidth();
 	int getHeight();
 	int getLength();
