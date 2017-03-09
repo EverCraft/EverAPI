@@ -29,7 +29,9 @@ import fr.evercraft.everapi.server.player.EPlayer;
 public enum TypeScores {
 	HEALTH(new ScoreHealth(), Criteria.HEALTH, ObjectiveDisplayModes.HEARTS),
 	HEALTH_INTEGER(new ScoreHealth(), Criteria.HEALTH),
-	ONLINE_PLAYERS(new ScoreOnlinePlayers()),
+	@Deprecated
+	ONLINE_PLAYERS(new ScoreOnlinePlayersCanSee()),
+	ONLINE_PLAYERS_CANSEE(new ScoreOnlinePlayersCanSee()),
 	BALANCE(new ScoreBalance()),
 	PING(new ScorePing()),
 	FOOD(new ScoreFood()),
@@ -88,8 +90,8 @@ public enum TypeScores {
 		this.score.addListener(plugin, objective);
 	}
 	
-	public void removeListener(EPlugin<?> plugin, IObjective objective) {
-		this.score.removeListener(plugin, objective);
+	public void removeListener(IObjective objective) {
+		this.score.removeListener(objective);
 	}
 	
 	public Optional<Criterion> getCriterion() {

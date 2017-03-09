@@ -94,11 +94,13 @@ public class UserEssentials extends UserCooldown implements SubjectUserEssential
 		return false;
 	}
 	
-	public boolean canSeePlayer(EPlayer onlinePlayer) {
+	public boolean canSeePlayer(EPlayer other) {
+		if (this.equals(other)) return true; 
+		
 		if (this.isPresent()) {
-			return !onlinePlayer.isVanish() || this.user.hasPermission(this.plugin.getManagerService().getEssentials().get().getPermissionVanishSee());
+			return !other.isVanish() || this.user.hasPermission(this.plugin.getManagerService().getEssentials().get().getPermissionVanishSee());
 		}
-		return !onlinePlayer.isVanish();
+		return !other.isVanish();
 	}
 	
 	/*

@@ -62,6 +62,13 @@ public final class EMessageSender {
 		return this;
 	}
 	
+	public EMessageSender replace(String key, int value) {
+		Preconditions.checkNotNull(key, "key");
+		
+		this.replaces.put(key, EReplace.of(String.valueOf(value))); 
+		return this;
+	}
+	
 	public EMessageSender replace(String key, Translation value) {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
@@ -104,6 +111,24 @@ public final class EMessageSender {
 		this.prefix = this.messages.getPrefix();
 		this.replaces.clear();
 		return this;
+	}
+	
+	public Text toText() {
+		if (this.messages.getChat().isPresent()) {
+			return this.messages.getChat().get().toText(this.prefix, this.replaces);
+		} else {
+			return Text.EMPTY;
+		}
+	}
+	
+	public Text toText(boolean prefix) {
+		if (prefix) {
+			return this.toText();
+		} else if (this.messages.getChat().isPresent()) {
+			return this.messages.getChat().get().toText(this.replaces);
+		} else {
+			return Text.EMPTY;
+		}
 	}
 	
 	public boolean sendTo(EPlayer player) {

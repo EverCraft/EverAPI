@@ -19,11 +19,15 @@ package fr.evercraft.everapi.scoreboard;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.spongepowered.api.Sponge;
+
+import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.server.player.EPlayer;
 
 public abstract class Score {
 	
+	private EverAPI plugin;
 	protected final CopyOnWriteArrayList<IObjective> objectives;
 	
 	
@@ -32,29 +36,37 @@ public abstract class Score {
 	}
 	
 	public void addListener(EPlugin<?> plugin, IObjective objective) {
+		if (this.plugin == null) {
+			this.plugin = plugin.getEverAPI();
+		}
+		
 		if (this.objectives.isEmpty()) {
-			plugin.getGame().getEventManager().registerListeners(plugin, this);
+			this.plugin.getGame().getEventManager().registerListeners(plugin, this);
 		}
 		this.objectives.add(objective);
 	}
 	
-	public void removeListener(EPlugin<?> plugin, IObjective objective) {
+	public void removeListener(IObjective objective) {
 		this.objectives.remove(objective);
 		if (this.objectives.isEmpty()) {
-			plugin.getGame().getEventManager().unregisterListeners(this);
+			this.plugin.getGame().getEventManager().unregisterListeners(this);
 		}
 	}
 	
 	protected void update(TypeScores type) {
-		for (IObjective objective : this.objectives) {
-			objective.update(type);
-		}
+		Sponge.getScheduler().createTaskBuilder().execute(() -> {
+			for (IObjective objective : this.objectives) {
+				objective.update(type);
+			}
+		}).submit(this.plugin);
 	}
 	
-	protected void update(UUID uniqueId, TypeScores type) {
-		for (IObjective objective : this.objectives) {
-			objective.update(type);
-		}
+	protected void update(UUID uuid, TypeScores type) {
+		this.plugin.getEServer().getPlayer(uuid).ifPresent(player -> {
+			for (IObjective objective : this.objectives) {
+				objective.update(player, type);
+			}
+		});
 	}
 	
 	public abstract Integer getValue(EPlayer player);

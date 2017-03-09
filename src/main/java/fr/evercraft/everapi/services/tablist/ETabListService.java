@@ -22,7 +22,10 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
+import org.spongepowered.api.entity.living.player.tab.TabList;
+import org.spongepowered.api.entity.living.player.tab.TabListEntry;
 import org.spongepowered.api.event.cause.Cause;
 
 import fr.evercraft.everapi.EverAPI;
@@ -99,7 +102,21 @@ public class ETabListService implements TabListService {
 	@Override
 	public boolean removeTabList(EPlayer player, String identifier) {
 		if (this.players.containsKey(player.getUniqueId()) && this.players.get(player.getUniqueId()).equalsIgnoreCase(identifier)) {
-			player.getTabList().setHeaderAndFooter(null, null);
+			TabList tablist = player.getTabList();
+			
+			tablist.setHeaderAndFooter(null, null);
+			tablist.getEntries().stream()
+				.map(entry -> entry.getProfile().getUniqueId())
+				.collect(Collectors.toList())
+				.forEach(entry -> tablist.removeEntry(entry));
+			
+			for (EPlayer other : this.plugin.getEServer().getOnlineEPlayers()) {
+				tablist.addEntry(TabListEntry.builder()
+						.profile(other.getProfile())
+						.gameMode(other.getGameMode())
+						.list(tablist)
+						.build());
+			}
 			
 			// Event
 			this.postRemove(player, identifier);

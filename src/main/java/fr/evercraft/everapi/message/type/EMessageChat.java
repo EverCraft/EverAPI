@@ -19,6 +19,7 @@ package fr.evercraft.everapi.message.type;
 import java.util.Map;
 
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.message.format.EFormat;
 import fr.evercraft.everapi.message.replace.EReplace;
@@ -41,7 +42,25 @@ public class EMessageChat {
 	public boolean isPrefix() {
 		return this.prefix;
 	}
+	
+	/*
+	 * Message : Sans prefix
+	 */
+	public Text toText(Map<String, EReplace<?>> replaces) {
+		return this.message.toText(replaces);
+	}
 
+	/*
+	 * Message : Avec prefix
+	 */
+	public Text toText(EFormat prefix, Map<String, EReplace<?>> replaces) {
+		if (this.prefix) {
+			return prefix.toText().concat(this.message.toText(replaces));
+		} else {
+			return this.message.toText(replaces);
+		}
+	}
+	
 	public void send(EFormat prefix, CommandSource player, Map<String, EReplace<?>> replaces) {
 		if (this.prefix) {
 			player.sendMessage(prefix.toText().concat(this.message.toText(replaces)));

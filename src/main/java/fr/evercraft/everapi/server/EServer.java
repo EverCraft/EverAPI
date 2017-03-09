@@ -119,7 +119,7 @@ public class EServer extends ServerWarp {
 	public Collection<EPlayer> getOnlineEPlayers(EPlayer player) {
 		return this.getOnlinePlayers().stream()
 				.map(onlinePlayer -> new EPlayer(this.plugin, onlinePlayer))
-				.filter(onlinePlayer -> !onlinePlayer.isVanish() || player.canSeePlayer(onlinePlayer))
+				.filter(onlinePlayer -> player.canSeePlayer(onlinePlayer))
 				.collect(Collectors.toSet());
 	}
 	
