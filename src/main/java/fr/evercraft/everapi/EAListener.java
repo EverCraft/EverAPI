@@ -48,6 +48,8 @@ public class EAListener {
 	
 	@Listener(order=Order.POST)
 	public void onPlayerDisconnectPost(final ClientConnectionEvent.Disconnect event) {
-		this.plugin.getEServer().disconnects.add(event.getTargetEntity().getUniqueId());
+		this.plugin.getGame().getScheduler().createTaskBuilder().execute(() ->
+			this.plugin.getEServer().disconnects.add(event.getTargetEntity().getUniqueId())
+		).submit(this.plugin);
 	}
 }

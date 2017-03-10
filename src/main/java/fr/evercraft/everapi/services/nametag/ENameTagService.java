@@ -114,7 +114,8 @@ public class ENameTagService implements NameTagService {
 	
 	@Override
 	public boolean removeNameTag(EPlayer player, String identifier, Text teamRepresentation) {
-		if (this.players.containsKey(player.getUniqueId()) && this.players.get(player.getUniqueId()).equalsIgnoreCase(identifier)) {
+		String identifierNameTag = this.players.get(player.getUniqueId());
+		if (identifierNameTag != null && identifierNameTag.equalsIgnoreCase(identifier)) {
 			Optional<Team> team = player.getScoreboard().getMemberTeam(teamRepresentation);
 			if (team.isPresent()) {
 				team.get().unregister();
