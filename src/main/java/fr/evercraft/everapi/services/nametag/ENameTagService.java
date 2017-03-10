@@ -108,7 +108,16 @@ public class ENameTagService implements NameTagService {
 				.allowFriendlyFire(true)
 				.build();
 		team.addMember(teamRepresentation);
-		player.getScoreboard().registerTeam(team);
+		try {
+			player.getScoreboard().registerTeam(team);
+		} catch (IllegalArgumentException e) {
+			this.plugin.getLogger().warn("[NameTagService] sendNameTag : ("
+					+ "player='" + player.getName() + "';"
+					+ "team='" + EChat.serialize(teamRepresentation) + "';"
+					+ "prefix='" + EChat.serialize(prefix) + "';"
+					+ "suffix='" + EChat.serialize(suffix) + "')");
+			e.printStackTrace();
+		}
 		return true;
 	}
 	
