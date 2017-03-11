@@ -46,10 +46,10 @@ public abstract class Score {
 		this.objectives.add(objective);
 	}
 	
-	public void removeListener(IObjective objective) {
+	public void removeListener(EPlugin<?> plugin, IObjective objective) {
 		this.objectives.remove(objective);
 		if (this.objectives.isEmpty()) {
-			this.plugin.getGame().getEventManager().unregisterListeners(this);
+			plugin.getGame().getEventManager().unregisterListeners(this);
 		}
 	}
 	
