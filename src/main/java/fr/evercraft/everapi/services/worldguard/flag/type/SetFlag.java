@@ -16,6 +16,9 @@
  */
 package fr.evercraft.everapi.services.worldguard.flag.type;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import fr.evercraft.everapi.services.worldguard.flag.EFlag;
@@ -30,12 +33,22 @@ public abstract class SetFlag<T> extends EFlag<Set<T>> {
 	public abstract T subDeserialize(String value) throws IllegalArgumentException;
 
 	@Override
-	public String serialize(Set<T> value) {
-		return "";
+	public String serialize(Set<T> values) {
+		List<String> values_string = new ArrayList<String>();
+		for (T value : values) {
+			values_string.add(this.subSerialize(value));
+		}
+		return String.join(",", values_string);
 	}
 
 	@Override
 	public Set<T> deserialize(String value) throws IllegalArgumentException {
-		return null;
+		Set<T> values = new HashSet<T>();
+		if (value.isEmpty()) return values;
+			
+		for (String value_string : value.split(",")) {
+			values.add(this.subDeserialize(value_string));
+		}
+		return values;
 	}
 }

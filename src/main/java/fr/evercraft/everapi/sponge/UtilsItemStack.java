@@ -21,11 +21,16 @@ import java.util.Optional;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.data.manipulator.mutable.item.SpawnableData;
 import org.spongepowered.api.data.type.SkullTypes;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.entity.EntityTypes;
+import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.item.ItemType;
 import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 public class UtilsItemStack {
 	
@@ -70,5 +75,11 @@ public class UtilsItemStack {
 		skull.offer(Keys.SKULL_TYPE, SkullTypes.PLAYER);
 		skull.offer(Keys.REPRESENTED_PLAYER, profile);
 		return skull;
+	}
+	
+	public static void dropItem(final Location<World> location, final ItemStack itemstack, final Cause cause) {
+		Entity entity = location.getExtent().createEntity(EntityTypes.ITEM, location.getPosition());
+		entity.offer(Keys.REPRESENTED_ITEM, itemstack.createSnapshot());
+		location.getExtent().spawnEntity(entity, cause);
 	}
 }
