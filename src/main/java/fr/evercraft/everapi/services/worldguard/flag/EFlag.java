@@ -36,7 +36,7 @@ import org.spongepowered.api.text.action.TextActions;
 
 public abstract class EFlag<T> implements Flag<T> {
 
-    private static final Pattern VALID_NAME = Pattern.compile("^[:A-Za-z0-9\\-]{1,40}$");
+    private static final Pattern VALID_NAME = Pattern.compile("^[:A-Za-z0-9\\-_]{1,40}$");
     
     private final String id;
     private final String name;

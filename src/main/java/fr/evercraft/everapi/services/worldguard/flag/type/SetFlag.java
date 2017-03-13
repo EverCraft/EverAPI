@@ -16,12 +16,15 @@
  */
 package fr.evercraft.everapi.services.worldguard.flag.type;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
+import org.spongepowered.api.command.CommandSource;
+
 import fr.evercraft.everapi.services.worldguard.flag.EFlag;
+import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 
 public abstract class SetFlag<T> extends EFlag<Set<T>> {
 
@@ -30,11 +33,11 @@ public abstract class SetFlag<T> extends EFlag<Set<T>> {
 	}
 	
 	public abstract String subSerialize(T value);
-	public abstract T subDeserialize(String value) throws IllegalArgumentException;
+	public abstract Set<T> subDeserialize(String value) throws IllegalArgumentException;
 
 	@Override
 	public String serialize(Set<T> values) {
-		List<String> values_string = new ArrayList<String>();
+		Set<String> values_string = new HashSet<String>();
 		for (T value : values) {
 			values_string.add(this.subSerialize(value));
 		}
@@ -47,8 +50,50 @@ public abstract class SetFlag<T> extends EFlag<Set<T>> {
 		if (value.isEmpty()) return values;
 			
 		for (String value_string : value.split(",")) {
-			values.add(this.subDeserialize(value_string));
+			values.addAll(this.subDeserialize(value_string));
 		}
 		return values;
+	}
+	
+	@Override
+	public Set<T> parseAdd(CommandSource source, ProtectedRegion region, ProtectedRegion.Group group, List<String> values) {
+		Set<T> addValues = null;
+		if (values.isEmpty()) {
+			addValues = this.deserialize("");
+		} else {
+			addValues = this.deserialize(String.join(",", values));
+		}
+		
+		Optional<Set<T>> optFlagValues = region.getFlag(this).get(group);
+		if (optFlagValues.isPresent()) {
+			Set<T> flagValues = new HashSet<T>(optFlagValues.get());
+			flagValues.addAll(addValues);
+			return flagValues;
+		} else {
+			return addValues;
+		}
+	}
+	
+	@Override
+	public Optional<Set<T>> parseRemove(CommandSource source, ProtectedRegion region, ProtectedRegion.Group group, List<String> values) {
+		Set<T> removeValues = null;
+		if (values.isEmpty()) {
+			removeValues = this.deserialize("");
+		} else {
+			removeValues = this.deserialize(String.join(",", values));
+		}
+		
+		Optional<Set<T>> optFlagValues = region.getFlag(this).get(group);
+		if (optFlagValues.isPresent()) {
+			Set<T> flagValues = new HashSet<T>(optFlagValues.get());
+			flagValues.removeAll(removeValues);
+			
+			if (!flagValues.isEmpty()) {
+				return Optional.of(flagValues);
+			}
+		} else if (!removeValues.isEmpty()) {
+			return Optional.of(removeValues);
+		}
+		return Optional.empty();
 	}
 }

@@ -19,10 +19,13 @@ package fr.evercraft.everapi.services.worldguard.flag.type;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.EntityType;
+
+import com.google.common.collect.Sets;
 public abstract class EntityTypesFlag extends SetFlag<EntityType> {
 
 	public EntityTypesFlag(String name) {
@@ -42,12 +45,12 @@ public abstract class EntityTypesFlag extends SetFlag<EntityType> {
 	}
 
 	@Override
-	public EntityType subDeserialize(String value) throws IllegalArgumentException {
+	public Set<EntityType> subDeserialize(String value) throws IllegalArgumentException {
 		Optional<EntityType> type = Sponge.getGame().getRegistry().getType(EntityType.class, value);
 		if (!type.isPresent()) {
 			throw new IllegalArgumentException();
 		}
 		
-		return type.get();
+		return Sets.newHashSet(type.get());
 	}
 }

@@ -27,7 +27,7 @@ import fr.evercraft.everapi.services.worldguard.flag.type.StateFlag.State;
 public class Flags {
 	
 	public static Flag<State> BUILD = FakeFlag.of("BUILD");
-	public static Flag<Set<BlockType>> INTERACT = FakeFlag.of("INTERACT");
+	public static Flag<Set<BlockType>> INTERACT_BLOCK = FakeFlag.of("INTERACT");
 	public static Flag<State> ENTRY = FakeFlag.of("ENTRY");
 	public static Flag<State> EXIT = FakeFlag.of("EXIT");
 	public static Flag<State> PVP = FakeFlag.of("PVP");

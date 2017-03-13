@@ -104,7 +104,7 @@ public class EFormatString extends EFormat {
 			if (!text.getFormat().isEmpty()) {
 				builder.append(text);
 			} else {
-				builder.append(text.toBuilder().format(EChat.getLastFormat(builder)).build());
+				builder.append(text.toBuilder().color(EChat.getLastFormat(builder).getColor()).build());
 			}
 		}
 		return builder.build();
