@@ -16,18 +16,17 @@
  */
 package fr.evercraft.everapi.services.worldguard.flag;
 
-import java.util.Set;
-
 import org.spongepowered.api.block.BlockType;
 
 import fr.evercraft.everapi.server.location.VirtualLocation;
 import fr.evercraft.everapi.services.worldguard.flag.type.FakeFlag;
 import fr.evercraft.everapi.services.worldguard.flag.type.StateFlag.State;
+import fr.evercraft.everapi.services.worldguard.flag.value.EntryFlagValue;
 
 public class Flags {
 	
 	public static Flag<State> BUILD = FakeFlag.of("BUILD");
-	public static Flag<Set<BlockType>> INTERACT_BLOCK = FakeFlag.of("INTERACT");
+	public static Flag<EntryFlagValue<String, BlockType>> INTERACT_BLOCK = FakeFlag.of("INTERACT");
 	public static Flag<State> ENTRY = FakeFlag.of("ENTRY");
 	public static Flag<State> EXIT = FakeFlag.of("EXIT");
 	public static Flag<State> PVP = FakeFlag.of("PVP");
