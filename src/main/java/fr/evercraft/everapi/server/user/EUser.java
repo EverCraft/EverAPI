@@ -24,10 +24,12 @@ import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.service.context.Context;
 import org.spongepowered.api.service.permission.Subject;
+import org.spongepowered.api.text.Text;
 
 import com.google.common.base.Preconditions;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.plugin.EChat;
 
 public class EUser extends UserSelection {
 	
@@ -40,14 +42,22 @@ public class EUser extends UserSelection {
 	 */
 	
 	public String getDisplayName() {
-		return getDisplayName(getActiveContexts());
+		return getDisplayName(this.getActiveContexts());
 	}
 	
 	public String getDisplayName(Set<Context> contexts) {
-		return getPrefix(contexts).orElse("") + this.getName() + getSuffix(contexts).orElse("");
+		String prefix = getPrefix(contexts).orElse("");
+		String suffix = getSuffix(contexts).orElse("");
+		
+		Optional<Text> displayName = this.get(Keys.DISPLAY_NAME);
+		if (displayName.isPresent()) {
+			return prefix + EChat.serialize(displayName.get()) + suffix;
+		}
+		return prefix + this.getName() + suffix;
 	}
+	
 	public Optional<String> getPrefix() {
-		return getPrefix(getActiveContexts());
+		return this.getPrefix(this.getActiveContexts());
 	}
 	
 	public Optional<String> getPrefix(Set<Context> contexts) {
@@ -55,7 +65,7 @@ public class EUser extends UserSelection {
 	}
 	
 	public Optional<String> getSuffix() {
-		return getSuffix(getActiveContexts());
+		return this.getSuffix(this.getActiveContexts());
 	}
 	
 	public Optional<String> getSuffix(Set<Context> contexts) {

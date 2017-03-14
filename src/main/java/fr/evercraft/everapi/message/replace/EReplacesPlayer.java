@@ -33,6 +33,7 @@ public enum EReplacesPlayer {
 	UUID((plugin, player) -> player.getUniqueId().toString()),
 	NAME((plugin, player) -> player.getName()),
 	DISPLAYNAME((plugin, player) -> player.getDisplayName()),
+	
 	WORLD_NAME((plugin, player) -> player.getWorld().getName()),
 	SHORT_WORLD_NAME((plugin, player) -> String.valueOf(player.getWorld().getName().toUpperCase().charAt(0))),
 	HEALTH((plugin, player) -> String.valueOf(player.getHealth())),
