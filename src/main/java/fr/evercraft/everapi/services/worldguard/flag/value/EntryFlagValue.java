@@ -18,6 +18,7 @@ package fr.evercraft.everapi.services.worldguard.flag.value;
 
 import java.util.Set;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
 public class EntryFlagValue<K, V> {
@@ -36,6 +37,22 @@ public class EntryFlagValue<K, V> {
 		this.values.addAll(values);
 	}
 	
+	private EntryFlagValue(EntryFlagValue<K, V> entry1, EntryFlagValue<K, V> entry2) {
+		this();
+		this.keys.addAll(entry1.getKeys());
+		this.keys.addAll(entry2.getKeys());
+		this.values.addAll(entry1.getValues());
+		this.values.addAll(entry2.getValues());
+	}
+	
+	private EntryFlagValue(EntryFlagValue<K, V> entry1, EntryFlagValue<K, V> entry2, boolean remove) {
+		this();
+		this.keys.addAll(entry1.getKeys());
+		this.keys.removeAll(entry2.getKeys());
+		this.values.addAll(entry1.getValues());
+		this.values.removeAll(entry2.getValues());
+	}
+	
 	public Set<K> getKeys() {
 		return this.keys;
 	}
@@ -50,5 +67,15 @@ public class EntryFlagValue<K, V> {
 	
 	public boolean containsValue(V value) {
 		return this.values.contains(value);
+	}
+	
+	public EntryFlagValue<K, V> addAll(EntryFlagValue<K, V> entry) {
+		Preconditions.checkNotNull(entry, "entry");
+		return new EntryFlagValue<K, V>(this, entry);
+	}
+	
+	public EntryFlagValue<K, V> removeAll(EntryFlagValue<K, V> entry) {
+		Preconditions.checkNotNull(entry, "entry");
+		return new EntryFlagValue<K, V>(this, entry, true);
 	}
 }
