@@ -18,7 +18,7 @@ package fr.evercraft.everapi.services.worldguard.flag;
 
 import org.spongepowered.api.block.BlockType;
 
-import fr.evercraft.everapi.server.location.VirtualLocation;
+import fr.evercraft.everapi.server.location.VirtualTransform;
 import fr.evercraft.everapi.services.worldguard.flag.type.FakeFlag;
 import fr.evercraft.everapi.services.worldguard.flag.type.StateFlag.State;
 import fr.evercraft.everapi.services.worldguard.flag.value.EntryFlagValue;
@@ -32,6 +32,6 @@ public class Flags {
 	public static final Flag<State> PVP = FakeFlag.of("PVP");
 	public static final Flag<State> INVINCIBILITY = FakeFlag.of("INVINCIBILITY");
 	
-	public static final Flag<VirtualLocation> SPAWN = FakeFlag.of("SPAWN");
-	public static final Flag<VirtualLocation> TELEPORT = FakeFlag.of("TELEPORT");	
+	public static final Flag<VirtualTransform> SPAWN = FakeFlag.of("SPAWN");
+	public static final Flag<VirtualTransform> TELEPORT = FakeFlag.of("TELEPORT");	
 }

@@ -20,7 +20,6 @@ import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.scheduler.SpongeExecutorService;
 
-import com.flowpowered.math.vector.Vector3i;
 import com.google.common.reflect.TypeToken;
 
 import fr.evercraft.everapi.command.sub.EAPlugins;
@@ -28,7 +27,6 @@ import fr.evercraft.everapi.command.sub.EAReload;
 import fr.evercraft.everapi.command.sub.EATest;
 import fr.evercraft.everapi.config.EFormatSerializer;
 import fr.evercraft.everapi.config.EMessageBuilderSerializer;
-import fr.evercraft.everapi.config.Vector3iSerializer;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.message.EMessageBuilder;
@@ -70,7 +68,6 @@ public class EverAPI extends EPlugin<EverAPI> {
 	public EverAPI() {
 		TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(EMessageBuilder.class), new EMessageBuilderSerializer(this));
 		TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(EFormat.class), new EFormatSerializer());
-		TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(Vector3i.class), new Vector3iSerializer());
 	}
 	
 	@Override
