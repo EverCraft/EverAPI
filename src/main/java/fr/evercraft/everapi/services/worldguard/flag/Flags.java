@@ -25,13 +25,13 @@ import fr.evercraft.everapi.services.worldguard.flag.value.EntryFlagValue;
 
 public class Flags {
 	
-	public static Flag<State> BUILD = FakeFlag.of("BUILD");
-	public static Flag<EntryFlagValue<String, BlockType>> INTERACT_BLOCK = FakeFlag.of("INTERACT");
-	public static Flag<State> ENTRY = FakeFlag.of("ENTRY");
-	public static Flag<State> EXIT = FakeFlag.of("EXIT");
-	public static Flag<State> PVP = FakeFlag.of("PVP");
-	public static Flag<State> INVINCIBILITY = FakeFlag.of("INVINCIBILITY");
+	public static final Flag<State> BUILD = FakeFlag.of("BUILD");
+	public static final Flag<EntryFlagValue<String, BlockType>> INTERACT_BLOCK = FakeFlag.of("INTERACT");
+	public static final Flag<State> ENTRY = FakeFlag.of("ENTRY");
+	public static final Flag<State> EXIT = FakeFlag.of("EXIT");
+	public static final Flag<State> PVP = FakeFlag.of("PVP");
+	public static final Flag<State> INVINCIBILITY = FakeFlag.of("INVINCIBILITY");
 	
-	public static Flag<VirtualLocation> SPAWN = FakeFlag.of("SPAWN");
-	public static Flag<VirtualLocation> TELEPORT = FakeFlag.of("TELEPORT");	
+	public static final Flag<VirtualLocation> SPAWN = FakeFlag.of("SPAWN");
+	public static final Flag<VirtualLocation> TELEPORT = FakeFlag.of("TELEPORT");	
 }
