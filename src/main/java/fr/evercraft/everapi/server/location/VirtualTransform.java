@@ -24,6 +24,8 @@ import org.spongepowered.api.world.World;
 
 import com.flowpowered.math.vector.Vector3d;
 
+import fr.evercraft.everapi.plugin.EPlugin;
+
 public interface VirtualTransform {
 
 	public static VirtualTransform empty() {
@@ -47,4 +49,32 @@ public interface VirtualTransform {
 	
 	Optional<Transform<World>> getTransform();
 	Transform<World> getTransform(Transform<World> transform);
+	
+	/*
+	 * Builder
+	 */
+	
+	public static VirtualTransform of(Vector3d position) {
+		return new EVirtualPosition(position);
+	}
+	
+	public static VirtualTransform of(double x, double y, double z) {
+		return new EVirtualPosition(x, y, z);
+	}
+	
+	public static VirtualTransform of(EPlugin<?> plugin, Location<World> location) {
+		return new EVirtualLocation(plugin, location);
+	}
+	
+	public static VirtualTransform of(EPlugin<?> plugin, String world, double x, double y, double z) {
+		return new EVirtualLocation(plugin, world, x, y, z);
+	}
+	
+	public static VirtualTransform of(EPlugin<?> plugin, Transform<World> transform) {
+		return new EVirtualTransform(plugin, transform);
+	}
+	
+	public static VirtualTransform of(EPlugin<?> plugin, String world, double x, double y, double z, double yaw, double pitch) {
+		return new EVirtualTransform(plugin, world, x, y, z, yaw, pitch);
+	}
 }

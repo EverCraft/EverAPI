@@ -26,7 +26,7 @@ import com.flowpowered.math.vector.Vector3d;
 public class EVirtualPosition implements VirtualTransform {	
 	private final Vector3d position;
 	
-	public EVirtualPosition(Double x, Double y, Double z) {
+	public EVirtualPosition(double x, double y, double z) {
 		this(Vector3d.from(x, y, z));
 	}
 	

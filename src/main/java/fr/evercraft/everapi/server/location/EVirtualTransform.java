@@ -32,7 +32,7 @@ public class EVirtualTransform extends EVirtualLocation {
 		this(plugin, transform.getExtent().getUniqueId().toString(), transform.getPosition(), transform.getRotation());
 	}
 	
-	public EVirtualTransform(EPlugin<?> plugin, String world, Double x, Double y, Double z, Double yaw, Double pitch) {
+	public EVirtualTransform(EPlugin<?> plugin, String world, double x, double y, double z, double yaw, double pitch) {
 		this(plugin, world, Vector3d.from(x, y, z), Vector3d.from(pitch, yaw, 0));
 	}
 	
