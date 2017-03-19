@@ -93,11 +93,11 @@ public abstract class EFile<T extends EPlugin<T>> {
         this.manager = HoconConfigurationLoader.builder().setFile(this.file).build();
         try {
 			this.config = this.manager.load();
-			this.plugin.getLogger().info("Chargement du fichier : " + this.name + ".conf");
+			this.plugin.getELogger().info("Chargement du fichier : " + this.name + ".conf");
 		} catch (IOException e) {
 			this.file.renameTo(this.plugin.getPath().resolve(this.name + ".error").toFile());
 			this.config = this.manager.createEmptyNode(ConfigurationOptions.defaults());
-			this.plugin.getLogger().warn("Impossible de charger le fichier : " + this.name + ".conf : " + this.file.getAbsolutePath());
+			this.plugin.getELogger().warn("Impossible de charger le fichier : " + this.name + ".conf : " + this.file.getAbsolutePath());
 		}
         
     }
@@ -111,7 +111,7 @@ public abstract class EFile<T extends EPlugin<T>> {
 	        	this.manager.save(config);
 	        	this.modified = false;
 	        } catch (IOException ex) {
-	            this.plugin.getLogger().warn("Impossible de sauvegarder le fichier : " + this.name + ".conf : " + this.file.getAbsolutePath());
+	            this.plugin.getELogger().warn("Impossible de sauvegarder le fichier : " + this.name + ".conf : " + this.file.getAbsolutePath());
 	        }
         }
     }

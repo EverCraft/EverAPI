@@ -30,7 +30,7 @@ public class ServerDisableException extends Exception {
 	}
 	
 	public void execute() {
-		this.plugin.getLogger().warn(this.getMessage());
+		this.plugin.getELogger().warn(this.getMessage());
 		if (this.plugin.getEverAPI() != null && this.plugin.getEverAPI().getMessages() != null) {
 			if (this.plugin.getEverAPI().getManagerService() != null && this.plugin.getEverAPI().getManagerService().getMail().isPresent()) {
 				this.plugin.getEverAPI().getManagerService().getMail().get().alert(

@@ -55,7 +55,7 @@ public abstract class EDataBase<T extends EPlugin<T>> {
 	}
 	
 	public void reload() throws PluginDisableException {
-		this.plugin.getLogger().debug("SQL : PreInitialization...");
+		this.plugin.getELogger().debug("SQL : PreInitialization...");
 		
 		// SQLService
 		if (this.plugin.getGame().getServiceManager().provide(SqlService.class).isPresent()) {
@@ -74,23 +74,23 @@ public abstract class EDataBase<T extends EPlugin<T>> {
 					this.enable = testConnection();
 				}
 			} else if (this.force) {
-				this.plugin.getLogger().debug("SQL : Default");
+				this.plugin.getELogger().debug("SQL : Default");
 				this.url = "jdbc:h2:" + this.plugin.getPath().toAbsolutePath() + "/data";
 				this.enable = testConnection();
 			}
 			
 			// Resultat
 			if (this.enable) {
-				this.plugin.getLogger().info("SQL : Load complete");
+				this.plugin.getELogger().info("SQL : Load complete");
 			} else {
-				this.plugin.getLogger().debug("SQL : Error loading");
+				this.plugin.getELogger().debug("SQL : Error loading");
 				if (this.force) {
 					throw new PluginDisableException("This plugin requires a database");
 				}
 			}
 		} else {
 			this.enable = false;
-			this.plugin.getLogger().debug("No SqlService");
+			this.plugin.getELogger().debug("No SqlService");
 		}
 	}
 	
@@ -101,9 +101,9 @@ public abstract class EDataBase<T extends EPlugin<T>> {
 			Chronometer chronometer = new Chronometer();
 			try {
 				connection = this.sql.getDataSource(this.url).getConnection();
-				this.plugin.getLogger().debug("SQL : Connection in " + chronometer.getMilliseconds() + " ms");
+				this.plugin.getELogger().debug("SQL : Connection in " + chronometer.getMilliseconds() + " ms");
 			} catch (Exception e) {
-				this.plugin.getLogger().warn("SQL : Error in connection " + cpt + " : " + e.getMessage());
+				this.plugin.getELogger().warn("SQL : Error in connection " + cpt + " : " + e.getMessage());
 			}
 			cpt++;
 		}
@@ -121,7 +121,7 @@ public abstract class EDataBase<T extends EPlugin<T>> {
     	try {
     		valide = init();
 		} catch (ServerDisableException e) {
-			this.plugin.getLogger().warn("SQL : Error in initialize : " + e.getMessage());
+			this.plugin.getELogger().warn("SQL : Error in initialize : " + e.getMessage());
 		}
     	return valide;
     }
@@ -132,10 +132,10 @@ public abstract class EDataBase<T extends EPlugin<T>> {
 			connection = getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(query.replaceAll("<table>", table));
 			preparedStatement.execute();
-			this.plugin.getLogger().debug("SQL : Initialize the table : '" + table + "'");
+			this.plugin.getELogger().debug("SQL : Initialize the table : '" + table + "'");
 			return true;
 		} catch (SQLException e) {
-			this.plugin.getLogger().warn("SQL : Error in initialize the table '" + table + "' : " + e.getMessage());
+			this.plugin.getELogger().warn("SQL : Error in initialize the table '" + table + "' : " + e.getMessage());
 		} finally {
 			try {if (connection != null) connection.close();} catch (SQLException e) {}
 	    }

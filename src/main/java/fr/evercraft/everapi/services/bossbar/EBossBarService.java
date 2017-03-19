@@ -260,21 +260,21 @@ public class EBossBarService implements BossBarService {
 	 */
 	
 	private void postAdd(EPlayer player, EBossBar bossbar) {
-		this.plugin.getLogger().debug("Event BossBarEvent.Add : ("
+		this.plugin.getELogger().debug("Event BossBarEvent.Add : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "boosbar='" + bossbar.getServerBossBar().getName().toPlain() + "')");
 		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createBossBarEventAdd(player, bossbar, Cause.source(this.plugin).build()));
 	}
 	
 	private void postRemove(EPlayer player, EBossBar bossbar) {
-		this.plugin.getLogger().debug("Event BossBarEvent.Remove : ("
+		this.plugin.getELogger().debug("Event BossBarEvent.Remove : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "boosbar='" + bossbar.getServerBossBar().getName().toPlain() + "')");
 		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createBossBarEventRemove(player, bossbar, Cause.source(this.plugin).build()));
 	}
 	
 	private void postReplace(EPlayer player, EBossBar bossbar, EBossBar new_bossbar) {
-		this.plugin.getLogger().debug("Event BossBarEvent.Replace : ("
+		this.plugin.getELogger().debug("Event BossBarEvent.Replace : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "boosbar='" + bossbar.getServerBossBar().getName().toPlain() + "';"
 				+ "new_boosbar='" + new_bossbar.getServerBossBar().getName().toPlain() + "')");

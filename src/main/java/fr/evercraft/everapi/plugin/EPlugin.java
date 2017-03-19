@@ -46,7 +46,7 @@ import fr.evercraft.everapi.plugin.file.EFile;
 import fr.evercraft.everapi.plugin.file.EMessage;
 import fr.evercraft.everapi.server.EServer;
 
-public abstract class EPlugin<T extends EPlugin<T>> {
+public abstract class EPlugin<T extends EPlugin<T>> implements PluginContainer {
 
 	@Inject
     private Game game;
@@ -83,12 +83,12 @@ public abstract class EPlugin<T extends EPlugin<T>> {
 		try {
 			this.setupEverAPI();
 			if (this.getEverAPI().isEnable() && this.enable){
-				this.getLogger().debug("----------------------- Pre-Enable ----------------------");
+				this.getELogger().debug("----------------------- Pre-Enable ----------------------");
 				this.onPreEnable();
-				this.getLogger().debug("---------------------------------------------------------");
+				this.getELogger().debug("---------------------------------------------------------");
 			}
 		} catch (PluginDisableException e) {
-			this.getLogger().info(e.getMessage());
+			this.getELogger().info(e.getMessage());
 			this.disable();
 		} catch (ServerDisableException e) {
 			e.execute();
@@ -99,12 +99,12 @@ public abstract class EPlugin<T extends EPlugin<T>> {
     public void onGameInitializationEvent(GameInitializationEvent event) {
 		try {
 			if (this.getEverAPI().isEnable() && this.enable){
-				this.getLogger().debug("------------------------- Enable ------------------------");
+				this.getELogger().debug("------------------------- Enable ------------------------");
 				this.onEnable();
-				this.getLogger().debug("---------------------------------------------------------");
+				this.getELogger().debug("---------------------------------------------------------");
 			}
 		} catch (PluginDisableException e) {
-			this.getLogger().info(e.getMessage());
+			this.getELogger().info(e.getMessage());
 			this.disable();
 		} catch (ServerDisableException e) {
 			e.execute();
@@ -115,12 +115,12 @@ public abstract class EPlugin<T extends EPlugin<T>> {
     public void onGamePostInitializationEvent(GamePostInitializationEvent event) {
 		try {
 			if (this.getEverAPI().isEnable() && this.enable){
-				this.getLogger().debug("---------------------- Post-Enable ----------------------");
+				this.getELogger().debug("---------------------- Post-Enable ----------------------");
 				this.onPostEnable();
-				this.getLogger().debug("---------------------------------------------------------");
+				this.getELogger().debug("---------------------------------------------------------");
 			}
 		} catch (PluginDisableException e) {
-			this.getLogger().info(e.getMessage());
+			this.getELogger().info(e.getMessage());
 			this.disable();
 		} catch (ServerDisableException e) {
 			e.execute();
@@ -132,12 +132,12 @@ public abstract class EPlugin<T extends EPlugin<T>> {
 		try {
 			this.setupEverAPI();
 			if (this.getEverAPI().isEnable() && this.enable){
-				this.getLogger().debug("-------------------- Complete-Enable --------------------");
+				this.getELogger().debug("-------------------- Complete-Enable --------------------");
 				this.onCompleteEnable();
-				this.getLogger().debug("---------------------------------------------------------");
+				this.getELogger().debug("---------------------------------------------------------");
 			}
 		} catch (PluginDisableException e) {
-			this.getLogger().info(e.getMessage());
+			this.getELogger().info(e.getMessage());
 			this.disable();
 		} catch (ServerDisableException e) {
 			e.execute();
@@ -148,12 +148,12 @@ public abstract class EPlugin<T extends EPlugin<T>> {
     public void onGameStartingServerEvent(GameStartingServerEvent event) {
 		try {
 			if (this.getEverAPI().isEnable() && this.enable){
-				this.getLogger().debug("---------------------- Start-Server ---------------------");
+				this.getELogger().debug("---------------------- Start-Server ---------------------");
 				this.onStartServer();
-				this.getLogger().debug("---------------------------------------------------------");
+				this.getELogger().debug("---------------------------------------------------------");
 			}
 		} catch (PluginDisableException e) {
-			this.getLogger().info(e.getMessage());
+			this.getELogger().info(e.getMessage());
 			this.disable();
 		} catch (ServerDisableException e) {
 			e.execute();
@@ -168,12 +168,12 @@ public abstract class EPlugin<T extends EPlugin<T>> {
 	public void reload(){
 		try {
 			if (this.getEverAPI().isEnable() && this.enable) {
-				this.getLogger().debug("------------------------- Reload ------------------------");
+				this.getELogger().debug("------------------------- Reload ------------------------");
 				this.onReload();
-				this.getLogger().debug("---------------------------------------------------------");
+				this.getELogger().debug("---------------------------------------------------------");
 			}
 		} catch (PluginDisableException e) {
-			this.getLogger().info(e.getMessage());
+			this.getELogger().info(e.getMessage());
 			this.disable();
 		} catch (ServerDisableException e) {
 			e.execute();
@@ -184,12 +184,12 @@ public abstract class EPlugin<T extends EPlugin<T>> {
     public void onGameStoppingEvent(GameStoppingServerEvent event) throws ServerDisableException {
 		try {
 			if (this.getEverAPI().isEnable() && this.enable){
-				this.getLogger().debug("----------------------- Stop-Server ---------------------");
+				this.getELogger().debug("----------------------- Stop-Server ---------------------");
 				this.onStopServer();
-				this.getLogger().debug("---------------------------------------------------------");
+				this.getELogger().debug("---------------------------------------------------------");
 			}
 		} catch (PluginDisableException e) {
-			this.getLogger().info(e.getMessage());
+			this.getELogger().info(e.getMessage());
 			this.disable();
 		} catch (ServerDisableException e) {
 			e.execute();
@@ -204,13 +204,13 @@ public abstract class EPlugin<T extends EPlugin<T>> {
 	public void disable() {
 		try {
 			if (this.enable){
-				this.getLogger().debug("------------------------- Disable -----------------------");
+				this.getELogger().debug("------------------------- Disable -----------------------");
 				this.onDisable();
 				this.enable = false;
-				this.getLogger().debug("---------------------------------------------------------");
+				this.getELogger().debug("---------------------------------------------------------");
 			}
 		} catch (PluginDisableException e) {
-			this.getLogger().info(e.getMessage());
+			this.getELogger().info(e.getMessage());
 		} catch (ServerDisableException e) {
 			e.execute();
 		}
@@ -245,7 +245,7 @@ public abstract class EPlugin<T extends EPlugin<T>> {
 	 * Retourne Logger
 	 * @return Logger
 	 */
-	public ELogger getLogger(){
+	public ELogger getELogger(){
 		return this.logger;
 	}
 	

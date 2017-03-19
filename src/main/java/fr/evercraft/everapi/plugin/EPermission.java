@@ -61,7 +61,7 @@ public abstract class EPermission {
 		if (this.permissions.containsKey(key)){
 			return this. prefix + this.permissions.get(key);
 		}
-		this.plugin.getLogger().warn("La permission '" + key + "' n'est pas définit");
+		this.plugin.getELogger().warn("La permission '" + key + "' n'est pas définit");
 		return "";
 	}
 	

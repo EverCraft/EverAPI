@@ -362,7 +362,7 @@ public class EPlayer extends PlayerSponge {
 		Optional<Text> hover = this.getHover(contexts);
 		
 		String name = this.plugin.getChat().replace(this.getDisplayName(contexts));
-		Builder builder = EFormatString.of(name).toText(this.getReplacesAll()).toBuilder();
+		Builder builder = EFormatString.of(name).toText(this.getReplaces()).toBuilder();
 		
 		if (suggest.isPresent()) {
 			builder.onClick(TextActions.suggestCommand(suggest.get()));
@@ -380,7 +380,7 @@ public class EPlayer extends PlayerSponge {
 		Optional<String> optHover = this.getOption(contexts, "hover");
 		if (optHover.isPresent()) {
 			String hover = this.plugin.getChat().replace(optHover.get());
-			return Optional.of(EFormatString.of(hover).toText(this.getReplacesAll()));
+			return Optional.of(EFormatString.of(hover).toText(this.getReplaces()));
 		}
 		return Optional.empty();
 	}
@@ -430,12 +430,8 @@ public class EPlayer extends PlayerSponge {
 		return false;
 	}
 	
-	public Map<String, EReplace<?>> getReplacesAll() {
+	public Map<String, EReplace<?>> getReplaces() {
 		return this.plugin.getChat().getReplaceAll(this);
-	}
-	
-	public Map<String, EReplace<?>> getReplacesPlayer() {
-		return this.plugin.getChat().getReplacePlayer(this);
 	}
 	
 	public boolean addObjective(DisplaySlot display, Objective objective) {

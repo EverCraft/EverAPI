@@ -198,21 +198,21 @@ public class ETitleService implements TitleService {
 	 */
 	
 	private void postAdd(EPlayer player, TitleMessage title) {
-		this.plugin.getLogger().debug("Event TitleEvent.Add : ("
+		this.plugin.getELogger().debug("Event TitleEvent.Add : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "title='" + title + "')");
 		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTitleEventEventAdd(player, title, Cause.source(this.plugin).build()));
 	}
 	
 	private void postRemove(EPlayer player, TitleMessage title) {
-		this.plugin.getLogger().debug("Event TitleEvent.Remove : ("
+		this.plugin.getELogger().debug("Event TitleEvent.Remove : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "title='" + title + "')");
 		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTitleEventEventRemove(player, title, Cause.source(this.plugin).build()));
 	}
 	
 	private void postReplace(EPlayer player, TitleMessage title, TitleMessage new_title) {
-		this.plugin.getLogger().debug("Event TitleEvent.Replace : ("
+		this.plugin.getELogger().debug("Event TitleEvent.Replace : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "title='" + title + "';"
 				+ "new_title='" + new_title + "')");

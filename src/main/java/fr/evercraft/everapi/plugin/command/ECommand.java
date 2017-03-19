@@ -70,17 +70,17 @@ public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T
 				} else {
 					source.sendMessage(EAMessages.NO_PERMISSION.getText());
 				}
-				this.plugin.getLogger().debug("The command '" + this.getName() + "' with arguments '" + arg + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
+				this.plugin.getELogger().debug("The command '" + this.getName() + "' with arguments '" + arg + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
 				return CommandResult.success();
 			}
 		} catch (PluginDisableException e) {
 			source.sendMessage(EAMessages.PREFIX.getText().concat(EAMessages.COMMAND_ERROR.getText()));
-			this.plugin.getLogger().warn(e.getMessage());
+			this.plugin.getELogger().warn(e.getMessage());
 			this.plugin.disable();
 		} catch (ServerDisableException e) {
 			e.execute();
 		}
-		this.plugin.getLogger().debug("Error : The command '" + this.getName() + "' with arguments '" + arg + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
+		this.plugin.getELogger().debug("Error : The command '" + this.getName() + "' with arguments '" + arg + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
         return CommandResult.success();
 	}
 	
@@ -125,7 +125,7 @@ public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T
 					result.addAll(suggests);
 				}
 			}
-			this.plugin.getLogger().debug("The tabulation '" + this.getName() + "' with arguments '" + arguments + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
+			this.plugin.getELogger().debug("The tabulation '" + this.getName() + "' with arguments '" + arguments + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
 			return result;
 		}
 		return Arrays.asList();
@@ -174,7 +174,7 @@ public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T
 			}
 			alterne = !alterne;
 		}
-		this.plugin.getLogger().debug("Arguments : '" + String.join("','", args) +  "'");
+		this.plugin.getELogger().debug("Arguments : '" + String.join("','", args) +  "'");
 		return args;
 	}
 

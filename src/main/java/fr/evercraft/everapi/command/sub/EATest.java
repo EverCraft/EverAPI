@@ -19,18 +19,23 @@ package fr.evercraft.everapi.command.sub;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.EACommand;
 import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
 import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.services.entity.EntityFormat;
 
 public class EATest extends ESubCommand<EverAPI> {
 	
@@ -58,15 +63,36 @@ public class EATest extends ESubCommand<EverAPI> {
 	}
 	
 	public boolean subExecute(final CommandSource source, final List<String> args) {
-		source.sendMessage(Text.of("Test1"));
-		if (args.size() == 0) {
-			this.plugin.getGame().getScheduler().getScheduledTasks().forEach(task -> {
-				source.sendMessage(EChat.of("- name : " + task.getName() + "; plugin : " + task.getOwner().getName()));
-			});
+		EPlayer player = (EPlayer) source;
+		World world = player.getWorld();
+		
+		Optional<EntityFormat> format = this.plugin.getManagerService().getEntity().get().get(args.get(0));
+		if (format.isPresent()) {
+			Entity entity = world.createEntityNaturally(format.get().getType(), player.getLocation().getPosition());
+			player.sendMessage("apply : " + format.get().apply(entity));
+			world.spawnEntity(entity, Cause.source(this.plugin).owner(player.get()).build());
+		} else {
+			player.sendMessage("no present : " + this.plugin.getManagerService().getEntity().get().getAll().size());
+		}
+		
+		
+		if (args.size() == 2) {
+			/*Optional<ItemStack> item = UtilsItemStack.getItem(args.get(0));
+			if (item.isPresent()) {
+				UtilsKeys.set(item.get(), args.get(1), args.get(2));
+				player.giveItem(item.get());
+				player.sendMessage("Give item");
+			} else {
+				player.sendMessage("!item.isPresent()");
+			}
+			*/
 			
+			/*this.plugin.getGame().getScheduler().getScheduledTasks().forEach(task -> {
+				source.sendMessage(EChat.of("- name : " + task.getName() + "; plugin : " + task.getOwner().getName()));
+			});*/
+		
 			//return commandTest((EPlayer) source);
-		} else if (args.size() == 1) {
-			EPlayer player = (EPlayer) source;
+		} else if (args.size() == 3) {
 			player.sendMessage("Salut :\n");
 			player.sendMessage("Salut :\n\n\n\ne");
 			List<Text> texts = Arrays.asList(
@@ -126,7 +152,7 @@ public class EATest extends ESubCommand<EverAPI> {
 			}
 			message.sender().sendTo(player);*/
 		}
-		source.sendMessage(this.help(source));
+		//source.sendMessage(this.help(source));
 		return false;
 	}
 	/*

@@ -91,13 +91,13 @@ public abstract class EMessage<T extends EPlugin<T>> extends EFile<T> {
 	        		}
 	    			this.setModified(true);
         		} catch (ObjectMappingException e) {
-        			this.plugin.getLogger().warn("Impossible de sérialiser : '" + message.getName() + "'");
+        			this.plugin.getELogger().warn("Impossible de sérialiser : '" + message.getName() + "'");
 				}
         	} else {
         		try {
         			message.set(node.getValue(TypeToken.of(EMessageBuilder.class)).prefix(prefix).build());
         		} catch (ObjectMappingException e) {
-        			this.plugin.getLogger().warn("Impossible de désérialiser : '" + message.getName() + "'");
+        			this.plugin.getELogger().warn("Impossible de désérialiser : '" + message.getName() + "'");
         			message.set(EMessageFormat.builder().chat(new EFormatString(message.getName()), false).build());
         		}
            	}
@@ -119,7 +119,7 @@ public abstract class EMessage<T extends EPlugin<T>> extends EFile<T> {
     			}
 			}
 		} catch (ObjectMappingException e) {
-			this.plugin.getLogger().warn("Impossible de charger la liste des messages : '" + name + "'");
+			this.plugin.getELogger().warn("Impossible de charger la liste des messages : '" + name + "'");
 			builder.chat(new EFormatString(name), false);
 		}
 		return builder;

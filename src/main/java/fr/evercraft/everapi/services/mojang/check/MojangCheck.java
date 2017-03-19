@@ -54,7 +54,7 @@ public class MojangCheck {
         try {
 			this.update();
 		} catch (IOException e) {
-			this.plugin.getLogger().warn("Erreur pendant la requete MojangCheck");
+			this.plugin.getELogger().warn("Erreur pendant la requete MojangCheck");
 		}
     }
     
@@ -68,7 +68,7 @@ public class MojangCheck {
     }
 
     private void requete() throws IOException {
-    	this.plugin.getLogger().debug("MojangCheck : Update");
+    	this.plugin.getELogger().debug("MojangCheck : Update");
     	
         InputStream inputStream = new URL(URL).openConnection().getInputStream();
 

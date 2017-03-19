@@ -30,6 +30,7 @@ import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.actionbar.EActionBarService;
 import fr.evercraft.everapi.services.bossbar.EBossBarService;
 import fr.evercraft.everapi.services.cooldown.CooldownsService;
+import fr.evercraft.everapi.services.entity.EEntityService;
 import fr.evercraft.everapi.services.essentials.EssentialsService;
 import fr.evercraft.everapi.services.essentials.SpawnService;
 import fr.evercraft.everapi.services.essentials.WarpService;
@@ -58,6 +59,7 @@ public class ManagerService {
 	private final EScoreBoardService scoreboard;
 	private final ETabListService tablist;
 	private final EBossBarService bossbar;
+	private final EntityService entity;
 	
 	private final EMojangService mojang;
 	
@@ -73,6 +75,7 @@ public class ManagerService {
 		this.scoreboard = new EScoreBoardService(this.plugin);
 		this.tablist = new ETabListService(this.plugin);
 		this.bossbar = new EBossBarService(this.plugin);
+		this.entity = new EEntityService(this.plugin);
 		
 		this.mojang = new EMojangService(this.plugin);
 		
@@ -87,6 +90,7 @@ public class ManagerService {
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, ScoreBoardService.class, this.scoreboard);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, TabListService.class, this.tablist);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, BossBarService.class, this.bossbar);
+		this.plugin.getGame().getServiceManager().setProvider(this.plugin, EntityService.class, this.entity);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, MojangService.class, this.mojang);
 	}
 	
@@ -201,6 +205,10 @@ public class ManagerService {
 	
 	public Optional<SelectionService> getSelection() {
 		return this.plugin.getGame().getServiceManager().provide(SelectionService.class);
+	}
+	
+	public Optional<EntityService> getEntity() {
+		return this.plugin.getGame().getServiceManager().provide(EntityService.class);
 	}
 	
 	/*

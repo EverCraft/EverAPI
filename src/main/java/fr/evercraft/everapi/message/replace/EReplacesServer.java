@@ -35,6 +35,15 @@ public enum EReplacesServer {
 	DATE(plugin -> plugin.getEverAPI().getManagerUtils().getDate().parseDate()),
 	TIME(plugin -> plugin.getEverAPI().getManagerUtils().getDate().parseTime()),
 	DATETIME(plugin -> plugin.getEverAPI().getManagerUtils().getDate().parseDateTime()),
+	MOTD(plugin -> plugin.getEServer().getMotd()),
+	RAM_USED(plugin -> {
+		Runtime runtime = Runtime.getRuntime();
+		return String.valueOf((runtime.totalMemory() - runtime.freeMemory()) / (1024 * 1024));
+	}),
+	RAM_FREE(plugin -> String.valueOf(Runtime.getRuntime().freeMemory() / (1024 * 1024))),
+	RAM_TOTAL(plugin -> String.valueOf(Runtime.getRuntime().totalMemory() / (1024 * 1024))),
+	RAM_MAX(plugin -> String.valueOf(Runtime.getRuntime().maxMemory() / (1024 * 1024))),
+	CORES(plugin -> String.valueOf(Runtime.getRuntime().availableProcessors())),
 	MONEY_SINGULAR(plugin -> {
 		Optional<EconomyService> economy = plugin.getEverAPI().getManagerService().getEconomy();
 		return economy.isPresent() ? economy.get().getDefaultCurrency().getDisplayName().toPlain() : Text.EMPTY;
@@ -43,7 +52,7 @@ public enum EReplacesServer {
 		Optional<EconomyService> economy = plugin.getEverAPI().getManagerService().getEconomy();
 		return economy.isPresent() ? economy.get().getDefaultCurrency().getPluralDisplayName().toPlain() : Text.EMPTY;
 	}),
-	SYMBOL(plugin -> {
+	MONEY_SYMBOL(plugin -> {
 		Optional<EconomyService> economy = plugin.getEverAPI().getManagerService().getEconomy();
 		return economy.isPresent() ? economy.get().getDefaultCurrency().getSymbol().toPlain() : Text.EMPTY;
 	});

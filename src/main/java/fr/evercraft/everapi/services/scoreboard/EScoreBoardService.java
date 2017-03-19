@@ -76,7 +76,7 @@ public class EScoreBoardService implements ScoreBoardService {
 				
 				return true;
 			} else {
-				this.plugin.getLogger().warn("Multi-Objective (player='" + player.getIdentifier() + "';objective='" + objective.getName() + "')");
+				this.plugin.getELogger().warn("Multi-Objective (player='" + player.getIdentifier() + "';objective='" + objective.getName() + "')");
 			}
 		}
 		return false;
@@ -113,7 +113,7 @@ public class EScoreBoardService implements ScoreBoardService {
 	 */
 	
 	private void postAdd(EPlayer player, Objective objective, DisplaySlot display) {
-		this.plugin.getLogger().debug("Event ScoreBoardEvent.Add : ("
+		this.plugin.getELogger().debug("Event ScoreBoardEvent.Add : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "objective='" + objective.getName() + "';"
 				+ "display='" + display.getName() + "')");
@@ -121,7 +121,7 @@ public class EScoreBoardService implements ScoreBoardService {
 	}
 	
 	private void postRemove(EPlayer player, Objective objective, DisplaySlot display) {
-		this.plugin.getLogger().debug("Event ScoreBoardEvent.Remove : ("
+		this.plugin.getELogger().debug("Event ScoreBoardEvent.Remove : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "objective='" + objective.getName() + "';"
 				+ "display='" + display.getName() + "')");
@@ -129,7 +129,7 @@ public class EScoreBoardService implements ScoreBoardService {
 	}
 	
 	private void postReplace(EPlayer player, Objective objective, Objective new_objective, DisplaySlot display) {
-		this.plugin.getLogger().debug("Event ScoreBoardEvent.Replace : ("
+		this.plugin.getELogger().debug("Event ScoreBoardEvent.Replace : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "objective='" + objective.getName() + "';"
 				+ "new_objective='" + new_objective.getName() + "';"

@@ -72,7 +72,7 @@ public class MojangNameHistory {
     }
     
     private List<NameHistory> requete(UUID uuid) throws IOException {
-    	this.plugin.getLogger().debug("MojangNameHistory : Requete(uuid='" + uuid.toString() + "')");
+    	this.plugin.getELogger().debug("MojangNameHistory : Requete(uuid='" + uuid.toString() + "')");
     	
         InputStream inputStream = getAPIResponse(uuid);
 

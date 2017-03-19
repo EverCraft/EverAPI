@@ -153,21 +153,21 @@ public class ETabListService implements TabListService {
 	 */
 	
 	private void postAdd(EPlayer player, String identifier) {
-		this.plugin.getLogger().debug("Event TabListEvent.Add : ("
+		this.plugin.getELogger().debug("Event TabListEvent.Add : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "tablist='" + identifier + "')");
 		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTabListEventAdd(player, identifier, Cause.source(this.plugin).build()));
 	}
 	
 	private void postRemove(EPlayer player, String identifier) {
-		this.plugin.getLogger().debug("Event TabListEvent.Remove : ("
+		this.plugin.getELogger().debug("Event TabListEvent.Remove : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "tablist='" + identifier + "')");
 		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTabListEventRemove(player, identifier, Cause.source(this.plugin).build()));
 	}
 	
 	private void postReplace(EPlayer player, String identifier, String new_identifier) {
-		this.plugin.getLogger().debug("Event TabListEvent.Replace : ("
+		this.plugin.getELogger().debug("Event TabListEvent.Replace : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "tablist='" + identifier + "';"
 				+ "new_tablist='" + new_identifier + "')");

@@ -208,21 +208,21 @@ public class EActionBarService implements ActionBarService {
 	 */
 	
 	private void postAdd(EPlayer player, ActionBarMessage actionbar) {
-		this.plugin.getLogger().debug("Event ActionBarEvent.Add : ("
+		this.plugin.getELogger().debug("Event ActionBarEvent.Add : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "actionbar='" + actionbar.getMessage().toPlain() + "')");
 		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createActionBarEventAdd(player, actionbar, Cause.source(this.plugin).build()));
 	}
 	
 	private void postRemove(EPlayer player, ActionBarMessage actionbar) {
-		this.plugin.getLogger().debug("Event ActionBarEvent.Remove : ("
+		this.plugin.getELogger().debug("Event ActionBarEvent.Remove : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "actionbar='" + actionbar.getMessage().toPlain() + "')");
 		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createActionBarEventRemove(player, actionbar, Cause.source(this.plugin).build()));
 	}
 	
 	private void postReplace(EPlayer player, ActionBarMessage actionbar, ActionBarMessage new_actionbar) {
-		this.plugin.getLogger().debug("Event ActionBarEvent.Replace : ("
+		this.plugin.getELogger().debug("Event ActionBarEvent.Replace : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "actionbar='" + actionbar.getMessage().toPlain() + "';"
 				+ "new_actionbar='" + new_actionbar.getMessage().toPlain() + "')");

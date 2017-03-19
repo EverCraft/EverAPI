@@ -111,7 +111,7 @@ public class ENameTagService implements NameTagService {
 		try {
 			player.getScoreboard().registerTeam(team);
 		} catch (IllegalArgumentException e) {
-			this.plugin.getLogger().warn("[NameTagService] sendNameTag : ("
+			this.plugin.getELogger().warn("[NameTagService] sendNameTag : ("
 					+ "player='" + player.getName() + "';"
 					+ "team='" + EChat.serialize(teamRepresentation) + "';"
 					+ "prefix='" + EChat.serialize(prefix) + "';"
@@ -178,21 +178,21 @@ public class ENameTagService implements NameTagService {
 	 */
 	
 	private void postAdd(EPlayer player, String identifier) {
-		this.plugin.getLogger().debug("Event NameTagEvent.Add : ("
+		this.plugin.getELogger().debug("Event NameTagEvent.Add : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "nametag='" + identifier + "')");
 		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createNameTagEventAdd(player, identifier, Cause.source(this.plugin).build()));
 	}
 	
 	private void postRemove(EPlayer player, String identifier) {
-		this.plugin.getLogger().debug("Event NameTagEvent.Remove : ("
+		this.plugin.getELogger().debug("Event NameTagEvent.Remove : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "nametag='" + identifier + "')");
 		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createNameTagEventRemove(player, identifier, Cause.source(this.plugin).build()));
 	}
 	
 	private void postReplace(EPlayer player, String identifier, String new_identifier) {
-		this.plugin.getLogger().debug("Event NameTagEvent.Replace : ("
+		this.plugin.getELogger().debug("Event NameTagEvent.Replace : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "nametag='" + identifier + "';"
 				+ "new_nametag='" + new_identifier + "')");
