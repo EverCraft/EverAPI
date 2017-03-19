@@ -25,7 +25,7 @@ public class EReplaceValue<T> implements EReplace<T> {
 	}
 	
 	@Override
-	public T get() {
+	public T get(String replace) {
 		return this.value;
 	}
 	

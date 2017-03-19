@@ -14,35 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.message.replace;
+package fr.evercraft.everapi.scoreboard;
 
-import java.util.function.Function;
+import fr.evercraft.everapi.server.player.EPlayer;
 
-public class EReplaceFun<T> implements EReplace<T> {
+public class ScoreFeed extends Score {
 	
-	private T value;
-	private Function<String, T> fun;
-	
-	public EReplaceFun(Function<String, T> fun) {
-		this.fun = fun;
+	@Override
+	public Integer getValue(EPlayer player) {
+		return player.getFood();
 	}
 	
 	@Override
-	public T get(String replace) {
-		if (value == null) {
-			this.value = this.fun.apply(replace);
-		}
-		return this.value;
-	}
-	
-	@Override
-	public EReplaceFun<T> reset() {
-		this.value = null;
-		return this;
-	}
-	
-	@Override
-	public EReplaceFun<T> clone() {
-		return new EReplaceFun<T>(this.fun);
+	public boolean isUpdate() {
+		return false;
 	}
 }

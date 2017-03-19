@@ -37,12 +37,12 @@ public abstract class EFormat {
 	public String toString(Map<String, EReplace<?>> replaces) {
 		String message = this.toString();
 		for (Entry<String, EReplace<?>> replace : replaces.entrySet()) {
-			Object value = replace.getValue().get();
+			Object value = replace.getValue().get(replace.getKey());
 			if (value instanceof String){
 				message = message.replaceAll(replace.getKey(), (String) value);
-			} else if (replace.getValue().get() instanceof Text) {
+			} else if (value instanceof Text) {
 				message = message.replaceAll(replace.getKey(), EChat.serialize((Text) value));
-			} else if (replace.getValue().get() instanceof EFormat) {
+			} else if (value instanceof EFormat) {
 				message = message.replaceAll(replace.getKey(), ((EFormat) value).toString(replaces));
 			} else {
 				message = message.replaceAll(replace.getKey(), value.toString());
@@ -51,16 +51,17 @@ public abstract class EFormat {
 		return message;
 	}
 	
-	public String toString(String key, EReplace<?> value) {
+	public String toString(String key, EReplace<?> replace) {
 		String message = this.toString();
-		if (value.get() instanceof String){
-			message = message.replaceAll(key, (String) value.get());
-		} else if (value.get() instanceof Text) {
-			message = message.replaceAll(key, EChat.serialize((Text) value.get()));
-		} else if (value.get() instanceof EFormat) {
-			message = message.replaceAll(key, ((EFormat) value.get()).toString(key, value));
+		Object value = replace.get(key);
+		if (value instanceof String){
+			message = message.replaceAll(key, (String) value);
+		} else if (value instanceof Text) {
+			message = message.replaceAll(key, EChat.serialize((Text) value));
+		} else if (value instanceof EFormat) {
+			message = message.replaceAll(key, ((EFormat) value).toString(key, value));
 		} else {
-			message = message.replaceAll(key, value.get().toString());
+			message = message.replaceAll(key, value.toString());
 		}
 		return message;
 	}

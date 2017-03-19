@@ -68,7 +68,7 @@ public class EUser extends UserSelection {
 	}
 	
 	public Optional<String> getNickName(Set<Context> contexts) {
-		return this.getOption(contexts, "suffix");
+		return this.getOption(contexts, "nickname");
 	}
 	
 	/*

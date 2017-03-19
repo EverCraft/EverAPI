@@ -78,7 +78,8 @@ public class EFormatString extends EFormat {
 							texts.remove(cpt);
 							texts.add(cpt, split[0]);
 							cpt++;
-							texts.add(cpt, replace.getValue().get());
+							// TODO
+							texts.add(cpt, replace.getValue().get(replace.getKey()));
 							cpt++;
 							texts.add(cpt, split[1]);
 						}

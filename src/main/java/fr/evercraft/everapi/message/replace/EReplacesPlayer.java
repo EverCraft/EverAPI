@@ -38,6 +38,7 @@ public enum EReplacesPlayer {
 	SHORT_WORLD_NAME((plugin, player) -> String.valueOf(player.getWorld().getName().toUpperCase().charAt(0))),
 	HEALTH((plugin, player) -> String.valueOf(player.getHealth())),
 	MAX_HEALTH((plugin, player) -> String.valueOf(player.getMaxHealth())),
+	FEED((plugin, player) -> String.valueOf(player.getFood())),
 	ONLINE_PLAYERS_CANSEE((plugin, player) -> player.getOnlinePlayers().size()),
 	IP((plugin, player) -> player.getConnection().getAddress().getAddress().getHostAddress().toString()),
 	PING((plugin, player) -> String.valueOf(player.getConnection().getLatency())),
@@ -69,10 +70,10 @@ public enum EReplacesPlayer {
 	LEGGINGS_MAX((plugin, player) -> TypeScores.LEGGINGS_MAX.getValue(player).toString()),
 	HEABOOTS_MAXLTH((plugin, player) -> TypeScores.BOOTS_MAX.getValue(player).toString()),
 	
-	HELMET_POURCENTAGE((plugin, player) -> TypeScores.HELMET_POURCENTAGE.getValue(player).toString()),
-	CHESTPLATE_POURCENTAGE((plugin, player) -> TypeScores.CHESTPLATE_POURCENTAGE.getValue(player).toString()),
-	LEGGINGS_POURCENTAGE((plugin, player) -> TypeScores.LEGGINGS_POURCENTAGE.getValue(player).toString()),
-	BOOTS_POURCENTAGE((plugin, player) -> TypeScores.BOOTS_POURCENTAGE.getValue(player).toString()),
+	HELMET_PERCENTAGE((plugin, player) -> TypeScores.HELMET_PERCENTAGE.getValue(player).toString()),
+	CHESTPLATE_PERCENTAGE((plugin, player) -> TypeScores.CHESTPLATE_PERCENTAGE.getValue(player).toString()),
+	LEGGINGS_PERCENTAGE((plugin, player) -> TypeScores.LEGGINGS_PERCENTAGE.getValue(player).toString()),
+	BOOTS_PERCENTAGE((plugin, player) -> TypeScores.BOOTS_PERCENTAGE.getValue(player).toString()),
 	
 	// Team
 	TEAM_PREFIX((plugin, player) -> {

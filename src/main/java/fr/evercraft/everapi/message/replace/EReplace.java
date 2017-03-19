@@ -16,11 +16,12 @@
  */
 package fr.evercraft.everapi.message.replace;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public interface EReplace<T> {
 	
-	T get();
+	T get(String replace);
 	
 	EReplace<T> reset();
 	
@@ -31,6 +32,10 @@ public interface EReplace<T> {
 	}
 	
 	public static <T> EReplace<T> of(Supplier<T> fun) {
+		return new EReplaceSupplier<T>(fun);
+	}
+	
+	public static <T> EReplace<T> of(Function<String, T> fun) {
 		return new EReplaceFun<T>(fun);
 	}
 }

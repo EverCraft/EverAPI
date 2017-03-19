@@ -29,12 +29,10 @@ import fr.evercraft.everapi.server.player.EPlayer;
 public enum TypeScores {
 	HEALTH(new ScoreHealth(), Criteria.HEALTH, ObjectiveDisplayModes.HEARTS),
 	HEALTH_INTEGER(new ScoreHealth(), Criteria.HEALTH),
-	@Deprecated
-	ONLINE_PLAYERS(new ScoreOnlinePlayersCanSee()),
 	ONLINE_PLAYERS_CANSEE(new ScoreOnlinePlayersCanSee()),
 	BALANCE(new ScoreBalance()),
 	PING(new ScorePing()),
-	FOOD(new ScoreFood()),
+	FEED(new ScoreFeed()),
 	LEVEL(new ScoreLevel()),
 	XP(new ScoreXp()),
 	DEATHS(new ScoreDeath()),
@@ -51,10 +49,10 @@ public enum TypeScores {
 	CHESTPLATE_MAX(new ScoreChestplateMax()),
 	LEGGINGS_MAX(new ScoreLeggingsMax()),
 	BOOTS_MAX(new ScoreBootsMax()),
-	HELMET_POURCENTAGE(new ScoreHelmetPourcentage()),
-	CHESTPLATE_POURCENTAGE(new ScoreChestplatePourcentage()),
-	LEGGINGS_POURCENTAGE(new ScoreLeggingsPourcentage()),
-	BOOTS_POURCENTAGE(new ScoreBootsPourcentage());
+	HELMET_PERCENTAGE(new ScoreHelmetPercentage()),
+	CHESTPLATE_PERCENTAGE(new ScoreChestplatePercentage()),
+	LEGGINGS_PERCENTAGE(new ScoreLeggingsPercentage()),
+	BOOTS_PERCENTAGE(new ScoreBootsPercentage());
 	
 	private final Score score;
 	private final Optional<Criterion> criterion;

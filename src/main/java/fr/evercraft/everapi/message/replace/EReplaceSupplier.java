@@ -16,33 +16,33 @@
  */
 package fr.evercraft.everapi.message.replace;
 
-import java.util.function.Function;
+import java.util.function.Supplier;
 
-public class EReplaceFun<T> implements EReplace<T> {
+public class EReplaceSupplier<T> implements EReplace<T> {
 	
 	private T value;
-	private Function<String, T> fun;
+	private Supplier<T> fun;
 	
-	public EReplaceFun(Function<String, T> fun) {
+	public EReplaceSupplier(Supplier<T> fun) {
 		this.fun = fun;
 	}
 	
 	@Override
 	public T get(String replace) {
 		if (value == null) {
-			this.value = this.fun.apply(replace);
+			this.value = this.fun.get();
 		}
 		return this.value;
 	}
 	
 	@Override
-	public EReplaceFun<T> reset() {
+	public EReplaceSupplier<T> reset() {
 		this.value = null;
 		return this;
 	}
 	
 	@Override
-	public EReplaceFun<T> clone() {
-		return new EReplaceFun<T>(this.fun);
+	public EReplaceSupplier<T> clone() {
+		return new EReplaceSupplier<T>(this.fun);
 	}
 }
