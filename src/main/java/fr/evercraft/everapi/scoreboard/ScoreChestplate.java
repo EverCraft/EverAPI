@@ -29,8 +29,8 @@ public class ScoreChestplate extends Score {
 	
 	@Override
 	public Integer getValue(EPlayer player) {
-		if (player.getBoots().isPresent()) {
-			return player.getBoots().get().get(Keys.ITEM_DURABILITY).orElse(DEFAULT);
+		if (player.getChestplate().isPresent()) {
+			return player.getChestplate().get().get(Keys.ITEM_DURABILITY).orElse(DEFAULT);
 		}
 		return DEFAULT;
 	}

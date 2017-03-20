@@ -68,7 +68,7 @@ public enum EReplacesPlayer {
 	HELMET_MAX((plugin, player) -> TypeScores.HELMET_MAX.getValue(player).toString()),
 	CHESTPLATE_MAX((plugin, player) -> TypeScores.CHESTPLATE_MAX.getValue(player).toString()),
 	LEGGINGS_MAX((plugin, player) -> TypeScores.LEGGINGS_MAX.getValue(player).toString()),
-	HEABOOTS_MAXLTH((plugin, player) -> TypeScores.BOOTS_MAX.getValue(player).toString()),
+	BOOTS_MAXLTH((plugin, player) -> TypeScores.BOOTS_MAX.getValue(player).toString()),
 	
 	HELMET_PERCENTAGE((plugin, player) -> TypeScores.HELMET_PERCENTAGE.getValue(player).toString()),
 	CHESTPLATE_PERCENTAGE((plugin, player) -> TypeScores.CHESTPLATE_PERCENTAGE.getValue(player).toString()),

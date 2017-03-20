@@ -24,6 +24,7 @@ import com.google.common.reflect.TypeToken;
 
 import fr.evercraft.everapi.command.sub.EAPlugins;
 import fr.evercraft.everapi.command.sub.EAReload;
+import fr.evercraft.everapi.command.sub.EAReplace;
 import fr.evercraft.everapi.command.sub.EATest;
 import fr.evercraft.everapi.config.EFormatSerializer;
 import fr.evercraft.everapi.config.EMessageBuilderSerializer;
@@ -91,6 +92,7 @@ public class EverAPI extends EPlugin<EverAPI> {
 		command.add(new EAPlugins(this, command));
 		command.add(new EAReload(this, command));
 		command.add(new EATest(this, command));
+		command.add(new EAReplace(this, command));
 	}
 
 	protected void onReload() throws PluginDisableException, ServerDisableException {

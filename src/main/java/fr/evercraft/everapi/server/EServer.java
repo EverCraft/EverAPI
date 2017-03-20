@@ -50,7 +50,7 @@ public class EServer extends ServerWarp {
 		
 		this.disconnects = new CopyOnWriteArraySet<UUID>();
 		
-		reload();
+		this.reload();
 	}
 
 	public void reload(){

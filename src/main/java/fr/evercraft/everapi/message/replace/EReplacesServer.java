@@ -18,7 +18,6 @@ package fr.evercraft.everapi.message.replace;
 
 import java.util.Optional;
 
-import org.spongepowered.api.Platform.Component;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.text.Text;
 
@@ -31,7 +30,7 @@ public enum EReplacesServer {
 	ONLINE_PLAYERS(plugin -> String.valueOf(plugin.getEServer().playerNotVanish())),
 	MAX_PLAYERS(plugin -> String.valueOf(plugin.getGame().getServer().getMaxPlayers())),
 	SERVER_NAME(plugin -> plugin.getEServer().getName()),
-	VERSION(plugin -> plugin.getGame().getPlatform().getContainer(Component.API).getVersion().orElse("")),
+	VERSION(plugin -> plugin.getGame().getPlatform().getMinecraftVersion().getName()),
 	DATE(plugin -> plugin.getEverAPI().getManagerUtils().getDate().parseDate()),
 	TIME(plugin -> plugin.getEverAPI().getManagerUtils().getDate().parseTime()),
 	DATETIME(plugin -> plugin.getEverAPI().getManagerUtils().getDate().parseDateTime()),

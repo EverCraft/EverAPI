@@ -16,26 +16,24 @@
  */
 package fr.evercraft.everapi.command.sub;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
+import java.util.TreeSet;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.EACommand;
 import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.message.format.EFormatString;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.services.entity.EntityFormat;
 
 public class EATest extends ESubCommand<EverAPI> {
 	
@@ -63,55 +61,13 @@ public class EATest extends ESubCommand<EverAPI> {
 	}
 	
 	public boolean subExecute(final CommandSource source, final List<String> args) {
-		EPlayer player = (EPlayer) source;
-		World world = player.getWorld();
-		
-		Optional<EntityFormat> format = this.plugin.getManagerService().getEntity().get().get(args.get(0));
-		if (format.isPresent()) {
-			Entity entity = world.createEntityNaturally(format.get().getType(), player.getLocation().getPosition());
-			player.sendMessage("apply : " + format.get().apply(entity));
-			world.spawnEntity(entity, Cause.source(this.plugin).owner(player.get()).build());
-		} else {
-			player.sendMessage("no present : " + this.plugin.getManagerService().getEntity().get().getAll().size());
-		}
-		
-		
-		if (args.size() == 2) {
-			/*Optional<ItemStack> item = UtilsItemStack.getItem(args.get(0));
-			if (item.isPresent()) {
-				UtilsKeys.set(item.get(), args.get(1), args.get(2));
-				player.giveItem(item.get());
-				player.sendMessage("Give item");
+		if (args.size() == 1 && args.get(0).equalsIgnoreCase("replace")) {
+			if (source instanceof EPlayer) {
+				return this.replace((EPlayer) source);
 			} else {
-				player.sendMessage("!item.isPresent()");
+				return this.replace(source);
 			}
-			*/
-			
-			/*this.plugin.getGame().getScheduler().getScheduledTasks().forEach(task -> {
-				source.sendMessage(EChat.of("- name : " + task.getName() + "; plugin : " + task.getOwner().getName()));
-			});*/
-		
-			//return commandTest((EPlayer) source);
 		} else if (args.size() == 3) {
-			player.sendMessage("Salut :\n");
-			player.sendMessage("Salut :\n\n\n\ne");
-			List<Text> texts = Arrays.asList(
-					Text.of("Salut1"),
-					Text.of("Salut2"),
-					Text.of("Salut3\nSuite"),
-					Text.of("Salut4"),
-					Text.of("&6Salut5", Text.of("\n"), Text.of("\n\n"), Text.of("\n\n\nSuite")),
-					Text.of("Salut6"),
-					Text.of("Salut7"),
-					Text.of("Salut8"),
-					Text.of("Salut9"),
-					Text.of("Salut10"),
-					Text.of("Salut11")
-				);
-			
-			this.plugin.getManagerService().getEPagination().sendTo(Text.of("Text"), texts, source);
-			return true;
-			
 			/*Optional<Vector3i> block = player.getViewBlock();
 			
 			if (!block.isPresent()) {
@@ -226,4 +182,30 @@ public class EATest extends ESubCommand<EverAPI> {
 		
 		return true;
 	}*/
+	
+	public boolean replace(final CommandSource source) {
+		List<Text> list = new ArrayList<Text>();
+		new TreeSet<String>(this.plugin.getChat().getReplaceServer().keySet()).forEach(replace -> {
+			list.add(EFormatString.of(replace
+					.replaceAll("<", "")
+					.replaceAll(">", "")
+					+ " : " + replace)
+				.toText(this.plugin.getChat().getReplaceServer()));
+		});
+		this.plugin.getManagerService().getEPagination().sendTo(Text.of("Debug Replace"), list, source);
+		return false;
+	}
+	
+	public boolean replace(final EPlayer player) {
+		List<Text> list = new ArrayList<Text>();
+		new TreeSet<String>(player.getReplaces().keySet()).forEach(replace -> {
+			list.add(EFormatString.of(replace
+					.replaceAll("<", "")
+					.replaceAll(">", "")
+					+ " : " + replace)
+				.toText(player.getReplaces()));
+		});
+		this.plugin.getManagerService().getEPagination().sendTo(Text.of("Debug Replace"), list, player);
+		return false;
+	}
 }
