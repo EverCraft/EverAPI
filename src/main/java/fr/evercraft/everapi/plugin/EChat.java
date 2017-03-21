@@ -56,7 +56,11 @@ public class EChat implements ChatService {
 	public Map<String, EReplace<?>> getReplaceServer() {
 		Map<String, EReplace<?>> builder = new HashMap<String, EReplace<?>>();
 		for(EReplacesServer value : EReplacesServer.values()) {
-			builder.put(value.getName(), EReplace.of(() -> value.getValue().apply(this.plugin)));
+			if (value.getValueFunction().isPresent()) {
+				builder.put(value.getName(), EReplace.of(() -> (value.getValueFunction().get().apply(this.plugin))));
+			} else {
+				builder.put(value.getName(), EReplace.of(value.name(), (option) -> (value.getValueBiFunction().get().apply(this.plugin, option))));
+			}
 		}
 		return builder;
 	}
@@ -64,7 +68,11 @@ public class EChat implements ChatService {
 	public Map<String, EReplace<?>> getReplacePlayer(final EPlayer player) {
 		Map<String, EReplace<?>> builder = new HashMap<String, EReplace<?>>();
 		for(EReplacesPlayer value : EReplacesPlayer.values()) {
-			builder.put(value.getName(), EReplace.of(() -> value.getValue().apply(this.plugin, player)));
+			if (value.getBiFunction().isPresent()) {
+				builder.put(value.getName(), EReplace.of(() -> (value.getBiFunction().get().apply(this.plugin, player))));
+			} else {
+				builder.put(value.getName(), EReplace.of(value.name(), (option) -> (value.getTriFunction().get().apply(this.plugin, player, option))));
+			}
 		}
 		return builder;
 	}
@@ -72,10 +80,18 @@ public class EChat implements ChatService {
 	public Map<String, EReplace<?>> getReplaceAll(final EPlayer player) {
 		Map<String, EReplace<?>> builder = new HashMap<String, EReplace<?>>();
 		for(EReplacesServer value : EReplacesServer.values()) {
-			builder.put(value.getName(), EReplace.of(() -> value.getValue().apply(this.plugin)));
+			if (value.getValueFunction().isPresent()) {
+				builder.put(value.getName(), EReplace.of(() -> (value.getValueFunction().get().apply(this.plugin))));
+			} else {
+				builder.put(value.getName(), EReplace.of(value.name(), (option) -> (value.getValueBiFunction().get().apply(this.plugin, option))));
+			}
 		}
 		for(EReplacesPlayer value : EReplacesPlayer.values()) {
-			builder.put(value.getName(), EReplace.of(() -> value.getValue().apply(this.plugin, player)));
+			if (value.getBiFunction().isPresent()) {
+				builder.put(value.getName(), EReplace.of(() -> (value.getBiFunction().get().apply(this.plugin, player))));
+			} else {
+				builder.put(value.getName(), EReplace.of(value.name(), (option) -> (value.getTriFunction().get().apply(this.plugin, player, option))));
+			}
 		}
 		return builder;
 	}

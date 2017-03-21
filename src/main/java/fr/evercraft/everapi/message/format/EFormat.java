@@ -19,6 +19,7 @@ package fr.evercraft.everapi.message.format;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Supplier;
+import java.util.regex.Matcher;
 
 import org.spongepowered.api.text.Text;
 
@@ -36,16 +37,19 @@ public abstract class EFormat {
 	
 	public String toString(Map<String, EReplace<?>> replaces) {
 		String message = this.toString();
-		for (Entry<String, EReplace<?>> replace : replaces.entrySet()) {
-			Object value = replace.getValue().get(replace.getKey());
-			if (value instanceof String){
-				message = message.replaceAll(replace.getKey(), (String) value);
-			} else if (value instanceof Text) {
-				message = message.replaceAll(replace.getKey(), EChat.serialize((Text) value));
-			} else if (value instanceof EFormat) {
-				message = message.replaceAll(replace.getKey(), ((EFormat) value).toString(replaces));
+		
+		for(Entry<String, EReplace<?>> replace : replaces.entrySet()) {
+			if (replace.getValue().getPattern().isPresent()) {
+				Matcher matcher = replace.getValue().getPattern().get().matcher(message);
+				while (matcher.find()) {
+					String group = matcher.group(1);
+					message += this.toString(message, "<(?i)" + replace.getValue().getPrefix().get() + "=" + matcher.group(1) + ">", replace.getValue().get(group));
+				    matcher = replace.getValue().getPattern().get().matcher(message);
+				}
 			} else {
-				message = message.replaceAll(replace.getKey(), value.toString());
+				if (message.contains("(?i)" + replace.getKey())) {
+					message += this.toString(message, replace.getKey(), replace.getValue().get(replace.getKey()));
+				}
 			}
 		}
 		return message;
@@ -53,7 +57,22 @@ public abstract class EFormat {
 	
 	public String toString(String key, EReplace<?> replace) {
 		String message = this.toString();
-		Object value = replace.get(key);
+		if (replace.getPattern().isPresent()) {
+			Matcher matcher = replace.getPattern().get().matcher(message);
+			while (matcher.find()) {
+				String group = matcher.group(1);
+				message += this.toString(message, "<(?i)" + replace.getPrefix().get() + "=" + matcher.group(1) + ">", replace.get(group));
+			    matcher = replace.getPattern().get().matcher(message);
+			}
+		} else {
+			if (message.matches("(?i)" + key)) {
+				message += this.toString(message, key, replace.get(key));
+			}
+		}
+		return message;
+	}
+	
+	private String toString(String message, String key, Object value) {
 		if (value instanceof String){
 			message = message.replaceAll(key, (String) value);
 		} else if (value instanceof Text) {

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.spongepowered.api.command.CommandException;
@@ -32,6 +33,8 @@ import fr.evercraft.everapi.EACommand;
 import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.message.format.EFormatString;
+import fr.evercraft.everapi.message.replace.EReplace;
+import fr.evercraft.everapi.message.replace.EReplaceFun;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
 import fr.evercraft.everapi.server.player.EPlayer;
 
@@ -83,13 +86,23 @@ public class EAReplace extends ESubCommand<EverAPI> {
 	
 	public boolean replace(final EPlayer player) {
 		List<Text> list = new ArrayList<Text>();
-		new TreeSet<String>(player.getReplaces().keySet()).forEach(replace -> {
-			list.add(EFormatString.of("&c"+replace
-					.replaceAll("<", "")
-					.replaceAll(">", "")
-					+ " : &r" + replace)
-				.toText(player.getReplaces()));
+		new TreeMap<String, EReplace<?>>(player.getReplaces()).forEach((key, replace) -> {
+			if (! (replace instanceof EReplaceFun)) {
+				list.add(EFormatString.of("&c"+key
+						.replaceAll("<", "")
+						.replaceAll(">", "")
+						+ " : &r" + key)
+					.toText(player.getReplaces()));
+			}
 		});
+		list.add(EFormatString.of("&cOPTION=prefix : &r<OPTION=prefix>")
+				.toText(player.getReplaces()));
+		list.add(EFormatString.of("&cOPTION=suffix : &r<OPTION=suffix>")
+				.toText(player.getReplaces()));
+		list.add(EFormatString.of("&cOPTION_VALUE=prefix : &r<OPTION_VALUE=prefix>")
+				.toText(player.getReplaces()));
+		list.add(EFormatString.of("&cOPTION_VALUE=suffix : &r<OPTION_VALUE=suffix>")
+				.toText(player.getReplaces()));
 		this.plugin.getManagerService().getEPagination().sendTo(Text.of("Replace Player"), list, player);
 		return false;
 	}

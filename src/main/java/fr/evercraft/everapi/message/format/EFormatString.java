@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
 
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Text.Builder;
@@ -69,19 +70,30 @@ public class EFormatString extends EFormat {
 			String[] split;
 			String text;
 			int cpt = 0;
-			while(cpt < texts.size()){
+			while(cpt < texts.size()) {
 				if (texts.get(cpt) instanceof String) {
 					text = (String) texts.get(cpt);
-					if (text.contains(replace.getKey())) {
-						split = text.split(replace.getKey(), 2);
-						if (split.length == 2) {
-							texts.remove(cpt);
-							texts.add(cpt, split[0]);
+					if (replace.getValue().getPattern().isPresent()) {
+						Matcher matcher = replace.getValue().getPattern().get().matcher(text);
+						while (matcher.find()) {
+						    String group = matcher.group(1);
+						    split = text.split("<(?i)" + replace.getValue().getPrefix().get() + "=" + matcher.group(1) + ">", 2);
+						    texts.set(cpt, split[0]);
+						    cpt++;
+							texts.add(cpt, replace.getValue().get(group));
 							cpt++;
-							// TODO
+							texts.add(cpt, split[1]);
+						    matcher = replace.getValue().getPattern().get().matcher(split[1]);
+						}
+					} else {
+						split = text.split("(?i)" + replace.getKey(), 2);
+						while (split.length == 2) {
+							texts.set(cpt, split[0]);
+							cpt++;
 							texts.add(cpt, replace.getValue().get(replace.getKey()));
 							cpt++;
 							texts.add(cpt, split[1]);
+							split = split[1].split("(?i)" + replace.getKey(), 2);
 						}
 					}
 				}

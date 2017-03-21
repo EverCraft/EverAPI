@@ -16,12 +16,17 @@
  */
 package fr.evercraft.everapi.message.replace;
 
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 
 public interface EReplace<T> {
 	
 	T get(String replace);
+	
+	Optional<String> getPrefix();
+	Optional<Pattern> getPattern();
 	
 	EReplace<T> reset();
 	
@@ -35,7 +40,7 @@ public interface EReplace<T> {
 		return new EReplaceSupplier<T>(fun);
 	}
 	
-	public static <T> EReplace<T> of(Function<String, T> fun) {
-		return new EReplaceFun<T>(fun);
+	public static <T> EReplace<T> of(String prefix, Function<String, T> fun) {
+		return new EReplaceFun<T>(prefix, fun);
 	}
 }

@@ -205,6 +205,11 @@ public class EATest extends ESubCommand<EverAPI> {
 					+ " : " + replace)
 				.toText(player.getReplaces()));
 		});
+		list.add(EFormatString.of("OPTION=prefix : <OPTION=prefix>")
+			.toText(player.getReplaces()));
+		list.add(EFormatString.of("OPTION=suffix : <OPTION=suffix>")
+				.toText(player.getReplaces()));
+		
 		this.plugin.getManagerService().getEPagination().sendTo(Text.of("Debug Replace"), list, player);
 		return false;
 	}

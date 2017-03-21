@@ -16,8 +16,10 @@
  */
 package fr.evercraft.everapi.message.replace;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import org.spongepowered.api.scoreboard.Team;
 import org.spongepowered.api.service.economy.EconomyService;
@@ -90,22 +92,48 @@ public enum EReplacesPlayer {
 	}),
 	
 	// Economy
-	BALANCE((plugin, player) -> {
+	BALANCE((plugin, player) -> { 
 		Optional<EconomyService> economy = plugin.getEverAPI().getManagerService().getEconomy();
 		return economy.isPresent() ? economy.get().getDefaultCurrency().format(player.getBalance()) : Text.EMPTY;
-	});
+	}),
 	
-	private BiFunction<EPlugin<?>, EPlayer, Object> fun;
+	OPTION((plugin, player, option) -> player.getOption(option).orElse("")),
+	OPTION_VALUE((plugin, player, option) -> Text.of(player.getOption(option).orElse("")));
 	
-	EReplacesPlayer(BiFunction<EPlugin<?>, EPlayer, Object> fun) {
-		this.fun= fun;
+	private Optional<BiFunction<EPlugin<?>, EPlayer, Object>> bi;
+	private Optional<TriFunction<EPlugin<?>, EPlayer, String, Object>> tri;
+	
+	EReplacesPlayer(BiFunction<EPlugin<?>, EPlayer, Object> bi) {
+		this.bi= Optional.of(bi);
+		this.tri = Optional.empty();
+	}
+	
+	EReplacesPlayer(TriFunction<EPlugin<?>, EPlayer, String, Object> tri) {
+		this.tri= Optional.of(tri);
+		this.bi = Optional.empty();
 	}
 	
 	public String getName() {
 		return "<" + this.name() + ">";
 	}
 	
-	public BiFunction<EPlugin<?>, EPlayer, Object> getValue() {
-		return this.fun;
+	public Optional<BiFunction<EPlugin<?>, EPlayer, Object>> getBiFunction() {
+		return this.bi;
+	}
+	
+	public Optional<TriFunction<EPlugin<?>, EPlayer, String, Object>> getTriFunction() {
+		return this.tri;
+	}
+	
+
+	@FunctionalInterface
+	public interface TriFunction<A,B,C,R> {
+
+	    R apply(A a, B b, C c);
+
+	    default <V> TriFunction<A, B, C, V> andThen(Function<? super R, ? extends V> after) {
+	        Objects.requireNonNull(after);
+	        return (A a, B b, C c) -> after.apply(apply(a, b, c));
+	    }
 	}
 }

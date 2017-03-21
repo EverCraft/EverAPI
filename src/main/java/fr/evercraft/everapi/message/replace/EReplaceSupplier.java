@@ -16,7 +16,11 @@
  */
 package fr.evercraft.everapi.message.replace;
 
+import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
+
+import com.google.common.base.Preconditions;
 
 public class EReplaceSupplier<T> implements EReplace<T> {
 	
@@ -24,6 +28,8 @@ public class EReplaceSupplier<T> implements EReplace<T> {
 	private Supplier<T> fun;
 	
 	public EReplaceSupplier(Supplier<T> fun) {
+		Preconditions.checkNotNull(fun, "fun");
+		
 		this.fun = fun;
 	}
 	
@@ -44,5 +50,15 @@ public class EReplaceSupplier<T> implements EReplace<T> {
 	@Override
 	public EReplaceSupplier<T> clone() {
 		return new EReplaceSupplier<T>(this.fun);
+	}
+
+	@Override
+	public Optional<Pattern> getPattern() {
+		return Optional.empty();
+	}
+	
+	@Override
+	public Optional<String> getPrefix() {
+		return Optional.empty();
 	}
 }

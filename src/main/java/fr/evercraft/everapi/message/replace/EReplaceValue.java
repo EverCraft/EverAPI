@@ -16,11 +16,18 @@
  */
 package fr.evercraft.everapi.message.replace;
 
+import java.util.Optional;
+import java.util.regex.Pattern;
+
+import com.google.common.base.Preconditions;
+
 public class EReplaceValue<T> implements EReplace<T> {
 	
 	private final T value;
 	
 	public EReplaceValue(final T value) {
+		Preconditions.checkNotNull(value, "value");
+		
 		this.value = value;
 	}
 	
@@ -37,5 +44,15 @@ public class EReplaceValue<T> implements EReplace<T> {
 	@Override
 	public EReplaceValue<T> clone() {
 		return new EReplaceValue<T>(this.value);
+	}
+
+	@Override
+	public Optional<Pattern> getPattern() {
+		return Optional.empty();
+	}
+	
+	@Override
+	public Optional<String> getPrefix() {
+		return Optional.empty();
 	}
 }

@@ -18,11 +18,10 @@ package fr.evercraft.everapi.message.format;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.regex.Matcher;
 
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.TextTemplate;
-import org.spongepowered.api.text.TextTemplate.Arg;
 
 import fr.evercraft.everapi.message.replace.EReplace;
 import fr.evercraft.everapi.plugin.EChat;
@@ -53,12 +52,22 @@ public class EFormatTemplate extends EFormat {
 	@Override
 	public Text toText(Map<String, EReplace<?>> replaces) {
 		HashMap<String, Text> elements = new HashMap<String, Text>();
-		for(Entry<String, Arg> arguments : this.message.getArguments().entrySet()) {
-			Object value = replaces.get(arguments.getKey());
-			if (value != null) {
-				elements.put(arguments.getKey(), this.getText(value, replaces));
+		replaces.forEach((prefix, replace) -> {
+			if (replace.getPattern().isPresent()) {
+				this.message.getArguments().keySet().forEach((string) -> {
+					Matcher matcher = replace.getPattern().get().matcher(string);
+					if (matcher.find()) {
+					    elements.put(string, this.getText(matcher.group(1), replaces));
+					}
+				});
+			} else {
+				this.message.getArguments().keySet().forEach((string) -> {
+					if (string.equalsIgnoreCase(prefix)) {
+					    elements.put(string, this.getText(replace.get(prefix), replaces));
+					}
+				});
 			}
-		}
+		});
 		return this.message.apply(elements).build();
 	}
 

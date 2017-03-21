@@ -17,6 +17,7 @@
 package fr.evercraft.everapi.message.replace;
 
 import java.util.Optional;
+import java.util.function.BiFunction;
 
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.text.Text;
@@ -56,17 +57,28 @@ public enum EReplacesServer {
 		return economy.isPresent() ? economy.get().getDefaultCurrency().getSymbol().toPlain() : Text.EMPTY;
 	});
 	
-	private Function<EPlugin<?>, Object> fun;
+	private Optional<Function<EPlugin<?>, Object>> fun;
+	private Optional<BiFunction<EPlugin<?>, String, Object>> bi;
 	
 	EReplacesServer(Function<EPlugin<?>, Object> fun) {
-		this.fun= fun;
+		this.fun = Optional.ofNullable(fun);
+		this.bi = Optional.empty();
+	}
+	
+	EReplacesServer(BiFunction<EPlugin<?>, String, Object> bi) {
+		this.bi = Optional.ofNullable(bi);
+		this.fun = Optional.empty();
 	}
 	
 	public String getName() {
 		return "<" + this.name() + ">";
 	}
 	
-	public Function<EPlugin<?>, Object> getValue() {
+	public Optional<Function<EPlugin<?>, Object>> getValueFunction() {
 		return this.fun;
+	}
+	
+	public Optional<BiFunction<EPlugin<?>, String, Object>> getValueBiFunction() {
+		return this.bi;
 	}
 }
