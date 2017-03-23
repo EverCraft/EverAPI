@@ -16,62 +16,46 @@
  */
 package fr.evercraft.everapi.services.entity;
 
-import java.util.Set;
-
-import org.spongepowered.api.CatalogType;
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.value.ValueContainer;
 import org.spongepowered.api.data.value.mutable.CompositeValueStore;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
 
-import com.google.common.collect.Sets;
-
-import fr.evercraft.everapi.sponge.UtilsKeys;
-import fr.evercraft.everapi.sponge.UtilsKeys.KeyValue;
-
-import ninja.leaping.configurate.ConfigurationNode;
-
-public class EntityFormat implements CatalogType {
-	
-	private final String identifier;
-	private final String name;
+public class EntityTypeTemplate implements EntityTemplate {
 	
 	private final EntityType type;
-	private final Set<KeyValue<?, ?>> values;
 	
-	public EntityFormat(String identifier, String typeString, ConfigurationNode data) throws IllegalArgumentException {
-		this.identifier = identifier.toLowerCase();
-		this.name = identifier;
-		
-		this.type = Sponge.getGame().getRegistry().getType(EntityType.class, typeString).orElseThrow(() -> new IllegalArgumentException());
-		this.values = Sets.newConcurrentHashSet();
-		data.getChildrenMap().forEach((key, value) -> this.values.add(UtilsKeys.parse(key.toString(), value)));
+	public EntityTypeTemplate(EntityType type) throws IllegalArgumentException {
+		this.type = type;
 	}
 	
 	@Override
 	public String getId() {
-		return this.identifier;
+		return this.type.getId();
 	}
 
 	@Override
 	public String getName() {
-		return this.name;
+		return this.type.getName();
 	}
 	
+	@Override
 	public EntityType getType() {
 		return this.type;
 	}
 	
+	@Override
 	public <S extends CompositeValueStore<S, H>, H extends ValueContainer<?> > boolean apply(CompositeValueStore<S, H> object) {
-		return this.values.stream().map(value -> value.apply(object)).reduce((value1, value2) -> value1 && value2).orElse(true);
+		return false;
 	}
 	
+	@Override
 	public <S extends CompositeValueStore<S, H>, H extends ValueContainer<?> > boolean contains(CompositeValueStore<S, H> object) {
-		return this.values.stream().map(value -> value.contains(object)).reduce((value1, value2) -> value1 && value2).orElse(true);
+		return false;
 	}
 	
-	public boolean equals(Entity entity) {
+	@Override
+	public boolean equalsEntity(Entity entity) {
 		return entity.getType().equals(this.type) && this.apply(entity);
 	}
 }

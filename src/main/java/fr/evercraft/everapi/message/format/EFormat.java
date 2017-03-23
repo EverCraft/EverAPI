@@ -43,12 +43,12 @@ public abstract class EFormat {
 				Matcher matcher = replace.getValue().getPattern().get().matcher(message);
 				while (matcher.find()) {
 					String group = matcher.group(1);
-					message += this.toString(message, "<(?i)" + replace.getValue().getPrefix().get() + "=" + matcher.group(1) + ">", replace.getValue().get(group));
+					message = this.toString(message, "<(?i)" + replace.getValue().getPrefix().get() + "=" + group + ">", replace.getValue().get(group));
 				    matcher = replace.getValue().getPattern().get().matcher(message);
 				}
 			} else {
-				if (message.contains("(?i)" + replace.getKey())) {
-					message += this.toString(message, replace.getKey(), replace.getValue().get(replace.getKey()));
+				if (message.contains(replace.getKey())) {
+					message = this.toString(message, replace.getKey(), replace.getValue().get(replace.getKey()));
 				}
 			}
 		}
@@ -61,12 +61,12 @@ public abstract class EFormat {
 			Matcher matcher = replace.getPattern().get().matcher(message);
 			while (matcher.find()) {
 				String group = matcher.group(1);
-				message += this.toString(message, "<(?i)" + replace.getPrefix().get() + "=" + matcher.group(1) + ">", replace.get(group));
+				message = this.toString(message, "<(?i)" + replace.getPrefix().get() + "=" + group + ">", replace.get(group));
 			    matcher = replace.getPattern().get().matcher(message);
 			}
 		} else {
-			if (message.matches("(?i)" + key)) {
-				message += this.toString(message, key, replace.get(key));
+			if (message.contains(key)) {
+				message = this.toString(message, key, replace.get(key));
 			}
 		}
 		return message;
@@ -74,15 +74,14 @@ public abstract class EFormat {
 	
 	private String toString(String message, String key, Object value) {
 		if (value instanceof String){
-			message = message.replaceAll(key, (String) value);
+			return message.replaceAll(key, (String) value);
 		} else if (value instanceof Text) {
-			message = message.replaceAll(key, EChat.serialize((Text) value));
+			return message.replaceAll(key, EChat.serialize((Text) value));
 		} else if (value instanceof EFormat) {
-			message = message.replaceAll(key, ((EFormat) value).toString(key, value));
+			return message.replaceAll(key, ((EFormat) value).toString(key, value));
 		} else {
-			message = message.replaceAll(key, value.toString());
+			return message.replaceAll(key, value.toString());
 		}
-		return message;
 	}
 	
 	protected Text getText(Object value, Map<String, EReplace<?>> replaces) {

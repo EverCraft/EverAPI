@@ -32,12 +32,12 @@ public class EEntityService implements EntityService {
 	
 	private EEntityConfig config;
 	
-	private final ConcurrentHashMap<String, EntityFormat> entities;
+	private final ConcurrentHashMap<String, EntityTemplate> entities;
 
 	public EEntityService(final EverAPI plugin) {
 		this.plugin = plugin;
 		
-		this.entities = new ConcurrentHashMap<String, EntityFormat>();
+		this.entities = new ConcurrentHashMap<String, EntityTemplate>();
 		this.config = new EEntityConfig(plugin);
 		
 		this.reload();
@@ -50,12 +50,12 @@ public class EEntityService implements EntityService {
 	}
 	
 	@Override
-	public Set<EntityFormat> getAll() {
+	public Set<EntityTemplate> getAll() {
 		return ImmutableSet.copyOf(this.entities.values());
 	}
 
 	@Override
-	public Optional<EntityFormat> get(String identifier) {
+	public Optional<EntityTemplate> get(String identifier) {
 		Preconditions.checkNotNull(identifier);
 		
 		return Optional.ofNullable(this.entities.get(identifier.toLowerCase().replace("evercraft:", "")));

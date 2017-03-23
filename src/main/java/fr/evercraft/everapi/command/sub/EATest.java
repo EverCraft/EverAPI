@@ -199,16 +199,16 @@ public class EATest extends ESubCommand<EverAPI> {
 	public boolean replace(final EPlayer player) {
 		List<Text> list = new ArrayList<Text>();
 		new TreeSet<String>(player.getReplaces().keySet()).forEach(replace -> {
-			list.add(EFormatString.of(replace
+			list.add(Text.of(EFormatString.of(replace
 					.replaceAll("<", "")
 					.replaceAll(">", "")
 					+ " : " + replace)
-				.toText(player.getReplaces()));
+				.toString(player.getReplaces())));
 		});
-		list.add(EFormatString.of("OPTION=prefix : <OPTION=prefix>")
-			.toText(player.getReplaces()));
-		list.add(EFormatString.of("OPTION=suffix : <OPTION=suffix>")
-				.toText(player.getReplaces()));
+		list.add(Text.of(EFormatString.of("OPTION=prefix : <OPTION=prefix>")
+			.toString(player.getReplaces())));
+		list.add(Text.of(EFormatString.of("OPTION=suffix : <OPTION=suffix>")
+				.toString(player.getReplaces())));
 		
 		this.plugin.getManagerService().getEPagination().sendTo(Text.of("Debug Replace"), list, player);
 		return false;

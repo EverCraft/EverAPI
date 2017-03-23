@@ -19,9 +19,9 @@ package fr.evercraft.everapi.services;
 import java.util.Optional;
 import java.util.Set;
 
-import fr.evercraft.everapi.services.entity.EntityFormat;
+import fr.evercraft.everapi.services.entity.EntityTemplate;
 
 public interface EntityService {
-	public Set<EntityFormat> getAll();
-	public Optional<EntityFormat> get(String identifier);
+	public Set<EntityTemplate> getAll();
+	public Optional<EntityTemplate> get(String identifier);
 }

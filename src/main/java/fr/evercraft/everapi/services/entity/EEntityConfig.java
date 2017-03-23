@@ -48,14 +48,19 @@ public class EEntityConfig extends EConfig<EverAPI> {
 			entity.put("type", EntityTypes.WOLF.getId());
 			entity.put("data", ImmutableMap.of(Keys.ANGRY.getId(), true));
 			addDefault("WOLF_ANGRY", entity);
+			
+			entity.clear();
+			entity.put("type", EntityTypes.HORSE.getId());
+			entity.put("data", ImmutableMap.of(Keys.TAMED_OWNER.getId(), "<UUID>"));
+			addDefault("HORSE_OWNER", entity);
 		}
 	}
 
-	public Set<EntityFormat> getEntities() {
-		Set<EntityFormat> entities = new HashSet<EntityFormat>();
+	public Set<EntityTemplate> getEntities() {
+		Set<EntityTemplate> entities = new HashSet<EntityTemplate>();
 		this.getNode().getChildrenMap().forEach((identifier, config) -> {
 			try {
-				entities.add(new EntityFormat(identifier.toString(), config.getNode("type").getString("evercraft:" + identifier), config.getNode("data")));
+				entities.add(new EntityValuesTemplate(identifier.toString(), config.getNode("type").getString("evercraft:" + identifier), config.getNode("data")));
 			} catch (Exception e) {
 				
 			}

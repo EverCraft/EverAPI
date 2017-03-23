@@ -67,10 +67,16 @@ public class UtilsKeys {
 	
 	@SuppressWarnings("unchecked")
 	private static <V, S> V get(TypeToken<V> token, ConfigurationNode value_json) throws Exception {
-		Class<? super V> type_value = token.getRawType();
+		String value_string = value_json.getString(null);
+		if (value_string != null && value_string.contains("")) {
+			
+		}
 		
+		Class<? super V> type_value = token.getRawType();
 		if (CatalogType.class.isAssignableFrom(type_value)) {
 			return (V) Sponge.getGame().getRegistry().getType((Class<CatalogType>) type_value, value_json.getString("")).orElseThrow(() -> new IllegalArgumentException());
+		} else if (type_value.equals(String.class)) {
+			return (V) value_json.getString("");
 		} else if (type_value.equals(Text.class)) {
 			return (V) EChat.of(value_json.getString(""));
 		} else if (type_value.equals(Integer.class)) {
@@ -85,8 +91,6 @@ public class UtilsKeys {
 			return (V) (Long) value_json.getLong();
 		} else if (type_value.equals(Boolean.class)) {
 			return (V) (Boolean) value_json.getBoolean();
-		} else if (type_value.equals(String.class)) {
-			return (V) value_json.getString("");
 		} else if (type_value.equals(Vector3i.class)) {
 			return (V) value_json.getValue(TypeToken.of(Vector3i.class));
 		} else if (type_value.equals(Vector3d.class)) {
