@@ -17,6 +17,7 @@
 package fr.evercraft.everapi.message.type;
 
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.spongepowered.api.boss.ServerBossBar;
 import org.spongepowered.api.command.CommandSource;
@@ -63,7 +64,7 @@ public class EMessageBossBar {
 		return this.prefix;
 	}
 
-	public void send(EFormat prefix, EPlayer player, Map<String, EReplace<?>> replaces) {
+	public void send(EFormat prefix, EPlayer player, Map<Pattern, EReplace<?>> replaces) {
 		ServerBossBar bossbar;
 		if (this.prefix) {
 			bossbar = ServerBossBar.builder().from(this.bossbar).name(prefix.toText().concat(this.message.toText(replaces))).build();
@@ -73,7 +74,7 @@ public class EMessageBossBar {
 		player.sendBossBar(this.priority, this.stay, bossbar);
 	}
 	
-	public void send(EFormat prefix, CommandSource source, Map<String, EReplace<?>> replaces) {
+	public void send(EFormat prefix, CommandSource source, Map<Pattern, EReplace<?>> replaces) {
 		if (source instanceof EPlayer) {
 			this.send(prefix, (EPlayer) source, replaces);
 		} else {

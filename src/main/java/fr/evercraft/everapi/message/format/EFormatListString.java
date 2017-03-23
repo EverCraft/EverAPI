@@ -19,6 +19,7 @@ package fr.evercraft.everapi.message.format;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.spongepowered.api.text.Text;
 
@@ -53,7 +54,7 @@ public class EFormatListString extends EFormat {
 	}
 	
 	@Override
-	public Text toText(Map<String, EReplace<?>> replaces) {
+	public Text toText(Map<Pattern, EReplace<?>> replaces) {
 		List<Text> texts = new ArrayList<Text>();
 		this.messages.forEach(message -> texts.add(EFormatString.apply(message, replaces)));
 		return Text.joinWith(Text.of("\n"), texts);

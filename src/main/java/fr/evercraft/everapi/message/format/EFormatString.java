@@ -19,8 +19,8 @@ package fr.evercraft.everapi.message.format;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Text.Builder;
@@ -58,48 +58,37 @@ public class EFormatString extends EFormat {
 	}
 	
 	@Override
-	public Text toText(Map<String, EReplace<?>> replaces) {
+	public Text toText(Map<Pattern, EReplace<?>> replaces) {
 		return EFormatString.apply(this.message, replaces);
 	}
 	
-	public static Text apply(String message, Map<String, EReplace<?>> replaces) {
+	public static Text apply(String message, Map<Pattern, EReplace<?>> replaces) {
 		List<Object> texts = new ArrayList<Object>();
 		texts.add(message);
 		
-		for (Entry<String, EReplace<?>> replace : replaces.entrySet()) {
+		replaces.forEach((pattern, replace) -> {
 			String[] split;
 			String text;
 			int cpt = 0;
 			while(cpt < texts.size()) {
 				if (texts.get(cpt) instanceof String) {
 					text = (String) texts.get(cpt);
-					if (replace.getValue().getPattern().isPresent()) {
-						Matcher matcher = replace.getValue().getPattern().get().matcher(text);
-						while (matcher.find()) {
-						    String group = matcher.group(1);
-						    split = text.split("<(?i)" + replace.getValue().getPrefix().get() + "=" + matcher.group(1) + ">", 2);
-						    texts.set(cpt, split[0]);
-						    cpt++;
-							texts.add(cpt, replace.getValue().get(group));
-							cpt++;
-							texts.add(cpt, split[1]);
-						    matcher = replace.getValue().getPattern().get().matcher(split[1]);
-						}
-					} else {
-						split = text.split("(?i)" + replace.getKey(), 2);
-						while (split.length == 2) {
-							texts.set(cpt, split[0]);
-							cpt++;
-							texts.add(cpt, replace.getValue().get(replace.getKey()));
-							cpt++;
-							texts.add(cpt, split[1]);
-							split = split[1].split("(?i)" + replace.getKey(), 2);
-						}
+					
+					Matcher matcher = pattern.matcher(text);
+					while (matcher.find()) {
+						String group = (matcher.groupCount() > 0) ? matcher.group(1) : "";
+					    split = text.split(pattern.pattern(), 2);
+					    texts.set(cpt, split[0]);
+					    cpt++;
+						texts.add(cpt, replace.get(group));
+						cpt++;
+						texts.add(cpt, split[1]);
+					    matcher = pattern.matcher(split[1]);
 					}
 				}
 				cpt++;
 			}
-		}
+		});
 		
 		Builder builder = Text.builder();
 		for (Object value : texts) {

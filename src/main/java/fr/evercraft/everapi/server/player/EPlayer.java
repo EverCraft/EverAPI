@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.boss.ServerBossBar;
@@ -430,7 +431,7 @@ public class EPlayer extends PlayerSponge {
 		return false;
 	}
 	
-	public Map<String, EReplace<?>> getReplaces() {
+	public Map<Pattern, EReplace<?>> getReplaces() {
 		return this.plugin.getChat().getReplaceAll(this);
 	}
 	

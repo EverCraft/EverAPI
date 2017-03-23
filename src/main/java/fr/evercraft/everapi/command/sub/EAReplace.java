@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
@@ -33,8 +31,8 @@ import fr.evercraft.everapi.EACommand;
 import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.message.format.EFormatString;
-import fr.evercraft.everapi.message.replace.EReplace;
-import fr.evercraft.everapi.message.replace.EReplaceFun;
+import fr.evercraft.everapi.message.replace.EReplacesPlayer;
+import fr.evercraft.everapi.message.replace.EReplacesServer;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
 import fr.evercraft.everapi.server.player.EPlayer;
 
@@ -73,28 +71,32 @@ public class EAReplace extends ESubCommand<EverAPI> {
 	
 	public boolean replace(final CommandSource source) {
 		List<Text> list = new ArrayList<Text>();
-		new TreeSet<String>(this.plugin.getChat().getReplaceServer().keySet()).forEach(replace -> {
-			list.add(EFormatString.of("&c"+replace
-					.replaceAll("<", "")
-					.replaceAll(">", "")
-					+ " : &r" + replace)
-				.toText(this.plugin.getChat().getReplaceServer()));
-		});
+		for(EReplacesServer value : EReplacesServer.values()) {
+			if (value.getFunction().isPresent()) {
+				list.add(EFormatString.of("&c" + value.name() + " : &r" + value.getName())
+					.toText(this.plugin.getChat().getReplaceServer()));
+			}
+		}
 		this.plugin.getManagerService().getEPagination().sendTo(Text.of("Replace Server"), list, source);
 		return false;
 	}
 	
 	public boolean replace(final EPlayer player) {
 		List<Text> list = new ArrayList<Text>();
-		new TreeMap<String, EReplace<?>>(player.getReplaces()).forEach((key, replace) -> {
-			if (! (replace instanceof EReplaceFun)) {
-				list.add(EFormatString.of("&c"+key
-						.replaceAll("<", "")
-						.replaceAll(">", "")
-						+ " : &r" + key)
+		
+		for(EReplacesPlayer value : EReplacesPlayer.values()) {
+			if (value.getBiFunction().isPresent()) {
+				list.add(EFormatString.of("&c" + value.name() + " : &r" + value.getName())
 					.toText(player.getReplaces()));
 			}
-		});
+		}
+		for(EReplacesServer value : EReplacesServer.values()) {
+			if (value.getFunction().isPresent()) {
+				list.add(EFormatString.of("&c" + value.name() + " : &r" + value.getName())
+					.toText(player.getReplaces()));
+			}
+		}
+		
 		list.add(EFormatString.of("&cOPTION=prefix : &r<OPTION=prefix>")
 				.toText(player.getReplaces()));
 		list.add(EFormatString.of("&cOPTION=suffix : &r<OPTION=suffix>")

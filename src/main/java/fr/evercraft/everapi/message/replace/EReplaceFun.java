@@ -16,9 +16,7 @@
  */
 package fr.evercraft.everapi.message.replace;
 
-import java.util.Optional;
 import java.util.function.Function;
-import java.util.regex.Pattern;
 
 import com.google.common.base.Preconditions;
 
@@ -27,16 +25,11 @@ public class EReplaceFun<T> implements EReplace<T> {
 	private String arg;
 	private T value;
 	
-	private Pattern pattern;
-	private String prefix;
 	private Function<String, T> fun;
 	
-	public EReplaceFun(String prefix, Function<String,T> fun) {
-		Preconditions.checkNotNull(prefix, "prefix");
+	public EReplaceFun(Function<String,T> fun) {
 		Preconditions.checkNotNull(fun, "fun");
 		
-		this.prefix = prefix;
-		this.pattern = Pattern.compile("<(?i)" + this.prefix + "=(.[^>]*)>");
 		this.fun = fun;
 	}
 	
@@ -58,16 +51,6 @@ public class EReplaceFun<T> implements EReplace<T> {
 	
 	@Override
 	public EReplaceFun<T> clone() {
-		return new EReplaceFun<T>(this.prefix, this.fun);
-	}
-	
-	@Override
-	public Optional<Pattern> getPattern() {
-		return Optional.of(this.pattern);
-	}
-	
-	@Override
-	public Optional<String> getPrefix() {
-		return Optional.of(this.prefix);
+		return new EReplaceFun<T>(this.fun);
 	}
 }

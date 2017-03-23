@@ -17,6 +17,7 @@
 package fr.evercraft.everapi.message.type;
 
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.spongepowered.api.command.CommandSource;
 
@@ -55,7 +56,7 @@ public class EMessageActionBar {
 		return this.prefix;
 	}
 
-	public void send(EFormat prefix, EPlayer player, Map<String, EReplace<?>> replaces) {
+	public void send(EFormat prefix, EPlayer player, Map<Pattern, EReplace<?>> replaces) {
 		if (this.prefix) {
 			player.sendActionBar(this.priority, this.stay, prefix.toText().concat(this.message.toText(replaces)));
 		} else {
@@ -63,7 +64,7 @@ public class EMessageActionBar {
 		}
 	}
 	
-	public void send(EFormat prefix, CommandSource source, Map<String, EReplace<?>> replaces) {
+	public void send(EFormat prefix, CommandSource source, Map<Pattern, EReplace<?>> replaces) {
 		if (source instanceof EPlayer) {
 			this.send(prefix, (EPlayer) source, replaces);
 		} else {

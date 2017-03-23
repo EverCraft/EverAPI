@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.item.inventory.ItemStack;
@@ -53,44 +54,44 @@ public class EChat implements ChatService {
 		this.plugin = plugin;
 	}
 	
-	public Map<String, EReplace<?>> getReplaceServer() {
-		Map<String, EReplace<?>> builder = new HashMap<String, EReplace<?>>();
+	public Map<Pattern, EReplace<?>> getReplaceServer() {
+		Map<Pattern, EReplace<?>> builder = new HashMap<Pattern, EReplace<?>>();
 		for(EReplacesServer value : EReplacesServer.values()) {
-			if (value.getValueFunction().isPresent()) {
-				builder.put(value.getName(), EReplace.of(() -> (value.getValueFunction().get().apply(this.plugin))));
+			if (value.getFunction().isPresent()) {
+				builder.put(value.getPattern(), EReplace.of(() -> (value.getFunction().get().apply(this.plugin))));
 			} else {
-				builder.put(value.getName(), EReplace.of(value.name(), (option) -> (value.getValueBiFunction().get().apply(this.plugin, option))));
+				builder.put(value.getPattern(), EReplace.of((option) -> (value.getBiFunction().get().apply(this.plugin, option))));
 			}
 		}
 		return builder;
 	}
 	
-	public Map<String, EReplace<?>> getReplacePlayer(final EPlayer player) {
-		Map<String, EReplace<?>> builder = new HashMap<String, EReplace<?>>();
+	public Map<Pattern, EReplace<?>> getReplacePlayer(final EPlayer player) {
+		Map<Pattern, EReplace<?>> builder = new HashMap<Pattern, EReplace<?>>();
 		for(EReplacesPlayer value : EReplacesPlayer.values()) {
 			if (value.getBiFunction().isPresent()) {
-				builder.put(value.getName(), EReplace.of(() -> (value.getBiFunction().get().apply(this.plugin, player))));
+				builder.put(value.getPattern(), EReplace.of(() -> (value.getBiFunction().get().apply(this.plugin, player))));
 			} else {
-				builder.put(value.getName(), EReplace.of(value.name(), (option) -> (value.getTriFunction().get().apply(this.plugin, player, option))));
+				builder.put(value.getPattern(), EReplace.of((option) -> (value.getTriFunction().get().apply(this.plugin, player, option))));
 			}
 		}
 		return builder;
 	}
 	
-	public Map<String, EReplace<?>> getReplaceAll(final EPlayer player) {
-		Map<String, EReplace<?>> builder = new HashMap<String, EReplace<?>>();
+	public Map<Pattern, EReplace<?>> getReplaceAll(final EPlayer player) {
+		Map<Pattern, EReplace<?>> builder = new HashMap<Pattern, EReplace<?>>();
 		for(EReplacesServer value : EReplacesServer.values()) {
-			if (value.getValueFunction().isPresent()) {
-				builder.put(value.getName(), EReplace.of(() -> (value.getValueFunction().get().apply(this.plugin))));
+			if (value.getFunction().isPresent()) {
+				builder.put(value.getPattern(), EReplace.of(() -> (value.getFunction().get().apply(this.plugin))));
 			} else {
-				builder.put(value.getName(), EReplace.of(value.name(), (option) -> (value.getValueBiFunction().get().apply(this.plugin, option))));
+				builder.put(value.getPattern(), EReplace.of((option) -> (value.getBiFunction().get().apply(this.plugin, option))));
 			}
 		}
 		for(EReplacesPlayer value : EReplacesPlayer.values()) {
 			if (value.getBiFunction().isPresent()) {
-				builder.put(value.getName(), EReplace.of(() -> (value.getBiFunction().get().apply(this.plugin, player))));
+				builder.put(value.getPattern(), EReplace.of(() -> (value.getBiFunction().get().apply(this.plugin, player))));
 			} else {
-				builder.put(value.getName(), EReplace.of(value.name(), (option) -> (value.getTriFunction().get().apply(this.plugin, player, option))));
+				builder.put(value.getPattern(), EReplace.of((option) -> (value.getTriFunction().get().apply(this.plugin, player, option))));
 			}
 		}
 		return builder;

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
 
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
@@ -38,11 +39,11 @@ import fr.evercraft.everapi.server.user.EUser;
 public final class EMessageSender {	
 	private EFormat prefix;
 	private final EMessageFormat messages;
-	private final Map<String, EReplace<?>> replaces;
+	private final Map<Pattern, EReplace<?>> replaces;
 	
 	public EMessageSender(EMessageFormat messages) {
 		this.messages = messages;
-		this.replaces = new HashMap<String, EReplace<?>>();
+		this.replaces = new HashMap<Pattern, EReplace<?>>();
 		this.clear();
 	}
 	
@@ -50,7 +51,7 @@ public final class EMessageSender {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
-		this.replaces.put(key, EReplace.of(value)); 
+		this.replaces.put(Pattern.compile(key), EReplace.of(value)); 
 		return this;
 	}
 	
@@ -58,14 +59,14 @@ public final class EMessageSender {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
-		this.replaces.put(key, EReplace.of(value)); 
+		this.replaces.put(Pattern.compile(key), EReplace.of(value)); 
 		return this;
 	}
 	
 	public EMessageSender replace(String key, int value) {
 		Preconditions.checkNotNull(key, "key");
 		
-		this.replaces.put(key, EReplace.of(String.valueOf(value))); 
+		this.replaces.put(Pattern.compile(key), EReplace.of(String.valueOf(value))); 
 		return this;
 	}
 	
@@ -73,7 +74,7 @@ public final class EMessageSender {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
-		this.replaces.put(key, EReplace.of(value)); 
+		this.replaces.put(Pattern.compile(key), EReplace.of(value)); 
 		return this;
 	}
 	
@@ -81,7 +82,7 @@ public final class EMessageSender {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
-		this.replaces.put(key, EReplace.of(value)); 
+		this.replaces.put(Pattern.compile(key), EReplace.of(value)); 
 		return this;
 	}
 	
@@ -89,11 +90,18 @@ public final class EMessageSender {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
-		this.replaces.put(key, EReplace.of(value)); 
+		this.replaces.put(Pattern.compile(key), EReplace.of(value)); 
 		return this;
 	}
 	
-	public EMessageSender replace(Map<String, EReplace<?>> replaces) {
+	public EMessageSender replaceString(Map<String, EReplace<?>> replaces) {
+		Preconditions.checkNotNull(replaces, "replaces");
+		
+		replaces.forEach((pattern, replace) -> this.replaces.put(Pattern.compile(pattern), replace));
+		return this;
+	}
+	
+	public EMessageSender replace(Map<Pattern, EReplace<?>> replaces) {
 		Preconditions.checkNotNull(replaces, "replaces");
 		
 		this.replaces.putAll(replaces); 

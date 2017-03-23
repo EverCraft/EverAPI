@@ -16,10 +16,12 @@
  */
 package fr.evercraft.everapi.message.format;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.spongepowered.api.text.Text;
 
@@ -33,58 +35,53 @@ public abstract class EFormat {
 	public abstract boolean isEmpty();
 	public abstract Text toText();
 	public abstract String toString();
-	public abstract Text toText(Map<String, EReplace<?>> replaces);
 	
-	public String toString(Map<String, EReplace<?>> replaces) {
+	public abstract Text toText(Map<Pattern, EReplace<?>> replaces);
+	
+	public Text toText2(Map<String, EReplace<?>> replaces) {
+		Map<Pattern, EReplace<?>> map = new HashMap<Pattern, EReplace<?>>();
+		replaces.forEach((pattern, replace) -> map.put(Pattern.compile(pattern), replace));
+		return this.toText(map);
+	}
+	
+	public String toString(Map<Pattern, EReplace<?>> replaces) {
 		String message = this.toString();
 		
-		for(Entry<String, EReplace<?>> replace : replaces.entrySet()) {
-			if (replace.getValue().getPattern().isPresent()) {
-				Matcher matcher = replace.getValue().getPattern().get().matcher(message);
-				while (matcher.find()) {
-					String group = matcher.group(1);
-					message = this.toString(message, "<(?i)" + replace.getValue().getPrefix().get() + "=" + group + ">", replace.getValue().get(group));
-				    matcher = replace.getValue().getPattern().get().matcher(message);
-				}
-			} else {
-				if (message.contains(replace.getKey())) {
-					message = this.toString(message, replace.getKey(), replace.getValue().get(replace.getKey()));
-				}
+		for(Entry<Pattern, EReplace<?>> replace : replaces.entrySet()) {
+			Matcher matcher = replace.getKey().matcher(message);
+			while (matcher.find()) {
+				String group = (matcher.groupCount() > 0) ? matcher.group(1) : "";
+				message = this.toString(message, replace.getKey().pattern(), replace.getValue().get(group));
+			    matcher = replace.getKey().matcher(message);
 			}
 		}
 		return message;
 	}
 	
-	public String toString(String key, EReplace<?> replace) {
+	public String toString(Pattern pattern, EReplace<?> replace) {
 		String message = this.toString();
-		if (replace.getPattern().isPresent()) {
-			Matcher matcher = replace.getPattern().get().matcher(message);
-			while (matcher.find()) {
-				String group = matcher.group(1);
-				message = this.toString(message, "<(?i)" + replace.getPrefix().get() + "=" + group + ">", replace.get(group));
-			    matcher = replace.getPattern().get().matcher(message);
-			}
-		} else {
-			if (message.contains(key)) {
-				message = this.toString(message, key, replace.get(key));
-			}
+		Matcher matcher = pattern.matcher(message);
+		while (matcher.find()) {
+			String group = (matcher.groupCount() > 0) ? matcher.group(1) : "";
+			message = this.toString(message, pattern.pattern(), replace.get(group));
+		    matcher = pattern.matcher(message);
 		}
 		return message;
 	}
 	
 	private String toString(String message, String key, Object value) {
 		if (value instanceof String){
-			return message.replaceAll(key, (String) value);
+			return message.replaceFirst(key, (String) value);
 		} else if (value instanceof Text) {
-			return message.replaceAll(key, EChat.serialize((Text) value));
+			return message.replaceFirst(key, EChat.serialize((Text) value));
 		} else if (value instanceof EFormat) {
-			return message.replaceAll(key, ((EFormat) value).toString(key, value));
+			return message.replaceFirst(key, ((EFormat) value).toString(key, value));
 		} else {
-			return message.replaceAll(key, value.toString());
+			return message.replaceFirst(key, value.toString());
 		}
 	}
 	
-	protected Text getText(Object value, Map<String, EReplace<?>> replaces) {
+	protected Text getText(Object value, Map<Pattern, EReplace<?>> replaces) {
 		if (value instanceof String){
 			return EChat.of((String) value);
 		} else if (value instanceof Text) {
@@ -96,79 +93,79 @@ public abstract class EFormat {
 	}
 	
 	public Text toText(String k1, Supplier<Object> v1) {
-		return this.toText(ImmutableMap.of(k1, EReplace.of(v1)));
+		return this.toText(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1)));
 	}
 	
 	public Text toText(String k1, Supplier<Object> v1, String k2, Supplier<Object> v2) {
-		return this.toText(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2)));
+		return this.toText(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2)));
 	}
 	
 	public Text toText(String k1, Supplier<Object> v1, String k2, Supplier<Object> v2, String k3, Supplier<Object> v3) {
-		return this.toText(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2), k3, EReplace.of(v3)));
+		return this.toText(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2), Pattern.compile(k3), EReplace.of(v3)));
 	}
 	
 	public Text toText(String k1, Object v1) {
-		return this.toText(ImmutableMap.of(k1, EReplace.of(v1)));
+		return this.toText(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1)));
 	}
 	
 	public Text toText(String k1, Object v1, String k2, Object v2) {
-		return this.toText(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2)));
+		return this.toText(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2)));
 	}
 	
 	public Text toText(String k1, Object v1, String k2, Object v2, String k3, Object v3) {
-		return this.toText(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2), k3, EReplace.of(v3)));
+		return this.toText(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2), Pattern.compile(k3), EReplace.of(v3)));
 	}
 	
 	public Text toText(String k1, Object v1, String k2, Object v2, String k3, Object v3, String k4, Object v4) {
-		return this.toText(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2), k3, EReplace.of(v3), k4, EReplace.of(v4)));
+		return this.toText(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2), Pattern.compile(k3), EReplace.of(v3), Pattern.compile(k4), EReplace.of(v4)));
 	}
 	
 	public Text toText(String k1, Object v1, String k2, Object v2, String k3, Object v3, String k4, Object v4, String k5, Object v5) {
-		return this.toText(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2), k3, EReplace.of(v3), k4, EReplace.of(v4), k5, EReplace.of(v5)));
+		return this.toText(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2), Pattern.compile(k3), EReplace.of(v3), Pattern.compile(k4), EReplace.of(v4), Pattern.compile(k5), EReplace.of(v5)));
 	}
 	
 	public Text toText(String k1, EReplace<?> v1) {
-		return this.toText(ImmutableMap.of(k1, v1));
+		return this.toText(ImmutableMap.of(Pattern.compile(k1), v1));
 	}
 	
 	public Text toText(String k1, EReplace<?> v1, String k2, EReplace<?> v2) {
-		return this.toText(ImmutableMap.of(k1, v1, k2, v2));
+		return this.toText(ImmutableMap.of(Pattern.compile(k1), v1, Pattern.compile(k2), v2));
 	}
 	
 	public Text toText(String k1, EReplace<?> v1, String k2, EReplace<?> v2, String k3, EReplace<?> v3) {
-		return this.toText(ImmutableMap.of(k1, v1, k2, v2, k3, v3));
+		return this.toText(ImmutableMap.of(Pattern.compile(k1), v1, Pattern.compile(k2), v2, Pattern.compile(k3), v3));
 	}
 	
 	public Text toText(String k1, EReplace<?> v1, String k2, EReplace<?> v2, String k3, EReplace<?> v3, String k4, EReplace<?> v4) {
-		return this.toText(ImmutableMap.of(k1, v1, k2, v2, k3, v3, k4, v4));
+		return this.toText(ImmutableMap.of(Pattern.compile(k1), v1, Pattern.compile(k2), v2, Pattern.compile(k3), v3, Pattern.compile(k4), v4));
 	}
 	
 	public String toString(String k1, Supplier<Object> v1) {
-		return this.toString(ImmutableMap.of(k1, EReplace.of(v1)));
+		return this.toString(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1)));
 	}
 	
 	public String toString(String k1, Supplier<Object> v1, String k2, Supplier<Object> v2) {
-		return this.toString(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2)));
+		return this.toString(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2)));
 	}
 	
 	public String toString(String k1, Supplier<Object> v1, String k2, Supplier<Object> v2, String k3, Supplier<Object> v3) {
-		return this.toString(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2), k3, EReplace.of(v3)));
+		return this.toString(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2), Pattern.compile(k3), EReplace.of(v3)));
 	}
 	
 	public String toString(String k1, Object v1) {
-		return this.toString(ImmutableMap.of(k1, EReplace.of(v1)));
+		return this.toString(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1)));
 	}
 	
 	public String toString(String k1, Object v1, String k2, Object v2) {
-		return this.toString(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2)));
+		return this.toString(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2)));
 	}
 	
 	public String toString(String k1, Object v1, String k2, Object v2, String k3, Object v3) {
-		return this.toString(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2), k3, EReplace.of(v3)));
+		return this.toString(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2), Pattern.compile(k3), EReplace.of(v3)));
 	}
 	
 	public String toString(String k1, Object v1, String k2, Object v2, String k3, Object v3, String k4, Object v4) {
-		return this.toString(ImmutableMap.of(k1, EReplace.of(v1), k2, EReplace.of(v2), k3, EReplace.of(v3), k4, EReplace.of(v4)));
+		return this.toString(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2), Pattern.compile(k3), EReplace.of(v3), Pattern.compile(k4), EReplace.of(v4)));
 	}
 	
 	public boolean isListString() {

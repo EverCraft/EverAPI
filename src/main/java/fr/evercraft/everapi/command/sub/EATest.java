@@ -16,12 +16,9 @@
  */
 package fr.evercraft.everapi.command.sub;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.TreeSet;
-
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
@@ -31,9 +28,7 @@ import org.spongepowered.api.text.format.TextColors;
 import fr.evercraft.everapi.EACommand;
 import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.message.format.EFormatString;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
-import fr.evercraft.everapi.server.player.EPlayer;
 
 public class EATest extends ESubCommand<EverAPI> {
 	
@@ -61,13 +56,7 @@ public class EATest extends ESubCommand<EverAPI> {
 	}
 	
 	public boolean subExecute(final CommandSource source, final List<String> args) {
-		if (args.size() == 1 && args.get(0).equalsIgnoreCase("replace")) {
-			if (source instanceof EPlayer) {
-				return this.replace((EPlayer) source);
-			} else {
-				return this.replace(source);
-			}
-		} else if (args.size() == 3) {
+		if (args.size() == 3) {
 			/*Optional<Vector3i> block = player.getViewBlock();
 			
 			if (!block.isPresent()) {
@@ -182,35 +171,4 @@ public class EATest extends ESubCommand<EverAPI> {
 		
 		return true;
 	}*/
-	
-	public boolean replace(final CommandSource source) {
-		List<Text> list = new ArrayList<Text>();
-		new TreeSet<String>(this.plugin.getChat().getReplaceServer().keySet()).forEach(replace -> {
-			list.add(EFormatString.of(replace
-					.replaceAll("<", "")
-					.replaceAll(">", "")
-					+ " : " + replace)
-				.toText(this.plugin.getChat().getReplaceServer()));
-		});
-		this.plugin.getManagerService().getEPagination().sendTo(Text.of("Debug Replace"), list, source);
-		return false;
-	}
-	
-	public boolean replace(final EPlayer player) {
-		List<Text> list = new ArrayList<Text>();
-		new TreeSet<String>(player.getReplaces().keySet()).forEach(replace -> {
-			list.add(Text.of(EFormatString.of(replace
-					.replaceAll("<", "")
-					.replaceAll(">", "")
-					+ " : " + replace)
-				.toString(player.getReplaces())));
-		});
-		list.add(Text.of(EFormatString.of("OPTION=prefix : <OPTION=prefix>")
-			.toString(player.getReplaces())));
-		list.add(Text.of(EFormatString.of("OPTION=suffix : <OPTION=suffix>")
-				.toString(player.getReplaces())));
-		
-		this.plugin.getManagerService().getEPagination().sendTo(Text.of("Debug Replace"), list, player);
-		return false;
-	}
 }

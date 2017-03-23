@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 
 import org.spongepowered.api.scoreboard.Team;
 import org.spongepowered.api.service.economy.EconomyService;
@@ -100,17 +101,20 @@ public enum EReplacesPlayer {
 	OPTION((plugin, player, option) -> player.getOption(option).orElse("")),
 	OPTION_VALUE((plugin, player, option) -> Text.of(player.getOption(option).orElse("")));
 	
+	private Pattern pattern;
 	private Optional<BiFunction<EPlugin<?>, EPlayer, Object>> bi;
 	private Optional<TriFunction<EPlugin<?>, EPlayer, String, Object>> tri;
 	
 	EReplacesPlayer(BiFunction<EPlugin<?>, EPlayer, Object> bi) {
 		this.bi= Optional.of(bi);
 		this.tri = Optional.empty();
+		this.pattern = Pattern.compile("<(?i)" + this.name() + ">");
 	}
 	
 	EReplacesPlayer(TriFunction<EPlugin<?>, EPlayer, String, Object> tri) {
 		this.tri= Optional.of(tri);
 		this.bi = Optional.empty();
+		this.pattern = Pattern.compile("<(?i)" + this.name() + "=(.[^>]*)>");
 	}
 	
 	public String getName() {
@@ -125,6 +129,9 @@ public enum EReplacesPlayer {
 		return this.tri;
 	}
 	
+	public Pattern getPattern() {
+		return this.pattern;
+	}
 
 	@FunctionalInterface
 	public interface TriFunction<A,B,C,R> {

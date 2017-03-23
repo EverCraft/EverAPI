@@ -17,6 +17,7 @@
 package fr.evercraft.everapi.message.type;
 
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
@@ -46,14 +47,14 @@ public class EMessageChat {
 	/*
 	 * Message : Sans prefix
 	 */
-	public Text toText(Map<String, EReplace<?>> replaces) {
+	public Text toText(Map<Pattern, EReplace<?>> replaces) {
 		return this.message.toText(replaces);
 	}
 
 	/*
 	 * Message : Avec prefix
 	 */
-	public Text toText(EFormat prefix, Map<String, EReplace<?>> replaces) {
+	public Text toText(EFormat prefix, Map<Pattern, EReplace<?>> replaces) {
 		if (this.prefix) {
 			return prefix.toText().concat(this.message.toText(replaces));
 		} else {
@@ -61,7 +62,7 @@ public class EMessageChat {
 		}
 	}
 	
-	public void send(EFormat prefix, CommandSource player, Map<String, EReplace<?>> replaces) {
+	public void send(EFormat prefix, CommandSource player, Map<Pattern, EReplace<?>> replaces) {
 		if (this.prefix) {
 			player.sendMessage(prefix.toText().concat(this.message.toText(replaces)));
 		} else {
