@@ -58,7 +58,7 @@ public class EEntityService implements EntityService {
 	public Optional<EntityTemplate> get(String identifier) {
 		Preconditions.checkNotNull(identifier);
 		
-		return Optional.ofNullable(this.entities.get(identifier.toLowerCase().replace("evercraft:", "")));
+		return Optional.ofNullable(this.entities.get(identifier.toLowerCase()));
 	}
 
 }

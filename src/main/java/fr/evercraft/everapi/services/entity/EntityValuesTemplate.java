@@ -16,20 +16,12 @@
  */
 package fr.evercraft.everapi.services.entity;
 
-import java.util.Set;
+import java.util.Optional;
+import java.util.function.BiPredicate;
 
-import org.spongepowered.api.Sponge;
-import org.spongepowered.api.data.value.ValueContainer;
-import org.spongepowered.api.data.value.mutable.CompositeValueStore;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
-
-import com.google.common.collect.Sets;
-
-import fr.evercraft.everapi.sponge.UtilsKeys;
-import fr.evercraft.everapi.sponge.UtilsKeys.KeyValue;
-
-import ninja.leaping.configurate.ConfigurationNode;
+import org.spongepowered.api.entity.living.player.Player;
 
 public class EntityValuesTemplate implements EntityTemplate {
 	
@@ -37,15 +29,18 @@ public class EntityValuesTemplate implements EntityTemplate {
 	private final String name;
 	
 	private final EntityType type;
-	private final Set<KeyValue<?, ?>> values;
 	
-	public EntityValuesTemplate(String identifier, String typeString, ConfigurationNode data) throws IllegalArgumentException {
-		this.identifier = identifier.toLowerCase();
+	private final BiPredicate<Entity, Optional<Player>> apply;
+	private final BiPredicate<Entity, Optional<Player>> contains;
+	
+	public EntityValuesTemplate(String identifier, EntityType type,
+			BiPredicate<Entity, Optional<Player>> apply, BiPredicate<Entity, Optional<Player>> contains) throws IllegalArgumentException {
+		this.identifier = "evercraft:" + identifier.toLowerCase();
 		this.name = identifier;
 		
-		this.type = Sponge.getGame().getRegistry().getType(EntityType.class, typeString).orElseThrow(() -> new IllegalArgumentException());
-		this.values = Sets.newConcurrentHashSet();
-		data.getChildrenMap().forEach((key, value) -> this.values.add(UtilsKeys.parse(key.toString(), value)));
+		this.type = type;
+		this.apply = apply;
+		this.contains = contains;
 	}
 	
 	@Override
@@ -64,17 +59,22 @@ public class EntityValuesTemplate implements EntityTemplate {
 	}
 	
 	@Override
-	public <S extends CompositeValueStore<S, H>, H extends ValueContainer<?> > boolean apply(CompositeValueStore<S, H> object) {
-		return this.values.stream().map(value -> value.apply(object)).reduce((value1, value2) -> value1 && value2).orElse(true);
+	public boolean apply(Entity entity) {
+		return entity.getType().equals(this.type) && this.apply.test(entity, Optional.empty());
 	}
 	
 	@Override
-	public <S extends CompositeValueStore<S, H>, H extends ValueContainer<?> > boolean contains(CompositeValueStore<S, H> object) {
-		return this.values.stream().map(value -> value.contains(object)).reduce((value1, value2) -> value1 && value2).orElse(true);
+	public boolean contains(Entity entity) {
+		return entity.getType().equals(this.type) && this.contains.test(entity, Optional.empty());
 	}
 	
 	@Override
-	public boolean equalsEntity(Entity entity) {
-		return entity.getType().equals(this.type) && this.apply(entity);
+	public boolean apply(Entity entity, Player player) {
+		return entity.getType().equals(this.type) && this.apply.test(entity, Optional.ofNullable(player));
+	}
+	
+	@Override
+	public boolean contains(Entity entity, Player player) {
+		return entity.getType().equals(this.type) && this.contains.test(entity, Optional.ofNullable(player));
 	}
 }

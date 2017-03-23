@@ -17,18 +17,18 @@
 package fr.evercraft.everapi.services.entity;
 
 import org.spongepowered.api.CatalogType;
-import org.spongepowered.api.data.value.ValueContainer;
-import org.spongepowered.api.data.value.mutable.CompositeValueStore;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
+import org.spongepowered.api.entity.living.player.Player;
 
 public interface EntityTemplate extends CatalogType {
 	
 	public EntityType getType();
-	public boolean equalsEntity(Entity entity);
 	
-	public <S extends CompositeValueStore<S, H>, H extends ValueContainer<?> > boolean apply(CompositeValueStore<S, H> object);
-	public <S extends CompositeValueStore<S, H>, H extends ValueContainer<?> > boolean contains(CompositeValueStore<S, H> object);
+	public boolean apply(Entity entity);
+	public boolean contains(Entity entity);
+	public boolean apply(Entity entity, Player player);
+	public boolean contains(Entity entity, Player player);
 	
 	default EntityTemplate of(EntityType type) {
 		return new EntityTypeTemplate(type);

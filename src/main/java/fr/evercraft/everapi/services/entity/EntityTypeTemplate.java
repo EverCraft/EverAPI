@@ -16,10 +16,9 @@
  */
 package fr.evercraft.everapi.services.entity;
 
-import org.spongepowered.api.data.value.ValueContainer;
-import org.spongepowered.api.data.value.mutable.CompositeValueStore;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
+import org.spongepowered.api.entity.living.player.Player;
 
 public class EntityTypeTemplate implements EntityTemplate {
 	
@@ -45,17 +44,22 @@ public class EntityTypeTemplate implements EntityTemplate {
 	}
 	
 	@Override
-	public <S extends CompositeValueStore<S, H>, H extends ValueContainer<?> > boolean apply(CompositeValueStore<S, H> object) {
+	public boolean apply(Entity entity) {
 		return false;
 	}
 	
 	@Override
-	public <S extends CompositeValueStore<S, H>, H extends ValueContainer<?> > boolean contains(CompositeValueStore<S, H> object) {
+	public boolean contains(Entity entity) {
+		return entity.getType().equals(this.type);
+	}
+	
+	@Override
+	public boolean apply(Entity entity, Player player) {
 		return false;
 	}
 	
 	@Override
-	public boolean equalsEntity(Entity entity) {
-		return entity.getType().equals(this.type) && this.apply(entity);
+	public boolean contains(Entity entity, Player player) {
+		return this.contains(entity);
 	}
 }
