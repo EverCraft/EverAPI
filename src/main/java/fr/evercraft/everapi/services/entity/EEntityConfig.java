@@ -28,6 +28,7 @@ import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.EntityTypes;
+import org.spongepowered.api.entity.living.Agent;
 import org.spongepowered.api.entity.living.player.Player;
 
 import com.google.common.collect.ImmutableMap;
@@ -130,7 +131,15 @@ public class EEntityConfig extends EConfig<EverAPI> {
 			Set<BiPredicate<Entity, Optional<Player>>> apply, Set<BiPredicate<Entity, Optional<Player>>> contains) {
 		
 		final boolean bool = value.getBoolean(false);
-		apply.add((entity, player) -> entity.offer(Keys.ANGRY, true).isSuccessful());
+		apply.add((entity, player) -> {
+			if (entity.offer(Keys.ANGRY, true).isSuccessful()) {
+				if (entity instanceof Agent && player.isPresent()) {
+					((Agent) entity).setTarget(player.get());
+				}
+				return true;
+			}
+			return false;
+		});
 		contains.add((entity, player) -> entity.get(Keys.ANGRY).orElse(false).equals(bool));
 	}
 
