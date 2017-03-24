@@ -18,6 +18,7 @@ package fr.evercraft.everapi.services;
 
 import java.util.Optional;
 
+import org.spongepowered.api.service.ProvisioningException;
 import org.spongepowered.api.service.ban.BanService;
 import org.spongepowered.api.service.economy.EconomyService;
 import org.spongepowered.api.service.pagination.PaginationService;
@@ -143,44 +144,12 @@ public class ManagerService {
 		return this.plugin.getGame().getServiceManager().provide(ChatService.class);
 	}
 	
-	public Optional<PriorityService> getPriority() {
-		return this.plugin.getGame().getServiceManager().provide(PriorityService.class);
-	}
-	
-	public Optional<ActionBarService> getActionBar() {
-		return this.plugin.getGame().getServiceManager().provide(ActionBarService.class);
-	}
-	
-	public Optional<TitleService> getTitle() {
-		return this.plugin.getGame().getServiceManager().provide(TitleService.class);
-	}
-	
-	public Optional<NameTagService> getNameTag() {
-		return this.plugin.getGame().getServiceManager().provide(NameTagService.class);
-	}
-	
-	public Optional<TabListService> getTabList() {
-		return this.plugin.getGame().getServiceManager().provide(TabListService.class);
-	}
-	
-	public Optional<BossBarService> getBossBar() {
-		return this.plugin.getGame().getServiceManager().provide(BossBarService.class);
-	}
-	
-	public Optional<ScoreBoardService> getScoreBoard() {
-		return this.plugin.getGame().getServiceManager().provide(ScoreBoardService.class);
-	}
-	
 	public Optional<CooldownsService> getCooldown() {
 		return this.plugin.getGame().getServiceManager().provide(CooldownsService.class);
 	}
 	
 	public Optional<TopEconomyService> getTopEconomy() {
 		return this.plugin.getGame().getServiceManager().provide(TopEconomyService.class);
-	}
-	
-	public Optional<MojangService> getMojangService() {
-		return this.plugin.getGame().getServiceManager().provide(MojangService.class);
 	}
 	
 	public Optional<StatsService> getStats() {
@@ -207,39 +176,75 @@ public class ManagerService {
 		return this.plugin.getGame().getServiceManager().provide(SelectionService.class);
 	}
 	
-	public Optional<EntityService> getEntity() {
-		return this.plugin.getGame().getServiceManager().provide(EntityService.class);
+	public Optional<EconomyService> getEconomy() {
+		return this.plugin.getGame().getServiceManager().provide(EconomyService.class);
+	}
+	
+	/*
+	 * EverAPI
+	 */
+	
+	public PriorityService getPriority() throws ProvisioningException {
+		return this.plugin.getGame().getServiceManager().provideUnchecked(PriorityService.class);
+	}
+	
+	public ActionBarService getActionBar() throws ProvisioningException {
+		return this.plugin.getGame().getServiceManager().provideUnchecked(ActionBarService.class);
+	}
+	
+	public TitleService getTitle() throws ProvisioningException {
+		return this.plugin.getGame().getServiceManager().provideUnchecked(TitleService.class);
+	}
+	
+	public NameTagService getNameTag() throws ProvisioningException {
+		return this.plugin.getGame().getServiceManager().provideUnchecked(NameTagService.class);
+	}
+	
+	public TabListService getTabList() throws ProvisioningException {
+		return this.plugin.getGame().getServiceManager().provideUnchecked(TabListService.class);
+	}
+	
+	public BossBarService getBossBar() throws ProvisioningException {
+		return this.plugin.getGame().getServiceManager().provideUnchecked(BossBarService.class);
+	}
+	
+	public ScoreBoardService getScoreBoard() throws ProvisioningException {
+		return this.plugin.getGame().getServiceManager().provideUnchecked(ScoreBoardService.class);
+	}
+	
+	public MojangService getMojangService() throws ProvisioningException {
+		return this.plugin.getGame().getServiceManager().provideUnchecked(MojangService.class);
+	}
+	
+	public EntityService getEntity() throws ProvisioningException {
+		return this.plugin.getGame().getServiceManager().provideUnchecked(EntityService.class);
 	}
 	
 	/*
 	 * Accesseurs service Sponge
 	 */
 	
-	public Optional<EconomyService> getEconomy() {
-		return this.plugin.getGame().getServiceManager().provide(EconomyService.class);
-	}
-	
-	public Optional<PermissionService> getPermission() {
-		return this.plugin.getGame().getServiceManager().provide(PermissionService.class);
+	public PermissionService getPermission() {
+		return this.plugin.getGame().getServiceManager().provideUnchecked(PermissionService.class);
 	}
 
-	public Optional<PaginationService> getPagination() {
-		return this.plugin.getGame().getServiceManager().provide(PaginationService.class);
+	public PaginationService getPagination() {
+		return this.plugin.getGame().getServiceManager().provideUnchecked(PaginationService.class);
 	}
 	
-	public Optional<UserStorageService> getUserStorage() {
-		return this.plugin.getGame().getServiceManager().provide(UserStorageService.class);
+	public UserStorageService getUserStorage() {
+		return this.plugin.getGame().getServiceManager().provideUnchecked(UserStorageService.class);
 	}
 	
-	public Optional<WhitelistService> getWhitelist() {
-		return this.plugin.getGame().getServiceManager().provide(WhitelistService.class);
+	public WhitelistService getWhitelist() {
+		return this.plugin.getGame().getServiceManager().provideUnchecked(WhitelistService.class);
 	}
 	
-	public Optional<RconService> getRcon() {
-		return this.plugin.getGame().getServiceManager().provide(RconService.class);
+	public RconService getRcon() {
+		return this.plugin.getGame().getServiceManager().provideUnchecked(RconService.class);
 	}
 	
-	public Optional<BanService> getBan() {
-		return this.plugin.getGame().getServiceManager().provide(BanService.class);
+	public BanService getBan() {
+		return this.plugin.getGame().getServiceManager().provideUnchecked(BanService.class);
 	}
 }

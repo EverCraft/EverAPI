@@ -134,7 +134,7 @@ public class EServer extends ServerWarp {
 		} else {
 			Optional<GameProfile> profile = this.getGameProfile(identifier);
 			if (profile.isPresent()) {
-				return Optional.of(this.getEUser(this.plugin.getEverAPI().getManagerService().getUserStorage().get().getOrCreate(profile.get())));
+				return Optional.of(this.getEUser(this.plugin.getEverAPI().getManagerService().getUserStorage().getOrCreate(profile.get())));
 			} else {
 				return Optional.empty();
 			}
@@ -148,7 +148,7 @@ public class EServer extends ServerWarp {
 		} else {
 			Optional<GameProfile> profile = this.getGameProfile(identifier);
 			if (profile.isPresent()) {
-				return Optional.of(this.getEUser(this.plugin.getEverAPI().getManagerService().getUserStorage().get().getOrCreate(profile.get())));
+				return Optional.of(this.getEUser(this.plugin.getEverAPI().getManagerService().getUserStorage().getOrCreate(profile.get())));
 			} else {
 				return Optional.empty();
 			}
@@ -160,7 +160,7 @@ public class EServer extends ServerWarp {
 		if(player.isPresent()) {
 			return player.get();
 		} else {
-			return this.getEUser(this.plugin.getEverAPI().getManagerService().getUserStorage().get().getOrCreate(profile));
+			return this.getEUser(this.plugin.getEverAPI().getManagerService().getUserStorage().getOrCreate(profile));
 		}
 	}
 	
@@ -198,18 +198,10 @@ public class EServer extends ServerWarp {
 		Preconditions.checkNotNull(identifier, "identifier");
 		
 		try {
-			if (this.plugin.getEverAPI().getManagerService().getUserStorage().isPresent()) {
-				if (identifier.length() == EServer.UUID_LENGTH) {
-					return this.plugin.getEverAPI().getManagerService().getUserStorage().get().get(UUID.fromString(identifier));
-				} else {
-					return this.plugin.getEverAPI().getManagerService().getUserStorage().get().get(identifier);
-				}
+			if (identifier.length() == EServer.UUID_LENGTH) {
+				return this.plugin.getEverAPI().getManagerService().getUserStorage().get(UUID.fromString(identifier));
 			} else {
-				if (identifier.length() == EServer.UUID_LENGTH){
-					return Optional.ofNullable(this.getPlayer(UUID.fromString(identifier)).orElse(null));
-				} else {
-					return Optional.ofNullable(this.getPlayer(identifier).orElse(null));
-				}
+				return this.plugin.getEverAPI().getManagerService().getUserStorage().get(identifier);
 			}
 		} catch(IllegalArgumentException e) {}
 		return Optional.empty();
@@ -218,11 +210,7 @@ public class EServer extends ServerWarp {
 	public Optional<User> getUser(UUID identifier){
 		Preconditions.checkNotNull(identifier, "identifier");
 		
-		if (this.plugin.getEverAPI().getManagerService().getUserStorage().isPresent()) {
-			return this.plugin.getEverAPI().getManagerService().getUserStorage().get().get(identifier);
-		} else {
-			return Optional.ofNullable(this.getPlayer(identifier).orElse(null));
-		}
+		return this.plugin.getEverAPI().getManagerService().getUserStorage().get(identifier);
 	}
 	
 	/*

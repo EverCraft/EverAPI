@@ -21,9 +21,7 @@ import java.util.Collection;
 import java.util.List;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.data.type.DyeColors;
-import org.spongepowered.api.entity.EntityTypes;
+import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
@@ -31,8 +29,10 @@ import org.spongepowered.api.text.format.TextColors;
 import fr.evercraft.everapi.EACommand;
 import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
 import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.sponge.UtilsItemStack;
 
 public class EATest extends ESubCommand<EverAPI> {
 	
@@ -61,9 +61,14 @@ public class EATest extends ESubCommand<EverAPI> {
 	
 	public boolean subExecute(final CommandSource source, final List<String> args) {
 		EPlayer player = (EPlayer) source;
-		player.getWorld().getEntities(entity -> entity.getType().equals(EntityTypes.WOLF)).forEach(entity -> {
+		player.sendMessage(Text.of(ItemTypes.APPLE.getTranslation()));
+		player.sendMessage(Text.of(ItemTypes.APPLE.getName()));
+		player.sendMessage(Text.of(ItemTypes.APPLE.getId()));
+		player.sendMessage(UtilsItemStack.getName(ItemTypes.APPLE.getTemplate().createStack()));
+		player.sendMessage(EChat.getButtomItem(ItemTypes.APPLE.getTemplate().createStack()));
+		/*player.getWorld().getEntities(entity -> entity.getType().equals(EntityTypes.WOLF)).forEach(entity -> {
 			System.out.println("Angry : " + entity.offer(Keys.DYE_COLOR, DyeColors.GREEN).isSuccessful());
-		});
+		});*/
 		if (args.size() == 3) {
 			/*Optional<Vector3i> block = player.getViewBlock();
 			

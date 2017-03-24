@@ -33,7 +33,6 @@ import org.spongepowered.api.text.title.Title;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.event.ESpongeEventFactory;
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.services.PriorityService;
 import fr.evercraft.everapi.services.TitleService;
 
 public class ETitleService implements TitleService {
@@ -187,10 +186,7 @@ public class ETitleService implements TitleService {
 	}
 	
 	private int getPriority(String identifier) {
-		if (this.plugin.getManagerService().getPriority().isPresent()) {
-			return this.plugin.getManagerService().getPriority().get().getTitle(identifier);
-		}
-		return PriorityService.DEFAULT;
+		return this.plugin.getManagerService().getPriority().getTitle(identifier);
 	}
 	
 	/*

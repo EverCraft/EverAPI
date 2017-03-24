@@ -35,7 +35,6 @@ import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.event.ESpongeEventFactory;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.ActionBarService;
-import fr.evercraft.everapi.services.PriorityService;
 
 public class EActionBarService implements ActionBarService {
 	private final static int UPDATE = 1000;
@@ -197,10 +196,7 @@ public class EActionBarService implements ActionBarService {
 	}
 	
 	private int getPriority(String identifier) {
-		if (this.plugin.getManagerService().getPriority().isPresent()) {
-			return this.plugin.getManagerService().getPriority().get().getActionBar(identifier);
-		}
-		return PriorityService.DEFAULT;
+		return this.plugin.getManagerService().getPriority().getActionBar(identifier);
 	}
 	
 	/*

@@ -35,7 +35,6 @@ import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.event.ESpongeEventFactory;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.BossBarService;
-import fr.evercraft.everapi.services.PriorityService;
 
 public class EBossBarService implements BossBarService {	
 	private final static int UPDATE = 1000;
@@ -231,10 +230,7 @@ public class EBossBarService implements BossBarService {
 	}
 
 	public int getPriority(String identifier) {
-		if (this.plugin.getManagerService().getPriority().isPresent()) {
-			return this.plugin.getManagerService().getPriority().get().getBossBar(identifier);
-		}
-		return PriorityService.DEFAULT;
+		return this.plugin.getManagerService().getPriority().getBossBar(identifier);
 	}
 
 	@Override

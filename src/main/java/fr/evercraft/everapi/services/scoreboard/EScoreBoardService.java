@@ -26,7 +26,6 @@ import org.spongepowered.api.scoreboard.objective.Objective;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.event.ESpongeEventFactory;
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.services.PriorityService;
 import fr.evercraft.everapi.services.ScoreBoardService;
 
 public class EScoreBoardService implements ScoreBoardService {	
@@ -101,10 +100,7 @@ public class EScoreBoardService implements ScoreBoardService {
 	}
 	
 	private int getPriority(DisplaySlot display, Objective objective) {
-		if (this.plugin.getManagerService().getPriority().isPresent()) {
-			return this.plugin.getManagerService().getPriority().get().getScoreBoard(display, objective.getName());
-		}
-		return PriorityService.DEFAULT;
+		return this.plugin.getManagerService().getPriority().getScoreBoard(display, objective.getName());
 	}
 	
 	

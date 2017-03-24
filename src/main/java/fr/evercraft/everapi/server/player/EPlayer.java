@@ -404,31 +404,19 @@ public class EPlayer extends PlayerSponge {
 	 */
 	
 	public boolean sendActionBar(String identifier, long stay, Text message) {
-		if (this.plugin.getManagerService().getActionBar().isPresent()) {
-			return this.plugin.getManagerService().getActionBar().get().send(this, identifier, stay, message);
-		}
-		return false;
+		return this.plugin.getManagerService().getActionBar().send(this, identifier, stay, message);
 	}
 	
 	public boolean sendActionBar(String identifier, int priority, long stay, Text message) {
-		if (this.plugin.getManagerService().getActionBar().isPresent()) {
-			return this.plugin.getManagerService().getActionBar().get().send(this, identifier, priority, stay, message);
-		}
-		return false;
+		return this.plugin.getManagerService().getActionBar().send(this, identifier, priority, stay, message);
 	}
 	
 	public boolean sendTitle(String identifiant, Title title) {
-		if (this.plugin.getManagerService().getTitle().isPresent()) {
-			return this.plugin.getManagerService().getTitle().get().send(this, identifiant, title);
-		}
-		return false;
+		return this.plugin.getManagerService().getTitle().send(this, identifiant, title);
 	}
 	
 	public boolean sendTitle(String identifiant, int priority, Title title) {
-		if (this.plugin.getManagerService().getTitle().isPresent()) {
-			return this.plugin.getManagerService().getTitle().get().send(this, identifiant, priority, title);
-		}
-		return false;
+		return this.plugin.getManagerService().getTitle().send(this, identifiant, priority, title);
 	}
 	
 	public Map<Pattern, EReplace<?>> getReplaces() {
@@ -436,38 +424,19 @@ public class EPlayer extends PlayerSponge {
 	}
 	
 	public boolean addObjective(DisplaySlot display, Objective objective) {
-		if (this.plugin.getManagerService().getScoreBoard().isPresent()) {
-			return this.plugin.getManagerService().getScoreBoard().get().addObjective(this, display, objective);
-		}
-		return false;
+		return this.plugin.getManagerService().getScoreBoard().addObjective(this, display, objective);
 	}
 	
 	public boolean addObjective(int priority, DisplaySlot display, Objective objective) {
-		if (this.plugin.getManagerService().getScoreBoard().isPresent()) {
-			return this.plugin.getManagerService().getScoreBoard().get().addObjective(this, priority, display, objective);
-		}
-		return false;
+		return this.plugin.getManagerService().getScoreBoard().addObjective(this, priority, display, objective);
 	}
 	
 	public boolean removeObjective(DisplaySlot display, Objective objective) {
-		if (this.plugin.getManagerService().getScoreBoard().isPresent()) {
-			return this.plugin.getManagerService().getScoreBoard().get().removeObjective(this, display, objective);
-		}
-		this.getScoreboard().removeObjective(objective);
-		return true;
+		return this.plugin.getManagerService().getScoreBoard().removeObjective(this, display, objective);
 	}
 	
 	public boolean removeObjective(DisplaySlot display, String identifier) {
-		if (this.plugin.getManagerService().getScoreBoard().isPresent()) {
-			return this.plugin.getManagerService().getScoreBoard().get().removeObjective(this, display, identifier);
-		} else {
-			Optional<Objective> objective = this.getScoreboard().getObjective(identifier);
-			if (objective.isPresent()) {
-				this.getScoreboard().removeObjective(objective.get());
-				return true;
-			}
-		}
-		return false;
+		return this.plugin.getManagerService().getScoreBoard().removeObjective(this, display, identifier);
 	}
 
 	public Collection<EPlayer> getOnlinePlayers() {
@@ -479,52 +448,31 @@ public class EPlayer extends PlayerSponge {
 	 */
 	
 	public boolean sendNameTag(String identifier, Text teamRepresentation, Text prefix, Text suffix) {
-		if (this.plugin.getManagerService().getNameTag().isPresent()) {
-			return this.plugin.getManagerService().getNameTag().get().sendNameTag(this, identifier, teamRepresentation, prefix, suffix);
-		}
-		return false;
+		return this.plugin.getManagerService().getNameTag().sendNameTag(this, identifier, teamRepresentation, prefix, suffix);
 	}
 	
 	public boolean removeNameTag(String identifier, Text teamRepresentation) {
-		if (this.plugin.getManagerService().getScoreBoard().isPresent()) {
-			return this.plugin.getManagerService().getNameTag().get().removeNameTag(this, identifier, teamRepresentation);
-		}
-		return false;
+		return this.plugin.getManagerService().getNameTag().removeNameTag(this, identifier, teamRepresentation);
 	}
 	
 	public boolean clearNameTag(String identifier) {
-		if (this.plugin.getManagerService().getScoreBoard().isPresent()) {
-			return this.plugin.getManagerService().getNameTag().get().clearNameTag(this, identifier);
-		}
-		return false;
+		return this.plugin.getManagerService().getNameTag().clearNameTag(this, identifier);
 	}
 	
 	public boolean sendTabList(String identifier) {
-		if (this.plugin.getManagerService().getTabList().isPresent()) {
-			return this.plugin.getManagerService().getTabList().get().sendTabList(this, identifier);
-		}
-		return false;
+		return this.plugin.getManagerService().getTabList().sendTabList(this, identifier);
 	}
 	
 	public boolean sendTabList(String identifier, int priority) {
-		if (this.plugin.getManagerService().getTabList().isPresent()) {
-			return this.plugin.getManagerService().getTabList().get().sendTabList(this, identifier, priority);
-		}
-		return false;
+		return this.plugin.getManagerService().getTabList().sendTabList(this, identifier, priority);
 	}
 	
 	public boolean removeTabList(String identifier) {
-		if (this.plugin.getManagerService().getTabList().isPresent()) {
-			return this.plugin.getManagerService().getTabList().get().removeTabList(this, identifier);
-		}
-		return false;
+		return this.plugin.getManagerService().getTabList().removeTabList(this, identifier);
 	}
 	
 	public boolean hasTabList(String identifier) {
-		if (this.plugin.getManagerService().getTabList().isPresent()) {
-			return this.plugin.getManagerService().getTabList().get().hasTabList(this, identifier);
-		}
-		return false;
+		return this.plugin.getManagerService().getTabList().hasTabList(this, identifier);
 	}
 	
 	public Player get() {
@@ -536,45 +484,27 @@ public class EPlayer extends PlayerSponge {
 	 */
 	
 	public boolean sendBossBar(String identifier, ServerBossBar bossbar) {
-		if (this.plugin.getManagerService().getBossBar().isPresent()) {
-			return this.plugin.getManagerService().getBossBar().get().add(this, identifier, bossbar);
-		}
-		return false;
+		return this.plugin.getManagerService().getBossBar().add(this, identifier, bossbar);
 	}
 	
 	public boolean sendBossBar(String identifier, int priority, ServerBossBar bossbar) {
-		if (this.plugin.getManagerService().getBossBar().isPresent()) {
-			return this.plugin.getManagerService().getBossBar().get().add(this, identifier, priority, bossbar);
-		}
-		return false;
+		return this.plugin.getManagerService().getBossBar().add(this, identifier, priority, bossbar);
 	}
 	
 	public boolean sendBossBar(String identifier, long stay, ServerBossBar bossbar) {
-		if (this.plugin.getManagerService().getBossBar().isPresent()) {
-			return this.plugin.getManagerService().getBossBar().get().add(this, identifier, stay, bossbar);
-		}
-		return false;
+		return this.plugin.getManagerService().getBossBar().add(this, identifier, stay, bossbar);
 	}
 	
 	public boolean sendBossBar(String identifier, int priority, long stay, ServerBossBar bossbar) {
-		if (this.plugin.getManagerService().getBossBar().isPresent()) {
-			return this.plugin.getManagerService().getBossBar().get().add(this, identifier, priority, stay, bossbar);
-		}
-		return false;
+		return this.plugin.getManagerService().getBossBar().add(this, identifier, priority, stay, bossbar);
 	}
 	
 	public boolean removeBossBar(String identifier) {
-		if (this.plugin.getManagerService().getBossBar().isPresent()) {
-			return this.plugin.getManagerService().getBossBar().get().remove(this, identifier);
-		}
-		return true;
+		return this.plugin.getManagerService().getBossBar().remove(this, identifier);
 	}
 	
 	public Optional<ServerBossBar> getBossBar(String identifier) {
-		if (this.plugin.getManagerService().getBossBar().isPresent()) {
-			return this.plugin.getManagerService().getBossBar().get().get(this, identifier);
-		}
-		return Optional.empty();
+		return this.plugin.getManagerService().getBossBar().get(this, identifier);
 	}
 
 	public void broadcastMessage(Text message, String permission) {

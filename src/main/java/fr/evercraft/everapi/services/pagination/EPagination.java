@@ -161,17 +161,10 @@ public class EPagination {
 			source = ((EPlayer) source).get();
 		}
 		
-		if (this.plugin.getEverAPI().getManagerService().getPagination().isPresent()) {
-			this.plugin.getEverAPI().getManagerService().getPagination().get().builder()
+		this.plugin.getEverAPI().getManagerService().getPagination().builder()
 			.padding(padding)
 			.title(title)
 			.contents(contents)
 			.sendTo(source);
-		} else {
-			source.sendMessage(title);
-			for (Text content : contents) {
-				source.sendMessage(content);
-			}
-		}
 	}
 }

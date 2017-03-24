@@ -68,17 +68,13 @@ public abstract class CommandPagination<T extends EPlugin<?>> {
 	}
 	
 	private Set<String> getAllUsers(Predicate<? super GameProfile> predicate) {
-		if (this.plugin.getEverAPI().getManagerService().getUserStorage().isPresent()) {
-			Set<String> users = new HashSet<String>();
-			
-			this.plugin.getEverAPI().getManagerService().getUserStorage().get().getAll().stream()
-				.filter(predicate)
-				.forEach(profile -> users.add(profile.getName().get()));
-			
-			return users;
-		} else {
-			return this.getAllPlayers();
-		}
+		Set<String> users = new HashSet<String>();
+		
+		this.plugin.getEverAPI().getManagerService().getUserStorage().getAll().stream()
+			.filter(predicate)
+			.forEach(profile -> users.add(profile.getName().get()));
+		
+		return users;
 	}
 	
 	protected Set<String> getAllUsers() {
@@ -141,23 +137,22 @@ public abstract class CommandPagination<T extends EPlugin<?>> {
 	
 	protected Set<String> getAllGroups() {
 		Set<String> groups = new HashSet<String>();
-		this.plugin.getEverAPI().getManagerService().getPermission().ifPresent(service ->
-			service.getGroupSubjects().getAllSubjects()
-				.forEach(subject -> groups.add(subject.getIdentifier())));
+		this.plugin.getEverAPI().getManagerService().getPermission().getGroupSubjects().getAllSubjects()
+			.forEach(subject -> groups.add(subject.getIdentifier()));
 		return groups;
 	}
 	
 	protected Set<String> getAllGroups(World world) {
 		Set<String> groups = new HashSet<String>();
-		this.plugin.getEverAPI().getManagerService().getPermission().ifPresent(service ->
-			service.getGroupSubjects().getAllSubjects().forEach(subject -> groups.add(subject.getIdentifier())));
+		this.plugin.getEverAPI().getManagerService().getPermission().getGroupSubjects().getAllSubjects()
+			.forEach(subject -> groups.add(subject.getIdentifier()));
 		return groups;
 	}
 	
 	protected Set<String> getAllPermissions() {
 		TreeSet<String> suggests = new TreeSet<String>();
-		this.plugin.getEverAPI().getManagerService().getPermission().ifPresent(service -> 
-			service.getDescriptions().forEach(permission -> suggests.add(permission.getId())));
+		this.plugin.getEverAPI().getManagerService().getPermission().getDescriptions()
+			.forEach(permission -> suggests.add(permission.getId()));
 		
 		if (suggests.isEmpty()) {
 			suggests.add("ever...");

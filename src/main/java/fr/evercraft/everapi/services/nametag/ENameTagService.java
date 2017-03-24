@@ -36,7 +36,6 @@ import fr.evercraft.everapi.event.ESpongeEventFactory;
 import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.NameTagService;
-import fr.evercraft.everapi.services.PriorityService;
 
 public class ENameTagService implements NameTagService {
 	
@@ -167,10 +166,7 @@ public class ENameTagService implements NameTagService {
 	}
 
 	private int getPriority(String identifier) {
-		if (this.plugin.getManagerService().getPriority().isPresent()) {
-			return this.plugin.getManagerService().getPriority().get().getNameTag(identifier);
-		}
-		return PriorityService.DEFAULT;
+		return this.plugin.getManagerService().getPriority().getNameTag(identifier);
 	}
 	
 	/*

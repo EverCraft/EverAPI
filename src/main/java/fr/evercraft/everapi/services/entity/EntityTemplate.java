@@ -30,7 +30,7 @@ public interface EntityTemplate extends CatalogType {
 	public boolean apply(Entity entity, Player player);
 	public boolean contains(Entity entity, Player player);
 	
-	default EntityTemplate of(EntityType type) {
+	static EntityTemplate of(EntityType type) {
 		return new EntityTypeTemplate(type);
 	}
 }
