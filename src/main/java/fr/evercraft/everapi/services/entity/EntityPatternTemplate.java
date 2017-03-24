@@ -23,7 +23,7 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.living.player.Player;
 
-public class EntityValuesTemplate implements EntityTemplate {
+public class EntityPatternTemplate implements EntityTemplate {
 	
 	private final String identifier;
 	private final String name;
@@ -33,8 +33,8 @@ public class EntityValuesTemplate implements EntityTemplate {
 	private final BiPredicate<Entity, Optional<Player>> apply;
 	private final BiPredicate<Entity, Optional<Player>> contains;
 	
-	public EntityValuesTemplate(String identifier, EntityType type,
-			BiPredicate<Entity, Optional<Player>> apply, BiPredicate<Entity, Optional<Player>> contains) throws IllegalArgumentException {
+	public EntityPatternTemplate(String identifier, EntityType type,
+			BiPredicate<Entity, Optional<Player>> apply, BiPredicate<Entity, Optional<Player>> contains) {
 		this.identifier = "evercraft:" + identifier.toLowerCase();
 		this.name = identifier;
 		

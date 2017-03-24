@@ -20,6 +20,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.spongepowered.api.entity.EntityType;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 
@@ -59,6 +61,23 @@ public class EEntityService implements EntityService {
 		Preconditions.checkNotNull(identifier);
 		
 		return Optional.ofNullable(this.entities.get(identifier.toLowerCase()));
+	}
+	
+	@Override
+	public Optional<EntityTemplate> getForAll(String identifier) {
+		Preconditions.checkNotNull(identifier);
+		
+		EntityTemplate entity = this.entities.get(identifier.toLowerCase());
+		if (entity != null) {
+			return Optional.of(entity);
+		}
+		
+		Optional<EntityType> type = this.plugin.getGame().getRegistry().getType(EntityType.class, identifier);
+		if (type.isPresent()) {
+			return Optional.of(EntityTemplate.of(type.get()));
+		}
+		
+		return Optional.empty();
 	}
 
 }

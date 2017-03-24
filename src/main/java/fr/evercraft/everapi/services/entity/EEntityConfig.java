@@ -114,7 +114,7 @@ public class EEntityConfig extends EConfig<EverAPI> {
 			BiPredicate<Entity, Optional<Player>> applyPredicate = apply.stream().reduce((p1, p2) -> p1.and(p2)).orElse((entity, player) -> true);
 			BiPredicate<Entity, Optional<Player>> containsPredicate = contains.stream().reduce((p1, p2) -> p1.and(p2)).orElse((entity, player) -> true);
 			
-			entities.add(new EntityValuesTemplate(identifier, type.get(), applyPredicate, containsPredicate));
+			entities.add(new EntityPatternTemplate(identifier, type.get(), applyPredicate, containsPredicate));
 		});
 		return entities;
 	}

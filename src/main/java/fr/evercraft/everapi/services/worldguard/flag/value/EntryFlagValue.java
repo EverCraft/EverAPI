@@ -21,23 +21,23 @@ import java.util.Set;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
-public class EntryFlagValue<K, V> {
+public class EntryFlagValue<V> {
 
-	private final Set<K> keys;
-	private final Set<V> values;
+	protected final Set<String> keys;
+	protected final Set<V> values;
 	
 	public EntryFlagValue() {
 		this.keys = Sets.newConcurrentHashSet();
 		this.values = Sets.newConcurrentHashSet();
 	}
 	
-	public EntryFlagValue(Set<K> keys, Set<V> values) {
+	public EntryFlagValue(Set<String> keys, Set<V> values) {
 		this();
 		this.keys.addAll(keys);
 		this.values.addAll(values);
 	}
 	
-	private EntryFlagValue(EntryFlagValue<K, V> entry1, EntryFlagValue<K, V> entry2) {
+	protected EntryFlagValue(EntryFlagValue<V> entry1, EntryFlagValue<V> entry2) {
 		this();
 		this.keys.addAll(entry1.getKeys());
 		this.keys.addAll(entry2.getKeys());
@@ -45,7 +45,7 @@ public class EntryFlagValue<K, V> {
 		this.values.addAll(entry2.getValues());
 	}
 	
-	private EntryFlagValue(EntryFlagValue<K, V> entry1, EntryFlagValue<K, V> entry2, boolean remove) {
+	protected EntryFlagValue(EntryFlagValue<V> entry1, EntryFlagValue<V> entry2, boolean remove) {
 		this();
 		this.keys.addAll(entry1.getKeys());
 		this.keys.removeAll(entry2.getKeys());
@@ -53,7 +53,7 @@ public class EntryFlagValue<K, V> {
 		this.values.removeAll(entry2.getValues());
 	}
 	
-	public Set<K> getKeys() {
+	public Set<String> getKeys() {
 		return this.keys;
 	}
 	
@@ -61,7 +61,7 @@ public class EntryFlagValue<K, V> {
 		return this.values;
 	}
 	
-	public boolean containsKeys(K key) {
+	public boolean containsKeys(String key) {
 		return this.keys.contains(key);
 	}
 	
@@ -69,13 +69,15 @@ public class EntryFlagValue<K, V> {
 		return this.values.contains(value);
 	}
 	
-	public EntryFlagValue<K, V> addAll(EntryFlagValue<K, V> entry) {
+	public EntryFlagValue<V> addAll(EntryFlagValue<V> entry) {
 		Preconditions.checkNotNull(entry, "entry");
-		return new EntryFlagValue<K, V>(this, entry);
+		
+		return new EntryFlagValue<V>(this, entry);
 	}
 	
-	public EntryFlagValue<K, V> removeAll(EntryFlagValue<K, V> entry) {
+	public EntryFlagValue<V> removeAll(EntryFlagValue<V> entry) {
 		Preconditions.checkNotNull(entry, "entry");
-		return new EntryFlagValue<K, V>(this, entry, true);
+		
+		return new EntryFlagValue<V>(this, entry, true);
 	}
 }

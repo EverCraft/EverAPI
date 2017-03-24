@@ -21,14 +21,14 @@ import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.living.player.Player;
 
-public interface EntityTemplate extends CatalogType {
+import fr.evercraft.everapi.services.worldguard.flag.value.PatternFlagValue;
+
+public interface EntityTemplate extends CatalogType, PatternFlagValue<Entity> {
 	
 	public EntityType getType();
 	
 	public boolean apply(Entity entity);
-	public boolean contains(Entity entity);
 	public boolean apply(Entity entity, Player player);
-	public boolean contains(Entity entity, Player player);
 	
 	static EntityTemplate of(EntityType type) {
 		return new EntityTypeTemplate(type);

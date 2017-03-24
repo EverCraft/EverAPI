@@ -24,7 +24,7 @@ public class EntityTypeTemplate implements EntityTemplate {
 	
 	private final EntityType type;
 	
-	public EntityTypeTemplate(EntityType type) throws IllegalArgumentException {
+	public EntityTypeTemplate(EntityType type) {
 		this.type = type;
 	}
 	
@@ -45,7 +45,7 @@ public class EntityTypeTemplate implements EntityTemplate {
 	
 	@Override
 	public boolean apply(Entity entity) {
-		return false;
+		return true;
 	}
 	
 	@Override
@@ -55,11 +55,11 @@ public class EntityTypeTemplate implements EntityTemplate {
 	
 	@Override
 	public boolean apply(Entity entity, Player player) {
-		return false;
+		return true;
 	}
 	
 	@Override
 	public boolean contains(Entity entity, Player player) {
-		return this.contains(entity);
+		return entity.getType().equals(this.type);
 	}
 }
