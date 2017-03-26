@@ -25,6 +25,8 @@ import org.spongepowered.api.world.World;
 import fr.evercraft.everapi.services.worldguard.flag.Flag;
 
 public interface WorldGuardService {
+	
+	public static final String MESSAGE_FLAG = "everworldguard.flag";
 
 	Optional<SubjectWorldGuard> get(UUID uuid);
 	boolean hasRegistered(UUID uuid);
