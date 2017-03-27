@@ -16,6 +16,7 @@
  */
 package fr.evercraft.everapi.services.worldguard.flag.value;
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.spongepowered.api.entity.living.player.Player;
@@ -41,15 +42,23 @@ public class EntityPatternFlagValue<T extends PatternFlagValue<V>, V> extends En
 	}
 
 	public boolean contains(V value) {
+		return this.get(value).isPresent();
+	}
+	
+	public Optional<T> get(V value) {
 		return this.values.stream()
 			.filter(element -> element.contains(value))
-			.findAny().isPresent();
+			.findAny();
 	}
 	
 	public boolean contains(V value, Player player) {
+		return this.get(value, player).isPresent();
+	}
+	
+	public Optional<T> get(V value, Player player) {
 		return this.values.stream()
 			.filter(element -> element.contains(value, player))
-			.findAny().isPresent();
+			.findAny();
 	}
 	
 	public EntityPatternFlagValue<T, V> addAll(EntityPatternFlagValue<T, V> entry) {
