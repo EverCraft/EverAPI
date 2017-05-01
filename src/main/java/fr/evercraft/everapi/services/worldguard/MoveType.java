@@ -25,7 +25,7 @@ public enum  MoveType {
 	EMBARK(true, false),
 	
 	OTHER_NON_CANCELLABLE(true, false),
-	OTHER_CANCELLABLE(true, false);
+	OTHER_CANCELLABLE(false, false);
 	
 	private final boolean cancellable;
 	private final boolean teleport;

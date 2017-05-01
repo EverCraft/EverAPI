@@ -16,74 +16,33 @@
  */
 package fr.evercraft.everapi.sponge;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.type.Art;
-import org.spongepowered.api.data.type.Arts;
 
-public enum UtilsPainting {
-	ALBAN(Arts.ALBAN),
-	AZTEC(Arts.AZTEC),
-	AZTEC_2(Arts.AZTEC_2),
-	BOMB(Arts.BOMB),
-	BURNING_SKULL(Arts.BURNING_SKULL),
-	BUST(Arts.BUST),
-	COURBET(Arts.COURBET),
-	CREEBET(Arts.CREEBET),
-	DONKEY_KONG(Arts.DONKEY_KONG),
-	FIGHTERS(Arts.FIGHTERS),
-	GRAHAM(Arts.GRAHAM),
-	KEBAB(Arts.KEBAB),
-	MATCH(Arts.MATCH),
-	PIGSCENE(Arts.PIGSCENE),
-	PLANT(Arts.PLANT),
-	POINTER(Arts.POINTER),
-	POOL(Arts.POOL),
-	SEA(Arts.SEA),
-	SKELETON(Arts.SKELETON),
-	SKULL_AND_ROSES(Arts.SKULL_AND_ROSES),
-	STAGE(Arts.STAGE),
-	SUNSET(Arts.SUNSET),
-	VOID(Arts.VOID),
-	WANDERER(Arts.WANDERER),
-	WASTELAND(Arts.WASTELAND),
-	WITHER(Arts.WITHER);
+public class UtilsPainting {
 	
-	private final Art art;
-	
-	UtilsPainting(final Art art) {
-		this.art = art;
+	public static List<Art> getAll() {
+		return Sponge.getRegistry().getAllOf(Art.class).stream().collect(Collectors.toList());
 	}
 	
-	public int getNumero() {
+	private static int getNumero(List<Art> arts, Art art) {
 		int cpt = 0;
-		while(cpt < values().length && !values()[cpt].getArt().equals(this.art)){
+		while(cpt < arts.size() && !arts.get(cpt).equals(art)){
 			cpt++;
 		}
 		return cpt;
 	}
 	
-	public UtilsPainting next() {
-		int numero = this.getNumero() + 1;
-		if (numero >= values().length) {
-			numero = 0;
+	public static Art next(Art art) {
+		List<Art> arts = UtilsPainting.getAll();
+		int num = UtilsPainting.getNumero(arts, art) + 1;
+		
+		if (num >= arts.size()) {
+			num = 0;
 		}
-		return values()[numero];
-	}
-	
-	public Art getArt(){
-		return this.art;
-	}
-	
-	public static Optional<UtilsPainting> get(final Art art) {
-		UtilsPainting paint = null;
-		int cpt = 0;
-		while(cpt < values().length && paint == null){
-			if (values()[cpt]. getArt().equals(art)){
-				paint = values()[cpt];
-			}
-			cpt++;
-		}
-		return Optional.ofNullable(paint);
+		return arts.get(num);
 	}
 }
