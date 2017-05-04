@@ -16,6 +16,7 @@
  */
 package fr.evercraft.everapi.services.worldguard.region;
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.spongepowered.api.entity.living.player.User;
@@ -28,9 +29,14 @@ public interface SetProtectedRegion {
 
 	<V> V getFlagDefault(Flag<V> flag);
 	<V> V getFlag(User user, Set<Context> context, Flag<V> flag);
+	<V> Optional<V> getFlagDefaultIfPresent(Flag<V> flag);
+	<V> Optional<V> getFlagIfPresent(User user, Set<Context> context, Flag<V> flag);
 	
 	default <V> V getFlag(User user, Flag<V> flag) {
 		return this.getFlag(user, user.getActiveContexts(), flag);
+	}
+	default <V> Optional<V> getFlagIfPresent(User user, Flag<V> flag) {
+		return this.getFlagIfPresent(user, user.getActiveContexts(), flag);
 	}
 	
 	Set<ProtectedRegion> getAll();

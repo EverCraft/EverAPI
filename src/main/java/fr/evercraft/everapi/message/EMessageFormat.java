@@ -28,6 +28,12 @@ import fr.evercraft.everapi.plugin.file.EnumMessage;
 
 public final class EMessageFormat {
 	
+	private static final EMessageFormat EMPTY = EMessageBuilder.empty().build();
+	
+	public static EMessageFormat empty() {
+		return EMessageFormat.EMPTY;
+	}
+	
 	private final Optional<EnumMessage> prefix;
 	
 	private final Optional<EMessageChat> chat;

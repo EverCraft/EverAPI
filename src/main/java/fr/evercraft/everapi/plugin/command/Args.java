@@ -87,6 +87,14 @@ public class Args {
 		return Optional.ofNullable(this.values.get(marker));
 	}
 	
+	public int countValues() {
+		return this.values.size();
+	}
+	
+	public int countOptions() {
+		return this.options.size();
+	}
+	
 	public static BuilderArgs builder() {
 		return new BuilderArgs();
 	}

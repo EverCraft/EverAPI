@@ -40,8 +40,8 @@ public abstract class BlockTypeFlag extends EFlag<EntryFlagValue<BlockType>> {
 	 */
 	
 	@Override
-	public Collection<String> getSuggestRemove(List<String> args) {
-		return this.getSuggestAdd(args);
+	public Collection<String> getSuggestRemove(CommandSource source, List<String> args) {
+		return this.getSuggestAdd(source, args);
 	}
 	
 	/*

@@ -24,6 +24,8 @@ import org.spongepowered.api.boss.BossBarOverlays;
 import org.spongepowered.api.text.TextTemplate;
 
 import com.google.common.reflect.TypeToken;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.message.EMessageBuilder;
@@ -72,14 +74,14 @@ public final class EMessageBuilderSerializer implements TypeSerializer<EMessageB
         			}
         			
         			if(!node_chat.getNode("prefix").isVirtual()) {
-						builder.actionbarPrefix(node_chat.getNode("prefix").getBoolean(true));
+						builder.chatPrefix(node_chat.getNode("prefix").getBoolean(true));
 					}
         		
         		} else if (!node_chat.getNode("messages").isVirtual()) {
         			this.getFormatListString(node_chat.getNode("messages")).ifPresent(format -> builder.chatMessage(format));
         			
         			if(!node_chat.getNode("prefix").isVirtual()) {
-						builder.actionbarPrefix(node_chat.getNode("prefix").getBoolean(true));
+						builder.chatPrefix(node_chat.getNode("prefix").getBoolean(true));
 					}
         		} else {
         			this.getFormatTemplate(node_chat).ifPresent(format -> builder.chatMessage(format));
@@ -99,7 +101,7 @@ public final class EMessageBuilderSerializer implements TypeSerializer<EMessageB
 					if(!node_actionbar.getNode("stay").isVirtual()) {
 						builder.actionbarStay(node_actionbar.getNode("stay").getInt(3));
 					}
-					if(!node_actionbar.getNode("fadeOut").isVirtual()) {
+					if(!node_actionbar.getNode("priority").isVirtual()) {
 						builder.actionbarPriority(node_actionbar.getNode("priority").getString("message"));
 					}
 				}
@@ -119,7 +121,7 @@ public final class EMessageBuilderSerializer implements TypeSerializer<EMessageB
 					builder.titleStay(node_title.getNode("stay").getInt(5));
 				}
 				if(!node_title.getNode("fadeIn").isVirtual()) {
-					builder.titleStay(node_title.getNode("fadeIn").getInt(1));
+					builder.titleFadeIn(node_title.getNode("fadeIn").getInt(1));
 				}
 				if(!node_title.getNode("fadeOut").isVirtual()) {
 					builder.titleFadeOut(node_title.getNode("fadeOut").getInt(1));
@@ -205,13 +207,13 @@ public final class EMessageBuilderSerializer implements TypeSerializer<EMessageB
 				title.getNode("subTitle").setValue(builder.getTitleSubMessage());
 			}
 			if (builder.getTitlePrefix() != null) {
-				title.getNode("prefix").setValue(builder.getBossbarPrefix());
+				title.getNode("prefix").setValue(builder.getTitlePrefix());
 			}
 			if (builder.getTitleSubPrefix() != null) {
-				title.getNode("subPrefix").setValue(builder.getBossbarPrefix());
+				title.getNode("subPrefix").setValue(builder.getTitleSubPrefix());
 			}
 			if (builder.getTitleStay() != null) {
-				title.getNode("stay").setValue(builder.getBossbarStay());
+				title.getNode("stay").setValue(builder.getTitleStay());
 			}
 			if (builder.getTitleFadeIn() != null) {
 				title.getNode("fadeIn").setValue(builder.getTitleFadeIn());
@@ -220,7 +222,7 @@ public final class EMessageBuilderSerializer implements TypeSerializer<EMessageB
 				title.getNode("fadeOut").setValue(builder.getTitleFadeOut());
 			}
 			if (builder.getTitlePriority() != null) {
-				title.getNode("priority").setValue(builder.getBossbarPriority());
+				title.getNode("priority").setValue(builder.getTitlePriority());
 			}
 			
 		}
@@ -249,7 +251,7 @@ public final class EMessageBuilderSerializer implements TypeSerializer<EMessageB
 				bossbar.getNode("overlay").setValue(builder.getBossbarOverlay().getId());
 			}
 			if (builder.getBossbarPercent() != null) {
-				bossbar.getNode("precent").setValue(builder.getBossbarPercent());
+				bossbar.getNode("percent").setValue(builder.getBossbarPercent());
 			}
 			if (builder.getBossbarPriority() != null) {
 				bossbar.getNode("priority").setValue(builder.getBossbarPriority());
@@ -274,6 +276,194 @@ public final class EMessageBuilderSerializer implements TypeSerializer<EMessageB
 				node.getNode("prefix", "prefix").setValue(builder.getChatPrefix());
 			}
 		}
+	}
+	
+	public static EMessageBuilder deserialize(JsonObject json) throws ObjectMappingException {
+		try {
+			EMessageBuilder builder = EMessageFormat.builder();
+			if (json.has("chat")) {
+				JsonObject json_chat = json.getAsJsonObject("chat");
+				if (json_chat.has("message")) {
+					builder.chatMessage(EFormatSerializer.deserialize(json_chat.get("message")));
+				}
+				if (json_chat.has("prefix")) {
+					builder.chatPrefix(json_chat.get("prefix").getAsBoolean());
+				}
+			}
+			if (json.has("actionbar")) {
+				JsonObject node_actionbar = json.getAsJsonObject("actionbar");
+				if (node_actionbar.has("message")) {
+					builder.actionbarMessage(EFormatSerializer.deserialize(node_actionbar.get("message")));
+				}
+				if (node_actionbar.has("prefix")) {
+					builder.actionbarPrefix(node_actionbar.get("prefix").getAsBoolean());
+				}
+				if (node_actionbar.has("stay")) {
+					builder.actionbarStay(node_actionbar.get("stay").getAsInt());
+				}
+				if (node_actionbar.has("priority")) {
+					builder.actionbarPriority(node_actionbar.get("priority").getAsString());
+				}
+			}
+			if (json.has("title")) {
+				JsonObject node_title = json.getAsJsonObject("title");
+				
+				if (node_title.has("title")) {
+					builder.titleMessage(EFormatSerializer.deserialize(node_title.get("title")));
+				}
+				if (node_title.has("subTitle")) {
+					builder.titleMessage(EFormatSerializer.deserialize(node_title.get("subTitle")));
+				}
+				if(node_title.has("prefix")) {
+					builder.titlePrefix(node_title.get("prefix").getAsBoolean());
+				}
+				if(node_title.has("subPrefix")) {
+					builder.titleSubPrefix(node_title.get("subPrefix").getAsBoolean());
+				}
+				if(node_title.has("stay")) {
+					builder.titleStay(node_title.get("stay").getAsInt());
+				}
+				if(node_title.has("fadeIn")) {
+					builder.titleFadeIn(node_title.get("fadeIn").getAsInt());
+				}
+				if(node_title.has("fadeOut")) {
+					builder.titleFadeOut(node_title.get("fadeOut").getAsInt());
+				}
+				if(node_title.has("priority")) {
+					builder.titlePriority(node_title.get("priority").getAsString());
+				}
+				
+			}
+			if (json.has("bossbar")) {
+				JsonObject json_bossbar = json.getAsJsonObject("bossbar");
+				
+				if (json_bossbar.has("message")) {
+					builder.bossbarMessage(EFormatSerializer.deserialize(json_bossbar.get("message")));
+				}
+				if(json_bossbar.has("stay")) {
+					builder.bossbarStay(json_bossbar.get("stay").getAsInt());
+				}
+				if(json_bossbar.has("color")) {
+					builder.bossbarColor(UtilsBossBar.getColor(json_bossbar.get("color").getAsString()).orElse(BossBarColors.WHITE));
+				}
+				if(json_bossbar.has("createFog")) {
+					builder.bossbarCreateFog(json_bossbar.get("createFog").getAsBoolean());
+				}
+				if(json_bossbar.has("darkenSky")) {
+					builder.bossbarDarkenSky(json_bossbar.get("darkenSky").getAsBoolean());
+				}
+				if(json_bossbar.has("overlay")) {
+					builder.bossbarOverlay(UtilsBossBar.getOverlay(json_bossbar.get("overlay").getAsString()).orElse(BossBarOverlays.PROGRESS));
+				}
+				if(json_bossbar.has("percent")) {
+					builder.bossbarPercent(json_bossbar.get("percent").getAsFloat());
+				}
+				if(json_bossbar.has("playEndBossMusic")) {
+					builder.bossbarPlayEndBossMusic(json_bossbar.get("playEndBossMusic").getAsBoolean());
+				}
+				if(json_bossbar.has("priority")) {
+					builder.bossbarPriority(json_bossbar.get("priority").getAsString());
+				}
+				if(json_bossbar.has("prefix")) {
+					builder.bossbarPrefix(json_bossbar.get("prefix").getAsBoolean());
+				}
+			}
+			return builder;
+		} catch (Exception e) {
+			throw new ObjectMappingException(e.getMessage(), e.getCause());
+		}
+	}
+	
+	public static JsonElement serialize(EMessageBuilder builder) throws ObjectMappingException {	
+		JsonObject serialize = new JsonObject();
+		if (builder.getActionbarMessage() != null && !builder.getActionbarMessage().isEmpty()) {
+			JsonObject actionbar = new JsonObject();
+			if (builder.getActionbarPrefix() != null) {
+				actionbar.addProperty("prefix", builder.getActionbarPrefix());
+			}
+			if (builder.getActionbarStay() != null) {
+				actionbar.addProperty("stay", builder.getActionbarStay());
+			}
+			if (builder.getActionbarPriority() != null) {
+				actionbar.addProperty("priority", builder.getActionbarPriority());
+			}
+			actionbar.add("message", EFormatSerializer.serialize(builder.getActionbarMessage()));
+			serialize.add("actionbar", actionbar);
+		}
+		
+		if ((builder.getTitleMessage() != null && !builder.getTitleMessage() .isEmpty()) || 
+				(builder.getTitleSubMessage() != null && !builder.getTitleSubMessage() .isEmpty())) {
+			JsonObject title = new JsonObject();
+			if (builder.getTitleMessage() != null && !builder.getTitleMessage().isEmpty()) {
+				title.add("title", EFormatSerializer.serialize(builder.getTitleMessage()));
+			}
+			if (builder.getTitleSubMessage() != null && !builder.getTitleSubMessage().isEmpty()) {
+				title.add("subTitle", EFormatSerializer.serialize(builder.getTitleSubMessage()));
+			}
+			if (builder.getTitlePrefix() != null) {
+				title.addProperty("prefix", builder.getTitlePrefix());
+			}
+			if (builder.getTitleSubPrefix() != null) {
+				title.addProperty("subPrefix", builder.getTitleSubPrefix());
+			}
+			if (builder.getTitleStay() != null) {
+				title.addProperty("stay", builder.getTitleStay());
+			}
+			if (builder.getTitleFadeIn() != null) {
+				title.addProperty("fadeIn", builder.getTitleFadeIn());
+			}
+			if (builder.getTitleFadeOut() != null) {
+				title.addProperty("fadeOut", builder.getTitleFadeOut());
+			}
+			if (builder.getTitlePriority() != null) {
+				title.addProperty("priority", builder.getTitlePriority());
+			}
+			serialize.add("title", title);
+		}
+		
+		if (builder.getBossbarMessage() != null && !builder.getBossbarMessage().isEmpty()) {
+			JsonObject bossbar = new JsonObject();
+			if (builder.getBossbarPrefix() != null) {
+				bossbar.addProperty("prefix", builder.getBossbarPrefix());
+			}
+			if (builder.getBossbarStay() != null) {
+				bossbar.addProperty("stay", builder.getBossbarStay());
+			}
+			if (builder.getBossbarCreateFog() != null) {
+				bossbar.addProperty("createFog", builder.getBossbarCreateFog());
+			}
+			if (builder.getBossbarDarkenSky() != null) {
+				bossbar.addProperty("darkenSky", builder.getBossbarDarkenSky());
+			}
+			if (builder.getBossbarPlayEndBossMusic() != null) {
+				bossbar.addProperty("playEndBossMusic", builder.getBossbarPlayEndBossMusic());
+			}
+			if (builder.getBossbarColor() != null) {
+				bossbar.addProperty("color", builder.getBossbarColor().getId());
+			}
+			if (builder.getBossbarOverlay() != null) {
+				bossbar.addProperty("overlay", builder.getBossbarOverlay().getId());
+			}
+			if (builder.getBossbarPercent() != null) {
+				bossbar.addProperty("percent", builder.getBossbarPercent());
+			}
+			if (builder.getBossbarPriority() != null) {
+				bossbar.addProperty("priority", builder.getBossbarPriority());
+			}
+			
+			bossbar.add("message", EFormatSerializer.serialize(builder.getBossbarMessage()));
+			serialize.add("bossbar", bossbar);
+		}
+		
+		if (builder.getChatMessage() != null && !builder.getChatMessage().isEmpty()) {
+			JsonObject chat = new JsonObject();
+			if (builder.getChatPrefix() != null) {
+				chat.addProperty("prefix", builder.getChatPrefix());
+			}
+			chat.add("message", EFormatSerializer.serialize(builder.getChatMessage()));
+			serialize.add("chat", chat);
+		}
+		return serialize;
 	}
 	
 	public Optional<EFormatListString> getFormatListString(ConfigurationNode node) throws ObjectMappingException {

@@ -19,6 +19,9 @@ package fr.evercraft.everapi.command.sub;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.boss.BossBarColor;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.item.ItemTypes;
@@ -61,6 +64,10 @@ public class EATest extends ESubCommand<EverAPI> {
 	
 	public boolean subExecute(final CommandSource source, final List<String> args) {
 		EPlayer player = (EPlayer) source;
+		
+		Sponge.getRegistry().getAllOf(BossBarColor.class).stream()
+			.forEach(color -> player.sendMessage(color.getId()));
+			
 		player.sendMessage(Text.of(ItemTypes.APPLE.getTranslation()));
 		player.sendMessage(Text.of(ItemTypes.APPLE.getName()));
 		player.sendMessage(Text.of(ItemTypes.APPLE.getId()));

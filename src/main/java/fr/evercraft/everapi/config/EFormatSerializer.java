@@ -16,11 +16,15 @@
  */
 package fr.evercraft.everapi.config;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.spongepowered.api.text.TextTemplate;
 
 import com.google.common.reflect.TypeToken;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 
 import fr.evercraft.everapi.message.format.EFormat;
 import fr.evercraft.everapi.message.format.EFormatListString;
@@ -51,6 +55,32 @@ public class EFormatSerializer implements TypeSerializer<EFormat> {
 			node.setValue(((EFormatString) format).getMessage());
 		} else if (format instanceof EFormatTemplate) {
 			node.setValue(((EFormatTemplate) format).getMessage());
+		} else {
+			throw new ObjectMappingException();
+		}
+	}
+	
+	public static EFormat deserialize(JsonElement json) throws ObjectMappingException {
+		try {
+			if (json.isJsonArray()) {
+				List<String> list = new ArrayList<String>();
+				json.getAsJsonArray().forEach(element -> list.add(element.getAsString()));
+				return new EFormatListString(list);
+			} else  {
+				return new EFormatString(json.getAsString());
+			}
+		} catch (Exception e) {
+			throw new ObjectMappingException(e.getMessage(), e.getCause());
+		}
+	}
+
+	public static JsonElement serialize(EFormat format) throws ObjectMappingException {
+		if (format instanceof EFormatListString) {
+			JsonArray array = new JsonArray();
+			((EFormatListString) format).getMessage().forEach(string -> array.add(new JsonPrimitive(string)));
+			return array;
+		} else if (format instanceof EFormatString) {
+			return new JsonPrimitive(((EFormatString) format).getMessage());
 		} else {
 			throw new ObjectMappingException();
 		}

@@ -19,6 +19,7 @@ package fr.evercraft.everapi.services.worldguard.flag;
 import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.entity.Entity;
 
+import fr.evercraft.everapi.message.EMessageBuilder;
 import fr.evercraft.everapi.server.location.VirtualTransform;
 import fr.evercraft.everapi.services.entity.EntityTemplate;
 import fr.evercraft.everapi.services.worldguard.flag.type.FakeFlag;
@@ -33,6 +34,7 @@ public class Flags {
 	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> INTERACT_ENTITY = FakeFlag.of("INTERACT_ENTITY");
 	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> DAMAGE_ENTITY = FakeFlag.of("DAMAGE_ENTITY");
 	public static final Flag<State> ENTRY = FakeFlag.of("ENTRY");
+	public static final Flag<EMessageBuilder> ENTRY_MESSAGE = FakeFlag.of("ENTRY_MESSAGE");
 	public static final Flag<State> EXIT = FakeFlag.of("EXIT");
 	public static final Flag<State> PVP = FakeFlag.of("PVP");
 	public static final Flag<State> INVINCIBILITY = FakeFlag.of("INVINCIBILITY");

@@ -90,7 +90,7 @@ public abstract class EFlag<T> implements Flag<T> {
 	}
 	
 	@Override
-	public Collection<String> getSuggestRemove(List<String> args) {
+	public Collection<String> getSuggestRemove(CommandSource source, List<String> args) {
 		return Arrays.asList();
 	}
 

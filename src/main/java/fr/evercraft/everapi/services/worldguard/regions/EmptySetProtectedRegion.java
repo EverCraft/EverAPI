@@ -16,6 +16,7 @@
  */
 package fr.evercraft.everapi.services.worldguard.regions;
 
+import java.util.Optional;
 import java.util.Set;
 
 import org.spongepowered.api.entity.living.player.User;
@@ -42,6 +43,16 @@ public class EmptySetProtectedRegion implements SetProtectedRegion {
 	@Override
 	public Set<ProtectedRegion> getAll() {
 		return ImmutableSet.of();
+	}
+
+	@Override
+	public <V> Optional<V> getFlagDefaultIfPresent(Flag<V> flag) {
+		return Optional.empty();
+	}
+
+	@Override
+	public <V> Optional<V> getFlagIfPresent(User user, Set<Context> context, Flag<V> flag) {
+		return Optional.empty();
 	}
 
 }

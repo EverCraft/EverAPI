@@ -39,7 +39,6 @@ public class UtilsPainting {
 	public static Art next(Art art) {
 		List<Art> arts = UtilsPainting.getAll();
 		int num = UtilsPainting.getNumero(arts, art) + 1;
-		
 		if (num >= arts.size()) {
 			num = 0;
 		}

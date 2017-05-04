@@ -19,6 +19,8 @@ package fr.evercraft.everapi.services.worldguard.flag.type;
 import java.util.Collection;
 import java.util.List;
 
+import org.spongepowered.api.command.CommandSource;
+
 import fr.evercraft.everapi.services.worldguard.flag.EFlag;
 
 public class FakeFlag<T> extends EFlag<T> {
@@ -32,12 +34,12 @@ public class FakeFlag<T> extends EFlag<T> {
 	}
 	
 	@Override
-	public Collection<String> getSuggestAdd(final List<String> args) {
+	public Collection<String> getSuggestAdd(CommandSource source, final List<String> args) {
 		throw new UnsupportedOperationException("Flag " + this.getName() + " is not implemented");
 	}
 	
 	@Override
-	public Collection<String> getSuggestRemove(final List<String> args) {
+	public Collection<String> getSuggestRemove(CommandSource source, final List<String> args) {
 		throw new UnsupportedOperationException("Flag " + this.getName() + " is not implemented");
 	}
 

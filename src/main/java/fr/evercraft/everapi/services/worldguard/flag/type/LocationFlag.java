@@ -45,7 +45,7 @@ public abstract class LocationFlag extends EFlag<VirtualTransform> {
 	}
 	
 	@Override
-	public Collection<String> getSuggestAdd(final List<String> args) {
+	public Collection<String> getSuggestAdd(CommandSource source, final List<String> args) {
 		return Arrays.asList("here", "x,y,z", "x,y,z,yaw,pitch", "x,y,z,yaw,pitch,world");
 	}
 

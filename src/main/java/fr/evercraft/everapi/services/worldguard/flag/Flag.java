@@ -38,8 +38,8 @@ public interface Flag<T> {
 	T getDefault();
 	T getDefault(ProtectedRegion region);
 	
-	Collection<String> getSuggestAdd(List<String> args);
-	Collection<String> getSuggestRemove(List<String> args);
+	Collection<String> getSuggestAdd(CommandSource source, List<String> args);
+	Collection<String> getSuggestRemove(CommandSource source, List<String> args);
 	
 	String serialize(T value);
 	T deserialize(String value) throws IllegalArgumentException;

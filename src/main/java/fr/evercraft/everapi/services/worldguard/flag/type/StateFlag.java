@@ -21,6 +21,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.spongepowered.api.command.CommandSource;
+
 import fr.evercraft.everapi.services.worldguard.flag.EFlag;
 
 public abstract class StateFlag extends EFlag<StateFlag.State> {
@@ -35,7 +37,7 @@ public abstract class StateFlag extends EFlag<StateFlag.State> {
 	}
 	
 	@Override
-	public Collection<String> getSuggestAdd(final List<String> args) {
+	public Collection<String> getSuggestAdd(CommandSource source, final List<String> args) {
 		Set<String> suggests = new HashSet<String>();
 		for (StateFlag.State state : StateFlag.State.values()) {
 			suggests.add(state.name());

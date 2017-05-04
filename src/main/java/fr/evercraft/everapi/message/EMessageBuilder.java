@@ -36,6 +36,13 @@ import fr.evercraft.everapi.message.type.EMessageTitle;
 import fr.evercraft.everapi.plugin.file.EnumMessage;
 
 public final class EMessageBuilder {
+	
+	private static final EMessageBuilder EMPTY = new EMessageBuilder();
+	
+	public static EMessageBuilder empty() {
+		return EMessageBuilder.EMPTY;
+	}
+	
 	private EnumMessage prefix;
 	
 	//EMessageChat
@@ -106,7 +113,7 @@ public final class EMessageBuilder {
 		return this;
 	}
 	
-	public EMessageBuilder actionbarMessage(String message) {
+	public EMessageBuilder actionbarMessageString(String message) {
 		this.actionbar_message = EFormatString.of(message);
 		return this;
 	}
@@ -318,7 +325,7 @@ public final class EMessageBuilder {
 		if (this.actionbar_message != null && !this.actionbar_message.isEmpty()) {			
 			actionbar = Optional.of(new EMessageActionBar(
 					this.actionbar_message, 
-					this.actionbar_stay != null ? this.actionbar_stay : 5, 
+					this.actionbar_stay != null ? this.actionbar_stay : 5000, 
 					this.actionbar_priority != null ? this.actionbar_priority : "message", 
 					this.actionbar_prefix != null ? this.actionbar_prefix : false));
 		}
@@ -331,16 +338,16 @@ public final class EMessageBuilder {
 					this.title_prefix != null ? this.title_prefix : false,
 					this.title_submessage != null ? this.title_submessage : EFormatString.EMPTY, 
 					this.title_subprefix != null ? this.title_prefix : false,
-					this.title_stay != null ? this.title_stay : 5, 
-					this.title_fadeIn != null ? this.title_fadeIn : 1, 
-					this.title_fadeOut != null ? this.title_fadeOut : 1, 
+					this.title_stay != null ? this.title_stay : 5000, 
+					this.title_fadeIn != null ? this.title_fadeIn : 1000, 
+					this.title_fadeOut != null ? this.title_fadeOut : 1000, 
 					this.title_priority != null ? this.title_priority : "message"));
 		}
 
 		if (this.bossbar_message != null) {			
 			bossbar = Optional.of(new EMessageBossBar(
 					this.bossbar_message, 
-					this.bossbar_stay != null ? this.title_stay : 5, 
+					this.bossbar_stay != null ? this.title_stay : 5000, 
 					ServerBossBar.builder()
 							.name(Text.EMPTY)
 							.color(this.bossbar_color != null ? this.bossbar_color : BossBarColors.WHITE)

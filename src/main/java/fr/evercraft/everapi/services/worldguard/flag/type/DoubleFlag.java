@@ -20,6 +20,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.spongepowered.api.command.CommandSource;
+
 import fr.evercraft.everapi.services.worldguard.flag.EFlag;
 
 public abstract class DoubleFlag extends EFlag<Double> {
@@ -29,7 +31,7 @@ public abstract class DoubleFlag extends EFlag<Double> {
 	}
 	
 	@Override
-	public Collection<String> getSuggestAdd(final List<String> args) {
+	public Collection<String> getSuggestAdd(CommandSource source, final List<String> args) {
 		return Arrays.asList("1.01", "2.02", "3.03");
 	}
 
