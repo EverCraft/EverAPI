@@ -30,6 +30,7 @@ import org.spongepowered.api.command.CommandSource;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 
+import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.config.EMessageBuilderSerializer;
 import fr.evercraft.everapi.java.UtilsBoolean;
 import fr.evercraft.everapi.java.UtilsFloat;
@@ -153,22 +154,30 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 	public EMessageBuilder parseAdd(CommandSource source, ProtectedRegion region, ProtectedRegion.Group group, List<String> values) throws IllegalArgumentException {
 		Args args = this.patternAdd.build(values);
 		
-		if (args.getArgs().size() > 1 || (args.getArgs().size() == 0 && args.countValues() == 0)) {
+		System.out.println("Arguments : '" + String.join("','", values) +  "'");
+		System.out.println("args : " + args);
+		
+		if (args.getArgs().size() > 1 || (args.getArgs().size() == 0 && args.countValues() == 0) || 
+				(args.getArgs().size() == 1 && args.getValue(MARKER_CHAT_MESSAGE).isPresent())) {
 			throw new IllegalArgumentException();
 		}
-		//List<String> args_string = args.getArgs();
+		List<String> args_string = args.getArgs();
 		EMessageBuilder message = region.getFlag(this).get(group).orElseGet(() -> new EMessageBuilder());
 		
 		// Chat
-		args.getValue(MARKER_CHAT_MESSAGE).ifPresent(arg -> {
-			message.chatMessage(EFormatString.of(arg));
-		});
+		if (args_string.size() == 1) {
+			message.chatMessage(EFormatString.of(args_string.get(0)));
+		} else {
+			args.getValue(MARKER_CHAT_MESSAGE).ifPresent(arg -> {
+				message.chatMessage(EFormatString.of(arg));
+			});
+		}
 		args.getValue(MARKER_CHAT_PREFIX).ifPresent(arg -> {
 			Optional<Boolean> bool = UtilsBoolean.parseBoolean(arg);
 			if (bool.isPresent()) {
 				message.chatPrefix(bool.get());
 			} else {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("<boolean>", arg));
 			}
 		});
 		
@@ -181,7 +190,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (bool.isPresent()) {
 				message.actionbarPrefix(bool.get());
 			} else {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("<boolean>", arg));
 			}
 		});
 		args.getValue(MARKER_ACTIONBAR_STAY).ifPresent(arg -> {
@@ -189,7 +198,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (value.isPresent()) {
 				message.actionbarStay(Math.round(value.get() * 1000));
 			} else {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("<number>", arg));
 			}
 		});
 		args.getValue(MARKER_ACTIONBAR_PRIORITY).ifPresent(arg -> {
@@ -205,7 +214,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (bool.isPresent()) {
 				message.titlePrefix(bool.get());
 			} else {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("<boolean>", arg));
 			}
 		});
 		args.getValue(MARKER_TITLE_SUBMESSAGE).ifPresent(arg -> {
@@ -216,7 +225,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (bool.isPresent()) {
 				message.titleSubPrefix(bool.get());
 			} else {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("<boolean>", arg));
 			}
 		});
 		args.getValue(MARKER_TITLE_STAY).ifPresent(arg -> {
@@ -224,7 +233,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (value.isPresent()) {
 				message.titleStay(Math.round(value.get() * 1000));
 			} else {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("<number>", arg));
 			}
 		});
 		args.getValue(MARKER_TITLE_FADEIN).ifPresent(arg -> {
@@ -232,7 +241,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (value.isPresent()) {
 				message.titleFadeIn(Math.round(value.get() * 1000));
 			} else {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("<number>", arg));
 			}
 		});
 		args.getValue(MARKER_TITLE_FADEOUT).ifPresent(arg -> {
@@ -240,7 +249,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (value.isPresent()) {
 				message.titleFadeOut(Math.round(value.get() * 1000));
 			} else {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("<number>", arg));
 			}
 		});
 		args.getValue(MARKER_TITLE_PRIORITY).ifPresent(arg -> {
@@ -256,7 +265,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (bool.isPresent()) {
 				message.bossbarPrefix(bool.get());
 			} else {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("<boolean>", arg));
 			}
 		});
 		args.getValue(MARKER_BOSSBAR_STAY).ifPresent(arg -> {
@@ -264,7 +273,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (value.isPresent()) {
 				message.bossbarStay(Math.round(value.get() * 1000));
 			} else {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("<number>", arg));
 			}
 		});
 		args.getValue(MARKER_BOSSBAR_PERCENT).ifPresent(arg -> {
@@ -272,7 +281,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (value.isPresent()) {
 				message.bossbarPercent(value.get());
 			} else {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("<number>", arg));
 			}
 		});
 		args.getValue(MARKER_BOSSBAR_CREATEFOG).ifPresent(arg -> {
@@ -280,7 +289,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (bool.isPresent()) {
 				message.bossbarCreateFog(bool.get());
 			} else {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("<boolean>", arg));
 			}
 		});
 		args.getValue(MARKER_BOSSBAR_DARKENSKY).ifPresent(arg -> {
@@ -288,7 +297,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (bool.isPresent()) {
 				message.bossbarPrefix(bool.get());
 			} else {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("<boolean>", arg));
 			}
 		});
 		args.getValue(MARKER_BOSSBAR_MUSIC).ifPresent(arg -> {
@@ -296,7 +305,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (bool.isPresent()) {
 				message.bossbarPlayEndBossMusic(bool.get());
 			} else {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("<boolean>", arg));
 			}
 		});
 		args.getValue(MARKER_BOSSBAR_COLOR).ifPresent(arg -> {
@@ -304,7 +313,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (color.isPresent()) {
 				message.bossbarColor(color.get());
 			} else {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(EAMessages.IS_NOT_COLOR.getFormat().toString("<color>", arg));
 			}
 		});
 		args.getValue(MARKER_BOSSBAR_OVERLAY).ifPresent(arg -> {
@@ -312,7 +321,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (overlay.isPresent()) {
 				message.bossbarOverlay(overlay.get());
 			} else {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(EAMessages.IS_NOT_OVERLAY.getFormat().toString("<overlay>", arg));
 			}
 		});
 		args.getValue(MARKER_BOSSBAR_PRIORITY).ifPresent(arg -> {
@@ -371,12 +380,12 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 	}
 
 	@Override
-	public String serialize(EMessageBuilder value) {
+	public String serialize(EMessageBuilder value) throws IllegalArgumentException {
 		Gson gson = new Gson();
 		try {
 			return gson.toJson(EMessageBuilderSerializer.serialize(value));
 		} catch (ObjectMappingException e) {
-			return "";
+			throw new IllegalArgumentException(e.getMessage(), e.getCause());
 		}
 	}
 

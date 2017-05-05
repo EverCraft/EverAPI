@@ -71,6 +71,12 @@ public class EAMessage extends EMessage<EverAPI> {
 				"&cError : '<entity>' is not an entity type."),
 		ERROR_VARIABLE("errorVariable", 
 				"&cErreur : La variable '<number>' est incorrect."),
+		IS_NOT_BOOLEAN("isNotBoolean", 
+				"&cErreur : '<boolean>' n'est pas un booléen (TRUE ou FALSE)."),
+		IS_NOT_COLOR("isNotBoolean", 
+				"&cErreur : '<color>' n'est pas une couleur."),
+		IS_NOT_OVERLAY("isNotBoolean", 
+				"&cErreur : '<overlay>' n'est pas un overlay."),
 				
 				
 		// Nombre

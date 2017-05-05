@@ -112,7 +112,7 @@ public class EPlayer extends PlayerSponge {
 	 */
 	public void broadcastMessage(final Text message){
 		for (EPlayer player : this.plugin.getEServer().getOnlineEPlayers()) {
-			if (!player.equals(this) && !player.ignore(this.getUniqueId())) {
+			if (!player.ignore(this.getUniqueId())) {
 				player.sendMessage(message);
 			}
 		}

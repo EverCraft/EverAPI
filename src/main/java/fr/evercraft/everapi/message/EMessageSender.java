@@ -24,7 +24,6 @@ import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.translation.Translation;
 
@@ -129,6 +128,10 @@ public final class EMessageSender {
 		}
 	}
 	
+	public String toString() {
+		return this.toText().toPlain();
+	}
+	
 	public Text toText(boolean prefix) {
 		if (prefix) {
 			return this.toText();
@@ -172,7 +175,7 @@ public final class EMessageSender {
 		return false;
 	}
 	
-	public boolean sendAll(Collection<EPlayer> collection, Predicate<Player> predicate) {
+	public boolean sendAll(Collection<EPlayer> collection, Predicate<EPlayer> predicate) {
 		collection.stream().filter(predicate).forEach(player -> this.sendTo(player));
 		return false;
 	}

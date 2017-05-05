@@ -117,4 +117,14 @@ public class Args {
 				BiFunction<CommandSource, Args, Collection<String>> suggests,
 				BiFunction<CommandSource, Args, Boolean> check);
 	}
+
+	@Override
+	public String toString() {
+		return "Args ["
+				+ "args=" + String.join("','", this.args) + ", "
+				+ "options=" + String.join("','", this.options) + ", "
+				+ "values=" + values + ", lists=" + lists + ", "
+				+ "lastMarker=" + lastMarker + ", "
+				+ "markerOpen=" + markerOpen + "]";
+	}
 }

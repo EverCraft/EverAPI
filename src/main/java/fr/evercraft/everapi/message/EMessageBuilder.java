@@ -85,6 +85,11 @@ public final class EMessageBuilder {
 		return this;
 	}
 	
+	public EMessageBuilder chatMessageString(String message) {
+		this.chat_message = EFormatString.of(message);
+		return this;
+	}
+	
 	public EMessageBuilder chatMessage(EFormat message) {
 		this.chat_message = message;
 		return this;

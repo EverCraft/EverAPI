@@ -72,9 +72,7 @@ public class UtilsString {
 				arg += caractere;
 			}
 		}
-		if (!arg.isEmpty()) {
-			args.add(arg);
-		}
+		args.add(arg);
 		return args;
 	}
 	

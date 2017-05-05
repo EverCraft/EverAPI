@@ -120,6 +120,10 @@ public class BuilderArgs implements Args.Builder {
 	
 	@Override
 	public Args build(List<String> command) {
+		return this.build(command, false);
+	}
+	
+	private Args build(List<String> command, boolean suggest) {
 		List<String> args = new ArrayList<String>();
 		List<String> options = new ArrayList<String>();
 		Map<String, String> values = new HashMap<String, String>();
@@ -151,7 +155,7 @@ public class BuilderArgs implements Args.Builder {
 			} else {
 				if (lastMarker != null) {
 					if (lastType.equals(Type.VALUE)) {
-						if (!arg.isEmpty() || cpt < command.size()) {
+						if (!suggest || !arg.isEmpty() || cpt < command.size()) {
 							values.put(lastMarker, arg);
 							lastMarker = null;
 							lastType = null;
@@ -179,7 +183,7 @@ public class BuilderArgs implements Args.Builder {
 	
 	@Override
 	public Collection<String> suggest(final CommandSource source, List<String> command) {
-		Args args = this.build(command);
+		Args args = this.build(command, true);
 		List<String> suggests = new ArrayList<String>();
 		if (args.getLastMarker().isPresent()) {
 			BiFunction<CommandSource, Args, Collection<String>> function = this.suggests_types.get(args.getLastMarker().get());

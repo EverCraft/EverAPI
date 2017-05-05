@@ -160,20 +160,24 @@ public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T
 	protected List<String> getArg(final String arg) {
 		List<String> args = new ArrayList<String>();
 		boolean alterne = true;
-		for (String guillemet : UtilsString.splitGuillemets(arg)) {
+		List<String> guillemets = UtilsString.splitGuillemets(arg);
+		for (int cpt = 0; cpt < guillemets.size(); cpt++) {
 			if (alterne) {
-				for (String espace : guillemet.split(" ")) {
+				for (String espace : guillemets.get(cpt).split(" ")) {
 					if (!espace.isEmpty()) {
 						args.add(espace);
 					}
 				}
 			} else {
-				if (!guillemet.isEmpty()) {
-					args.add(guillemet);
+				if (cpt == guillemets.size()-1) {
+					args.add("\"" + guillemets.get(cpt));
+				} else {
+					args.add(guillemets.get(cpt));
 				}
 			}
 			alterne = !alterne;
 		}
+		
 		this.plugin.getELogger().debug("Arguments : '" + String.join("','", args) +  "'");
 		return args;
 	}

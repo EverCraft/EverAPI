@@ -74,7 +74,7 @@ public abstract class EFlag<T> implements Flag<T> {
 	}
 	
 	@Override
-	public T parseAdd(CommandSource source, ProtectedRegion region, ProtectedRegion.Group group, List<String> values) {
+	public T parseAdd(CommandSource source, ProtectedRegion region, ProtectedRegion.Group group, List<String> values) throws IllegalArgumentException {
 		if (values.isEmpty()) {
 			return this.deserialize("");
 		}
