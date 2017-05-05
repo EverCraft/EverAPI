@@ -20,6 +20,8 @@ import java.util.Optional;
 
 import org.spongepowered.api.text.format.TextColor;
 
+import com.google.common.base.Preconditions;
+
 import fr.evercraft.everapi.message.EMessageBuilder;
 import fr.evercraft.everapi.message.EMessageFormat;
 import fr.evercraft.everapi.message.format.EFormatString;
@@ -530,6 +532,7 @@ public class EAMessage extends EMessage<EverAPI> {
 	    private final EMessageBuilder french;
 	    private final EMessageBuilder english;
 	    private EMessageFormat message;
+	    private EMessageBuilder builder;
 	    
 	    private EAMessages(final String path, final String french) {   	
 	    	this(path, EMessageFormat.builder().chat(new EFormatString(french), true));
@@ -545,7 +548,9 @@ public class EAMessage extends EMessage<EverAPI> {
 	    	this(path, french, french);
 	    }
 	    
-	    private EAMessages(final String path, final EMessageBuilder french, final EMessageBuilder english) {	    	
+	    private EAMessages(final String path, final EMessageBuilder french, final EMessageBuilder english) {
+	    	Preconditions.checkNotNull(french, "Le message '" + this.name() + "' n'est pas définit");
+	    	
 	    	this.path = path;	    	
 	    	this.french = french;
 	    	this.english = english;
@@ -572,8 +577,13 @@ public class EAMessage extends EMessage<EverAPI> {
 			return this.message;
 		}
 		
-		public void set(EMessageFormat message) {
-			this.message = message;
+		public EMessageBuilder getBuilder() {
+			return this.builder;
+		}
+		
+		public void set(EMessageBuilder message) {
+			this.message = message.build();
+			this.builder = message;
 		}
 
 		public static Optional<EAMessages> getColor(TextColor color) {

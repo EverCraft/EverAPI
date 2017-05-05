@@ -28,7 +28,7 @@ import fr.evercraft.everapi.plugin.file.EnumMessage;
 
 public final class EMessageFormat {
 	
-	private static final EMessageFormat EMPTY = EMessageBuilder.empty().build();
+	private static final EMessageFormat EMPTY = EMessageFormat.builder().build();
 	
 	public static EMessageFormat empty() {
 		return EMessageFormat.EMPTY;
@@ -54,20 +54,24 @@ public final class EMessageFormat {
 		return this.prefix.isPresent() ? this.prefix.get().getFormat() : new EFormatString("");
 	}
 	
+	public Optional<EnumMessage> getPrefixEnum() {
+		return this.prefix;
+	}
+	
 	public Optional<EMessageChat> getChat() {
-		return chat;
+		return this.chat;
 	}
 
 	public Optional<EMessageActionBar> getActionbar() {
-		return actionbar;
+		return this.actionbar;
 	}
 
 	public Optional<EMessageTitle> getTitle() {
-		return title;
+		return this.title;
 	}
 
 	public Optional<EMessageBossBar> getBossbar() {
-		return bossbar;
+		return this.bossbar;
 	}
 	
 	public static EMessageBuilder builder() {

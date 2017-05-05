@@ -39,7 +39,7 @@ public interface EnumMessage {
 	
 	public EMessageFormat getMessage();
 
-	public void set(EMessageFormat format);
+	public void set(EMessageBuilder format);
 	
 	public default Text getText() {
 		return this.getFormat().toText();

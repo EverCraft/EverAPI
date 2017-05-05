@@ -67,9 +67,10 @@ public final class EMessageBuilderSerializer implements TypeSerializer<EMessageB
         			this.getFormatString(node_chat).ifPresent(format -> builder.chatMessage(format));
         			
         		} else if (!node_chat.getNode("message").isVirtual()) {
-        			if (node_chat.getValue() instanceof String) {
+        			if (node_chat.getNode("message").getValue() instanceof String) {
         				this.getFormatString(node_chat.getNode("message")).ifPresent(format -> builder.chatMessage(format));
         			} else {
+        				System.out.println(node_chat.getNode("message").getValue());
         				this.getFormatTemplate(node_chat.getNode("message")).ifPresent(format -> builder.chatMessage(format));
         			}
         			
@@ -201,10 +202,10 @@ public final class EMessageBuilderSerializer implements TypeSerializer<EMessageB
 				(builder.getTitleSubMessage() != null && !builder.getTitleSubMessage() .isEmpty())) {
 			ConfigurationNode title = node.getNode("title");
 			if (builder.getTitleMessage() != null && !builder.getTitleMessage() .isEmpty()) {
-				title.getNode("title").setValue(builder.getTitleMessage());
+				title.getNode("title").setValue(TypeToken.of(EFormat.class), builder.getTitleMessage());
 			}
 			if (builder.getTitleSubMessage() != null && !builder.getTitleSubMessage() .isEmpty()) {
-				title.getNode("subTitle").setValue(builder.getTitleSubMessage());
+				title.getNode("subTitle").setValue(TypeToken.of(EFormat.class), builder.getTitleSubMessage());
 			}
 			if (builder.getTitlePrefix() != null) {
 				title.getNode("prefix").setValue(builder.getTitlePrefix());
@@ -258,9 +259,9 @@ public final class EMessageBuilderSerializer implements TypeSerializer<EMessageB
 			}
 			
 			if (bossbar.isVirtual()) {
-				bossbar.setValue(builder.getBossbarMessage());
+				bossbar.setValue(TypeToken.of(EFormat.class), builder.getBossbarMessage());
 			} else {
-				bossbar.getNode("message").setValue(builder.getBossbarMessage());
+				bossbar.getNode("message").setValue(TypeToken.of(EFormat.class), builder.getBossbarMessage());
 			}
 		}
 		
@@ -269,12 +270,16 @@ public final class EMessageBuilderSerializer implements TypeSerializer<EMessageB
 				node.setValue(TypeToken.of(EFormat.class), builder.getChatMessage());
 			} else {
 				if (builder.getChatMessage().isListString()) {
-					node.getNode("chat", "messages").setValue(builder.getChatMessage());
+					node.getNode("chat", "messages").setValue(TypeToken.of(EFormat.class), builder.getChatMessage());
 				} else {
-					node.getNode("chat", "message").setValue(builder.getChatMessage());
+					node.getNode("chat", "message").setValue(TypeToken.of(EFormat.class), builder.getChatMessage());
 				}
 				node.getNode("prefix", "prefix").setValue(builder.getChatPrefix());
 			}
+		}
+		
+		if (node.isVirtual()) {
+			node.setValue("");
 		}
 	}
 	

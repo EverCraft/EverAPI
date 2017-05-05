@@ -80,31 +80,27 @@ public abstract class EMessage<T extends EPlugin<T>> extends EFile<T> {
     	
     	for (EnumMessage message : this.enum_message) {
 			ConfigurationNode node = this.get(message.getPath());
-			message.set(null);
 			
-        	if (node.isVirtual()) {
-        		try {
+			try {
+	        	if (node.isVirtual()) {
 	    			if (this.name.equals(FRENCH)) {
 	    				node.setValue(TypeToken.of(EMessageBuilder.class), message.getFrench());
 	        		} else {
 	        			node.setValue(TypeToken.of(EMessageBuilder.class), message.getEnglish());
 	        		}
 	    			this.setModified(true);
-        		} catch (ObjectMappingException e) {
-        			this.plugin.getELogger().warn("Impossible de sérialiser : '" + message.getName() + "'");
-				}
-        	} else {
-        		try {
-        			message.set(node.getValue(TypeToken.of(EMessageBuilder.class)).prefix(prefix).build());
-        		} catch (ObjectMappingException e) {
-        			this.plugin.getELogger().warn("Impossible de désérialiser : '" + message.getName() + "'");
-        			message.set(EMessageFormat.builder().chat(new EFormatString(message.getName()), false).build());
-        		}
-           	}
-        	
-        	if (message.getMessage() == null) {
-        		message.set(EMessageFormat.builder().build());
-        	}
+	        	}
+	        	
+	        	try {
+	    			message.set(node.getValue(TypeToken.of(EMessageBuilder.class)).prefix(prefix));
+	    		} catch (ObjectMappingException e) {
+	    			this.plugin.getELogger().warn("Impossible de désérialiser : '" + message.getName() + "'");
+	    			message.set(EMessageFormat.builder());
+	    		}
+        	} catch (ObjectMappingException e) {
+    			this.plugin.getELogger().warn("Impossible de sérialiser : '" + message.getName() + "'");
+    			message.set(EMessageFormat.builder());
+			}
     	}
     }
     

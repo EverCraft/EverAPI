@@ -36,13 +36,7 @@ import fr.evercraft.everapi.message.type.EMessageTitle;
 import fr.evercraft.everapi.plugin.file.EnumMessage;
 
 public final class EMessageBuilder {
-	
-	private static final EMessageBuilder EMPTY = new EMessageBuilder();
-	
-	public static EMessageBuilder empty() {
-		return EMessageBuilder.EMPTY;
-	}
-	
+
 	private EnumMessage prefix;
 	
 	//EMessageChat
@@ -310,7 +304,82 @@ public final class EMessageBuilder {
 		return this;
 	}
 	
+	public EMessageBuilder copy() {
+		return (new EMessageBuilder())
+			.prefix(this.prefix)
+			.chatMessage(this.chat_message)
+			.chatPrefix(this.chat_prefix)
+			.actionbarMessage(this.actionbar_message)
+			.actionbarPrefix(this.actionbar_prefix)
+			.actionbarStay(this.actionbar_stay)
+			.actionbarPriority(this.actionbar_priority)
+			.titleMessage(this.title_message)
+			.titleSubMessage(this.title_submessage)
+			.titlePrefix(this.title_prefix)
+			.titleSubPrefix(this.title_subprefix)
+			.titleStay(this.title_stay)
+			.titleFadeIn(this.title_fadeIn)
+			.titleFadeOut(this.title_fadeOut)
+			.titlePriority(this.title_priority)
+			.bossbarMessage(this.bossbar_message)
+			.bossbarPrefix(this.bossbar_prefix)
+			.bossbarStay(this.bossbar_stay)
+			.bossbarColor(this.bossbar_color)
+			.bossbarCreateFog(this.bossbar_createFog)
+			.bossbarDarkenSky(this.bossbar_darkenSky)
+			.bossbarOverlay(this.bossbar_overlay)
+			.bossbarPercent(this.bossbar_percent)
+			.bossbarPlayEndBossMusic(this.bossbar_playEndBossMusic)
+			.bossbarPriority(this.bossbar_priority);
+	}
+	
+	public EMessageBuilder from(EMessageFormat message) {
+		this.prefix = message.getPrefixEnum().orElse(null);
+		
+		if (message.getChat().isPresent()) {
+			this.chat_message = message.getChat().get().getMessage();
+			this.chat_prefix = message.getChat().get().isPrefix();
+		}
+		
+		if (message.getActionbar().isPresent()) {
+			this.actionbar_message = message.getActionbar().get().getMessage();
+			this.actionbar_prefix = message.getActionbar().get().isPrefix();
+			this.actionbar_stay = (int) message.getActionbar().get().getStay();
+			this.actionbar_priority = message.getActionbar().get().getPriority();
+		}
+		
+		if (message.getTitle().isPresent()) {
+			this.title_message = message.getTitle().get().getMessage();
+			this.title_prefix = message.getTitle().get().isPrefix();
+			this.title_submessage = message.getTitle().get().getSubMessage();
+			this.title_subprefix = message.getTitle().get().isSubPrefix();
+			this.title_stay = message.getTitle().get().getStay();
+			this.title_fadeIn = message.getTitle().get().getFadeIn();
+			this.title_fadeOut = message.getTitle().get().getFadeOut();
+			this.title_priority = message.getTitle().get().getPriority();
+		}
+		
+		if (message.getBossbar().isPresent()) {
+			this.bossbar_message = message.getBossbar().get().getMessage();
+			this.bossbar_prefix = message.getBossbar().get().isPrefix();
+			this.bossbar_stay = (int) message.getBossbar().get().getStay();
+			this.bossbar_createFog = message.getBossbar().get().getServerBossBar().shouldCreateFog();
+			this.bossbar_darkenSky = message.getBossbar().get().getServerBossBar().shouldDarkenSky();
+			this.bossbar_overlay = message.getBossbar().get().getServerBossBar().getOverlay();
+			this.bossbar_percent = message.getBossbar().get().getServerBossBar().getPercent();
+			this.bossbar_playEndBossMusic = message.getBossbar().get().getServerBossBar().shouldPlayEndBossMusic();
+			this.bossbar_priority = message.getBossbar().get().getPriority();
+		}
+		return this;
+	}
+	
 	public EMessageFormat build() {
+		return this.build("message");
+	}
+	
+	public EMessageFormat build(String priority) {
+		Preconditions.checkNotNull(priority, "priority");
+		
 		Optional<EMessageChat> chat = Optional.empty();
 		Optional<EMessageActionBar> actionbar = Optional.empty();
 		Optional<EMessageTitle> title = Optional.empty();
@@ -326,7 +395,7 @@ public final class EMessageBuilder {
 			actionbar = Optional.of(new EMessageActionBar(
 					this.actionbar_message, 
 					this.actionbar_stay != null ? this.actionbar_stay : 5000, 
-					this.actionbar_priority != null ? this.actionbar_priority : "message", 
+					this.actionbar_priority != null ? this.actionbar_priority : priority, 
 					this.actionbar_prefix != null ? this.actionbar_prefix : false));
 		}
 		
@@ -341,7 +410,7 @@ public final class EMessageBuilder {
 					this.title_stay != null ? this.title_stay : 5000, 
 					this.title_fadeIn != null ? this.title_fadeIn : 1000, 
 					this.title_fadeOut != null ? this.title_fadeOut : 1000, 
-					this.title_priority != null ? this.title_priority : "message"));
+					this.title_priority != null ? this.title_priority : priority));
 		}
 
 		if (this.bossbar_message != null) {			
@@ -357,7 +426,7 @@ public final class EMessageBuilder {
 							.percent(this.bossbar_percent != null ? this.bossbar_percent : 1)
 							.playEndBossMusic(this.bossbar_playEndBossMusic != null ? this.bossbar_playEndBossMusic : false)
 							.build(), 
-					this.title_priority != null ? this.title_priority : "message",
+					this.title_priority != null ? this.title_priority : priority,
 					this.bossbar_prefix != null ? this.bossbar_prefix : false));
 		}
 		
