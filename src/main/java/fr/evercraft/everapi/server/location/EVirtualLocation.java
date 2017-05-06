@@ -63,12 +63,7 @@ public class EVirtualLocation extends EVirtualPosition {
 	}
 	
 	public String getWorldIdentifier() {
-		Optional<World> world = this.getWorld();
-		if (!world.isPresent()) {
-			return "";
-		}
-		
-		return world.get().getUniqueId().toString();
+		return this.world;
 	}
 	
 	public Optional<Location<World>> getLocation() {

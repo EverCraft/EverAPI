@@ -27,6 +27,7 @@ import org.spongepowered.api.scoreboard.displayslot.DisplaySlots;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.file.EConfig;
 import fr.evercraft.everapi.services.sanction.SanctionService;
+import fr.evercraft.everapi.services.worldguard.WorldGuardService;
 
 public class EPriorityConfig extends EConfig<EverAPI> {
 
@@ -45,6 +46,7 @@ public class EPriorityConfig extends EConfig<EverAPI> {
 				"everinformations.connection.others", 
 				"everinformations.join", 
 				"message",
+				WorldGuardService.MESSAGE_FLAG,
 				"everinformations.automessages"));
 		addDefault("title", Arrays.asList(
 				"everinformations.newbie.player", 
@@ -53,6 +55,7 @@ public class EPriorityConfig extends EConfig<EverAPI> {
 				"everinformations.connection.others", 
 				"everinformations.join", 
 				"message",
+				WorldGuardService.MESSAGE_FLAG,
 				"everinformations.automessages"));
 		addDefault("bossbar", Arrays.asList(
 				"everpvp",
@@ -62,6 +65,7 @@ public class EPriorityConfig extends EConfig<EverAPI> {
 				"everinformations.connection.others", 
 				"everinformations.join",
 				"message",
+				WorldGuardService.MESSAGE_FLAG,
 				"everinformations.automessages"));
 		addDefault("nametag", Arrays.asList("everinformations"));
 		addDefault("tablist", Arrays.asList("everinformations"));

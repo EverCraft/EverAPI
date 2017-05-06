@@ -23,12 +23,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.spongepowered.api.CatalogType;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
-public interface Flag<T> {
+public interface Flag<T> extends CatalogType {
 	
-	String getIdentifier();
+	String getId();
 	String getName();
 	String getDescription();
 	Text getNameFormat();

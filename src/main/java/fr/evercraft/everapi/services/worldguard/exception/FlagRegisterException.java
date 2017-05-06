@@ -40,7 +40,7 @@ public class FlagRegisterException extends RuntimeException {
 		if (this.type.equals(Type.INITIALIZED)) {
 			return "New flags cannot be registered at this time";
 		} else if (this.type.equals(Type.CONFLICT)) {
-			return "A flag already exists by the name " + this.flag.getIdentifier();
+			return "A flag already exists by the name " + this.flag.getId();
 		}
 		return "";
 	}

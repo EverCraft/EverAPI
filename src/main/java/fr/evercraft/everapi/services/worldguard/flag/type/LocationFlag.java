@@ -16,16 +16,17 @@
  */
 package fr.evercraft.everapi.services.worldguard.flag.type;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.action.TextActions;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.plugin.EPlugin;
-import fr.evercraft.everapi.server.location.EVirtualPosition;
 import fr.evercraft.everapi.server.location.EVirtualTransform;
 import fr.evercraft.everapi.server.location.VirtualTransform;
 import fr.evercraft.everapi.server.player.EPlayer;
@@ -52,33 +53,39 @@ public abstract class LocationFlag extends EFlag<VirtualTransform> {
 
 	@Override
 	public String serialize(VirtualTransform value) {
-		return value.getPosition().getX() + "," + value.getPosition().getY() + "," + value.getPosition().getZ() + "," + value.getYaw() + "," + value.getPitch() + "," + value.getWorldName();
+		if (!(value instanceof EVirtualTransform)) {
+			return value.getPosition().getX() + "," + value.getPosition().getY() + "," + value.getPosition().getZ();
+		} else if (value.getWorldIdentifier().isEmpty()){
+			return value.getPosition().getX() + "," + value.getPosition().getY() + "," + value.getPosition().getZ() + "," + value.getYaw() + "," + value.getPitch();
+		} else {
+			return value.getPosition().getX() + "," + value.getPosition().getY() + "," + value.getPosition().getZ() + "," + value.getYaw() + "," + value.getPitch() + "," + value.getWorldIdentifier();
+		}
 	}
 	
 	@Override
 	public VirtualTransform deserialize(String value) throws IllegalArgumentException {
 		String[] values = value.split(PATTERN_SPLIT);
-		if (value.length() < 3) {
+		if (values.length < 3) {
 			throw new IllegalArgumentException();
 		}
-		
+
 		try {
 			Double x = Double.parseDouble(values[0]);
 			Double y = Double.parseDouble(values[1]);
 			Double z = Double.parseDouble(values[2]);
 			
-			if (value.length() == 5) {
+			if (values.length == 5) {
 				Double yaw = Double.parseDouble(values[3]);
 				Double pitch = Double.parseDouble(values[4]);
 				
-				return new EVirtualTransform(this.plugin, "", x, y, z, yaw, pitch);
-			} else if (value.length() == 6) {
+				return VirtualTransform.of(this.plugin, "", x, y, z, yaw, pitch);
+			} else if (values.length == 6) {
 				Double yaw = Double.parseDouble(values[3]);
 				Double pitch = Double.parseDouble(values[4]);
 				
-				return new EVirtualTransform(this.plugin, values[5], x, y, z, yaw, pitch);
+				return VirtualTransform.of(this.plugin, values[5], x, y, z, yaw, pitch);
 			} else {
-				return new EVirtualPosition(x, y, z);
+				return VirtualTransform.of(x, y, z);
 			}
 		} catch (Exception e) {
 			throw new IllegalArgumentException(e.getMessage());
@@ -101,6 +108,32 @@ public abstract class LocationFlag extends EFlag<VirtualTransform> {
 	
 	@Override
 	public Text getValueFormat(VirtualTransform value) {
-		return Text.of(this.serialize(value));
+		List<Text> hover = new ArrayList<Text>();
+		hover.add(EAMessages.FLAG_LOCATION_X.getFormat()
+				.toText("<x>", Math.round(value.getPosition().getX())));
+		hover.add(EAMessages.FLAG_LOCATION_Y.getFormat()
+				.toText("<y>", Math.round(value.getPosition().getY())));
+		hover.add(EAMessages.FLAG_LOCATION_Z.getFormat()
+				.toText("<z>", Math.round(value.getPosition().getZ())));
+		
+		if (value instanceof EVirtualTransform) {
+			hover.add(EAMessages.FLAG_LOCATION_YAW.getFormat()
+					.toText("<yaw>", Math.round(value.getYaw())));
+			hover.add(EAMessages.FLAG_LOCATION_PITCH.getFormat()
+					.toText("<pitch>", Math.round(value.getPitch())));
+		}
+		
+		if (value.getWorldName().isPresent()) {
+			hover.add(EAMessages.FLAG_LOCATION_WORLD.getFormat()
+					.toText("<world>", value.getWorldName().get()));
+		}
+		
+		return EAMessages.FLAG_LOCATION.getFormat()
+				.toText("<x>", Math.round(value.getPosition().getX()),
+						"<y>", Math.round(value.getPosition().getY()),
+						"<z>", Math.round(value.getPosition().getZ()))
+				.toBuilder()
+				.onHover(TextActions.showText(Text.joinWith(Text.of("\n"), hover)))
+				.build();
 	}
 }

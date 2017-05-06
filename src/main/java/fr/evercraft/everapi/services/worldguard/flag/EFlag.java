@@ -48,7 +48,7 @@ public abstract class EFlag<T> implements Flag<T> {
         this.name = name.toUpperCase();
     }
     
-    public String getIdentifier() {
+    public String getId() {
         return this.id;
     }
     

@@ -606,6 +606,21 @@ public class EAMessage extends EMessage<EverAPI> {
 		FLAG_ENTITYTEMPLATE_HOVER("flag.entityTemplateHover",			
 				"&c<entity>"),
 		
+		FLAG_LOCATION("flag.locationPosition",			
+				"&7(&c<x>&7,&c<y>&7,&c<z>&7)"),
+		FLAG_LOCATION_X("flag.locationX",			
+				"&6X : &c<x>"),
+		FLAG_LOCATION_Y("flag.locationY",			
+				"&6Y : &c<y>"),
+		FLAG_LOCATION_Z("flag.locationZ",			
+				"&6Z : &c<z>"),
+		FLAG_LOCATION_YAW("flag.locationYaw",			
+				"&6Yaw : &c<yaw>"),
+		FLAG_LOCATION_PITCH("flag.locationPitch",			
+				"&6Pitch : &c<pitch>"),
+		FLAG_LOCATION_WORLD("flag.locationWorld",			
+				"&6World : &c<world>"),
+		
 		// Pagination
 		PAGINATION_COLOR("pagination.color", 
 				"&7"),
