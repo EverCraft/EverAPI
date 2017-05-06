@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.services.worldguard.flag.EFlag;
 
@@ -59,5 +60,10 @@ public abstract class StateFlag extends EFlag<StateFlag.State> {
 		} else {
 			throw new IllegalArgumentException();
 		}
+	}
+	
+	@Override
+	public Text getValueFormat(StateFlag.State value) {
+		return Text.of(this.serialize(value));
 	}
 }

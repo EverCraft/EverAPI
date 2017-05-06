@@ -382,6 +382,14 @@ public final class EMessageBuilder {
 		return this.build("message");
 	}
 	
+	public boolean isEmpty() {
+		return this.chat_message == null && 
+				this.actionbar_message == null && 
+				this.title_message == null && 
+				this.title_submessage == null && 
+				this.bossbar_message == null;
+	}
+	
 	public EMessageFormat build(String priority) {
 		Preconditions.checkNotNull(priority, "priority");
 		
@@ -537,6 +545,4 @@ public final class EMessageBuilder {
 	public String getBossbarPriority() {
 		return bossbar_priority;
 	}
-	
-	
 }

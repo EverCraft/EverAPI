@@ -179,7 +179,7 @@ public final class EMessageBuilderSerializer implements TypeSerializer<EMessageB
 
 	@Override
 	public void serialize(TypeToken<?> type, EMessageBuilder builder, ConfigurationNode node) throws ObjectMappingException {		
-		if (builder.getActionbarMessage() != null && !builder.getActionbarMessage().isEmpty()) {
+		if (builder.getActionbarMessage() != null) {
 			ConfigurationNode actionbar = node.getNode("actionbar");
 			if (builder.getActionbarPrefix() != null) {
 				actionbar.getNode("prefix").setValue(builder.getActionbarPrefix());
@@ -198,8 +198,7 @@ public final class EMessageBuilderSerializer implements TypeSerializer<EMessageB
 			}
 		}
 		
-		if ((builder.getTitleMessage() != null && !builder.getTitleMessage() .isEmpty()) || 
-				(builder.getTitleSubMessage() != null && !builder.getTitleSubMessage() .isEmpty())) {
+		if (builder.getTitleMessage() != null || builder.getTitleSubMessage() != null) {
 			ConfigurationNode title = node.getNode("title");
 			if (builder.getTitleMessage() != null && !builder.getTitleMessage() .isEmpty()) {
 				title.getNode("title").setValue(TypeToken.of(EFormat.class), builder.getTitleMessage());
@@ -228,7 +227,7 @@ public final class EMessageBuilderSerializer implements TypeSerializer<EMessageB
 			
 		}
 		
-		if (builder.getBossbarMessage() != null && !builder.getBossbarMessage().isEmpty()) {
+		if (builder.getBossbarMessage() != null) {
 			ConfigurationNode bossbar = node.getNode("bossbar");
 			if (builder.getBossbarPrefix() != null) {
 				bossbar.getNode("prefix").setValue(builder.getBossbarPrefix());
@@ -265,7 +264,7 @@ public final class EMessageBuilderSerializer implements TypeSerializer<EMessageB
 			}
 		}
 		
-		if (builder.getChatMessage() != null && !builder.getChatMessage().isEmpty()) {
+		if (builder.getChatMessage() != null) {
 			if (node.isVirtual() && builder.getPrefix() == null) {
 				node.setValue(TypeToken.of(EFormat.class), builder.getChatMessage());
 			} else {

@@ -16,6 +16,7 @@
  */
 package fr.evercraft.everapi.services.worldguard.flag.type;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -26,6 +27,8 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.boss.BossBarColor;
 import org.spongepowered.api.boss.BossBarOverlay;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.action.TextActions;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
@@ -376,7 +379,11 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 		if (args.isOption(MARKER_BOSSBAR_OVERLAY)) message.bossbarOverlay(null);
 		if (args.isOption(MARKER_BOSSBAR_PRIORITY)) message.bossbarPriority(null);
 		
-		return Optional.empty();
+		if (message.isEmpty()) {
+			return Optional.empty();
+		}
+		
+		return Optional.ofNullable(message);
 	}
 
 	@Override
@@ -396,5 +403,136 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 		} catch (ObjectMappingException e) {
 			throw new IllegalArgumentException(e.getMessage(), e.getCause());
 		}
+	}
+	
+	@Override
+	public Text getValueFormat(EMessageBuilder value) {
+		List<Text> texts = new ArrayList<Text>();
+		List<Text> hover = new ArrayList<Text>();
+		
+		if (value.getChatMessage() != null) {
+			hover.add(EAMessages.FLAG_MESSAGE_CHAT_MESSAGE.getFormat()
+				.toText("<message>", value.getChatMessage()));
+			if (value.getChatPrefix() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_CHAT_PREFIX.getFormat()
+						.toText("<prefix>", value.getChatPrefix().toString().toUpperCase()));
+			}
+			
+			texts.add(EAMessages.FLAG_MESSAGE_CHAT.getText().toBuilder()
+				.onHover(TextActions.showText(Text.joinWith(Text.of("\n"), hover)))
+				.build());
+		}
+		
+		if (value.getActionbarMessage() != null) {
+			hover = new ArrayList<Text>();
+			hover.add(EAMessages.FLAG_MESSAGE_ACTIONBAR_MESSAGE.getFormat()
+				.toText("<message>", value.getActionbarMessage()));
+			if (value.getActionbarPrefix() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_ACTIONBAR_PREFIX.getFormat()
+					.toText("<prefix>", value.getActionbarPrefix().toString().toUpperCase()));
+			}
+			if (value.getActionbarStay() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_ACTIONBAR_STAY.getFormat()
+					.toText("<stay>", value.getActionbarStay()));
+			}
+			if (value.getActionbarPriority() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_ACTIONBAR_PRIORITY.getFormat()
+					.toText("<priority>", value.getActionbarPriority()));
+			}
+			
+			texts.add(EAMessages.FLAG_MESSAGE_ACTIONBAR.getText().toBuilder()
+				.onHover(TextActions.showText(Text.joinWith(Text.of("\n"), hover)))
+				.build());
+		}
+		
+		if (value.getTitleMessage() != null || value.getTitleSubMessage() != null) {
+			hover = new ArrayList<Text>();
+			if (value.getTitleMessage() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_TITLE_MESSAGE.getFormat()
+					.toText("<message>", value.getTitleMessage()));
+			}
+			if (value.getTitleSubMessage() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_TITLE_SUBMESSAGE.getFormat()
+					.toText("<submessage>", value.getTitleSubMessage()));
+			}
+			if (value.getTitlePrefix() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_TITLE_PREFIX.getFormat()
+					.toText("<prefix>", value.getTitlePrefix().toString().toUpperCase()));
+			}
+			if (value.getTitleSubPrefix() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_TITLE_SUBPREFIX.getFormat()
+					.toText("<subprefix>", value.getTitleSubPrefix().toString().toUpperCase()));
+			}
+			if (value.getTitleStay() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_TITLE_STAY.getFormat()
+					.toText("<stay>", value.getTitleStay()));
+			}
+			if (value.getTitleFadeIn() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_TITLE_FADEIN.getFormat()
+					.toText("<fadein>", value.getTitleFadeIn()));
+			}
+			if (value.getTitleFadeOut() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_TITLE_FADEOUT.getFormat()
+					.toText("<fadeout>", value.getTitleFadeOut()));
+			}
+			if (value.getTitlePriority() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_TITLE_PRIORITY.getFormat()
+					.toText("<priority>", value.getTitlePriority()));
+			}
+			
+			texts.add(EAMessages.FLAG_MESSAGE_TITLE.getText().toBuilder()
+				.onHover(TextActions.showText(Text.joinWith(Text.of("\n"), hover)))
+				.build());
+		}
+		
+		if (value.getBossbarMessage() != null) {
+			hover = new ArrayList<Text>();
+			if (value.getBossbarMessage() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_BOSSBAR_MESSAGE.getFormat()
+					.toText("<message>", value.getBossbarMessage()));
+			}
+			if (value.getBossbarPrefix() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_BOSSBAR_PREFIX.getFormat()
+					.toText("<prefix>", value.getBossbarPrefix().toString().toUpperCase()));
+			}
+			if (value.getBossbarStay() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_BOSSBAR_STAY.getFormat()
+					.toText("<stay>", value.getBossbarStay()));
+			}
+			if (value.getBossbarCreateFog() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_BOSSBAR_CREATEFOG.getFormat()
+					.toText("<createfog>", value.getBossbarCreateFog().toString().toUpperCase()));
+			}
+			if (value.getBossbarDarkenSky() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_BOSSBAR_DARKENSKY.getFormat()
+					.toText("<darkensky>", value.getBossbarDarkenSky().toString().toUpperCase()));
+			}
+			if (value.getBossbarPlayEndBossMusic() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_BOSSBAR_MUSIC.getFormat()
+					.toText("<music>", value.getBossbarPlayEndBossMusic().toString().toUpperCase()));
+			}
+			if (value.getBossbarColor() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_BOSSBAR_COLOR.getFormat()
+					.toText("<color>", value.getBossbarColor().getId()));
+			}
+			if (value.getBossbarOverlay() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_BOSSBAR_OVERLAY.getFormat()
+					.toText("<overlay>", value.getBossbarOverlay().getId()));
+			}
+			if (value.getBossbarPercent() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_BOSSBAR_PERCENT.getFormat()
+					.toText("<percent>", value.getBossbarPercent()));
+			}
+			if (value.getBossbarPriority() != null) {
+				hover.add(EAMessages.FLAG_MESSAGE_BOSSBAR_PRIORITY.getFormat()
+					.toText("<priority>", value.getBossbarPriority()));
+			}
+			
+			texts.add(EAMessages.FLAG_MESSAGE_BOSSBAR.getText().toBuilder()
+					.onHover(TextActions.showText(Text.joinWith(Text.of("\n"), hover)))
+					.build());
+		}
+		
+		return Text.joinWith(EAMessages.FLAG_MESSAGE_JOIN.getText(), texts);
 	}
 }

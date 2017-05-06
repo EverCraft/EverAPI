@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.services.worldguard.flag.EFlag;
 
@@ -43,5 +44,10 @@ public abstract class StringFlag extends EFlag<String> {
 	@Override
 	public String deserialize(String value) throws IllegalArgumentException {
 		return value.replaceAll("(?!\\\\)\\\\n", "\n").replaceAll("\\\\\\\\n", "\\n");
+	}
+	
+	@Override
+	public Text getValueFormat(String value) {
+		return Text.of(this.serialize(value));
 	}
 }

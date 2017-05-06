@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.services.worldguard.flag.EFlag;
 
@@ -47,5 +48,10 @@ public abstract class IntegerFlag extends EFlag<Integer> {
 		} catch (Exception e) {
 			throw new IllegalArgumentException();
 		}
+	}
+	
+	@Override
+	public Text getValueFormat(Integer value) {
+		return Text.of(value);
 	}
 }

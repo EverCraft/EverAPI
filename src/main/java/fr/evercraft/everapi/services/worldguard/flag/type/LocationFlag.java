@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.plugin.EPlugin;
@@ -96,5 +97,10 @@ public abstract class LocationFlag extends EFlag<VirtualTransform> {
 		} else {
 			return this.deserialize(value);
 		}
+	}
+	
+	@Override
+	public Text getValueFormat(VirtualTransform value) {
+		return Text.of(this.serialize(value));
 	}
 }

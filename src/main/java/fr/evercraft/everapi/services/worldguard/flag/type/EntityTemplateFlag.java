@@ -16,13 +16,16 @@
  */
 package fr.evercraft.everapi.services.worldguard.flag.type;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.text.Text;
 
+import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.services.entity.EntityTemplate;
 import fr.evercraft.everapi.services.worldguard.flag.EFlag;
 import fr.evercraft.everapi.services.worldguard.flag.value.EntityPatternFlagValue;
@@ -68,20 +71,34 @@ public abstract class EntityTemplateFlag extends EFlag<EntityPatternFlagValue<En
 	
 	@Override
 	public Optional<EntityPatternFlagValue<EntityTemplate, Entity>> parseRemove(CommandSource source, ProtectedRegion region, ProtectedRegion.Group group, List<String> args) {
-		if (args.isEmpty()) Optional.empty();
+		if (args.isEmpty()) return Optional.empty();
 		
 		EntityPatternFlagValue<EntityTemplate, Entity> newFlag = this.deserialize(String.join(", ", args));
-		if (newFlag.getKeys().isEmpty()) Optional.empty();
+		if (newFlag.getKeys().isEmpty()) return Optional.empty();
 		
 		Optional<EntityPatternFlagValue<EntityTemplate, Entity>> flag = region.getFlag(this).get(group);
 		if (flag.isPresent()) {
 			newFlag = flag.get().removeAll(newFlag);
 			if (!newFlag.getKeys().isEmpty()) {
-				return Optional.of(flag.get().removeAll(newFlag));
+				return Optional.of(newFlag);
 			}
 			return Optional.empty();
 		} else {
 			return Optional.of(this.getDefault().removeAll(newFlag));
 		}
+	}
+	
+	@Override
+	public Text getValueFormat(EntityPatternFlagValue<EntityTemplate, Entity> value) {
+		if (value.getKeys().isEmpty()) {
+			return EAMessages.FLAG_ENTITYTEMPLATE_EMPTY.getText();
+		}
+		
+		List<Text> groups = new ArrayList<Text>();
+		for (String group : value.getKeys()) {
+			groups.add(EAMessages.FLAG_ENTITYTEMPLATE_GROUP.getFormat().toText("<group>", group));
+		}
+		
+		return Text.joinWith(EAMessages.FLAG_ENTITYTEMPLATE_JOIN.getText(), groups);
 	}
 }

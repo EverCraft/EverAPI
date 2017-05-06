@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.services.worldguard.flag.EFlag;
@@ -48,5 +49,10 @@ public abstract class DoubleFlag extends EFlag<Double> {
 		} catch (Exception e) {
 			throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("<number>", value));
 		}
+	}
+	
+	@Override
+	public Text getValueFormat(Double value) {
+		return Text.of(value);
 	}
 }

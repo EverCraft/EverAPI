@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.services.worldguard.flag.EFlag;
 
@@ -61,5 +62,10 @@ public class FakeFlag<T> extends EFlag<T> {
 	@Override
 	public T getDefault() {
 		throw new UnsupportedOperationException("Flag " + this.getName() + " is not implemented");
+	}
+
+	@Override
+	public Text getValueFormat(T value) {
+		return Text.EMPTY;
 	}
 }

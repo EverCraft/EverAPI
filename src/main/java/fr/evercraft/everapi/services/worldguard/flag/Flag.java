@@ -32,6 +32,7 @@ public interface Flag<T> {
 	String getName();
 	String getDescription();
 	Text getNameFormat();
+	Text getValueFormat(T value);
 	
 	Set<ProtectedRegion.Group> getGroups();
 	
