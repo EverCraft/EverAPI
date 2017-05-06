@@ -71,6 +71,16 @@ public class EEntityConfig extends EConfig<EverAPI> {
 			entity.put("type", EntityTypes.HORSE.getId());
 			entity.put("data", ImmutableMap.of(Keys.TAMED_OWNER.getId(), "PLAYER"));
 			addDefault("HORSE_OWNER", entity);
+			
+			entity.clear();
+			entity.put("type", EntityTypes.MULE.getId());
+			entity.put("data", ImmutableMap.of(Keys.TAMED_OWNER.getId(), "PLAYER"));
+			addDefault("MULE_OWNER", entity);
+			
+			entity.clear();
+			entity.put("type", EntityTypes.OCELOT.getId());
+			entity.put("data", ImmutableMap.of(Keys.TAMED_OWNER.getId(), "PLAYER"));
+			addDefault("OCELOT_OWNER", entity);
 		}
 	}
 
