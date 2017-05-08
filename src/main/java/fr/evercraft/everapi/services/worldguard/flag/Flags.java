@@ -30,9 +30,12 @@ import fr.evercraft.everapi.services.worldguard.flag.value.EntryFlagValue;
 public class Flags {
 	
 	public static final Flag<State> BUILD = FakeFlag.of("BUILD");
+	public static final Flag<State> ENDERMAN_GRIEF = FakeFlag.of("ENDERMAN_GRIEF");
+	public static final Flag<State> ENDERPEARL = FakeFlag.of("ENDERPEARL");
+	
+	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> DAMAGE_ENTITY = FakeFlag.of("DAMAGE_ENTITY");
 	public static final Flag<EntryFlagValue<BlockType>> INTERACT_BLOCK = FakeFlag.of("INTERACT");
 	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> INTERACT_ENTITY = FakeFlag.of("INTERACT_ENTITY");
-	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> DAMAGE_ENTITY = FakeFlag.of("DAMAGE_ENTITY");
 	
 	public static final Flag<State> ENTRY = FakeFlag.of("ENTRY");
 	public static final Flag<EMessageBuilder> ENTRY_MESSAGE = FakeFlag.of("ENTRY_MESSAGE");

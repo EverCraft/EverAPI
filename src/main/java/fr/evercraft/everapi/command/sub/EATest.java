@@ -23,7 +23,6 @@ import java.util.List;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
@@ -31,11 +30,9 @@ import org.spongepowered.api.text.format.TextColors;
 import fr.evercraft.everapi.EACommand;
 import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.worldguard.flag.Flag;
-import fr.evercraft.everapi.sponge.UtilsItemStack;
 
 public class EATest extends ESubCommand<EverAPI> {
 	
@@ -66,13 +63,28 @@ public class EATest extends ESubCommand<EverAPI> {
 		EPlayer player = (EPlayer) source;
 		
 		Sponge.getRegistry().getAllOf(Flag.class).stream()
+			.forEach(flag -> player.sendMessage(flag.getId() + " : " + flag.getName()));
+		
+		/*Entity entity = player.getWorld().createEntity(EntityTypes.OCELOT, player.getLocation().getPosition());
+
+		if(player.getWorld().spawnEntity(entity, Cause.source(player).build())) {
+			if(entity.offer(Keys.TAMED_OWNER, Optional.of(player.getUniqueId())).isSuccessful()) {
+				player.sendMessage("&aSpawn entity : " + entity.get(Keys.TAMED_OWNER));
+			} else {
+				player.sendMessage("&4Error : offer");
+			}
+		} else {
+			player.sendMessage("&4Error : spawn entity");
+		}*/
+		
+		/*
+		Sponge.getRegistry().getAllOf(Flag.class).stream()
 			.forEach(color -> player.sendMessage(color.getId() + " : " + color.getName()));
-			
 		player.sendMessage(Text.of(ItemTypes.APPLE.getTranslation()));
 		player.sendMessage(Text.of(ItemTypes.APPLE.getName()));
 		player.sendMessage(Text.of(ItemTypes.APPLE.getId()));
 		player.sendMessage(UtilsItemStack.getName(ItemTypes.APPLE.getTemplate().createStack()));
-		player.sendMessage(EChat.getButtomItem(ItemTypes.APPLE.getTemplate().createStack()));
+		player.sendMessage(EChat.getButtomItem(ItemTypes.APPLE.getTemplate().createStack()));*/
 		/*player.getWorld().getEntities(entity -> entity.getType().equals(EntityTypes.WOLF)).forEach(entity -> {
 			System.out.println("Angry : " + entity.offer(Keys.DYE_COLOR, DyeColors.GREEN).isSuccessful());
 		});*/

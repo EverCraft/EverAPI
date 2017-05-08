@@ -159,7 +159,9 @@ public class EBossBarService implements BossBarService {
 			} else {
 				for (Entry<UUID, EBossBar> bossBar : this.players.entrySet()) {
 					Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(bossBar.getKey());
-					if (!player.isPresent() || (bossBar.getValue().getTime().isPresent() && System.currentTimeMillis() > bossBar.getValue().getTime().get())) {
+					if (!player.isPresent()) {
+						this.players.remove(bossBar.getKey());
+					} else if (bossBar.getValue().getTime().isPresent() && System.currentTimeMillis() > bossBar.getValue().getTime().get()) {
 						this.remove(player.get(), bossBar.getValue().getIdentifier());
 					}
 				}
