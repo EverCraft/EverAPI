@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.Text.Builder;
+import org.spongepowered.api.text.translation.Translation;
 
 import fr.evercraft.everapi.message.replace.EReplace;
 import fr.evercraft.everapi.plugin.EChat;
@@ -97,6 +98,8 @@ public class EFormatString extends EFormat {
 				text = EChat.of((String) value);
 			} else if (value instanceof Text) {
 				text = (Text) value;
+			} else if (value instanceof Translation) {
+				text = Text.of(value);
 			} else if (value instanceof EFormat) {
 				text = ((EFormat) value).toText(replaces);
 			} else {

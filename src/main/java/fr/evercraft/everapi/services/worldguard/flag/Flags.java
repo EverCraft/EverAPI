@@ -36,6 +36,8 @@ public class Flags {
 	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> DAMAGE_ENTITY = FakeFlag.of("DAMAGE_ENTITY");
 	public static final Flag<EntryFlagValue<BlockType>> INTERACT_BLOCK = FakeFlag.of("INTERACT");
 	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> INTERACT_ENTITY = FakeFlag.of("INTERACT_ENTITY");
+	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> ENTITY_DAMAGE = FakeFlag.of("ENTITY_DAMAGE");
+	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> ENTITY_SPAWNING = FakeFlag.of("ENTITY_SPAWNING");
 	
 	public static final Flag<State> ENTRY = FakeFlag.of("ENTRY");
 	public static final Flag<EMessageBuilder> ENTRY_MESSAGE = FakeFlag.of("ENTRY_MESSAGE");
