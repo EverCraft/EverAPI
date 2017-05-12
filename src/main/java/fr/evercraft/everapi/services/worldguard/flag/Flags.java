@@ -30,8 +30,13 @@ import fr.evercraft.everapi.services.worldguard.flag.value.EntryFlagValue;
 public class Flags {
 	
 	public static final Flag<State> BUILD = FakeFlag.of("BUILD");
+	public static final Flag<State> CHAT_RECEIVE = FakeFlag.of("CHAT_RECEIVE");
+	public static final Flag<State> CHAT_SEND = FakeFlag.of("CHAT_SEND");
 	public static final Flag<State> ENDERMAN_GRIEF = FakeFlag.of("ENDERMAN_GRIEF");
 	public static final Flag<State> ENDERPEARL = FakeFlag.of("ENDERPEARL");
+	public static final Flag<State> PVP = FakeFlag.of("PVP");
+	public static final Flag<State> INVINCIBILITY = FakeFlag.of("INVINCIBILITY");
+	public static final Flag<State> EXP_DROP = FakeFlag.of("EXP_DROP");
 	
 	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> DAMAGE_ENTITY = FakeFlag.of("DAMAGE_ENTITY");
 	public static final Flag<EntryFlagValue<BlockType>> INTERACT_BLOCK = FakeFlag.of("INTERACT");
@@ -46,9 +51,6 @@ public class Flags {
 	public static final Flag<State> EXIT = FakeFlag.of("EXIT");
 	public static final Flag<EMessageBuilder> EXIT_MESSAGE = FakeFlag.of("EXIT_MESSAGE");
 	public static final Flag<EMessageBuilder> EXIT_DENY_MESSAGE = FakeFlag.of("EXIT_DENY_MESSAGE");
-	
-	public static final Flag<State> PVP = FakeFlag.of("PVP");
-	public static final Flag<State> INVINCIBILITY = FakeFlag.of("INVINCIBILITY");
 	
 	public static final Flag<VirtualTransform> SPAWN = FakeFlag.of("SPAWN");
 	public static final Flag<VirtualTransform> TELEPORT = FakeFlag.of("TELEPORT");	
