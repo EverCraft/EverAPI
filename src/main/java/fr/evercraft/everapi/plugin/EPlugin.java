@@ -45,6 +45,7 @@ import fr.evercraft.everapi.plugin.file.EConfig;
 import fr.evercraft.everapi.plugin.file.EFile;
 import fr.evercraft.everapi.plugin.file.EMessage;
 import fr.evercraft.everapi.server.EServer;
+import fr.evercraft.everapi.stats.Metrics;
 
 public abstract class EPlugin<T extends EPlugin<T>> implements PluginContainer {
 
@@ -55,6 +56,9 @@ public abstract class EPlugin<T extends EPlugin<T>> implements PluginContainer {
 	@Inject
 	@ConfigDir(sharedRoot = false)
 	private Path path;
+	
+	@Inject
+    private Metrics metrics;
 	
 	private EverAPI everapi;
 	private boolean enable;	
@@ -353,6 +357,10 @@ public abstract class EPlugin<T extends EPlugin<T>> implements PluginContainer {
 	
 	public SpongeExecutorService getThreadAsync() {
 		return this.getEverAPI().getThreadAsync();
+	}
+	
+	public Metrics getMetrics() {
+		return this.metrics;
 	}
 	
 	/*
