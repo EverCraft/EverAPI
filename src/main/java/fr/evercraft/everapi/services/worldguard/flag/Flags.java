@@ -36,6 +36,7 @@ public class Flags {
 	public static final Flag<State> ENDERPEARL = FakeFlag.of("ENDERPEARL");
 	public static final Flag<State> PVP = FakeFlag.of("PVP");
 	public static final Flag<State> INVINCIBILITY = FakeFlag.of("INVINCIBILITY");
+	public static final Flag<State> LIGHTNING = FakeFlag.of("LIGHTNING");
 	public static final Flag<State> EXP_DROP = FakeFlag.of("EXP_DROP");
 	
 	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> DAMAGE_ENTITY = FakeFlag.of("DAMAGE_ENTITY");

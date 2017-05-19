@@ -24,6 +24,6 @@ import fr.evercraft.everapi.services.entity.EntityTemplate;
 public interface EntityService {
 	public Set<EntityTemplate> getAll();
 	
-	public Optional<EntityTemplate> get(String identifier);
+	public Optional<EntityTemplate> getById(String identifier);
 	Optional<EntityTemplate> getForAll(String identifier);
 }

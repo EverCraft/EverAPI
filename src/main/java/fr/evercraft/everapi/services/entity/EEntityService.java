@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.spongepowered.api.entity.EntityType;
+import org.spongepowered.api.registry.CatalogRegistryModule;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
@@ -28,7 +29,7 @@ import com.google.common.collect.ImmutableSet;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.EntityService;
 
-public class EEntityService implements EntityService {
+public class EEntityService implements EntityService, CatalogRegistryModule<EntityTemplate> {
 	
 	public final EverAPI plugin;
 	
@@ -42,6 +43,7 @@ public class EEntityService implements EntityService {
 		this.entities = new ConcurrentHashMap<String, EntityTemplate>();
 		this.config = new EEntityConfig(plugin);
 		
+		this.plugin.getGame().getRegistry().registerModule(EntityTemplate.class, this);
 		this.reload();
 	}
 
@@ -57,7 +59,7 @@ public class EEntityService implements EntityService {
 	}
 
 	@Override
-	public Optional<EntityTemplate> get(String identifier) {
+	public Optional<EntityTemplate> getById(String identifier) {
 		Preconditions.checkNotNull(identifier);
 		
 		return Optional.ofNullable(this.entities.get(identifier.toLowerCase()));
@@ -79,5 +81,4 @@ public class EEntityService implements EntityService {
 		
 		return Optional.empty();
 	}
-
 }

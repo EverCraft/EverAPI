@@ -32,7 +32,7 @@ import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.services.worldguard.flag.Flag;
+import fr.evercraft.everapi.services.entity.EntityTemplate;
 
 public class EATest extends ESubCommand<EverAPI> {
 	
@@ -62,7 +62,7 @@ public class EATest extends ESubCommand<EverAPI> {
 	public boolean subExecute(final CommandSource source, final List<String> args) {
 		EPlayer player = (EPlayer) source;
 		
-		Sponge.getRegistry().getAllOf(Flag.class).stream()
+		Sponge.getRegistry().getAllOf(EntityTemplate.class).stream()
 			.forEach(flag -> player.sendMessage(flag.getId() + " : " + flag.getName()));
 		
 		/*Entity entity = player.getWorld().createEntity(EntityTypes.OCELOT, player.getLocation().getPosition());
