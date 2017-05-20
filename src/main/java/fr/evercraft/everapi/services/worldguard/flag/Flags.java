@@ -39,8 +39,11 @@ public class Flags {
 	public static final Flag<State> LIGHTNING = FakeFlag.of("LIGHTNING");
 	public static final Flag<State> EXP_DROP = FakeFlag.of("EXP_DROP");
 	
-	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> DAMAGE_ENTITY = FakeFlag.of("DAMAGE_ENTITY");
+	public static final Flag<EntryFlagValue<BlockType>> BLOCK_BREAK = FakeFlag.of("BLOCK_BREAK");
+	public static final Flag<EntryFlagValue<BlockType>> BLOCK_PLACE = FakeFlag.of("BLOCK_PLACE");
 	public static final Flag<EntryFlagValue<BlockType>> INTERACT_BLOCK = FakeFlag.of("INTERACT");
+	
+	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> DAMAGE_ENTITY = FakeFlag.of("DAMAGE_ENTITY");
 	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> INTERACT_ENTITY = FakeFlag.of("INTERACT_ENTITY");
 	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> ENTITY_DAMAGE = FakeFlag.of("ENTITY_DAMAGE");
 	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> ENTITY_SPAWNING = FakeFlag.of("ENTITY_SPAWNING");
