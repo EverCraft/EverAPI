@@ -39,6 +39,7 @@ public class Flags {
 	public static final Flag<State> INVINCIBILITY = FakeFlag.of("INVINCIBILITY");
 	public static final Flag<State> LIGHTNING = FakeFlag.of("LIGHTNING");
 	public static final Flag<State> EXP_DROP = FakeFlag.of("EXP_DROP");
+	public static final Flag<State> INVENTORY_DROP = FakeFlag.of("INVENTORY_DROP");
 	
 	public static final Flag<EntryFlagValue<BlockType>> BLOCK_BREAK = FakeFlag.of("BLOCK_BREAK");
 	public static final Flag<EntryFlagValue<BlockType>> BLOCK_PLACE = FakeFlag.of("BLOCK_PLACE");
