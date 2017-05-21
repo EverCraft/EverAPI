@@ -18,6 +18,7 @@ package fr.evercraft.everapi.services.worldguard.flag;
 
 import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.item.ItemType;
 
 import fr.evercraft.everapi.message.EMessageBuilder;
 import fr.evercraft.everapi.server.location.VirtualTransform;
@@ -42,6 +43,9 @@ public class Flags {
 	public static final Flag<EntryFlagValue<BlockType>> BLOCK_BREAK = FakeFlag.of("BLOCK_BREAK");
 	public static final Flag<EntryFlagValue<BlockType>> BLOCK_PLACE = FakeFlag.of("BLOCK_PLACE");
 	public static final Flag<EntryFlagValue<BlockType>> INTERACT_BLOCK = FakeFlag.of("INTERACT");
+	
+	public static final Flag<EntryFlagValue<ItemType>> ITEM_DROP = FakeFlag.of("ITEM_DROP");
+	public static final Flag<EntryFlagValue<ItemType>> ITEM_PICKUP = FakeFlag.of("ITEM_PICKUP");
 	
 	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> DAMAGE_ENTITY = FakeFlag.of("DAMAGE_ENTITY");
 	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> INTERACT_ENTITY = FakeFlag.of("INTERACT_ENTITY");
