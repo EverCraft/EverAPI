@@ -33,7 +33,7 @@ public class Flags {
 	public static final Flag<State> BUILD = FakeFlag.of("BUILD");
 	public static final Flag<State> CHAT_RECEIVE = FakeFlag.of("CHAT_RECEIVE");
 	public static final Flag<State> CHAT_SEND = FakeFlag.of("CHAT_SEND");
-	public static final Flag<State> ENDER_DRAGON = FakeFlag.of("ENDER_DRAGON");
+	public static final Flag<State> ENDER_DRAGON_GRIEF = FakeFlag.of("ENDER_DRAGON_GRIEF");
 	public static final Flag<State> ENDERMAN_GRIEF = FakeFlag.of("ENDERMAN_GRIEF");
 	public static final Flag<State> ENDERPEARL = FakeFlag.of("ENDERPEARL");
 	public static final Flag<State> PVP = FakeFlag.of("PVP");

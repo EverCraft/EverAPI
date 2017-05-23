@@ -62,4 +62,10 @@ public class EntityTypeTemplate implements EntityTemplate {
 	public boolean contains(Entity entity, Player player) {
 		return entity.getType().equals(this.type);
 	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof EntityTypeTemplate)) return false;
+		return ((EntityTypeTemplate) o).getType().equals(this.getType());
+	}
 }

@@ -35,6 +35,7 @@ import fr.evercraft.everapi.services.entity.EEntityService;
 import fr.evercraft.everapi.services.essentials.EssentialsService;
 import fr.evercraft.everapi.services.essentials.SpawnService;
 import fr.evercraft.everapi.services.essentials.WarpService;
+import fr.evercraft.everapi.services.fire.EFireService;
 import fr.evercraft.everapi.services.jail.JailService;
 import fr.evercraft.everapi.services.mojang.EMojangService;
 import fr.evercraft.everapi.services.nametag.ENameTagService;
@@ -61,6 +62,7 @@ public class ManagerService {
 	private final ETabListService tablist;
 	private final EBossBarService bossbar;
 	private final EntityService entity;
+	private final FireService fire;
 	
 	private final EMojangService mojang;
 	
@@ -77,6 +79,7 @@ public class ManagerService {
 		this.tablist = new ETabListService(this.plugin);
 		this.bossbar = new EBossBarService(this.plugin);
 		this.entity = new EEntityService(this.plugin);
+		this.fire = new EFireService(this.plugin);
 		
 		this.mojang = new EMojangService(this.plugin);
 		
@@ -92,6 +95,7 @@ public class ManagerService {
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, TabListService.class, this.tablist);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, BossBarService.class, this.bossbar);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, EntityService.class, this.entity);
+		this.plugin.getGame().getServiceManager().setProvider(this.plugin, FireService.class, this.fire);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, MojangService.class, this.mojang);
 	}
 	
@@ -218,6 +222,10 @@ public class ManagerService {
 	
 	public EntityService getEntity() throws ProvisioningException {
 		return this.plugin.getGame().getServiceManager().provideUnchecked(EntityService.class);
+	}
+	
+	public FireService getFire() throws ProvisioningException {
+		return this.plugin.getGame().getServiceManager().provideUnchecked(FireService.class);
 	}
 	
 	/*

@@ -33,6 +33,7 @@ import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.entity.EntityTemplate;
+import fr.evercraft.everapi.services.fire.FireType;
 
 public class EATest extends ESubCommand<EverAPI> {
 	
@@ -62,8 +63,17 @@ public class EATest extends ESubCommand<EverAPI> {
 	public boolean subExecute(final CommandSource source, final List<String> args) {
 		EPlayer player = (EPlayer) source;
 		
+		player.sendMessage("EntityTemplate : ");
 		Sponge.getRegistry().getAllOf(EntityTemplate.class).stream()
-			.forEach(flag -> player.sendMessage(flag.getId() + " : " + flag.getName()));
+			.forEach(flag -> player.sendMessage(" - " + flag.getId() + " : " + flag.getName()));
+		
+		player.sendMessage("EntityTemplate.Property : ");
+		Sponge.getRegistry().getAllOf(EntityTemplate.Property.class).stream()
+			.forEach(flag -> player.sendMessage(" - " + flag.getId() + " : " + flag.getName()));
+		
+		player.sendMessage("FireType : ");
+		Sponge.getRegistry().getAllOf(FireType.class).stream()
+			.forEach(flag -> player.sendMessage(" - " + flag.getId() + " : " + flag.getName()));
 		
 		/*Entity entity = player.getWorld().createEntity(EntityTypes.OCELOT, player.getLocation().getPosition());
 

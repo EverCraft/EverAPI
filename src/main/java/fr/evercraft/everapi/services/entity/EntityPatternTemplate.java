@@ -16,12 +16,15 @@
  */
 package fr.evercraft.everapi.services.entity;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiPredicate;
 
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.living.player.Player;
+
+import fr.evercraft.everapi.java.UtilsPredicate.TriPredicate;
 
 public class EntityPatternTemplate implements EntityTemplate {
 	
@@ -30,17 +33,37 @@ public class EntityPatternTemplate implements EntityTemplate {
 	
 	private final EntityType type;
 	
+	private final Map<EntityTemplate.Property<?>, ?> properties;
+	
 	private final BiPredicate<Entity, Optional<Player>> apply;
 	private final BiPredicate<Entity, Optional<Player>> contains;
 	
-	public EntityPatternTemplate(String identifier, EntityType type,
-			BiPredicate<Entity, Optional<Player>> apply, BiPredicate<Entity, Optional<Player>> contains) {
+	@SuppressWarnings("unchecked")
+	public <T> EntityPatternTemplate(String identifier, EntityType type, Map<EntityTemplate.Property<?>, ?> properties) {
 		this.identifier = "evercraft:" + identifier.toLowerCase();
 		this.name = identifier;
 		
 		this.type = type;
-		this.apply = apply;
-		this.contains = contains;
+		this.properties = properties;
+		
+		this.apply = this.properties.entrySet().stream()
+			.map(entry -> {
+				T value = (T) entry.getValue();
+				TriPredicate<T, Entity, Optional<Player>> property = (TriPredicate<T, Entity, Optional<Player>>) entry.getKey().getApply();
+				BiPredicate<Entity, Optional<Player>> predicate = (v1, v2) -> property.test(value, v1, v2);
+				return predicate;
+			})
+			.reduce((p1, p2) -> p1.and(p2))
+			.orElse((entity, player) -> true);
+		this.contains = this.properties.entrySet().stream()
+			.map(entry -> {
+				T value = (T) entry.getValue();
+				TriPredicate<T, Entity, Optional<Player>> property = (TriPredicate<T, Entity, Optional<Player>>) entry.getKey().getContains();
+				BiPredicate<Entity, Optional<Player>> predicate = (v1, v2) -> property.test(value, v1, v2);
+				return predicate;
+			})
+			.reduce((p1, p2) -> p1.and(p2))
+			.orElse((entity, player) -> true);
 	}
 	
 	@Override
@@ -76,5 +99,16 @@ public class EntityPatternTemplate implements EntityTemplate {
 	@Override
 	public boolean contains(Entity entity, Player player) {
 		return entity.getType().equals(this.type) && this.contains.test(entity, Optional.ofNullable(player));
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof EntityPatternTemplate)) return false;
+		EntityPatternTemplate template = (EntityPatternTemplate) o;
+		
+		if (!template.getId().equals(this.getId())) return false;
+		if (!template.getName().equals(this.getName())) return false;
+		if (!template.getType().equals(this.getType())) return false;
+		return true;
 	}
 }
