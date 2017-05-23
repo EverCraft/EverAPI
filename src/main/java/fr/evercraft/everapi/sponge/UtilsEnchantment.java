@@ -16,59 +16,29 @@
  */
 package fr.evercraft.everapi.sponge;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.manipulator.mutable.item.EnchantmentData;
 import org.spongepowered.api.data.meta.ItemEnchantment;
 import org.spongepowered.api.item.Enchantment;
-import org.spongepowered.api.item.Enchantments;
 import org.spongepowered.api.item.inventory.ItemStack;
 
 public class UtilsEnchantment {
-	public static final List<Enchantment> ENCHANTMENTS = Arrays.asList(
-			Enchantments.AQUA_AFFINITY,
-			Enchantments.BANE_OF_ARTHROPODS,
-			Enchantments.BLAST_PROTECTION,
-			Enchantments.DEPTH_STRIDER,
-			Enchantments.EFFICIENCY,
-			Enchantments.FEATHER_FALLING,
-			Enchantments.FIRE_ASPECT,
-			Enchantments.FLAME,
-			Enchantments.FORTUNE,
-			Enchantments.FROST_WALKER,
-			Enchantments.INFINITY,
-			Enchantments.KNOCKBACK,
-			Enchantments.LOOTING,
-			Enchantments.LUCK_OF_THE_SEA,
-			Enchantments.LURE,
-			Enchantments.MENDING,
-			Enchantments.POWER,
-			Enchantments.PROJECTILE_PROTECTION,
-			Enchantments.PROTECTION,
-			Enchantments.PUNCH,
-			Enchantments.RESPIRATION,
-			Enchantments.SHARPNESS,
-			Enchantments.SILK_TOUCH,
-			Enchantments.SMITE,
-			Enchantments.THORNS,
-			Enchantments.UNBREAKING	
-	);
 	
-	public static final List<Enchantment> getEnchantments(){
-		List<Enchantment> list = new ArrayList<Enchantment>();
-		list.addAll(ENCHANTMENTS);
-		return list;
+	public static  List<Enchantment> getAll(){
+		return Sponge.getRegistry().getAllOf(Enchantment.class).stream().collect(Collectors.toList());
 	}
 	
 	public static Optional<Enchantment> getID(final String name) {
 		Enchantment enchant = null;
+		List<Enchantment> enchantments = getAll();
 		int cpt = 0;
-		while(cpt < ENCHANTMENTS.size() && enchant == null){
-			if (ENCHANTMENTS.get(cpt).getId().equalsIgnoreCase(name)) {
-				enchant = ENCHANTMENTS.get(cpt);
+		while(cpt < enchantments.size() && enchant == null){
+			if (enchantments.get(cpt).getId().equalsIgnoreCase(name)) {
+				enchant = enchantments.get(cpt);
 			}
 			cpt++;
 		}
@@ -84,6 +54,8 @@ public class UtilsEnchantment {
 					return false;
 				}
 			}
+		} else {
+			return false;
 		}
 		return true;
 	}
