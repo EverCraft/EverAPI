@@ -33,6 +33,7 @@ public class Flags {
 	public static final Flag<State> BUILD = FakeFlag.of("BUILD");
 	public static final Flag<State> CHAT_RECEIVE = FakeFlag.of("CHAT_RECEIVE");
 	public static final Flag<State> CHAT_SEND = FakeFlag.of("CHAT_SEND");
+	public static final Flag<State> ENDER_DRAGON = FakeFlag.of("ENDER_DRAGON");
 	public static final Flag<State> ENDERMAN_GRIEF = FakeFlag.of("ENDERMAN_GRIEF");
 	public static final Flag<State> ENDERPEARL = FakeFlag.of("ENDERPEARL");
 	public static final Flag<State> PVP = FakeFlag.of("PVP");
@@ -52,6 +53,9 @@ public class Flags {
 	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> INTERACT_ENTITY = FakeFlag.of("INTERACT_ENTITY");
 	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> ENTITY_DAMAGE = FakeFlag.of("ENTITY_DAMAGE");
 	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> ENTITY_SPAWNING = FakeFlag.of("ENTITY_SPAWNING");
+	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> EXPLOSION = FakeFlag.of("EXPLOSION");
+	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> EXPLOSION_BLOCK = FakeFlag.of("EXPLOSION_BLOCK");
+	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> EXPLOSION_DAMAGE = FakeFlag.of("EXPLOSION_DAMAGE");
 	
 	public static final Flag<State> ENTRY = FakeFlag.of("ENTRY");
 	public static final Flag<EMessageBuilder> ENTRY_MESSAGE = FakeFlag.of("ENTRY_MESSAGE");
