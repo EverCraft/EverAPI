@@ -48,6 +48,11 @@ public interface EntityTemplates {
 			EntityTypes.HORSE, 
 			ImmutableMap.of(EntityTemplate.Properties.TAMED_OWNER, Tristate.TRUE));
 	
+	public static final EntityTemplate DONKEY_OWNER = new EntityPatternTemplate(
+			"DONKEY_OWNER", 
+			EntityTypes.DONKEY, 
+			ImmutableMap.of(EntityTemplate.Properties.TAMED_OWNER, Tristate.TRUE));
+	
 	public static final EntityTemplate MULE_OWNER = new EntityPatternTemplate(
 			"MULE_OWNER", 
 			EntityTypes.MULE, 

@@ -16,21 +16,14 @@
  */
 package fr.evercraft.everapi.services.fire;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 
 import org.spongepowered.api.block.BlockType;
-import org.spongepowered.api.block.BlockTypes;
 import org.spongepowered.api.entity.EntityType;
-import org.spongepowered.api.entity.EntityTypes;
 import org.spongepowered.api.item.ItemType;
-import org.spongepowered.api.item.ItemTypes;
-
 import com.google.common.collect.ImmutableSet;
 
 import fr.evercraft.everapi.EverAPI;
@@ -47,12 +40,12 @@ public class EFireConfig extends EConfig<EverAPI> {
 	@Override
 	public void loadDefault() {
 		if (this.getNode().getValue() == null) {
-			Map<String, Object> fires = new HashMap<String, Object>();
+			/*Map<String, Object> fires = new HashMap<String, Object>();
 			
 			fires.put("entities", Arrays.asList(EntityTypes.SMALL_FIREBALL.getId()));
 			fires.put("blocks", Arrays.asList(BlockTypes.DISPENSER.getId()));
 			fires.put("items", Arrays.asList(ItemTypes.FIRE_CHARGE.getId()));
-			addDefault("FIRE_CHARGE", fires);
+			addDefault("FIRE_CHARGE", fires);*/
 		}
 	}
 

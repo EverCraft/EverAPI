@@ -23,6 +23,7 @@ import org.spongepowered.api.item.ItemType;
 import fr.evercraft.everapi.message.EMessageBuilder;
 import fr.evercraft.everapi.server.location.VirtualTransform;
 import fr.evercraft.everapi.services.entity.EntityTemplate;
+import fr.evercraft.everapi.services.fire.FireType;
 import fr.evercraft.everapi.services.worldguard.flag.type.FakeFlag;
 import fr.evercraft.everapi.services.worldguard.flag.type.StateFlag.State;
 import fr.evercraft.everapi.services.worldguard.flag.value.EntityPatternFlagValue;
@@ -33,7 +34,7 @@ public class Flags {
 	public static final Flag<State> BUILD = FakeFlag.of("BUILD");
 	public static final Flag<State> CHAT_RECEIVE = FakeFlag.of("CHAT_RECEIVE");
 	public static final Flag<State> CHAT_SEND = FakeFlag.of("CHAT_SEND");
-	public static final Flag<State> ENDER_DRAGON_GRIEF = FakeFlag.of("ENDER_DRAGON_GRIEF");
+	public static final Flag<State> ENDERDRAGON_GRIEF = FakeFlag.of("ENDERDRAGON_GRIEF");
 	public static final Flag<State> ENDERMAN_GRIEF = FakeFlag.of("ENDERMAN_GRIEF");
 	public static final Flag<State> ENDERPEARL = FakeFlag.of("ENDERPEARL");
 	public static final Flag<State> PVP = FakeFlag.of("PVP");
@@ -56,6 +57,8 @@ public class Flags {
 	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> EXPLOSION = FakeFlag.of("EXPLOSION");
 	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> EXPLOSION_BLOCK = FakeFlag.of("EXPLOSION_BLOCK");
 	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> EXPLOSION_DAMAGE = FakeFlag.of("EXPLOSION_DAMAGE");
+	
+	public static final Flag<EntryFlagValue<FireType>> FIRE = FakeFlag.of("FIRE");
 	
 	public static final Flag<State> ENTRY = FakeFlag.of("ENTRY");
 	public static final Flag<EMessageBuilder> ENTRY_MESSAGE = FakeFlag.of("ENTRY_MESSAGE");

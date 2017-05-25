@@ -499,7 +499,10 @@ public final class EMessageBuilderSerializer implements TypeSerializer<EMessageB
 			if (template.toText().isEmpty()) {
 	    		return Optional.of(new EFormatTemplate(template));
 			}
-		} catch (ObjectMappingException e) {}
+		} catch (ObjectMappingException e) {
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     	return Optional.empty();
     }
 	

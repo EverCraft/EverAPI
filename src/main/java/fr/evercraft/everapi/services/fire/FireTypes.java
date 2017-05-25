@@ -25,7 +25,7 @@ import com.google.common.collect.ImmutableSet;
 public interface FireTypes {
 	public static final FireType LAVA = new EFireType("LAVA", ImmutableSet.of(), ImmutableSet.of(BlockTypes.LAVA), ImmutableSet.of());
 	
-	public static final FireType FLINT_AND_STELL = new EFireType("FLINT_AND_STELL", ImmutableSet.of(), ImmutableSet.of(), ImmutableSet.of(ItemTypes.FLINT_AND_STEEL));
+	public static final FireType FLINT_AND_STELL = new EFireType("FLINT_AND_STELL", ImmutableSet.of(), ImmutableSet.of(BlockTypes.DISPENSER), ImmutableSet.of(ItemTypes.FLINT_AND_STEEL));
 	
 	public static final FireType FIRE_CHARGE = new EFireType("FIRE_CHARGE", ImmutableSet.of(EntityTypes.SMALL_FIREBALL), ImmutableSet.of(), ImmutableSet.of(ItemTypes.FIRE_CHARGE));
 	
