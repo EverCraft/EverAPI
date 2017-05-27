@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.fire;
+package fr.evercraft.everapi.services.snow;
 
 import java.lang.reflect.Field;
 import java.util.Optional;
@@ -31,44 +31,39 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSet.Builder;
 
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.services.FireService;
 
-public class EFireService implements FireService, AdditionalCatalogRegistryModule<FireType> {
+public class SnowService implements AdditionalCatalogRegistryModule<SnowType> {
 	
 	public final EverAPI plugin;
 	
-	private final EFireConfig config;
-	
-	private final ConcurrentHashMap<String, FireType> fires;
+	private final ConcurrentHashMap<String, SnowType> snows;
 	
 	// MultiThreading
 	private final ReadWriteLock lock;
 	private final Lock write_lock;
 	private final Lock read_lock;
 
-	public EFireService(final EverAPI plugin) {
+	public SnowService(final EverAPI plugin) {
 		this.plugin = plugin;
 		
-		this.fires = new ConcurrentHashMap<String, FireType>();
-		this.config = new EFireConfig(plugin);
+		this.snows = new ConcurrentHashMap<String, SnowType>();
 		
 		// MultiThreading
 		this.lock = new ReentrantReadWriteLock();
 		this.write_lock = this.lock.writeLock();
 		this.read_lock = this.lock.readLock();
 		
-		this.plugin.getGame().getRegistry().registerModule(FireType.class, this);
-		this.config.getFires().forEach(entity -> this.registerAdditionalCatalog(entity));
+		this.plugin.getGame().getRegistry().registerModule(SnowType.class, this);
 		
 		this.load();
 	}
 	
 	public void load() {
-		for (Field field : FireTypes.class.getFields()) {
+		for (Field field : SnowTypes.class.getFields()) {
 			try {
 				Object value = field.get(null);
-				if (value instanceof FireType) {
-					this.registerAdditionalCatalog((FireType) value);
+				if (value instanceof SnowType) {
+					this.registerAdditionalCatalog((SnowType) value);
 				}
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 				e.printStackTrace();
@@ -77,39 +72,39 @@ public class EFireService implements FireService, AdditionalCatalogRegistryModul
 	}
 
 	@Override
-	public Optional<FireType> getById(String identifier) {
+	public Optional<SnowType> getById(String identifier) {
 		Preconditions.checkNotNull(identifier, "identifier");
-		FireType fire;
+		SnowType snow;
 		
 		this.read_lock.lock();
 		try {
-			fire = this.fires.get(identifier.toLowerCase());
+			snow = this.snows.get(identifier.toLowerCase());
 		} finally {
 			this.read_lock.unlock();
 		}
 		
-		return Optional.ofNullable(fire);
+		return Optional.ofNullable(snow);
 	}
 	
 	@Override
-	public void registerAdditionalCatalog(FireType fire) {
-		Preconditions.checkNotNull(fire, "fire");
+	public void registerAdditionalCatalog(SnowType snow) {
+		Preconditions.checkNotNull(snow, "snow");
 		
 		this.write_lock.lock();
 		try {
-			this.fires.put(fire.getId().toLowerCase(), fire);
+			this.snows.put(snow.getId().toLowerCase(), snow);
 		} finally {
 			this.write_lock.unlock();
 		}
 	}
 	
 	@Override
-	public Set<FireType> getAll() {
-		Builder<FireType> builder = ImmutableSet.builder();
+	public Set<SnowType> getAll() {
+		Builder<SnowType> builder = ImmutableSet.builder();
 		
 		this.read_lock.lock();
 		try {
-			builder.addAll(this.fires.values());
+			builder.addAll(this.snows.values());
 		} finally {
 			this.read_lock.unlock();
 		}

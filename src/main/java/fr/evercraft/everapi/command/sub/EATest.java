@@ -26,6 +26,7 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.world.biome.BiomeTypes;
 
 import fr.evercraft.everapi.EACommand;
 import fr.evercraft.everapi.EAPermissions;
@@ -62,6 +63,17 @@ public class EATest extends ESubCommand<EverAPI> {
 	
 	public boolean subExecute(final CommandSource source, final List<String> args) {
 		EPlayer player = (EPlayer) source;
+		
+		player.getWorld().setBiome(player.getLocation().getChunkPosition(), BiomeTypes.ICE_PLAINS);
+		player.getWorld().setBiome(player.getLocation().getPosition().toInt().add(0, 0, 0).mul(1, 0, 1), BiomeTypes.ICE_PLAINS);
+		player.getWorld().setBiome(player.getLocation().getPosition().toInt().add(1, 0, 0).mul(1, 0, 1), BiomeTypes.ICE_PLAINS);
+		player.getWorld().setBiome(player.getLocation().getPosition().toInt().add(0, 0, 1).mul(1, 0, 1), BiomeTypes.ICE_PLAINS);
+		player.getWorld().setBiome(player.getLocation().getPosition().toInt().add(1, 0, 1).mul(1, 0, 1), BiomeTypes.ICE_PLAINS);
+		player.getWorld().setBiome(player.getLocation().getPosition().toInt().add(-1, 0, 0).mul(1, 0, 1), BiomeTypes.ICE_PLAINS);
+		player.getWorld().setBiome(player.getLocation().getPosition().toInt().add(0, 0, -1).mul(1, 0, 1), BiomeTypes.ICE_PLAINS);
+		player.getWorld().setBiome(player.getLocation().getPosition().toInt().add(-1, 0, -1).mul(1, 0, 1), BiomeTypes.ICE_PLAINS);
+		player.getWorld().setBiome(player.getLocation().getPosition().toInt().add(1, 0, -1).mul(1, 0, 1), BiomeTypes.ICE_PLAINS);
+		player.getWorld().setBiome(player.getLocation().getPosition().toInt().add(-1, 0, -1).mul(1, 0, 1), BiomeTypes.ICE_PLAINS);
 		
 		player.sendMessage("EntityTemplate : ");
 		Sponge.getRegistry().getAllOf(EntityTemplate.class).stream()

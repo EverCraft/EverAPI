@@ -100,7 +100,7 @@ public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T
 	public List<String> getSuggestions(final CommandSource source, final String arguments, Location<World> targetPosition) throws CommandException {
 		Chronometer chronometer = new Chronometer();
 		if (this.plugin.isEnable() && this.testPermission(source)) {
-			List<String> args = this.getArg(arguments);
+			ArrayList<String> args = new ArrayList<String>(this.getArg(arguments));
 			
 			if (args.isEmpty() || arguments.endsWith(" ")) {
 				args.add("");

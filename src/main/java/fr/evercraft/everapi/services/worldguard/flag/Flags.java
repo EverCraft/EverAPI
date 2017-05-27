@@ -24,6 +24,8 @@ import fr.evercraft.everapi.message.EMessageBuilder;
 import fr.evercraft.everapi.server.location.VirtualTransform;
 import fr.evercraft.everapi.services.entity.EntityTemplate;
 import fr.evercraft.everapi.services.fire.FireType;
+import fr.evercraft.everapi.services.ice.IceType;
+import fr.evercraft.everapi.services.snow.SnowType;
 import fr.evercraft.everapi.services.worldguard.flag.type.FakeFlag;
 import fr.evercraft.everapi.services.worldguard.flag.type.StateFlag.State;
 import fr.evercraft.everapi.services.worldguard.flag.value.EntityPatternFlagValue;
@@ -59,6 +61,8 @@ public class Flags {
 	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> EXPLOSION_DAMAGE = FakeFlag.of("EXPLOSION_DAMAGE");
 	
 	public static final Flag<EntryFlagValue<FireType>> FIRE = FakeFlag.of("FIRE");
+	public static final Flag<EntryFlagValue<IceType>> ICE = FakeFlag.of("ICE");
+	public static final Flag<EntryFlagValue<SnowType>> SNOW = FakeFlag.of("SNOW");
 	
 	public static final Flag<State> ENTRY = FakeFlag.of("ENTRY");
 	public static final Flag<EMessageBuilder> ENTRY_MESSAGE = FakeFlag.of("ENTRY_MESSAGE");

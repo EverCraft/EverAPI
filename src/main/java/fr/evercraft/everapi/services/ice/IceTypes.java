@@ -14,21 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.fire;
+package fr.evercraft.everapi.services.ice;
 
-import java.util.Set;
-
-import org.spongepowered.api.CatalogType;
-import org.spongepowered.api.block.BlockType;
-import org.spongepowered.api.entity.EntityType;
-import org.spongepowered.api.item.ItemType;
-
-public interface FireType extends CatalogType {
-
-	Set<EntityType> getEntities();
-
-	Set<BlockType> getBlocks();
-
-	Set<ItemType> getItems();
+public class IceTypes {
+	
+	public static final IceType FORM = new IceType("FORM");
+	public static final IceType MELT = new IceType("MELT");
 	
 }

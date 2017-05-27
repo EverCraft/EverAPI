@@ -36,6 +36,7 @@ import fr.evercraft.everapi.services.essentials.EssentialsService;
 import fr.evercraft.everapi.services.essentials.SpawnService;
 import fr.evercraft.everapi.services.essentials.WarpService;
 import fr.evercraft.everapi.services.fire.EFireService;
+import fr.evercraft.everapi.services.ice.IceService;
 import fr.evercraft.everapi.services.jail.JailService;
 import fr.evercraft.everapi.services.mojang.EMojangService;
 import fr.evercraft.everapi.services.nametag.ENameTagService;
@@ -45,6 +46,7 @@ import fr.evercraft.everapi.services.sanction.SanctionService;
 import fr.evercraft.everapi.services.scoreboard.EScoreBoardService;
 import fr.evercraft.everapi.services.selection.SelectionService;
 import fr.evercraft.everapi.services.sign.SignService;
+import fr.evercraft.everapi.services.snow.SnowService;
 import fr.evercraft.everapi.services.tablist.ETabListService;
 import fr.evercraft.everapi.services.title.ETitleService;
 import fr.evercraft.everapi.services.worldguard.WorldGuardService;
@@ -97,6 +99,9 @@ public class ManagerService {
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, EntityService.class, this.entity);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, FireService.class, this.fire);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, MojangService.class, this.mojang);
+		
+		this.plugin.getGame().getServiceManager().setProvider(this.plugin, SnowService.class, new SnowService(this.plugin));
+		this.plugin.getGame().getServiceManager().setProvider(this.plugin, IceService.class, new IceService(this.plugin));
 	}
 	
 	public void reload() {
