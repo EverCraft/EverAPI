@@ -158,21 +158,21 @@ public abstract class EntityTemplateFlag extends EFlag<EntityPatternFlagValue<En
 	@Override
 	public Text getValueFormat(EntityPatternFlagValue<EntityTemplate, Entity> value) {
 		if (value.getKeys().isEmpty()) {
-			return EAMessages.FLAG_ENTITYTEMPLATE_EMPTY.getText();
+			return EAMessages.FLAG_MAP_EMPTY.getText();
 		}
 		
 		List<Text> groups = new ArrayList<Text>();
 		for (String group : value.getKeys()) {
 			List<Text> entities = new ArrayList<Text>();
 			for (EntityTemplate entity : this.groups.get(group)) {
-				entities.add(EAMessages.FLAG_ENTITYTEMPLATE_HOVER.getFormat().toText("<entity>", entity.getId()));
+				entities.add(EAMessages.FLAG_MAP_HOVER.getFormat().toText("<entity>", entity.getId()));
 			}
-			groups.add(EAMessages.FLAG_ENTITYTEMPLATE_GROUP.getFormat().toText("<group>", group).toBuilder()
+			groups.add(EAMessages.FLAG_MAP_GROUP.getFormat().toText("<group>", group).toBuilder()
 				.onHover(TextActions.showText(Text.joinWith(Text.of("\n"), entities)))
 				.build());
 		}
 		
-		return Text.joinWith(EAMessages.FLAG_ENTITYTEMPLATE_JOIN.getText(), groups);
+		return Text.joinWith(EAMessages.FLAG_MAP_JOIN.getText(), groups);
 	}
 	
 	@Override

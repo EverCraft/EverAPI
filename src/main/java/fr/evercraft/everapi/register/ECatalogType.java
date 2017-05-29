@@ -14,20 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.snow;
+package fr.evercraft.everapi.register;
 
 import org.spongepowered.api.CatalogType;
 
-public class SnowType implements CatalogType {
+public class ECatalogType implements CatalogType {
 
 	private final String id;
 	private final String name;
 	
-	public SnowType(String name) {
+	public ECatalogType(String name) {
 		this.id = "evercraft:" + name.toLowerCase();
 		this.name = name.toUpperCase();
 	}
 
+	public ECatalogType(String id, String name) {
+		this.id = id.toLowerCase();
+		this.name = name.toUpperCase();
+	}
+	
 	@Override
 	public String getId() {
 		return this.id;

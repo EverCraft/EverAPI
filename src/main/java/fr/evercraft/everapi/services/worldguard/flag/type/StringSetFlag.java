@@ -27,7 +27,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.spongepowered.api.CatalogType;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
@@ -37,19 +36,19 @@ import fr.evercraft.everapi.services.worldguard.flag.EFlag;
 import fr.evercraft.everapi.services.worldguard.flag.value.EntryFlagValue;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 
-public abstract class CatalogTypeFlag<T extends CatalogType> extends EFlag<EntryFlagValue<T>> {
+public abstract class StringSetFlag extends EFlag<EntryFlagValue<String>> {
 	
 	protected static final String PATTERN_SPLIT = "[,\\s]+";
 	protected static final String ALL = "ALL";
 	
-	protected final Map<String, Set<T>> groups;
-	protected EntryFlagValue<T> defaults;
+	protected final Map<String, Set<String>> groups;
+	protected EntryFlagValue<String> defaults;
 
-	public CatalogTypeFlag(String name) {
+	public StringSetFlag(String name) {
 		super(name);
 		
-		this.groups = new ConcurrentHashMap<String, Set<T>>();
-		this.defaults = new EntryFlagValue<T>();
+		this.groups = new ConcurrentHashMap<String, Set<String>>();
+		this.defaults = new EntryFlagValue<String>();
 	}
 	
 	public void reload() {
@@ -57,15 +56,15 @@ public abstract class CatalogTypeFlag<T extends CatalogType> extends EFlag<Entry
 		this.groups.putAll(this.getConfig());
 		
 		Set<String> keys = this.groups.keySet();
-		Set<T> values = new HashSet<T>();
+		Set<String> values = new HashSet<String>();
 		this.groups.values().forEach(value -> values.addAll(value));
-		this.defaults = new EntryFlagValue<T>(keys, values);
+		this.defaults = new EntryFlagValue<String>(keys, values);
 	}
 	
-	protected abstract Map<String, Set<T>> getConfig();
+	protected abstract Map<String, Set<String>> getConfig();
 	
 	@Override
-	public EntryFlagValue<T> getDefault() {
+	public EntryFlagValue<String> getDefault() {
 		return this.defaults;
 	}
 	
@@ -74,15 +73,15 @@ public abstract class CatalogTypeFlag<T extends CatalogType> extends EFlag<Entry
 	 */
 	
 	@Override
-	public EntryFlagValue<T> parseAdd(CommandSource source, ProtectedRegion region, ProtectedRegion.Group group, List<String> args) {
-		EntryFlagValue<T> newFlag = null;
+	public EntryFlagValue<String> parseAdd(CommandSource source, ProtectedRegion region, ProtectedRegion.Group group, List<String> args) {
+		EntryFlagValue<String> newFlag = null;
 		if (args.isEmpty()) {
 			newFlag = this.deserialize("");
 		} else {
 			newFlag = this.deserialize(String.join(", ", args));
 		}
 		
-		Optional<EntryFlagValue<T>> flag = region.getFlag(this).get(group);
+		Optional<EntryFlagValue<String>> flag = region.getFlag(this).get(group);
 		if (flag.isPresent()) {
 			return newFlag.addAll(flag.get());
 		} else {
@@ -91,13 +90,13 @@ public abstract class CatalogTypeFlag<T extends CatalogType> extends EFlag<Entry
 	}
 	
 	@Override
-	public Optional<EntryFlagValue<T>> parseRemove(CommandSource source, ProtectedRegion region, ProtectedRegion.Group group, List<String> args) {
+	public Optional<EntryFlagValue<String>> parseRemove(CommandSource source, ProtectedRegion region, ProtectedRegion.Group group, List<String> args) {
 		if (args.isEmpty()) return Optional.empty();
 		
-		EntryFlagValue<T> newFlag = this.deserialize(String.join(", ", args));
+		EntryFlagValue<String> newFlag = this.deserialize(String.join(", ", args));
 		if (newFlag.getKeys().isEmpty()) return Optional.empty();
 		
-		Optional<EntryFlagValue<T>> flag = region.getFlag(this).get(group);
+		Optional<EntryFlagValue<String>> flag = region.getFlag(this).get(group);
 		if (flag.isPresent()) {
 			newFlag = flag.get().removeAll(newFlag);
 			if (!newFlag.getKeys().isEmpty()) {
@@ -114,27 +113,27 @@ public abstract class CatalogTypeFlag<T extends CatalogType> extends EFlag<Entry
 	 */
 	
 	@Override
-	public String serialize(EntryFlagValue<T> value) {
+	public String serialize(EntryFlagValue<String> value) {
 		return String.join(",", value.getKeys());
 	}
 
 	@Override
-	public EntryFlagValue<T> deserialize(String value) throws IllegalArgumentException {
+	public EntryFlagValue<String> deserialize(String value) throws IllegalArgumentException {
 		if (value.equalsIgnoreCase(ALL)) return this.defaults;
-		if (value.isEmpty()) return new EntryFlagValue<T>();
+		if (value.isEmpty()) return new EntryFlagValue<String>();
 		
 		Set<String> keys = new HashSet<String>();
-		Set<T> values = new HashSet<T>();
+		Set<String> values = new HashSet<String>();
 		for (String key : value.split(PATTERN_SPLIT)) {
-			Set<T> blocks = this.groups.get(key.toUpperCase());
+			Set<String> blocks = this.groups.get(key.toUpperCase());
 			if (blocks != null) {
 				keys.add(key.toUpperCase());
 				values.addAll(blocks);
 			} else {
-				throw new IllegalArgumentException(this.getName()  + " : " + key.toUpperCase());
+				throw new IllegalArgumentException();
 			}
 		}
-		return new EntryFlagValue<T>(keys, values);
+		return new EntryFlagValue<String>(keys, values);
 	}
 	
 	/*
@@ -160,7 +159,7 @@ public abstract class CatalogTypeFlag<T extends CatalogType> extends EFlag<Entry
 	 */
 	
 	@Override
-	public Text getValueFormat(EntryFlagValue<T> value) {
+	public Text getValueFormat(EntryFlagValue<String> value) {
 		if (value.getKeys().isEmpty()) {
 			return EAMessages.FLAG_MAP_EMPTY.getText();
 		}
@@ -168,8 +167,8 @@ public abstract class CatalogTypeFlag<T extends CatalogType> extends EFlag<Entry
 		List<Text> groups = new ArrayList<Text>();
 		for (String group : value.getKeys()) {
 			List<Text> types = new ArrayList<Text>();
-			for (T type : this.groups.get(group)) {
-				types.add(EAMessages.FLAG_MAP_HOVER.getFormat().toText("<value>", type.getName()));
+			for (String type : this.groups.get(group)) {
+				types.add(EAMessages.FLAG_MAP_HOVER.getFormat().toText("<value>", type));
 			}
 			if (types.size() > 100) {
 				types = types.subList(0, 50);

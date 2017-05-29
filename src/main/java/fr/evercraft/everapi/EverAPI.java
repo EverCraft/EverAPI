@@ -34,6 +34,7 @@ import fr.evercraft.everapi.message.EMessageBuilder;
 import fr.evercraft.everapi.message.format.EFormat;
 import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.EPlugin;
+import fr.evercraft.everapi.register.ManagerRegister;
 import fr.evercraft.everapi.server.EServer;
 import fr.evercraft.everapi.services.ManagerService;
 import fr.evercraft.everapi.services.bungee.BungeeCord;
@@ -81,6 +82,7 @@ public class EverAPI extends EPlugin<EverAPI> {
 		this.server = new EServer(this);
 		this.managerUtils = new ManagerUtils(this);
 		this.service = new ManagerService(this);
+		new ManagerRegister(this);
 	}
 	
 	@Override
