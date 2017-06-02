@@ -17,7 +17,7 @@
 package fr.evercraft.everapi.services.worldguard.flag;
 
 import org.spongepowered.api.block.BlockType;
-import org.spongepowered.api.entity.Entity;
+import org.spongepowered.api.effect.potion.PotionEffectType;
 import org.spongepowered.api.item.ItemType;
 
 import fr.evercraft.everapi.message.EMessageBuilder;
@@ -25,11 +25,11 @@ import fr.evercraft.everapi.registers.ChatType;
 import fr.evercraft.everapi.registers.IceType;
 import fr.evercraft.everapi.registers.SnowType;
 import fr.evercraft.everapi.server.location.VirtualTransform;
-import fr.evercraft.everapi.services.entity.EntityTemplate;
 import fr.evercraft.everapi.services.fire.FireType;
 import fr.evercraft.everapi.services.worldguard.flag.type.FakeFlag;
+import fr.evercraft.everapi.services.worldguard.flag.type.MapStringFlag;
 import fr.evercraft.everapi.services.worldguard.flag.type.StateFlag.State;
-import fr.evercraft.everapi.services.worldguard.flag.value.EntityPatternFlagValue;
+import fr.evercraft.everapi.services.worldguard.flag.value.EntityTemplateFlagValue;
 import fr.evercraft.everapi.services.worldguard.flag.value.EntryFlagValue;
 
 public class Flags {
@@ -52,13 +52,15 @@ public class Flags {
 	public static final Flag<EntryFlagValue<ItemType>> ITEM_DROP = FakeFlag.of("ITEM_DROP");
 	public static final Flag<EntryFlagValue<ItemType>> ITEM_PICKUP = FakeFlag.of("ITEM_PICKUP");
 	
-	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> DAMAGE_ENTITY = FakeFlag.of("DAMAGE_ENTITY");
-	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> INTERACT_ENTITY = FakeFlag.of("INTERACT_ENTITY");
-	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> ENTITY_DAMAGE = FakeFlag.of("ENTITY_DAMAGE");
-	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> ENTITY_SPAWNING = FakeFlag.of("ENTITY_SPAWNING");
-	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> EXPLOSION = FakeFlag.of("EXPLOSION");
-	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> EXPLOSION_BLOCK = FakeFlag.of("EXPLOSION_BLOCK");
-	public static final Flag<EntityPatternFlagValue<EntityTemplate, Entity>> EXPLOSION_DAMAGE = FakeFlag.of("EXPLOSION_DAMAGE");
+	public static final Flag<EntryFlagValue<PotionEffectType>> POTION_SPLASH = FakeFlag.of("POTION_SPLASH");
+	
+	public static final Flag<EntityTemplateFlagValue> DAMAGE_ENTITY = FakeFlag.of("DAMAGE_ENTITY");
+	public static final Flag<EntityTemplateFlagValue> INTERACT_ENTITY = FakeFlag.of("INTERACT_ENTITY");
+	public static final Flag<EntityTemplateFlagValue> ENTITY_DAMAGE = FakeFlag.of("ENTITY_DAMAGE");
+	public static final Flag<EntityTemplateFlagValue> ENTITY_SPAWNING = FakeFlag.of("ENTITY_SPAWNING");
+	public static final Flag<EntityTemplateFlagValue> EXPLOSION = FakeFlag.of("EXPLOSION");
+	public static final Flag<EntityTemplateFlagValue> EXPLOSION_BLOCK = FakeFlag.of("EXPLOSION_BLOCK");
+	public static final Flag<EntityTemplateFlagValue> EXPLOSION_DAMAGE = FakeFlag.of("EXPLOSION_DAMAGE");
 	
 	public static final Flag<EntryFlagValue<ChatType>> CHAT = FakeFlag.of("CHAT");
 	public static final Flag<EntryFlagValue<FireType>> FIRE = FakeFlag.of("FIRE");
@@ -75,4 +77,6 @@ public class Flags {
 	
 	public static final Flag<VirtualTransform> SPAWN = FakeFlag.of("SPAWN");
 	public static final Flag<VirtualTransform> TELEPORT = FakeFlag.of("TELEPORT");	
+	
+	public static final Flag<MapStringFlag> COMMAND = FakeFlag.of("COMMAND");
 }

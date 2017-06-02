@@ -147,8 +147,8 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 		REMOVE_CHILDREN;
 	}
 	
-	String getIdentifier();
-	void setIdentifier(String identifier) throws RegionIdentifierException;
+	String getName();
+	void setName(String identifier) throws RegionIdentifierException;
 	
 	ProtectedRegion.Type getType();
 	ProtectedRegion.Group getGroup(User user, Set<Context> contexts);
