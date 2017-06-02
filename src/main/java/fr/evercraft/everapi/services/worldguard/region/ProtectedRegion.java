@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
 
@@ -34,7 +33,6 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 
 import com.flowpowered.math.vector.Vector3i;
-import com.google.common.base.Preconditions;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.services.worldguard.exception.CircularInheritanceException;
@@ -44,14 +42,6 @@ import fr.evercraft.everapi.services.worldguard.flag.FlagValue;
 import fr.evercraft.everapi.services.worldguard.regions.Domain;
 
 public interface ProtectedRegion extends Comparable<ProtectedRegion> {
-	
-	static final Pattern VALID_ID_PATTERN = Pattern.compile("^[A-Za-z0-9_,'\\-\\+/]{1,}$");
-	
-	public static boolean isValidId(String id) {
-		Preconditions.checkNotNull(id);
-		
-		return VALID_ID_PATTERN.matcher(id).matches();
-	}
 	
 	public enum Group {
 		OWNER(EAMessages.REGION_GROUP_OWNER_HOVER),
@@ -147,6 +137,7 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 		REMOVE_CHILDREN;
 	}
 	
+	UUID getId();
 	String getName();
 	void setName(String identifier) throws RegionIdentifierException;
 	

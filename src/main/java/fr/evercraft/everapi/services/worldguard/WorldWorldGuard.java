@@ -19,13 +19,11 @@ package fr.evercraft.everapi.services.worldguard;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
-import org.spongepowered.api.service.permission.Subject;
+import java.util.UUID;
 
 import com.flowpowered.math.vector.Vector3d;
 import com.flowpowered.math.vector.Vector3i;
 
-import fr.evercraft.everapi.server.user.EUser;
 import fr.evercraft.everapi.services.worldguard.exception.RegionIdentifierException;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion.RemoveType;
@@ -34,12 +32,13 @@ import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 public interface WorldWorldGuard {
 
 	// Create
-	ProtectedRegion.Cuboid createRegionCuboid(String region, Vector3i pos1, Vector3i pos2, Set<EUser> owner_players, Set<Subject> owner_groups) throws RegionIdentifierException;
-	ProtectedRegion.Polygonal createRegionPolygonal(String region, List<Vector3i> positions, Set<EUser> owner_players, Set<Subject> owner_groups) throws RegionIdentifierException;
-	ProtectedRegion.Template createRegionTemplate(String region, Set<EUser> owner_players, Set<Subject> owner_groups) throws RegionIdentifierException;
+	ProtectedRegion.Cuboid createRegionCuboid(String region, Vector3i pos1, Vector3i pos2, Set<UUID> owner_players, Set<String> owner_groups) throws RegionIdentifierException;
+	ProtectedRegion.Polygonal createRegionPolygonal(String region, List<Vector3i> positions, Set<UUID> owner_players, Set<String> owner_groups) throws RegionIdentifierException;
+	ProtectedRegion.Template createRegionTemplate(String region, Set<UUID> owner_players, Set<String> owner_groups) throws RegionIdentifierException;
 	
+	Optional<ProtectedRegion> getRegion(UUID region);
 	Optional<ProtectedRegion> getRegion(String region);
-	Optional<ProtectedRegion> removeRegion(String region, RemoveType type);
+	Optional<ProtectedRegion> removeRegion(UUID region, RemoveType type);
 	
 	SetProtectedRegion getRegions(Vector3i position);
 	default SetProtectedRegion getRegions(Vector3d position) {
