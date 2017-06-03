@@ -44,6 +44,7 @@ import fr.evercraft.everapi.services.priority.EPriorityService;
 import fr.evercraft.everapi.services.sanction.SanctionService;
 import fr.evercraft.everapi.services.scoreboard.EScoreBoardService;
 import fr.evercraft.everapi.services.selection.SelectionService;
+import fr.evercraft.everapi.services.selection.worldedit.EWSelectionService;
 import fr.evercraft.everapi.services.sign.SignService;
 import fr.evercraft.everapi.services.tablist.ETabListService;
 import fr.evercraft.everapi.services.title.ETitleService;
@@ -82,6 +83,9 @@ public class ManagerService {
 		this.fire = new EFireService(this.plugin);
 		
 		this.mojang = new EMojangService(this.plugin);
+		
+		// WorldEdit
+		new EWSelectionService(this.plugin);
 		
 		this.register();
 	}
