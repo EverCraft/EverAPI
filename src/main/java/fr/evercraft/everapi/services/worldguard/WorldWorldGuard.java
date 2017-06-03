@@ -32,10 +32,11 @@ import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 public interface WorldWorldGuard {
 
 	// Create
-	ProtectedRegion.Cuboid createRegionCuboid(String region, Vector3i pos1, Vector3i pos2, Set<UUID> owner_players, Set<String> owner_groups) throws RegionIdentifierException;
-	ProtectedRegion.Polygonal createRegionPolygonal(String region, List<Vector3i> positions, Set<UUID> owner_players, Set<String> owner_groups) throws RegionIdentifierException;
-	ProtectedRegion.Template createRegionTemplate(String region, Set<UUID> owner_players, Set<String> owner_groups) throws RegionIdentifierException;
+	ProtectedRegion.Cuboid createRegionCuboid(String region, Vector3i pos1, Vector3i pos2, Set<UUID> ownerPlayers, Set<String> ownerGroups) throws RegionIdentifierException;
+	ProtectedRegion.Polygonal createRegionPolygonal(String region, List<Vector3i> positions, Set<UUID> ownerPlayers, Set<String> ownerGroups) throws RegionIdentifierException;
+	ProtectedRegion.Template createRegionTemplate(String region, Set<UUID> ownerPlayers, Set<String> ownerGroups) throws RegionIdentifierException;
 	
+	// Region
 	Optional<ProtectedRegion> getRegion(UUID region);
 	Optional<ProtectedRegion> getRegion(String region);
 	Optional<ProtectedRegion> removeRegion(UUID region, RemoveType type);

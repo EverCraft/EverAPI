@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.worldguard.regions;
+package fr.evercraft.everapi.services.worldguard.region;
 
 import java.util.Set;
 import java.util.UUID;

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.worldguard.flag.type;
+package fr.evercraft.everapi.services.worldguard.flag;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +40,6 @@ import fr.evercraft.everapi.java.UtilsFloat;
 import fr.evercraft.everapi.message.EMessageBuilder;
 import fr.evercraft.everapi.message.format.EFormatString;
 import fr.evercraft.everapi.plugin.command.Args;
-import fr.evercraft.everapi.services.worldguard.flag.EFlag;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 import fr.evercraft.everapi.sponge.UtilsBossBar;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;

@@ -22,8 +22,7 @@ import java.util.Set;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.service.context.Context;
 
-import fr.evercraft.everapi.services.worldguard.flag.Flag;
-import fr.evercraft.everapi.services.worldguard.regions.EmptySetProtectedRegion;
+import fr.evercraft.everapi.services.worldguard.Flag;
 
 public interface SetProtectedRegion {
 

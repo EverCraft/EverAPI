@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.worldguard.flag.type;
+package fr.evercraft.everapi.services.worldguard.flag;
 
 import java.util.HashSet;
 import java.util.List;
@@ -23,7 +23,6 @@ import java.util.Set;
 
 import org.spongepowered.api.command.CommandSource;
 
-import fr.evercraft.everapi.services.worldguard.flag.EFlag;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 
 public abstract class SetFlag<T> extends EFlag<Set<T>> {

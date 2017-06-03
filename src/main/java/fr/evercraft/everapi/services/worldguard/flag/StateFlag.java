@@ -14,44 +14,54 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.worldguard.flag.type;
+package fr.evercraft.everapi.services.worldguard.flag;
 
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
-import fr.evercraft.everapi.services.worldguard.flag.EFlag;
+public abstract class StateFlag extends EFlag<StateFlag.State> {
+	
+	public enum State {
+		ALLOW,
+		DENY;
+	}
 
-public abstract class IntegerFlag extends EFlag<Integer> {
-
-	public IntegerFlag(String name) {
+	public StateFlag(String name) {
 		super(name);
 	}
 	
 	@Override
 	public Collection<String> getSuggestAdd(CommandSource source, final List<String> args) {
-		return Arrays.asList("1", "2", "3");
+		Set<String> suggests = new HashSet<String>();
+		for (StateFlag.State state : StateFlag.State.values()) {
+			suggests.add(state.name());
+		}
+		return suggests;
 	}
 
 	@Override
-	public String serialize(Integer value) {
-		return value.toString();
+	public String serialize(StateFlag.State value) {
+		return value.name();
 	}
 
 	@Override
-	public Integer deserialize(String value) throws IllegalArgumentException {
-		try {
-			return Integer.valueOf(value);
-		} catch (Exception e) {
+	public StateFlag.State deserialize(String value) throws IllegalArgumentException {
+		if (value.equalsIgnoreCase("ALLOW")) {
+			return StateFlag.State.ALLOW;
+		} else if (value.equalsIgnoreCase("DENY")) {
+			return StateFlag.State.DENY;
+		} else {
 			throw new IllegalArgumentException();
 		}
 	}
 	
 	@Override
-	public Text getValueFormat(Integer value) {
-		return Text.of(value);
+	public Text getValueFormat(StateFlag.State value) {
+		return Text.of(this.serialize(value));
 	}
 }

@@ -31,14 +31,16 @@ import com.google.common.reflect.TypeToken;
 
 import fr.evercraft.everapi.java.UtilsPredicate.TriPredicate;
 import fr.evercraft.everapi.services.entity.property.EntityTemplateProperty;
-import fr.evercraft.everapi.services.worldguard.flag.value.PatternFlagValue;
 
-public interface EntityTemplate extends CatalogType, PatternFlagValue<Entity> {
+public interface EntityTemplate extends CatalogType {
 	
 	EntityType getType();
 	
 	boolean apply(Entity entity);
+	boolean contains(Entity entity);
+	
 	boolean apply(Entity entity, Player player);
+	boolean contains(Entity entity, Player player);
 	
 	static EntityTemplate of(EntityType type) {
 		return new EntityTypeTemplate(type);

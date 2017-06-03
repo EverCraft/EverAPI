@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.worldguard.flag;
+package fr.evercraft.everapi.services.worldguard;
 
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 
@@ -34,6 +34,8 @@ public interface Flag<T> extends CatalogType {
 	String getDescription();
 	Text getNameFormat();
 	Text getValueFormat(T value);
+	
+	void reload();
 	
 	Set<ProtectedRegion.Group> getGroups();
 	

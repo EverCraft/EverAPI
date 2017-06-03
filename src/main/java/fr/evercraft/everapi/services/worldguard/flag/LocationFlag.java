@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.worldguard.flag.type;
+package fr.evercraft.everapi.services.worldguard.flag;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +30,6 @@ import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.server.location.EVirtualTransform;
 import fr.evercraft.everapi.server.location.VirtualTransform;
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.services.worldguard.flag.EFlag;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 
 public abstract class LocationFlag extends EFlag<VirtualTransform> {

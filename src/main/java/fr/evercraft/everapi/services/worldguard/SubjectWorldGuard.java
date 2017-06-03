@@ -19,9 +19,7 @@ package fr.evercraft.everapi.services.worldguard;
 import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 
 public interface SubjectWorldGuard {
-	/*
-	 * Region
-	 */
 	
+	// Regions
 	SetProtectedRegion getRegions();
 }

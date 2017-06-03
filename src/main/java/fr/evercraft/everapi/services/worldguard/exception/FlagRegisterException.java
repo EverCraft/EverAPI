@@ -16,7 +16,7 @@
  */
 package fr.evercraft.everapi.services.worldguard.exception;
 
-import fr.evercraft.everapi.services.worldguard.flag.Flag;
+import fr.evercraft.everapi.services.worldguard.Flag;
 
 public class FlagRegisterException extends RuntimeException {
 

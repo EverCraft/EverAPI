@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.worldguard.flag.type;
+package fr.evercraft.everapi.services.worldguard.flag;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -23,36 +23,33 @@ import java.util.List;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 
-import fr.evercraft.everapi.EAMessage.EAMessages;
-import fr.evercraft.everapi.services.worldguard.flag.EFlag;
+public abstract class IntegerFlag extends EFlag<Integer> {
 
-public abstract class DoubleFlag extends EFlag<Double> {
-
-	public DoubleFlag(String name) {
+	public IntegerFlag(String name) {
 		super(name);
 	}
 	
 	@Override
 	public Collection<String> getSuggestAdd(CommandSource source, final List<String> args) {
-		return Arrays.asList("1.01", "2.02", "3.03");
+		return Arrays.asList("1", "2", "3");
 	}
 
 	@Override
-	public String serialize(Double value) {
+	public String serialize(Integer value) {
 		return value.toString();
 	}
 
 	@Override
-	public Double deserialize(String value) throws IllegalArgumentException {
+	public Integer deserialize(String value) throws IllegalArgumentException {
 		try {
-			return Double.valueOf(value);
+			return Integer.valueOf(value);
 		} catch (Exception e) {
-			throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("<number>", value));
+			throw new IllegalArgumentException();
 		}
 	}
 	
 	@Override
-	public Text getValueFormat(Double value) {
+	public Text getValueFormat(Integer value) {
 		return Text.of(value);
 	}
 }

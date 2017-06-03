@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.worldguard.flag;
+package fr.evercraft.everapi.services.worldguard;
 
 import java.util.Map;
 import java.util.Optional;

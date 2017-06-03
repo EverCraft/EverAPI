@@ -22,23 +22,22 @@ import java.util.UUID;
 
 import org.spongepowered.api.world.World;
 
-import fr.evercraft.everapi.services.worldguard.flag.Flag;
-
 public interface WorldGuardService {
 	
 	public static final String MESSAGE_FLAG = "everworldguard.flag";
 
+	// Subject
 	Optional<SubjectWorldGuard> get(UUID uuid);
 	boolean hasRegistered(UUID uuid);
 
+	// Flag
 	Optional<Flag<?>> getFlag(String name);
 	void registerFlag(Flag<?> flag);
 	void registerFlag(Set<Flag<?>> flags);
 	boolean hasRegisteredFlag(Flag<?> flag);
 	Set<Flag<?>> getFlags();
-	void clearFlags();
 	
+	// World
 	WorldWorldGuard getOrCreateWorld(World world);
-	void unLoadWorld(World world);
 	Set<WorldWorldGuard> getAll();
 }

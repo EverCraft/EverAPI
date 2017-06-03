@@ -83,6 +83,9 @@ public class ERegister<T extends CatalogType> implements AdditionalCatalogRegist
 		this.read_lock.lock();
 		try {
 			value = this.types.get(identifier.toLowerCase());
+			if (value == null) {
+				value = this.types.get("evercraft:" + identifier.toLowerCase());
+			}
 		} finally {
 			this.read_lock.unlock();
 		}

@@ -20,8 +20,10 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
+import fr.evercraft.everapi.services.worldguard.Flag;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion.Group;
+import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion.Groups;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -48,10 +50,12 @@ public abstract class EFlag<T> implements Flag<T> {
         this.name = name.toUpperCase();
     }
     
+    @Override
     public String getId() {
         return this.id;
     }
     
+    @Override
     public String getName() {
         return this.name;
     }
@@ -64,8 +68,11 @@ public abstract class EFlag<T> implements Flag<T> {
 	}
 	
 	@Override
+	public void reload() {}
+	
+	@Override
 	public Set<Group> getGroups() {
-		return ImmutableSet.copyOf(Group.values());
+		return ImmutableSet.of(Groups.DEFAULT, Groups.MEMBER, Groups.OWNER);
 	}
 	
 	@Override

@@ -29,112 +29,61 @@ import javax.annotation.Nullable;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.service.context.Context;
 import org.spongepowered.api.service.permission.Subject;
-import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.action.TextActions;
 
 import com.flowpowered.math.vector.Vector3i;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
+import fr.evercraft.everapi.register.ECatalogType;
+import fr.evercraft.everapi.register.EFormatCatalogType;
+import fr.evercraft.everapi.services.worldguard.Flag;
+import fr.evercraft.everapi.services.worldguard.FlagValue;
 import fr.evercraft.everapi.services.worldguard.exception.CircularInheritanceException;
 import fr.evercraft.everapi.services.worldguard.exception.RegionIdentifierException;
-import fr.evercraft.everapi.services.worldguard.flag.Flag;
-import fr.evercraft.everapi.services.worldguard.flag.FlagValue;
-import fr.evercraft.everapi.services.worldguard.regions.Domain;
 
 public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	
-	public enum Group {
-		OWNER(EAMessages.REGION_GROUP_OWNER_HOVER),
-		MEMBER(EAMessages.REGION_GROUP_MEMBER_HOVER),
-		DEFAULT(EAMessages.REGION_GROUP_DEFAULT_HOVER);
-
-		private final EAMessages format;
-		
-		Group(EAMessages format) {
-			this.format = format;
+	public class Group extends EFormatCatalogType {
+		public Group(String name, EAMessages format) {
+			super(name, format);
 	    }
-		
-		public String getName() {
-	        return this.name();
-	    }
-		
-		public Text getHover() {
-	        return this.format.getText();
-	    }
-		
-		public Text getNameFormat() {
-	        return Text.builder(this.name())
-	        				.onHover(TextActions.showText(this.format.getText()))
-	        				.onShiftClick(TextActions.insertText(this.name()))
-	        				.build();
-	    }
-		
-		public static Optional<Group> get(final String name) {
-			Group entity = null;
-			int cpt = 0;
-			while(cpt < values().length && entity == null){
-				if (values()[cpt].name().equalsIgnoreCase(name)) {
-					entity = values()[cpt];
-				}
-				cpt++;
-			}
-			return Optional.ofNullable(entity);
-		}
 	}
 	
-	public enum  Type {
-		CUBOID(EAMessages.REGION_TYPE_CUBOID, EAMessages.REGION_TYPE_CUBOID_HOVER),
-		POLYGONAL(EAMessages.REGION_TYPE_POLYGONAL, EAMessages.REGION_TYPE_POLYGONAL_HOVER),
-		TEMPLATE(EAMessages.REGION_TYPE_TEMPLATE, EAMessages.REGION_TYPE_TEMPLATE_HOVER),
-		GLOBAL(EAMessages.REGION_TYPE_GLOBAL, EAMessages.REGION_TYPE_GLOBAL_HOVER);
-
-		private final EAMessages name;
-		private final EAMessages format;
-		
-		Type(EAMessages name, EAMessages format) {
-			this.name = name;
-			this.format = format;
+	public class Type extends EFormatCatalogType {
+		public Type(String name, EAMessages format) {
+			super(name, format);
 	    }
-		
-		public String getName() {
-	        return this.name.getString();
-	    }
-		
-		public Text getHover() {
-	        return this.format.getText();
-	    }
-		
-		public Text getNameFormat() {
-	        return this.name.getText().toBuilder()
-	        				.onHover(TextActions.showText(this.format.getText()))
-	        				.onShiftClick(TextActions.insertText(this.name()))
-	        				.build();
-	    }
-
-		public static Optional<Type> of(String name) {
-			Type type = null;
-			int cpt = 0;
-			while(cpt < values().length && type == null){
-				if (values()[cpt].name().equalsIgnoreCase(name)) {
-					type = values()[cpt];
-				}
-				cpt++;
-			}
-			return Optional.ofNullable(type);
-		}
 	}
 	
-	public enum RemoveType {
+	public class RemoveType extends ECatalogType {
+		public RemoveType(String name) {
+			super(name);
+	    }
+	}
+	
+	public interface Groups {
+		static final Group OWNER = new Group("OWNER", EAMessages.REGION_GROUP_OWNER_HOVER);
+		static final Group MEMBER = new Group("MEMBER", EAMessages.REGION_GROUP_MEMBER_HOVER);
+		static final Group DEFAULT = new Group("DEFAULT", EAMessages.REGION_GROUP_DEFAULT_HOVER);
+	}
+	
+	public interface Types {
+		static final Type CUBOID = new Type("CUBOID", EAMessages.REGION_TYPE_CUBOID_HOVER);
+		static final Type POLYGONAL = new Type("POLYGONAL", EAMessages.REGION_TYPE_POLYGONAL_HOVER);
+		static final Type TEMPLATE = new Type("TEMPLATE", EAMessages.REGION_TYPE_TEMPLATE_HOVER);
+		static final Type GLOBAL = new Type("GLOBAL", EAMessages.REGION_TYPE_GLOBAL_HOVER);
+	}
+	
+	public interface RemoveTypes {
 		
 		/**
 		 * Unset the parent in children regions.
 		 */
-		UNSET_PARENT_IN_CHILDREN,
+		static final RemoveType UNSET_PARENT_IN_CHILDREN = new RemoveType("UNSET_PARENT_IN_CHILDREN");
 		
 		/**
 		 * Remove any children under the removed regions.
 		 */
-		REMOVE_CHILDREN;
+		static final RemoveType REMOVE_CHILDREN = new RemoveType("REMOVE_CHILDREN");
 	}
 	
 	UUID getId();
@@ -205,25 +154,25 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	
 	public interface Cuboid extends ProtectedRegion {
 		default ProtectedRegion.Type getType() {
-			return ProtectedRegion.Type.CUBOID;
+			return ProtectedRegion.Types.CUBOID;
 		}
 	}
 	
 	public interface Polygonal extends ProtectedRegion {
 		default ProtectedRegion.Type getType() {
-			return ProtectedRegion.Type.POLYGONAL;
+			return ProtectedRegion.Types.POLYGONAL;
 		}
 	}
 	
 	public interface Template extends ProtectedRegion {
 		default ProtectedRegion.Type getType() {
-			return ProtectedRegion.Type.TEMPLATE;
+			return ProtectedRegion.Types.TEMPLATE;
 		}
 	}
 	
 	public interface Global extends ProtectedRegion {
 		default ProtectedRegion.Type getType() {
-			return ProtectedRegion.Type.GLOBAL;
+			return ProtectedRegion.Types.GLOBAL;
 		}
 	}
 }

@@ -20,7 +20,9 @@ import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.registers.*;
 import fr.evercraft.everapi.registers.ChatType.ChatTypes;
 import fr.evercraft.everapi.registers.IceType.IceTypes;
+import fr.evercraft.everapi.registers.MoveType.MoveTypes;
 import fr.evercraft.everapi.registers.SnowType.SnowTypes;
+import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 
 public class ManagerRegister {
 	
@@ -32,6 +34,11 @@ public class ManagerRegister {
 		new ERegister<ChatType>(this.plugin, ChatType.class, ChatTypes.class);
 		new ERegister<IceType>(this.plugin, IceType.class, IceTypes.class);
 		new ERegister<SnowType>(this.plugin, SnowType.class, SnowTypes.class);
+		new ERegister<MoveType>(this.plugin, MoveType.class, MoveTypes.class);
+		
+		new ERegister<ProtectedRegion.Group>(this.plugin, ProtectedRegion.Group.class, ProtectedRegion.Groups.class);
+		new ERegister<ProtectedRegion.Type>(this.plugin, ProtectedRegion.Type.class, ProtectedRegion.Types.class);
+		new ERegister<ProtectedRegion.RemoveType>(this.plugin, ProtectedRegion.RemoveType.class, ProtectedRegion.RemoveTypes.class);
 	}
 	
 	

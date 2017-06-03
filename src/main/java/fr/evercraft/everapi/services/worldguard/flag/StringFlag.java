@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.worldguard.flag.type;
+package fr.evercraft.everapi.services.worldguard.flag;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -22,8 +22,6 @@ import java.util.List;
 
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
-
-import fr.evercraft.everapi.services.worldguard.flag.EFlag;
 
 public abstract class StringFlag extends EFlag<String> {
 

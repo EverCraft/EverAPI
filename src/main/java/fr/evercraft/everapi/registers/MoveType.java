@@ -14,23 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.worldguard;
+package fr.evercraft.everapi.registers;
 
-public enum  MoveType {
-	RESPAWN(false, true),
-	TELEPORT(true, true),
-	
-	MOVE(true, false),
-	RIDE(true, false),
-	EMBARK(true, false),
-	
-	OTHER_NON_CANCELLABLE(true, false),
-	OTHER_CANCELLABLE(false, false);
+import fr.evercraft.everapi.register.ECatalogType;
+
+public class MoveType extends ECatalogType {
 	
 	private final boolean cancellable;
 	private final boolean teleport;
 	
-	MoveType(boolean cancellable, boolean teleport) {
+	public MoveType(String name, boolean cancellable, boolean teleport) {
+		super(name);
 		this.cancellable = cancellable;
 		this.teleport = teleport;
 	}
@@ -41,5 +35,17 @@ public enum  MoveType {
 	
 	public boolean isTeleport() {
 		return this.teleport;
+	}
+	
+	public static class MoveTypes {
+		public static final MoveType RESPAWN = new MoveType("RESPAWN", false, true);
+		public static final MoveType TELEPORT = new MoveType("TELEPORT", true, true);
+		
+		public static final MoveType MOVE = new MoveType("MOVE", true, false);
+		public static final MoveType RIDE = new MoveType("RIDE", true, false);
+		public static final MoveType EMBARK = new MoveType("EMBARK", true, false);
+		
+		public static final MoveType UNKNOWN_NON_CANCELLABLE = new MoveType("UNKNOWN_NON_CANCELLABLE", true, false);
+		public static final MoveType UNKNOWN_CANCELLABLE = new MoveType("UNKNOWN_CANCELLABLE", false, false);
 	}
 }

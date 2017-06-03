@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.worldguard.regions;
+package fr.evercraft.everapi.services.worldguard.region;
 
 import java.util.Optional;
 import java.util.Set;
@@ -24,9 +24,7 @@ import org.spongepowered.api.service.context.Context;
 
 import com.google.common.collect.ImmutableSet;
 
-import fr.evercraft.everapi.services.worldguard.flag.Flag;
-import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
-import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
+import fr.evercraft.everapi.services.worldguard.Flag;
 
 public class EmptySetProtectedRegion implements SetProtectedRegion {
 
