@@ -29,7 +29,7 @@ import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion.RemoveType;
 import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 
-public interface WorldWorldGuard {
+public interface WorldGuardWorld {
 
 	// Create
 	ProtectedRegion.Cuboid createRegionCuboid(String region, Vector3i pos1, Vector3i pos2, Set<UUID> ownerPlayers, Set<String> ownerGroups) throws RegionIdentifierException;
@@ -37,13 +37,15 @@ public interface WorldWorldGuard {
 	ProtectedRegion.Template createRegionTemplate(String region, Set<UUID> ownerPlayers, Set<String> ownerGroups) throws RegionIdentifierException;
 	
 	// Region
-	Optional<ProtectedRegion> getRegion(UUID region);
-	Optional<ProtectedRegion> getRegion(String region);
-	Optional<ProtectedRegion> removeRegion(UUID region, RemoveType type);
+	Optional<ProtectedRegion> getRegion(UUID identifier);
+	Optional<ProtectedRegion> getRegion(String name);
+	Optional<ProtectedRegion> removeRegion(UUID identifier, RemoveType type);
 	
 	SetProtectedRegion getRegions(Vector3i position);
+	
 	default SetProtectedRegion getRegions(Vector3d position) {
 		return this.getRegions(position.toInt());
 	}
+	
 	Set<ProtectedRegion> getAll();
 }

@@ -28,6 +28,7 @@ public interface SetProtectedRegion {
 
 	<V> V getFlagDefault(Flag<V> flag);
 	<V> V getFlag(User user, Set<Context> context, Flag<V> flag);
+	
 	<V> Optional<V> getFlagDefaultIfPresent(Flag<V> flag);
 	<V> Optional<V> getFlagIfPresent(User user, Set<Context> context, Flag<V> flag);
 	

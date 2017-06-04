@@ -128,10 +128,18 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	boolean isGroupMember(Subject group);
 	Set<String> addGroupMember(Set<String> groups);
 	Set<String> removeGroupMember(Set<String> groups);
+	
+	/*
+	 * Owner et Member
+	 */
 
 	boolean hasMembersOrOwners();
 	boolean isOwnerOrMember(User player, Set<Context> contexts);
 	boolean isOwnerOrMember(Subject group);
+	
+	/*
+	 * Flag
+	 */
 
 	<V> FlagValue<V> getFlag(Flag<V> flag);
 	<V> Optional<V> getFlagInherit(Flag<V> flag, Group group);

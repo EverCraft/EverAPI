@@ -27,7 +27,7 @@ import fr.evercraft.everapi.registers.SnowType;
 import fr.evercraft.everapi.server.location.VirtualTransform;
 import fr.evercraft.everapi.services.fire.FireType;
 import fr.evercraft.everapi.services.worldguard.flag.FakeFlag;
-import fr.evercraft.everapi.services.worldguard.flag.MapStringFlag;
+import fr.evercraft.everapi.services.worldguard.flag.StringsFlag;
 import fr.evercraft.everapi.services.worldguard.flag.StateFlag.State;
 import fr.evercraft.everapi.services.worldguard.flag.value.EntityTemplateFlagValue;
 import fr.evercraft.everapi.services.worldguard.flag.value.EntryFlagValue;
@@ -51,7 +51,13 @@ public interface Flags {
 	
 	static final Flag<EntryFlagValue<ItemType>> ITEM_DROP = FakeFlag.of("ITEM_DROP");
 	static final Flag<EntryFlagValue<ItemType>> ITEM_PICKUP = FakeFlag.of("ITEM_PICKUP");
+	
 	static final Flag<EntryFlagValue<PotionEffectType>> POTION_SPLASH = FakeFlag.of("POTION_SPLASH");
+	
+	static final Flag<EntryFlagValue<ChatType>> CHAT = FakeFlag.of("CHAT");
+	static final Flag<EntryFlagValue<FireType>> FIRE = FakeFlag.of("FIRE");
+	static final Flag<EntryFlagValue<IceType>> ICE = FakeFlag.of("ICE");
+	static final Flag<EntryFlagValue<SnowType>> SNOW = FakeFlag.of("SNOW");
 	
 	static final Flag<EntityTemplateFlagValue> DAMAGE_ENTITY = FakeFlag.of("DAMAGE_ENTITY");
 	static final Flag<EntityTemplateFlagValue> INTERACT_ENTITY = FakeFlag.of("INTERACT_ENTITY");
@@ -60,11 +66,6 @@ public interface Flags {
 	static final Flag<EntityTemplateFlagValue> EXPLOSION = FakeFlag.of("EXPLOSION");
 	static final Flag<EntityTemplateFlagValue> EXPLOSION_BLOCK = FakeFlag.of("EXPLOSION_BLOCK");
 	static final Flag<EntityTemplateFlagValue> EXPLOSION_DAMAGE = FakeFlag.of("EXPLOSION_DAMAGE");
-	
-	static final Flag<EntryFlagValue<ChatType>> CHAT = FakeFlag.of("CHAT");
-	static final Flag<EntryFlagValue<FireType>> FIRE = FakeFlag.of("FIRE");
-	static final Flag<EntryFlagValue<IceType>> ICE = FakeFlag.of("ICE");
-	static final Flag<EntryFlagValue<SnowType>> SNOW = FakeFlag.of("SNOW");
 	
 	static final Flag<State> ENTRY = FakeFlag.of("ENTRY");
 	static final Flag<EMessageBuilder> ENTRY_MESSAGE = FakeFlag.of("ENTRY_MESSAGE");
@@ -77,5 +78,5 @@ public interface Flags {
 	static final Flag<VirtualTransform> SPAWN = FakeFlag.of("SPAWN");
 	static final Flag<VirtualTransform> TELEPORT = FakeFlag.of("TELEPORT");	
 	
-	static final Flag<MapStringFlag> COMMAND = FakeFlag.of("COMMAND");
+	static final Flag<StringsFlag> COMMAND = FakeFlag.of("COMMAND");
 }

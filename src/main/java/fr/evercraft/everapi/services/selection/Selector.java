@@ -49,31 +49,31 @@ public interface Selector {
 	
 	public Optional<Vector3i> getPrimaryPosition();
 	public List<Vector3i> getPositions();
-	SelectionType getType();
+	SelectionRegion.Type getType();
 	
 	public interface Cuboid extends Selector {
 		public Optional<Vector3i> getSecondaryPosition();
 		
-		default SelectionType getType() {
-			return SelectionType.CUBOID;
+		default SelectionRegion.Type getType() {
+			return SelectionRegion.Types.CUBOID;
 		}
 	}
 	
 	public interface Polygonal extends Selector {		
-		default SelectionType getType() {
-			return SelectionType.POLYGONAL;
+		default SelectionRegion.Type getType() {
+			return SelectionRegion.Types.POLYGONAL;
 		}
 	}
 	
 	public interface Cylinder extends Selector {		
-		default SelectionType getType() {
-			return SelectionType.CYLINDER;
+		default SelectionRegion.Type getType() {
+			return SelectionRegion.Types.CYLINDER;
 		}
 	}
 	
 	public interface Ellipsoid extends Selector {		
-		default SelectionType getType() {
-			return SelectionType.ELLIPSOID;
+		default SelectionRegion.Type getType() {
+			return SelectionRegion.Types.ELLIPSOID;
 		}
 	}
 	
@@ -121,8 +121,8 @@ public interface Selector {
 		}
 
 		@Override
-		public SelectionType getType() {
-			return SelectionType.CUBOID;
+		public SelectionRegion.Type getType() {
+			return SelectionRegion.Types.CUBOID;
 		}
 
 		@Override

@@ -34,14 +34,14 @@ import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.services.worldguard.flag.value.EntryFlagValue;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 
-public abstract class MapStringFlag extends EFlag<EntryFlagValue<String>> {
+public abstract class StringsFlag extends EFlag<EntryFlagValue<String>> {
 	
 	protected static final String PATTERN_SPLIT = "[,\\s]+";
 	
 	protected final Map<String, Set<String>> groups;
 	protected EntryFlagValue<String> defaults;
 
-	public MapStringFlag(String name) {
+	public StringsFlag(String name) {
 		super(name);
 		
 		this.groups = new ConcurrentHashMap<String, Set<String>>();

@@ -19,12 +19,12 @@ package fr.evercraft.everapi.server.user;
 import org.spongepowered.api.entity.living.player.User;
 
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.services.worldguard.SubjectWorldGuard;
+import fr.evercraft.everapi.services.worldguard.WorldGuardSubject;
 import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 
-public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
+public class UserWorldGuard extends UserStats {
 	
-	private SubjectWorldGuard subject;
+	private WorldGuardSubject subject;
 
 	public UserWorldGuard(EverAPI plugin, User user) {
 		super(plugin, user);
@@ -38,10 +38,28 @@ public class UserWorldGuard extends UserStats implements SubjectWorldGuard {
 	}
 	
 	/*
+	 * Bypass
+	 */
+	
+	public boolean hasProtectionBypass() {
+		if (this.isPresent()) {
+			return this.subject.hasBypass();
+		}
+		return false;
+	}
+	
+	public boolean setProtectionBypass(boolean bypass) {
+		if (this.isPresent()) {
+			this.subject.setBypass(bypass);
+			return true;
+		}
+		return false;
+	}
+	
+	/*
 	 * Region
 	 */
 	
-	@Override
 	public SetProtectedRegion getRegions() {
 		if (this.isPresent()) {
 			return this.subject.getRegions();

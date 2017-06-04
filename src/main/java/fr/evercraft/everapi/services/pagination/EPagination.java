@@ -17,6 +17,7 @@
 package fr.evercraft.everapi.services.pagination;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -39,14 +40,12 @@ import fr.evercraft.everapi.server.player.EPlayer;
 public class EPagination {	
 	private final EverAPI plugin;
 	
-	private TextColor pagination_color;
 	private Text pagination_padding;
 
 	private Text help_empty;
 	private Text help_padding;
 
 	private TextColor help_color_help;
-	private TextColor help_color_padding;
 	private TextColor help_color_description;
 	
 	public EPagination(final EverAPI plugin) {
@@ -56,23 +55,21 @@ public class EPagination {
 	}
 	
 	public void reload() {
-		this.pagination_color = EAMessages.PAGINATION_COLOR.getColor();
-		this.pagination_padding = EAMessages.PAGINATION_PADDING.getText();
-		
+		this.help_empty = EAMessages.HELP_EMPTY.getText();
 		this.help_color_help = EAMessages.HELP_COLOR_HELP.getColor();
-		this.help_color_padding = EAMessages.HELP_COLOR_PADDING.getColor();
 		this.help_color_description = EAMessages.HELP_COLOR_DESCRIPTION.getColor();
 		
-		this.help_empty = EAMessages.HELP_EMPTY.getText();
-		this.help_padding = EAMessages.HELP_PADDING.getText();
+		this.pagination_padding = EAMessages.PAGINATION_PADDING.getText().toBuilder()
+				.color(EAMessages.PAGINATION_COLOR.getColor())
+				.build();
+		
+		this.help_padding = EAMessages.HELP_PADDING.getText().toBuilder()
+				.color(EAMessages.HELP_COLOR_PADDING.getColor())
+				.build();
 	}
 	
-	public void sendTo(final Text title, List<Text> contents, CommandSource source) {		
-		Text text_title = EAMessages.PAGINATION_TITLE.getFormat()
-								.toText("<title>", () -> title)
-								.toBuilder()
-								.color(this.pagination_color)
-								.build();
+	public void sendTo(final Text title, Collection<Text> contents, CommandSource source) {		
+		Text text_title = EAMessages.PAGINATION_TITLE.getFormat().toText("<title>", () -> title);
 		
 		this.send(text_title, this.pagination_padding, contents, source);
 	}
@@ -99,7 +96,7 @@ public class EPagination {
 			contents.add(this.help_empty);
 		}
 		
-		this.send(title.toBuilder().color(this.help_color_padding).build(), this.help_padding, contents, source);
+		this.send(title, this.help_padding, contents, source);
 	}
 	
 	public void helpSubCommand(LinkedHashMap<String, CommandPagination<?>> commands, CommandSource source, EPlugin<?> plugin) {
@@ -125,7 +122,7 @@ public class EPagination {
 		Builder title = EAMessages.HELP_TITLE.getFormat().toText(
 							"<plugin>", plugin.getName(),
 							"<version>",plugin.getVersion().orElse("1"))
-						.toBuilder().color(this.help_color_padding);
+						.toBuilder();
 		
 		String authors;
 		if (plugin.getAuthors().isEmpty()) {
@@ -156,7 +153,7 @@ public class EPagination {
 					.build();
 	}
 	
-	private void send(final Text title, final Text padding, final List<Text> contents, CommandSource source) {
+	private void send(final Text title, final Text padding, final Collection<Text> contents, CommandSource source) {
 		if (source instanceof EPlayer) {
 			source = ((EPlayer) source).get();
 		}

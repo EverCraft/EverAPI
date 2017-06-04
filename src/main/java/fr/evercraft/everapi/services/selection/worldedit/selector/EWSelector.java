@@ -36,7 +36,7 @@ import com.sk89q.worldedit.regions.selector.Polygonal2DRegionSelector;
 import com.sk89q.worldedit.regions.selector.SphereRegionSelector;
 import com.sk89q.worldedit.sponge.SpongeWorldEdit;
 
-import fr.evercraft.everapi.services.selection.SelectionType;
+import fr.evercraft.everapi.services.selection.SelectionRegion;
 import fr.evercraft.everapi.services.selection.Selector;
 import fr.evercraft.everapi.services.selection.exception.NoSelectedRegionException;
 import fr.evercraft.everapi.services.selection.exception.RegionOperationException;
@@ -132,19 +132,19 @@ public abstract class EWSelector implements Selector {
 	}
 
 	@Override
-	public SelectionType getType() {
+	public SelectionRegion.Type getType() {
 		if (this.selector instanceof ExtendingCuboidRegionSelector) {
-			return SelectionType.EXTEND;
+			return SelectionRegion.Types.EXTEND;
 		} else if (this.selector instanceof Polygonal2DRegionSelector) {
-			return SelectionType.POLYGONAL;
+			return SelectionRegion.Types.POLYGONAL;
 		} else if (this.selector instanceof EllipsoidRegionSelector) {
-			return SelectionType.ELLIPSOID;
+			return SelectionRegion.Types.ELLIPSOID;
 		} else if (this.selector instanceof SphereRegionSelector) {
-			return SelectionType.SPHERE;
+			return SelectionRegion.Types.SPHERE;
 		} else if (this.selector instanceof CylinderRegionSelector) {
-			return SelectionType.CYLINDER;
+			return SelectionRegion.Types.CYLINDER;
 		}
-		return SelectionType.CUBOID;
+		return SelectionRegion.Types.CUBOID;
 	}
 
 }

@@ -25,7 +25,6 @@ import com.flowpowered.math.vector.Vector3i;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.services.selection.SelectionRegion;
-import fr.evercraft.everapi.services.selection.SelectionType;
 import fr.evercraft.everapi.services.selection.Selector;
 import fr.evercraft.everapi.services.selection.SubjectSelection;
 import fr.evercraft.everapi.services.selection.exception.NoSelectedRegionException;
@@ -54,7 +53,7 @@ public class UserSelection extends UserWorldGuard {
 		return Selector.empty();
 	}
 	
-	public boolean setSelectorType(SelectionType type) {
+	public boolean setSelectorType(SelectionRegion.Type type) {
 		if (this.isPresent()) {
 			this.subject.setType(type);
 			return true;
@@ -62,11 +61,11 @@ public class UserSelection extends UserWorldGuard {
 		return false;
 	}
 
-	public SelectionType getSelectorType() {
+	public SelectionRegion.Type getSelectorType() {
 		if (this.isPresent()) {
 			return this.subject.getType();
 		}
-		return SelectionType.CUBOID;
+		return SelectionRegion.Types.CUBOID;
 	}
 	
 	public boolean setSelectorPrimary(Vector3i position) {

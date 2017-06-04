@@ -26,16 +26,35 @@ import org.spongepowered.api.world.World;
 import com.flowpowered.math.vector.Vector3d;
 import com.flowpowered.math.vector.Vector3i;
 
+import fr.evercraft.everapi.register.ECatalogType;
 import fr.evercraft.everapi.services.selection.exception.RegionOperationException;
 
 public interface SelectionRegion {
+	
+	public class Type extends ECatalogType {
+		public Type(String name) {
+			super(name);
+	    }
+	}
+	
+	public interface Types {
+		static final Type CUBOID = new Type("CUBOID");
+		static final Type POLYGONAL = new Type("POLYGONAL");
+		static final Type CYLINDER = new Type("TEMPLATE");
+		static final Type EXTEND = new Type("EXTEND");
+		static final Type TEMPLATE = new Type("TEMPLATE");
+		static final Type ELLIPSOID = new Type("ELLIPSOID");
+		static final Type SPHERE = new Type("SPHERE");
+	}
+	
+	
 	Optional<World> getWorld();
 	void setWorld(@Nullable World world);
 	
 	Vector3i getPrimaryPosition();
 	List<Vector3i> getPositions();
 	
-	SelectionType getType();
+	Type getType();
 	Vector3i getMinimumPoint();
 	Vector3i getMaximumPoint();
 	Vector3i getCenter();
@@ -53,24 +72,24 @@ public interface SelectionRegion {
 	interface Cuboid extends SelectionRegion {
 		Vector3i getSecondaryPosition();
 		
-		default SelectionType getType() {
-			return SelectionType.CUBOID;
+		default Type getType() {
+			return Types.CUBOID;
 		}
 	}
 	
 	interface Extend extends SelectionRegion {
 		Vector3i getSecondaryPosition();
 		
-		default SelectionType getType() {
-			return SelectionType.EXTEND;
+		default Type getType() {
+			return Types.EXTEND;
 		}
 	}
 	
 	interface Polygonal extends SelectionRegion {
 		List<Vector3i> getPositions();
 		
-		default SelectionType getType() {
-			return SelectionType.POLYGONAL;
+		default Type getType() {
+			return Types.POLYGONAL;
 		}
 	}
 	
@@ -80,8 +99,8 @@ public interface SelectionRegion {
 		int getMinimumY();
 		int getMaximumY();
 		
-		default SelectionType getType() {
-			return SelectionType.CYLINDER;
+		default Type getType() {
+			return Types.CYLINDER;
 		}
 	}
 	
@@ -89,8 +108,8 @@ public interface SelectionRegion {
 		Vector3i getCenter();
 		Vector3d getRadius();
 		
-		default SelectionType getType() {
-			return SelectionType.ELLIPSOID;
+		default Type getType() {
+			return Types.ELLIPSOID;
 		}
 	}
 }

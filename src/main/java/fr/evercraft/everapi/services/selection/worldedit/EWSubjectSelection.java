@@ -28,7 +28,8 @@ import com.sk89q.worldedit.regions.selector.Polygonal2DRegionSelector;
 import com.sk89q.worldedit.regions.selector.SphereRegionSelector;
 import com.sk89q.worldedit.sponge.SpongeWorld;
 import com.sk89q.worldedit.sponge.SpongeWorldEdit;
-import fr.evercraft.everapi.services.selection.SelectionType;
+
+import fr.evercraft.everapi.services.selection.SelectionRegion;
 import fr.evercraft.everapi.services.selection.Selector;
 import fr.evercraft.everapi.services.selection.SubjectSelection;
 import fr.evercraft.everapi.services.selection.worldedit.selector.EWCuboidSelector;
@@ -73,24 +74,24 @@ public class EWSubjectSelection implements SubjectSelection {
 	}
 
 	@Override
-	public void setType(SelectionType type) {
+	public void setType(SelectionRegion.Type type) {
 		SpongeWorld world = this.worldedit.getWorld(player.getWorld());
 		if (world == null) return;
 		
         RegionSelector oldSelector = this.session.getRegionSelector(world);
         RegionSelector selector = null;
         
-        if (type.equals(SelectionType.CUBOID)) {
+        if (type.equals(SelectionRegion.Types.CUBOID)) {
             selector = new CuboidRegionSelector(oldSelector);
-        } else if (type.equals(SelectionType.EXTEND)) {
+        } else if (type.equals(SelectionRegion.Types.EXTEND)) {
             selector = new ExtendingCuboidRegionSelector(oldSelector);
-        } else if (type.equals(SelectionType.POLYGONAL)) {
+        } else if (type.equals(SelectionRegion.Types.POLYGONAL)) {
             selector = new Polygonal2DRegionSelector(oldSelector);
-        } else if (type.equals(SelectionType.ELLIPSOID)) {
+        } else if (type.equals(SelectionRegion.Types.ELLIPSOID)) {
             selector = new EllipsoidRegionSelector(oldSelector);
-        } else if (type.equals(SelectionType.SPHERE)) {
+        } else if (type.equals(SelectionRegion.Types.SPHERE)) {
             selector = new SphereRegionSelector(oldSelector);
-        } else if (type.equals(SelectionType.CYLINDER)) {
+        } else if (type.equals(SelectionRegion.Types.CYLINDER)) {
             selector = new CylinderRegionSelector(oldSelector);
         }
 
@@ -99,23 +100,23 @@ public class EWSubjectSelection implements SubjectSelection {
 	}
 
 	@Override
-	public SelectionType getType() {
+	public SelectionRegion.Type getType() {
 		SpongeWorld world = this.worldedit.getWorld(player.getWorld());
-		if (world == null) return SelectionType.CUBOID;
+		if (world == null) return SelectionRegion.Types.CUBOID;
 		
         RegionSelector selector = this.session.getRegionSelector(world);
 		if (selector instanceof ExtendingCuboidRegionSelector) {
-			return SelectionType.EXTEND;
+			return SelectionRegion.Types.EXTEND;
 		} else if (selector instanceof Polygonal2DRegionSelector) {
-			return SelectionType.POLYGONAL;
+			return SelectionRegion.Types.POLYGONAL;
 		} else if (selector instanceof EllipsoidRegionSelector) {
-			return SelectionType.ELLIPSOID;
+			return SelectionRegion.Types.ELLIPSOID;
 		} else if (selector instanceof SphereRegionSelector) {
-			return SelectionType.SPHERE;
+			return SelectionRegion.Types.SPHERE;
 		} else if (selector instanceof CylinderRegionSelector) {
-			return SelectionType.CYLINDER;
+			return SelectionRegion.Types.CYLINDER;
 		}
-		return SelectionType.CUBOID;
+		return SelectionRegion.Types.CUBOID;
 	}
 
 	@Override

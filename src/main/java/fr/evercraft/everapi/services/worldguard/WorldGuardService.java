@@ -27,7 +27,7 @@ public interface WorldGuardService {
 	public static final String MESSAGE_FLAG = "everworldguard.flag";
 
 	// Subject
-	Optional<SubjectWorldGuard> get(UUID uuid);
+	Optional<WorldGuardSubject> get(UUID uuid);
 	boolean hasRegistered(UUID uuid);
 
 	// Flag
@@ -38,6 +38,6 @@ public interface WorldGuardService {
 	Set<Flag<?>> getFlags();
 	
 	// World
-	WorldWorldGuard getOrCreateWorld(World world);
-	Set<WorldWorldGuard> getAll();
+	WorldGuardWorld getOrCreateWorld(World world);
+	Set<WorldGuardWorld> getAll();
 }
