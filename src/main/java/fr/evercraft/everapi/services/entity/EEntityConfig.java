@@ -58,14 +58,14 @@ public class EEntityConfig extends EConfig<EverAPI> {
 		this.getNode().getChildrenMap().forEach((key, config) -> {
 			String identifier = key.toString();
 			if (identifier.isEmpty()) {
-				this.plugin.getLogger().warn("[EntityService][Config] Error Identifier : (identifier=Empty)");
+				this.plugin.getELogger().warn("[EntityService][Config] Error Identifier : (identifier=Empty)");
 				return;
 			}
 			
 			String typeString = config.getNode("type").getString("");
 			Optional<EntityType> type = this.plugin.getGame().getRegistry().getType(EntityType.class, typeString);
 			if (!type.isPresent()) {
-				this.plugin.getLogger().warn("[EntityService][Config] Error Type : (identifier='" + identifier + "';type='" + typeString + "')");
+				this.plugin.getELogger().warn("[EntityService][Config] Error Type : (identifier='" + identifier + "';type='" + typeString + "')");
 				return;
 			}
 			
@@ -74,7 +74,7 @@ public class EEntityConfig extends EConfig<EverAPI> {
 				String propertyString = entry.getKey().toString();
 				Optional<EntityTemplate.Property> property = this.plugin.getGame().getRegistry().getType(EntityTemplate.Property.class, propertyString);
 				if (!property.isPresent()) {
-					this.plugin.getLogger().warn("[EntityService][Config] Error Property : (identifier='" + identifier + "';type='" + typeString + "';property='" + propertyString + "')");
+					this.plugin.getELogger().warn("[EntityService][Config] Error Property : (identifier='" + identifier + "';type='" + typeString + "';property='" + propertyString + "')");
 					return;
 				}
 				
@@ -86,7 +86,7 @@ public class EEntityConfig extends EConfig<EverAPI> {
 				} else if (propertyValue.getRawType().equals(String.class)) {
 					properties.put(property.get(), Tristate.valueOf(entry.getValue().getString("")));
 				} else {
-					this.plugin.getLogger().warn("[EntityService][Config] Error Property TypeValue : (identifier='" + identifier + "';type='" + typeString + "';property='" + propertyString + "')");
+					this.plugin.getELogger().warn("[EntityService][Config] Error Property TypeValue : (identifier='" + identifier + "';type='" + typeString + "';property='" + propertyString + "')");
 					return;
 				}
 			}

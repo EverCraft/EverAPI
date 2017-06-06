@@ -25,18 +25,9 @@ import org.spongepowered.api.service.context.Context;
 import com.google.common.collect.ImmutableSet;
 
 import fr.evercraft.everapi.services.worldguard.Flag;
+import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion.Group;
 
 public class EmptySetProtectedRegion implements SetProtectedRegion {
-
-	@Override
-	public <V> V getFlagDefault(Flag<V> flag) {
-		return flag.getDefault();
-	}
-	
-	@Override
-	public <V> V getFlag(User user, Set<Context> context, Flag<V> flag) {
-		return flag.getDefault();
-	}
 
 	@Override
 	public Set<ProtectedRegion> getAll() {
@@ -44,7 +35,22 @@ public class EmptySetProtectedRegion implements SetProtectedRegion {
 	}
 
 	@Override
-	public <V> Optional<V> getFlagDefaultIfPresent(Flag<V> flag) {
+	public <V> V getFlag(Group group, Flag<V> flag) {
+		return flag.getDefault();
+	}
+
+	@Override
+	public <V> V getFlag(User user, Set<Context> context, Flag<V> flag) {
+		return flag.getDefault();
+	}
+
+	@Override
+	public <V> Optional<ProtectedRegion> getRegion(Group group, Flag<V> flag) {
+		return Optional.empty();
+	}
+
+	@Override
+	public <V> Optional<V> getFlagIfPresent(Group group, Flag<V> flag) {
 		return Optional.empty();
 	}
 
@@ -52,5 +58,4 @@ public class EmptySetProtectedRegion implements SetProtectedRegion {
 	public <V> Optional<V> getFlagIfPresent(User user, Set<Context> context, Flag<V> flag) {
 		return Optional.empty();
 	}
-
 }

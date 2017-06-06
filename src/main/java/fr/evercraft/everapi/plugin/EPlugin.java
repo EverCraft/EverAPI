@@ -36,6 +36,7 @@ import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.scheduler.SpongeExecutorService;
 
+import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 
 import fr.evercraft.everapi.EverAPI;
@@ -47,7 +48,7 @@ import fr.evercraft.everapi.plugin.file.EMessage;
 import fr.evercraft.everapi.server.EServer;
 import fr.evercraft.everapi.stats.Metrics;
 
-public abstract class EPlugin<T extends EPlugin<T>> implements PluginContainer {
+public abstract class EPlugin<T extends EPlugin<T>> {
 
 	@Inject
     private Game game;
@@ -389,4 +390,10 @@ public abstract class EPlugin<T extends EPlugin<T>> implements PluginContainer {
 			file.reload();
         }
 	}
+	
+	public PluginContainer getPluginContainer() {
+        Optional<PluginContainer> optPlugin = this.getGame().getPluginManager().fromInstance(this);
+        Preconditions.checkArgument(optPlugin.isPresent(), "Provided object is not a plugin instance");
+        return optPlugin.get();
+    }
 }

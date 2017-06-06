@@ -155,7 +155,7 @@ public class BuilderArgs implements Args.Builder {
 			} else {
 				if (lastMarker != null) {
 					if (lastType.equals(Type.VALUE)) {
-						if (!suggest || !arg.isEmpty() || cpt < command.size()) {
+						if (!suggest || cpt < command.size()) {
 							values.put(lastMarker, arg);
 							lastMarker = null;
 							lastType = null;

@@ -54,7 +54,7 @@ public class EFireConfig extends EConfig<EverAPI> {
 		this.getNode().getChildrenMap().forEach((key, config) -> {
 			String identifier = key.toString();
 			if (identifier.isEmpty()) {
-				this.plugin.getLogger().warn("[FireService][Config] Error Identifier : (identifier=Empty)");
+				this.plugin.getELogger().warn("[FireService][Config] Error Identifier : (identifier=Empty)");
 				return;
 			}
 			
@@ -63,7 +63,7 @@ public class EFireConfig extends EConfig<EverAPI> {
 				String entityString = entry.getKey().toString();
 				Optional<EntityType> entity = this.plugin.getGame().getRegistry().getType(EntityType.class, entityString);
 				if (!entity.isPresent()) {
-					this.plugin.getLogger().warn("[FireService][Config] Error EntityType : (identifier='" + identifier + "';entityType='" + entityString + "')");
+					this.plugin.getELogger().warn("[FireService][Config] Error EntityType : (identifier='" + identifier + "';entityType='" + entityString + "')");
 					return;
 				}
 				entities.add(entity.get());
@@ -74,7 +74,7 @@ public class EFireConfig extends EConfig<EverAPI> {
 				String blockString = entry.getKey().toString();
 				Optional<BlockType> block = this.plugin.getGame().getRegistry().getType(BlockType.class, blockString);
 				if (!block.isPresent()) {
-					this.plugin.getLogger().warn("[FireService][Config] Error BlockType : (identifier='" + identifier + "';blockType='" + blockString + "')");
+					this.plugin.getELogger().warn("[FireService][Config] Error BlockType : (identifier='" + identifier + "';blockType='" + blockString + "')");
 					return;
 				}
 				blocks.add(block.get());
@@ -85,7 +85,7 @@ public class EFireConfig extends EConfig<EverAPI> {
 				String blockString = entry.getKey().toString();
 				Optional<ItemType> item = this.plugin.getGame().getRegistry().getType(ItemType.class, blockString);
 				if (!item.isPresent()) {
-					this.plugin.getLogger().warn("[FireService][Config] Error BlockType : (identifier='" + identifier + "';blockType='" + blockString + "')");
+					this.plugin.getELogger().warn("[FireService][Config] Error BlockType : (identifier='" + identifier + "';blockType='" + blockString + "')");
 					return;
 				}
 				items.add(item.get());

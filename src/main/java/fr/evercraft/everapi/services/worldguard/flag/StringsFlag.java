@@ -30,6 +30,8 @@ import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 
+import com.google.common.base.Preconditions;
+
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.services.worldguard.flag.value.EntryFlagValue;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
@@ -154,6 +156,8 @@ public abstract class StringsFlag extends EFlag<EntryFlagValue<String>> {
 	
 	@Override
 	public Text getValueFormat(EntryFlagValue<String> value) {
+		Preconditions.checkNotNull(value);
+		
 		if (value.getKeys().isEmpty()) {
 			return EAMessages.FLAG_MAP_EMPTY.getText();
 		}
@@ -161,9 +165,17 @@ public abstract class StringsFlag extends EFlag<EntryFlagValue<String>> {
 		List<Text> groups = new ArrayList<Text>();
 		for (String group : value.getKeys()) {
 			List<Text> types = new ArrayList<Text>();
-			for (String type : this.groups.get(group)) {
-				types.add(EAMessages.FLAG_MAP_HOVER.getFormat().toText("<value>", type));
+			
+			if (this.groups.containsKey(group)) {
+				for (String type : this.groups.get(group)) {
+					types.add(EAMessages.FLAG_MAP_HOVER.getFormat().toText("<value>", type));
+				}
+			} else {
+				for (String type : this.getDefault().getValues()) {
+					types.add(EAMessages.FLAG_MAP_HOVER.getFormat().toText("<value>", type));
+				}
 			}
+				
 			if (types.size() > 100) {
 				types = types.subList(0, 50);
 				types.add(EAMessages.FLAG_MAP_MORE.getText());
