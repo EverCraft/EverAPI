@@ -108,7 +108,6 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	 * Owner
 	 */
 	Domain getOwners();
-	
 	boolean isPlayerOwner(User player, Set<Context> contexts);
 	Set<UUID> addPlayerOwner(Set<UUID> players);
 	Set<UUID> removePlayerOwner(Set<UUID> players);

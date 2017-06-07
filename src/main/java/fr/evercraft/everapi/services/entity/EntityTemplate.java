@@ -24,7 +24,7 @@ import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.living.Agent;
-import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.util.Tristate;
 
 import com.google.common.reflect.TypeToken;
@@ -39,8 +39,8 @@ public interface EntityTemplate extends CatalogType {
 	boolean apply(Entity entity);
 	boolean contains(Entity entity);
 	
-	boolean apply(Entity entity, Player player);
-	boolean contains(Entity entity, Player player);
+	boolean apply(Entity entity, User player);
+	boolean contains(Entity entity, User player);
 	
 	static EntityTemplate of(EntityType type) {
 		return new EntityTypeTemplate(type);
@@ -49,8 +49,8 @@ public interface EntityTemplate extends CatalogType {
 	public interface Property<T> extends CatalogType {
 		TypeToken<T> getType();
 		
-		TriPredicate<T, Entity, Optional<Player>> getApply();
-		TriPredicate<T, Entity, Optional<Player>> getContains();
+		TriPredicate<T, Entity, Optional<User>> getApply();
+		TriPredicate<T, Entity, Optional<User>> getContains();
 	}
 	
 	public interface Properties<T> extends CatalogType {
@@ -60,9 +60,9 @@ public interface EntityTemplate extends CatalogType {
 			
 		public static final EntityTemplate.Property<Boolean> ANGRY = new EntityTemplateProperty<Boolean>("ANGRY", TypeToken.of(Boolean.class),
 			(value, entity, player) -> {
-				if (entity.offer(Keys.ANGRY, value).isSuccessful()) {
+				if (entity.offer(Keys.ANGRY, value).isSuccessful() && player.get() instanceof Entity) {
 					if (value && entity instanceof Agent && player.isPresent()) {
-						((Agent) entity).setTarget(player.get());
+						((Agent) entity).setTarget((Entity) player.get());
 					}
 					return true;
 				}

@@ -22,7 +22,7 @@ import java.util.function.BiPredicate;
 
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
-import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
 
 import fr.evercraft.everapi.java.UtilsPredicate.TriPredicate;
 
@@ -35,8 +35,8 @@ public class EntityPatternTemplate implements EntityTemplate {
 	
 	private final Map<EntityTemplate.Property<?>, ?> properties;
 	
-	private final BiPredicate<Entity, Optional<Player>> apply;
-	private final BiPredicate<Entity, Optional<Player>> contains;
+	private final BiPredicate<Entity, Optional<User>> apply;
+	private final BiPredicate<Entity, Optional<User>> contains;
 	
 	@SuppressWarnings("unchecked")
 	public <T> EntityPatternTemplate(String identifier, EntityType type, Map<EntityTemplate.Property<?>, ?> properties) {
@@ -49,8 +49,8 @@ public class EntityPatternTemplate implements EntityTemplate {
 		this.apply = this.properties.entrySet().stream()
 			.map(entry -> {
 				T value = (T) entry.getValue();
-				TriPredicate<T, Entity, Optional<Player>> property = (TriPredicate<T, Entity, Optional<Player>>) entry.getKey().getApply();
-				BiPredicate<Entity, Optional<Player>> predicate = (v1, v2) -> property.test(value, v1, v2);
+				TriPredicate<T, Entity, Optional<User>> property = (TriPredicate<T, Entity, Optional<User>>) entry.getKey().getApply();
+				BiPredicate<Entity, Optional<User>> predicate = (v1, v2) -> property.test(value, v1, v2);
 				return predicate;
 			})
 			.reduce((p1, p2) -> p1.and(p2))
@@ -58,8 +58,8 @@ public class EntityPatternTemplate implements EntityTemplate {
 		this.contains = this.properties.entrySet().stream()
 			.map(entry -> {
 				T value = (T) entry.getValue();
-				TriPredicate<T, Entity, Optional<Player>> property = (TriPredicate<T, Entity, Optional<Player>>) entry.getKey().getContains();
-				BiPredicate<Entity, Optional<Player>> predicate = (v1, v2) -> property.test(value, v1, v2);
+				TriPredicate<T, Entity, Optional<User>> property = (TriPredicate<T, Entity, Optional<User>>) entry.getKey().getContains();
+				BiPredicate<Entity, Optional<User>> predicate = (v1, v2) -> property.test(value, v1, v2);
 				return predicate;
 			})
 			.reduce((p1, p2) -> p1.and(p2))
@@ -92,12 +92,12 @@ public class EntityPatternTemplate implements EntityTemplate {
 	}
 	
 	@Override
-	public boolean apply(Entity entity, Player player) {
+	public boolean apply(Entity entity, User player) {
 		return entity.getType().equals(this.type) && this.apply.test(entity, Optional.ofNullable(player));
 	}
 	
 	@Override
-	public boolean contains(Entity entity, Player player) {
+	public boolean contains(Entity entity, User player) {
 		return entity.getType().equals(this.type) && this.contains.test(entity, Optional.ofNullable(player));
 	}
 	

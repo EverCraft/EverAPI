@@ -19,7 +19,7 @@ package fr.evercraft.everapi.services.entity.property;
 import java.util.Optional;
 
 import org.spongepowered.api.entity.Entity;
-import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
 
 import com.google.common.reflect.TypeToken;
 
@@ -33,15 +33,15 @@ public class EntityTemplateProperty<T> implements EntityTemplate.Property<T> {
 	
 	private final TypeToken<T> type;
 	
-	private final TriPredicate<T, Entity, Optional<Player>> apply;
-	private final TriPredicate<T, Entity, Optional<Player>> contains;
+	private final TriPredicate<T, Entity, Optional<User>> apply;
+	private final TriPredicate<T, Entity, Optional<User>> contains;
 	
-	public EntityTemplateProperty(String name, TypeToken<T> type, TriPredicate<T, Entity, Optional<Player>> apply, TriPredicate<T, Entity, Optional<Player>> contains) {
+	public EntityTemplateProperty(String name, TypeToken<T> type, TriPredicate<T, Entity, Optional<User>> apply, TriPredicate<T, Entity, Optional<User>> contains) {
 		this("evercraft:" + name, name, type, apply, contains);
 	}
 	
 	public EntityTemplateProperty(String identifier, String name, TypeToken<T> type, 
-			TriPredicate<T, Entity, Optional<Player>> apply, TriPredicate<T, Entity, Optional<Player>> contains) {
+			TriPredicate<T, Entity, Optional<User>> apply, TriPredicate<T, Entity, Optional<User>> contains) {
 		this.identifier = identifier.toLowerCase();
 		this.name = name.toUpperCase();
 		this.type = type;
@@ -65,12 +65,12 @@ public class EntityTemplateProperty<T> implements EntityTemplate.Property<T> {
 	}
 	
 	@Override
-	public TriPredicate<T, Entity, Optional<Player>> getApply() {
+	public TriPredicate<T, Entity, Optional<User>> getApply() {
 		return this.apply;
 	}
 	
 	@Override
-	public TriPredicate<T, Entity, Optional<Player>> getContains() {
+	public TriPredicate<T, Entity, Optional<User>> getContains() {
 		return this.contains;
 	}
 }

@@ -18,7 +18,7 @@ package fr.evercraft.everapi.services.entity;
 
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityType;
-import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
 
 public class EntityTypeTemplate implements EntityTemplate {
 	
@@ -54,12 +54,12 @@ public class EntityTypeTemplate implements EntityTemplate {
 	}
 	
 	@Override
-	public boolean apply(Entity entity, Player player) {
+	public boolean apply(Entity entity, User player) {
 		return true;
 	}
 	
 	@Override
-	public boolean contains(Entity entity, Player player) {
+	public boolean contains(Entity entity, User player) {
 		return entity.getType().equals(this.type);
 	}
 	
