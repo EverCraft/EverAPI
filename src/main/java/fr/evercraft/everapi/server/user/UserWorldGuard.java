@@ -32,7 +32,7 @@ public class UserWorldGuard extends UserStats {
 
 	private boolean isPresent() {
 		if (this.subject == null && this.plugin.getManagerService().getWorldGuard().isPresent()) {
-			this.subject = this.plugin.getManagerService().getWorldGuard().get().get(this.user.getUniqueId()).orElse(null);
+			this.subject = this.plugin.getManagerService().getWorldGuard().get().get(this.user.getUniqueId()).get();
 		}
 		return this.subject != null;
 	}

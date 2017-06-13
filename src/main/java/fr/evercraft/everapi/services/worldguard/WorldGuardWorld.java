@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import com.flowpowered.math.vector.Vector3d;
 import com.flowpowered.math.vector.Vector3i;
@@ -32,14 +33,14 @@ import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 public interface WorldGuardWorld {
 
 	// Create
-	ProtectedRegion.Cuboid createRegionCuboid(String region, Vector3i pos1, Vector3i pos2, Set<UUID> ownerPlayers, Set<String> ownerGroups) throws RegionIdentifierException;
-	ProtectedRegion.Polygonal createRegionPolygonal(String region, List<Vector3i> positions, Set<UUID> ownerPlayers, Set<String> ownerGroups) throws RegionIdentifierException;
-	ProtectedRegion.Template createRegionTemplate(String region, Set<UUID> ownerPlayers, Set<String> ownerGroups) throws RegionIdentifierException;
+	CompletableFuture<ProtectedRegion.Cuboid> createRegionCuboid(String region, Vector3i pos1, Vector3i pos2, Set<UUID> ownerPlayers, Set<String> ownerGroups) throws RegionIdentifierException;
+	CompletableFuture<ProtectedRegion.Polygonal> createRegionPolygonal(String region, List<Vector3i> positions, Set<UUID> ownerPlayers, Set<String> ownerGroups) throws RegionIdentifierException;
+	CompletableFuture<ProtectedRegion.Template> createRegionTemplate(String region, Set<UUID> ownerPlayers, Set<String> ownerGroups) throws RegionIdentifierException;
 	
 	// Region
 	Optional<ProtectedRegion> getRegion(UUID identifier);
 	Optional<ProtectedRegion> getRegion(String name);
-	Optional<ProtectedRegion> removeRegion(UUID identifier, RemoveType type);
+	CompletableFuture<Set<ProtectedRegion>> removeRegion(UUID identifier, RemoveType type);
 	
 	SetProtectedRegion getRegions(Vector3i position);
 	

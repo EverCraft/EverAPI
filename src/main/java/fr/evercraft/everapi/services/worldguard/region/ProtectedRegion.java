@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.Nullable;
 
@@ -88,7 +89,6 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	
 	UUID getId();
 	String getName();
-	void setName(String identifier) throws RegionIdentifierException;
 	
 	ProtectedRegion.Type getType();
 	ProtectedRegion.Group getGroup(User user, Set<Context> contexts);
@@ -96,37 +96,10 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	Vector3i getMaximumPoint();
 	List<Vector3i> getPoints();
 	int getPriority();
-	void setPriority(int priority);
 	int getVolume();
 	boolean isTransient();
 	Optional<ProtectedRegion> getParent();
 	List<ProtectedRegion> getHeritage() throws CircularInheritanceException;
-	void clearParent();
-	void setParent(@Nullable ProtectedRegion parent) throws CircularInheritanceException;
-	
-	/*
-	 * Owner
-	 */
-	Domain getOwners();
-	boolean isPlayerOwner(User player, Set<Context> contexts);
-	Set<UUID> addPlayerOwner(Set<UUID> players);
-	Set<UUID> removePlayerOwner(Set<UUID> players);
-	
-	boolean isGroupOwner(Subject group);
-	Set<String> addGroupOwner(Set<String> groups);
-	Set<String> removeGroupOwner(Set<String> groups);
-
-	/*
-	 * Member
-	 */
-	Domain getMembers();
-	boolean isPlayerMember(User player, Set<Context> contexts);
-	Set<UUID> addPlayerMember(Set<UUID> players);
-	Set<UUID> removePlayerMember(Set<UUID> players);
-	
-	boolean isGroupMember(Subject group);
-	Set<String> addGroupMember(Set<String> groups);
-	Set<String> removeGroupMember(Set<String> groups);
 	
 	/*
 	 * Owner et Member
@@ -136,13 +109,20 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	boolean isOwnerOrMember(User player, Set<Context> contexts);
 	boolean isOwnerOrMember(Subject group);
 	
+	Domain getOwners();
+	boolean isPlayerOwner(User player, Set<Context> contexts);
+	boolean isGroupOwner(Subject group);
+	
+	Domain getMembers();
+	boolean isPlayerMember(User player, Set<Context> contexts);
+	boolean isGroupMember(Subject group);
+	
 	/*
 	 * Flag
 	 */
 
 	<V> FlagValue<V> getFlag(Flag<V> flag);
 	<V> Optional<V> getFlagInherit(Flag<V> flag, Group group);
-	<V> void setFlag(Flag<V> flag, Group group, V value);
 	Map<Flag<?>, FlagValue<?>> getFlags();
 
 	boolean containsPosition(Vector3i pos);
@@ -158,6 +138,26 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	Optional<ProtectedRegion.Cuboid> redefineCuboid(Vector3i pos1, Vector3i pos2);
 	Optional<ProtectedRegion.Polygonal> redefinePolygonal(List<Vector3i> positions);
 	Optional<ProtectedRegion.Template> redefineTemplate();
+	
+	/*
+	 * Setters
+	 */
+	
+	CompletableFuture<Boolean> setName(String identifier) throws RegionIdentifierException;
+	CompletableFuture<Boolean> setPriority(int priority);
+	<V> CompletableFuture<Boolean> setFlag(Flag<V> flag, Group group, @Nullable V value);
+	CompletableFuture<Boolean> setParent(ProtectedRegion parent) throws CircularInheritanceException;
+	CompletableFuture<Boolean> clearParent();
+	
+	CompletableFuture<Set<UUID>> addPlayerOwner(Set<UUID> players);
+	CompletableFuture<Set<UUID>> removePlayerOwner(Set<UUID> players);
+	CompletableFuture<Set<String>> addGroupOwner(Set<String> groups);
+	CompletableFuture<Set<String>> removeGroupOwner(Set<String> groups);
+	
+	CompletableFuture<Set<UUID>> addPlayerMember(Set<UUID> players);
+	CompletableFuture<Set<UUID>> removePlayerMember(Set<UUID> players);
+	CompletableFuture<Set<String>> addGroupMember(Set<String> groups);
+	CompletableFuture<Set<String>> removeGroupMember(Set<String> groups);
 	
 	public interface Cuboid extends ProtectedRegion {
 		default ProtectedRegion.Type getType() {

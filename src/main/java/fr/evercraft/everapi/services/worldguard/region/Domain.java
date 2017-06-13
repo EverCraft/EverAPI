@@ -30,14 +30,19 @@ public interface Domain {
 	 */
 	Set<UUID> getPlayers();
 	boolean containsPlayer(UUID uniqueId);
-	boolean containsPlayer(User player);
+	boolean contains(User player, Set<Context> contexts);
+	default boolean contains(User player) {
+		return this.contains(player, player.getActiveContexts());
+	}
 	
 	/*
 	 * Groups
 	 */
 	Set<String> getGroups();
 	boolean containsGroup(String group);
-	boolean containsGroup(Subject group);
+	default boolean containsGroup(Subject group) {
+		return this.containsGroup(group.getIdentifier());
+	}
 	
 	/*
 	 * Accesseurs
@@ -45,8 +50,4 @@ public interface Domain {
 	
 	int size();
 	void clear();
-	boolean contains(User player, Set<Context> contexts);
-	default boolean contains(User player) {
-		return this.contains(player, player.getActiveContexts());
-	}
 }

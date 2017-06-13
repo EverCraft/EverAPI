@@ -105,15 +105,17 @@ public abstract class EFile<T extends EPlugin<T>> {
     /**
      * Sauvegarde du fichier de configuration
      */
-    public void save(boolean force) {
+    public boolean save(boolean force) {
         if (this.manager != null && this.config != null && (force || this.modified)) {
 	        try {
 	        	this.manager.save(config);
 	        	this.modified = false;
 	        } catch (IOException ex) {
 	            this.plugin.getELogger().warn("Impossible de sauvegarder le fichier : " + this.name + ".conf : " + this.file.getAbsolutePath());
+	            return false;
 	        }
         }
+        return true;
     }
     
     /**

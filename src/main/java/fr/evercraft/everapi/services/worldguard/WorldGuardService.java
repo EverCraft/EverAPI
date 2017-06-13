@@ -19,6 +19,7 @@ package fr.evercraft.everapi.services.worldguard;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import org.spongepowered.api.world.World;
 
@@ -38,6 +39,6 @@ public interface WorldGuardService {
 	Set<Flag<?>> getFlags();
 	
 	// World
-	WorldGuardWorld getOrCreateWorld(World world);
+	CompletableFuture<WorldGuardWorld> getOrCreateWorld(World world);
 	Set<WorldGuardWorld> getAll();
 }
