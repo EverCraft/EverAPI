@@ -73,6 +73,7 @@ import org.spongepowered.api.util.AABB;
 import org.spongepowered.api.util.RelativePositions;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
+import org.spongepowered.api.world.WorldBorder;
 
 import com.flowpowered.math.vector.Vector3d;
 
@@ -709,5 +710,15 @@ public class PlayerSponge extends EUser implements Player {
 	@Override
 	public void setSpectatorTarget(Entity entity) {
 		this.player.setSpectatorTarget(entity);
+	}
+
+	@Override
+	public Optional<WorldBorder> getWorldBorder() {
+		return this.player.getWorldBorder();
+	}
+
+	@Override
+	public void setWorldBorder(WorldBorder border, Cause cause) {
+		this.player.setWorldBorder(border, cause);
 	}
 }
