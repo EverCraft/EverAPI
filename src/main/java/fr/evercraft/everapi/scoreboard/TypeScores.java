@@ -88,8 +88,8 @@ public enum TypeScores {
 		this.score.addListener(plugin, objective);
 	}
 	
-	public void removeListener(EPlugin<?> plugin, IObjective objective) {
-		this.score.removeListener(plugin, objective);
+	public void removeListener(IObjective objective) {
+		this.score.removeListener(objective);
 	}
 	
 	public Optional<Criterion> getCriterion() {

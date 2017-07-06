@@ -20,21 +20,21 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.type.SkullTypes;
+import org.spongepowered.api.item.ItemTypes;
+import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.world.biome.BiomeTypes;
 
 import fr.evercraft.everapi.EACommand;
 import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.services.entity.EntityTemplate;
-import fr.evercraft.everapi.services.fire.FireType;
 
 public class EATest extends ESubCommand<EverAPI> {
 	
@@ -64,6 +64,12 @@ public class EATest extends ESubCommand<EverAPI> {
 	public boolean subExecute(final CommandSource source, final List<String> args) {
 		EPlayer player = (EPlayer) source;
 		
+		ItemStack skull = ItemStack.of(ItemTypes.SKULL, 1);
+		player.sendMessage("SKULL_TYPE : " + skull.offer(Keys.SKULL_TYPE, SkullTypes.PLAYER).isSuccessful());
+		player.sendMessage("SKULL_TYPE : " + skull.get(Keys.SKULL_TYPE));
+		player.sendMessage("REPRESENTED_PLAYER : " + skull.offer(Keys.REPRESENTED_PLAYER, player.getProfile()).isSuccessful());
+		
+		/*
 		player.getWorld().setBiome(player.getLocation().getChunkPosition(), BiomeTypes.ICE_PLAINS);
 		player.getWorld().setBiome(player.getLocation().getPosition().toInt().add(0, 0, 0).mul(1, 0, 1), BiomeTypes.ICE_PLAINS);
 		player.getWorld().setBiome(player.getLocation().getPosition().toInt().add(1, 0, 0).mul(1, 0, 1), BiomeTypes.ICE_PLAINS);
@@ -85,7 +91,7 @@ public class EATest extends ESubCommand<EverAPI> {
 		
 		player.sendMessage("FireType : ");
 		Sponge.getRegistry().getAllOf(FireType.class).stream()
-			.forEach(flag -> player.sendMessage(" - " + flag.getId() + " : " + flag.getName()));
+			.forEach(flag -> player.sendMessage(" - " + flag.getId() + " : " + flag.getName()));*/
 		
 		/*Entity entity = player.getWorld().createEntity(EntityTypes.OCELOT, player.getLocation().getPosition());
 

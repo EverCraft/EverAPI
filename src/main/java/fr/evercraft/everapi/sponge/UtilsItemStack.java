@@ -74,7 +74,11 @@ public class UtilsItemStack {
 		ItemStack skull = ItemStack.of(ItemTypes.SKULL, 1);
 		skull.offer(Keys.SKULL_TYPE, SkullTypes.PLAYER);
 		skull.offer(Keys.REPRESENTED_PLAYER, profile);
-		return skull;
+		return ItemStack.builder()
+		        .itemType(ItemTypes.SKULL)
+		        .keyValue(Keys.SKULL_TYPE, SkullTypes.PLAYER)
+		        .keyValue(Keys.REPRESENTED_PLAYER, profile)
+		        .build();
 	}
 	
 	public static void dropItem(final Location<World> location, final ItemStack itemstack, final Cause cause) {

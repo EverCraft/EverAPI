@@ -41,15 +41,15 @@ public abstract class Score {
 		}
 		
 		if (this.objectives.isEmpty()) {
-			this.plugin.getGame().getEventManager().registerListeners(plugin, this);
+			this.plugin.getGame().getEventManager().registerListeners(this.plugin, this);
 		}
 		this.objectives.add(objective);
 	}
 	
-	public void removeListener(EPlugin<?> plugin, IObjective objective) {
+	public void removeListener(IObjective objective) {
 		this.objectives.remove(objective);
-		if (this.objectives.isEmpty()) {
-			plugin.getGame().getEventManager().unregisterListeners(this);
+		if (this.objectives.isEmpty() && this.plugin != null) {
+			this.plugin.getGame().getEventManager().unregisterListeners(this);
 		}
 	}
 	
