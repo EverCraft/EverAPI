@@ -14,37 +14,34 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.scoreboard;
+package fr.evercraft.everapi.services.score;
 
-import org.spongepowered.api.data.key.Keys;
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.entity.ChangeEntityEquipmentEvent;
-import org.spongepowered.api.event.entity.DamageEntityEvent;
 
+import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.event.StatsUserEvent;
+import fr.evercraft.everapi.registers.ScoreType;
 import fr.evercraft.everapi.server.player.EPlayer;
 
-public class ScoreChestplate extends Score {
-	private final int DEFAULT = 0;
+public class ScoreRatio extends ScoreType {
+
+	public ScoreRatio(String name, EverAPI plugin) {
+		super(name, plugin);
+	}
 	
 	@Override
 	public Integer getValue(EPlayer player) {
-		if (player.getChestplate().isPresent()) {
-			return player.getChestplate().get().get(Keys.ITEM_DURABILITY).orElse(DEFAULT);
-		}
-		return DEFAULT;
+		return player.getRatio();
 	}
 	
 	@Listener
-    public void event(ChangeEntityEquipmentEvent.TargetPlayer event) {
-		this.update(event.getTargetEntity().getUniqueId(), TypeScores.BOOTS);
+    public void event(StatsUserEvent.Death event) {
+		this.update(event.getVictim().getUniqueId(), ScoreTypes.RATIO);
 	}
 	
 	@Listener
-    public void event(DamageEntityEvent event) {
-		if (event.getTargetEntity() instanceof Player) {
-			this.update(event.getTargetEntity().getUniqueId(), TypeScores.BOOTS);
-		}
+    public void event(StatsUserEvent.Kill event) {
+		this.update(event.getKiller().getUniqueId(), ScoreTypes.RATIO);
 	}
 	
 	@Override

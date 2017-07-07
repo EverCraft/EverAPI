@@ -21,6 +21,7 @@ import fr.evercraft.everapi.registers.*;
 import fr.evercraft.everapi.registers.ChatType.ChatTypes;
 import fr.evercraft.everapi.registers.IceType.IceTypes;
 import fr.evercraft.everapi.registers.MoveType.MoveTypes;
+import fr.evercraft.everapi.registers.ScoreType.ScoreTypes;
 import fr.evercraft.everapi.registers.SnowType.SnowTypes;
 import fr.evercraft.everapi.services.selection.SelectionRegion;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
@@ -36,6 +37,10 @@ public class ManagerRegister {
 		new ERegister<IceType>(this.plugin, IceType.class, IceTypes.class);
 		new ERegister<SnowType>(this.plugin, SnowType.class, SnowTypes.class);
 		new ERegister<MoveType>(this.plugin, MoveType.class, MoveTypes.class);
+		
+		// Score
+		new ScoreTypes(this.plugin);
+		new ERegister<ScoreType>(this.plugin, ScoreType.class, ScoreTypes.class);
 		
 		// Selection
 		new ERegister<SelectionRegion.Type>(this.plugin, SelectionRegion.Type.class, SelectionRegion.Types.class);

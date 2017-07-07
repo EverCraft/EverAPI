@@ -14,18 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.registers;
+package fr.evercraft.everapi.services.score;
 
-import fr.evercraft.everapi.register.ECatalogType;
+import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.registers.ScoreType;
+import fr.evercraft.everapi.server.player.EPlayer;
 
-public class SnowType extends ECatalogType {
+public class ScoreFeed extends ScoreType {
 
-	public SnowType(String name) {
-		super(name);
+	public ScoreFeed(String name, EverAPI plugin) {
+		super(name, plugin);
 	}
 	
-	public static interface SnowTypes {
-		static final SnowType FALL = new SnowType("FALL");
-		static final SnowType MELT = new SnowType("MELT");
+	@Override
+	public Integer getValue(EPlayer player) {
+		return player.getFood();
+	}
+	
+	@Override
+	public boolean isUpdate() {
+		return false;
 	}
 }

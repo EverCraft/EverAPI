@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.scoreboard;
+package fr.evercraft.everapi.services.score;
 
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
@@ -22,29 +22,35 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.entity.ChangeEntityEquipmentEvent;
 import org.spongepowered.api.event.entity.DamageEntityEvent;
 
+import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.registers.ScoreType;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.sponge.UtilsItemStack;
 
-public class ScoreHelmetPercentage extends Score {
+public class ScoreChestplatePercentage extends ScoreType {
 	private final int DEFAULT = 0;
+
+	public ScoreChestplatePercentage(String name, EverAPI plugin) {
+		super(name, plugin);
+	}
 	
 	@Override
 	public Integer getValue(EPlayer player) {
-		if (player.getHelmet().isPresent()) {
-			return (player.getHelmet().get().get(Keys.ITEM_DURABILITY).orElse(DEFAULT)/UtilsItemStack.getMaxDurability(player.getHelmet().get())) * 100;
+		if (player.getChestplate().isPresent()) {
+			return (player.getChestplate().get().get(Keys.ITEM_DURABILITY).orElse(DEFAULT)/UtilsItemStack.getMaxDurability(player.getChestplate().get())) * 100;
 		}
 		return DEFAULT;
 	}
 	
 	@Listener
     public void event(ChangeEntityEquipmentEvent.TargetPlayer event) {
-		this.update(event.getTargetEntity().getUniqueId(), TypeScores.HELMET_PERCENTAGE);
+		this.update(event.getTargetEntity().getUniqueId(), ScoreTypes.CHESTPLATE_PERCENTAGE);
 	}
 	
 	@Listener
     public void event(DamageEntityEvent event) {
 		if (event.getTargetEntity() instanceof Player) {
-			this.update(event.getTargetEntity().getUniqueId(), TypeScores.HELMET_PERCENTAGE);
+			this.update(event.getTargetEntity().getUniqueId(), ScoreTypes.CHESTPLATE_PERCENTAGE);
 		}
 	}
 	

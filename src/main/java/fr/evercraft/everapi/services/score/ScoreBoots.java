@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.scoreboard;
+package fr.evercraft.everapi.services.score;
 
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
@@ -22,29 +22,35 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.entity.ChangeEntityEquipmentEvent;
 import org.spongepowered.api.event.entity.DamageEntityEvent;
 
+import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.registers.ScoreType;
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.sponge.UtilsItemStack;
 
-public class ScoreBootsPercentage extends Score {
+public class ScoreBoots extends ScoreType {
+	
 	private final int DEFAULT = 0;
+	
+	public ScoreBoots(String name, EverAPI plugin) {
+		super(name, plugin);
+	}
 	
 	@Override
 	public Integer getValue(EPlayer player) {
 		if (player.getBoots().isPresent()) {
-			return (player.getBoots().get().get(Keys.ITEM_DURABILITY).orElse(DEFAULT)/UtilsItemStack.getMaxDurability(player.getBoots().get())) * 100;
+			return player.getBoots().get().get(Keys.ITEM_DURABILITY).orElse(DEFAULT);
 		}
 		return DEFAULT;
 	}
 	
 	@Listener
     public void event(ChangeEntityEquipmentEvent.TargetPlayer event) {
-		this.update(event.getTargetEntity().getUniqueId(), TypeScores.BOOTS_PERCENTAGE);
+		this.update(event.getTargetEntity().getUniqueId(), ScoreTypes.BOOTS);
 	}
 	
 	@Listener
     public void event(DamageEntityEvent event) {
 		if (event.getTargetEntity() instanceof Player) {
-			this.update(event.getTargetEntity().getUniqueId(), TypeScores.BOOTS_PERCENTAGE);
+			this.update(event.getTargetEntity().getUniqueId(), ScoreTypes.BOOTS);
 		}
 	}
 	

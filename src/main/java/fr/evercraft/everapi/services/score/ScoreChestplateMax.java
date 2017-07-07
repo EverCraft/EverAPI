@@ -14,19 +14,38 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.scoreboard;
+package fr.evercraft.everapi.services.score;
 
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.entity.ChangeEntityEquipmentEvent;
+
+import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.registers.ScoreType;
 import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.sponge.UtilsItemStack;
 
-public class ScoreFeed extends Score {
+public class ScoreChestplateMax extends ScoreType {
+	private final int DEFAULT = 0;
+
+	public ScoreChestplateMax(String name, EverAPI plugin) {
+		super(name, plugin);
+	}
 	
 	@Override
 	public Integer getValue(EPlayer player) {
-		return player.getFood();
+		if (player.getChestplate().isPresent()) {
+			return UtilsItemStack.getMaxDurability(player.getChestplate().get());
+		}
+		return DEFAULT;
+	}
+	
+	@Listener
+    public void event(ChangeEntityEquipmentEvent.TargetPlayer event) {
+		this.update(event.getTargetEntity().getUniqueId(), ScoreTypes.CHESTPLATE_MAX);
 	}
 	
 	@Override
 	public boolean isUpdate() {
-		return false;
+		return true;
 	}
 }

@@ -14,18 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.registers;
+package fr.evercraft.everapi.services.score;
 
-import fr.evercraft.everapi.register.ECatalogType;
+import org.spongepowered.api.entity.living.player.Player;
 
-public class SnowType extends ECatalogType {
+import fr.evercraft.everapi.registers.ScoreType;
 
-	public SnowType(String name) {
-		super(name);
-	}
-	
-	public static interface SnowTypes {
-		static final SnowType FALL = new SnowType("FALL");
-		static final SnowType MELT = new SnowType("MELT");
-	}
+public interface IObjective  {
+	public void update(ScoreType type);
+	public void update(Player player, ScoreType type);
 }

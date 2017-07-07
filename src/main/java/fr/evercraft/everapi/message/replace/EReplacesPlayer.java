@@ -28,7 +28,7 @@ import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.plugin.EPlugin;
-import fr.evercraft.everapi.scoreboard.TypeScores;
+import fr.evercraft.everapi.registers.ScoreType.ScoreTypes;
 import fr.evercraft.everapi.server.player.EPlayer;
 
 public enum EReplacesPlayer {
@@ -63,20 +63,20 @@ public enum EReplacesPlayer {
 	RATIO_MONTHLY((plugin, player) -> String.valueOf(player.getRatioMonthly())),
 	
 	// Armor
-	HELMET((plugin, player) -> TypeScores.HELMET.getValue(player).toString()),
-	CHESTPLATE((plugin, player) -> TypeScores.CHESTPLATE.getValue(player).toString()),
-	LEGGINGS((plugin, player) -> TypeScores.LEGGINGS.getValue(player).toString()),
-	BOOTS((plugin, player) -> TypeScores.BOOTS.getValue(player).toString()),
+	HELMET((plugin, player) -> ScoreTypes.HELMET.getValue(player).toString()),
+	CHESTPLATE((plugin, player) -> ScoreTypes.CHESTPLATE.getValue(player).toString()),
+	LEGGINGS((plugin, player) -> ScoreTypes.LEGGINGS.getValue(player).toString()),
+	BOOTS((plugin, player) -> ScoreTypes.BOOTS.getValue(player).toString()),
 	
-	HELMET_MAX((plugin, player) -> TypeScores.HELMET_MAX.getValue(player).toString()),
-	CHESTPLATE_MAX((plugin, player) -> TypeScores.CHESTPLATE_MAX.getValue(player).toString()),
-	LEGGINGS_MAX((plugin, player) -> TypeScores.LEGGINGS_MAX.getValue(player).toString()),
-	BOOTS_MAXLTH((plugin, player) -> TypeScores.BOOTS_MAX.getValue(player).toString()),
+	HELMET_MAX((plugin, player) -> ScoreTypes.HELMET_MAX.getValue(player).toString()),
+	CHESTPLATE_MAX((plugin, player) -> ScoreTypes.CHESTPLATE_MAX.getValue(player).toString()),
+	LEGGINGS_MAX((plugin, player) -> ScoreTypes.LEGGINGS_MAX.getValue(player).toString()),
+	BOOTS_MAXLTH((plugin, player) -> ScoreTypes.BOOTS_MAX.getValue(player).toString()),
 	
-	HELMET_PERCENTAGE((plugin, player) -> TypeScores.HELMET_PERCENTAGE.getValue(player).toString()),
-	CHESTPLATE_PERCENTAGE((plugin, player) -> TypeScores.CHESTPLATE_PERCENTAGE.getValue(player).toString()),
-	LEGGINGS_PERCENTAGE((plugin, player) -> TypeScores.LEGGINGS_PERCENTAGE.getValue(player).toString()),
-	BOOTS_PERCENTAGE((plugin, player) -> TypeScores.BOOTS_PERCENTAGE.getValue(player).toString()),
+	HELMET_PERCENTAGE((plugin, player) -> ScoreTypes.HELMET_PERCENTAGE.getValue(player).toString()),
+	CHESTPLATE_PERCENTAGE((plugin, player) -> ScoreTypes.CHESTPLATE_PERCENTAGE.getValue(player).toString()),
+	LEGGINGS_PERCENTAGE((plugin, player) -> ScoreTypes.LEGGINGS_PERCENTAGE.getValue(player).toString()),
+	BOOTS_PERCENTAGE((plugin, player) -> ScoreTypes.BOOTS_PERCENTAGE.getValue(player).toString()),
 	
 	// Team
 	TEAM_PREFIX((plugin, player) -> {

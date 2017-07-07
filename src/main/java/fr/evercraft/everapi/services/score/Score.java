@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.scoreboard;
+package fr.evercraft.everapi.services.score;
 
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -23,6 +23,7 @@ import org.spongepowered.api.Sponge;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.EPlugin;
+import fr.evercraft.everapi.registers.ScoreType;
 import fr.evercraft.everapi.server.player.EPlayer;
 
 public abstract class Score {
@@ -41,6 +42,7 @@ public abstract class Score {
 		}
 		
 		if (this.objectives.isEmpty()) {
+			System.out.println("addListener : " + this.getClass().getSimpleName());
 			this.plugin.getGame().getEventManager().registerListeners(this.plugin, this);
 		}
 		this.objectives.add(objective);
@@ -49,11 +51,12 @@ public abstract class Score {
 	public void removeListener(IObjective objective) {
 		this.objectives.remove(objective);
 		if (this.objectives.isEmpty() && this.plugin != null) {
+			System.out.println("removeListener : " + this.getClass().getSimpleName());
 			this.plugin.getGame().getEventManager().unregisterListeners(this);
 		}
 	}
 	
-	protected void update(TypeScores type) {
+	protected void update(ScoreType type) {
 		Sponge.getScheduler().createTaskBuilder().execute(() -> {
 			for (IObjective objective : this.objectives) {
 				objective.update(type);
@@ -61,7 +64,7 @@ public abstract class Score {
 		}).submit(this.plugin);
 	}
 	
-	protected void update(UUID uuid, TypeScores type) {
+	protected void update(UUID uuid, ScoreType type) {
 		this.plugin.getEServer().getPlayer(uuid).ifPresent(player -> {
 			for (IObjective objective : this.objectives) {
 				objective.update(player, type);

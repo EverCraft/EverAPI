@@ -37,15 +37,15 @@ public class MoveType extends ECatalogType {
 		return this.teleport;
 	}
 	
-	public static class MoveTypes {
-		public static final MoveType RESPAWN = new MoveType("RESPAWN", false, true);
-		public static final MoveType TELEPORT = new MoveType("TELEPORT", true, true);
+	public static interface MoveTypes {
+		static final MoveType RESPAWN = new MoveType("RESPAWN", false, true);
+		static final MoveType TELEPORT = new MoveType("TELEPORT", true, true);
 		
-		public static final MoveType MOVE = new MoveType("MOVE", true, false);
-		public static final MoveType RIDE = new MoveType("RIDE", true, false);
-		public static final MoveType EMBARK = new MoveType("EMBARK", true, false);
+		static final MoveType MOVE = new MoveType("MOVE", true, false);
+		static final MoveType RIDE = new MoveType("RIDE", true, false);
+		static final MoveType EMBARK = new MoveType("EMBARK", true, false);
 		
-		public static final MoveType UNKNOWN_NON_CANCELLABLE = new MoveType("UNKNOWN_NON_CANCELLABLE", true, false);
-		public static final MoveType UNKNOWN_CANCELLABLE = new MoveType("UNKNOWN_CANCELLABLE", false, false);
+		static final MoveType UNKNOWN_NON_CANCELLABLE = new MoveType("UNKNOWN_NON_CANCELLABLE", true, false);
+		static final MoveType UNKNOWN_CANCELLABLE = new MoveType("UNKNOWN_CANCELLABLE", false, false);
 	}
 }

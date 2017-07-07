@@ -14,13 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.scoreboard;
+package fr.evercraft.everapi.services.score;
 
-import org.spongepowered.api.entity.living.player.Player;
+import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.registers.ScoreType;
+import fr.evercraft.everapi.server.player.EPlayer;
 
-import fr.evercraft.everapi.scoreboard.TypeScores;
+public class ScorePing extends ScoreType {
 
-public interface IObjective  {
-	public void update(TypeScores type);
-	public void update(Player player, TypeScores type);
+	public ScorePing(String name, EverAPI plugin) {
+		super(name, plugin);
+	}
+	
+	@Override
+	public Integer getValue(EPlayer player) {
+		return player.getConnection().getLatency();
+	}
+	
+	@Override
+	public boolean isUpdate() {
+		return false;
+	}
 }
