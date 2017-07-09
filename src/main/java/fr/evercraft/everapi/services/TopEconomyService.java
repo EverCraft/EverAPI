@@ -23,6 +23,7 @@ import java.util.UUID;
 import org.spongepowered.api.service.economy.Currency;
 
 public interface TopEconomyService {
+	// TODO : CompletableFuture 
 	public LinkedHashMap<UUID, BigDecimal> topUniqueAccount(final int count);
 	public LinkedHashMap<UUID, BigDecimal> topUniqueAccount(final Currency currency, final int count);
 }

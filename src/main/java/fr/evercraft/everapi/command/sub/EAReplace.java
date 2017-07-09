@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
@@ -50,7 +51,7 @@ public class EAReplace extends ESubCommand<EverAPI> {
 		return Text.of("La liste des replaces");
 	}
 	
-	public Collection<String> subTabCompleter(final CommandSource source, final List<String> args) throws CommandException {
+	public Collection<String> tabCompleter(final CommandSource source, final List<String> args) throws CommandException {
 		return Arrays.asList();
 	}
 
@@ -61,7 +62,7 @@ public class EAReplace extends ESubCommand<EverAPI> {
 					.build();
 	}
 	
-	public boolean subExecute(final CommandSource source, final List<String> args) {
+	public CompletableFuture<Boolean> execute(final CommandSource source, final List<String> args) {
 		if (source instanceof EPlayer) {
 			return this.replace((EPlayer) source);
 		} else {
@@ -69,7 +70,7 @@ public class EAReplace extends ESubCommand<EverAPI> {
 		}
 	}
 	
-	public boolean replace(final CommandSource source) {
+	public CompletableFuture<Boolean> replace(final CommandSource source) {
 		List<Text> list = new ArrayList<Text>();
 		for(EReplacesServer value : EReplacesServer.values()) {
 			if (value.getFunction().isPresent()) {
@@ -78,10 +79,10 @@ public class EAReplace extends ESubCommand<EverAPI> {
 			}
 		}
 		this.plugin.getManagerService().getEPagination().sendTo(Text.of("Replace Server"), list, source);
-		return false;
+		return CompletableFuture.completedFuture(true);
 	}
 	
-	public boolean replace(final EPlayer player) {
+	public CompletableFuture<Boolean> replace(final EPlayer player) {
 		List<Text> list = new ArrayList<Text>();
 		
 		for(EReplacesPlayer value : EReplacesPlayer.values()) {
@@ -106,6 +107,6 @@ public class EAReplace extends ESubCommand<EverAPI> {
 		list.add(EFormatString.of("&cOPTION_VALUE=suffix : &r<OPTION_VALUE=suffix>")
 				.toText(player.getReplaces()));
 		this.plugin.getManagerService().getEPagination().sendTo(Text.of("Replace Player"), list, player);
-		return false;
+		return CompletableFuture.completedFuture(true);
 	}
 }

@@ -19,8 +19,11 @@ package fr.evercraft.everapi.plugin.command;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 import org.spongepowered.api.command.CommandCallable;
 import org.spongepowered.api.command.CommandException;
@@ -44,8 +47,14 @@ import fr.evercraft.everapi.services.pagination.CommandPagination;
 import fr.evercraft.everapi.util.Chronometer;
 
 public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T> implements CommandCallable {
-
+	
+	private final Set<String> sources;
+	
 	public ECommand(final T plugin, final String name, final String... alias) {
+		this(plugin, name, false, alias);
+	}
+
+	public ECommand(final T plugin, final String name, boolean subCommand, final String... alias) {
 		super(plugin, name);
 		
 		String[] cmds = new String[1 + alias.length];
@@ -54,24 +63,31 @@ public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T
 			cmds[cpt + 1] = alias[cpt];
 		}
 		
-		this.plugin.getGame().getCommandManager().register(this.plugin, this, cmds);
+		if (!subCommand) {
+			this.plugin.getGame().getCommandManager().register(this.plugin, this, cmds);
+		}
+		this.sources = new HashSet<String>();
 	}
 	
 	public CommandResult process(final CommandSource source, final String arg) throws CommandException {
+		if (!this.plugin.isEnable()) return CommandResult.success();
+		if (this.sources.contains(source.getIdentifier())) return CommandResult.success();
+		
+		if (!this.testPermission(source)) {
+			source.sendMessage(EAMessages.NO_PERMISSION.getText());
+			return CommandResult.success();
+		}
+		
 		Chronometer chronometer = new Chronometer();
-		try {
-			if (this.plugin.isEnable()) {
-				if (this.testPermission(source)) {		
-					if (source instanceof Player){
-						this.processPlayer((Player) source, arg, this.getArg(arg));
-					} else {
-						this.execute(source, this.getArg(arg));
-					}
-				} else {
-					source.sendMessage(EAMessages.NO_PERMISSION.getText());
-				}
-				this.plugin.getELogger().debug("The command '" + this.getName() + "' with arguments '" + arg + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
-				return CommandResult.success();
+		this.sources.add(source.getIdentifier());
+		try {	
+			if (source instanceof Player){
+				this.processPlayer((Player) source, arg, this.getArg(arg));
+			} else {
+				this.execute(source, this.getArg(arg))
+					.thenAcceptAsync(result -> {
+						this.sources.remove(source.getIdentifier());
+					}, this.plugin.getGame().getScheduler().createSyncExecutor(this.plugin));
 			}
 		} catch (PluginDisableException e) {
 			source.sendMessage(EAMessages.PREFIX.getText().concat(EAMessages.COMMAND_ERROR.getText()));
@@ -80,19 +96,23 @@ public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T
 		} catch (ServerDisableException e) {
 			e.execute();
 		}
-		this.plugin.getELogger().debug("Error : The command '" + this.getName() + "' with arguments '" + arg + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
+		
+		this.plugin.getELogger().debug("The command '" + this.getName() + "' with arguments '" + arg + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
         return CommandResult.success();
 	}
 	
 	private void processPlayer(final Player source, final String arg, final List<String> args) throws CommandException, PluginDisableException, ServerDisableException {
 		EPlayer player = this.plugin.getEServer().getEPlayer(source);
-		if (!player.isDead()) {
-			if (!this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createCommandEventSend(player, this.getName(), arg, args, Cause.source(this.plugin).build()))) {
-				boolean result = execute(player, args);
-				this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createCommandEventResult(player, this.getName(), arg, args, result, Cause.source(this.plugin).build()));
-			}
-		} else {
+		if (player.isDead()) {
 			player.sendMessage(EAMessages.COMMAND_ERROR_PLAYER_DEAD.getText());
+		}
+		
+		if (!this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createCommandEventSend(player, this.getName(), arg, args, Cause.source(this.plugin).build()))) {
+			this.execute(player, args)
+				.thenAcceptAsync(result -> {
+					this.sources.remove(player.getIdentifier());
+					this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createCommandEventResult(player, this.getName(), arg, args, result, Cause.source(this.plugin).build()));
+				}, this.plugin.getGame().getScheduler().createSyncExecutor(this.plugin));
 		}
 	}
 	
@@ -181,8 +201,8 @@ public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T
 		this.plugin.getELogger().debug("Arguments : '" + String.join("','", args) +  "'");
 		return args;
 	}
-
-	public abstract boolean execute(CommandSource source, List<String> args) throws CommandException, PluginDisableException, ServerDisableException;
+	
+	public abstract CompletableFuture<Boolean> execute(CommandSource source, List<String> args) throws CommandException, PluginDisableException, ServerDisableException;
 	
 	public abstract Collection<String> tabCompleter(CommandSource source, List<String> args) throws CommandException;
 	

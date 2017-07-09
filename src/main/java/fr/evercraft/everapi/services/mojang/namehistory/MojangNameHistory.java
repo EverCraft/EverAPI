@@ -32,7 +32,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 public class MojangNameHistory {
@@ -55,9 +55,8 @@ public class MojangNameHistory {
                 .refreshAfterWrite(10, TimeUnit.MINUTES)
                 .build(
                         new CacheLoader<UUID, List<NameHistory>>() {
-
                             public List<NameHistory> load(UUID uuid) throws IOException {
-                                return requete(uuid);
+                                return MojangNameHistory.this.requete(uuid);
                             }
                         }
                 );
@@ -67,8 +66,22 @@ public class MojangNameHistory {
 		this.players.cleanUp();
 	}
     
-    public List<NameHistory> get(UUID uuid) throws ExecutionException {
-    	return this.players.get(uuid);
+    public CompletableFuture<List<NameHistory>> get(final UUID uuid) {
+    	List<NameHistory> names = this.players.getIfPresent(uuid);
+    	if (names != null) {
+    		return CompletableFuture.completedFuture(names);
+    	}
+    	
+    	return CompletableFuture.supplyAsync(() -> {
+    		List<NameHistory> requete;
+			try {
+				requete = this.requete(uuid);
+				this.players.put(uuid, requete);
+				return requete;
+			} catch (IOException e) {
+				return null;
+			}
+    	}, this.plugin.getGame().getScheduler().createAsyncExecutor(this.plugin));
     }
     
     private List<NameHistory> requete(UUID uuid) throws IOException {
@@ -76,7 +89,7 @@ public class MojangNameHistory {
     	
         InputStream inputStream = getAPIResponse(uuid);
 
-        NameHistory[] names = gson.fromJson(new InputStreamReader(inputStream), NameHistory[].class);
+        NameHistory[] names = this.gson.fromJson(new InputStreamReader(inputStream), NameHistory[].class);
 
         if (names != null) {
             return Arrays.asList(names);

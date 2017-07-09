@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
@@ -48,7 +49,7 @@ public class EAPlugins extends ESubCommand<EverAPI> {
 		return EAMessages.COMMAND_PLUGINS_DESCRIPTION.getText();
 	}
 	
-	public Collection<String> subTabCompleter(final CommandSource source, final List<String> args) throws CommandException {
+	public Collection<String> tabCompleter(final CommandSource source, final List<String> args) throws CommandException {
 		return Arrays.asList();
 	}
 
@@ -59,15 +60,15 @@ public class EAPlugins extends ESubCommand<EverAPI> {
 					.build();
 	}
 	
-	public boolean subExecute(final CommandSource source, final List<String> args) {
+	public CompletableFuture<Boolean> execute(final CommandSource source, final List<String> args) {
 		if (args.size() == 0) {
-			return commandPlugins(source);
+			return this.commandPlugins(source);
 		}
 		source.sendMessage(this.help(source));
-		return false;
+		return CompletableFuture.completedFuture(false);
 	}
 
-	private boolean commandPlugins(CommandSource player) {
+	private CompletableFuture<Boolean> commandPlugins(CommandSource player) {
 		Collection<EPlugin<?>> plugins = getEPlugins();
 		List<Text> list = new ArrayList<Text>();
 		for (EPlugin<?> plugin :  plugins){
@@ -93,11 +94,12 @@ public class EAPlugins extends ESubCommand<EverAPI> {
 				.onHover(TextActions.showText(Text.joinWith(Text.of("\n"), hover)))
 				.build());
 		}
+		
 		EAMessages.PLUGINS_MESSAGE.sender()
 			.replace("<count>", () -> String.valueOf(plugins.size()))
 			.replace("<plugins>", () -> Text.joinWith(Text.of(", "), list))
 			.sendTo(player);
-		return true;
+		return CompletableFuture.completedFuture(true);
 	}
 	
 	private Collection<EPlugin<?>> getEPlugins(){

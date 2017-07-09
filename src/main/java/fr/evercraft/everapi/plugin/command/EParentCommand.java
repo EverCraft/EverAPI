@@ -19,11 +19,11 @@ package fr.evercraft.everapi.plugin.command;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 import org.spongepowered.api.command.CommandException;
@@ -70,13 +70,16 @@ public abstract class EParentCommand<T extends EPlugin<?>> extends ECommand<T> {
 				}
 			}
 		} else if (args.size() >= 2) {
-			Iterator<ESubCommand<T>> iterator = this.subcommands.iterator();
-			boolean found = false;
-			while(iterator.hasNext() && !found) {
-				ESubCommand<T> subcommand = iterator.next();
-				if (args.get(0).equalsIgnoreCase(subcommand.getSubName())) {
-					suggests.addAll(subcommand.tabCompleter(source, args));
-					found = true;
+			ArrayList<String> subArgs = new ArrayList<String>(args);
+			subArgs.remove(0);
+			
+			for (ESubCommand<T> subcommand : this.subcommands) {
+				if (args.get(0).equalsIgnoreCase(subcommand.getSubName())) { 
+					if (subcommand.testPermission(source)) {
+						return subcommand.tabCompleter(source, subArgs);
+					}
+					
+					break;
 				}
 			}
 		}
@@ -115,52 +118,48 @@ public abstract class EParentCommand<T extends EPlugin<?>> extends ECommand<T> {
 		return build.color(TextColors.RED).build();
 	}
 
-	public boolean execute(final CommandSource source, final List<String> args) throws CommandException, PluginDisableException, ServerDisableException {
-		// Résultat de la commande :
-		boolean resultat = false;
-		
+	public CompletableFuture<Boolean> execute(final CommandSource source, final List<String> args) throws CommandException, PluginDisableException, ServerDisableException {
 		// HELP
 		if (args.isEmpty()) {
-			resultat = commandDefault(source, args);
-		} else if (args.get(0).equalsIgnoreCase("help")) {
-			// Si il a la permission
-			if (testPermissionHelp(source)){
-				return this.commandHelp(source);
-			// Il n'a pas la permission
-			} else {
+			return this.commandDefault(source, args);
+		}
+		
+		if (args.get(0).equalsIgnoreCase("help")) {
+			if (!this.testPermissionHelp(source)) {
 				source.sendMessage(EAMessages.NO_PERMISSION.getText());
-				return false;
-			}
-		} else {
-			Iterator<ESubCommand<T>> iterator = this.subcommands.iterator();
-			boolean found = false;
-			while(iterator.hasNext() && !found) {
-				ESubCommand<T> subcommand = iterator.next();
-				if (args.get(0).equalsIgnoreCase(subcommand.getSubName())) {
-					resultat = subcommand.execute(source, args);
-					found = true;
-				}
+				return CompletableFuture.completedFuture(false);
 			}
 			
-			if (!found) {
-				source.sendMessage(getHelp(source).get());
+			return this.commandHelp(source);
+		}
+		
+		ArrayList<String> subArgs = new ArrayList<String>(args);
+		subArgs.remove(0);
+		
+		for (ESubCommand<T> subcommand : this.subcommands) {
+			if (args.get(0).equalsIgnoreCase(subcommand.getSubName())) {
+				if (subcommand.testPermission(source)) { 
+					return subcommand.execute(source, subArgs);
+				}
+				
+				break;
 			}
 		}
-		return resultat;
+		
+		source.sendMessage(this.getHelp(source).get());
+		return CompletableFuture.completedFuture(false);
 	}
 	
-	protected boolean commandDefault(final CommandSource source, final List<String> args) {
-		// Si il a la permission
-		if (testPermissionHelp(source)){
-			return this.commandHelp(source);
-		// Il n'a pas la permission
-		} else {
+	protected CompletableFuture<Boolean> commandDefault(final CommandSource source, final List<String> args) {
+		if (!this.testPermissionHelp(source)) {
 			source.sendMessage(EAMessages.NO_PERMISSION.getText());
-			return false;
+			return CompletableFuture.completedFuture(false);
 		}
+		
+		return this.commandHelp(source);
 	}
 	
-	private boolean commandHelp(final CommandSource source) {
+	private CompletableFuture<Boolean> commandHelp(final CommandSource source) {
 		LinkedHashMap<String, CommandPagination<?>> commands = new LinkedHashMap<String, CommandPagination<?>>();
 		
 		for (ECommand<T> command : this.commands) {
@@ -174,8 +173,9 @@ public abstract class EParentCommand<T extends EPlugin<?>> extends ECommand<T> {
 				commands.put(subcommand.getName(), subcommand);
 			}
 		}
+		
 		this.plugin.getEverAPI().getManagerService().getEPagination().helpSubCommand(commands, source, this.plugin);
-		return false;
+		return CompletableFuture.completedFuture(false);
 	}
 	
 	public abstract boolean testPermissionHelp(final CommandSource source);
