@@ -142,7 +142,8 @@ public abstract class EParentCommand<T extends EPlugin<?>> extends ECommand<T> {
 					return subcommand.execute(source, subArgs);
 				}
 				
-				break;
+				source.sendMessage(EAMessages.NO_PERMISSION.getText());
+				return CompletableFuture.completedFuture(false);
 			}
 		}
 		

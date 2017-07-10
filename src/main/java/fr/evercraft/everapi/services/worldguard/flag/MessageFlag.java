@@ -156,9 +156,6 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 	public EMessageBuilder parseAdd(CommandSource source, ProtectedRegion region, ProtectedRegion.Group group, List<String> values) throws IllegalArgumentException {
 		Args args = this.patternAdd.build(values);
 		
-		System.out.println("Arguments : '" + String.join("','", values) +  "'");
-		System.out.println("args : " + args);
-		
 		if (args.getArgs().size() > 1 || (args.getArgs().size() == 0 && args.countValues() == 0) || 
 				(args.getArgs().size() == 1 && args.getValue(MARKER_CHAT_MESSAGE).isPresent())) {
 			throw new IllegalArgumentException();
