@@ -24,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
 import org.spongepowered.api.world.World;
 
 public interface WorldGuardService {
-	
+	public static final String GLOBAL_REGION = "__global__";
 	public static final String MESSAGE_FLAG = "everworldguard.flag";
 
 	// Subject

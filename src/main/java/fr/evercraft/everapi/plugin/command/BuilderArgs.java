@@ -159,6 +159,8 @@ public class BuilderArgs implements Args.Builder {
 							values.put(lastMarker, arg);
 							lastMarker = null;
 							lastType = null;
+						} else {
+							values.put(lastMarker, arg);
 						}
 					} else if (lastType.equals(Type.LIST)) {
 						lists.get(lastMarker).add(arg);
@@ -190,7 +192,7 @@ public class BuilderArgs implements Args.Builder {
 			if (function != null) {
 				return function.apply(source, args);
 			}
-		} else if (!this.suggests_args.isEmpty()) {
+		} else if (!this.suggests_args.isEmpty() && ! args.getArgs().isEmpty()) {
 			if (args.getArgs().size() <= this.suggests_args.size()) {
 				suggests.addAll(this.suggests_args.get(args.getArgs().size()-1).apply(source, args));
 			} else if (this.arg_list) {

@@ -38,8 +38,10 @@ public abstract class StateFlag extends EFlag<StateFlag.State> {
 	@Override
 	public Collection<String> getSuggestAdd(CommandSource source, final List<String> args) {
 		Set<String> suggests = new HashSet<String>();
-		for (StateFlag.State state : StateFlag.State.values()) {
-			suggests.add(state.name());
+		if (args.size() == 1) {
+			for (StateFlag.State state : StateFlag.State.values()) {
+				suggests.add(state.name());
+			}
 		}
 		return suggests;
 	}

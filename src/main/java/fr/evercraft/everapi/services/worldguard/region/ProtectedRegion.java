@@ -135,9 +135,9 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	boolean isPhysicalArea();
 	Optional<Area> toArea();
 	
-	Optional<ProtectedRegion.Cuboid> redefineCuboid(Vector3i pos1, Vector3i pos2);
-	Optional<ProtectedRegion.Polygonal> redefinePolygonal(List<Vector3i> positions);
-	Optional<ProtectedRegion.Template> redefineTemplate();
+	CompletableFuture<ProtectedRegion.Cuboid> redefineCuboid(Vector3i pos1, Vector3i pos2);
+	CompletableFuture<ProtectedRegion.Polygonal> redefinePolygonal(List<Vector3i> positions);
+	CompletableFuture<ProtectedRegion.Template> redefineTemplate();
 	
 	/*
 	 * Setters
@@ -149,15 +149,15 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	CompletableFuture<Boolean> setParent(ProtectedRegion parent) throws CircularInheritanceException;
 	CompletableFuture<Boolean> clearParent();
 	
-	CompletableFuture<Optional<Set<UUID>>> addPlayerOwner(Set<UUID> players);
-	CompletableFuture<Optional<Set<UUID>>> removePlayerOwner(Set<UUID> players);
-	CompletableFuture<Optional<Set<String>>> addGroupOwner(Set<String> groups);
-	CompletableFuture<Optional<Set<String>>> removeGroupOwner(Set<String> groups);
+	CompletableFuture<Set<UUID>> addPlayerOwner(Set<UUID> players);
+	CompletableFuture<Set<UUID>> removePlayerOwner(Set<UUID> players);
+	CompletableFuture<Set<String>> addGroupOwner(Set<String> groups);
+	CompletableFuture<Set<String>> removeGroupOwner(Set<String> groups);
 	
-	CompletableFuture<Optional<Set<UUID>>> addPlayerMember(Set<UUID> players);
-	CompletableFuture<Optional<Set<UUID>>> removePlayerMember(Set<UUID> players);
-	CompletableFuture<Optional<Set<String>>> addGroupMember(Set<String> groups);
-	CompletableFuture<Optional<Set<String>>> removeGroupMember(Set<String> groups);
+	CompletableFuture<Set<UUID>> addPlayerMember(Set<UUID> players);
+	CompletableFuture<Set<UUID>> removePlayerMember(Set<UUID> players);
+	CompletableFuture<Set<String>> addGroupMember(Set<String> groups);
+	CompletableFuture<Set<String>> removeGroupMember(Set<String> groups);
 	
 	public interface Cuboid extends ProtectedRegion {
 		default ProtectedRegion.Type getType() {
