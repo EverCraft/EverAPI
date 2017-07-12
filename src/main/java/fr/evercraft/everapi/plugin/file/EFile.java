@@ -65,12 +65,12 @@ public abstract class EFile<T extends EPlugin<T>> {
      * @param name Le nom du fichier de configuration
      * @param save Sauvegarde automatique
      */
-    public EFile(final T plugin, final String name, final boolean save){
+    public EFile(final T plugin, final String name, final boolean autoReload){
     	this.plugin = plugin;
     	this.name = name;
     	this.modified = false;
     	
-    	if (save) {
+    	if (autoReload) {
     		this.plugin.registerConfiguration(this);    
     	}
     }
