@@ -33,9 +33,12 @@ import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 public interface WorldGuardWorld {
 
 	// Create
-	CompletableFuture<ProtectedRegion.Cuboid> createRegionCuboid(String region, Vector3i pos1, Vector3i pos2, Set<UUID> ownerPlayers, Set<String> ownerGroups) throws RegionIdentifierException;
-	CompletableFuture<ProtectedRegion.Polygonal> createRegionPolygonal(String region, List<Vector3i> positions, Set<UUID> ownerPlayers, Set<String> ownerGroups) throws RegionIdentifierException;
-	CompletableFuture<ProtectedRegion.Template> createRegionTemplate(String region, Set<UUID> ownerPlayers, Set<String> ownerGroups) throws RegionIdentifierException;
+	CompletableFuture<ProtectedRegion.Cuboid> createRegionCuboid(String region, Vector3i pos1, Vector3i pos2, 
+			Set<UUID> ownerPlayers, Set<String> ownerGroups, boolean transientRegion) throws RegionIdentifierException;
+	CompletableFuture<ProtectedRegion.Polygonal> createRegionPolygonal(String region, List<Vector3i> positions, 
+			Set<UUID> ownerPlayers, Set<String> ownerGroups, boolean transientRegion) throws RegionIdentifierException;
+	CompletableFuture<ProtectedRegion.Template> createRegionTemplate(String region,
+			Set<UUID> ownerPlayers, Set<String> ownerGroups, boolean transientRegion) throws RegionIdentifierException;
 	
 	// Region
 	Optional<ProtectedRegion> getRegion(UUID identifier);

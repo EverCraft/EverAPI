@@ -31,12 +31,15 @@ import fr.evercraft.everapi.plugin.EPlugin;
 public class UtilsCause {
 	
 	public static final String PLACE_EVENT = "PlaceEvent";
+	public static Boolean debug = false;
 
 	public static Cause command(final EPlugin<?> plugin, final CommandSource source) {
 		return Cause.builder().named(plugin.getName(), plugin).suggestNamed(source.getName(), source).build();
 	}
 	
 	public static void debug(Cause cause, String name) {
+		if (!UtilsCause.debug) return;
+		
 		List<Text> list = new ArrayList<Text>();
 		cause.getNamedCauses().forEach((key, value) -> {
 			list.add(Text.builder(key)

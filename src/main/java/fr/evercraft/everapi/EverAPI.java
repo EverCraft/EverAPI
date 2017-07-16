@@ -22,6 +22,8 @@ import org.spongepowered.api.scheduler.SpongeExecutorService;
 
 import com.google.common.reflect.TypeToken;
 
+import fr.evercraft.everapi.command.sub.EADebug;
+import fr.evercraft.everapi.command.sub.EAInfo;
 import fr.evercraft.everapi.command.sub.EAPlugins;
 import fr.evercraft.everapi.command.sub.EAReload;
 import fr.evercraft.everapi.command.sub.EAReplace;
@@ -95,6 +97,8 @@ public class EverAPI extends EPlugin<EverAPI> {
 		command.add(new EAReload(this, command));
 		command.add(new EATest(this, command));
 		command.add(new EAReplace(this, command));
+		command.add(new EAInfo(this, command));
+		command.add(new EADebug(this, command));
 	}
 
 	protected void onReload() throws PluginDisableException, ServerDisableException {

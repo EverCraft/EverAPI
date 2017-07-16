@@ -43,6 +43,7 @@ public class MoveType extends ECatalogType {
 		
 		static final MoveType MOVE = new MoveType("MOVE", true, false);
 		static final MoveType RIDE = new MoveType("RIDE", true, false);
+		static final MoveType BED = new MoveType("BED", true, false);
 		static final MoveType EMBARK = new MoveType("EMBARK", true, false);
 		
 		static final MoveType UNKNOWN_NON_CANCELLABLE = new MoveType("UNKNOWN_NON_CANCELLABLE", true, false);

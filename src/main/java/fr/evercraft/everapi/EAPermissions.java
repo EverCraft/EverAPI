@@ -32,7 +32,10 @@ public enum EAPermissions implements EnumPermission {
 	VIEW_OTHERS("view.others"),
 	
 	COOLDOWN("cooldown"),
-	COOLDOWN_BYPASS("cooldown.bypass");
+	COOLDOWN_BYPASS("cooldown.bypass"),
+	
+	BLOCK_INFO("blockinfo"),
+	DEBUG("debug");
 	
 	private final static String prefix = "everapi";
 	
