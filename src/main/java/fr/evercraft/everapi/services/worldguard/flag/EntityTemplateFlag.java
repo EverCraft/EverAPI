@@ -83,21 +83,17 @@ public abstract class EntityTemplateFlag extends EFlag<EntityTemplateFlagValue> 
 			return newFlag;
 		}
 	}
-	
+
 	@Override
 	public Optional<EntityTemplateFlagValue> parseRemove(CommandSource source, ProtectedRegion region, ProtectedRegion.Group group, List<String> args) {
 		if (args.isEmpty()) return Optional.empty();
 		
 		EntityTemplateFlagValue newFlag = this.deserialize(String.join(", ", args));
-		if (newFlag.getKeys().isEmpty()) return Optional.empty();
+		if (newFlag.getKeys().isEmpty()) return Optional.of(newFlag);
 		
 		Optional<EntityTemplateFlagValue> flag = region.getFlag(this).get(group);
 		if (flag.isPresent()) {
-			newFlag = flag.get().removeAll(newFlag);
-			if (!newFlag.getKeys().isEmpty()) {
-				return Optional.of(newFlag);
-			}
-			return Optional.empty();
+			return Optional.of(flag.get().removeAll(newFlag));
 		} else {
 			return Optional.of(this.getDefault().removeAll(newFlag));
 		}

@@ -94,15 +94,11 @@ public abstract class CatalogTypeFlag<T extends CatalogType> extends EFlag<Entry
 		if (args.isEmpty()) return Optional.empty();
 		
 		EntryFlagValue<T> newFlag = this.deserialize(String.join(", ", args));
-		if (newFlag.getKeys().isEmpty()) return Optional.empty();
+		if (newFlag.getKeys().isEmpty()) return Optional.of(newFlag);
 		
 		Optional<EntryFlagValue<T>> flag = region.getFlag(this).get(group);
 		if (flag.isPresent()) {
-			newFlag = flag.get().removeAll(newFlag);
-			if (!newFlag.getKeys().isEmpty()) {
-				return Optional.of(newFlag);
-			}
-			return Optional.empty();
+			return Optional.of(flag.get().removeAll(newFlag));
 		} else {
 			return Optional.of(this.getDefault().removeAll(newFlag));
 		}

@@ -33,7 +33,10 @@ public abstract class DoubleFlag extends EFlag<Double> {
 	
 	@Override
 	public Collection<String> getSuggestAdd(CommandSource source, final List<String> args) {
-		return Arrays.asList("1.01", "2.02", "3.03");
+		if (args.size() == 1) {
+			return Arrays.asList("1.01", "2.02", "3.03");
+		}
+		return Arrays.asList();
 	}
 
 	@Override

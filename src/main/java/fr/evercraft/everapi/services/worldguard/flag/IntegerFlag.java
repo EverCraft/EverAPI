@@ -31,7 +31,10 @@ public abstract class IntegerFlag extends EFlag<Integer> {
 	
 	@Override
 	public Collection<String> getSuggestAdd(CommandSource source, final List<String> args) {
-		return Arrays.asList("1", "2", "3");
+		if (args.size() == 1) {
+			return Arrays.asList("1", "2", "3");
+		}
+		return Arrays.asList();
 	}
 
 	@Override
