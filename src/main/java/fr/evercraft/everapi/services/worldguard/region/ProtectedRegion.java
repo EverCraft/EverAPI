@@ -99,7 +99,7 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	int getVolume();
 	boolean isTransient();
 	Optional<ProtectedRegion> getParent();
-	List<ProtectedRegion> getHeritage() throws CircularInheritanceException;
+	List<ProtectedRegion> getHeritage();
 	
 	/*
 	 * Owner et Member
