@@ -148,7 +148,7 @@ public class BuilderArgs implements Args.Builder {
 					lastMarker = arg;
 					lastType = value.getType();
 					
-					if (lastType.equals(Type.LIST) && lists.get(lastType) == null) {
+					if (lastType.equals(Type.LIST) && lists.get(lastMarker) == null) {
 						lists.put(lastMarker, new ArrayList<String>());
 					}
 				}
