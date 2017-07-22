@@ -197,20 +197,33 @@ public class EServer extends ServerWarp {
 	public Optional<User> getUser(String identifier) {
 		Preconditions.checkNotNull(identifier, "identifier");
 		
-		try {
-			if (identifier.length() == EServer.UUID_LENGTH) {
-				return this.plugin.getEverAPI().getManagerService().getUserStorage().get(UUID.fromString(identifier));
-			} else {
-				return this.plugin.getEverAPI().getManagerService().getUserStorage().get(identifier);
+		if (identifier.length() == EServer.UUID_LENGTH) {
+			try {
+				return this.getUser(UUID.fromString(identifier));
+			} catch(IllegalArgumentException e) {
+				return Optional.empty();
 			}
-		} catch(IllegalArgumentException e) {}
-		return Optional.empty();
+		}
+		
+		Optional<User> user = this.plugin.getEverAPI().getManagerService().getUserStorage().get(identifier);
+		
+		// TODO Bug : Il faut faire 2 fois la requete pour avoir le resultat
+		if (!user.isPresent()) {
+			return this.plugin.getEverAPI().getManagerService().getUserStorage().get(identifier);
+		}
+		return user;
 	}
 	
 	public Optional<User> getUser(UUID identifier){
 		Preconditions.checkNotNull(identifier, "identifier");
 		
-		return this.plugin.getEverAPI().getManagerService().getUserStorage().get(identifier);
+		Optional<User> user = this.plugin.getEverAPI().getManagerService().getUserStorage().get(identifier);
+		
+		// TODO Bug : Il faut faire 2 fois la requete pour avoir le resultat
+		if (!user.isPresent()) {
+			return this.plugin.getEverAPI().getManagerService().getUserStorage().get(identifier);
+		}
+		return user;
 	}
 	
 	/*
