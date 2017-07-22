@@ -27,6 +27,7 @@ import com.flowpowered.math.vector.Vector3i;
 import fr.evercraft.everapi.services.selection.SelectionRegion;
 import fr.evercraft.everapi.services.selection.exception.NoSelectedRegionException;
 import fr.evercraft.everapi.services.selection.exception.RegionOperationException;
+import fr.evercraft.everapi.services.selection.exception.SelectorMaxPointsException;
 import fr.evercraft.everapi.services.selection.exception.SelectorSecondaryException;
 
 public interface Selector {
@@ -39,7 +40,7 @@ public interface Selector {
 	<T extends SelectionRegion> Optional<T> getRegion(Class<T> type);
 	
 	boolean selectPrimary(@Nullable Vector3i position);
-	boolean selectSecondary(@Nullable Vector3i position) throws SelectorSecondaryException;
+	boolean selectSecondary(@Nullable Vector3i position) throws SelectorSecondaryException, SelectorMaxPointsException;
 	boolean clear();
 	int getVolume();
 	

@@ -107,7 +107,7 @@ public class EAMessage extends EMessage<EverAPI> {
 		
 		// Player
 		PLAYER_NOT_FOUND("player.notFound", 
-				"&cErreur : Ce joueur est introuvable.", 
+				"&cErreur : Le joueur &6<player> &cest introuvable.", 
 				"&cError : This player is untraceable."),
 		PLAYER_NO_LOOK_BLOCK("player.noLookBlock", 
 				"&cErreur : Vous regardez aucun bloc.", 

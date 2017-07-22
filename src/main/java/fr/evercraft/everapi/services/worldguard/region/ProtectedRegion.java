@@ -39,6 +39,7 @@ import fr.evercraft.everapi.register.EFormatCatalogType;
 import fr.evercraft.everapi.services.worldguard.Flag;
 import fr.evercraft.everapi.services.worldguard.FlagValue;
 import fr.evercraft.everapi.services.worldguard.exception.CircularInheritanceException;
+import fr.evercraft.everapi.services.worldguard.exception.MaxPlayersException;
 import fr.evercraft.everapi.services.worldguard.exception.RegionIdentifierException;
 
 public interface ProtectedRegion extends Comparable<ProtectedRegion> {
@@ -149,12 +150,12 @@ public interface ProtectedRegion extends Comparable<ProtectedRegion> {
 	CompletableFuture<Boolean> setParent(ProtectedRegion parent) throws CircularInheritanceException;
 	CompletableFuture<Boolean> clearParent();
 	
-	CompletableFuture<Set<UUID>> addPlayerOwner(Set<UUID> players);
+	CompletableFuture<Set<UUID>> addPlayerOwner(Set<UUID> players) throws MaxPlayersException;
 	CompletableFuture<Set<UUID>> removePlayerOwner(Set<UUID> players);
 	CompletableFuture<Set<String>> addGroupOwner(Set<String> groups);
 	CompletableFuture<Set<String>> removeGroupOwner(Set<String> groups);
 	
-	CompletableFuture<Set<UUID>> addPlayerMember(Set<UUID> players);
+	CompletableFuture<Set<UUID>> addPlayerMember(Set<UUID> players) throws MaxPlayersException;
 	CompletableFuture<Set<UUID>> removePlayerMember(Set<UUID> players);
 	CompletableFuture<Set<String>> addGroupMember(Set<String> groups);
 	CompletableFuture<Set<String>> removeGroupMember(Set<String> groups);

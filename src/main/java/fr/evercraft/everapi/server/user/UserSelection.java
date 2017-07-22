@@ -29,6 +29,7 @@ import fr.evercraft.everapi.services.selection.Selector;
 import fr.evercraft.everapi.services.selection.SubjectSelection;
 import fr.evercraft.everapi.services.selection.exception.NoSelectedRegionException;
 import fr.evercraft.everapi.services.selection.exception.RegionOperationException;
+import fr.evercraft.everapi.services.selection.exception.SelectorMaxPointsException;
 import fr.evercraft.everapi.services.selection.exception.SelectorSecondaryException;
 
 public class UserSelection extends UserWorldGuard {
@@ -72,7 +73,7 @@ public class UserSelection extends UserWorldGuard {
 		return this.getSelector().selectPrimary(position);
 	} 
 	
-	public boolean setSelectorSecondary(Vector3i position) throws SelectorSecondaryException {
+	public boolean setSelectorSecondary(Vector3i position) throws SelectorSecondaryException, SelectorMaxPointsException {
 		return this.getSelector().selectSecondary(position);
 	}
 	
