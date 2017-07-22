@@ -17,6 +17,7 @@
 package fr.evercraft.everapi.services.pagination;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Predicate;
@@ -101,6 +102,14 @@ public abstract class CommandPagination<T extends EPlugin<?>> {
 		}
 	}
 	
+	protected Set<String> getAllUsers(List<String> args, CommandSource player) {
+		if (args.isEmpty()) return this.getAllPlayers();
+		
+		Set<String> users = this.getAllUsers(args.get(args.size()-1));		
+		users.removeAll(args);
+		return users;
+	}
+	
 	public Set<String> getAllPlayers() {
 		Set<String> users = new HashSet<String>();
 		this.plugin.getEServer().getOnlineEPlayers()
@@ -139,6 +148,12 @@ public abstract class CommandPagination<T extends EPlugin<?>> {
 		Set<String> groups = new HashSet<String>();
 		this.plugin.getEverAPI().getManagerService().getPermission().getGroupSubjects().getAllSubjects()
 			.forEach(subject -> groups.add(subject.getIdentifier()));
+		return groups;
+	}
+	
+	protected Set<String> getAllGroups(List<String> args) {
+		Set<String> groups = this.getAllGroups();
+		groups.removeAll(args);
 		return groups;
 	}
 	
