@@ -63,7 +63,7 @@ public class UtilsItemStack {
 	}
 	
 	public static int getMaxDurability(final ItemStack stack) {
-		Optional<Integer> data = ItemStack.of(stack.getItem(), 1).get(Keys.ITEM_DURABILITY);
+		Optional<Integer> data = ItemStack.of(stack.getType(), 1).get(Keys.ITEM_DURABILITY);
 		if (data.isPresent()) {
 			return data.get();
 		}
