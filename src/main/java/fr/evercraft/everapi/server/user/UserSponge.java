@@ -44,9 +44,9 @@ import org.spongepowered.api.item.inventory.equipment.EquipmentType;
 import org.spongepowered.api.item.inventory.type.CarriedInventory;
 import org.spongepowered.api.profile.GameProfile;
 import org.spongepowered.api.service.context.Context;
-import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.service.permission.SubjectCollection;
 import org.spongepowered.api.service.permission.SubjectData;
+import org.spongepowered.api.service.permission.SubjectReference;
 import org.spongepowered.api.util.Tristate;
 
 import fr.evercraft.everapi.EverAPI;
@@ -305,16 +305,6 @@ public class UserSponge implements User {
 	}
 
 	@Override
-	public boolean isChildOf(Set<Context> contexts, Subject parent) {
-		return this.user.isChildOf(contexts, parent);
-	}
-
-	@Override
-	public List<Subject> getParents(Set<Context> contexts) {
-		return this.user.getParents();
-	}
-
-	@Override
 	public String getIdentifier() {
 		return this.user.getIdentifier();
 	}
@@ -337,5 +327,25 @@ public class UserSponge implements User {
 	@Override
 	public Optional<String> getOption(Set<Context> contexts, String key) {
 		return this.user.getOption(contexts, key);
+	}
+
+	@Override
+	public SubjectReference asSubjectReference() {
+		return this.user.asSubjectReference();
+	}
+
+	@Override
+	public boolean isSubjectDataPersisted() {
+		return this.user.isSubjectDataPersisted();
+	}
+
+	@Override
+	public boolean isChildOf(Set<Context> contexts, SubjectReference parent) {
+		return this.user.isChildOf(contexts, parent);
+	}
+
+	@Override
+	public List<SubjectReference> getParents(Set<Context> contexts) {
+		return this.user.getParents(contexts);
 	}
 }

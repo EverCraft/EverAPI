@@ -21,6 +21,7 @@ import org.spongepowered.api.event.impl.AbstractEvent;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+import fr.evercraft.everapi.registers.MoveType;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.worldguard.region.SetProtectedRegion;
 
@@ -37,11 +38,12 @@ public abstract class MoveRegionEvent extends AbstractEvent {
 	private final SetProtectedRegion enterRegions;
 	private final SetProtectedRegion exitRegions;
 	
+	private final MoveType type;
 	private final Cause cause;
 	
 	public MoveRegionEvent(EPlayer player, Location<World> fromLocation, Location<World> toLocation,
 			SetProtectedRegion fromRegions, SetProtectedRegion toRegions, SetProtectedRegion enterRegions,
-			SetProtectedRegion exitRegions, Cause cause) {
+			SetProtectedRegion exitRegions, MoveType type, Cause cause) {
 		super();
 		this.player = player;
 		this.fromLocation = fromLocation;
@@ -50,6 +52,7 @@ public abstract class MoveRegionEvent extends AbstractEvent {
 		this.toRegions = toRegions;
 		this.enterRegions = enterRegions;
 		this.exitRegions = exitRegions;
+		this.type = type;
 		this.cause = cause;
 	}
 
@@ -81,6 +84,10 @@ public abstract class MoveRegionEvent extends AbstractEvent {
 		return this.exitRegions;
 	}
 	
+	public MoveType getMovetType() {
+		return this.type;
+	}
+	
 	@Override
 	public Cause getCause() {
 		return this.cause;
@@ -90,8 +97,8 @@ public abstract class MoveRegionEvent extends AbstractEvent {
 		
 		public Pre(EPlayer player, Location<World> fromLocation, Location<World> toLocation,
 				SetProtectedRegion fromRegions, SetProtectedRegion toRegions, SetProtectedRegion enterRegions,
-				SetProtectedRegion exitRegions, Cause cause) {
-			super(player, fromLocation, toLocation, fromRegions, toRegions, enterRegions, exitRegions, cause);
+				SetProtectedRegion exitRegions, MoveType type, Cause cause) {
+			super(player, fromLocation, toLocation, fromRegions, toRegions, enterRegions, exitRegions, type, cause);
 		}
 
 		public static class Cancellable extends MoveRegionEvent implements org.spongepowered.api.event.Cancellable {
@@ -100,8 +107,8 @@ public abstract class MoveRegionEvent extends AbstractEvent {
 			
 			public Cancellable(EPlayer player, Location<World> fromLocation, Location<World> toLocation,
 					SetProtectedRegion fromRegions, SetProtectedRegion toRegions, SetProtectedRegion enterRegions,
-					SetProtectedRegion exitRegions, Cause cause) {
-				super(player, fromLocation, toLocation, fromRegions, toRegions, enterRegions, exitRegions, cause);
+					SetProtectedRegion exitRegions, MoveType type, Cause cause) {
+				super(player, fromLocation, toLocation, fromRegions, toRegions, enterRegions, exitRegions, type, cause);
 
 				this.cancelled = false;
 			}
@@ -122,8 +129,8 @@ public abstract class MoveRegionEvent extends AbstractEvent {
 
 		public Post(EPlayer player, Location<World> fromLocation, Location<World> toLocation,
 				SetProtectedRegion fromRegions, SetProtectedRegion toRegions, SetProtectedRegion enterRegions,
-				SetProtectedRegion exitRegions, Cause cause) {
-			super(player, fromLocation, toLocation, fromRegions, toRegions, enterRegions, exitRegions, cause);
+				SetProtectedRegion exitRegions, MoveType type, Cause cause) {
+			super(player, fromLocation, toLocation, fromRegions, toRegions, enterRegions, exitRegions, type, cause);
 		}
 		
 	}

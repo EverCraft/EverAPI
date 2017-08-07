@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 import org.spongepowered.api.scoreboard.Team;
 import org.spongepowered.api.service.economy.EconomyService;
-import org.spongepowered.api.service.permission.Subject;
+import org.spongepowered.api.service.permission.SubjectReference;
 import org.spongepowered.api.text.Text;
 
 import fr.evercraft.everapi.plugin.EPlugin;
@@ -49,8 +49,8 @@ public enum EReplacesPlayer {
 	FIRST_DATE_PLAYED((plugin, player) -> plugin.getEverAPI().getManagerUtils().getDate().parseDate(player.getFirstDatePlayed())),
 	FIRST_DATE_TIME_PLAYED((plugin, player) -> plugin.getEverAPI().getManagerUtils().getDate().parseDateTime(player.getFirstDatePlayed())),
 	GROUP((plugin, player) -> {
-		Optional<Subject> group = player.getGroup();
-		return group.isPresent() ? group.get().getIdentifier() : "";
+		Optional<SubjectReference> group = player.getGroup();
+		return group.isPresent() ? group.get().getSubjectIdentifier() : "";
 	}),
 	
 	// Stats

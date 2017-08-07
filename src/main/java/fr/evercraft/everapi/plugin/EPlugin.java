@@ -360,6 +360,10 @@ public abstract class EPlugin<T extends EPlugin<T>> {
 		return this.getEverAPI().getThreadAsync();
 	}
 	
+	public SpongeExecutorService getThreadSync() {
+		return this.getEverAPI().getThreadSync();
+	}
+	
 	public Metrics getMetrics() {
 		return this.metrics;
 	}

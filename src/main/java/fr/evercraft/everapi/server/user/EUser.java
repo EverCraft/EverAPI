@@ -23,7 +23,7 @@ import java.util.Set;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.service.context.Context;
-import org.spongepowered.api.service.permission.Subject;
+import org.spongepowered.api.service.permission.SubjectReference;
 
 import com.google.common.base.Preconditions;
 
@@ -103,14 +103,14 @@ public class EUser extends UserSelection {
 	 * Permission
 	 */
 	
-	public Optional<Subject> getGroup() {
+	public Optional<SubjectReference> getGroup() {
 		return this.getGroup(getActiveContexts());
 	}
 	
-	public Optional<Subject> getGroup(final Set<Context> contexts) {
+	public Optional<SubjectReference> getGroup(final Set<Context> contexts) {
 		Preconditions.checkNotNull(contexts, "contexts");
 		
-		List<Subject> groups = this.getSubjectData().getParents(contexts);
+		List<SubjectReference> groups = this.getSubjectData().getParents(contexts);
 		if (!groups.isEmpty()) {
 			return Optional.of(groups.get(0));
 		}

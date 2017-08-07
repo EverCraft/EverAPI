@@ -41,6 +41,7 @@ import org.spongepowered.api.data.value.immutable.ImmutableValue;
 import org.spongepowered.api.effect.particle.ParticleEffect;
 import org.spongepowered.api.effect.sound.SoundCategory;
 import org.spongepowered.api.effect.sound.SoundType;
+import org.spongepowered.api.effect.sound.record.RecordType;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.EntityArchetype;
 import org.spongepowered.api.entity.EntitySnapshot;
@@ -76,6 +77,7 @@ import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.WorldBorder;
 
 import com.flowpowered.math.vector.Vector3d;
+import com.flowpowered.math.vector.Vector3i;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.server.user.EUser;
@@ -720,5 +722,15 @@ public class PlayerSponge extends EUser implements Player {
 	@Override
 	public void setWorldBorder(WorldBorder border, Cause cause) {
 		this.player.setWorldBorder(border, cause);
+	}
+
+	@Override
+	public void playRecord(Vector3i position, RecordType recordType) {
+		this.player.playRecord(position, recordType);
+	}
+
+	@Override
+	public void stopRecord(Vector3i position) {
+		this.player.stopRecord(position);
 	}
 }

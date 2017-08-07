@@ -21,10 +21,11 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.spongepowered.api.entity.Transform;
-import org.spongepowered.api.service.permission.Subject;
+import org.spongepowered.api.service.permission.SubjectReference;
 import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.server.location.VirtualTransform;
 import fr.evercraft.everapi.server.user.EUser;
 import fr.evercraft.everapi.services.essentials.SpawnService;
 
@@ -50,10 +51,12 @@ public class ServerSpawn extends ServerSponge {
 	}
 
 	public Optional<Transform<World>> getSpawn(String identifier) {
-		if (this.isPresent()) {
-			return this.service.get(identifier);
-		}
-		return Optional.empty();
+		if (!this.isPresent()) return Optional.empty();
+		
+		Optional<VirtualTransform> spawn = this.service.get(identifier);
+		if (!spawn.isPresent()) return Optional.empty();
+		
+		return spawn.get().getTransform();
 	}
 	
 	public Transform<World> getSpawn(EUser player) {
@@ -63,7 +66,7 @@ public class ServerSpawn extends ServerSponge {
 		return this.getDefaultSpawn();
 	}
 	
-	public Transform<World> getSpawn(Subject group) {
+	public Transform<World> getSpawn(SubjectReference group) {
 		if (this.isPresent()) {
 			return this.service.get(group);
 		}

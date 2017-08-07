@@ -33,6 +33,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+import fr.evercraft.everapi.registers.MoveType;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.server.user.EUser;
 import fr.evercraft.everapi.services.actionbar.ActionBarMessage;
@@ -511,24 +512,24 @@ public class ESpongeEventFactory {
 	public static MoveRegionEvent.Pre createMoveRegionEventPre(EPlayer player, 
 			Location<World> fromLocation, Location<World> toLocation, 
 			SetProtectedRegion fromRegions, SetProtectedRegion toRegions,
-			SetProtectedRegion enterRegions, SetProtectedRegion exitRegions, Cause cause) {
+			SetProtectedRegion enterRegions, SetProtectedRegion exitRegions, MoveType type, Cause cause) {
 		
-		return new MoveRegionEvent.Pre(player, fromLocation, toLocation, fromRegions, toRegions, enterRegions, exitRegions, cause);
+		return new MoveRegionEvent.Pre(player, fromLocation, toLocation, fromRegions, toRegions, enterRegions, exitRegions, type, cause);
     }
 	
 	public static MoveRegionEvent.Pre.Cancellable createMoveRegionEventPreCancellable(EPlayer player, 
 			Location<World> fromLocation, Location<World> toLocation, 
 			SetProtectedRegion fromRegions, SetProtectedRegion toRegions,
-			SetProtectedRegion enterRegions, SetProtectedRegion exitRegions, Cause cause) {
+			SetProtectedRegion enterRegions, SetProtectedRegion exitRegions, MoveType type, Cause cause) {
 		
-		return new MoveRegionEvent.Pre.Cancellable(player, fromLocation, toLocation, fromRegions, toRegions, enterRegions, exitRegions, cause);
+		return new MoveRegionEvent.Pre.Cancellable(player, fromLocation, toLocation, fromRegions, toRegions, enterRegions, exitRegions, type, cause);
     }
 	
 	public static MoveRegionEvent.Post createMoveRegionEventPost(EPlayer player, 
 			Location<World> fromLocation, Location<World> toLocation, 
 			SetProtectedRegion fromRegions, SetProtectedRegion toRegions,
-			SetProtectedRegion enterRegions, SetProtectedRegion exitRegions, Cause cause) {
+			SetProtectedRegion enterRegions, SetProtectedRegion exitRegions, MoveType type, Cause cause) {
 		
-		return new MoveRegionEvent.Post(player, fromLocation, toLocation, fromRegions, toRegions, enterRegions, exitRegions, cause);
+		return new MoveRegionEvent.Post(player, fromLocation, toLocation, fromRegions, toRegions, enterRegions, exitRegions, type, cause);
     }
 }

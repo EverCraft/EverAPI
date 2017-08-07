@@ -20,11 +20,12 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.spongepowered.api.entity.Transform;
-import org.spongepowered.api.service.permission.Subject;
+import org.spongepowered.api.service.permission.SubjectReference;
 import org.spongepowered.api.world.World;
 
 import com.google.common.base.Preconditions;
 
+import fr.evercraft.everapi.server.location.VirtualTransform;
 import fr.evercraft.everapi.server.user.EUser;
 
 public interface SpawnService {	
@@ -34,7 +35,7 @@ public interface SpawnService {
 	public Map<String, Transform<World>> getAll();
 	
 	public boolean has(String identifier);
-	public Optional<Transform<World>> get(String identifier);
+	public Optional<VirtualTransform> get(String identifier);
 	
 	public boolean add(String identifier, Transform<World> location);
 	public boolean update(String identifier, Transform<World> location);
@@ -47,20 +48,19 @@ public interface SpawnService {
 	default public Transform<World> get(final EUser player) {
 		Preconditions.checkNotNull(player, "player");
 		
-		Optional<Subject> group = player.getGroup();
+		Optional<SubjectReference> group = player.getGroup();
 		if (group.isPresent()) {
 			return this.get(group.get());
 		}
 		return this.getDefault();
 	}
 	
-	default public Transform<World> get(final Subject group) {
+	default public Transform<World> get(final SubjectReference group) {
 		Preconditions.checkNotNull(group, "group");
 		
-		Optional<Transform<World>> spawn = this.get(group.getIdentifier());
-		if (spawn.isPresent()) {
-			return spawn.get();
-		}
-		return this.getDefault();
+		Optional<VirtualTransform> spawn = this.get(group.getSubjectIdentifier());
+		if (!spawn.isPresent()) return this.getDefault();
+		
+		return spawn.get().getTransform().orElseGet(() -> this.getDefault());
 	}
 }

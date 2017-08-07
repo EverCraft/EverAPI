@@ -31,7 +31,8 @@ public class EWExtendSelectionRegion extends EWSelectionRegion implements Select
 	
 	public EWExtendSelectionRegion(SpongeWorldEdit worldedit, Player player, LocalSession session, RegionSelector selector, CuboidRegion region) {
 		super(worldedit, player, session, selector, region);
-	}
+	}
+
 	
 	@Override
 	public Vector3i getSecondaryPosition() {

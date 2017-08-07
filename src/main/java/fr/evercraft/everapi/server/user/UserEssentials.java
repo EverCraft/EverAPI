@@ -467,7 +467,7 @@ public class UserEssentials extends UserCooldown implements SubjectUserEssential
 	 */
 	
 	public Transform<World> getSpawn() {
-		return this.plugin.getEServer().getSpawn(this);
+		return this.plugin.getEServer().getSpawn(this.asSubjectReference());
 	}
 	
 	/*

@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.ExecutionException;
 import java.util.function.Predicate;
 
 import org.spongepowered.api.command.CommandSource;
@@ -146,8 +147,10 @@ public abstract class CommandPagination<T extends EPlugin<?>> {
 	
 	protected Set<String> getAllGroups() {
 		Set<String> groups = new HashSet<String>();
-		this.plugin.getEverAPI().getManagerService().getPermission().getGroupSubjects().getAllSubjects()
-			.forEach(subject -> groups.add(subject.getIdentifier()));
+		try {
+			this.plugin.getEverAPI().getManagerService().getPermission().getGroupSubjects().getAllIdentifiers().get()
+				.forEach(subject -> groups.add(subject));
+		} catch (InterruptedException | ExecutionException e) {}
 		return groups;
 	}
 	
@@ -158,9 +161,12 @@ public abstract class CommandPagination<T extends EPlugin<?>> {
 	}
 	
 	protected Set<String> getAllGroups(World world) {
+		// TODO
 		Set<String> groups = new HashSet<String>();
-		this.plugin.getEverAPI().getManagerService().getPermission().getGroupSubjects().getAllSubjects()
-			.forEach(subject -> groups.add(subject.getIdentifier()));
+		try {
+			this.plugin.getEverAPI().getManagerService().getPermission().getGroupSubjects().getAllIdentifiers().get()
+				.forEach(subject -> groups.add(subject));
+		} catch (InterruptedException | ExecutionException e) {}
 		return groups;
 	}
 	

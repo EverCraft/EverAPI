@@ -31,7 +31,8 @@ public class EWCuboidSelectionRegion extends EWSelectionRegion implements Select
 	
 	public EWCuboidSelectionRegion(SpongeWorldEdit worldedit, Player player, LocalSession session, RegionSelector selector, CuboidRegion region) {
 		super(worldedit, player, session, selector, region);
-	}
+	}
+
 	
 	@Override
 	public Vector3i getSecondaryPosition() {
