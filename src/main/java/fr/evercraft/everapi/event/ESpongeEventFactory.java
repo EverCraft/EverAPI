@@ -28,7 +28,7 @@ import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.cause.entity.damage.DamageType;
 import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
 import org.spongepowered.api.scoreboard.objective.Objective;
-import org.spongepowered.api.service.permission.Subject;
+import org.spongepowered.api.service.permission.SubjectData;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -325,91 +325,11 @@ public class ESpongeEventFactory {
     }
 	
 	/*
-	 * PermSystem
+	 * SubjectDataUpdateEvent
 	 */
 	
-	public static PermSystemEvent.Reload createPermSystemEventReloaded(Cause cause) {
-		return new PermSystemEvent.Reload(cause);
-    }
-	
-	public static PermSystemEvent.Default createPermSystemEventDefault(Cause cause) {
-		return new PermSystemEvent.Default(cause);
-    }
-	
-	/*
-	 * PermUserEvent
-	 */
-	
-	public static PermUserEvent.Add createPermUserEventAdd(Subject subject, Optional<EPlayer> player, Cause cause) {
-		return new PermUserEvent.Add(subject, player, cause);
-    }
-	
-	public static PermUserEvent.Remove createPermUserEventRemove(Subject subject, Optional<EPlayer> player, Cause cause) {
-		return new PermUserEvent.Remove(subject, player, cause);
-    }
-	
-	public static PermUserEvent.Permission createPermUserEventPermission(Subject subject, Optional<EPlayer> player, Cause cause) {
-		return new PermUserEvent.Permission(subject, player, cause);
-    }
-	
-	public static PermUserEvent.Option createPermUserEventOption(Subject subject, Optional<EPlayer> player, Cause cause) {
-		return new PermUserEvent.Option(subject, player, cause);
-    }
-	
-	public static PermUserEvent.Group createPermUserEventGroup(Subject subject, Optional<EPlayer> player, Cause cause) {
-		return new PermUserEvent.Group(subject, player, cause);
-    }
-	
-	public static PermUserEvent.SubGroup createPermUserEventSubGroup(Subject subject, Optional<EPlayer> player, Cause cause) {
-		return new PermUserEvent.SubGroup(subject, player, cause);
-    }
-	
-	/*
-	 * PermGroupEvent
-	 */
-	
-	public static PermGroupEvent.Add createPermGroupEventAdd(Subject subject, Cause cause) {
-		return new PermGroupEvent.Add(subject, cause);
-    }
-	
-	public static PermGroupEvent.Remove createPermGroupEventRemove(Subject subject, Cause cause) {
-		return new PermGroupEvent.Remove(subject, cause);
-    }
-	
-	public static PermGroupEvent.Permission createPermGroupEventPermission(Subject subject, Cause cause) {
-		return new PermGroupEvent.Permission(subject, cause);
-    }
-	
-	public static PermGroupEvent.Inheritance createPermGroupEventInheritance(Subject subject, Cause cause) {
-		return new PermGroupEvent.Inheritance(subject, cause);
-    }
-	
-	public static PermGroupEvent.Option createPermGroupEventOption(Subject subject, Cause cause) {
-		return new PermGroupEvent.Option(subject, cause);
-    }
-	
-	/*
-	 * PermOtherEvent
-	 */
-	
-	public static PermOtherEvent.Add createPermOtherEventAdd(Subject subject, Cause cause) {
-		return new PermOtherEvent.Add(subject, cause);
-    }
-	
-	public static PermOtherEvent.Remove createPermOtherEventRemove(Subject subject, Cause cause) {
-		return new PermOtherEvent.Remove(subject, cause);
-    }
-	
-	public static PermOtherEvent.Permission createPermOtherEventPermission(Subject subject, Cause cause) {
-		return new PermOtherEvent.Permission(subject, cause);
-    }
-	
-	public static PermOtherEvent.Inheritance createPermOtherEventInheritance(Subject subject, Cause cause) {
-		return new PermOtherEvent.Inheritance(subject, cause);
-    }
-	
-	public static PermOtherEvent.Option createPermOtherEventOption(Subject subject, Cause cause) {
-		return new PermOtherEvent.Option(subject, cause);
+	public static SubjectDataUpdateEvent createSubjectDataUpdate(SubjectData subject, Cause cause) {
+		return new SubjectDataUpdateEvent(subject, cause);
     }
 	
 	/*

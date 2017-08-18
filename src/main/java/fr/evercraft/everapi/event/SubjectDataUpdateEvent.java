@@ -18,40 +18,39 @@ package fr.evercraft.everapi.event;
 
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.impl.AbstractEvent;
+import org.spongepowered.api.service.permission.Subject;
+import org.spongepowered.api.service.permission.SubjectData;
 
-public abstract class PermSystemEvent extends AbstractEvent {
+/**
+ * Fired after a given {@link Subject}'s {@link SubjectData} is updated.
+ *
+ * <p>The event will be fired after the change has been fully applied, meaning
+ * calls querying the {@link Subject} will reflect the change.</p>
+ *
+ * <p>This event is always called asynchronously.</p>
+ */
+public class SubjectDataUpdateEvent extends AbstractEvent {
 
-    public static enum Action {
-    	RELOADED,
-    	DEFAULT_GROUP_CHANGED;
-    };
-    
-    private final Action action;
+    private final SubjectData subjectData;
     private final Cause cause;
     
-    public PermSystemEvent(Action action, Cause cause) {
-		super();
-		this.action = action;
+    public SubjectDataUpdateEvent(SubjectData subjectData, Cause cause) {
+		this.subjectData = subjectData;
 		this.cause = cause;
 	}
 
-	public Action getAction() {
-		return this.action;
-	}
+	/**
+     * Gets the updated {@link SubjectData}.
+     *
+     * @return the updated data
+     */
+    public SubjectData getUpdatedData() {
+    	return this.subjectData;
+    }
 
 	@Override
 	public Cause getCause() {
 		return this.cause;
 	}
-	
-	public static class Reload extends PermSystemEvent {
-		public Reload(Cause cause) {
-			super(Action.RELOADED, cause);
-		}
-	}
-	public static class Default extends PermSystemEvent {
-		public Default(Cause cause) {
-			super(Action.DEFAULT_GROUP_CHANGED, cause);
-		}
-	}
+
 }
