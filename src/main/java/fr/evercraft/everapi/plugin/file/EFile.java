@@ -41,6 +41,7 @@ public abstract class EFile<T extends EPlugin<T>> {
     private CommentedConfigurationNode config = null;
     
     private boolean modified;
+	private boolean newDirs;
 
     /**
      * Création d'un fichier de configuration
@@ -79,15 +80,21 @@ public abstract class EFile<T extends EPlugin<T>> {
      * Charge la configuration
      */
     public abstract void reload(); 
+    
+    public boolean isNewDirs() {
+    	return this.newDirs;
+    }
 	
     /**
      * Rechargement de la configuration
      */
     public void loadFile() {
+    	this.newDirs = false;
         if (this.file == null) {
         	this.file = this.plugin.getPath().resolve(this.name + ".conf").toFile();
         	if (!this.file.getParentFile().exists()){
         		this.file.getParentFile().mkdirs();
+        		this.newDirs = true;
         	}
         }
         this.manager = HoconConfigurationLoader.builder().setFile(this.file).build();
