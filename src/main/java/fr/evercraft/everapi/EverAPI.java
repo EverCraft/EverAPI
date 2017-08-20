@@ -54,8 +54,8 @@ import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 		authors = {"rexbut","lesbleu"})
 public class EverAPI extends EPlugin<EverAPI> {
 	
-	public static final String VERSION = "0.1.5";
-	public static final String SPONGEAPI_VERSION = "7.0.0-SNAPSHOT";
+	public static final String VERSION = "{EVERPLUGINS_VERSION}";
+	public static final String SPONGEAPI_VERSION = "{SPONGEAPI_VERSION}";
 
 	private EChat chat;
 	
