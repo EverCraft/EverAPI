@@ -93,78 +93,125 @@ public abstract class EFormat {
 	}
 	
 	public Text toText(String k1, Supplier<Object> v1) {
+		if (k1.startsWith("{")) k1 = "\\" + k1;
 		return this.toText(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1)));
 	}
 	
 	public Text toText(String k1, Supplier<Object> v1, String k2, Supplier<Object> v2) {
+		if (k1.startsWith("{")) k1 = "\\" + k1;
+		if (k2.startsWith("{")) k2 = "\\" + k2;
 		return this.toText(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2)));
 	}
 	
 	public Text toText(String k1, Supplier<Object> v1, String k2, Supplier<Object> v2, String k3, Supplier<Object> v3) {
+		if (k1.startsWith("{")) k1 = "\\" + k1;
+		if (k2.startsWith("{")) k2 = "\\" + k2;
+		if (k3.startsWith("{")) k3 = "\\" + k3;
 		return this.toText(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2), Pattern.compile(k3), EReplace.of(v3)));
 	}
 	
 	public Text toText(String k1, Object v1) {
+		if (k1.startsWith("{")) k1 = "\\" + k1;
 		return this.toText(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1)));
 	}
 	
 	public Text toText(String k1, Object v1, String k2, Object v2) {
+		if (k1.startsWith("{")) k1 = "\\" + k1;
+		if (k2.startsWith("{")) k2 = "\\" + k2;
 		return this.toText(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2)));
 	}
 	
 	public Text toText(String k1, Object v1, String k2, Object v2, String k3, Object v3) {
+		if (k1.startsWith("{")) k1 = "\\" + k1;
+		if (k2.startsWith("{")) k2 = "\\" + k2;
+		if (k3.startsWith("{")) k3 = "\\" + k3;
 		return this.toText(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2), Pattern.compile(k3), EReplace.of(v3)));
 	}
 	
 	public Text toText(String k1, Object v1, String k2, Object v2, String k3, Object v3, String k4, Object v4) {
+		if (k1.startsWith("{")) k1 = "\\" + k1;
+		if (k2.startsWith("{")) k2 = "\\" + k2;
+		if (k3.startsWith("{")) k3 = "\\" + k3;
+		if (k4.startsWith("{")) k4 = "\\" + k4;
 		return this.toText(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2), Pattern.compile(k3), EReplace.of(v3), Pattern.compile(k4), EReplace.of(v4)));
 	}
 	
 	public Text toText(String k1, Object v1, String k2, Object v2, String k3, Object v3, String k4, Object v4, String k5, Object v5) {
+		if (k1.startsWith("{")) k1 = "\\" + k1;
+		if (k2.startsWith("{")) k2 = "\\" + k2;
+		if (k3.startsWith("{")) k3 = "\\" + k3;
+		if (k4.startsWith("{")) k4 = "\\" + k4;
+		if (k5.startsWith("{")) k5 = "\\" + k5;
 		return this.toText(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2), Pattern.compile(k3), EReplace.of(v3), Pattern.compile(k4), EReplace.of(v4), Pattern.compile(k5), EReplace.of(v5)));
 	}
 	
 	public Text toText(String k1, EReplace<?> v1) {
+		if (k1.startsWith("{")) k1 = "\\" + k1;
 		return this.toText(ImmutableMap.of(Pattern.compile(k1), v1));
 	}
 	
 	public Text toText(String k1, EReplace<?> v1, String k2, EReplace<?> v2) {
+		if (k1.startsWith("{")) k1 = "\\" + k1;
+		if (k2.startsWith("{")) k2 = "\\" + k2;
 		return this.toText(ImmutableMap.of(Pattern.compile(k1), v1, Pattern.compile(k2), v2));
 	}
 	
 	public Text toText(String k1, EReplace<?> v1, String k2, EReplace<?> v2, String k3, EReplace<?> v3) {
+		if (k1.startsWith("{")) k1 = "\\" + k1;
+		if (k2.startsWith("{")) k2 = "\\" + k2;
+		if (k3.startsWith("{")) k3 = "\\" + k3;
 		return this.toText(ImmutableMap.of(Pattern.compile(k1), v1, Pattern.compile(k2), v2, Pattern.compile(k3), v3));
 	}
 	
 	public Text toText(String k1, EReplace<?> v1, String k2, EReplace<?> v2, String k3, EReplace<?> v3, String k4, EReplace<?> v4) {
+		if (k1.startsWith("{")) k1 = "\\" + k1;
+		if (k2.startsWith("{")) k2 = "\\" + k2;
+		if (k3.startsWith("{")) k3 = "\\" + k3;
+		if (k4.startsWith("{")) k4 = "\\" + k4;
 		return this.toText(ImmutableMap.of(Pattern.compile(k1), v1, Pattern.compile(k2), v2, Pattern.compile(k3), v3, Pattern.compile(k4), v4));
 	}
 	
 	public String toString(String k1, Supplier<Object> v1) {
+		if (k1.startsWith("{")) k1 = "\\" + k1;
 		return this.toString(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1)));
 	}
 	
 	public String toString(String k1, Supplier<Object> v1, String k2, Supplier<Object> v2) {
+		if (k1.startsWith("{")) k1 = "\\" + k1;
+		if (k2.startsWith("{")) k2 = "\\" + k2;
 		return this.toString(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2)));
 	}
 	
 	public String toString(String k1, Supplier<Object> v1, String k2, Supplier<Object> v2, String k3, Supplier<Object> v3) {
+		if (k1.startsWith("{")) k1 = "\\" + k1;
+		if (k2.startsWith("{")) k2 = "\\" + k2;
+		if (k3.startsWith("{")) k3 = "\\" + k3;
 		return this.toString(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2), Pattern.compile(k3), EReplace.of(v3)));
 	}
 	
 	public String toString(String k1, Object v1) {
+		if (k1.startsWith("{")) k1 = "\\" + k1;
 		return this.toString(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1)));
 	}
 	
 	public String toString(String k1, Object v1, String k2, Object v2) {
+		if (k1.startsWith("{")) k1 = "\\" + k1;
+		if (k2.startsWith("{")) k2 = "\\" + k2;
 		return this.toString(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2)));
 	}
 	
 	public String toString(String k1, Object v1, String k2, Object v2, String k3, Object v3) {
+		if (k1.startsWith("{")) k1 = "\\" + k1;
+		if (k2.startsWith("{")) k2 = "\\" + k2;
+		if (k3.startsWith("{")) k3 = "\\" + k3;
 		return this.toString(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2), Pattern.compile(k3), EReplace.of(v3)));
 	}
 	
 	public String toString(String k1, Object v1, String k2, Object v2, String k3, Object v3, String k4, Object v4) {
+		if (k1.startsWith("{")) k1 = "\\" + k1;
+		if (k2.startsWith("{")) k2 = "\\" + k2;
+		if (k3.startsWith("{")) k3 = "\\" + k3;
+		if (k4.startsWith("{")) k4 = "\\" + k4;
 		return this.toString(ImmutableMap.of(Pattern.compile(k1), EReplace.of(v1), Pattern.compile(k2), EReplace.of(v2), Pattern.compile(k3), EReplace.of(v3), Pattern.compile(k4), EReplace.of(v4)));
 	}
 	

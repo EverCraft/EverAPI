@@ -50,6 +50,8 @@ public final class EMessageSender {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
+		if (key.startsWith("{")) key = "\\" + key;
+		
 		this.replaces.put(Pattern.compile(key), EReplace.of(value)); 
 		return this;
 	}

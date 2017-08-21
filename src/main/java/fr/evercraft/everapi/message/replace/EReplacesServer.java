@@ -65,7 +65,7 @@ public enum EReplacesServer {
 	EReplacesServer(Function<EPlugin<?>, Object> fun) {
 		this.fun = Optional.ofNullable(fun);
 		this.bi = Optional.empty();
-		this.pattern = Pattern.compile("<(?i)" + this.name() + ">");
+		this.pattern = Pattern.compile("\\{(?i)" + this.name() + "}");
 	}
 	
 	EReplacesServer(BiFunction<EPlugin<?>, String, Object> bi) {
@@ -74,7 +74,7 @@ public enum EReplacesServer {
 	}
 	
 	public String getName() {
-		return "<" + this.name() + ">";
+		return "{" + this.name() + "}";
 	}
 	
 	public Optional<Function<EPlugin<?>, Object>> getFunction() {

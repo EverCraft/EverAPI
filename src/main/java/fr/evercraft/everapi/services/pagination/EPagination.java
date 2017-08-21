@@ -69,7 +69,7 @@ public class EPagination {
 	}
 	
 	public void sendTo(final Text title, Collection<Text> contents, CommandSource source) {		
-		Text text_title = EAMessages.PAGINATION_TITLE.getFormat().toText("<title>", () -> title);
+		Text text_title = EAMessages.PAGINATION_TITLE.getFormat().toText("{title}", () -> title);
 		
 		this.send(text_title, this.pagination_padding, contents, source);
 	}
@@ -86,8 +86,8 @@ public class EPagination {
 					Text description = optDescription.get().toBuilder().color(this.help_color_description).build();
 					
 					contents.add(EAMessages.HELP_LINE.getFormat().toText(
-								"<name>", () -> this.getButtonName(command.getPrimaryAlias(), help),
-								"<description>", () ->  description));
+								"{name}", () -> this.getButtonName(command.getPrimaryAlias(), help),
+								"{description}", () ->  description));
 				}
 			}
 		}
@@ -110,8 +110,8 @@ public class EPagination {
 				description = description.toBuilder().color(this.help_color_description).build();
 				
 				contents.add(EAMessages.HELP_LINE.getFormat().toText(
-							"<name>", this.getButtonName(command.getKey(), help),
-							"<description>", description));
+							"{name}", this.getButtonName(command.getKey(), help),
+							"{description}", description));
 			}
 		}
 		
@@ -120,8 +120,8 @@ public class EPagination {
 	
 	private void help(List<Text> contents, CommandSource source, EPlugin<?> plugin) {
 		Builder title = EAMessages.HELP_TITLE.getFormat().toText(
-							"<plugin>", plugin.getName(),
-							"<version>",plugin.getVersion().orElse("1"))
+							"{plugin}", plugin.getName(),
+							"{version}",plugin.getVersion().orElse("1"))
 						.toBuilder();
 		
 		String authors;
@@ -133,9 +133,9 @@ public class EPagination {
 		
 		if (EAMessages.HELP_TITLE_HOVER.has()) {
 			title = title.onHover(TextActions.showText(EAMessages.HELP_TITLE_HOVER.getFormat().toText(
-							"<authors>", authors,
-							"<plugin>", plugin.getName(),
-							"<version>", plugin.getVersion().orElse("1"))));
+							"{authors}", authors,
+							"{plugin}", plugin.getName(),
+							"{version}", plugin.getVersion().orElse("1"))));
 		}
 
 		if (contents.isEmpty()) {
@@ -146,9 +146,9 @@ public class EPagination {
 	}
 	
 	public Text getButtonName(final String command, Text help){
-		return EAMessages.HELP_LINE_NAME.getFormat().toText("<command>", command).toBuilder()
+		return EAMessages.HELP_LINE_NAME.getFormat().toText("{command}", command).toBuilder()
 					.onHover(TextActions.showText(
-						EAMessages.HELP_LINE_NAME_HOVER.getFormat().toText("<help>", help)))
+						EAMessages.HELP_LINE_NAME_HOVER.getFormat().toText("{help}", help)))
 					.onClick(TextActions.suggestCommand("/" + command))
 					.build();
 	}
