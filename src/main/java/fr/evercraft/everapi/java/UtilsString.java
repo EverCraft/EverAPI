@@ -45,7 +45,7 @@ public class UtilsString {
 		List<String> resultat = new ArrayList<String>();
 		if (messages != null){
 			for (String line : messages) {
-				resultat.add(line.replaceAll(replace, value));
+				resultat.add(line.replace(replace, value));
 			}
 		}
 		return resultat;

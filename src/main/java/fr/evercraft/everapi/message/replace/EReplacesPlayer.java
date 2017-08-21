@@ -108,17 +108,17 @@ public enum EReplacesPlayer {
 	EReplacesPlayer(BiFunction<EPlugin<?>, EPlayer, Object> bi) {
 		this.bi= Optional.of(bi);
 		this.tri = Optional.empty();
-		this.pattern = Pattern.compile("<(?i)" + this.name() + ">");
+		this.pattern = Pattern.compile("\\{(?i)" + this.name() + "}");
 	}
 	
 	EReplacesPlayer(TriFunction<EPlugin<?>, EPlayer, String, Object> tri) {
 		this.tri= Optional.of(tri);
 		this.bi = Optional.empty();
-		this.pattern = Pattern.compile("<(?i)" + this.name() + "=(.[^>]*)>");
+		this.pattern = Pattern.compile("\\{(?i)" + this.name() + "=(.[^>]*)}");
 	}
 	
 	public String getName() {
-		return "<" + this.name() + ">";
+		return "{" + this.name() + "}";
 	}
 	
 	public Optional<BiFunction<EPlugin<?>, EPlayer, Object>> getBiFunction() {

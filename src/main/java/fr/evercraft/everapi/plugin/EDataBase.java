@@ -130,7 +130,7 @@ public abstract class EDataBase<T extends EPlugin<T>> {
     	Connection connection = null;
 		try {
 			connection = getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement(query.replaceAll("\\{table}", table));
+			PreparedStatement preparedStatement = connection.prepareStatement(query.replace("{table}", table));
 			preparedStatement.execute();
 			this.plugin.getELogger().debug("SQL : Initialize the table : '" + table + "'");
 			return true;

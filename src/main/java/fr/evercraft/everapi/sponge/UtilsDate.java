@@ -160,9 +160,9 @@ public class UtilsDate {
 			while(cpt < this.types.length && sb.size() <= length) {
 				Integer diff = dateDiff(this.types[cpt], fromDate, toDate, future);
 				if (diff >= 2) {
-					sb.add(this.names[cpt * 2 + 1].replaceAll("<value>", diff.toString()));
+					sb.add(this.names[cpt * 2 + 1].replace("{value}", diff.toString()));
 				} else if (diff >= 1) {
-					sb.add(this.names[cpt * 2].replaceAll("<value>", diff.toString()));
+					sb.add(this.names[cpt * 2].replace("{value}", diff.toString()));
 				}
 				cpt++;
 			}
