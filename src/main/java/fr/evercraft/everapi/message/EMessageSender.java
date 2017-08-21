@@ -58,12 +58,16 @@ public final class EMessageSender {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
+		if (key.startsWith("{")) key = "\\" + key;
+		
 		this.replaces.put(Pattern.compile(key), EReplace.of(value)); 
 		return this;
 	}
 	
 	public EMessageSender replace(String key, int value) {
 		Preconditions.checkNotNull(key, "key");
+		
+		if (key.startsWith("{")) key = "\\" + key;
 		
 		this.replaces.put(Pattern.compile(key), EReplace.of(String.valueOf(value))); 
 		return this;
@@ -73,6 +77,8 @@ public final class EMessageSender {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
+		if (key.startsWith("{")) key = "\\" + key;
+		
 		this.replaces.put(Pattern.compile(key), EReplace.of(value)); 
 		return this;
 	}
@@ -80,6 +86,8 @@ public final class EMessageSender {
 	public EMessageSender replace(String key, EMessageSender value) {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
+		
+		if (key.startsWith("{")) key = "\\" + key;
 		
 		this.replaces.put(Pattern.compile(key), EReplace.of(value)); 
 		return this;
@@ -89,6 +97,8 @@ public final class EMessageSender {
 		Preconditions.checkNotNull(key, "key");
 		Preconditions.checkNotNull(value, "value");
 		
+		if (key.startsWith("{")) key = "\\" + key;
+		
 		this.replaces.put(Pattern.compile(key), EReplace.of(value)); 
 		return this;
 	}
@@ -96,7 +106,10 @@ public final class EMessageSender {
 	public EMessageSender replaceString(Map<String, EReplace<?>> replaces) {
 		Preconditions.checkNotNull(replaces, "replaces");
 		
-		replaces.forEach((pattern, replace) -> this.replaces.put(Pattern.compile(pattern), replace));
+		replaces.forEach((pattern, replace) -> {
+			if (pattern.startsWith("{")) pattern = "\\" + pattern; 
+			this.replaces.put(Pattern.compile(pattern), replace);
+		});
 		return this;
 	}
 	

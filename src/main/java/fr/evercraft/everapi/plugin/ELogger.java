@@ -56,7 +56,7 @@ public class ELogger {
 	
 	public void debug(String msg) {
 		if (this.debug) {
-			this.logger.info(msg);
+			this.logger.info("[DEBUG] " + msg);
 		}
 	}
 	

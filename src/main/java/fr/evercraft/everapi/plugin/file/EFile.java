@@ -20,6 +20,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.regex.Pattern;
 
 import com.google.common.reflect.TypeToken;
@@ -39,6 +42,11 @@ public abstract class EFile<T extends EPlugin<T>> {
 	private File file = null;
 	private HoconConfigurationLoader manager = null;
     private CommentedConfigurationNode config = null;
+    
+    // MultiThreading
+ 	private final ReadWriteLock lock;
+ 	protected final Lock write_lock;
+ 	protected final Lock read_lock;
     
     private boolean modified;
 	private boolean newDirs;
@@ -71,6 +79,11 @@ public abstract class EFile<T extends EPlugin<T>> {
     	this.name = name;
     	this.modified = false;
     	
+    	// MultiThreading
+		this.lock = new ReentrantReadWriteLock();
+		this.write_lock = this.lock.writeLock();
+		this.read_lock = this.lock.readLock();
+    	
     	if (autoReload) {
     		this.plugin.registerConfiguration(this);    
     	}
@@ -89,39 +102,48 @@ public abstract class EFile<T extends EPlugin<T>> {
      * Rechargement de la configuration
      */
     public void loadFile() {
-    	this.newDirs = false;
-        if (this.file == null) {
-        	this.file = this.plugin.getPath().resolve(this.name + ".conf").toFile();
-        	if (!this.file.getParentFile().exists()){
-        		this.file.getParentFile().mkdirs();
-        		this.newDirs = true;
-        	}
-        }
-        this.manager = HoconConfigurationLoader.builder().setFile(this.file).build();
-        try {
-			this.config = this.manager.load();
-			this.plugin.getELogger().info("Chargement du fichier : " + this.name + ".conf");
-		} catch (IOException e) {
-			this.file.renameTo(this.plugin.getPath().resolve(this.name + ".error").toFile());
-			this.config = this.manager.createEmptyNode(ConfigurationOptions.defaults());
-			this.plugin.getELogger().warn("Impossible de charger le fichier : " + this.name + ".conf : " + this.file.getAbsolutePath());
+    	this.read_lock.lock();
+		try {
+			this.newDirs = false;
+	        if (this.file == null) {
+	        	this.file = this.plugin.getPath().resolve(this.name + ".conf").toFile();
+	        	if (!this.file.getParentFile().exists()){
+	        		this.file.getParentFile().mkdirs();
+	        		this.newDirs = true;
+	        	}
+	        }
+	        this.manager = HoconConfigurationLoader.builder().setFile(this.file).build();
+	        try {
+				this.config = this.manager.load();
+				this.plugin.getELogger().info("Chargement du fichier : " + this.name + ".conf");
+			} catch (IOException e) {
+				this.file.renameTo(this.plugin.getPath().resolve(this.name + ".error").toFile());
+				this.config = this.manager.createEmptyNode(ConfigurationOptions.defaults());
+				this.plugin.getELogger().warn("Impossible de charger le fichier : " + this.name + ".conf : " + this.file.getAbsolutePath());
+			}
+		} finally {
+			this.read_lock.unlock();
 		}
-        
     }
     
     /**
      * Sauvegarde du fichier de configuration
      */
     public boolean save(boolean force) {
-        if (this.manager != null && this.config != null && (force || this.modified)) {
-	        try {
-	        	this.manager.save(config);
-	        	this.modified = false;
-	        } catch (IOException ex) {
-	            this.plugin.getELogger().warn("Impossible de sauvegarder le fichier : " + this.name + ".conf : " + this.file.getAbsolutePath());
-	            return false;
+    	this.write_lock.lock();
+		try {
+	        if (this.manager != null && this.config != null && (force || this.modified)) {
+		        try {
+		        	this.manager.save(config);
+		        	this.modified = false;
+		        } catch (IOException e) {
+		            this.plugin.getELogger().warn("Impossible de sauvegarder le fichier : " + this.name + ".conf : " + this.file.getAbsolutePath());
+		            return false;
+		        }
 	        }
-        }
+		} finally {
+			this.write_lock.unlock();
+		}
         return true;
     }
     

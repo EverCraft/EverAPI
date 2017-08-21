@@ -85,7 +85,7 @@ public abstract class EConfig<T extends EPlugin<T>> extends EFile<T> {
     }
 
     public boolean isDebug() {
-    	this.plugin.getELogger().info("Debug : " + this.get("debug").getBoolean(false));
+    	this.plugin.getELogger().info("Debug : " + this.get("DEBUG").getBoolean(false));
 		return this.get("DEBUG").getBoolean(false);
 	}
 
