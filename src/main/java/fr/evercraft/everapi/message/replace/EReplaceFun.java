@@ -35,7 +35,7 @@ public class EReplaceFun<T> implements EReplace<T> {
 	
 	@Override
 	public T get(String replace) {
-		if (this.value == null || this.arg == null || !this.arg.equalsIgnoreCase(replace)) {
+		if (this.value == null || this.arg == null || !this.arg.equals(replace)) {
 			this.arg = replace;
 			this.value = this.fun.apply(replace);
 		}

@@ -21,7 +21,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
@@ -29,11 +28,11 @@ import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
 
 import fr.evercraft.everapi.EACommand;
+import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
 import fr.evercraft.everapi.server.player.EPlayer;
-import fr.evercraft.everapi.services.fire.FireType;
 
 public class EATest extends ESubCommand<EverAPI> {
 	
@@ -62,9 +61,7 @@ public class EATest extends ESubCommand<EverAPI> {
 	
 	public CompletableFuture<Boolean> execute(final CommandSource source, final List<String> args) {
 		EPlayer player = (EPlayer) source;
-		player.sendMessage("FireType : ");
-		Sponge.getRegistry().getAllOf(FireType.class).stream()
-			.forEach(flag -> player.sendMessage(" - " + flag.getId() + " : " + flag.getName()));
+		EAMessages.PLUGINS_URL.sender().replace("{url}", "test &atest").sendTo(player);
 		/*ItemStack skull = ItemStack.of(ItemTypes.SKULL, 1);
 		player.sendMessage("SKULL_TYPE : " + skull.offer(Keys.SKULL_TYPE, SkullTypes.PLAYER).isSuccessful());
 		player.sendMessage("SKULL_TYPE : " + skull.get(Keys.SKULL_TYPE));

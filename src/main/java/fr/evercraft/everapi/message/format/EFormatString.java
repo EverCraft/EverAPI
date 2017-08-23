@@ -80,11 +80,10 @@ public class EFormatString extends EFormat {
 						String group = (matcher.groupCount() > 0) ? matcher.group(1) : "";
 					    split = text.split(pattern.pattern(), 2);
 					    texts.set(cpt, split[0]);
-					    cpt++;
-						texts.add(cpt, replace.get(group));
-						cpt++;
-						texts.add(cpt, split[1]);
+						texts.add(cpt+1, replace.get(group));
+						texts.add(cpt+2, split[1]);
 					    matcher = pattern.matcher(split[1]);
+					    cpt+=2;
 					}
 				}
 				cpt++;
@@ -95,7 +94,8 @@ public class EFormatString extends EFormat {
 		for (Object value : texts) {
 			Text text = null;
 			if (value instanceof String) {
-				text = EChat.of((String) value);
+				// TODO style does not apply to any content
+				text = EChat.of((String) value + "\uE000");
 			} else if (value instanceof Text) {
 				text = (Text) value;
 			} else if (value instanceof Translation) {

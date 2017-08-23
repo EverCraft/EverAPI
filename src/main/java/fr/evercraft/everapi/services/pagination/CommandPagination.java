@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
@@ -146,12 +147,9 @@ public abstract class CommandPagination<T extends EPlugin<?>> {
 	}
 	
 	protected Set<String> getAllGroups() {
-		Set<String> groups = new HashSet<String>();
-		try {
-			this.plugin.getEverAPI().getManagerService().getPermission().getGroupSubjects().getAllIdentifiers().get()
-				.forEach(subject -> groups.add(subject));
-		} catch (InterruptedException | ExecutionException e) {}
-		return groups;
+		return this.plugin.getEverAPI().getManagerService().getPermission().getGroupSubjects().getLoadedSubjects().stream()
+			.map(subject -> subject.getFriendlyIdentifier().orElse(subject.getIdentifier()))
+			.collect(Collectors.toSet());
 	}
 	
 	protected Set<String> getAllGroups(List<String> args) {
