@@ -78,12 +78,12 @@ public class EFormatString extends EFormat {
 					Matcher matcher = pattern.matcher(text);
 					while (matcher.find()) {
 						String group = (matcher.groupCount() > 0) ? matcher.group(1) : "";
-					    split = text.split(pattern.pattern(), 2);
-					    texts.set(cpt, split[0]);
+						split = text.split(pattern.pattern(), 2);
+						texts.set(cpt, split[0]);
 						texts.add(cpt+1, replace.get(group));
 						texts.add(cpt+2, split[1]);
-					    matcher = pattern.matcher(split[1]);
-					    cpt+=2;
+						matcher = pattern.matcher(split[1]);
+						cpt+=2;
 					}
 				}
 				cpt++;
