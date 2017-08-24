@@ -40,7 +40,10 @@ public abstract class EFormat {
 	
 	public Text toText2(Map<String, EReplace<?>> replaces) {
 		Map<Pattern, EReplace<?>> map = new HashMap<Pattern, EReplace<?>>();
-		replaces.forEach((pattern, replace) -> map.put(Pattern.compile(pattern), replace));
+		replaces.forEach((pattern, replace) -> {
+			if (pattern.startsWith("{")) pattern = "\\" + pattern;
+			map.put(Pattern.compile(pattern), replace);
+		});
 		return this.toText(map);
 	}
 	

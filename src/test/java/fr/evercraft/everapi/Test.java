@@ -19,9 +19,13 @@ package fr.evercraft.everapi;
 public class Test {
 
 	public static void main(String [] args) {
-		String test = "{player} test salue {player}";
-		System.out.println(test);
-		System.out.println(test.replace("{player}", "rexbut"));
+		String test = "player";
+		
+		if(test.matches("#.[\\S]#")) {
+			System.out.println("ta_chaine ne contient aucun espace");
+		} else {
+			System.out.println("ta_chaine contient un espace");
+		}
 		
 		/*MessageFlag flag = new MessageFlag("MESSAGE");
 		

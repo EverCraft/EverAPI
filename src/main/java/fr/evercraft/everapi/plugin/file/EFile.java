@@ -165,8 +165,8 @@ public abstract class EFile<T extends EPlugin<T>> {
      * @param value La valeur
      */
     protected void addDefault(final String paths, final Object value){
-    	ConfigurationNode node = get(paths);    	
-    	if (node.getValue() == null){
+    	ConfigurationNode node = this.get(paths);    	
+    	if (node.isVirtual()){
     		node.setValue(value);
     		this.setModified(true);
     	}

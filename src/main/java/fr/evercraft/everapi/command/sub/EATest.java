@@ -25,6 +25,7 @@ import java.util.regex.Pattern;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.TextTemplate;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.serializer.TextSerializers;
@@ -68,10 +69,16 @@ public class EATest extends ESubCommand<EverAPI> {
 	public CompletableFuture<Boolean> execute(final CommandSource source, final List<String> args) {
 		EPlayer player = (EPlayer) source;
 		
-		String message = "&cHello &a{player}";
 		Text replace = Text.builder(player.getName())
-							.onHover(TextActions.showText(TextSerializers.FORMATTING_CODE.deserialize("&cExample")))
-							.build();
+				.onHover(TextActions.showText(TextSerializers.FORMATTING_CODE.deserialize("&cExample")))
+				.build();
+		
+		player.sendMessage(Text.builder().append(TextSerializers.FORMATTING_CODE.deserialize("&cHello &a"), replace).build());
+		
+		TextTemplate template = TextTemplate.of(TextSerializers.FORMATTING_CODE.deserialize("&cHello &a"), TextTemplate.arg("player"));
+		player.sendMessage(template.apply(ImmutableMap.of("player", replace)).build());
+		
+		String message = "&cHello &a{player}";
 		player.sendMessage(EFormatString.apply(message, ImmutableMap.of(Pattern.compile("\\{player}"), EReplace.of(replace))));
 		
 		

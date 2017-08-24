@@ -66,7 +66,7 @@ public abstract class EPlugin<T extends EPlugin<T>> {
 	private final CopyOnWriteArraySet<EFile<T>> files;
 	private ELogger logger;
 	
-	protected void onPreEnable() throws PluginDisableException, ServerDisableException{}
+	protected abstract void onPreEnable() throws PluginDisableException, ServerDisableException;
 	protected void onEnable() throws PluginDisableException, ServerDisableException{}
 	protected void onPostEnable() throws PluginDisableException, ServerDisableException{}
 	protected abstract void onCompleteEnable() throws PluginDisableException, ServerDisableException;
@@ -87,8 +87,7 @@ public abstract class EPlugin<T extends EPlugin<T>> {
     public void onGamePreInitialization(GamePreInitializationEvent event) {
 		try {
 			this.setupEverAPI();
-			if (this.getEverAPI().isEnable() && this.enable){
-				this.getELogger().debug("----------------------- Pre-Enable ----------------------");
+			if (this.getEverAPI().isEnable() && this.enable) {
 				this.onPreEnable();
 				this.getELogger().debug("---------------------------------------------------------");
 			}
