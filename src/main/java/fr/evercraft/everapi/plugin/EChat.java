@@ -32,6 +32,8 @@ import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColor;
 import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.text.format.TextFormat;
+import org.spongepowered.api.text.format.TextStyle;
+import org.spongepowered.api.text.format.TextStyles;
 import org.spongepowered.api.text.serializer.TextSerializers;
 
 import com.google.common.base.Preconditions;
@@ -106,23 +108,24 @@ public class EChat {
 		return this.service.getReplaceIcons();
 	}
 	
+	public Map<Pattern, EReplace<?>> getReplaceUrl() {
+		if (!this.isPresent()) return new HashMap<Pattern, EReplace<?>>();
+		
+		return this.service.getReplaceUrl();
+	}
+	
 	public Map<Pattern, EReplace<?>> getReplaceAll(final EPlayer player) {
 		Map<Pattern, EReplace<?>> builder = new HashMap<Pattern, EReplace<?>>();
 		builder.putAll(this.getReplaceVariables());
-		for(EReplacesServer value : EReplacesServer.values()) {
-			if (value.getFunction().isPresent()) {
-				builder.put(value.getPattern(), EReplace.of(() -> (value.getFunction().get().apply(this.plugin))));
-			} else {
-				builder.put(value.getPattern(), EReplace.of((option) -> (value.getBiFunction().get().apply(this.plugin, option))));
-			}
-		}
-		for(EReplacesPlayer value : EReplacesPlayer.values()) {
-			if (value.getBiFunction().isPresent()) {
-				builder.put(value.getPattern(), EReplace.of(() -> (value.getBiFunction().get().apply(this.plugin, player))));
-			} else {
-				builder.put(value.getPattern(), EReplace.of((option) -> (value.getTriFunction().get().apply(this.plugin, player, option))));
-			}
-		}
+		builder.putAll(this.getReplaceServer());
+		builder.putAll(this.getReplacePlayer(player));
+		return builder;
+	}	
+	
+	public Map<Pattern, EReplace<?>> getReplaceAll() {
+		Map<Pattern, EReplace<?>> builder = new HashMap<Pattern, EReplace<?>>();
+		builder.putAll(this.getReplaceVariables());
+		builder.putAll(this.getReplaceServer());
 		return builder;
 	}	
 	
@@ -179,7 +182,7 @@ public class EChat {
     }
     
     public static Text fixLength(Text message, final int length) {    	
-    	return EChat.of(EChat.fixLength(EChat.serialize(message)));
+    	return EChat.of(EChat.fixLength(EChat.serialize(message), length));
 	}
 
     
@@ -187,43 +190,63 @@ public class EChat {
     	Preconditions.checkNotNull(arg, "arg");
     	
     	TextColor color = TextColors.NONE;
-		if (arg != null){
-			if (arg.equalsIgnoreCase("&0")){
-				color = TextColors.BLACK;
-			} else if (arg.equalsIgnoreCase("&1")){
-				color = TextColors.DARK_BLUE;
-			} else if (arg.equalsIgnoreCase("&2")){
-				color = TextColors.DARK_GREEN;
-			} else if (arg.equalsIgnoreCase("&3")){
-				color = TextColors.DARK_AQUA;
-			} else if (arg.equalsIgnoreCase("&4")){
-				color = TextColors.DARK_RED;
-			} else if (arg.equalsIgnoreCase("&5")){
-				color = TextColors.DARK_PURPLE;
-			} else if (arg.equalsIgnoreCase("&6")){
-				color = TextColors.GOLD;
-			} else if (arg.equalsIgnoreCase("&7")){
-				color = TextColors.GRAY;
-			} else if (arg.equalsIgnoreCase("&8")){
-				color = TextColors.DARK_GRAY;
-			} else if (arg.equalsIgnoreCase("&9")){
-				color = TextColors.BLUE;
-			} else if (arg.equalsIgnoreCase("&a")){
-				color = TextColors.GREEN;
-			} else if (arg.equalsIgnoreCase("&b")){
-				color = TextColors.AQUA;
-			} else if (arg.equalsIgnoreCase("&c")){
-				color = TextColors.RED;
-			} else if (arg.equalsIgnoreCase("&d")){
-				color = TextColors.LIGHT_PURPLE;
-			} else if (arg.equalsIgnoreCase("&e")){
-				color = TextColors.YELLOW;
-			} else if (arg.equalsIgnoreCase("&f")){
-				color = TextColors.WHITE;
-			}
+		if (arg.equalsIgnoreCase("&0")){
+			color = TextColors.BLACK;
+		} else if (arg.equalsIgnoreCase("&1")){
+			color = TextColors.DARK_BLUE;
+		} else if (arg.equalsIgnoreCase("&2")){
+			color = TextColors.DARK_GREEN;
+		} else if (arg.equalsIgnoreCase("&3")){
+			color = TextColors.DARK_AQUA;
+		} else if (arg.equalsIgnoreCase("&4")){
+			color = TextColors.DARK_RED;
+		} else if (arg.equalsIgnoreCase("&5")){
+			color = TextColors.DARK_PURPLE;
+		} else if (arg.equalsIgnoreCase("&6")){
+			color = TextColors.GOLD;
+		} else if (arg.equalsIgnoreCase("&7")){
+			color = TextColors.GRAY;
+		} else if (arg.equalsIgnoreCase("&8")){
+			color = TextColors.DARK_GRAY;
+		} else if (arg.equalsIgnoreCase("&9")){
+			color = TextColors.BLUE;
+		} else if (arg.equalsIgnoreCase("&a")){
+			color = TextColors.GREEN;
+		} else if (arg.equalsIgnoreCase("&b")){
+			color = TextColors.AQUA;
+		} else if (arg.equalsIgnoreCase("&c")){
+			color = TextColors.RED;
+		} else if (arg.equalsIgnoreCase("&d")){
+			color = TextColors.LIGHT_PURPLE;
+		} else if (arg.equalsIgnoreCase("&e")){
+			color = TextColors.YELLOW;
+		} else if (arg.equalsIgnoreCase("&f")){
+			color = TextColors.WHITE;
 		}
 		return color;
 	}
+    
+    public static TextStyle getTextStyle(final String arg){
+    	TextStyle style = TextStyles.NONE;
+		if (arg.equalsIgnoreCase("&k")){
+			style = TextStyles.OBFUSCATED;
+		} else if (arg.equalsIgnoreCase("&l")){
+			style = TextStyles.BOLD;
+		} else if (arg.equalsIgnoreCase("&m")){
+			style = TextStyles.STRIKETHROUGH;
+		} else if (arg.equalsIgnoreCase("&n")){
+			style = TextStyles.UNDERLINE;
+		} else if (arg.equalsIgnoreCase("&o")){
+			style = TextStyles.ITALIC;
+		} else if (arg.equalsIgnoreCase("&r")){
+			style = TextStyles.RESET;
+		}
+		return style;
+    }
+    
+    public static TextFormat getTextFormat(final String arg){
+    	return EChat.getLastFormat(EChat.of(arg + "\uE000"));
+    }
 
     public static Text getButtomItem(final ItemStack item){
 		return getButtomItem(item, TextColors.WHITE);

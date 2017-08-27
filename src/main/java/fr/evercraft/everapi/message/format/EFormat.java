@@ -54,10 +54,9 @@ public abstract class EFormat {
 	public String toString(String message, Map<Pattern, EReplace<?>> replaces) {
 		for(Entry<Pattern, EReplace<?>> replace : replaces.entrySet()) {
 			Matcher matcher = replace.getKey().matcher(message);
-			while (matcher.find()) {
+			if (matcher.find()) {
 				String group = (matcher.groupCount() > 0) ? matcher.group(1) : "";
 				message = this.toString(message, replace.getKey().pattern(), replace.getValue().get(group));
-			    matcher = replace.getKey().matcher(message);
 			}
 		}
 		return message;
@@ -76,13 +75,13 @@ public abstract class EFormat {
 	
 	private String toString(String message, String key, Object value) {
 		if (value instanceof String){
-			return message.replaceFirst(key, (String) value);
+			return message.replace(key, (String) value);
 		} else if (value instanceof Text) {
-			return message.replaceFirst(key, EChat.serialize((Text) value));
+			return message.replace(key, EChat.serialize((Text) value));
 		} else if (value instanceof EFormat) {
-			return message.replaceFirst(key, ((EFormat) value).toString(key, value));
+			return message.replace(key, ((EFormat) value).toString(key, value));
 		} else {
-			return message.replaceFirst(key, value.toString());
+			return message.replace(key, value.toString());
 		}
 	}
 	

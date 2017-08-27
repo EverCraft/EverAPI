@@ -199,6 +199,8 @@ public class EAMessage extends EMessage<EverAPI> {
 		HOVER_COPY("hoverCopy", 
 				"&cCliquez ici pour copier cette information.", 
 				"&cClick here to copy this information."),
+		HOVER_URL("hoverUrl", 
+				"&cCliquez ici pour ouvrir pour cette URL."),
 		
 		// Mail
 		MAIL_SERVER_DISABLE_OBJECT("mailServerDisableObject", 

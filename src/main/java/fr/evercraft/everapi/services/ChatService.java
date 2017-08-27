@@ -35,10 +35,11 @@ public interface ChatService {
 
 	public String getFormat(Subject subject, Set<Context> contexts);
 
+	Map<Pattern, EReplace<?>> getReplaceAll();
 	Map<Pattern, EReplace<?>> getReplaceIcons();
 	Map<Pattern, EReplace<?>> getReplaceCharacters();
-	Map<Pattern, EReplace<?>> getReplaceAll();
 	Map<Pattern, EReplace<?>> getReplaceCommand();
+	Map<Pattern, EReplace<?>> getReplaceUrl();
 	
 }
 
