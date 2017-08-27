@@ -350,7 +350,7 @@ public class EPlayer extends PlayerSponge {
 	 */
 	
 	public Text getDisplayNameHover() {
-		return getDisplayHover(getActiveContexts());
+		return getDisplayNameHover(getActiveContexts());
 	}
 	
 	public Optional<Text> getHover() {
@@ -358,20 +358,13 @@ public class EPlayer extends PlayerSponge {
 	}
 	
 	
-	public Text getDisplayHover(Set<Context> contexts) {
-		Optional<String> suggest = this.getSuggest(contexts);
-		Optional<Text> hover = this.getHover(contexts);
+	public Text getDisplayNameHover(Set<Context> contexts) {
+		Builder builder = EFormatString.of(this.getDisplayName(contexts))
+				.toText(this.getReplaces()).toBuilder()
+				.onShiftClick(TextActions.insertText(this.getName()));
 		
-		Builder builder = EFormatString.of(this.getDisplayName(contexts)).toText(this.getReplaces()).toBuilder();
-		
-		if (suggest.isPresent()) {
-			builder.onClick(TextActions.suggestCommand(suggest.get()));
-		}
-		
-		if (hover.isPresent()) {
-			builder.onHover(TextActions.showText(hover.get()));
-		}
-		
+		this.getSuggest(contexts).ifPresent(suggest -> builder.onClick(TextActions.suggestCommand(suggest)));
+		this.getHover(contexts).ifPresent(hover -> builder.onHover(TextActions.showText(hover)));
 		return builder.build();
 	}
 	
@@ -389,9 +382,9 @@ public class EPlayer extends PlayerSponge {
 	}
 	
 	public Optional<String> getSuggest(Set<Context> contexts) {
-		Optional<String> optHover = this.getOption(contexts, "suggest");
-		if (optHover.isPresent()) {
-			return Optional.of(EFormatString.of(optHover.get()).toString(this.getReplaces()));
+		Optional<String> optSuggest = this.getOption(contexts, "suggest");
+		if (optSuggest.isPresent()) {
+			return Optional.of(EFormatString.of(optSuggest.get()).toString(this.getReplaces()));
 		}
 		return Optional.empty();
 	}

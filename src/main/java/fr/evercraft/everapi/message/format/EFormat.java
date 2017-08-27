@@ -75,13 +75,13 @@ public abstract class EFormat {
 	
 	private String toString(String message, String key, Object value) {
 		if (value instanceof String){
-			return message.replace(key, (String) value);
+			return message.replaceAll(key, (String) value);
 		} else if (value instanceof Text) {
-			return message.replace(key, EChat.serialize((Text) value));
+			return message.replaceAll(key, EChat.serialize((Text) value));
 		} else if (value instanceof EFormat) {
-			return message.replace(key, ((EFormat) value).toString(key, value));
+			return message.replaceAll(key, ((EFormat) value).toString(key, value));
 		} else {
-			return message.replace(key, value.toString());
+			return message.replaceAll(key, value.toString());
 		}
 	}
 	
