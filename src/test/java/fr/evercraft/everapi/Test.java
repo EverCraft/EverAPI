@@ -16,9 +16,19 @@
  */
 package fr.evercraft.everapi;
 
+import java.util.regex.Pattern;
+
 public class Test {
 
 	public static void main(String [] args) {
+		Pattern pattern = Pattern.compile("\\[RT]");
+		
+		if (pattern.matcher("salut [RT]").find()) {
+			System.out.println("Oui");
+		} else {
+			System.out.println("Non");
+		}
+		
 		String test = "player";
 		
 		if(test.matches("#.[\\S]#")) {

@@ -159,9 +159,9 @@ public abstract class EntityTemplateFlag extends EFlag<EntityTemplateFlagValue> 
 		for (String group : value.getKeys()) {
 			List<Text> entities = new ArrayList<Text>();
 			for (EntityTemplate entity : this.groups.get(group)) {
-				entities.add(EAMessages.FLAG_MAP_HOVER.getFormat().toText("<value>", entity.getId()));
+				entities.add(EAMessages.FLAG_MAP_HOVER.getFormat().toText("{value}", entity.getId()));
 			}
-			groups.add(EAMessages.FLAG_MAP_GROUP.getFormat().toText("<group>", group).toBuilder()
+			groups.add(EAMessages.FLAG_MAP_GROUP.getFormat().toText("{group}", group).toBuilder()
 				.onHover(TextActions.showText(Text.joinWith(Text.of("\n"), entities)))
 				.build());
 		}

@@ -63,11 +63,13 @@ public class EverAPI extends EPlugin<EverAPI> {
 	private EAMessage messages;
 	
 	private EServer server;
+	private BungeeCord bungee;
 
 	private ManagerService service;
 	private ManagerUtils managerUtils;
 	
-	private SpongeExecutorService thread;
+	private SpongeExecutorService threadAsync;
+	private SpongeExecutorService threadSync;
 	
 	public EverAPI() {
 		TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(EMessageBuilder.class), new EMessageBuilderSerializer(this));
@@ -76,7 +78,9 @@ public class EverAPI extends EPlugin<EverAPI> {
 	
 	@Override
 	protected void onPreEnable() throws PluginDisableException, ServerDisableException {		
-		this.thread = this.getGame().getScheduler().createAsyncExecutor(this);
+		this.threadAsync = this.getGame().getScheduler().createAsyncExecutor(this);
+		this.threadSync = this.getGame().getScheduler().createSyncExecutor(this);
+		
 		this.chat = new EChat(this);
 		this.configs = new EAConfig(this);
 		
@@ -90,7 +94,7 @@ public class EverAPI extends EPlugin<EverAPI> {
 	@Override
 	protected void onCompleteEnable() {
 		this.getGame().getEventManager().registerListeners(this, new EAListener(this));
-		new BungeeCord(this);
+		this.bungee = new BungeeCord(this);
 		
 		EACommand command = new EACommand(this);
 		command.add(new EAPlugins(this, command));
@@ -123,6 +127,10 @@ public class EverAPI extends EPlugin<EverAPI> {
 		return this.server;
 	}
 	
+	public BungeeCord getBungeeCord() {
+		return this.bungee;
+	}
+	
 	@Override
 	public EChat getChat(){
 		return this.chat;
@@ -139,6 +147,10 @@ public class EverAPI extends EPlugin<EverAPI> {
 	
 	@Override
 	public SpongeExecutorService getThreadAsync() {
-		return this.thread;
+		return this.threadAsync;
+	}
+	
+	public SpongeExecutorService getThreadSync() {
+		return this.threadSync;
 	}
 }

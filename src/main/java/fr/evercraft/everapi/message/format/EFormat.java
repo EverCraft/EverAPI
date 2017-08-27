@@ -48,8 +48,10 @@ public abstract class EFormat {
 	}
 	
 	public String toString(Map<Pattern, EReplace<?>> replaces) {
-		String message = this.toString();
-		
+		return this.toString(this.toString(), replaces);
+	}
+	
+	public String toString(String message, Map<Pattern, EReplace<?>> replaces) {
 		for(Entry<Pattern, EReplace<?>> replace : replaces.entrySet()) {
 			Matcher matcher = replace.getKey().matcher(message);
 			while (matcher.find()) {

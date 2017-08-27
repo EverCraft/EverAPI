@@ -168,11 +168,11 @@ public abstract class StringsFlag extends EFlag<EntryFlagValue<String>> {
 			
 			if (this.groups.containsKey(group)) {
 				for (String type : this.groups.get(group)) {
-					types.add(EAMessages.FLAG_MAP_HOVER.getFormat().toText("<value>", type));
+					types.add(EAMessages.FLAG_MAP_HOVER.getFormat().toText("{value}", type));
 				}
 			} else {
 				for (String type : this.getDefault().getValues()) {
-					types.add(EAMessages.FLAG_MAP_HOVER.getFormat().toText("<value>", type));
+					types.add(EAMessages.FLAG_MAP_HOVER.getFormat().toText("{value}", type));
 				}
 			}
 				
@@ -181,7 +181,7 @@ public abstract class StringsFlag extends EFlag<EntryFlagValue<String>> {
 				types.add(EAMessages.FLAG_MAP_MORE.getText());
 			}
 			
-			groups.add(EAMessages.FLAG_MAP_GROUP.getFormat().toText("<group>", group).toBuilder()
+			groups.add(EAMessages.FLAG_MAP_GROUP.getFormat().toText("{group}", group).toBuilder()
 				.onHover(TextActions.showText(Text.joinWith(Text.of("\n"), types)))
 				.build());
 		}

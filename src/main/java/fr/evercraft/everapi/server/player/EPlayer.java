@@ -362,8 +362,7 @@ public class EPlayer extends PlayerSponge {
 		Optional<String> suggest = this.getSuggest(contexts);
 		Optional<Text> hover = this.getHover(contexts);
 		
-		String name = this.plugin.getChat().replace(this.getDisplayName(contexts));
-		Builder builder = EFormatString.of(name).toText(this.getReplaces()).toBuilder();
+		Builder builder = EFormatString.of(this.getDisplayName(contexts)).toText(this.getReplaces()).toBuilder();
 		
 		if (suggest.isPresent()) {
 			builder.onClick(TextActions.suggestCommand(suggest.get()));
@@ -380,8 +379,7 @@ public class EPlayer extends PlayerSponge {
 	public Optional<Text> getHover(Set<Context> contexts) {
 		Optional<String> optHover = this.getOption(contexts, "hover");
 		if (optHover.isPresent()) {
-			String hover = this.plugin.getChat().replace(optHover.get());
-			return Optional.of(EFormatString.of(hover).toText(this.getReplaces()));
+			return Optional.of(EFormatString.of(optHover.get()).toText(this.getReplaces()));
 		}
 		return Optional.empty();
 	}
@@ -393,8 +391,7 @@ public class EPlayer extends PlayerSponge {
 	public Optional<String> getSuggest(Set<Context> contexts) {
 		Optional<String> optHover = this.getOption(contexts, "suggest");
 		if (optHover.isPresent()) {
-			String hover = this.plugin.getChat().replaceGlobal(optHover.get());
-			return Optional.of(this.plugin.getChat().replacePlayer(this, hover));
+			return Optional.of(EFormatString.of(optHover.get()).toString(this.getReplaces()));
 		}
 		return Optional.empty();
 	}

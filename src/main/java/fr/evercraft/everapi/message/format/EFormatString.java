@@ -95,7 +95,7 @@ public class EFormatString extends EFormat {
 			Text text = null;
 			if (value instanceof String) {
 				// TODO style does not apply to any content
-				text = EChat.of((String) value);
+				text = EChat.of((String) value + "\uE000");
 			} else if (value instanceof Text) {
 				text = (Text) value;
 			} else if (value instanceof Translation) {

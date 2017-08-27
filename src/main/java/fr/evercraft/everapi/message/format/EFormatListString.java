@@ -59,6 +59,18 @@ public class EFormatListString extends EFormat {
 		this.messages.forEach(message -> texts.add(EFormatString.apply(message, replaces)));
 		return Text.joinWith(Text.of("\n"), texts);
 	}
+	
+	public List<Text> toListText(Map<Pattern, EReplace<?>> replaces) {
+		List<Text> texts = new ArrayList<Text>();
+		this.messages.forEach(message -> texts.add(EFormatString.apply(message, replaces)));
+		return texts;
+	}
+	
+	public List<String> toListString(Map<Pattern, EReplace<?>> replaces) {
+		List<String> strings = new ArrayList<String>();
+		this.messages.forEach(message -> strings.add(this.toString(message, replaces)));
+		return strings;
+	}
 
 	public List<String> getMessage() {
 		return this.messages;

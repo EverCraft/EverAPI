@@ -37,6 +37,8 @@ import org.spongepowered.api.text.serializer.TextSerializers;
 import com.google.common.base.Preconditions;
 
 import fr.evercraft.everapi.EverAPI;
+import fr.evercraft.everapi.message.format.EFormatListString;
+import fr.evercraft.everapi.message.format.EFormatString;
 import fr.evercraft.everapi.message.replace.EReplace;
 import fr.evercraft.everapi.message.replace.EReplacesPlayer;
 import fr.evercraft.everapi.message.replace.EReplacesServer;
@@ -44,7 +46,7 @@ import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.ChatService;
 import fr.evercraft.everapi.sponge.UtilsItemStack;
 
-public class EChat implements ChatService {
+public class EChat {
 	
 	private final EverAPI plugin;
 	
@@ -78,8 +80,35 @@ public class EChat implements ChatService {
 		return builder;
 	}
 	
+	public Map<Pattern, EReplace<?>> getReplaceVariables() {
+		if (this.isPresent()) return this.service.getReplaceAll();
+		
+		Map<Pattern, EReplace<?>> builder = new HashMap<Pattern, EReplace<?>>();
+		builder.put(Pattern.compile("\\[RT]"), EReplace.of("\n"));
+		return builder;
+	}
+	
+	public Map<Pattern, EReplace<?>> getReplaceCharacters() {
+		if (!this.isPresent()) return new HashMap<Pattern, EReplace<?>>();
+		
+		return this.service.getReplaceCharacters();
+	}
+	
+	public Map<Pattern, EReplace<?>> getReplaceCommand() {
+		if (!this.isPresent()) return new HashMap<Pattern, EReplace<?>>();
+		
+		return this.service.getReplaceCommand();
+	}
+	
+	public Map<Pattern, EReplace<?>> getReplaceIcons() {
+		if (!this.isPresent()) return new HashMap<Pattern, EReplace<?>>();
+		
+		return this.service.getReplaceIcons();
+	}
+	
 	public Map<Pattern, EReplace<?>> getReplaceAll(final EPlayer player) {
 		Map<Pattern, EReplace<?>> builder = new HashMap<Pattern, EReplace<?>>();
+		builder.putAll(this.getReplaceVariables());
 		for(EReplacesServer value : EReplacesServer.values()) {
 			if (value.getFunction().isPresent()) {
 				builder.put(value.getPattern(), EReplace.of(() -> (value.getFunction().get().apply(this.plugin))));
@@ -95,34 +124,13 @@ public class EChat implements ChatService {
 			}
 		}
 		return builder;
-	}
+	}	
 	
 	private boolean isPresent() {
-		if (this.service == null && this.plugin.getGame().getServiceManager().provide(ChatService.class).isPresent()) {
-			this.service = this.plugin.getGame().getServiceManager().provide(ChatService.class).get();
-			return true;
-		}
+		if (this.service != null) return true;
+		
+		this.service = this.plugin.getGame().getServiceManager().provide(ChatService.class).orElse(null);
 		return this.service != null;
-	}
-	
-	public String replaceGlobal(String message) {
-		Preconditions.checkNotNull(message, "message");
-		return message;
-	}
-	
-	public List<String> replaceGlobal(List<String> messages) {
-		List<String> list = new ArrayList<String>();
-        for (String message : messages){
-        	list.add(this.replaceGlobal(message));
-        }
-        return list;
-	}
-	
-	public String replacePlayer(final EPlayer player, String message){
-		Preconditions.checkNotNull(player, "player");
-		Preconditions.checkNotNull(message, "message");
-
-		return message;
 	}
 	
 	public static Text of(final String message) {
@@ -232,53 +240,7 @@ public class EChat implements ChatService {
 				.onHover(TextActions.showItem(item.createSnapshot()))
 				.build();
 	}
-	
-	@Override
-	public String replace(final String message) {
-		Preconditions.checkNotNull(message, "message");
-		
-		if (this.isPresent()) {
-			return this.service.replace(message);
-		}
-		return message.replace("[RT]", "\n");
-	}
 
-	@Override
-	public List<String> replace(final List<String> messages) {
-		Preconditions.checkNotNull(messages, "messages");
-		
-		if (this.isPresent()) {
-			return this.service.replace(messages);
-		} else {
-			List<String> list = new ArrayList<String>();
-		    for (String message : messages){
-		    	list.add(message.replace("[RT]", "\n"));
-		    }
-		    return list;
-		} 
-	}
-	
-	@Override
-	public String replaceCharacter(final String message) {
-		Preconditions.checkNotNull(message, "message");
-		
-		if (this.isPresent()) {
-			return this.service.replaceCharacter(message);
-		}
-		return message.replace("[RT]", "\n");
-	}
-	
-	@Override
-	public String replaceIcons(final String message) {
-		Preconditions.checkNotNull(message, "message");
-		
-		if (this.isPresent()) {
-			return this.service.replaceIcons(message);
-		}
-		return message;
-	}
-
-	@Override
 	public String getFormat(Subject subject) {
 		if (this.isPresent()) {
 			return this.service.getFormat(subject);
@@ -286,7 +248,6 @@ public class EChat implements ChatService {
 		return null;
 	}
 
-	@Override
 	public String getFormat(Subject subject, Set<Context> contexts) {
 		if (this.isPresent()) {
 			return this.service.getFormat(subject, contexts);
@@ -308,5 +269,17 @@ public class EChat implements ChatService {
 		} else {
 			return EChat.getLastFormat(text.getChildren().get(text.getChildren().size() - 1));
 		}
+	}
+
+	public String replace(final String message) {
+		Preconditions.checkNotNull(message, "message");
+		
+		return EFormatString.of(message).toString(this.getReplaceVariables());
+	}
+
+	public List<String> replace(final List<String> messages) {
+		Preconditions.checkNotNull(messages, "messages");
+		
+		return EFormatListString.of(messages).toListString(this.getReplaceVariables());
 	}
 }

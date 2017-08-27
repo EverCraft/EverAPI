@@ -164,14 +164,14 @@ public abstract class CatalogTypeFlag<T extends CatalogType> extends EFlag<Entry
 		for (String group : value.getKeys()) {
 			List<Text> types = new ArrayList<Text>();
 			for (T type : this.groups.get(group)) {
-				types.add(EAMessages.FLAG_MAP_HOVER.getFormat().toText("<value>", type.getName()));
+				types.add(EAMessages.FLAG_MAP_HOVER.getFormat().toText("{value}", type.getName()));
 			}
 			if (types.size() > 100) {
 				types = types.subList(0, 50);
 				types.add(EAMessages.FLAG_MAP_MORE.getText());
 			}
 			
-			groups.add(EAMessages.FLAG_MAP_GROUP.getFormat().toText("<group>", group).toBuilder()
+			groups.add(EAMessages.FLAG_MAP_GROUP.getFormat().toText("{group}", group).toBuilder()
 				.onHover(TextActions.showText(Text.joinWith(Text.of("\n"), types)))
 				.build());
 		}

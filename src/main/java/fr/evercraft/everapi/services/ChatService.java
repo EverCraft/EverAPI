@@ -16,29 +16,29 @@
  */
 package fr.evercraft.everapi.services;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.spongepowered.api.service.context.Context;
 import org.spongepowered.api.service.permission.Subject;
+
+import fr.evercraft.everapi.message.replace.EReplace;
 
 public interface ChatService {
 	
 	public final static String REGEX_COLOR = "&[0-9a-f]";
 	public final static String REGEX_FORMAT = "&[lmnor]";
 	public final static String REGEX_MAGIC = "&k";
-	
-	public String replace(String message);
-	
-	public List<String> replace(List<String> messages);
 
 	public String getFormat(Subject subject);
 
 	public String getFormat(Subject subject, Set<Context> contexts);
 
-	public String replaceIcons(String message);
-
-	public String replaceCharacter(String message);
+	Map<Pattern, EReplace<?>> getReplaceIcons();
+	Map<Pattern, EReplace<?>> getReplaceCharacters();
+	Map<Pattern, EReplace<?>> getReplaceAll();
+	Map<Pattern, EReplace<?>> getReplaceCommand();
 	
 }
 
