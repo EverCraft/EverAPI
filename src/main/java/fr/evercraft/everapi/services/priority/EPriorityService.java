@@ -31,21 +31,13 @@ public class EPriorityService implements PriorityService {
 	
 	private EPriorityConfig config;
 	
-	private final ConcurrentHashMap<String, Integer> actionbar;
-	private final ConcurrentHashMap<String, Integer> title;
-	private final ConcurrentHashMap<String, Integer> nametag;
-	private final ConcurrentHashMap<String, Integer> tablist;
-	private final ConcurrentHashMap<String, Integer> bossbar;
+	private final ConcurrentHashMap<String, ConcurrentHashMap<String, Integer>> priority;
 	private final ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>> scoreboard;
 
 	public EPriorityService(final EverAPI plugin) {
 		this.plugin = plugin;
 		
-		this.actionbar = new ConcurrentHashMap<String, Integer>();
-		this.title = new ConcurrentHashMap<String, Integer>();
-		this.nametag = new ConcurrentHashMap<String, Integer>();
-		this.tablist = new ConcurrentHashMap<String, Integer>();
-		this.bossbar = new ConcurrentHashMap<String, Integer>();
+		this.priority = new ConcurrentHashMap<String, ConcurrentHashMap<String, Integer>>();
 		this.scoreboard = new ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>>();
 		
 		this.config = new EPriorityConfig(plugin);
@@ -54,87 +46,58 @@ public class EPriorityService implements PriorityService {
 	}
 
 	public void reload() {
-		this.actionbar.clear();
-		this.title.clear();
-		this.nametag.clear();
-		this.tablist.clear();
-		this.bossbar.clear();
+		this.priority.clear();
 		this.scoreboard.clear();
 		
-		this.actionbar.putAll(this.config.getActionBar());
-		this.title.putAll(this.config.getTitle());
-		this.nametag.putAll(this.config.getNameTag());
-		this.tablist.putAll(this.config.getTabList());
-		this.bossbar.putAll(this.config.getBossBar());
+		this.priority.putAll(this.config.getPriority());
 		this.scoreboard.putAll(this.config.getScoreBoard());
 	}
 
 	@Override
-	public int getActionBar(final String identifier) {
+	public int get(final String collection, final String identifier) {
+		Preconditions.checkNotNull(collection, "collection");
 		Preconditions.checkNotNull(identifier, "identifier");
 		
-		if (this.actionbar.containsKey(identifier)) {
-			return this.actionbar.get(identifier);
-		}
-		this.plugin.getELogger().warn("Unknown priority (ActionBar='" + identifier + "')");
-		return PriorityService.DEFAULT;
-	}
-
-	@Override
-	public int getTitle(final String identifier) {
-		Preconditions.checkNotNull(identifier, "identifier");
-		
-		if (this.title.containsKey(identifier)) {
-			return this.title.get(identifier);
-		}
-		this.plugin.getELogger().warn("Unknown priority (Title='" + identifier + "')");
-		return PriorityService.DEFAULT;
-	}
-	
-	@Override
-	public int getNameTag(final String identifier) {
-		Preconditions.checkNotNull(identifier, "identifier");
-		
-		if (this.nametag.containsKey(identifier)) {
-			return this.nametag.get(identifier);
-		}
-		this.plugin.getELogger().warn("Unknown priority (NameTag='" + identifier + "')");
-		return PriorityService.DEFAULT;
-	}
-	
-	@Override
-	public int getTabList(final String identifier) {
-		Preconditions.checkNotNull(identifier, "identifier");
-		
-		if (this.tablist.containsKey(identifier)) {
-			return this.tablist.get(identifier);
-		}
-		this.plugin.getELogger().warn("Unknown priority (TabList='" + identifier + "')");
-		return PriorityService.DEFAULT;
-	}
-	
-	@Override
-	public int getBossBar(final String identifier) {
-		Preconditions.checkNotNull(identifier, "identifier");
-		
-		if (this.bossbar.containsKey(identifier)) {
-			return this.bossbar.get(identifier);
-		}
-		this.plugin.getELogger().warn("Unknown priority (BossBar='" + identifier + "')");
-		return PriorityService.DEFAULT;
-	}
-
-	@Override
-	public int getScoreBoard(final DisplaySlot type, final String identifier) {
-		Preconditions.checkNotNull(identifier, "identifier");
-		
-		if (this.scoreboard.containsKey(type)) {
-			ConcurrentHashMap<String, Integer> map_type = this.scoreboard.get(type);
-			if (map_type.containsKey(identifier)) {
-				return map_type.get(identifier);
+		ConcurrentHashMap<String, Integer> values = this.priority.get(collection);
+		if (values != null) {
+			Integer value = values.get(identifier);
+			if (value != null) {
+				return value;
 			}
 		}
+		
+		this.plugin.getELogger().warn("Unknown priority (collection='" + collection + "';identifier='" + identifier + "')");
+		this.config.register(collection, identifier);
+		
+		if (values == null) {
+			values = new ConcurrentHashMap<String, Integer>();
+			this.priority.put(collection, values);
+		}
+		values.put(identifier, PriorityService.PRIORITY_DEFAULT);
+		
+		return PriorityService.PRIORITY_DEFAULT;
+	}
+	
+	@Override
+	public int get(final DisplaySlot type, final String identifier) {
+		Preconditions.checkNotNull(identifier, "identifier");
+		
+		ConcurrentHashMap<String, Integer> values = this.scoreboard.get(type);
+		if (values != null) {
+			Integer value = values.get(identifier);
+			if (value != null) {
+				return value;
+			}
+		}
+		
 		this.plugin.getELogger().warn("Unknown priority (Type='" + type.getName() + "';ScoreBoard='" + identifier + "')");
-		return PriorityService.DEFAULT;
+		this.config.register(type, identifier);
+		
+		if (values == null) {
+			values = new ConcurrentHashMap<String, Integer>();
+			this.scoreboard.put(type, values);
+		}
+		values.put(identifier, PriorityService.PRIORITY_DEFAULT);
+		return PriorityService.PRIORITY_DEFAULT;
 	}
 }

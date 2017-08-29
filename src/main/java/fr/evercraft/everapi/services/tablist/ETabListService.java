@@ -31,6 +31,7 @@ import org.spongepowered.api.event.cause.Cause;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.event.ESpongeEventFactory;
 import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.services.PriorityService;
 import fr.evercraft.everapi.services.TabListService;
 
 public class ETabListService implements TabListService {
@@ -141,7 +142,7 @@ public class ETabListService implements TabListService {
 	}
 
 	private int getPriority(String identifier) {
-		return this.plugin.getManagerService().getPriority().getTabList(identifier);
+		return this.plugin.getManagerService().getPriority().get(PriorityService.TABLIST, identifier);
 	}
 	
 	/*

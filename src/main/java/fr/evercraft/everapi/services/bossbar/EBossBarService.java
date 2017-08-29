@@ -28,6 +28,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.spongepowered.api.boss.ServerBossBar;
+import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.scheduler.Task;
 
@@ -35,6 +36,7 @@ import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.event.ESpongeEventFactory;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.BossBarService;
+import fr.evercraft.everapi.services.PriorityService;
 
 public class EBossBarService implements BossBarService {	
 	private final static int UPDATE = 1000;
@@ -49,7 +51,7 @@ public class EBossBarService implements BossBarService {
 	private final Lock write_lock;
 	private final Lock read_lock;
 	
-	public EBossBarService(final EverAPI plugin){
+	public EBossBarService(final EverAPI plugin) {
 		this.plugin = plugin;
 		
 		this.players = new ConcurrentHashMap<UUID, EBossBar>();
@@ -83,7 +85,7 @@ public class EBossBarService implements BossBarService {
 	}
 	
 	@Override
-	public boolean add(EPlayer player, String identifier, int priority, ServerBossBar bossbar, Optional<Long> stay) {
+	public boolean add(EPlayer player, String identifier, ServerBossBar bossbar, int priority, Optional<Long> stay) {
 		boolean result = false;
 		
 		Optional<Long> time = Optional.empty();
@@ -152,17 +154,18 @@ public class EBossBarService implements BossBarService {
 	}
 	
 	public void update() {
+		System.out.println("Update : BossBarService");
 		this.write_lock.lock();
 		try {
 			if (this.isEmpty()) {
 				stop();
 			} else {
 				for (Entry<UUID, EBossBar> bossBar : this.players.entrySet()) {
-					Optional<EPlayer> player = this.plugin.getEServer().getEPlayer(bossBar.getKey());
+					Optional<Player> player = this.plugin.getEServer().getPlayer(bossBar.getKey());
 					if (!player.isPresent()) {
 						this.players.remove(bossBar.getKey());
 					} else if (bossBar.getValue().getTime().isPresent() && System.currentTimeMillis() > bossBar.getValue().getTime().get()) {
-						this.remove(player.get(), bossBar.getValue().getIdentifier());
+						this.remove(this.plugin.getEServer().getEPlayer(player.get()), bossBar.getValue().getIdentifier());
 					}
 				}
 				
@@ -185,7 +188,7 @@ public class EBossBarService implements BossBarService {
 								.execute(() -> this.update())
 								.delay(UPDATE, TimeUnit.MILLISECONDS)
 								.interval(UPDATE, TimeUnit.MILLISECONDS)
-								.name("ActionBarService")
+								.name("BossBarService")
 								.submit(this.plugin);
 			}
 		} finally {
@@ -232,7 +235,7 @@ public class EBossBarService implements BossBarService {
 	}
 
 	public int getPriority(String identifier) {
-		return this.plugin.getManagerService().getPriority().getBossBar(identifier);
+		return this.plugin.getManagerService().getPriority().get(PriorityService.BOSSBAR, identifier);
 	}
 
 	@Override

@@ -19,12 +19,17 @@ package fr.evercraft.everapi.services;
 import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
 
 public interface PriorityService {
-	public final static int DEFAULT = 0;
+	public final static int PRIORITY_DEFAULT = 0;
 	
-	public int getActionBar(String identifier);
-	public int getTitle(String identifier);
-	public int getScoreBoard(DisplaySlot type, String identifier);
-	public int getNameTag(String identifier);
-	public int getTabList(String identifier);
-	public int getBossBar(String identifier);
+	public final static String ACTIONBAR = "actionbar";
+	public final static String TITLE = "title";
+	public final static String NAMETAG = "nametag";
+	public final static String TABLIST = "tablist";
+	public final static String BOSSBAR = "bossbar";
+	
+	public final static String SPAWN = "spawn";
+	
+	public int get(String collection, String identifier);
+	
+	public int get(DisplaySlot type, String identifier);
 }

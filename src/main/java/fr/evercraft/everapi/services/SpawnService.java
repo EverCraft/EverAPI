@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.essentials;
+package fr.evercraft.everapi.services;
 
 import java.util.Map;
 import java.util.Optional;
@@ -31,6 +31,16 @@ import fr.evercraft.everapi.server.user.EUser;
 public interface SpawnService {	
 	
 	public final static String DEFAULT = "Default";
+	
+	public interface Priorities {
+		
+		public final static String BED = "bed";
+		
+		public final static String SPAWN = "spawn";
+		
+		public final static String HOME = "home";
+		
+	}
 	
 	public Map<String, Transform<World>> getAll();
 	

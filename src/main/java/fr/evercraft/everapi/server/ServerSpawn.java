@@ -27,7 +27,7 @@ import org.spongepowered.api.world.World;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.server.location.VirtualTransform;
 import fr.evercraft.everapi.server.user.EUser;
-import fr.evercraft.everapi.services.essentials.SpawnService;
+import fr.evercraft.everapi.services.SpawnService;
 
 public class ServerSpawn extends ServerSponge {
 	private SpawnService service;

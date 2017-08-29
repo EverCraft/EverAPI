@@ -33,7 +33,6 @@ import fr.evercraft.everapi.services.bossbar.EBossBarService;
 import fr.evercraft.everapi.services.cooldown.CooldownsService;
 import fr.evercraft.everapi.services.entity.EEntityService;
 import fr.evercraft.everapi.services.essentials.EssentialsService;
-import fr.evercraft.everapi.services.essentials.SpawnService;
 import fr.evercraft.everapi.services.essentials.WarpService;
 import fr.evercraft.everapi.services.fire.EFireService;
 import fr.evercraft.everapi.services.jail.JailService;

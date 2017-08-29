@@ -16,9 +16,9 @@
  */
 package fr.evercraft.everapi.services.priority;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
@@ -26,6 +26,8 @@ import org.spongepowered.api.scoreboard.displayslot.DisplaySlots;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.file.EConfig;
+import fr.evercraft.everapi.services.InformationService;
+import fr.evercraft.everapi.services.SpawnService;
 import fr.evercraft.everapi.services.sanction.SanctionService;
 import fr.evercraft.everapi.services.worldguard.WorldGuardService;
 
@@ -40,69 +42,64 @@ public class EPriorityConfig extends EConfig<EverAPI> {
 		addDefault("actionbar", Arrays.asList(
 				SanctionService.MESSAGE_MUTE,
 				SanctionService.MESSAGE_JAIL,
-				"everinformations.newbie.player", 
-				"everinformations.newbie.others", 
-				"everinformations.connection.player", 
-				"everinformations.connection.others", 
-				"everinformations.join", 
+				InformationService.Priorities.NEWBIE_PLAYER, 
+				InformationService.Priorities.NEWBIE_OTHERS, 
+				InformationService.Priorities.CONNECTION_PLAYER, 
+				InformationService.Priorities.CONNECTION_OTHERS,
 				"message",
-				WorldGuardService.MESSAGE_FLAG,
-				"everinformations.automessages"));
+				WorldGuardService.Priorities.FLAG,
+				InformationService.Priorities.AUTOMESSAGE));
+		
 		addDefault("title", Arrays.asList(
-				"everinformations.newbie.player", 
-				"everinformations.newbie.others", 
-				"everinformations.connection.player", 
-				"everinformations.connection.others", 
-				"everinformations.join", 
+				InformationService.Priorities.NEWBIE_PLAYER, 
+				InformationService.Priorities.NEWBIE_OTHERS, 
+				InformationService.Priorities.CONNECTION_PLAYER, 
+				InformationService.Priorities.CONNECTION_OTHERS,
 				"message",
-				WorldGuardService.MESSAGE_FLAG,
-				"everinformations.automessages"));
+				WorldGuardService.Priorities.FLAG,
+				InformationService.Priorities.AUTOMESSAGE));
+		
 		addDefault("bossbar", Arrays.asList(
 				"everpvp",
-				"everinformations.newbie.player", 
-				"everinformations.newbie.others", 
-				"everinformations.connection.player", 
-				"everinformations.connection.others", 
-				"everinformations.join",
+				InformationService.Priorities.NEWBIE_PLAYER, 
+				InformationService.Priorities.NEWBIE_OTHERS, 
+				InformationService.Priorities.CONNECTION_PLAYER, 
+				InformationService.Priorities.CONNECTION_OTHERS,
 				"message",
-				WorldGuardService.MESSAGE_FLAG,
-				"everinformations.automessages"));
-		addDefault("nametag", Arrays.asList("everinformations"));
-		addDefault("tablist", Arrays.asList("everinformations"));
-		addDefault("scoreboard.below_name", Arrays.asList("everinfo.below"));
-		addDefault("scoreboard.list", Arrays.asList("everinfo.list"));
-		addDefault("scoreboard.sidebar", Arrays.asList("everinfo.side"));
-	}
-	
-	public Map<String, Integer> getActionBar(){
-		return this.getPriority("actionbar");
-	}
-	
-	public Map<String, Integer> getTitle(){
-		return this.getPriority("title");
-	}
-	
-	public Map<String, Integer> getNameTag(){
-		return this.getPriority("nametag");
-	}
-	
-	public Map<String, Integer> getTabList(){
-		return this.getPriority("tablist");
-	}
-	
-	public Map<String, Integer> getBossBar(){
-		return this.getPriority("bossbar");
+				WorldGuardService.Priorities.FLAG,
+				InformationService.Priorities.AUTOMESSAGE));
+		
+		addDefault("nametag", Arrays.asList(
+				InformationService.Priorities.NAMETAG));
+		
+		addDefault("tablist", Arrays.asList(
+				InformationService.Priorities.TABLIST));
+		
+		addDefault("spawn", Arrays.asList(
+				WorldGuardService.Priorities.FLAG,
+				SpawnService.Priorities.HOME, 
+				SpawnService.Priorities.SPAWN, 
+				SpawnService.Priorities.BED));
+		
+		addDefault("scoreboard." + DisplaySlots.BELOW_NAME.getName().toLowerCase(), Arrays.asList(
+				InformationService.Priorities.SCOREBOARD_BELOW_NAME));
+		
+		addDefault("scoreboard." + DisplaySlots.LIST.getName().toLowerCase(), Arrays.asList(
+				InformationService.Priorities.SCOREBOARD_LIST));
+		
+		addDefault("scoreboard." + DisplaySlots.SIDEBAR.getName().toLowerCase(), Arrays.asList(
+				InformationService.Priorities.SCOREBOARD_SIDEBAR));
 	}
 	
 	public ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>> getScoreBoard() {
 		ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>> scoreboards = new ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>>();
-		scoreboards.put(DisplaySlots.BELOW_NAME, this.getPriority("scoreboard.below_name"));
-		scoreboards.put(DisplaySlots.LIST, this.getPriority("scoreboard.list"));
-		scoreboards.put(DisplaySlots.SIDEBAR, this.getPriority("scoreboard.sidebar"));
+		scoreboards.put(DisplaySlots.BELOW_NAME, this.getPriority("scoreboard." + DisplaySlots.BELOW_NAME.getName().toLowerCase()));
+		scoreboards.put(DisplaySlots.LIST, this.getPriority("scoreboard." + DisplaySlots.LIST.getName().toLowerCase()));
+		scoreboards.put(DisplaySlots.SIDEBAR, this.getPriority("scoreboard." + DisplaySlots.SIDEBAR.getName().toLowerCase()));
 		return scoreboards;
 	}
 
-	private ConcurrentHashMap<String, Integer> getPriority(String name) {
+	public ConcurrentHashMap<String, Integer> getPriority(String name) {
 		ConcurrentHashMap<String, Integer> priority = new ConcurrentHashMap<String, Integer>();
 		List<String> config = this.getListString(name);
 		int cpt = config.size();
@@ -113,4 +110,25 @@ public class EPriorityConfig extends EConfig<EverAPI> {
 		return priority;
 	}
 
+	public ConcurrentHashMap<String, ConcurrentHashMap<String, Integer>> getPriority() {
+		ConcurrentHashMap<String, ConcurrentHashMap<String, Integer>> priority = new ConcurrentHashMap<String, ConcurrentHashMap<String, Integer>>();
+		this.getNode().getChildrenMap().forEach((key, value) -> {
+			if (key.toString().equalsIgnoreCase("scoreboard")) return;
+			
+			priority.put(key.toString(), this.getPriority(key.toString()));
+		});
+		return priority;
+	}
+
+	public void register(String collection, String identifier) {
+		List<String> values = new ArrayList<String>(this.getListString(collection));
+		values.add(identifier);
+		this.get(collection).setValue(values);
+	}
+
+	public void register(DisplaySlot type, String identifier) {
+		List<String> values = new ArrayList<String>(this.getListString("scoreboard." + type.getName().toLowerCase()));
+		values.add(identifier);
+		this.get("scoreboard." + type.getName().toLowerCase()).setValue(values);
+	}
 }

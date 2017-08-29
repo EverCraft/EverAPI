@@ -100,7 +100,7 @@ public class EScoreBoardService implements ScoreBoardService {
 	}
 	
 	private int getPriority(DisplaySlot display, Objective objective) {
-		return this.plugin.getManagerService().getPriority().getScoreBoard(display, objective.getName());
+		return this.plugin.getManagerService().getPriority().get(display, objective.getName());
 	}
 	
 	

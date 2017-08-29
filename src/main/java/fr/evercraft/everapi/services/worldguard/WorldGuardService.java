@@ -25,7 +25,10 @@ import org.spongepowered.api.world.World;
 
 public interface WorldGuardService {
 	public static final String GLOBAL_REGION = "__global__";
-	public static final String MESSAGE_FLAG = "everworldguard.flag";
+	
+	public interface Priorities {
+		public static final String FLAG = "everworldguard";
+	}
 
 	// Subject
 	Optional<WorldGuardSubject> get(UUID uuid);
