@@ -29,14 +29,18 @@ import org.spongepowered.api.command.CommandCallable;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
+import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
+import org.spongepowered.api.text.selector.Selector;
+import org.spongepowered.api.text.selector.SelectorType;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
+import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.event.ESpongeEventFactory;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
@@ -47,7 +51,7 @@ import fr.evercraft.everapi.services.pagination.CommandPagination;
 import fr.evercraft.everapi.util.Chronometer;
 
 public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T> implements CommandCallable {
-	
+
 	private final Set<String> sources;
 	
 	public ECommand(final T plugin, final String name, final String... alias) {
@@ -78,31 +82,46 @@ public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T
 			return CommandResult.success();
 		}
 		
-		Chronometer chronometer = new Chronometer();
 		this.sources.add(source.getIdentifier());
-		try {	
-			if (source instanceof Player){
-				this.processPlayer((Player) source, arg, this.getArg(arg));
-			} else {
-				this.execute(source, this.getArg(arg))
-					.exceptionally(e -> {
-						EAMessages.COMMAND_ERROR.sendTo(source);
-						e.printStackTrace();
-						return false;
-					})
-					.thenAcceptAsync(result -> {
-						this.sources.remove(source.getIdentifier());
-					}, this.plugin.getGame().getScheduler().createSyncExecutor(this.plugin));
-			}
+		
+		try {
+			return this.processExecute(source, arg);
 		} catch (PluginDisableException e) {
+			this.sources.remove(source.getIdentifier());
 			source.sendMessage(EAMessages.PREFIX.getText().concat(EAMessages.COMMAND_ERROR.getText()));
 			this.plugin.getELogger().warn(e.getMessage());
 			this.plugin.disable();
 		} catch (ServerDisableException e) {
+			this.sources.remove(source.getIdentifier());
 			e.execute();
+		} catch(Exception e) {
+			this.sources.remove(source.getIdentifier());
 		}
 		
-		this.plugin.getELogger().debug("The command '" + this.getName() + "' with arguments '" + arg + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
+		return CommandResult.empty();
+	}
+	
+	private CommandResult processExecute(final CommandSource source, final String argument) throws CommandException, PluginDisableException, ServerDisableException {
+		Chronometer chronometer = new Chronometer();
+		
+		if (argument.contains("@") && source.hasPermission(EAPermissions.SELECTOR.get())) {
+			if (this.processSelector(source, argument)) return CommandResult.success();
+		}
+		
+		List<String> arguments = this.getArg(argument);
+		if (source instanceof Player) {
+			this.processPlayer((Player) source, argument, arguments);
+		} else {
+			this.execute(source, arguments)
+				.exceptionally(e -> {
+					EAMessages.COMMAND_ERROR.sendTo(source);
+					return false;
+				})
+				.thenAcceptAsync(result -> this.sources.remove(source.getIdentifier()), 
+					this.plugin.getGame().getScheduler().createSyncExecutor(this.plugin));
+		}
+		
+		this.plugin.getELogger().debug("The command '" + this.getName() + "' with arguments '" + argument + "' was to execute in " +  chronometer.getMilliseconds().toString() + " ms");
         return CommandResult.success();
 	}
 	
@@ -116,14 +135,75 @@ public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T
 			this.execute(player, args)
 				.exceptionally(e -> {
 					EAMessages.COMMAND_ERROR.sendTo(player);
-					e.printStackTrace();
 					return false;
 				})
 				.thenAcceptAsync(result -> {
 					this.sources.remove(player.getIdentifier());
 					this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createCommandEventResult(player, this.getName(), arg, args, result, Cause.source(this.plugin).build()));
-				}, this.plugin.getGame().getScheduler().createSyncExecutor(this.plugin));
+				}, this.plugin.getThreadSync());
 		}
+	}
+	
+	private boolean processSelector(final CommandSource source, final String argument) throws CommandException, PluginDisableException, ServerDisableException {
+		int start = -1;
+		int cpt = -1;
+		int open = 0;
+		boolean type = false;
+		
+		for (char c : argument.toCharArray()) {
+			cpt++;
+			
+			if (start == -1) {
+				if (c != '@') continue;
+				if (cpt != 0 && argument.charAt(cpt-1) != ' ') continue;
+				start = cpt;
+			} else if (cpt == start + 1) {
+				if (this.plugin.getGame().getRegistry().getAllOf(SelectorType.class).stream().filter(t -> t.getName().equals(String.valueOf(c))).findAny().isPresent()) {
+					type = true;
+				} else {
+					start = -1;
+				}
+			} else if (cpt == start + 2) {
+				if (c == ' ') {
+					cpt--;
+					break;
+				}
+				if (c == '[') {
+					open = 1;
+				} else {
+					start = -1;
+					type = false;
+				}
+			} else {
+				if (c == '[') {
+					open++;
+				} else if (c == ']') {
+					open--;
+					if (open == 0) {
+						break;
+					}
+				}
+			}
+		}
+		
+		if (start != -1 && open == 0 && type) {
+			String stringSelector = argument.substring(start, cpt+1);
+			String first = (start == 0) ? "" : argument.substring(0, start);
+			String last = (cpt+1 == argument.length()) ? "" : argument.substring(cpt+1, argument.length());
+			
+			try {
+				List<Entity> players = new ArrayList<Entity>(Selector.parse(stringSelector).resolve(source));
+				players.removeIf(entity -> !(entity instanceof Player));
+				
+				if (players.isEmpty()) return false;
+				
+				for (Entity player : players) {
+					this.processExecute(source, first + ((Player) player).getName() + last);
+				}
+				return true;
+			} catch (IllegalArgumentException e) {}
+		}
+		return false;
 	}
 	
 	@Override

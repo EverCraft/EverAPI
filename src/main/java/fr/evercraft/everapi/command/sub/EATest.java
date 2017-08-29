@@ -20,25 +20,19 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.regex.Pattern;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.TextTemplate;
 import org.spongepowered.api.text.action.TextActions;
 import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.text.serializer.TextSerializers;
-
-import com.google.common.collect.ImmutableMap;
 
 import fr.evercraft.everapi.EACommand;
-import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.message.format.EFormatString;
-import fr.evercraft.everapi.message.replace.EReplace;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
+import fr.evercraft.everapi.registers.ScoreType;
 import fr.evercraft.everapi.server.player.EPlayer;
 
 public class EATest extends ESubCommand<EverAPI> {
@@ -69,6 +63,9 @@ public class EATest extends ESubCommand<EverAPI> {
 	public CompletableFuture<Boolean> execute(final CommandSource source, final List<String> args) {
 		EPlayer player = (EPlayer) source;
 		
+		Sponge.getRegistry().getAllOf(ScoreType.class).stream()
+			.forEach(color -> player.sendMessage(color.getId() + " : " + color.getName()));
+		/*
 		Text replace = Text.builder(player.getName())
 				.onHover(TextActions.showText(TextSerializers.FORMATTING_CODE.deserialize("&cExample")))
 				.build();
@@ -82,7 +79,7 @@ public class EATest extends ESubCommand<EverAPI> {
 		player.sendMessage(EFormatString.apply(message, ImmutableMap.of(Pattern.compile("\\{player}"), EReplace.of(replace))));
 		
 		
-		EAMessages.PLUGINS_URL.sender().replace("{url}", "test &atest").sendTo(player);
+		EAMessages.PLUGINS_URL.sender().replace("{url}", "test &atest").sendTo(player);*/
 		/*ItemStack skull = ItemStack.of(ItemTypes.SKULL, 1);
 		player.sendMessage("SKULL_TYPE : " + skull.offer(Keys.SKULL_TYPE, SkullTypes.PLAYER).isSuccessful());
 		player.sendMessage("SKULL_TYPE : " + skull.get(Keys.SKULL_TYPE));

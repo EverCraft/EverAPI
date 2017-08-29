@@ -22,7 +22,16 @@ import java.util.regex.Pattern;
 public class Test {
 
 	public static void main(String [] args) {
-		Pattern URL_PATTERN = Pattern.compile("((?<style>(&[0-9a-z])*)(?<url>(((https?)://)?[\\w-_\\.]{2,})\\.([a-zA-Z]{2,3}(/\\S+)?)))");
+		Pattern URL_PATTERN = Pattern.compile("(?<selectGroupName>@<select>((?:(?!select).)*)</select>)");
+		Matcher match = URL_PATTERN.matcher("salut @<select>b<select>a</select>c</select> czdq");
+		if (match.find()) {
+			for (int cpt=0; cpt < match.groupCount(); cpt++) {
+				System.out.println(cpt + " : " + match.group(cpt));	
+			}	
+		} else {
+			System.out.println("Non");
+		}
+		/*Pattern URL_PATTERN = Pattern.compile("((?<style>(&[0-9a-z])*)(?<url>(((https?)://)?[\\w-_\\.]{2,})\\.([a-zA-Z]{2,3}(/\\S+)?)))");
 		Matcher match = URL_PATTERN.matcher("salut &c&lts.evercraft.fr sa czdq");
 		if (match.find()) {
 			System.out.println("Oui : " + match.group(1));
@@ -43,7 +52,7 @@ public class Test {
 			System.out.println("ta_chaine ne contient aucun espace");
 		} else {
 			System.out.println("ta_chaine contient un espace");
-		}
+		}*/
 		
 		/*MessageFlag flag = new MessageFlag("MESSAGE");
 		
