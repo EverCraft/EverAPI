@@ -362,10 +362,12 @@ public class UtilsLocation {
 	}
 	
 	public static boolean isDifferentBlock(Transform<World> transform1, Transform<World> transform2) {
-		return UtilsLocation.isDifferentBlock(transform1.getLocation(), transform2.getLocation());
+		return transform1 == null || transform2 == null || 
+				UtilsLocation.isDifferentBlock(transform1.getLocation(), transform2.getLocation());
 	}
 	
 	public static boolean isDifferentBlock(Location<World> location1, Location<World> location2) {
-		return !location1.getExtent().equals(location2.getExtent()) || !location1.getBlockPosition().equals(location2.getBlockPosition());
+		return location1 == null || location2 == null || 
+				!location1.getExtent().equals(location2.getExtent()) || !location1.getBlockPosition().equals(location2.getBlockPosition());
 	}
 }

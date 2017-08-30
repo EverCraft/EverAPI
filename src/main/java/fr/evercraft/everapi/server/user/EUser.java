@@ -21,9 +21,11 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.service.context.Context;
 import org.spongepowered.api.service.permission.SubjectReference;
+import org.spongepowered.api.world.World;
 
 import com.google.common.base.Preconditions;
 
@@ -116,4 +118,12 @@ public class EUser extends UserSelection {
 		}
 		return Optional.empty();
     }
+	
+	/*
+	 * Spawn
+	 */
+	
+	public Transform<World> getSpawn() {
+		return this.plugin.getManagerService().getSpawn().getSpawn(this);
+	}
 }

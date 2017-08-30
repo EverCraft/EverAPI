@@ -154,7 +154,6 @@ public class EBossBarService implements BossBarService {
 	}
 	
 	public void update() {
-		System.out.println("Update : BossBarService");
 		this.write_lock.lock();
 		try {
 			if (this.isEmpty()) {

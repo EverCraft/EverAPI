@@ -28,6 +28,8 @@ import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.file.EConfig;
 import fr.evercraft.everapi.services.InformationService;
 import fr.evercraft.everapi.services.SpawnService;
+import fr.evercraft.everapi.services.SpawnSubjectService;
+import fr.evercraft.everapi.services.essentials.EssentialsService;
 import fr.evercraft.everapi.services.sanction.SanctionService;
 import fr.evercraft.everapi.services.worldguard.WorldGuardService;
 
@@ -76,10 +78,12 @@ public class EPriorityConfig extends EConfig<EverAPI> {
 				InformationService.Priorities.TABLIST));
 		
 		addDefault("spawn", Arrays.asList(
+				SpawnSubjectService.Priorities.NEWBIE,
 				WorldGuardService.Priorities.FLAG,
-				SpawnService.Priorities.HOME, 
-				SpawnService.Priorities.SPAWN, 
-				SpawnService.Priorities.BED));
+				EssentialsService.Priorities.HOME, 
+				SpawnSubjectService.Priorities.SPAWN, 
+				SpawnService.Priorities.BED,
+				SpawnService.Priorities.WORLD));
 		
 		addDefault("scoreboard." + DisplaySlots.BELOW_NAME.getName().toLowerCase(), Arrays.asList(
 				InformationService.Priorities.SCOREBOARD_BELOW_NAME));

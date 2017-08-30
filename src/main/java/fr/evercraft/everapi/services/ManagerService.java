@@ -45,6 +45,7 @@ import fr.evercraft.everapi.services.scoreboard.EScoreBoardService;
 import fr.evercraft.everapi.services.selection.SelectionService;
 import fr.evercraft.everapi.services.selection.worldedit.EWSelectionService;
 import fr.evercraft.everapi.services.sign.SignService;
+import fr.evercraft.everapi.services.spawn.ESpawnService;
 import fr.evercraft.everapi.services.tablist.ETabListService;
 import fr.evercraft.everapi.services.title.ETitleService;
 import fr.evercraft.everapi.services.worldguard.WorldGuardService;
@@ -63,6 +64,7 @@ public class ManagerService {
 	private final EBossBarService bossbar;
 	private final EntityService entity;
 	private final FireService fire;
+	private final ESpawnService spawn;
 	
 	private final EMojangService mojang;
 	
@@ -80,6 +82,7 @@ public class ManagerService {
 		this.bossbar = new EBossBarService(this.plugin);
 		this.entity = new EEntityService(this.plugin);
 		this.fire = new EFireService(this.plugin);
+		this.spawn = new ESpawnService(this.plugin);
 		
 		this.mojang = new EMojangService(this.plugin);
 		
@@ -99,6 +102,7 @@ public class ManagerService {
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, BossBarService.class, this.bossbar);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, EntityService.class, this.entity);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, FireService.class, this.fire);
+		this.plugin.getGame().getServiceManager().setProvider(this.plugin, SpawnService.class, this.spawn);
 		this.plugin.getGame().getServiceManager().setProvider(this.plugin, MojangService.class, this.mojang);
 	}
 	
@@ -112,6 +116,7 @@ public class ManagerService {
 		this.scoreboard.reload();
 		this.tablist.reload();
 		this.bossbar.reload();
+		this.spawn.reload();
 		this.mojang.reload();
 	}
 	
@@ -139,8 +144,8 @@ public class ManagerService {
 		return this.plugin.getGame().getServiceManager().provide(WarpService.class);
 	}
 	
-	public Optional<SpawnService> getSpawn() {
-		return this.plugin.getGame().getServiceManager().provide(SpawnService.class);
+	public Optional<SpawnSubjectService> getSpawnSubject() {
+		return this.plugin.getGame().getServiceManager().provide(SpawnSubjectService.class);
 	}
 	
 	public Optional<MailService> getMail() {
@@ -229,6 +234,10 @@ public class ManagerService {
 	
 	public FireService getFire() throws ProvisioningException {
 		return this.plugin.getGame().getServiceManager().provideUnchecked(FireService.class);
+	}
+	
+	public SpawnService getSpawn() throws ProvisioningException {
+		return this.plugin.getGame().getServiceManager().provideUnchecked(SpawnService.class);
 	}
 	
 	/*

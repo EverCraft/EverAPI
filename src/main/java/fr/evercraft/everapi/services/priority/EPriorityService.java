@@ -16,7 +16,10 @@
  */
 package fr.evercraft.everapi.services.priority;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
 
@@ -31,13 +34,13 @@ public class EPriorityService implements PriorityService {
 	
 	private EPriorityConfig config;
 	
-	private final ConcurrentHashMap<String, ConcurrentHashMap<String, Integer>> priority;
+	private final ConcurrentHashMap<String, ConcurrentHashMap<String, Integer>> priorities;
 	private final ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>> scoreboard;
 
 	public EPriorityService(final EverAPI plugin) {
 		this.plugin = plugin;
 		
-		this.priority = new ConcurrentHashMap<String, ConcurrentHashMap<String, Integer>>();
+		this.priorities = new ConcurrentHashMap<String, ConcurrentHashMap<String, Integer>>();
 		this.scoreboard = new ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>>();
 		
 		this.config = new EPriorityConfig(plugin);
@@ -46,10 +49,10 @@ public class EPriorityService implements PriorityService {
 	}
 
 	public void reload() {
-		this.priority.clear();
+		this.priorities.clear();
 		this.scoreboard.clear();
 		
-		this.priority.putAll(this.config.getPriority());
+		this.priorities.putAll(this.config.getPriority());
 		this.scoreboard.putAll(this.config.getScoreBoard());
 	}
 
@@ -58,7 +61,7 @@ public class EPriorityService implements PriorityService {
 		Preconditions.checkNotNull(collection, "collection");
 		Preconditions.checkNotNull(identifier, "identifier");
 		
-		ConcurrentHashMap<String, Integer> values = this.priority.get(collection);
+		ConcurrentHashMap<String, Integer> values = this.priorities.get(collection);
 		if (values != null) {
 			Integer value = values.get(identifier);
 			if (value != null) {
@@ -71,7 +74,7 @@ public class EPriorityService implements PriorityService {
 		
 		if (values == null) {
 			values = new ConcurrentHashMap<String, Integer>();
-			this.priority.put(collection, values);
+			this.priorities.put(collection, values);
 		}
 		values.put(identifier, PriorityService.PRIORITY_DEFAULT);
 		
@@ -99,5 +102,18 @@ public class EPriorityService implements PriorityService {
 		}
 		values.put(identifier, PriorityService.PRIORITY_DEFAULT);
 		return PriorityService.PRIORITY_DEFAULT;
+	}
+
+	@Override
+	public List<String> get(String collection) {
+		Preconditions.checkNotNull(collection, "collection");
+		
+		ConcurrentHashMap<String, Integer> values = this.priorities.get(collection);
+		if (values == null) return Arrays.asList();
+		
+		return values.entrySet().stream()
+			.sorted((v1, v2) -> v2.getValue().compareTo(v1.getValue()))
+			.map(v -> v.getKey())
+			.collect(Collectors.toList());
 	}
 }

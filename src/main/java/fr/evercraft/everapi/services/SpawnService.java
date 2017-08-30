@@ -20,57 +20,27 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.spongepowered.api.entity.Transform;
-import org.spongepowered.api.service.permission.SubjectReference;
 import org.spongepowered.api.world.World;
 
-import com.google.common.base.Preconditions;
+import com.google.common.base.Function;
 
-import fr.evercraft.everapi.server.location.VirtualTransform;
 import fr.evercraft.everapi.server.user.EUser;
 
-public interface SpawnService {	
-	
-	public final static String DEFAULT = "Default";
+public interface SpawnService {
 	
 	public interface Priorities {
 		
 		public final static String BED = "bed";
 		
-		public final static String SPAWN = "spawn";
-		
-		public final static String HOME = "home";
-		
+		public final static String WORLD = "world";
 	}
 	
-	public Map<String, Transform<World>> getAll();
+	public Map<String, Function<EUser, Optional<Transform<World>>>> getAll();
+	public void register(String identifier, Function<EUser, Optional<Transform<World>>> fun);
+	public void remove(String identifier);
 	
 	public boolean has(String identifier);
-	public Optional<VirtualTransform> get(String identifier);
+	public Optional<Function<EUser, Optional<Transform<World>>>> get(String identifier);
 	
-	public boolean add(String identifier, Transform<World> location);
-	public boolean update(String identifier, Transform<World> location);
-	public boolean remove(String identifier);
-	
-	public boolean clearAll();
-	
-	public Transform<World> getDefault();
-	
-	default public Transform<World> get(final EUser player) {
-		Preconditions.checkNotNull(player, "player");
-		
-		Optional<SubjectReference> group = player.getGroup();
-		if (group.isPresent()) {
-			return this.get(group.get());
-		}
-		return this.getDefault();
-	}
-	
-	default public Transform<World> get(final SubjectReference group) {
-		Preconditions.checkNotNull(group, "group");
-		
-		Optional<VirtualTransform> spawn = this.get(group.getSubjectIdentifier());
-		if (!spawn.isPresent()) return this.getDefault();
-		
-		return spawn.get().getTransform().orElseGet(() -> this.getDefault());
-	}
+	public Transform<World> getSpawn(final EUser player);
 }

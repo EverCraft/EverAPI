@@ -48,10 +48,6 @@ public interface SetProtectedRegion {
 	<V> V getFlag(ProtectedRegion.Group group, Flag<V> flag);
 	<V> V getFlag(User user, Set<Context> context, Flag<V> flag);
 	
-	@Deprecated
-	default <V> V getFlag(User user, Flag<V> flag) {
-		return this.getFlag(user, user.getActiveContexts(), flag);
-	}
 	default <V> V getFlag(User user, Location<World> location, Flag<V> flag) {
 		return this.getFlag(user, UtilsContexts.get(location.getExtent().getName()), flag);
 	}
@@ -67,10 +63,6 @@ public interface SetProtectedRegion {
 	<V> Optional<V> getFlagIfPresent(ProtectedRegion.Group group, Flag<V> flag);
 	<V> Optional<V> getFlagIfPresent(User user, Set<Context> context, Flag<V> flag);
 	
-	@Deprecated
-	default <V> Optional<V> getFlagIfPresent(User user, Flag<V> flag) {
-		return this.getFlagIfPresent(user, user.getActiveContexts(), flag);
-	}
 	default <V> Optional<V> getFlagIfPresent(User user, Location<World> location, Flag<V> flag) {
 		return this.getFlagIfPresent(user, UtilsContexts.get(location.getExtent().getName()), flag);
 	}

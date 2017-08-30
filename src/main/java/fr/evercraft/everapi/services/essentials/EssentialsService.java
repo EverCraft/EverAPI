@@ -20,6 +20,15 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface EssentialsService {
+	
+	public final static String DEFAULT_HOME = "home";
+	
+	public interface Priorities {
+		
+		public final static String HOME = "home";
+		
+	}
+	
 	public Optional<SubjectUserEssentials> get(UUID uuid);
 	public boolean hasRegistered(UUID uuid);
 	

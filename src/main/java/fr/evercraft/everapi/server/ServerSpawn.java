@@ -16,102 +16,19 @@
  */
 package fr.evercraft.everapi.server;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
 import org.spongepowered.api.entity.Transform;
-import org.spongepowered.api.service.permission.SubjectReference;
 import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.EverAPI;
-import fr.evercraft.everapi.server.location.VirtualTransform;
 import fr.evercraft.everapi.server.user.EUser;
-import fr.evercraft.everapi.services.SpawnService;
 
 public class ServerSpawn extends ServerSponge {
-	private SpawnService service;
 	
 	public ServerSpawn(EverAPI plugin){
 		super(plugin);
 	}
-
-	private boolean isPresent() {
-		if (this.service == null && this.plugin.getManagerService().getSpawn().isPresent()) {
-			this.service = this.plugin.getManagerService().getSpawn().get();
-		}
-		return this.service != null;
-	}
-	
-	public Map<String, Transform<World>> getSpawns() {
-		if (this.isPresent()) {
-			return this.service.getAll();
-		}
-		return new HashMap<String, Transform<World>>();
-	}
-
-	public Optional<Transform<World>> getSpawn(String identifier) {
-		if (!this.isPresent()) return Optional.empty();
-		
-		Optional<VirtualTransform> spawn = this.service.get(identifier);
-		if (!spawn.isPresent()) return Optional.empty();
-		
-		return spawn.get().getTransform();
-	}
 	
 	public Transform<World> getSpawn(EUser player) {
-		if (this.isPresent()) {
-			return this.service.get(player);
-		}
-		return this.getDefaultSpawn();
-	}
-	
-	public Transform<World> getSpawn(SubjectReference group) {
-		if (this.isPresent()) {
-			return this.service.get(group);
-		}
-		return this.getDefaultSpawn();
-	}
-
-	public boolean hasSpawn(String identifier) {
-		if (this.isPresent()) {
-			return this.service.has(identifier);
-		}
-		return false;
-	}
-
-	public boolean addSpawn(String identifier, Transform<World> location) {
-		if (this.isPresent()) {
-			return this.service.add(identifier, location);
-		}
-		return false;
-	}
-	
-	public boolean updateSpawn(String identifier, Transform<World> location) {
-		if (this.isPresent()) {
-			return this.service.add(identifier, location);
-		}
-		return false;
-	}
-
-	public boolean removeSpawn(String identifier) {
-		if (this.isPresent()) {
-			return this.service.remove(identifier);
-		}
-		return false;
-	}
-
-	public boolean clearSpawns() {
-		if (this.isPresent()) {
-			return this.service.clearAll();
-		}
-		return false;
-	}
-	
-	public Transform<World> getDefaultSpawn() {
-		if (this.isPresent()) {
-			return this.service.getDefault();
-		}
-		return this.plugin.getEServer().getSpawn();
+		return this.plugin.getManagerService().getSpawn().getSpawn(player);
 	}
 }

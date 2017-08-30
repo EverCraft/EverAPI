@@ -18,6 +18,7 @@ package fr.evercraft.everapi;
 
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.entity.living.humanoid.player.RespawnPlayerEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.text.title.Title;
 
@@ -39,6 +40,13 @@ public class EAListener {
 		player.getTabList().setHeaderAndFooter(null, null);
 		
 		this.plugin.getManagerService().getEScoreBoard().addPlayer(player);
+
+		// Newbie
+		if (player.getFirstDatePlayed() == player.getLastDatePlayed()) {
+			player.setSpawnNewbie(true);
+			
+			player.setTransform(player.getSpawn());
+		}
 	}
 	
 	@Listener(order=Order.PRE)
@@ -51,5 +59,10 @@ public class EAListener {
 		this.plugin.getGame().getScheduler().createTaskBuilder().execute(() ->
 			this.plugin.getEServer().disconnects.remove(event.getTargetEntity().getUniqueId())
 		).submit(this.plugin);
+	}
+	
+	@Listener(order=Order.FIRST)
+	public void onRespawnPlayer(final RespawnPlayerEvent event) {
+		event.setToTransform(this.plugin.getEServer().getEPlayer(event.getOriginalPlayer()).getSpawn());
 	}
 }

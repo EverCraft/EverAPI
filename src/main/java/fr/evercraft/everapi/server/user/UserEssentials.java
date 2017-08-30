@@ -42,9 +42,12 @@ import fr.evercraft.everapi.services.essentials.TeleportRequest;
 public class UserEssentials extends UserCooldown implements SubjectUserEssentials {
 	
 	private SubjectUserEssentials subject;
+	private boolean newbie;
 
 	public UserEssentials(final EverAPI plugin, final User user) {
 		super(plugin, user);
+		
+		this.newbie = false;
 	}
 
 	private boolean isPresent() {
@@ -463,14 +466,6 @@ public class UserEssentials extends UserCooldown implements SubjectUserEssential
 	}
 	
 	/*
-	 * Spawn
-	 */
-	
-	public Transform<World> getSpawn() {
-		return this.plugin.getEServer().getSpawn(this.asSubjectReference());
-	}
-	
-	/*
 	 * Teleport ASK
 	 */
 
@@ -564,5 +559,13 @@ public class UserEssentials extends UserCooldown implements SubjectUserEssential
 			return this.subject.cancelTeleportDelay();
 		}
 		return false;
+	}
+	
+	public void setSpawnNewbie(boolean newbie) {
+		this.newbie = newbie;
+	}
+	
+	public boolean isSpawnNewbie() {
+		return this.newbie;
 	}
 }

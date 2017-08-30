@@ -16,6 +16,8 @@
  */
 package fr.evercraft.everapi.services;
 
+import java.util.List;
+
 import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
 
 public interface PriorityService {
@@ -32,4 +34,6 @@ public interface PriorityService {
 	public int get(String collection, String identifier);
 	
 	public int get(DisplaySlot type, String identifier);
+
+	public List<String> get(String collection);
 }
