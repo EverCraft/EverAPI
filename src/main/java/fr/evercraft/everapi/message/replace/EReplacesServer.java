@@ -29,9 +29,9 @@ import fr.evercraft.everapi.plugin.EPlugin;
 
 public enum EReplacesServer {
 	
+	SERVER_NAME(plugin -> plugin.getEServer().getName()),
 	ONLINE_PLAYERS(plugin -> String.valueOf(plugin.getEServer().playerNotVanish())),
 	MAX_PLAYERS(plugin -> String.valueOf(plugin.getGame().getServer().getMaxPlayers())),
-	SERVER_NAME(plugin -> plugin.getEServer().getName()),
 	VERSION(plugin -> plugin.getGame().getPlatform().getMinecraftVersion().getName()),
 	DATE(plugin -> plugin.getEverAPI().getManagerUtils().getDate().parseDate()),
 	TIME(plugin -> plugin.getEverAPI().getManagerUtils().getDate().parseTime()),

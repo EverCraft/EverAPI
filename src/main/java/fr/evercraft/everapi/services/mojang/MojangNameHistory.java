@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with EverAPI.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fr.evercraft.everapi.services.mojang.namehistory;
+package fr.evercraft.everapi.services.mojang;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -40,7 +40,6 @@ public class MojangNameHistory {
 	private static final String URL = "https://api.mojang.com/user/profiles/%s/names";
 	
 	private final EverAPI plugin;
-	
 	private final Gson gson;
 	
 	private final LoadingCache<UUID, List<NameHistory>> players;

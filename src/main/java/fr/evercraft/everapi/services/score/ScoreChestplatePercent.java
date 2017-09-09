@@ -27,10 +27,10 @@ import fr.evercraft.everapi.registers.ScoreType;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.sponge.UtilsItemStack;
 
-public class ScoreChestplatePercentage extends ScoreType {
+public class ScoreChestplatePercent extends ScoreType {
 	private final int DEFAULT = 0;
 
-	public ScoreChestplatePercentage(String name, EverAPI plugin) {
+	public ScoreChestplatePercent(String name, EverAPI plugin) {
 		super(name, plugin);
 	}
 	
@@ -44,13 +44,13 @@ public class ScoreChestplatePercentage extends ScoreType {
 	
 	@Listener
     public void event(ChangeEntityEquipmentEvent.TargetPlayer event) {
-		this.update(event.getTargetEntity().getUniqueId(), ScoreTypes.CHESTPLATE_PERCENTAGE);
+		this.update(event.getTargetEntity().getUniqueId(), ScoreTypes.CHESTPLATE_PERCENT);
 	}
 	
 	@Listener
     public void event(DamageEntityEvent event) {
 		if (event.getTargetEntity() instanceof Player) {
-			this.update(event.getTargetEntity().getUniqueId(), ScoreTypes.CHESTPLATE_PERCENTAGE);
+			this.update(event.getTargetEntity().getUniqueId(), ScoreTypes.CHESTPLATE_PERCENT);
 		}
 	}
 	

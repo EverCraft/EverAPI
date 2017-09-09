@@ -27,30 +27,30 @@ import fr.evercraft.everapi.registers.ScoreType;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.sponge.UtilsItemStack;
 
-public class ScoreLeggingsPercentage extends ScoreType {
+public class ScoreBootsPercent extends ScoreType {
 	private final int DEFAULT = 0;
-
-	public ScoreLeggingsPercentage(String name, EverAPI plugin) {
+	
+	public ScoreBootsPercent(String name, EverAPI plugin) {
 		super(name, plugin);
 	}
 	
 	@Override
 	public Integer getValue(EPlayer player) {
-		if (player.getLeggings().isPresent()) {
-			return (player.getLeggings().get().get(Keys.ITEM_DURABILITY).orElse(DEFAULT)/UtilsItemStack.getMaxDurability(player.getLeggings().get())) * 100;
+		if (player.getBoots().isPresent()) {
+			return (player.getBoots().get().get(Keys.ITEM_DURABILITY).orElse(DEFAULT)/UtilsItemStack.getMaxDurability(player.getBoots().get())) * 100;
 		}
 		return DEFAULT;
 	}
 	
 	@Listener
     public void event(ChangeEntityEquipmentEvent.TargetPlayer event) {
-		this.update(event.getTargetEntity().getUniqueId(), ScoreTypes.LEGGINGS_PERCENTAGE);
+		this.update(event.getTargetEntity().getUniqueId(), ScoreTypes.BOOTS_PERCENT);
 	}
 	
 	@Listener
     public void event(DamageEntityEvent event) {
 		if (event.getTargetEntity() instanceof Player) {
-			this.update(event.getTargetEntity().getUniqueId(), ScoreTypes.LEGGINGS_PERCENTAGE);
+			this.update(event.getTargetEntity().getUniqueId(), ScoreTypes.BOOTS_PERCENT);
 		}
 	}
 	

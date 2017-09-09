@@ -96,8 +96,8 @@ public abstract class ScoreType extends ECatalogType {
 	}
 	
 	public static class ScoreTypes {
+		public static final ScoreType HEALTH_HEARTS = null;
 		public static final ScoreType HEALTH = null;
-		public static final ScoreType HEALTH_INTEGER = null;
 		public static final ScoreType ONLINE_PLAYERS_CANSEE = null;
 		public static final ScoreType BALANCE = null;
 		public static final ScoreType PING = null;
@@ -118,14 +118,14 @@ public abstract class ScoreType extends ECatalogType {
 		public static final ScoreType CHESTPLATE_MAX = null;
 		public static final ScoreType LEGGINGS_MAX = null;
 		public static final ScoreType BOOTS_MAX = null;
-		public static final ScoreType HELMET_PERCENTAGE = null;
-		public static final ScoreType CHESTPLATE_PERCENTAGE = null;
-		public static final ScoreType LEGGINGS_PERCENTAGE = null;
-		public static final ScoreType BOOTS_PERCENTAGE = null;
+		public static final ScoreType HELMET_PERCENT = null;
+		public static final ScoreType CHESTPLATE_PERCENT = null;
+		public static final ScoreType LEGGINGS_PERCENT = null;
+		public static final ScoreType BOOTS_PERCENT = null;
 		
 		public ScoreTypes(EverAPI plugin) {
-			register(new ScoreHealth("HEALTH", plugin, Criteria.HEALTH, ObjectiveDisplayModes.HEARTS));
-			register(new ScoreHealth("HEALTH_INTEGER", plugin, Criteria.HEALTH));
+			register(new ScoreHealth("HEALTH_HEARTS", plugin, Criteria.HEALTH, ObjectiveDisplayModes.HEARTS));
+			register(new ScoreHealth("HEALTH", plugin, Criteria.HEALTH));
 			register(new ScoreOnlinePlayersCanSee("ONLINE_PLAYERS_CANSEE", plugin));
 			register(new ScoreBalance("BALANCE", plugin));
 			register(new ScorePing("PING", plugin));
@@ -146,10 +146,10 @@ public abstract class ScoreType extends ECatalogType {
 			register(new ScoreChestplateMax("CHESTPLATE_MAX", plugin));
 			register(new ScoreLeggingsMax("LEGGINGS_MAX", plugin));
 			register(new ScoreBootsMax("BOOTS_MAX", plugin));
-			register(new ScoreHelmetPercentage("HELMET_PERCENTAGE", plugin));
-			register(new ScoreChestplatePercentage("CHESTPLATE_PERCENTAGE", plugin));
-			register(new ScoreLeggingsPercentage("LEGGINGS_PERCENTAGE", plugin));
-			register(new ScoreBootsPercentage("BOOTS_PERCENTAGE", plugin));
+			register(new ScoreHelmetPercent("HELMET_PERCENT", plugin));
+			register(new ScoreChestplatePercent("CHESTPLATE_PERCENT", plugin));
+			register(new ScoreLeggingsPercent("LEGGINGS_PERCENT", plugin));
+			register(new ScoreBootsPercent("BOOTS_PERCENT", plugin));
 		}
 
 		private void register(ScoreType score) {

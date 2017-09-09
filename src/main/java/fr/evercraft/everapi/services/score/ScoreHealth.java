@@ -45,7 +45,7 @@ public class ScoreHealth extends ScoreType {
 	@Listener
     public void event(HealEntityEvent event) {
 		if (event.getTargetEntity() instanceof Player) {
-			this.update(event.getTargetEntity().getUniqueId(), ScoreTypes.HEALTH);
+			this.update(event.getTargetEntity().getUniqueId(), ScoreTypes.HEALTH_HEARTS);
 		}
 	}
 	

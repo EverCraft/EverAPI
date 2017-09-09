@@ -29,6 +29,7 @@ import org.spongepowered.api.world.World;
 
 import com.google.common.base.Preconditions;
 
+import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
 
 public class EUser extends UserSelection {
@@ -125,5 +126,9 @@ public class EUser extends UserSelection {
 	
 	public Transform<World> getSpawn() {
 		return this.plugin.getManagerService().getSpawn().getSpawn(this);
+	}
+	
+	public boolean hasPermissions(World world) {
+		return !this.plugin.getConfigs().isWorldTeleportPermissions() || this.hasPermission(EAPermissions.WORLDS + "." + world.getName());
 	}
 }

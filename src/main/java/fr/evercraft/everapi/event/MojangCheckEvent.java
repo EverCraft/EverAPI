@@ -19,17 +19,16 @@ package fr.evercraft.everapi.event;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.impl.AbstractEvent;
 
-import fr.evercraft.everapi.services.mojang.check.MojangServer;
-import fr.evercraft.everapi.services.mojang.check.MojangServer.Status;
+import fr.evercraft.everapi.registers.MojangServer;
 
 public class MojangCheckEvent extends AbstractEvent {
 	
 	private final MojangServer server;
-	private final Status beforeStatus;
-	private final Status afterStatus;
+	private final MojangServer.Status beforeStatus;
+	private final MojangServer.Status afterStatus;
 	private final Cause cause;
 	
-    public MojangCheckEvent(MojangServer server, Status beforeStatus, Status afterStatus, Cause cause) {
+    public MojangCheckEvent(MojangServer server, MojangServer.Status beforeStatus, MojangServer.Status afterStatus, Cause cause) {
 		this.server = server;
 		this.beforeStatus = beforeStatus;
 		this.afterStatus = afterStatus;
@@ -40,11 +39,11 @@ public class MojangCheckEvent extends AbstractEvent {
     	return this.server;
     }
     
-	public Status getBeforeStatus() {
+	public MojangServer.Status getBeforeStatus() {
 		return this.beforeStatus;
 	}
 	
-    public Status getAfterStatus() {
+    public MojangServer.Status getAfterStatus() {
     	return this.afterStatus;
     }
 

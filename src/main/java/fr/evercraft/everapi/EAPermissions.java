@@ -22,22 +22,17 @@ import com.google.common.base.Preconditions;
 import fr.evercraft.everapi.plugin.EnumPermission;
 
 public enum EAPermissions implements EnumPermission {
-	EVERAPI("command"),
+	//Commands :
+	EVERAPI("commands.execute"),
+	HELP("commands.help"),
+	RELOAD("commands.reload"),
+	PLUGINS("commands.plugins"),
+	TEST("commands.test"),
+	BLOCK_INFO("commands.blockinfo"),
+	DEBUG("commands.debug"),
 	
-	HELP("help"),
-	RELOAD("reload"),
-	PLUGINS("plugins"),
-	TEST("test"),
-	
-	VIEW_OTHERS("view.others"),
-	
-	COOLDOWN("cooldown"),
-	COOLDOWN_BYPASS("cooldown.bypass"),
-	
-	BLOCK_INFO("blockinfo"),
-	DEBUG("debug"),
-	
-	SELECTOR("selector");
+	SELECTOR("selector"),
+	WORLDS("worlds");
 	
 	private final static String prefix = "everapi";
 	

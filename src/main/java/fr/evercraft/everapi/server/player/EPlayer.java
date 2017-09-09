@@ -328,11 +328,11 @@ public class EPlayer extends PlayerSponge {
 		return this.player.equals(object);
 	}
 	
-	public Map<EPlayer, Integer> getEPlayers(int distance) {
-		Map<EPlayer, Integer> list = new HashMap<EPlayer, Integer>();
+	public Map<Player, Integer> getEPlayers(int distance) {
+		Map<Player, Integer> list = new HashMap<Player, Integer>();
 		distance = Math.max((distance ^ 2) - 1, 0);
 		Vector3d vect = this.getLocation().getPosition();
-		for (EPlayer player : this.plugin.getEServer().getOnlineEPlayers()) {
+		for (Player player : this.plugin.getEServer().getOnlinePlayers()) {
 			if (!this.equals(player) && this.getWorld().equals(player.getWorld())) {
 				//if (player.isHidden(player)) {
 					Integer delta = (int) Math.floor(player.getLocation().getPosition().distance(vect));

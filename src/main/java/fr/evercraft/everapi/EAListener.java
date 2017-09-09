@@ -23,6 +23,7 @@ import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.text.title.Title;
 
 import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.server.user.EUser;
 
 public class EAListener {
 	private final EverAPI plugin;
@@ -30,6 +31,18 @@ public class EAListener {
 	public EAListener(final EverAPI plugin){
 		this.plugin = plugin;
 	}
+	
+	@Listener(order=Order.FIRST)
+	public void onPlayerJoin(final ClientConnectionEvent.Login event) {
+		EUser user = this.plugin.getEServer().getEUser(event.getTargetUser());
+		
+		// Newbie
+		if (user.getFirstDatePlayed() == user.getLastDatePlayed()) {			
+			user.setSpawnNewbie(true);
+			event.setToTransform(user.getSpawn());
+		}
+	}
+	
 	
 	@Listener(order=Order.FIRST)
 	public void onPlayerJoin(final ClientConnectionEvent.Join event) {		
@@ -44,7 +57,6 @@ public class EAListener {
 		// Newbie
 		if (player.getFirstDatePlayed() == player.getLastDatePlayed()) {
 			player.setSpawnNewbie(true);
-			
 			player.setTransform(player.getSpawn());
 		}
 	}

@@ -49,6 +49,9 @@ public class ManagerRegister {
 		new ERegister<ProtectedRegion.Group>(this.plugin, ProtectedRegion.Group.class, ProtectedRegion.Groups.class);
 		new ERegister<ProtectedRegion.Type>(this.plugin, ProtectedRegion.Type.class, ProtectedRegion.Types.class);
 		new ERegister<ProtectedRegion.RemoveType>(this.plugin, ProtectedRegion.RemoveType.class, ProtectedRegion.RemoveTypes.class);
+		
+		// Mojang
+		new ERegister<MojangServer>(this.plugin, MojangServer.class, MojangServer.MojangServers.class);
 	}
 	
 	

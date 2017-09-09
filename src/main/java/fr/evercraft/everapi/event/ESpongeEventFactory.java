@@ -33,6 +33,7 @@ import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+import fr.evercraft.everapi.registers.MojangServer;
 import fr.evercraft.everapi.registers.MoveType;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.server.user.EUser;
@@ -40,8 +41,6 @@ import fr.evercraft.everapi.services.actionbar.ActionBarMessage;
 import fr.evercraft.everapi.services.bossbar.EBossBar;
 import fr.evercraft.everapi.services.essentials.Mail;
 import fr.evercraft.everapi.services.jail.Jail;
-import fr.evercraft.everapi.services.mojang.check.MojangServer;
-import fr.evercraft.everapi.services.mojang.check.MojangServer.Status;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionBanProfile;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionBanIp;
 import fr.evercraft.everapi.services.sanction.Sanction.SanctionJail;
@@ -288,7 +287,7 @@ public class ESpongeEventFactory {
 	 * MojangCheck
 	 */
 	
-	public static MojangCheckEvent createMojangCheckEvent(MojangServer server, Status beforeStatus, Status afterStatus, Cause cause) {
+	public static MojangCheckEvent createMojangCheckEvent(MojangServer server, MojangServer.Status beforeStatus, MojangServer.Status afterStatus, Cause cause) {
         return new MojangCheckEvent(server, beforeStatus, afterStatus, cause);
     }
 	

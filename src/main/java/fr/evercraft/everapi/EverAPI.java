@@ -19,6 +19,8 @@ package fr.evercraft.everapi;
 import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.scheduler.SpongeExecutorService;
+import org.spongepowered.api.service.permission.Subject;
+import org.spongepowered.api.world.World;
 
 import com.google.common.reflect.TypeToken;
 
@@ -152,5 +154,9 @@ public class EverAPI extends EPlugin<EverAPI> {
 	
 	public SpongeExecutorService getThreadSync() {
 		return this.threadSync;
+	}
+	
+	public boolean hasPermissionWorld(Subject player, World world) {
+		return !this.getConfigs().isWorldTeleportPermissions() || player.hasPermission(EAPermissions.WORLDS.get() + "." + world.getName());
 	}
 }

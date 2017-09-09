@@ -50,7 +50,7 @@ public enum EReplacesPlayer {
 	FIRST_DATE_TIME_PLAYED((plugin, player) -> plugin.getEverAPI().getManagerUtils().getDate().parseDateTime(player.getFirstDatePlayed())),
 	GROUP((plugin, player) -> {
 		Optional<SubjectReference> group = player.getGroup();
-		return group.isPresent() ? group.get().getSubjectIdentifier() : "";
+		return group.isPresent() ? group.get().resolve().join().getFriendlyIdentifier().orElse(group.get().getSubjectIdentifier()) : "";
 	}),
 	
 	// Stats
@@ -73,10 +73,10 @@ public enum EReplacesPlayer {
 	LEGGINGS_MAX((plugin, player) -> ScoreTypes.LEGGINGS_MAX.getValue(player).toString()),
 	BOOTS_MAXLTH((plugin, player) -> ScoreTypes.BOOTS_MAX.getValue(player).toString()),
 	
-	HELMET_PERCENTAGE((plugin, player) -> ScoreTypes.HELMET_PERCENTAGE.getValue(player).toString()),
-	CHESTPLATE_PERCENTAGE((plugin, player) -> ScoreTypes.CHESTPLATE_PERCENTAGE.getValue(player).toString()),
-	LEGGINGS_PERCENTAGE((plugin, player) -> ScoreTypes.LEGGINGS_PERCENTAGE.getValue(player).toString()),
-	BOOTS_PERCENTAGE((plugin, player) -> ScoreTypes.BOOTS_PERCENTAGE.getValue(player).toString()),
+	HELMET_PERCENT((plugin, player) -> ScoreTypes.HELMET_PERCENT.getValue(player).toString()),
+	CHESTPLATE_PERCENT((plugin, player) -> ScoreTypes.CHESTPLATE_PERCENT.getValue(player).toString()),
+	LEGGINGS_PERCENT((plugin, player) -> ScoreTypes.LEGGINGS_PERCENT.getValue(player).toString()),
+	BOOTS_PERCENT((plugin, player) -> ScoreTypes.BOOTS_PERCENT.getValue(player).toString()),
 	
 	// Team
 	TEAM_PREFIX((plugin, player) -> {

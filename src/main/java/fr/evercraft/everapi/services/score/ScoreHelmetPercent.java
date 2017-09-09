@@ -27,30 +27,30 @@ import fr.evercraft.everapi.registers.ScoreType;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.sponge.UtilsItemStack;
 
-public class ScoreBootsPercentage extends ScoreType {
+public class ScoreHelmetPercent extends ScoreType {
 	private final int DEFAULT = 0;
-	
-	public ScoreBootsPercentage(String name, EverAPI plugin) {
+
+	public ScoreHelmetPercent(String name, EverAPI plugin) {
 		super(name, plugin);
 	}
 	
 	@Override
 	public Integer getValue(EPlayer player) {
-		if (player.getBoots().isPresent()) {
-			return (player.getBoots().get().get(Keys.ITEM_DURABILITY).orElse(DEFAULT)/UtilsItemStack.getMaxDurability(player.getBoots().get())) * 100;
+		if (player.getHelmet().isPresent()) {
+			return (player.getHelmet().get().get(Keys.ITEM_DURABILITY).orElse(DEFAULT)/UtilsItemStack.getMaxDurability(player.getHelmet().get())) * 100;
 		}
 		return DEFAULT;
 	}
 	
 	@Listener
     public void event(ChangeEntityEquipmentEvent.TargetPlayer event) {
-		this.update(event.getTargetEntity().getUniqueId(), ScoreTypes.BOOTS_PERCENTAGE);
+		this.update(event.getTargetEntity().getUniqueId(), ScoreTypes.HELMET_PERCENT);
 	}
 	
 	@Listener
     public void event(DamageEntityEvent event) {
 		if (event.getTargetEntity() instanceof Player) {
-			this.update(event.getTargetEntity().getUniqueId(), ScoreTypes.BOOTS_PERCENTAGE);
+			this.update(event.getTargetEntity().getUniqueId(), ScoreTypes.HELMET_PERCENT);
 		}
 	}
 	

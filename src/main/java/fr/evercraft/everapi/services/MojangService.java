@@ -16,12 +16,12 @@
  */
 package fr.evercraft.everapi.services;
 
-import fr.evercraft.everapi.services.mojang.check.MojangCheck;
-import fr.evercraft.everapi.services.mojang.namehistory.MojangNameHistory;
+import fr.evercraft.everapi.services.mojang.MojangStatus;
+import fr.evercraft.everapi.services.mojang.MojangNameHistory;
 
 public interface MojangService {
 
-	public MojangCheck getCheck();
+	public MojangStatus getCheck();
 	
 	public MojangNameHistory getNameHistory();
 }

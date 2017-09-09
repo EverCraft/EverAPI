@@ -49,6 +49,11 @@ public class EAConfig extends EConfig<EverAPI> {
 		addDefault("location.maxY", 255);
 		addDefault("location.minZ", -30000);
 		addDefault("location.maxZ", 30000);
+		
+		// World
+		addDefault("world-teleport-permissions", false, "Set to true to enable per-world permissions for teleporting between worlds with commands.",
+														"This applies to /world, /back, /tp[a|o][here|all].",
+														"Give someone permission to teleport to a world with everapi.worlds.<worldname>");
 	}
 	
 	public String getFormatDate(){
@@ -65,5 +70,13 @@ public class EAConfig extends EConfig<EverAPI> {
 	
 	public int getMaxCaractere() {
 		return this.get("maxCaractere").getInt(16);
+	}
+	
+	/*
+	 * World
+	 */
+	
+	public boolean isWorldTeleportPermissions() {
+		return this.get("world-teleport-permissions").getBoolean(false);
 	}
 }
