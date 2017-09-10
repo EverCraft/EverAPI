@@ -188,7 +188,7 @@ public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T
 				.sendTo(source);
 		}
 		
-		if (!this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createCommandEventSend(player, this.getName(), arg, args, Cause.source(this.plugin).build()))) {
+		if (!this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createCommandEventSend(player, this.getName(), arg, args, this.plugin.getGame().getCauseStackManager().getCurrentCause()))) {
 			this.execute(player, args)
 				.exceptionally(e -> {
 					EAMessages.COMMAND_ERROR.sender()
@@ -200,7 +200,7 @@ public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T
 				})
 				.thenAcceptAsync(result -> {
 					this.sources.remove(player.getIdentifier());
-					this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createCommandEventResult(player, this.getName(), arg, args, result, Cause.source(this.plugin).build()));
+					this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createCommandEventResult(player, this.getName(), arg, args, result, this.plugin.getGame().getCauseStackManager().getCurrentCause()));
 				}, this.plugin.getThreadSync());
 		}
 	}

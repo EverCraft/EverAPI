@@ -84,6 +84,6 @@ public class UtilsItemStack {
 	public static void dropItem(final Location<World> location, final ItemStack itemstack, final Cause cause) {
 		Entity entity = location.getExtent().createEntity(EntityTypes.ITEM, location.getPosition());
 		entity.offer(Keys.REPRESENTED_ITEM, itemstack.createSnapshot());
-		location.getExtent().spawnEntity(entity, cause);
+		location.getExtent().spawnEntity(entity);
 	}
 }

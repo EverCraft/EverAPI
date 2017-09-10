@@ -106,13 +106,13 @@ public class PlayerSponge extends EUser implements Player {
 	}
 
 	@Override
-	public Optional<Container> openInventory(Inventory inventory, Cause cause) {
-		return this.player.openInventory(inventory, cause);
+	public Optional<Container> openInventory(Inventory inventory) {
+		return this.player.openInventory(inventory);
 	}
 
 	@Override
-	public boolean closeInventory(Cause cause) {
-		return this.player.closeInventory(cause);
+	public boolean closeInventory() {
+		return this.player.closeInventory();
 	}
 
 	@Override
@@ -216,8 +216,8 @@ public class PlayerSponge extends EUser implements Player {
 	}
 
 	@Override
-	public boolean damage(double damage, DamageSource damageSource, Cause cause) {
-		return this.player.damage(damage, damageSource, cause);
+	public boolean damage(double damage, DamageSource damageSource) {
+		return this.player.damage(damage, damageSource);
 	}
 
 	@Override
@@ -270,16 +270,6 @@ public class PlayerSponge extends EUser implements Player {
 		return this.player.offer(valueContainer, function);
 	}
 	
-	@Override
-	public <E> DataTransactionResult offer(Key<? extends BaseValue<E>> key, E value, Cause cause) {
-		return this.offer(key, value, cause);
-	}
-
-	@Override
-	public DataTransactionResult offer(DataManipulator<?, ?> valueContainer, MergeFunction function, Cause cause) {
-		return this.offer(valueContainer, function, cause);
-	}
-
 	@Override
 	public DataTransactionResult remove(Class<? extends DataManipulator<?, ?>> containerClass) {
 		return this.player.remove(containerClass);

@@ -198,14 +198,14 @@ public class ETitleService implements TitleService {
 		this.plugin.getELogger().debug("Event TitleEvent.Add : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "title='" + title + "')");
-		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTitleEventEventAdd(player, title, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTitleEventEventAdd(player, title, this.plugin.getGame().getCauseStackManager().getCurrentCause()));
 	}
 	
 	private void postRemove(EPlayer player, TitleMessage title) {
 		this.plugin.getELogger().debug("Event TitleEvent.Remove : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "title='" + title + "')");
-		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTitleEventEventRemove(player, title, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTitleEventEventRemove(player, title, this.plugin.getGame().getCauseStackManager().getCurrentCause()));
 	}
 	
 	private void postReplace(EPlayer player, TitleMessage title, TitleMessage new_title) {
@@ -213,6 +213,6 @@ public class ETitleService implements TitleService {
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "title='" + title + "';"
 				+ "new_title='" + new_title + "')");
-		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTitleEventEventReplace(player, title, new_title, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTitleEventEventReplace(player, title, new_title, this.plugin.getGame().getCauseStackManager().getCurrentCause()));
 	}
 }

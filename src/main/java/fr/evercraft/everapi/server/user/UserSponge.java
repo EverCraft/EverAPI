@@ -37,7 +37,6 @@ import org.spongepowered.api.data.value.BaseValue;
 import org.spongepowered.api.data.value.immutable.ImmutableValue;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.User;
-import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.item.inventory.Carrier;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.equipment.EquipmentType;
@@ -112,16 +111,6 @@ public class UserSponge implements User {
 	@Override
 	public DataTransactionResult offer(DataManipulator<?, ?> valueContainer, MergeFunction function) {
 		return this.user.offer(valueContainer, function);
-	}
-	
-	@Override
-	public <E> DataTransactionResult offer(Key<? extends BaseValue<E>> key, E value, Cause cause) {
-		return this.offer(key, value, cause);
-	}
-
-	@Override
-	public DataTransactionResult offer(DataManipulator<?, ?> valueContainer, MergeFunction function, Cause cause) {
-		return this.offer(valueContainer, function, cause);
 	}
 
 	@Override

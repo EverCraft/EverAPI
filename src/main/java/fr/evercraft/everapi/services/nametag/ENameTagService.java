@@ -178,14 +178,14 @@ public class ENameTagService implements NameTagService {
 		this.plugin.getELogger().debug("Event NameTagEvent.Add : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "nametag='" + identifier + "')");
-		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createNameTagEventAdd(player, identifier, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createNameTagEventAdd(player, identifier, this.plugin.getGame().getCauseStackManager().getCurrentCause()));
 	}
 	
 	private void postRemove(EPlayer player, String identifier) {
 		this.plugin.getELogger().debug("Event NameTagEvent.Remove : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "nametag='" + identifier + "')");
-		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createNameTagEventRemove(player, identifier, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createNameTagEventRemove(player, identifier, this.plugin.getGame().getCauseStackManager().getCurrentCause()));
 	}
 	
 	private void postReplace(EPlayer player, String identifier, String new_identifier) {
@@ -193,6 +193,6 @@ public class ENameTagService implements NameTagService {
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "nametag='" + identifier + "';"
 				+ "new_nametag='" + new_identifier + "')");
-		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createNameTagEventReplace(player, identifier, new_identifier, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createNameTagEventReplace(player, identifier, new_identifier, this.plugin.getGame().getCauseStackManager().getCurrentCause()));
 	}
 }

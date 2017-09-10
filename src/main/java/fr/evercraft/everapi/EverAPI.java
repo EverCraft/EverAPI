@@ -25,6 +25,7 @@ import org.spongepowered.api.world.World;
 import com.google.common.reflect.TypeToken;
 
 import fr.evercraft.everapi.command.sub.EADebug;
+import fr.evercraft.everapi.command.sub.EAEvent;
 import fr.evercraft.everapi.command.sub.EAInfo;
 import fr.evercraft.everapi.command.sub.EAPlugins;
 import fr.evercraft.everapi.command.sub.EAReload;
@@ -106,6 +107,7 @@ public class EverAPI extends EPlugin<EverAPI> {
 		command.add(new EAReplace(this, command));
 		command.add(new EAInfo(this, command));
 		command.add(new EADebug(this, command));
+		command.add(new EAEvent(this, command));
 	}
 
 	@Override

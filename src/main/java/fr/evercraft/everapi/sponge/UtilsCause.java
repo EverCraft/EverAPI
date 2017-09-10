@@ -20,29 +20,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.action.TextActions;
 
 import fr.evercraft.everapi.plugin.EChat;
-import fr.evercraft.everapi.plugin.EPlugin;
 
 public class UtilsCause {
 	
 	public static final String PLACE_EVENT = "PlaceEvent";
 	public static Boolean debug = false;
 
-	public static Cause command(final EPlugin<?> plugin, final CommandSource source) {
+	/*public static Cause command(final EPlugin<?> plugin, final CommandSource source) {
 		return Cause.builder().named(plugin.getName(), plugin).suggestNamed(source.getName(), source).build();
-	}
+	}*/
 	
 	public static void debug(Cause cause, String name) {
 		if (!UtilsCause.debug) return;
 		
 		List<Text> list = new ArrayList<Text>();
-		cause.getNamedCauses().forEach((key, value) -> {
-			list.add(Text.builder(key)
+		cause.getContext().asMap().forEach((key, value) -> {
+			list.add(Text.builder(key.getId())
 					.onHover(TextActions.showText(Text.of(EChat.fixLength(value.toString(), 254))))
 					.onClick(TextActions.suggestCommand(EChat.fixLength(value.toString(), 254)))
 					.build());

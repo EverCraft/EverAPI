@@ -34,7 +34,6 @@ import org.spongepowered.api.entity.Item;
 import org.spongepowered.api.entity.Transform;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.gamemode.GameModes;
-import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.entity.Hotbar;
 import org.spongepowered.api.item.inventory.transaction.InventoryTransactionResult;
@@ -271,7 +270,7 @@ public class EPlayer extends PlayerSponge {
 		if (entity instanceof Item) {
 			Item item = (Item) entity;
 			item.offer(Keys.REPRESENTED_ITEM, itemstack.createSnapshot());
-			this.getWorld().spawnEntity(item, Cause.source(this.getPlayer().get()).build());
+			this.getWorld().spawnEntity(item);
 		}
 	}
 	

@@ -27,6 +27,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.EventContext;
 import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.chat.ChatTypes;
@@ -208,14 +209,16 @@ public class EActionBarService implements ActionBarService {
 		this.plugin.getELogger().debug("Event ActionBarEvent.Add : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "actionbar='" + actionbar.getMessage().toPlain() + "')");
-		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createActionBarEventAdd(player, actionbar, Cause.source(this.plugin).build()));
+		
+		
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createActionBarEventAdd(player, actionbar, this.plugin.getGame().getCauseStackManager().getCurrentCause()));
 	}
 	
 	private void postRemove(EPlayer player, ActionBarMessage actionbar) {
 		this.plugin.getELogger().debug("Event ActionBarEvent.Remove : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "actionbar='" + actionbar.getMessage().toPlain() + "')");
-		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createActionBarEventRemove(player, actionbar, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createActionBarEventRemove(player, actionbar, this.plugin.getGame().getCauseStackManager().getCurrentCause()));
 	}
 	
 	private void postReplace(EPlayer player, ActionBarMessage actionbar, ActionBarMessage new_actionbar) {
@@ -223,6 +226,6 @@ public class EActionBarService implements ActionBarService {
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "actionbar='" + actionbar.getMessage().toPlain() + "';"
 				+ "new_actionbar='" + new_actionbar.getMessage().toPlain() + "')");
-		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createActionBarEventReplace(player, actionbar, new_actionbar, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createActionBarEventReplace(player, actionbar, new_actionbar, this.plugin.getGame().getCauseStackManager().getCurrentCause()));
 	}
 }

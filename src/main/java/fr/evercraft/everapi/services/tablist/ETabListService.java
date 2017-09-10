@@ -153,14 +153,14 @@ public class ETabListService implements TabListService {
 		this.plugin.getELogger().debug("Event TabListEvent.Add : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "tablist='" + identifier + "')");
-		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTabListEventAdd(player, identifier, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTabListEventAdd(player, identifier, this.plugin.getGame().getCauseStackManager().getCurrentCause()));
 	}
 	
 	private void postRemove(EPlayer player, String identifier) {
 		this.plugin.getELogger().debug("Event TabListEvent.Remove : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "tablist='" + identifier + "')");
-		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTabListEventRemove(player, identifier, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTabListEventRemove(player, identifier, this.plugin.getGame().getCauseStackManager().getCurrentCause()));
 	}
 	
 	private void postReplace(EPlayer player, String identifier, String new_identifier) {
@@ -168,6 +168,6 @@ public class ETabListService implements TabListService {
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "tablist='" + identifier + "';"
 				+ "new_tablist='" + new_identifier + "')");
-		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTabListEventReplace(player, identifier, new_identifier, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createTabListEventReplace(player, identifier, new_identifier, this.plugin.getGame().getCauseStackManager().getCurrentCause()));
 	}
 }

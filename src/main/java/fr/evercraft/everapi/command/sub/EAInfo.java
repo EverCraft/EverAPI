@@ -24,15 +24,17 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.block.InteractBlockEvent;
-import org.spongepowered.api.event.cause.NamedCause;
+import org.spongepowered.api.event.cause.EventContextKeys;
 import org.spongepowered.api.event.entity.InteractEntityEvent;
 import org.spongepowered.api.event.filter.IsCancelled;
 import org.spongepowered.api.text.Text;
@@ -46,6 +48,7 @@ import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
 import fr.evercraft.everapi.server.player.EPlayer;
+import fr.evercraft.everapi.sponge.UtilsCause;
 
 public class EAInfo extends ESubCommand<EverAPI> {
 	
@@ -95,7 +98,13 @@ public class EAInfo extends ESubCommand<EverAPI> {
 	@Listener(order=Order.FIRST)
 	@IsCancelled(Tristate.UNDEFINED)
 	public void onChangeBlock(ChangeBlockEvent.Place event) {
-		Optional<Player> optPlayer = event.getCause().get(NamedCause.SOURCE, Player.class);
+		UtilsCause.debug(event.getCause(), "ChangeBlockEvent.Place : " + String.join(", ", event.getTransactions().stream()
+				.map(t -> "(" + t.getOriginal().getState().getType().getId() + " : " + t.getFinal().getState().getType().getId() + ")").collect(Collectors.toList())));
+		
+		Optional<User> optUser = event.getContext().get(EventContextKeys.OWNER);
+		if (!optUser.isPresent()) return;
+		
+		Optional<Player> optPlayer = optUser.get().getPlayer();
 		if (!optPlayer.isPresent()) return;
 		
 		Player player = optPlayer.get();
@@ -114,7 +123,10 @@ public class EAInfo extends ESubCommand<EverAPI> {
 	@Listener(order=Order.FIRST)
 	@IsCancelled(Tristate.UNDEFINED)
 	public void onInteractBlock(InteractBlockEvent.Primary event) {
-		Optional<Player> optPlayer = event.getCause().get(NamedCause.SOURCE, Player.class);
+		Optional<User> optUser = event.getContext().get(EventContextKeys.OWNER);
+		if (!optUser.isPresent()) return;
+		
+		Optional<Player> optPlayer = optUser.get().getPlayer();
 		if (!optPlayer.isPresent()) return;
 		
 		Player player = optPlayer.get();
@@ -131,11 +143,15 @@ public class EAInfo extends ESubCommand<EverAPI> {
 	@Listener(order=Order.FIRST)
 	@IsCancelled(Tristate.UNDEFINED)
 	public void onInteractEntity(InteractEntityEvent.Primary event) {
-		Optional<Player> optPlayer = event.getCause().get(NamedCause.SOURCE, Player.class);
+		Optional<User> optUser = event.getContext().get(EventContextKeys.OWNER);
+		if (!optUser.isPresent()) return;
+		
+		Optional<Player> optPlayer = optUser.get().getPlayer();
 		if (!optPlayer.isPresent()) return;
 		
 		Player player = optPlayer.get();
 		if (!this.players.contains(player.getUniqueId())) return;
+		if (!optPlayer.isPresent()) return;
 		
 		event.setCancelled(true);
 		

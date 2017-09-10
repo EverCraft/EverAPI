@@ -115,7 +115,7 @@ public class MojangStatus {
 			        	
 			        	if (url.isPresent() && status.isPresent() && !url.get().getStatus().equals(status.get())) {
 		        			this.plugin.getGame().getEventManager().post(
-		        					ESpongeEventFactory.createMojangCheckEvent(url.get(), url.get().getStatus(), status.get(), Cause.source(this.plugin).build()));
+		        					ESpongeEventFactory.createMojangCheckEvent(url.get(), url.get().getStatus(), status.get(), this.plugin.getGame().getCauseStackManager().getCurrentCause()));
 		        			url.get().setStatus(status.get());
 			        	}
 					}

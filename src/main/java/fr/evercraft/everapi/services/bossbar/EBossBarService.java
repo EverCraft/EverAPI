@@ -263,14 +263,14 @@ public class EBossBarService implements BossBarService {
 		this.plugin.getELogger().debug("Event BossBarEvent.Add : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "boosbar='" + bossbar.getServerBossBar().getName().toPlain() + "')");
-		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createBossBarEventAdd(player, bossbar, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createBossBarEventAdd(player, bossbar, this.plugin.getGame().getCauseStackManager().getCurrentCause()));
 	}
 	
 	private void postRemove(EPlayer player, EBossBar bossbar) {
 		this.plugin.getELogger().debug("Event BossBarEvent.Remove : ("
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "boosbar='" + bossbar.getServerBossBar().getName().toPlain() + "')");
-		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createBossBarEventRemove(player, bossbar, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createBossBarEventRemove(player, bossbar, this.plugin.getGame().getCauseStackManager().getCurrentCause()));
 	}
 	
 	private void postReplace(EPlayer player, EBossBar bossbar, EBossBar new_bossbar) {
@@ -278,6 +278,6 @@ public class EBossBarService implements BossBarService {
 				+ "uuid='" + player.getUniqueId() + "';"
 				+ "boosbar='" + bossbar.getServerBossBar().getName().toPlain() + "';"
 				+ "new_boosbar='" + new_bossbar.getServerBossBar().getName().toPlain() + "')");
-		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createBossBarEventReplace(player, bossbar, new_bossbar, Cause.source(this.plugin).build()));
+		this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createBossBarEventReplace(player, bossbar, new_bossbar, this.plugin.getGame().getCauseStackManager().getCurrentCause()));
 	}
 }
