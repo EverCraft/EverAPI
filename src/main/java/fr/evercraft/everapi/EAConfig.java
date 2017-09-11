@@ -44,13 +44,13 @@ public class EAConfig extends EConfig<EverAPI> {
 	public void loadDefault() {
 		this.configDefault();
 
-		addDefault("server-name", "EverCraft");
+		addDefault("server-name", "EverCraft", "Value is used by other plugins (Global Variables)");
 		
-		addDefault("format.date", "dd MMM yyyy");
-		addDefault("format.time", "HH:mm");
-		addDefault("format.datetime", "dd MMM yyyy HH:mm:ss");
+		addDefault("format.date", "dd MMM yyyy", "Value is used by other plugins (Global Variables)");
+		addDefault("format.time", "HH:mm", "Value is used by other plugins (Global Variables)");
+		addDefault("format.datetime", "dd MMM yyyy HH:mm:ss", "Value is used by other plugins (Global Variables)");
 		
-		addDefault("max-caractere", 16);
+		addDefault("max-caractere", 16, "Value is used by other plugins (home, jail ...)");
 		
 		addDefault("location.minX", -30000);
 		addDefault("location.maxX", 30000);
@@ -60,7 +60,7 @@ public class EAConfig extends EConfig<EverAPI> {
 		addDefault("location.maxZ", 30000);
 		
 		// World
-		addDefault("world-teleport-permissions", false, "Set to true to enable per-world permissions for teleporting between worlds with commands.",
+		addDefault("world-permissions", false, "Set to true to enable per-world permissions for teleporting between worlds with commands.",
 														"This applies to /world, /back, /tp[a|o][here|all].",
 														"Give someone permission to teleport to a world with everapi.worlds.<worldname>");
 	}
@@ -97,7 +97,7 @@ public class EAConfig extends EConfig<EverAPI> {
 	 * World
 	 */
 	
-	public boolean isWorldTeleportPermissions() {
-		return this.get("world-teleport-permissions").getBoolean(false);
+	public boolean isWorldPermissions() {
+		return this.get("world-permissions").getBoolean(false);
 	}
 }

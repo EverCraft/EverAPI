@@ -129,6 +129,6 @@ public class EUser extends UserSelection {
 	}
 	
 	public boolean hasPermissions(World world) {
-		return !this.plugin.getConfigs().isWorldTeleportPermissions() || this.hasPermission(EAPermissions.WORLDS + "." + world.getName());
+		return !this.plugin.getConfigs().isWorldPermissions() || this.hasPermission(EAPermissions.WORLDS + "." + world.getName());
 	}
 }

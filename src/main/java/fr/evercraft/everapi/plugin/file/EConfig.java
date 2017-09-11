@@ -113,10 +113,10 @@ public abstract class EConfig<T extends EPlugin<T>> extends EFile<T> {
     
     public void sqlDefault() {
     	// SQL
-		addComment(SQL, 				"Save the user in a database : ",
-										" H2 : \"jdbc:h2:" + this.plugin.getPath().toAbsolutePath() + "/data\"",
-										" SQL : \"jdbc:mysql://[login[:password]@]{host}:{port}/{database}\"",
-										" Default users are saving in the 'data.mv.db'");
+		addComment(SQL, 				"Save to a database : ",
+										"  H2 : \"jdbc:h2:" + this.plugin.getPath().toAbsolutePath() + "/data\"",
+										"  SQL : \"jdbc:mysql://[login[:password]@]{host}:{port}/{database}\"",
+										"  By default, this is saved in the 'data.mv.db'");
 		addDefault(SQL + ".enable", false);
 		addDefault(SQL + ".url", "jdbc:mysql://root:password@localhost:3306/minecraft");
 		addDefault(SQL + ".prefix", this.plugin.getName() + "_");

@@ -160,6 +160,6 @@ public class EverAPI extends EPlugin<EverAPI> {
 	}
 	
 	public boolean hasPermissionWorld(Subject player, World world) {
-		return !this.getConfigs().isWorldTeleportPermissions() || player.hasPermission(EAPermissions.WORLDS.get() + "." + world.getName());
+		return !this.getConfigs().isWorldPermissions() || player.hasPermission(EAPermissions.WORLDS.get() + "." + world.getName());
 	}
 }
