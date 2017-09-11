@@ -16,6 +16,9 @@
  */
 package fr.evercraft.everapi;
 
+import java.util.Arrays;
+import java.util.List;
+
 import fr.evercraft.everapi.plugin.file.EConfig;
 
 public class EAConfig extends EConfig<EverAPI> {
@@ -27,6 +30,14 @@ public class EAConfig extends EConfig<EverAPI> {
 	public void reload() {
 		super.reload();
 		this.plugin.getELogger().setDebug(this.isDebug());
+	}
+	
+	@Override
+	public List<String> getHeader() {
+		return 	Arrays.asList(	"####################################################### #",
+								"                    EverAPI (By rexbut)                  #",
+								"    For more information : https://docs.evercraft.fr     #",
+								"####################################################### #");
 	}
 	
 	@Override
