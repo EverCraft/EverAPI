@@ -62,7 +62,7 @@ public class EAConfig extends EConfig<EverAPI> {
 		// World
 		addDefault("world-permissions", false, "Set to true to enable per-world permissions for teleporting between worlds with commands.",
 														"This applies to /world, /back, /tp[a|o][here|all].",
-														"Give someone permission to teleport to a world with everapi.worlds.{worldname}");
+														"Give someone permission to teleport to a world with everapi.worlds.<worldname>");
 	}
 	
 	/*
