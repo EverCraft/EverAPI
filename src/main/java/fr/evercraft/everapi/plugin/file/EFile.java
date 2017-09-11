@@ -19,6 +19,7 @@ package fr.evercraft.everapi.plugin.file;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -94,6 +95,10 @@ public abstract class EFile<T extends EPlugin<T>> {
      */
     public abstract void reload(); 
     
+    public List<String> getHeader() {
+		return Arrays.asList();
+	}
+    
     public boolean isNewDirs() {
     	return this.newDirs;
     }
@@ -113,20 +118,29 @@ public abstract class EFile<T extends EPlugin<T>> {
 	        	}
 	        }
 	        this.manager = HoconConfigurationLoader.builder().setFile(this.file).build();
+	        String header = String.join("\n", this.getHeader());
 	        try {
-				this.config = this.manager.load();
+				if (!header.isEmpty()) {
+					this.config = this.manager.load(ConfigurationOptions.defaults().setHeader(header));
+				} else {
+					this.config = this.manager.load();
+				}
 				this.plugin.getELogger().info("Chargement du fichier : " + this.name + ".conf");
 			} catch (IOException e) {
 				this.file.renameTo(this.plugin.getPath().resolve(this.name + ".error").toFile());
-				this.config = this.manager.createEmptyNode(ConfigurationOptions.defaults());
+				if (!header.isEmpty()) {
+					this.config = this.manager.createEmptyNode(ConfigurationOptions.defaults().setHeader(header));
+				} else {
+					this.config = this.manager.createEmptyNode(ConfigurationOptions.defaults());
+				}
 				this.plugin.getELogger().warn("Impossible de charger le fichier : " + this.name + ".conf : " + this.file.getAbsolutePath());
 			}
 		} finally {
 			this.read_lock.unlock();
 		}
     }
-    
-    /**
+
+	/**
      * Sauvegarde du fichier de configuration
      */
     public boolean save(boolean force) {

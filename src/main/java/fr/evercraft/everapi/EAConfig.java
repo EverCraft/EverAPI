@@ -17,7 +17,6 @@
 package fr.evercraft.everapi;
 
 import fr.evercraft.everapi.plugin.file.EConfig;
-import fr.evercraft.everapi.plugin.file.EMessage;
 
 public class EAConfig extends EConfig<EverAPI> {
 
@@ -32,16 +31,15 @@ public class EAConfig extends EConfig<EverAPI> {
 	
 	@Override
 	public void loadDefault() {
-		addDefault("DEBUG", false, "Displays plugin performance in the logs");
-		addDefault("LANGUAGE", EMessage.FRENCH, "Select language messages", "Examples : ", "  French : FR_fr", "  English : EN_en");
+		this.configDefault();
 
-		addDefault("server.name", "EverCraft");
+		addDefault("server-name", "EverCraft");
 		
 		addDefault("format.date", "dd MMM yyyy");
 		addDefault("format.time", "HH:mm");
 		addDefault("format.datetime", "dd MMM yyyy HH:mm:ss");
 		
-		addDefault("maxCaractere", 16);
+		addDefault("max-caractere", 16);
 		
 		addDefault("location.minX", -30000);
 		addDefault("location.maxX", 30000);
@@ -56,6 +54,18 @@ public class EAConfig extends EConfig<EverAPI> {
 														"Give someone permission to teleport to a world with everapi.worlds.<worldname>");
 	}
 	
+	/*
+	 * Server
+	 */
+	
+	public String getServerName() {
+		return this.get("server-name").getString("MineCraft");
+	}
+	
+	/*
+	 * Format
+	 */
+	
 	public String getFormatDate(){
 		return this.get("format.date").getString("dd MMM yyyy");
 	}
@@ -69,7 +79,7 @@ public class EAConfig extends EConfig<EverAPI> {
 	}
 	
 	public int getMaxCaractere() {
-		return this.get("maxCaractere").getInt(16);
+		return this.get("max-caractere").getInt(16);
 	}
 	
 	/*

@@ -54,7 +54,7 @@ public class EServer extends ServerWarp {
 	}
 
 	public void reload(){
-		this.name = this.plugin.getConfigs().get("server.name").getString("");
+		this.name = this.plugin.getConfigs().getServerName();
 	}
 	
 	public String getName(){

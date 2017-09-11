@@ -18,7 +18,7 @@ package fr.evercraft.everapi.plugin.command;
 
 import fr.evercraft.everapi.plugin.EPlugin;
 
-public abstract class ESubCommand<T extends EPlugin<?>> extends ECommand<T> {
+public abstract class ESubCommand<T extends EPlugin<T>> extends ECommand<T> {
 	
 	private final String parentName;
 	private final String subName;

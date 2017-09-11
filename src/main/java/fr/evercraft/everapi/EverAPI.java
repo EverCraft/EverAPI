@@ -43,6 +43,7 @@ import fr.evercraft.everapi.server.EServer;
 import fr.evercraft.everapi.services.ManagerService;
 import fr.evercraft.everapi.services.bungee.BungeeCord;
 import fr.evercraft.everapi.sponge.ManagerUtils;
+
 import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 
 @Plugin(id = "everapi", 
@@ -107,8 +108,10 @@ public class EverAPI extends EPlugin<EverAPI> {
 		command.add(new EADebug(this, command));
 	}
 
+	@Override
 	protected void onReload() throws PluginDisableException, ServerDisableException {
-		this.reloadConfigurations();
+		super.onReload();
+		
 		this.service.reload();
 		this.managerUtils.reload();
 	}

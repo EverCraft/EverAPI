@@ -16,10 +16,17 @@
  */
 package fr.evercraft.everapi.plugin.file;
 
+import java.util.Arrays;
+
 import fr.evercraft.everapi.plugin.EPlugin;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 
 public abstract class EConfig<T extends EPlugin<T>> extends EFile<T> {
+	
+	public static final String DEBUG = "DEBUG";
+	public static final String LANGUAGE = "LANGUAGE";
+	public static final String DISABLE_COMMANDS = "DISABLE-COMMANDS";
+	public static final String SQL = "SQL";
 
     /**
      * Création d'un fichier de configuration
@@ -97,4 +104,21 @@ public abstract class EConfig<T extends EPlugin<T>> extends EFile<T> {
      * Définit tous les éléments par défaut
      */
     protected abstract void loadDefault();
+    
+    public void configDefault() {
+		addDefault(DEBUG, false, "Displays plugin performance in the logs");
+		addDefault(LANGUAGE, EMessage.FRENCH, "Allows you to choose the language of the messages", "Examples : ", "  FR_fr : French", "  EN_en : English");
+		addDefault(DISABLE_COMMANDS, Arrays.asList("command_name"), "List of disabled commands");
+    }
+    
+    public void sqlDefault() {
+    	// SQL
+		addComment(SQL, 				"Save the user in a database : ",
+										" H2 : \"jdbc:h2:" + this.plugin.getPath().toAbsolutePath() + "/data\"",
+										" SQL : \"jdbc:mysql://[login[:password]@]{host}:{port}/{database}\"",
+										" Default users are saving in the 'data.mv.db'");
+		addDefault(SQL + ".enable", false);
+		addDefault(SQL + ".url", "jdbc:mysql://root:password@localhost:3306/minecraft");
+		addDefault(SQL + ".prefix", this.plugin.getName() + "_");
+    }
 }

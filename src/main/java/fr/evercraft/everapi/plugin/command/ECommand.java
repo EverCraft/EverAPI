@@ -46,13 +46,18 @@ import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
 import fr.evercraft.everapi.java.UtilsString;
 import fr.evercraft.everapi.plugin.EPlugin;
+import fr.evercraft.everapi.plugin.file.EConfig;
 import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.pagination.CommandPagination;
 import fr.evercraft.everapi.util.Chronometer;
 
-public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T> implements CommandCallable {
+public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T> implements CommandCallable {
 
 	private final Set<String> sources;
+	
+	private boolean enable;
+	private final boolean subCommand;
+	private final List<String> names;
 	
 	public ECommand(final T plugin, final String name, final String... alias) {
 		this(plugin, name, false, alias);
@@ -61,24 +66,60 @@ public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T
 	public ECommand(final T plugin, final String name, boolean subCommand, final String... alias) {
 		super(plugin, name);
 		
-		String[] cmds = new String[1 + alias.length];
-		cmds[0] = name; 
-		for (int cpt = 0; cpt < alias.length; cpt++){
-			cmds[cpt + 1] = alias[cpt];
-		}
+		this.names = new ArrayList<String>();
+		this.names.add(name);
+		this.names.addAll(Arrays.asList(alias));
 		
-		if (!subCommand) {
-			this.plugin.getGame().getCommandManager().register(this.plugin, this, cmds);
-		}
 		this.sources = new HashSet<String>();
+		this.enable = false;
+		this.subCommand = subCommand;
+		
+		if (!this.subCommand) {
+			this.load();
+		}
 	}
 	
+	public void load() {
+		boolean enable = !this.plugin.getConfigs().get(EConfig.DISABLE_COMMANDS).getChildrenList().stream()
+				.filter(command -> this.getName().equalsIgnoreCase(command.getString("")))
+				.findAny().isPresent();
+		
+		if (!enable) {
+			this.plugin.getELogger().info("[Command] The '" + this.getName() + "' command is disabled");
+		}
+		
+		if (enable && !this.enable) {
+			this.enable = true;
+			this.plugin.getGame().getCommandManager().register(this.plugin, this, this.names);
+		} else if (!enable && this.enable) {
+			this.enable = false;
+			this.plugin.getGame().getCommandManager().getOwnedBy(this.plugin).stream()
+					.filter(command -> command.getPrimaryAlias().equals(this.getName()))
+					.forEach(command -> this.plugin.getGame().getCommandManager().removeMapping(command));
+		}
+	}
+	
+	public void reload() {
+		if (this.subCommand) return;
+		
+		this.load();
+	}
+	
+	@Override
 	public CommandResult process(final CommandSource source, final String arg) throws CommandException {
 		if (!this.plugin.isEnable()) return CommandResult.success();
-		if (this.sources.contains(source.getIdentifier())) return CommandResult.success();
+		
+		if (this.sources.contains(source.getIdentifier())) {
+			EAMessages.COMMAND_ASYNC.sender()
+				.prefix(EAMessages.PREFIX)
+				.sendTo(source);
+			return CommandResult.success();
+		}
 		
 		if (!this.testPermission(source)) {
-			source.sendMessage(EAMessages.NO_PERMISSION.getText());
+			EAMessages.NO_PERMISSION.sender()
+				.prefix(EAMessages.PREFIX)
+				.sendTo(source);
 			return CommandResult.success();
 		}
 		
@@ -88,7 +129,9 @@ public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T
 			return this.processExecute(source, arg);
 		} catch (PluginDisableException e) {
 			this.sources.remove(source.getIdentifier());
-			source.sendMessage(EAMessages.PREFIX.getText().concat(EAMessages.COMMAND_ERROR.getText()));
+			EAMessages.COMMAND_ERROR.sender()
+				.prefix(EAMessages.PREFIX)
+				.sendTo(source);
 			this.plugin.getELogger().warn(e.getMessage());
 			this.plugin.disable();
 		} catch (ServerDisableException e) {
@@ -96,6 +139,7 @@ public abstract class ECommand<T extends EPlugin<?>> extends CommandPagination<T
 			e.execute();
 		} catch(Exception e) {
 			this.sources.remove(source.getIdentifier());
+			throw e;
 		}
 		
 		return CommandResult.empty();

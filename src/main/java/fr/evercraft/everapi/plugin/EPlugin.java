@@ -42,6 +42,7 @@ import com.google.inject.Inject;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
+import fr.evercraft.everapi.plugin.command.ECommand;
 import fr.evercraft.everapi.plugin.file.EConfig;
 import fr.evercraft.everapi.plugin.file.EFile;
 import fr.evercraft.everapi.plugin.file.EMessage;
@@ -63,7 +64,10 @@ public abstract class EPlugin<T extends EPlugin<T>> {
 	
 	private EverAPI everapi;
 	private boolean enable;	
+	
 	private final CopyOnWriteArraySet<EFile<T>> files;
+	private final CopyOnWriteArraySet<ECommand<T>> commands;
+	
 	private ELogger logger;
 	
 	protected abstract void onPreEnable() throws PluginDisableException, ServerDisableException;
@@ -71,7 +75,6 @@ public abstract class EPlugin<T extends EPlugin<T>> {
 	protected void onPostEnable() throws PluginDisableException, ServerDisableException{}
 	protected abstract void onCompleteEnable() throws PluginDisableException, ServerDisableException;
 	protected void onStartServer() throws PluginDisableException, ServerDisableException{}
-	protected abstract void onReload() throws PluginDisableException, ServerDisableException;
 	protected void onStopServer() throws PluginDisableException, ServerDisableException{}
 	protected abstract void onDisable() throws PluginDisableException, ServerDisableException;
 
@@ -81,6 +84,7 @@ public abstract class EPlugin<T extends EPlugin<T>> {
 	public EPlugin(){
 		this.enable = true;
 		this.files = new CopyOnWriteArraySet<EFile<T>>();
+		this.commands = new CopyOnWriteArraySet<ECommand<T>>();
 	}
 	
 	@Listener
@@ -182,6 +186,11 @@ public abstract class EPlugin<T extends EPlugin<T>> {
 		} catch (ServerDisableException e) {
 			e.execute();
 		}
+	}
+	
+	protected void onReload() throws PluginDisableException, ServerDisableException {
+		this.reloadConfigurations();
+		this.reloadCommands();
 	}
 	
 	@Listener
@@ -386,11 +395,38 @@ public abstract class EPlugin<T extends EPlugin<T>> {
 	}
 	
 	/**
-	 * Recharge tous les fichiers de configuration du plugin
+	 * Recharge tous les fichiers de configuration de la liste
 	 */
 	public void reloadConfigurations(){
 		for (EFile<T> file : this.files){
 			file.reload();
+        }
+	}
+	
+	/*
+	 * Command
+	 */
+	
+	/**
+	 * Ajoute une commande à la liste
+	 */
+	public void registerCommand(final ECommand<T> command) {
+		this.commands.add(command);
+	}
+	
+	/**
+	 * Supprime une commande à la liste
+	 */
+	public void removeCommand(final ECommand<T> command) {
+		this.commands.remove(command);
+	}
+	
+	/**
+	 * Recharge toutes les commandes de la liste
+	 */
+	public void reloadCommands() {
+		for (ECommand<T> command : this.commands){
+			command.reload();
         }
 	}
 	
