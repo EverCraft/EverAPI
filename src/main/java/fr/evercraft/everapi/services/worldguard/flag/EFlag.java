@@ -63,7 +63,7 @@ public abstract class EFlag<T> implements Flag<T> {
 	public Text getNameFormat() {
 		return Text.builder(this.getName())
 				.onHover(TextActions.showText(EAMessages.FLAG_DESCRIPTION.getFormat()
-						.toText("<description>", this.getDescription())))
+						.toText("{description}", this.getDescription())))
 				.build();
 	}
 	

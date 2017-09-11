@@ -49,7 +49,7 @@ public abstract class DoubleFlag extends EFlag<Double> {
 		try {
 			return Double.valueOf(value);
 		} catch (Exception e) {
-			throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("<number>", value));
+			throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("{number}", value));
 		}
 	}
 	

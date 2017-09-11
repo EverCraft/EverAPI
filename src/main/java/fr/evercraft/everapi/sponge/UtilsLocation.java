@@ -291,40 +291,40 @@ public class UtilsLocation {
 		Optional<Integer> x = UtilsInteger.parseInt(pos_x);
 		if (!x.isPresent()) {
 			return new LocationResult(EAMessages.IS_NOT_NUMBER.sender()
-					.replace("<number>", pos_x));
+					.replace("{number}", pos_x));
 		}
 		
 		Optional<Integer> y = UtilsInteger.parseInt(pos_y);
 		if (!y.isPresent()) {
 			return new LocationResult(EAMessages.IS_NOT_NUMBER.sender()
-					.replace("<number>", pos_y));
+					.replace("{number}", pos_y));
 		}
 		
 		Optional<Integer> z = UtilsInteger.parseInt(pos_z);
 		if (!z.isPresent()) {
 			return new LocationResult(EAMessages.IS_NOT_NUMBER.sender()
-					.replace("<number>", pos_z));
+					.replace("{number}", pos_z));
 		}
 		
 		if (x.get() < this.X_min || x.get() > this.X_max) {
 			return new LocationResult(EAMessages.LOCATION_ERROR_NUMBER.sender()
-					.replace("<name>", "X")
-					.replace("<min>", this.X_min.toString())
-					.replace("<max>", this.X_max.toString()));
+					.replace("{name}", "X")
+					.replace("{min}", this.X_min.toString())
+					.replace("{max}", this.X_max.toString()));
 		}
 		
 		if (y.get() < this.Y_min || y.get() > this.Y_max) {
 			return new LocationResult(EAMessages.LOCATION_ERROR_NUMBER.sender()
-					.replace("<name>", "Y")
-					.replace("<min>", this.Y_min.toString())
-					.replace("<max>", this.Y_max.toString()));
+					.replace("{name}", "Y")
+					.replace("{min}", this.Y_min.toString())
+					.replace("{max}", this.Y_max.toString()));
 		}
 		
 		if (z.get() < this.Z_min || z.get() > this.Z_max) {
 			return new LocationResult(EAMessages.LOCATION_ERROR_NUMBER.sender()
-					.replace("<name>", "Z")
-					.replace("<min>", this.Z_min.toString())
-					.replace("<max>", this.Z_max.toString()));
+					.replace("{name}", "Z")
+					.replace("{min}", this.Z_min.toString())
+					.replace("{max}", this.Z_max.toString()));
 		}
 		
 		return new LocationResult(new Vector3i(x.get(), y.get(), z.get()));

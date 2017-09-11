@@ -112,28 +112,28 @@ public abstract class LocationFlag extends EFlag<VirtualTransform> {
 	public Text getValueFormat(VirtualTransform value) {
 		List<Text> hover = new ArrayList<Text>();
 		hover.add(EAMessages.FLAG_LOCATION_X.getFormat()
-				.toText("<x>", Math.round(value.getPosition().getX())));
+				.toText("{x}", Math.round(value.getPosition().getX())));
 		hover.add(EAMessages.FLAG_LOCATION_Y.getFormat()
-				.toText("<y>", Math.round(value.getPosition().getY())));
+				.toText("{y}", Math.round(value.getPosition().getY())));
 		hover.add(EAMessages.FLAG_LOCATION_Z.getFormat()
-				.toText("<z>", Math.round(value.getPosition().getZ())));
+				.toText("{z}", Math.round(value.getPosition().getZ())));
 		
 		if (value instanceof EVirtualTransform) {
 			hover.add(EAMessages.FLAG_LOCATION_YAW.getFormat()
-					.toText("<yaw>", Math.round(value.getYaw())));
+					.toText("{yaw}", Math.round(value.getYaw())));
 			hover.add(EAMessages.FLAG_LOCATION_PITCH.getFormat()
-					.toText("<pitch>", Math.round(value.getPitch())));
+					.toText("{pitch}", Math.round(value.getPitch())));
 		}
 		
 		if (value.getWorldName().isPresent()) {
 			hover.add(EAMessages.FLAG_LOCATION_WORLD.getFormat()
-					.toText("<world>", value.getWorldName().get()));
+					.toText("{world}", value.getWorldName().get()));
 		}
 		
 		return EAMessages.FLAG_LOCATION.getFormat()
-				.toText("<x>", Math.round(value.getPosition().getX()),
-						"<y>", Math.round(value.getPosition().getY()),
-						"<z>", Math.round(value.getPosition().getZ()))
+				.toText("{x}", Math.round(value.getPosition().getX()),
+						"{y}", Math.round(value.getPosition().getY()),
+						"{z}", Math.round(value.getPosition().getZ()))
 				.toBuilder()
 				.onHover(TextActions.showText(Text.joinWith(Text.of("\n"), hover)))
 				.build();

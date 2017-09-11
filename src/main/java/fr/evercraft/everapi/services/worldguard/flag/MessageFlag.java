@@ -176,7 +176,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (bool.isPresent()) {
 				message.chatPrefix(bool.get());
 			} else {
-				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("<boolean>", arg));
+				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("{boolean}", arg));
 			}
 		});
 		
@@ -189,7 +189,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (bool.isPresent()) {
 				message.actionbarPrefix(bool.get());
 			} else {
-				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("<boolean>", arg));
+				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("{boolean}", arg));
 			}
 		});
 		args.getValue(MARKER_ACTIONBAR_STAY).ifPresent(arg -> {
@@ -197,7 +197,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (value.isPresent()) {
 				message.actionbarStay(Math.round(value.get() * 1000));
 			} else {
-				throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("<number>", arg));
+				throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("{number}", arg));
 			}
 		});
 		args.getValue(MARKER_ACTIONBAR_PRIORITY).ifPresent(arg -> {
@@ -213,7 +213,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (bool.isPresent()) {
 				message.titlePrefix(bool.get());
 			} else {
-				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("<boolean>", arg));
+				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("{boolean}", arg));
 			}
 		});
 		args.getValue(MARKER_TITLE_SUBMESSAGE).ifPresent(arg -> {
@@ -224,7 +224,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (bool.isPresent()) {
 				message.titleSubPrefix(bool.get());
 			} else {
-				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("<boolean>", arg));
+				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("{boolean}", arg));
 			}
 		});
 		args.getValue(MARKER_TITLE_STAY).ifPresent(arg -> {
@@ -232,7 +232,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (value.isPresent()) {
 				message.titleStay(Math.round(value.get() * 1000));
 			} else {
-				throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("<number>", arg));
+				throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("{number}", arg));
 			}
 		});
 		args.getValue(MARKER_TITLE_FADEIN).ifPresent(arg -> {
@@ -240,7 +240,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (value.isPresent()) {
 				message.titleFadeIn(Math.round(value.get() * 1000));
 			} else {
-				throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("<number>", arg));
+				throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("{number}", arg));
 			}
 		});
 		args.getValue(MARKER_TITLE_FADEOUT).ifPresent(arg -> {
@@ -248,7 +248,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (value.isPresent()) {
 				message.titleFadeOut(Math.round(value.get() * 1000));
 			} else {
-				throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("<number>", arg));
+				throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("{number}", arg));
 			}
 		});
 		args.getValue(MARKER_TITLE_PRIORITY).ifPresent(arg -> {
@@ -264,7 +264,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (bool.isPresent()) {
 				message.bossbarPrefix(bool.get());
 			} else {
-				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("<boolean>", arg));
+				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("{boolean}", arg));
 			}
 		});
 		args.getValue(MARKER_BOSSBAR_STAY).ifPresent(arg -> {
@@ -272,7 +272,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (value.isPresent()) {
 				message.bossbarStay(Math.round(value.get() * 1000));
 			} else {
-				throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("<number>", arg));
+				throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("{number}", arg));
 			}
 		});
 		args.getValue(MARKER_BOSSBAR_PERCENT).ifPresent(arg -> {
@@ -280,7 +280,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (value.isPresent()) {
 				message.bossbarPercent(value.get());
 			} else {
-				throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("<number>", arg));
+				throw new IllegalArgumentException(EAMessages.IS_NOT_NUMBER.getFormat().toString("{number}", arg));
 			}
 		});
 		args.getValue(MARKER_BOSSBAR_CREATEFOG).ifPresent(arg -> {
@@ -288,7 +288,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (bool.isPresent()) {
 				message.bossbarCreateFog(bool.get());
 			} else {
-				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("<boolean>", arg));
+				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("{boolean}", arg));
 			}
 		});
 		args.getValue(MARKER_BOSSBAR_DARKENSKY).ifPresent(arg -> {
@@ -296,7 +296,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (bool.isPresent()) {
 				message.bossbarPrefix(bool.get());
 			} else {
-				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("<boolean>", arg));
+				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("{boolean}", arg));
 			}
 		});
 		args.getValue(MARKER_BOSSBAR_MUSIC).ifPresent(arg -> {
@@ -304,7 +304,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (bool.isPresent()) {
 				message.bossbarPlayEndBossMusic(bool.get());
 			} else {
-				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("<boolean>", arg));
+				throw new IllegalArgumentException(EAMessages.IS_NOT_BOOLEAN.getFormat().toString("{boolean}", arg));
 			}
 		});
 		args.getValue(MARKER_BOSSBAR_COLOR).ifPresent(arg -> {
@@ -312,7 +312,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (color.isPresent()) {
 				message.bossbarColor(color.get());
 			} else {
-				throw new IllegalArgumentException(EAMessages.IS_NOT_COLOR.getFormat().toString("<color>", arg));
+				throw new IllegalArgumentException(EAMessages.IS_NOT_COLOR.getFormat().toString("{color}", arg));
 			}
 		});
 		args.getValue(MARKER_BOSSBAR_OVERLAY).ifPresent(arg -> {
@@ -320,7 +320,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			if (overlay.isPresent()) {
 				message.bossbarOverlay(overlay.get());
 			} else {
-				throw new IllegalArgumentException(EAMessages.IS_NOT_OVERLAY.getFormat().toString("<overlay>", arg));
+				throw new IllegalArgumentException(EAMessages.IS_NOT_OVERLAY.getFormat().toString("{overlay}", arg));
 			}
 		});
 		args.getValue(MARKER_BOSSBAR_PRIORITY).ifPresent(arg -> {
@@ -408,10 +408,10 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 		
 		if (value.getChatMessage() != null) {
 			hover.add(EAMessages.FLAG_MESSAGE_CHAT_MESSAGE.getFormat()
-				.toText("<message>", value.getChatMessage()));
+				.toText("{message}", value.getChatMessage()));
 			if (value.getChatPrefix() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_CHAT_PREFIX.getFormat()
-						.toText("<prefix>", value.getChatPrefix().toString().toUpperCase()));
+						.toText("{prefix}", value.getChatPrefix().toString().toUpperCase()));
 			}
 			
 			texts.add(EAMessages.FLAG_MESSAGE_CHAT.getText().toBuilder()
@@ -422,18 +422,18 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 		if (value.getActionbarMessage() != null) {
 			hover = new ArrayList<Text>();
 			hover.add(EAMessages.FLAG_MESSAGE_ACTIONBAR_MESSAGE.getFormat()
-				.toText("<message>", value.getActionbarMessage()));
+				.toText("{message}", value.getActionbarMessage()));
 			if (value.getActionbarPrefix() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_ACTIONBAR_PREFIX.getFormat()
-					.toText("<prefix>", value.getActionbarPrefix().toString().toUpperCase()));
+					.toText("{prefix}", value.getActionbarPrefix().toString().toUpperCase()));
 			}
 			if (value.getActionbarStay() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_ACTIONBAR_STAY.getFormat()
-					.toText("<stay>", value.getActionbarStay()));
+					.toText("{stay}", value.getActionbarStay()));
 			}
 			if (value.getActionbarPriority() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_ACTIONBAR_PRIORITY.getFormat()
-					.toText("<priority>", value.getActionbarPriority()));
+					.toText("{priority}", value.getActionbarPriority()));
 			}
 			
 			texts.add(EAMessages.FLAG_MESSAGE_ACTIONBAR.getText().toBuilder()
@@ -445,35 +445,35 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			hover = new ArrayList<Text>();
 			if (value.getTitleMessage() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_TITLE_MESSAGE.getFormat()
-					.toText("<message>", value.getTitleMessage()));
+					.toText("{message}", value.getTitleMessage()));
 			}
 			if (value.getTitleSubMessage() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_TITLE_SUBMESSAGE.getFormat()
-					.toText("<submessage>", value.getTitleSubMessage()));
+					.toText("{submessage}", value.getTitleSubMessage()));
 			}
 			if (value.getTitlePrefix() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_TITLE_PREFIX.getFormat()
-					.toText("<prefix>", value.getTitlePrefix().toString().toUpperCase()));
+					.toText("{prefix}", value.getTitlePrefix().toString().toUpperCase()));
 			}
 			if (value.getTitleSubPrefix() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_TITLE_SUBPREFIX.getFormat()
-					.toText("<subprefix>", value.getTitleSubPrefix().toString().toUpperCase()));
+					.toText("{subprefix}", value.getTitleSubPrefix().toString().toUpperCase()));
 			}
 			if (value.getTitleStay() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_TITLE_STAY.getFormat()
-					.toText("<stay>", value.getTitleStay()));
+					.toText("{stay}", value.getTitleStay()));
 			}
 			if (value.getTitleFadeIn() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_TITLE_FADEIN.getFormat()
-					.toText("<fadein>", value.getTitleFadeIn()));
+					.toText("{fadein}", value.getTitleFadeIn()));
 			}
 			if (value.getTitleFadeOut() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_TITLE_FADEOUT.getFormat()
-					.toText("<fadeout>", value.getTitleFadeOut()));
+					.toText("{fadeout}", value.getTitleFadeOut()));
 			}
 			if (value.getTitlePriority() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_TITLE_PRIORITY.getFormat()
-					.toText("<priority>", value.getTitlePriority()));
+					.toText("{priority}", value.getTitlePriority()));
 			}
 			
 			texts.add(EAMessages.FLAG_MESSAGE_TITLE.getText().toBuilder()
@@ -485,43 +485,43 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 			hover = new ArrayList<Text>();
 			if (value.getBossbarMessage() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_BOSSBAR_MESSAGE.getFormat()
-					.toText("<message>", value.getBossbarMessage()));
+					.toText("{message}", value.getBossbarMessage()));
 			}
 			if (value.getBossbarPrefix() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_BOSSBAR_PREFIX.getFormat()
-					.toText("<prefix>", value.getBossbarPrefix().toString().toUpperCase()));
+					.toText("{prefix}", value.getBossbarPrefix().toString().toUpperCase()));
 			}
 			if (value.getBossbarStay() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_BOSSBAR_STAY.getFormat()
-					.toText("<stay>", value.getBossbarStay()));
+					.toText("{stay}", value.getBossbarStay()));
 			}
 			if (value.getBossbarCreateFog() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_BOSSBAR_CREATEFOG.getFormat()
-					.toText("<createfog>", value.getBossbarCreateFog().toString().toUpperCase()));
+					.toText("{createfog}", value.getBossbarCreateFog().toString().toUpperCase()));
 			}
 			if (value.getBossbarDarkenSky() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_BOSSBAR_DARKENSKY.getFormat()
-					.toText("<darkensky>", value.getBossbarDarkenSky().toString().toUpperCase()));
+					.toText("{darkensky}", value.getBossbarDarkenSky().toString().toUpperCase()));
 			}
 			if (value.getBossbarPlayEndBossMusic() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_BOSSBAR_MUSIC.getFormat()
-					.toText("<music>", value.getBossbarPlayEndBossMusic().toString().toUpperCase()));
+					.toText("{music}", value.getBossbarPlayEndBossMusic().toString().toUpperCase()));
 			}
 			if (value.getBossbarColor() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_BOSSBAR_COLOR.getFormat()
-					.toText("<color>", value.getBossbarColor().getId()));
+					.toText("{color}", value.getBossbarColor().getId()));
 			}
 			if (value.getBossbarOverlay() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_BOSSBAR_OVERLAY.getFormat()
-					.toText("<overlay>", value.getBossbarOverlay().getId()));
+					.toText("{overlay}", value.getBossbarOverlay().getId()));
 			}
 			if (value.getBossbarPercent() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_BOSSBAR_PERCENT.getFormat()
-					.toText("<percent>", value.getBossbarPercent()));
+					.toText("{percent}", value.getBossbarPercent()));
 			}
 			if (value.getBossbarPriority() != null) {
 				hover.add(EAMessages.FLAG_MESSAGE_BOSSBAR_PRIORITY.getFormat()
-					.toText("<priority>", value.getBossbarPriority()));
+					.toText("{priority}", value.getBossbarPriority()));
 			}
 			
 			texts.add(EAMessages.FLAG_MESSAGE_BOSSBAR.getText().toBuilder()

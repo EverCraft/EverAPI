@@ -35,12 +35,12 @@ public class ServerDisableException extends Exception {
 			if (this.plugin.getEverAPI().getManagerService() != null && this.plugin.getEverAPI().getManagerService().getMail().isPresent()) {
 				this.plugin.getEverAPI().getManagerService().getMail().get().alert(
 						EAMessages.MAIL_SERVER_DISABLE_OBJECT.getFormat().toString(
-							"<server>", EReplace.of(this.plugin.getEServer().getName()),
-							"<reason>", EReplace.of(this.getMessage())
+							"{server}", EReplace.of(this.plugin.getEServer().getName()),
+							"{reason}", EReplace.of(this.getMessage())
 						),
 						EAMessages.MAIL_SERVER_DISABLE_MESSAGE.getFormat().toString(
-							"<server>", EReplace.of(this.plugin.getEServer().getName()),
-							"<reason>", EReplace.of(this.getMessage())
+							"{server}", EReplace.of(this.plugin.getEServer().getName()),
+							"{reason}", EReplace.of(this.getMessage())
 						));
 			}
 			this.plugin.getEverAPI().disable();

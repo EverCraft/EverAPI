@@ -98,13 +98,13 @@ public class EAReplace extends ESubCommand<EverAPI> {
 			}
 		}
 		
-		list.add(EFormatString.of("&cOPTION=prefix : &r<OPTION=prefix>")
+		list.add(EFormatString.of("&cOPTION=prefix : &r{OPTION=prefix}")
 				.toText(player.getReplaces()));
-		list.add(EFormatString.of("&cOPTION=suffix : &r<OPTION=suffix>")
+		list.add(EFormatString.of("&cOPTION=suffix : &r{OPTION=suffix}")
 				.toText(player.getReplaces()));
-		list.add(EFormatString.of("&cOPTION_VALUE=prefix : &r<OPTION_VALUE=prefix>")
+		list.add(EFormatString.of("&cOPTION_VALUE=prefix : &r{OPTION_VALUE=prefix}")
 				.toText(player.getReplaces()));
-		list.add(EFormatString.of("&cOPTION_VALUE=suffix : &r<OPTION_VALUE=suffix>")
+		list.add(EFormatString.of("&cOPTION_VALUE=suffix : &r{OPTION_VALUE=suffix}")
 				.toText(player.getReplaces()));
 		this.plugin.getManagerService().getEPagination().sendTo(Text.of("Replace Player"), list, player);
 		return CompletableFuture.completedFuture(true);
