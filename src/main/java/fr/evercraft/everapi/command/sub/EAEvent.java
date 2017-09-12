@@ -43,6 +43,7 @@ import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.block.CollideBlockEvent;
 import org.spongepowered.api.event.block.InteractBlockEvent;
 import org.spongepowered.api.event.cause.Cause;
+import org.spongepowered.api.event.cause.EventContext;
 import org.spongepowered.api.event.entity.CollideEntityEvent;
 import org.spongepowered.api.event.entity.ConstructEntityEvent;
 import org.spongepowered.api.event.entity.DamageEntityEvent;
@@ -91,11 +92,12 @@ public class EAEvent extends ESubCommand<EverAPI> {
 					.map(value -> value.getName())
 					.collect(Collectors.toSet());
 		} else if (args.get(0).equalsIgnoreCase("unlistener")) {
-			return this.events.entrySet().stream()
-					.filter(value -> value.getValue().getPlayers().contains(source.getIdentifier()))
-					.map(value -> value.getValue().getName())
+			return this.events.values().stream()
+					.filter(value -> value.getPlayers().contains(source.getIdentifier()))
+					.map(value -> value.getName())
 					.collect(Collectors.toSet());
 		}
+		EventContext.builder()
 		return Arrays.asList();
 	}
 
@@ -107,9 +109,11 @@ public class EAEvent extends ESubCommand<EverAPI> {
 	}
 	
 	public CompletableFuture<Boolean> execute(final CommandSource source, final List<String> args) {
-		if (args.get(0).equalsIgnoreCase("listener") && !args.isEmpty()) {
+		if (args.get(0).equalsIgnoreCase("listener") && args.size() > 1) {
+			args.remove(0);
 			return this.executeListener(source, args);
 		} else if (args.get(0).equalsIgnoreCase("unlistener")) {
+			args.remove(0);
 			return this.executeUnListener(source, args);
 		} else {
 			source.sendMessage(this.help(source));
@@ -117,7 +121,7 @@ public class EAEvent extends ESubCommand<EverAPI> {
 		}
 	}
 
-	private CompletableFuture<Boolean> executeListener(CommandSource source, List<String> args) {
+	private CompletableFuture<Boolean> executeListener(final CommandSource source, final List<String> args) {
 		List <String> listeners = new ArrayList<String>();
 		for (String arg : args) {
 			EListener<?> event = this.events.get(arg.toLowerCase());
@@ -136,12 +140,12 @@ public class EAEvent extends ESubCommand<EverAPI> {
 		return CompletableFuture.completedFuture(true);
 	}
 
-	private CompletableFuture<Boolean> executeUnListener(CommandSource source, List<String> args) {
+	private CompletableFuture<Boolean> executeUnListener(final CommandSource source, final List<String> args) {
 		if (args.isEmpty()) {
-			Optional<String> unlisteners = this.events.entrySet().stream()
-				.filter(entry -> entry.getValue().getPlayers().contains(source.getIdentifier()))
-				.peek(entry -> this.unListener(source, entry.getValue()))
-				.map(entry -> entry.getKey())
+			Optional<String> unlisteners = this.events.values().stream()
+				.filter(value -> value.getPlayers().contains(source.getIdentifier()))
+				.peek(value -> this.unListener(source, value))
+				.map(value -> value.getName())
 				.reduce((v1, v2) -> v1 + ", " + v2);
 			source.sendMessage(Text.of("UnListener : " + unlisteners.orElse("EMPTY")));
 		} else {
@@ -164,7 +168,7 @@ public class EAEvent extends ESubCommand<EverAPI> {
 		return CompletableFuture.completedFuture(true);
 	}
 	
-	private <T extends Event> void listener(CommandSource source, EListener<T> listener) {
+	private <T extends Event> void listener(final CommandSource source, final EListener<T> listener) {
 		Set<String> players = listener.getPlayers();
 		if (!players.isEmpty()) {
 			players.add(source.getIdentifier());
@@ -176,7 +180,7 @@ public class EAEvent extends ESubCommand<EverAPI> {
 		System.out.println("Register");
 	}
 
-	private <T extends Event> void unListener(CommandSource source, EListener<T> listener) {
+	private <T extends Event> void unListener(final CommandSource source, final EListener<T> listener) {
 		Set<String> players = listener.getPlayers();
 		if (players.isEmpty()) return;
 		
