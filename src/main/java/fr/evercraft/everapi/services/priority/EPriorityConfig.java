@@ -19,6 +19,7 @@ package fr.evercraft.everapi.services.priority;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
@@ -32,6 +33,7 @@ import fr.evercraft.everapi.services.SpawnSubjectService;
 import fr.evercraft.everapi.services.essentials.EssentialsService;
 import fr.evercraft.everapi.services.sanction.SanctionService;
 import fr.evercraft.everapi.services.worldguard.WorldGuardService;
+import ninja.leaping.configurate.ConfigurationNode;
 
 public class EPriorityConfig extends EConfig<EverAPI> {
 
@@ -41,7 +43,7 @@ public class EPriorityConfig extends EConfig<EverAPI> {
 	
 	@Override
 	public void loadDefault() {
-		addDefault("actionbar", Arrays.asList(
+		addDefault(Arrays.asList("actionbar", "bossbar", "title"), Arrays.asList(
 				SanctionService.MESSAGE_MUTE,
 				SanctionService.MESSAGE_JAIL,
 				InformationService.Priorities.NEWBIE_PLAYER, 
@@ -52,32 +54,13 @@ public class EPriorityConfig extends EConfig<EverAPI> {
 				WorldGuardService.Priorities.FLAG,
 				InformationService.Priorities.AUTOMESSAGE));
 		
-		addDefault("title", Arrays.asList(
-				InformationService.Priorities.NEWBIE_PLAYER, 
-				InformationService.Priorities.NEWBIE_OTHERS, 
-				InformationService.Priorities.CONNECTION_PLAYER, 
-				InformationService.Priorities.CONNECTION_OTHERS,
-				"message",
-				WorldGuardService.Priorities.FLAG,
-				InformationService.Priorities.AUTOMESSAGE));
-		
-		addDefault("bossbar", Arrays.asList(
-				"everpvp",
-				InformationService.Priorities.NEWBIE_PLAYER, 
-				InformationService.Priorities.NEWBIE_OTHERS, 
-				InformationService.Priorities.CONNECTION_PLAYER, 
-				InformationService.Priorities.CONNECTION_OTHERS,
-				"message",
-				WorldGuardService.Priorities.FLAG,
-				InformationService.Priorities.AUTOMESSAGE));
-		
-		addDefault("nametag", Arrays.asList(
+		addDefault(Arrays.asList("nametag"), Arrays.asList(
 				InformationService.Priorities.NAMETAG));
 		
-		addDefault("tablist", Arrays.asList(
+		addDefault(Arrays.asList("tablist"), Arrays.asList(
 				InformationService.Priorities.TABLIST));
 		
-		addDefault("spawn", Arrays.asList(
+		addDefault(Arrays.asList("spawn"), Arrays.asList(
 				SpawnSubjectService.Priorities.NEWBIE,
 				WorldGuardService.Priorities.FLAG,
 				EssentialsService.Priorities.HOME, 
@@ -85,14 +68,23 @@ public class EPriorityConfig extends EConfig<EverAPI> {
 				SpawnService.Priorities.BED,
 				SpawnService.Priorities.WORLD));
 		
-		addDefault("scoreboard." + DisplaySlots.BELOW_NAME.getName().toLowerCase(), Arrays.asList(
+		addDefault(Arrays.asList("scoreboard:" + DisplaySlots.BELOW_NAME.getName().replaceFirst("minecraft:", "").toLowerCase()), Arrays.asList(
 				InformationService.Priorities.SCOREBOARD_BELOW_NAME));
 		
-		addDefault("scoreboard." + DisplaySlots.LIST.getName().toLowerCase(), Arrays.asList(
+		addDefault(Arrays.asList("scoreboard:" + DisplaySlots.LIST.getName().replaceFirst("minecraft:", "").toLowerCase()), Arrays.asList(
 				InformationService.Priorities.SCOREBOARD_LIST));
 		
-		addDefault("scoreboard." + DisplaySlots.SIDEBAR.getName().toLowerCase(), Arrays.asList(
+		addDefault(Arrays.asList("scoreboard:" + DisplaySlots.SIDEBAR.getName().replaceFirst("minecraft:", "").toLowerCase()), Arrays.asList(
 				InformationService.Priorities.SCOREBOARD_SIDEBAR));
+	}
+	
+	public ConfigurationNode getContains(final String name) {
+		for (Entry<Object, ? extends ConfigurationNode> config : this.getNode().getChildrenMap().entrySet()) {
+			if (config.getKey().toString().contains(name)) {
+				return config.getValue();
+			}
+		}
+		return this.get(name);
 	}
 	
 	public ConcurrentHashMap<DisplaySlot, ConcurrentHashMap<String, Integer>> getScoreBoard() {

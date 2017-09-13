@@ -42,84 +42,84 @@ public abstract class EFile<T extends EPlugin<T>> {
 	
 	private File file = null;
 	private HoconConfigurationLoader manager = null;
-    private CommentedConfigurationNode config = null;
-    
-    // MultiThreading
+	private CommentedConfigurationNode config = null;
+	
+	// MultiThreading
  	private final ReadWriteLock lock;
  	protected final Lock write_lock;
  	protected final Lock read_lock;
-    
-    private boolean modified;
+	
+	private boolean modified;
 	private boolean newDirs;
 
-    /**
-     * Création d'un fichier de configuration
-     * @param plugin Le plugin 
-     */
-    public EFile(final T plugin){
-    	this(plugin, "config", true);
-    }
-    
-    /**
-     * Création d'un fichier de configuration
-     * @param plugin Le plugin 
-     * @param name Le nom du fichier de configuration
-     */
-    public EFile(final T plugin, final String name){
-    	this(plugin, name, true);
-    }
-    
-    /**
-     * Création d'un fichier de configuration
-     * @param plugin Le plugin 
-     * @param name Le nom du fichier de configuration
-     * @param save Sauvegarde automatique
-     */
-    public EFile(final T plugin, final String name, final boolean autoReload){
-    	this.plugin = plugin;
-    	this.name = name;
-    	this.modified = false;
-    	
-    	// MultiThreading
+	/**
+	 * Création d'un fichier de configuration
+	 * @param plugin Le plugin 
+	 */
+	public EFile(final T plugin){
+		this(plugin, "config", true);
+	}
+	
+	/**
+	 * Création d'un fichier de configuration
+	 * @param plugin Le plugin 
+	 * @param name Le nom du fichier de configuration
+	 */
+	public EFile(final T plugin, final String name){
+		this(plugin, name, true);
+	}
+	
+	/**
+	 * Création d'un fichier de configuration
+	 * @param plugin Le plugin 
+	 * @param name Le nom du fichier de configuration
+	 * @param save Sauvegarde automatique
+	 */
+	public EFile(final T plugin, final String name, final boolean autoReload){
+		this.plugin = plugin;
+		this.name = name;
+		this.modified = false;
+		
+		// MultiThreading
 		this.lock = new ReentrantReadWriteLock();
 		this.write_lock = this.lock.writeLock();
 		this.read_lock = this.lock.readLock();
-    	
-    	if (autoReload) {
-    		this.plugin.registerConfiguration(this);    
-    	}
-    }
-    
-    /**
-     * Charge la configuration
-     */
-    public abstract void reload(); 
-    
-    public List<String> getHeader() {
+		
+		if (autoReload) {
+			this.plugin.registerConfiguration(this);	
+		}
+	}
+	
+	/**
+	 * Charge la configuration
+	 */
+	public abstract void reload(); 
+	
+	public boolean isNewDirs() {
+		return this.newDirs;
+	}
+	
+	public List<String> getHeader() {
 		return Arrays.asList();
 	}
-    
-    public boolean isNewDirs() {
-    	return this.newDirs;
-    }
 	
-    /**
-     * Rechargement de la configuration
-     */
-    public void loadFile() {
-    	this.read_lock.lock();
+	/**
+	 * Rechargement de la configuration
+	 */
+	public void loadFile() {
+		this.read_lock.lock();
 		try {
 			this.newDirs = false;
-	        if (this.file == null) {
-	        	this.file = this.plugin.getPath().resolve(this.name + ".conf").toFile();
-	        	if (!this.file.getParentFile().exists()){
-	        		this.file.getParentFile().mkdirs();
-	        		this.newDirs = true;
-	        	}
-	        }
-	        this.manager = HoconConfigurationLoader.builder().setFile(this.file).build();
-	        String header = String.join("\n", this.getHeader());
-	        try {
+			if (this.file == null) {
+				this.file = this.plugin.getPath().resolve(this.name + ".conf").toFile();
+				if (!this.file.getParentFile().exists()){
+					this.file.getParentFile().mkdirs();
+					this.newDirs = true;
+				}
+			}
+			this.manager = HoconConfigurationLoader.builder().setFile(this.file).build();
+			String header = String.join("\n", this.getHeader());
+			try {
 				if (!header.isEmpty()) {
 					this.config = this.manager.load(ConfigurationOptions.defaults().setHeader(header));
 				} else {
@@ -138,70 +138,70 @@ public abstract class EFile<T extends EPlugin<T>> {
 		} finally {
 			this.read_lock.unlock();
 		}
-    }
+	}
 
 	/**
-     * Sauvegarde du fichier de configuration
-     */
-    public boolean save(boolean force) {
-    	this.write_lock.lock();
+	 * Sauvegarde du fichier de configuration
+	 */
+	public boolean save(boolean force) {
+		this.write_lock.lock();
 		try {
-	        if (this.manager != null && this.config != null && (force || this.modified)) {
-		        try {
-		        	this.manager.save(config);
-		        	this.modified = false;
-		        } catch (IOException e) {
-		            this.plugin.getELogger().warn("Impossible de sauvegarder le fichier : " + this.name + ".conf : " + this.file.getAbsolutePath());
-		            return false;
-		        }
-	        }
+			if (this.manager != null && this.config != null && (force || this.modified)) {
+				try {
+					this.manager.save(config);
+					this.modified = false;
+				} catch (IOException e) {
+					this.plugin.getELogger().warn("Impossible de sauvegarder le fichier : " + this.name + ".conf : " + this.file.getAbsolutePath());
+					return false;
+				}
+			}
 		} finally {
 			this.write_lock.unlock();
 		}
-        return true;
-    }
-    
-    /**
-     * Retourne la configuration
-     * @return La configuration
-     */
-    public CommentedConfigurationNode getNode() {
-        return this.config;
-    }
-    
-    protected void setModified(boolean modified) {
-    	this.modified = true;
-    }
+		return true;
+	}
+	
+	/**
+	 * Retourne la configuration
+	 * @return La configuration
+	 */
+	public CommentedConfigurationNode getNode() {
+		return this.config;
+	}
+	
+	protected void setModified(boolean modified) {
+		this.modified = true;
+	}
 
-    /**
-     * Ajoute une valeur par défaut
-     * @param paths Le path
-     * @param value La valeur
-     */
-    protected void addDefault(final String paths, final Object value){
-    	ConfigurationNode node = this.get(paths);    	
-    	if (node.isVirtual()){
-    		node.setValue(value);
-    		this.setModified(true);
-    	}
-    }
-    
-    /**
-     * Retourne un node
-     * @param paths Le path
-     * @return Le node
-     */
-    public CommentedConfigurationNode get(final String paths){
-    	return this.config.getNode((Object[]) paths.split(Pattern.quote(".")));   
-    }
-    
-    public List<String> getListString(String paths){
-    	ConfigurationNode resultat = get(paths);
-    	if (resultat != null){
-    		try {
+	/**
+	 * Ajoute une valeur par défaut
+	 * @param paths Le path
+	 * @param value La valeur
+	 */
+	protected void addDefault(final String paths, final Object value){
+		ConfigurationNode node = this.get(paths);		
+		if (node.isVirtual()){
+			node.setValue(value);
+			this.setModified(true);
+		}
+	}
+	
+	/**
+	 * Retourne un node
+	 * @param paths Le path
+	 * @return Le node
+	 */
+	public CommentedConfigurationNode get(final String paths){
+		return this.config.getNode((Object[]) paths.split(Pattern.quote(".")));   
+	}
+	
+	public List<String> getListString(String paths){
+		ConfigurationNode resultat = get(paths);
+		if (resultat != null){
+			try {
 				return resultat.getList(TypeToken.of(String.class));
 			} catch (ObjectMappingException e) {}
-    	}
-    	return new ArrayList<String>();
-    }
+		}
+		return new ArrayList<String>();
+	}
 }

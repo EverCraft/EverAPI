@@ -17,8 +17,11 @@
 package fr.evercraft.everapi.plugin.file;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map.Entry;
 
 import fr.evercraft.everapi.plugin.EPlugin;
+import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 
 public abstract class EConfig<T extends EPlugin<T>> extends EFile<T> {
@@ -90,6 +93,22 @@ public abstract class EConfig<T extends EPlugin<T>> extends EFile<T> {
     		this.setModified(true);
     	}
     }
+    
+    public void addDefault(List<String> keys, Object value) {
+		keys.stream()
+			.filter(key -> this.getContains(key).isVirtual())
+			.reduce((k1, k2) -> k1 + ", " + k2)
+			.ifPresent(key -> this.addDefault(key, value));
+	}
+	
+	public ConfigurationNode getContains(final String name) {
+		for (Entry<Object, ? extends ConfigurationNode> config : this.getNode().getChildrenMap().entrySet()) {
+			if (config.getKey().toString().contains(name)) {
+				return config.getValue();
+			}
+		}
+		return this.get(name);
+	}
 
     public boolean isDebug() {
     	this.plugin.getELogger().info("Debug : " + this.get("DEBUG").getBoolean(false));
@@ -112,7 +131,6 @@ public abstract class EConfig<T extends EPlugin<T>> extends EFile<T> {
     }
     
     public void sqlDefault() {
-    	// SQL
 		addComment(SQL, 				"Save to a database : ",
 										"  H2 : \"jdbc:h2:" + this.plugin.getPath().toAbsolutePath() + "/data\"",
 										"  SQL : \"jdbc:mysql://[login[:password]@]{host}:{port}/{database}\"",
