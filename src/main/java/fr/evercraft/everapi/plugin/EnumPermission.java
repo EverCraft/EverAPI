@@ -16,11 +16,12 @@
  */
 package fr.evercraft.everapi.plugin;
 
-import org.spongepowered.api.command.CommandSource;
+import fr.evercraft.everapi.plugin.file.EnumMessage;
 
 public interface EnumPermission {
 	
 	public String get();
-	public boolean has(CommandSource player);
+	public boolean getDefault();
+	public EnumMessage getMessage();
 	
 }

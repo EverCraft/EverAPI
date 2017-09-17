@@ -18,6 +18,7 @@ package fr.evercraft.everapi.sponge;
 
 import java.util.Optional;
 
+import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.gamemode.GameMode;
 import org.spongepowered.api.entity.living.player.gamemode.GameModes;
 import org.spongepowered.api.text.Text;
@@ -25,40 +26,45 @@ import org.spongepowered.api.text.Text;
 import fr.evercraft.everapi.EAMessage.EAMessages;
 
 public class UtilsGameMode {
-	public static Text getName(final GameMode gamemode){
-		Text name = Text.EMPTY;
-		if (gamemode != null){
-			if (gamemode.equals(GameModes.SURVIVAL)){
-				name = EAMessages.GAMEMODE_SURVIVAL.getText();
-			} else if (gamemode.equals(GameModes.CREATIVE)) {
-				name = EAMessages.GAMEMODE_CREATIVE.getText();
-			} else if (gamemode.equals(GameModes.ADVENTURE)) {
-				name = EAMessages.GAMEMODE_ADVENTURE.getText();
-			} else if (gamemode.equals(GameModes.SPECTATOR)) {
-				name = EAMessages.GAMEMODE_SPECTATOR.getText();
-			} else if (gamemode.equals(GameModes.NOT_SET)) {
-				name = EAMessages.GAMEMODE_NOT_SET.getText();
-			}
+	public static Text getName(final GameMode gamemode) {
+		if (gamemode == null) return Text.EMPTY;
+
+		if (gamemode.equals(GameModes.SURVIVAL)){
+			return EAMessages.GAMEMODE_SURVIVAL.getText();
+		} else if (gamemode.equals(GameModes.CREATIVE)) {
+			return EAMessages.GAMEMODE_CREATIVE.getText();
+		} else if (gamemode.equals(GameModes.ADVENTURE)) {
+			return EAMessages.GAMEMODE_ADVENTURE.getText();
+		} else if (gamemode.equals(GameModes.SPECTATOR)) {
+			return EAMessages.GAMEMODE_SPECTATOR.getText();
+		} else if (gamemode.equals(GameModes.NOT_SET)) {
+			return EAMessages.GAMEMODE_NOT_SET.getText();
 		}
-		return name;
+		return Text.EMPTY;
 	}
 	
-	public static Optional<GameMode> getGameMode(final String arg){
-		GameMode gamemode = null;
-		if (arg != null){
-			if (arg.equalsIgnoreCase("survival") || arg.equalsIgnoreCase("0")){
-				gamemode = GameModes.SURVIVAL;
-			} else if (arg.equalsIgnoreCase("creative") || arg.equalsIgnoreCase("1")){
-				gamemode = GameModes.CREATIVE;
-			} else if (arg.equalsIgnoreCase("adventure") || arg.equalsIgnoreCase("2")){
-				gamemode = GameModes.ADVENTURE;
-			} else if (arg.equalsIgnoreCase("spectator") || arg.equalsIgnoreCase("3")){
-				gamemode = GameModes.SPECTATOR;
-			} else if (arg.equalsIgnoreCase("empty") || arg.equalsIgnoreCase("4")){
-				gamemode = GameModes.NOT_SET;
-			}
+	public static Optional<GameMode> getGameMode(final String arg) {
+		if (arg == null) return Optional.empty();
+		
+		switch (arg) {
+			case "0":
+			case "s":
+				return Optional.of(GameModes.SURVIVAL);
+			case "1":
+			case "c":
+				return Optional.of(GameModes.CREATIVE);
+			case "2":
+			case "a":
+				return Optional.of(GameModes.ADVENTURE);
+			case "3":
+			case "sp":
+				return Optional.of(GameModes.SPECTATOR);
+			case "-1":
+				return Optional.of(GameModes.NOT_SET);
+			default:
+				return Sponge.getGame().getRegistry().getType(GameMode.class, arg);
+			
 		}
-		return Optional.ofNullable(gamemode);
 	}
 
 }

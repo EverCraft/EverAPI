@@ -40,7 +40,6 @@ import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
-import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.event.ESpongeEventFactory;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
@@ -148,7 +147,7 @@ public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T
 	private CommandResult processExecute(final CommandSource source, final String argument) throws CommandException, PluginDisableException, ServerDisableException {
 		Chronometer chronometer = new Chronometer();
 		
-		if (argument.contains("@") && source.hasPermission(EAPermissions.SELECTOR.get())) {
+		if (argument.contains("@") && source.hasPermission("minecraft.command.selector")) {
 			if (this.processSelector(source, argument)) return CommandResult.success();
 		}
 		

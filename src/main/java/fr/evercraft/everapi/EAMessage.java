@@ -33,7 +33,7 @@ public class EAMessage extends EMessage<EverAPI> {
 	public enum EAMessages implements EnumMessage {
 		PREFIX("PREFIX",  						"[&4Ever&6&lAPI&f] "),
 				
-		COMMAND_DESCRIPTION("DESCRIPTION",  	"Gestion de l'API"),
+		COMMAND_DESCRIPTION("description",  	"Gestion de l'API"),
 		COMMAND_PLUGINS_DESCRIPTION("pluginsDescription",  	"Affiche la liste des plugins d'EverCraft"),
 				
 				
@@ -613,7 +613,24 @@ public class EAMessage extends EMessage<EverAPI> {
 		PAGINATION_PADDING("paginationPadding", 
 				"&m &r"),
 		PAGINATION_TITLE("paginationTitle", 
-				"&6[ {title} &6]");
+				"&6[ {title} &6]"), 
+		
+		PERMISSIONS_COMMANDS_EXECUTE("permissionsCommandsExecute", 
+				""),		
+		PERMISSIONS_COMMANDS_HELP("permissionsCommandsHelp", 
+				""),
+		PERMISSIONS_COMMANDS_RELOAD("permissionsCommandsReload", 
+				""),
+		PERMISSIONS_COMMANDS_PLUGINS("permissionsCommandsPlugins", 
+				""),
+		PERMISSIONS_COMMANDS_TEST("permissionsCommandsTest", 
+				""),
+		PERMISSIONS_COMMANDS_BLOCKINFO("permissionsCommandsBlockInfo", 
+				""),
+		PERMISSIONS_COMMANDS_DEBUG("permissionsCommandsDebug", 
+				""),
+		PERMISSIONS_WORLDS("permissionsWorlds", 
+				"");
 		
 		private final String path;
 	    private final EMessageBuilder french;
