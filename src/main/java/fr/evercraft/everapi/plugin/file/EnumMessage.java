@@ -16,6 +16,7 @@
  */
 package fr.evercraft.everapi.plugin.file;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColor;
@@ -30,6 +31,8 @@ import fr.evercraft.everapi.plugin.EChat;
 public interface EnumMessage {
 	
 	public String getName();
+	
+	public String name();
 
 	public String getPath();
 	
@@ -73,5 +76,16 @@ public interface EnumMessage {
 			   this.getMessage().getActionbar().isPresent() || 
 			   this.getMessage().getBossbar().isPresent() || 
 			   this.getMessage().getTitle().isPresent();
+	}
+	
+
+	public default String resolvePath() {
+		if (this.name().equals("PREFIX")) return this.name();
+		
+		String[] split = this.name().toLowerCase().split("_");
+		for (int cpt=1; cpt<split.length; cpt++) {
+			split[cpt] = WordUtils.capitalize(split[cpt]);
+		}
+		return String.join("", split);
 	}
 }

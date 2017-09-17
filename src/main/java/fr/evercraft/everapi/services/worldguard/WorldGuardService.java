@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
+import org.spongepowered.api.service.permission.Subject;
 import org.spongepowered.api.world.World;
 
 public interface WorldGuardService {
@@ -40,6 +41,7 @@ public interface WorldGuardService {
 	void registerFlag(Set<Flag<?>> flags);
 	boolean hasRegisteredFlag(Flag<?> flag);
 	Set<Flag<?>> getFlags();
+	boolean hasPermissionFlag(Subject subject, Flag<?> flag);
 	
 	// World
 	CompletableFuture<WorldGuardWorld> getOrCreateWorld(World world);

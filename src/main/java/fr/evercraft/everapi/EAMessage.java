@@ -31,606 +31,544 @@ import fr.evercraft.everapi.plugin.file.EnumMessage;
 public class EAMessage extends EMessage<EverAPI> {
 	
 	public enum EAMessages implements EnumMessage {
-		PREFIX("PREFIX",  						"[&4Ever&6&lAPI&f] "),
+		PREFIX("[&4Ever&6&lAPI&f] "),
 				
-		COMMAND_DESCRIPTION("description",  	"Gestion de l'API"),
-		COMMAND_PLUGINS_DESCRIPTION("pluginsDescription",  	"Affiche la liste des plugins d'EverCraft"),
+		COMMAND_DESCRIPTION("Gestion de l'API"),
+		COMMAND_PLUGINS_DESCRIPTION("Affiche la liste des plugins d'EverCraft"),
 				
 				
 		// Permissions
-		NO_PERMISSION("noPermission",
+		NO_PERMISSION(
 				"&cErreur : Vous n'avez pas la permission !",
 				"&cError : You don't have permission !"),
-		NO_PERMISSION_WORLD("noPermissionWorld",  	
+		NO_PERMISSION_WORLD(
 				"&cErreur : Vous n'avez pas la permission d'aller dans ce monde.", 
 				"&cError : You do not have permission to go in this world."),
-		NO_PERMISSION_WORLD_OTHERS("noPermissionWorldOthers",  	
+		NO_PERMISSION_WORLD_OTHERS(  	
 				"&cErreur : Le joueur n'a pas la permission pour ce monde !",
 				"&cError : The player doesn't have permission for this world !"),
 				
 		// Autre
-		WORLD_NOT_FOUND("worldNotFound",
+		WORLD_NOT_FOUND(
 				"&cErreur : Le monde '&6{world}&c' est introuvable.",
 				"&cError : The world '&6{world}&c' is not found"),
-		REGION_NOT_FOUND("regionNotFound",
+		REGION_NOT_FOUND(
 				"&cErreur : La région '&6{region}&c' est introuvable."),
-		EMPTY_ITEM_IN_HAND("emptyItemInHand", 
+		EMPTY_ITEM_IN_HAND(
 				"&cErreur : Vous n'avez aucun objet dans votre main.", 
 				"&cError : You have no item in your hand."),
-		ACCOUNT_NOT_FOUND("accountNotFound",
+		ACCOUNT_NOT_FOUND(
 				"&cErreur : Le compte n'a pas été trouvé.", 
 				"&cError : The account was not found."),
-		SERVER_ERROR("serverError",
+		SERVER_ERROR(
 				"&cUne erreur est survenu, les administrateurs ont été contactés.", 
 				"&cAn error occurred, administrators were contacted."),
-		IS_NOT_ENTITY_TYPE("isNotEntityType", 
+		IS_NOT_ENTITY_TYPE(
 				"&cErreur : '{entity}' n'est pas un type d'entité.", 
 				"&cError : '{entity}' is not an entity type."),
-		ERROR_VARIABLE("errorVariable", 
+		ERROR_VARIABLE(
 				"&cErreur : La variable '{number}' est incorrect."),
-		IS_NOT_BOOLEAN("isNotBoolean", 
+		IS_NOT_BOOLEAN(
 				"&cErreur : '{boolean}' n'est pas un booléen (TRUE ou FALSE)."),
-		IS_NOT_COLOR("isNotBoolean", 
+		IS_NOT_COLOR(
 				"&cErreur : '{color}' n'est pas une couleur."),
-		IS_NOT_OVERLAY("isNotBoolean", 
-				"&cErreur : '{overlay}' n'est pas un overlay."),
+		IS_NOT_OVERLAY("&cErreur : '{overlay}' n'est pas un overlay."),
 				
 				
 		// Nombre
-		NUMBER_INVALID("numberInvalid",
-				"&cLe nombre est invalid."),
-		IS_NOT_NUMBER("isNotNumber", 
+		NUMBER_INVALID("&cLe nombre est invalid."),
+		IS_NOT_NUMBER(
 				"&cErreur : '{number}' n'est pas nombre.", 
 				"&cError : '{number}' is not a number"),
-		IS_NOT_TIME("isNotTime", 
+		IS_NOT_TIME(
 				"&cErreur : &6'{time}' &cn'est pas une durée."),
 		
-		IS_NOT_DIRECTION("isNotDirection", 
+		IS_NOT_DIRECTION(
 				"&cErreur : '{direction}' n'est pas une direction."),
 		
 		// Commande
-		COMMAND_USAGE("commandUsage",
+		COMMAND_USAGE(
 				"&cUtilisation :[RT]", 
 				"&cUsage :[RT]"),
-		COMMAND_ERROR("commandError", 
+		COMMAND_ERROR(
 				"&cErreur : Un problème est survenu lors de l'exécution de la commande.", 
 				"&cError : A problem occurred during the execution of the command."),
-		COMMAND_ASYNC("commandAsync", 
+		COMMAND_ASYNC(
 				"&cErreur : Cette commande est déjà encours d'exécution"),
-		COMMAND_ERROR_PLAYER_DEAD("commandErrorPlayerDead", 
+		COMMAND_ERROR_PLAYER_DEAD(
 				"&cErreur : Vous ne pouvez pas exécuter une commande quand vous êtes mort.", 
 				"&cError : You can not run a command when you're dead"),
-		COMMAND_ERROR_FOR_PLAYER("commandErrorForPlayer", 
+		COMMAND_ERROR_FOR_PLAYER(
 				"&cErreur : Cette commande ne peut être exécutée que par un joueur.", 
 				"&cError : This command can be executed only by a player."),
 		
 		// Player
-		PLAYER_NOT_FOUND("playerNotFound", 
+		PLAYER_NOT_FOUND(
 				"&cErreur : Le joueur &6{player} &cest introuvable.", 
 				"&cError : This player is untraceable."),
-		PLAYER_NO_LOOK_BLOCK("playerNoLookBlock", 
+		PLAYER_NO_LOOK_BLOCK(
 				"&cErreur : Vous regardez aucun bloc.", 
 				"&cError : You look no block."),
-		PLAYER_INVENTORY_FULL("playerInventoryFull", 
+		PLAYER_INVENTORY_FULL(
 				"&cErreur : Votre inventaire est plein."),
-		PLAYER_INVENTORY_FULL_AND_DROP("playerInventoryFullAndDrop", 
+		PLAYER_INVENTORY_FULL_AND_DROP(
 				"&cVotre inventaire est plein ! Le reste des objects est au sol."),
 		
-		PLAYER_ERROR_TELEPORT("playerErrorTeleport", 
+		PLAYER_ERROR_TELEPORT(
 				"&cErreur : Impossible de trouver une position pour réaliser une téléportation."),
 		
-		GROUP_NOT_FOUND("pluginMessagesGroupNotFound", 				
+		GROUP_NOT_FOUND(
 				"&cErreur : Ce groupe n'existe pas.", 
 				"&cError: This group doesn't exist."),
 		
 		// Reload
-		RELOAD_DESCRIPTION("reloadDescription", 
+		RELOAD_DESCRIPTION(
 				"Permet de recharger le plugin.", 
 				"Reloads the plugin."),
-		RELOAD_COMMAND("reloadCommand", 
+		RELOAD_COMMAND(
 				"&7Rechargement du plugin terminé.", 
 				"&7Reload complete."),
 		
 		// ReloadAll
-		RELOAD_ALL_DESCRIPTION("reloadAllDescription", 
+		RELOAD_ALL_DESCRIPTION(
 				"Permet de recharger tous les plugins EverCraft."),
-		RELOAD_ALL_COMMAND("reloadAllCommand", 
+		RELOAD_ALL_COMMAND(
 				"&7Rechargement de tous les plugins EverCraft terminé."),
 		
-		LOCATION_ERROR_NUMBER("locationErrorNumber", 
+		LOCATION_ERROR_NUMBER(
 				"&cErreur : La position {name} doit être compris entre {min} et {max}.", 
 				"&cError : The position {name} must be between {min} and {max}"),
 		
 		// Time
-		TIME_NOW("timeNow", 
+		TIME_NOW(
 				"moins d'une seconde", 
 				"less than a second"),
-		TIME_YEAR("timeYear", 
+		TIME_YEAR(
 				"{value} an", 
 				"{value} year"),
-		TIME_YEARS("timeYears", 
+		TIME_YEARS(
 				"{value} ans", 
 				"{value} years"),
-		TIME_MONTH("timeMonth", 
+		TIME_MONTH( 
 				"{value} mois", 
 				"{value} month"),
-		TIME_MONTHS("timeMonths", 
+		TIME_MONTHS( 
 				"{value} mois", 
 				"{value} months"),
-		TIME_DAY("timeDay", 
+		TIME_DAY( 
 				"{value} jour", 
 				"{value} day"),
-		TIME_DAYS("timeDays", 
+		TIME_DAYS( 
 				"{value} jours", 
 				"{value} days"),
-		TIME_HOUR("timeHour", 
+		TIME_HOUR( 
 				"{value} heure", 
 				"{value} hour"),
-		TIME_HOURS("timeHours", 
+		TIME_HOURS( 
 				"{value} heures", 
 				"{value} hours"),
-		TIME_MINUTE("timeMinute", 
+		TIME_MINUTE( 
 				"{value} minute"),
-		TIME_MINUTES("timeMinutes", 
+		TIME_MINUTES( 
 				"{value} minutes"),
-		TIME_SECOND("timeSecond", 
+		TIME_SECOND( 
 				"{value} seconde", 
 				"{value} second"),
-		TIME_SECONDS("timeSeconds", 
+		TIME_SECONDS( 
 				"{value} secondes", 
 				"{value} seconds"),
-		TIME_JOIN("timeJoin", 
+		TIME_JOIN( 
 				" "),
 		
 		// Gamemode
-		GAMEMODE_SURVIVAL("gamemodeSurvival", 
+		GAMEMODE_SURVIVAL( 
 				"Survival"),
-		GAMEMODE_CREATIVE("gamemodeCreative", 
+		GAMEMODE_CREATIVE( 
 				"Créatif", 
 				"Creative"),
-		GAMEMODE_ADVENTURE("gamemodeAdventure", 
+		GAMEMODE_ADVENTURE( 
 				"Aventure", 
 				"Adventure"),
-		GAMEMODE_SPECTATOR("gamemodeSpectator", 
+		GAMEMODE_SPECTATOR( 
 				"Spectateur", 
 				"Spectator"),
-		GAMEMODE_NOT_SET("gamemodeNoset", 
+		GAMEMODE_NOT_SET( 
 				"Empty"),
 		
 		// Copy
-		HOVER_COPY("hoverCopy", 
+		HOVER_COPY( 
 				"&cCliquez ici pour copier cette information.", 
 				"&cClick here to copy this information."),
-		HOVER_URL("hoverUrl", 
+		HOVER_URL( 
 				"&cCliquez ici pour ouvrir pour cette URL."),
 		
 		// Mail
-		MAIL_SERVER_DISABLE_OBJECT("mailServerDisableObject", 
+		MAIL_SERVER_DISABLE_OBJECT( 
 				"ServerDisableException : {server}"),
-		MAIL_SERVER_DISABLE_MESSAGE("mailServerDisableMessage",
+		MAIL_SERVER_DISABLE_MESSAGE(
 				"Raison : {reason}", 
 				"Reason : {reason}"),
 		
 		// Help
-		HELP_TITLE("helpTitle", 
+		HELP_TITLE( 
 				"&a [ Aide : {plugin} v{version} &a] ", 
 				"&a [ Help : {plugin} v{version} &a] "),
-		HELP_TITLE_HOVER("helpTitleHover", 
+		HELP_TITLE_HOVER( 
 				"&cAuteur(s) :[RT]&c  - {authors}"),
-		HELP_AUTHORS_JOIN("helpAuthorsJoin", 
+		HELP_AUTHORS_JOIN( 
 				"[RT]&c  - "),
-		HELP_AUTHORS_EMPTY("helpAuthorsEmpty", 
+		HELP_AUTHORS_EMPTY( 
 				"Aucun",
 				"Empty"),
-		HELP_PADDING("helpPadding", 
+		HELP_PADDING( 
 				"&m &r"),
-		HELP_LINE("helpLine", 
+		HELP_LINE( 
 				"{name} &6: {description} "),
-		HELP_LINE_NAME("helpLineName", 
+		HELP_LINE_NAME( 
 				"&6/{command}"),
-		HELP_LINE_NAME_HOVER("helpLineNameHover", 
+		HELP_LINE_NAME_HOVER( 
 				"&c{help}"),
-		HELP_EMPTY("helpEmpty", 
+		HELP_EMPTY( 
 				"&7Aucune commande", 
 				"&7No command"),
-		HELP_COLOR_HELP("helpColorHelp", 
+		HELP_COLOR_HELP( 
 				"&a"),
-		HELP_COLOR_PADDING("helpColorPadding", 
+		HELP_COLOR_PADDING( 
 				"&7"),
-		HELP_COLOR_DESCRIPTION("helpColorDescription", 
+		HELP_COLOR_DESCRIPTION( 
 				"&7"),
 		
 		// Plugin
-		PLUGINS_MESSAGE("pluginsMessage", 
+		PLUGINS_MESSAGE( 
 				"&4Ever&6&lPlugins&f(&a{count}&f) : {plugins}"),
-		PLUGINS_ENABLE("pluginsEnable", 
+		PLUGINS_ENABLE( 
 				"&a{plugin}"),
-		PLUGINS_DISABLE("pluginsDisable", 
+		PLUGINS_DISABLE( 
 				"&c{plugin}"),
-		PLUGINS_ID("pluginsId", 
+		PLUGINS_ID( 
 				"&6ID : &7{id}"),
-		PLUGINS_VERSION("pluginsVersion", 
+		PLUGINS_VERSION( 
 				"&6Version : &7{version}"),
-		PLUGINS_DESCRIPTION("pluginsDescription", 
+		PLUGINS_DESCRIPTION( 
 				"&6Description : &7{description}"),
-		PLUGINS_URL("pluginsUrl", 
+		PLUGINS_URL( 
 				"&6URL : &7{url}"),
-		PLUGINS_AUTHOR("pluginsAuthor", 
+		PLUGINS_AUTHOR( 
 				"&6Auteur(s) : &7{author}", 
 				"&6Author(s) : &7{author}"),
 		
 		// Argument
-		ARGS_PLAYER("argsPlayer", 
+		ARGS_PLAYER( 
 				"joueur", 
 				"player"),
-		ARGS_USER("argsUser", 
+		ARGS_USER( 
 				"pseudo", 
 				"player"),
-		ARGS_WORLD("argsWorld", 
+		ARGS_WORLD( 
 				"monde", 
 				"world"),
-		ARGS_GROUP("argsGroup", 
+		ARGS_GROUP( 
 				"groupe", 
 				"group"),
-		ARGS_SUBGROUP("argsSubgroup", 
+		ARGS_SUBGROUP( 
 				"sous-groupe", 
 				"subgroup"),
-		ARGS_INHERITANCE("argsInheritance", 
+		ARGS_INHERITANCE( 
 				"inheritance"),
-		ARGS_PERMISSION("argsPermission", 
+		ARGS_PERMISSION( 
 				"permission"),
-		ARGS_OPTION("argsOption", 
+		ARGS_OPTION( 
 				"option"),
-		ARGS_VALUE("argsValue", 
+		ARGS_VALUE( 
 				"valeur", 
 				"value"),
-		ARGS_SUBJECT("argsSubject", 
+		ARGS_SUBJECT( 
 				"subject", 
 				"subject"),
-		ARGS_MESSAGE("argsMessage", 
+		ARGS_MESSAGE( 
 				"message..."),
-		ARGS_MAIL("argsMail", 
+		ARGS_MAIL( 
 				"mail"),
-		ARGS_AMOUNT("argsAmount",
+		ARGS_AMOUNT(
 				"quantité", 
 				"amount"),
-		ARGS_ARGUMENTS("argsArguments", 
+		ARGS_ARGUMENTS( 
 				"argument..."),
-		ARGS_COOLDOWN("argsCooldown", 
+		ARGS_COOLDOWN( 
 				"cooldown"),
-		ARGS_HOME("argsHome", 
+		ARGS_HOME( 
 				"home"),
-		ARGS_WARP("argsWarp", 
+		ARGS_WARP( 
 				"warp"),
-		ARGS_REASON("argsReason", 
+		ARGS_REASON( 
 				"raison...",
 				"reason..."),
-		ARGS_ENTITY("argsEntity", 
+		ARGS_ENTITY( 
 				"créature",
 				"entity"),
-		ARGS_SPEED("argsSpeed", 
+		ARGS_SPEED( 
 				"vitesse",
 				"speed"),
-		ARGS_BLOCK("argsBlock", 
+		ARGS_BLOCK( 
 				"bloc(s)",
 				"block(s)"),
-		ARGS_SECONDS("argsSeconds", 
+		ARGS_SECONDS( 
 				"seconde(s)",
 				"second(s)"),
-		ARGS_MINUTES("argsMinutes", 
+		ARGS_MINUTES( 
 				"minute(s)"),
-		ARGS_DAMAGE("argsDamage", 
+		ARGS_DAMAGE( 
 				"dégât(s)",
 				"damage(s)"),
-		ARGS_DISTANCE("argsDistance", 
+		ARGS_DISTANCE( 
 				"distance"),
-		ARGS_ITEM("argsItem", 
+		ARGS_ITEM( 
 				"objet",
 				"item"),
-		ARGS_TYPE("argsType", 
+		ARGS_TYPE( 
 				"type"),
-		ARGS_EFFECT("argsEffect", 
+		ARGS_EFFECT( 
 				"effet",
 				"effect"),
-		ARGS_AMPLIFICATION("argsAmplification", 
+		ARGS_AMPLIFICATION( 
 				"amplification"),
-		ARGS_ENCHANTMENT("argsEnchantment", 
+		ARGS_ENCHANTMENT( 
 				"enchantement",
 				"enchantment"),
-		ARGS_LEVEL("argsLevel", 
+		ARGS_LEVEL( 
 				"niveau",
 				"level"),
-		ARGS_COMMAND("argsCommand", 
+		ARGS_COMMAND( 
 				"commande",
 				"command"),
-		ARGS_ID("argsId", 
+		ARGS_ID( 
 				"ID"),
-		ARGS_RECIPIENT("argsRecipient", 
+		ARGS_RECIPIENT( 
 				"destination",
 				"recipient"),
-		ARGS_RADIUS("argsRadius", 
+		ARGS_RADIUS( 
 				"rayon"),
-		ARGS_ALL("argsAll", 
+		ARGS_ALL( 
 				"all"),
-		ARGS_GAMERULE("argsGamerule", 
+		ARGS_GAMERULE( 
 				"règle"),
-		ARGS_NAME("argsName", 
+		ARGS_NAME( 
 				"nom d'épée"),
-		ARGS_DESCRIPTION("argsDescription", 
+		ARGS_DESCRIPTION( 
 				"description"),
-		ARGS_LINE("argsLine", 
+		ARGS_LINE( 
 				"ligne"),
-		ARGS_TIME("argsTime", 
+		ARGS_TIME( 
 				"time"),
-		ARGS_IP("argsIp", 
+		ARGS_IP( 
 				"IP"),
-		ARGS_JAIL("argsJail", 
+		ARGS_JAIL( 
 				"prison"),
-		ARGS_REGION("argsRegion", 
+		ARGS_REGION( 
 				"region"),
-		ARGS_FLAG("argsFlag", 
+		ARGS_FLAG( 
 				"flag"),
-		ARGS_FLAG_VALUE("argsFlagValue", 
+		ARGS_FLAG_VALUE( 
 				"flagValue"),
-		ARGS_REGION_GROUP("argsRegionGroup", 
+		ARGS_REGION_GROUP( 
 				"region_groupe"),
-		ARGS_OWNER("argsOwner", 
+		ARGS_OWNER( 
 				"owner"),
-		ARGS_OWNER_PLAYER("argsOwnerPlayer", 
+		ARGS_OWNER_PLAYER( 
 				"joueur_owner"),
-		ARGS_OWNER_GROUP("argsOwnerGroup", 
+		ARGS_OWNER_GROUP( 
 				"group_owner"),
-		ARGS_MEMBER("argsMember", 
+		ARGS_MEMBER( 
 				"member"),
-		ARGS_MEMBER_PLAYER("argsMemberPlayer", 
+		ARGS_MEMBER_PLAYER( 
 				"joueur_member"),
-		ARGS_MEMBER_GROUP("argsMemberGroup", 
+		ARGS_MEMBER_GROUP( 
 				"groupe_member"),
-		ARGS_PARENT("argsParent", 
+		ARGS_PARENT( 
 				"parent"),
-		ARGS_PRIORITY("argsPriority", 
+		ARGS_PRIORITY( 
 				"priority"),
-		ARGS_DIRECTION("argsDirection", 
+		ARGS_DIRECTION( 
 				"direction"),
-		ARGS_REVERSE_AMOUNT("argsReverseAmount",
+		ARGS_REVERSE_AMOUNT(
 				"quantité inverse", 
 				"reverse-amount"),
 		
 		// Couleur
-		COLORS_BLACK("colorsBlack", 
+		COLORS_BLACK( 
 				"Noir", 
 				"Black"),
-		COLORS_DARK_BLUE("colorsDarkBlue", 
+		COLORS_DARK_BLUE( 
 				"Bleu foncé", 
 				"Dark Blue"),
-		COLORS_DARK_GREEN("colorsDarkGreen", 
+		COLORS_DARK_GREEN( 
 				"Vert foncé", 
 				"Dark Green"),
-		COLORS_DARK_AQUA("colorsDarkAqua", 
+		COLORS_DARK_AQUA( 
 				"Bleu ciel", 
 				"Dark Aqua"),
-		COLORS_DARK_RED("colorsDarkRed", 
+		COLORS_DARK_RED( 
 				"Rouge foncé", 
 				"Dark Red"),
-		COLORS_DARK_PURPLE("colorsDarkPurple", 
+		COLORS_DARK_PURPLE( 
 				"Violet", 
 				"Dark Purple"),
-		COLORS_GOLD("colorsGold", 
+		COLORS_GOLD( 
 				"Or", 
 				"Gold"),
-		COLORS_GRAY("colorsGray", 
+		COLORS_GRAY( 
 				"Gris", 
 				"Gray"),
-		COLORS_DARK_GRAY("colorsDarkGray", 
+		COLORS_DARK_GRAY( 
 				"Gris foncé", 
 				"Dark Gray"),
-		COLORS_BLUE("colorsBlue", 
+		COLORS_BLUE( 
 				"Bleu clair", 
 				"Blue"),
-		COLORS_GREEN("colorsGreen", 
+		COLORS_GREEN( 
 				"Vert clair", 
 				"Green"),
-		COLORS_AQUA("colorsAqua", 
+		COLORS_AQUA( 
 				"Cyan", 
 				"Aqua"),
-		COLORS_RED("colorsRed", 
+		COLORS_RED( 
 				"Rouge", 
 				"Red"),
-		COLORS_LIGHT_PURPLE("colorsLightPurple", 
+		COLORS_LIGHT_PURPLE( 
 				"Magenta", 
 				"Light Purple"),
-		COLORS_YELLOW("colorsYellow", 
+		COLORS_YELLOW( 
 				"Jaune", 
 				"Yellow"),
-		COLORS_WHITE("colorsWhite", 
+		COLORS_WHITE( 
 				"Blanc", 
 				"White"),
 		
-		DIRECTIONS_NORTH("directionsNorth", 
+		DIRECTIONS_NORTH( 
 				"Nord", 
 				"North"),
-		DIRECTIONS_NORTH_NORTHEAST("directionsNorthNorthEast", 
+		DIRECTIONS_NORTH_NORTHEAST( 
 				"Nord Nord-Est", 
 				"North NorthEast"),
-		DIRECTIONS_NORTHEAST("directionsNorthEast", 
+		DIRECTIONS_NORTHEAST( 
 				"Nord-Est", 
 				"NorthEast"),
-		DIRECTIONS_EAST_NORTHEAST("directionsEastNorthEast", 
+		DIRECTIONS_EAST_NORTHEAST( 
 				"Est Nord-Est", 
 				"East NorthEast"),
-		DIRECTIONS_EAST("directionsEast", 
+		DIRECTIONS_EAST( 
 				"Est", 
 				"East"),
-		DIRECTIONS_EAST_SOUTHEAST("directionsEastSouthEast", 
+		DIRECTIONS_EAST_SOUTHEAST( 
 				"Est Sud-Est", 
 				"East SouthEast"),
-		DIRECTIONS_SOUTHEAST("directionsSouthEast", 
+		DIRECTIONS_SOUTHEAST( 
 				"Sud-Est", 
 				"SouthEast"),
-		DIRECTIONS_SOUTH("directionsSouth", 
+		DIRECTIONS_SOUTH( 
 				"Sud", 
 				"South"),
-		DIRECTIONS_SOUTH_SOUTHWEST("directionsSouthSouthWest", 
+		DIRECTIONS_SOUTH_SOUTHWEST( 
 				"Sud Sud-Ouest", 
 				"South SouthWest"),
-		DIRECTIONS_SOUTHWEST("directionsSouthWest", 
+		DIRECTIONS_SOUTHWEST( 
 				"Sud-Ouest", 
 				"SouthWest"),
-		DIRECTIONS_WEST_SOUTHWEST("directionsWestSouthWest", 
+		DIRECTIONS_WEST_SOUTHWEST( 
 				"Ouest Sud-Ouest", 
 				"West SouthWest"),
-		DIRECTIONS_WEST("directionsWest", 
+		DIRECTIONS_WEST( 
 				"Ouest", 
 				"West"),
-		DIRECTIONS_WEST_NORTHWEST("directionsWestNorthWest", 
+		DIRECTIONS_WEST_NORTHWEST( 
 				"Ouest Nord-Ouest", 
 				"West NorthWest"),
-		DIRECTIONS_NORTHWEST("directionsNorthWest", 
+		DIRECTIONS_NORTHWEST( 
 				"Nord-Ouest", 
 				"NorthWest"),
-		DIRECTIONS_NORTH_NORTHWEST("directionsNorthNorthWest", 
+		DIRECTIONS_NORTH_NORTHWEST( 
 				"Nord Nord-Ouest", 
 				"North NorthWest"),
-		DIRECTIONS_UP("directionsUp", 
+		DIRECTIONS_UP( 
 				"Haut", 
 				"Up"),
-		DIRECTIONS_DOWN("directionsDown", 
+		DIRECTIONS_DOWN( 
 				"Bas", 
 				"Down"),
 		
 		// Region
-		REGION_TYPE_CUBOID_HOVER("regionTypeCudoidHover",
-				"&7Région rectangulaire."),
-		REGION_TYPE_POLYGONAL_HOVER("regionTypePolygonalHover",
-				"&7Région avec plusieurs positions."),
-		REGION_TYPE_TEMPLATE_HOVER("regionTypeTemplateHover",
-				"&7Région virtuelle."),
-		REGION_TYPE_GLOBAL_HOVER("regionTypeGlobalHover",
-				"&7Région qui recouvre tout le monde."),
+		REGION_TYPE_CUBOID_HOVER("&7Région rectangulaire."),
+		REGION_TYPE_POLYGONAL_HOVER("&7Région avec plusieurs positions."),
+		REGION_TYPE_TEMPLATE_HOVER("&7Région virtuelle."),
+		REGION_TYPE_GLOBAL_HOVER("&7Région qui recouvre tout le monde."),
 		
-		REGION_GROUP_OWNER_HOVER("regionGroupOwnerHover",						
-				"&7Les propriétaires de la région."),
-		REGION_GROUP_MEMBER_HOVER("regionGroupMemberHover",						
-				"&7Les membres de la région"),
-		REGION_GROUP_DEFAULT_HOVER("regionGroupDefaultHover",						
-				"&7Les autres joueurs."),
+		REGION_GROUP_OWNER_HOVER("&7Les propriétaires de la région."),
+		REGION_GROUP_MEMBER_HOVER("&7Les membres de la région"),
+		REGION_GROUP_DEFAULT_HOVER("&7Les autres joueurs."),
 		
 		// Flag
-		FLAG_DESCRIPTION("flagDescription",			
-				"&7{description}"),
+		FLAG_DESCRIPTION("&7{description}"),
 		
-		FLAG_MESSAGE_JOIN("flagMessageJoin",			
-				"&7, "),
-		FLAG_MESSAGE_CHAT("flagMessageChat",			
-				"&cCHAT"),
-		FLAG_MESSAGE_CHAT_MESSAGE("flagMessageChatMessage",			
-				"&6Message : &c{message}"),
-		FLAG_MESSAGE_CHAT_PREFIX("flagMessageChatPrefix",			
-				"&6Prefix : &c{prefix}"),
+		FLAG_MESSAGE_JOIN("&7, "),
+		FLAG_MESSAGE_CHAT("&cCHAT"),
+		FLAG_MESSAGE_CHAT_MESSAGE("&6Message : &c{message}"),
+		FLAG_MESSAGE_CHAT_PREFIX("&6Prefix : &c{prefix}"),
 		
-		FLAG_MESSAGE_ACTIONBAR("flagMessageActionBar",			
-				"&cACTION_BAR"),
-		FLAG_MESSAGE_ACTIONBAR_MESSAGE("flagMessageActionBarMessage",			
-				"&6Message : &c{message}"),
-		FLAG_MESSAGE_ACTIONBAR_PREFIX("flagMessageActionBarPrefix",			
-				"&6Prefix : &c{prefix}"),
-		FLAG_MESSAGE_ACTIONBAR_STAY("flagMessageActionBarStay",			
-				"&6Stay : &c{stay}(ms)"),
-		FLAG_MESSAGE_ACTIONBAR_PRIORITY("flagMessageActionBarPriority",			
-				"&6Priority : &c{priority}"),
+		FLAG_MESSAGE_ACTIONBAR("&cACTION_BAR"),
+		FLAG_MESSAGE_ACTIONBAR_MESSAGE("&6Message : &c{message}"),
+		FLAG_MESSAGE_ACTIONBAR_PREFIX("&6Prefix : &c{prefix}"),
+		FLAG_MESSAGE_ACTIONBAR_STAY("&6Stay : &c{stay}(ms)"),
+		FLAG_MESSAGE_ACTIONBAR_PRIORITY("&6Priority : &c{priority}"),
 		
-		FLAG_MESSAGE_TITLE("flagMessageTitle",			
-				"&cTITLE"),
-		FLAG_MESSAGE_TITLE_MESSAGE("flagMessageTitleMessage",			
-				"&6Message : &c{message}"),
-		FLAG_MESSAGE_TITLE_SUBMESSAGE("flagMessageTitleSubMessage",			
-				"&6Prefix : &c{prefix}"),
-		FLAG_MESSAGE_TITLE_PREFIX("flagMessageTitlePrefix",			
-				"&6SubMessage : &c{submessage}"),
-		FLAG_MESSAGE_TITLE_SUBPREFIX("flagMessageTitleSubPrefix",			
-				"&6SubPrefix : &c{subprefix}"),
-		FLAG_MESSAGE_TITLE_STAY("flagMessageTitleStay",			
-				"&6Stay : &c{stay}(ms)"),
-		FLAG_MESSAGE_TITLE_FADEIN("flagMessageTitleFadeIn",			
-				"&6FadeIn : &c{fadein}(ms)"),
-		FLAG_MESSAGE_TITLE_FADEOUT("flagMessageTitleFadeOut",			
-				"&6FadeOut : &c{fadeout}(ms)"),
-		FLAG_MESSAGE_TITLE_PRIORITY("flagMessageTitlePriority",			
-				"&6Priority : &c{priority}"),
+		FLAG_MESSAGE_TITLE("&cTITLE"),
+		FLAG_MESSAGE_TITLE_MESSAGE("&6Message : &c{message}"),
+		FLAG_MESSAGE_TITLE_SUBMESSAGE("&6Prefix : &c{prefix}"),
+		FLAG_MESSAGE_TITLE_PREFIX("&6SubMessage : &c{submessage}"),
+		FLAG_MESSAGE_TITLE_SUBPREFIX("&6SubPrefix : &c{subprefix}"),
+		FLAG_MESSAGE_TITLE_STAY("&6Stay : &c{stay}(ms)"),
+		FLAG_MESSAGE_TITLE_FADEIN("&6FadeIn : &c{fadein}(ms)"),
+		FLAG_MESSAGE_TITLE_FADEOUT("&6FadeOut : &c{fadeout}(ms)"),
+		FLAG_MESSAGE_TITLE_PRIORITY("&6Priority : &c{priority}"),
 		
-		FLAG_MESSAGE_BOSSBAR("flagMessageBossBar",			
-				"&cBOSSBAR"),
-		FLAG_MESSAGE_BOSSBAR_MESSAGE("flagMessageBossBarMessage",			
-				"&6Message : &c{message}"),
-		FLAG_MESSAGE_BOSSBAR_PREFIX("flagMessageBossBarPrefix",			
-				"&6Prefix : &c{prefix}"),
-		FLAG_MESSAGE_BOSSBAR_STAY("flagMessageBossBarStay",			
-				"&6Stay : &c{stay}(ms)"),
-		FLAG_MESSAGE_BOSSBAR_CREATEFOG("flagMessageBossBarCreateFog",			
-				"&6CreateFog : &c{createfog}"),
-		FLAG_MESSAGE_BOSSBAR_DARKENSKY("flagMessageBossBarDarkenSky",			
-				"&6DarkenSky : &c{darkensky}"),
-		FLAG_MESSAGE_BOSSBAR_MUSIC("flagMessageBossBarMusic",			
-				"&6Music : &c{music}"),
-		FLAG_MESSAGE_BOSSBAR_COLOR("flagMessageBossBarColor",			
-				"&6Color : &c{color}"),
-		FLAG_MESSAGE_BOSSBAR_OVERLAY("flagMessageBossBarOverlay",			
-				"&6Overlay : &c{overlay}"),
-		FLAG_MESSAGE_BOSSBAR_PERCENT("flagMessageBossBarPercent",			
-				"&6Percent : &c{percent}"),
-		FLAG_MESSAGE_BOSSBAR_PRIORITY("flagMessageBossBarPriority",			
-				"&6Priority : &c{priority}"),
+		FLAG_MESSAGE_BOSSBAR("&cBOSSBAR"),
+		FLAG_MESSAGE_BOSSBAR_MESSAGE("&6Message : &c{message}"),
+		FLAG_MESSAGE_BOSSBAR_PREFIX("&6Prefix : &c{prefix}"),
+		FLAG_MESSAGE_BOSSBAR_STAY("&6Stay : &c{stay}(ms)"),
+		FLAG_MESSAGE_BOSSBAR_CREATEFOG("&6CreateFog : &c{createfog}"),
+		FLAG_MESSAGE_BOSSBAR_DARKENSKY("&6DarkenSky : &c{darkensky}"),
+		FLAG_MESSAGE_BOSSBAR_MUSIC("&6Music : &c{music}"),
+		FLAG_MESSAGE_BOSSBAR_COLOR("&6Color : &c{color}"),
+		FLAG_MESSAGE_BOSSBAR_OVERLAY("&6Overlay : &c{overlay}"),
+		FLAG_MESSAGE_BOSSBAR_PERCENT("&6Percent : &c{percent}"),
+		FLAG_MESSAGE_BOSSBAR_PRIORITY("&6Priority : &c{priority}"),
 		
-		FLAG_MAP_JOIN("flagMapJoin",			
-				"&7, "),
-		FLAG_MAP_GROUP("flagMapGroup",			
-				"&c{group}"),
-		FLAG_MAP_EMPTY("flagMapEmpty",			
-				"&cAucun"),
-		FLAG_MAP_HOVER("flagMapHover",			
-				"&c{value}"),
-		FLAG_MAP_MORE("flagMapMore",			
-				"&c..."),
+		FLAG_MAP_JOIN("&7, "),
+		FLAG_MAP_GROUP("&c{group}"),
+		FLAG_MAP_EMPTY("&cAucun"),
+		FLAG_MAP_HOVER("&c{value}"),
+		FLAG_MAP_MORE("&c..."),
 		
-		FLAG_LOCATION("flagLocationPosition",			
-				"&7(&c{x}&7,&c{y}&7,&c{z}&7)"),
-		FLAG_LOCATION_X("flagLocationX",			
-				"&6X : &c{x}"),
-		FLAG_LOCATION_Y("flagLocationY",			
-				"&6Y : &c{y}"),
-		FLAG_LOCATION_Z("flagLocationZ",			
-				"&6Z : &c{z}"),
-		FLAG_LOCATION_YAW("flagLocationYaw",			
-				"&6Yaw : &c{yaw}"),
-		FLAG_LOCATION_PITCH("flagLocationPitch",			
-				"&6Pitch : &c{pitch}"),
-		FLAG_LOCATION_WORLD("flagLocationWorld",			
-				"&6World : &c{world}"),
+		FLAG_LOCATION("&7(&c{x}&7,&c{y}&7,&c{z}&7)"),
+		FLAG_LOCATION_X("&6X : &c{x}"),
+		FLAG_LOCATION_Y("&6Y : &c{y}"),
+		FLAG_LOCATION_Z("&6Z : &c{z}"),
+		FLAG_LOCATION_YAW("&6Yaw : &c{yaw}"),
+		FLAG_LOCATION_PITCH("&6Pitch : &c{pitch}"),
+		FLAG_LOCATION_WORLD("&6World : &c{world}"),
 		
 		// Pagination
-		PAGINATION_COLOR("paginationColor", 
-				"&7"),
-		PAGINATION_PADDING("paginationPadding", 
-				"&m &r"),
-		PAGINATION_TITLE("paginationTitle", 
-				"&6[ {title} &6]"), 
+		PAGINATION_COLOR("&7"),
+		PAGINATION_PADDING("&m &r"),
+		PAGINATION_TITLE("&6[ {title} &6]"), 
 		
-		PERMISSIONS_COMMANDS_EXECUTE("permissionsCommandsExecute", 
-				""),		
-		PERMISSIONS_COMMANDS_HELP("permissionsCommandsHelp", 
-				""),
-		PERMISSIONS_COMMANDS_RELOAD("permissionsCommandsReload", 
-				""),
-		PERMISSIONS_COMMANDS_PLUGINS("permissionsCommandsPlugins", 
-				""),
-		PERMISSIONS_COMMANDS_TEST("permissionsCommandsTest", 
-				""),
-		PERMISSIONS_COMMANDS_BLOCKINFO("permissionsCommandsBlockInfo", 
-				""),
-		PERMISSIONS_COMMANDS_DEBUG("permissionsCommandsDebug", 
-				""),
-		PERMISSIONS_WORLDS("permissionsWorlds", 
-				"");
+		PERMISSIONS_COMMANDS_EXECUTE(""),		
+		PERMISSIONS_COMMANDS_HELP(""),
+		PERMISSIONS_COMMANDS_RELOAD(""),
+		PERMISSIONS_COMMANDS_PLUGINS(""),
+		PERMISSIONS_COMMANDS_TEST(""),
+		PERMISSIONS_COMMANDS_BLOCKINFO(""),
+		PERMISSIONS_COMMANDS_DEBUG(""),
+		PERMISSIONS_WORLDS("");
 		
 		private final String path;
 	    private final EMessageBuilder french;
@@ -638,24 +576,23 @@ public class EAMessage extends EMessage<EverAPI> {
 	    private EMessageFormat message;
 	    private EMessageBuilder builder;
 	    
-	    private EAMessages(final String path, final String french) {   	
-	    	this(path, EMessageFormat.builder().chat(new EFormatString(french), true));
+	    private EAMessages(final String french) {   	
+	    	this(EMessageFormat.builder().chat(new EFormatString(french), true));
 	    }
 	    
-	    private EAMessages(final String path, final String french, final String english) {   	
-	    	this(path, 
-	    		EMessageFormat.builder().chat(new EFormatString(french), true), 
+	    private EAMessages(final String french, final String english) {   	
+	    	this(EMessageFormat.builder().chat(new EFormatString(french), true), 
 	    		EMessageFormat.builder().chat(new EFormatString(english), true));
 	    }
 	    
-	    private EAMessages(final String path, final EMessageBuilder french) {   	
-	    	this(path, french, french);
+	    private EAMessages(final EMessageBuilder french) {   	
+	    	this(french, french);
 	    }
 	    
-	    private EAMessages(final String path, final EMessageBuilder french, final EMessageBuilder english) {
+	    private EAMessages(final EMessageBuilder french, final EMessageBuilder english) {
 	    	Preconditions.checkNotNull(french, "Le message '" + this.name() + "' n'est pas définit");
 	    	
-	    	this.path = path;	    	
+	    	this.path = this.resolvePath();	    	
 	    	this.french = french;
 	    	this.english = english;
 	    	this.message = french.build();
