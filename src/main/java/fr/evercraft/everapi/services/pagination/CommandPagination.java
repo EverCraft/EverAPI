@@ -20,7 +20,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.concurrent.ExecutionException;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -158,14 +157,11 @@ public abstract class CommandPagination<T extends EPlugin<?>> {
 		return groups;
 	}
 	
-	protected Set<String> getAllGroups(World world) {
+	protected Set<String> getAllGroups(String world) {
 		// TODO
-		Set<String> groups = new HashSet<String>();
-		try {
-			this.plugin.getEverAPI().getManagerService().getPermission().getGroupSubjects().getAllIdentifiers().get()
-				.forEach(subject -> groups.add(subject));
-		} catch (InterruptedException | ExecutionException e) {}
-		return groups;
+		return this.plugin.getEverAPI().getManagerService().getPermission().getGroupSubjects().getLoadedSubjects().stream()
+				.map(subject -> subject.getFriendlyIdentifier().orElse(subject.getIdentifier()))
+				.collect(Collectors.toSet());
 	}
 	
 	protected Set<String> getAllPermissions() {

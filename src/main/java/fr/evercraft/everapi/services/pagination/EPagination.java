@@ -35,6 +35,7 @@ import org.spongepowered.api.text.format.TextColor;
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.EPlugin;
+import fr.evercraft.everapi.plugin.command.ICommand;
 import fr.evercraft.everapi.server.player.EPlayer;
 
 public class EPagination {	
@@ -99,10 +100,10 @@ public class EPagination {
 		this.send(title, this.help_padding, contents, source);
 	}
 	
-	public void helpSubCommand(LinkedHashMap<String, CommandPagination<?>> commands, CommandSource source, EPlugin<?> plugin) {
+	public void helpSubCommand(LinkedHashMap<String, ICommand> commands, CommandSource source, EPlugin<?> plugin) {
 		List<Text> contents = new ArrayList<Text>();
 		
-		for (Entry<String, CommandPagination<?>> command : commands.entrySet()) {
+		for (Entry<String, ICommand> command : commands.entrySet()) {
 			Text help = command.getValue().help(source);
 			Text description = command.getValue().description(source);
 			if (help != null && description != null && !help.isEmpty() && !description.isEmpty()) {

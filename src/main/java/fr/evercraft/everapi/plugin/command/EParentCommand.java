@@ -35,27 +35,30 @@ import org.spongepowered.api.text.format.TextColors;
 
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.plugin.EPlugin;
-import fr.evercraft.everapi.services.pagination.CommandPagination;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
 
 public abstract class EParentCommand<T extends EPlugin<T>> extends ECommand<T> {
 
-	private final ConcurrentSkipListSet<ECommand<T>> commands;
-	private final ConcurrentSkipListSet<ESubCommand<T>> subcommands;
+	private final ConcurrentSkipListSet<ICommand> commands;
+	private final ConcurrentSkipListSet<ISubCommand> subcommands;
 	
 	public EParentCommand(T plugin, String name, String... alias) {
-		super(plugin, name, alias);
+		this(plugin, name, false, alias);
+	}
+	
+	public EParentCommand(T plugin, String name, boolean subCommand, String... alias) {
+		super(plugin, name, subCommand, alias);
 		
-		this.commands = new ConcurrentSkipListSet<ECommand<T>>((o1, o2) -> o1.getName().compareTo(o2.getName()));
-        this.subcommands = new ConcurrentSkipListSet<ESubCommand<T>>((o1, o2) -> o1.getName().compareTo(o2.getName()));
+		this.commands = new ConcurrentSkipListSet<ICommand>((o1, o2) -> o1.getName().compareTo(o2.getName()));
+        this.subcommands = new ConcurrentSkipListSet<ISubCommand>((o1, o2) -> o1.getName().compareTo(o2.getName()));
 	}
 
-	public void add(ESubCommand<T> command) {
+	public void add(ISubCommand command) {
 		this.subcommands.add(command);
 	}
 	
-	public void add(ECommand<T> command) {
+	public void add(ICommand command) {
 		this.commands.add(command);
 	}
 	
@@ -64,7 +67,7 @@ public abstract class EParentCommand<T extends EPlugin<T>> extends ECommand<T> {
 		if (args.size() == 1){
 			if (testPermissionHelp(source)) suggests.add("help");
 			
-			for (ESubCommand<T> subcommand : this.subcommands) {
+			for (ISubCommand subcommand : this.subcommands) {
 				if (subcommand.testPermission(source)) { 
 					suggests.add(subcommand.getSubName());
 				}
@@ -73,7 +76,7 @@ public abstract class EParentCommand<T extends EPlugin<T>> extends ECommand<T> {
 			ArrayList<String> subArgs = new ArrayList<String>(args);
 			subArgs.remove(0);
 			
-			for (ESubCommand<T> subcommand : this.subcommands) {
+			for (ISubCommand subcommand : this.subcommands) {
 				if (args.get(0).equalsIgnoreCase(subcommand.getSubName())) { 
 					if (subcommand.testPermission(source)) {
 						return subcommand.tabCompleter(source, subArgs);
@@ -98,7 +101,7 @@ public abstract class EParentCommand<T extends EPlugin<T>> extends ECommand<T> {
 
 		commands.put(this.getName() + " help", "help");
 		
-		for (ESubCommand<T> subcommand : this.subcommands) {
+		for (ISubCommand subcommand : this.subcommands) {
 			if (subcommand.testPermission(source)) { 
 				commands.put(subcommand.getName(), subcommand.getSubName());
 			}
@@ -143,7 +146,7 @@ public abstract class EParentCommand<T extends EPlugin<T>> extends ECommand<T> {
 		ArrayList<String> subArgs = new ArrayList<String>(args);
 		subArgs.remove(0);
 		
-		for (ESubCommand<T> subcommand : this.subcommands) {
+		for (ISubCommand subcommand : this.subcommands) {
 			if (args.get(0).equalsIgnoreCase(subcommand.getSubName())) {
 				if (subcommand.testPermission(source)) { 
 					return subcommand.execute(source, subArgs);
@@ -168,15 +171,15 @@ public abstract class EParentCommand<T extends EPlugin<T>> extends ECommand<T> {
 	}
 	
 	private CompletableFuture<Boolean> commandHelp(final CommandSource source) {
-		LinkedHashMap<String, CommandPagination<?>> commands = new LinkedHashMap<String, CommandPagination<?>>();
+		LinkedHashMap<String, ICommand> commands = new LinkedHashMap<String, ICommand>();
 		
-		for (ECommand<T> command : this.commands) {
+		for (ICommand command : this.commands) {
 			if (command.testPermission(source)) { 
 				commands.put(command.getName(), command);
 			}
 		}
 		
-		for (ESubCommand<T> subcommand : this.subcommands) {
+		for (ISubCommand subcommand : this.subcommands) {
 			if (subcommand.testPermission(source)) { 
 				commands.put(subcommand.getName(), subcommand);
 			}

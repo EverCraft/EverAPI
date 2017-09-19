@@ -30,6 +30,10 @@ import fr.evercraft.everapi.plugin.file.EnumMessage;
 
 public class EAMessage extends EMessage<EverAPI> {
 	
+	public EAMessage(final EverAPI plugin) {
+		super(plugin, EAMessages.values());
+	}
+	
 	public enum EAMessages implements EnumMessage {
 		PREFIX("[&4Ever&6&lAPI&f] "),
 				
@@ -635,9 +639,8 @@ public class EAMessage extends EMessage<EverAPI> {
 		}
 	}
 
-	public EAMessage(final EverAPI plugin) {
-		super(plugin, EAMessages.values());
-		
-		this.load();
+	@Override
+	public EnumMessage getPrefix() {
+		return EAMessages.PREFIX;
 	}
 }

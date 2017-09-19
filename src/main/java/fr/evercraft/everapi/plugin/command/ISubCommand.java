@@ -16,25 +16,9 @@
  */
 package fr.evercraft.everapi.plugin.command;
 
-import fr.evercraft.everapi.plugin.EPlugin;
-
-public abstract class ESubCommand<T extends EPlugin<T>> extends ECommand<T> implements ISubCommand {
+public interface ISubCommand extends ICommand {
 	
-	private final String parentName;
-	private final String subName;
+	public String getParentName();
 	
-	public ESubCommand(final T plugin, final EParentCommand<T> command, final String subName) {
-		super(plugin, command.getName() + " " + subName, true);
-		
-		this.parentName = command.getName();
-		this.subName = subName;
-	}
-	
-	public String getParentName() {
-		return this.parentName;
-	}
-	
-	public String getSubName() {
-		return this.subName;
-	}
+	public String getSubName();
 }

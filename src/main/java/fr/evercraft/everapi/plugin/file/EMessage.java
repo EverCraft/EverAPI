@@ -68,15 +68,11 @@ public abstract class EMessage<T extends EPlugin<T>> extends EFile<T> {
     	this.save(false);
     }
     
+    public abstract EnumMessage getPrefix();
+    
     
     public void load() {
-    	EnumMessage prefix = null;
-    	for (EnumMessage message : this.enum_message) {
-    		if (message.getName().equalsIgnoreCase("PREFIX")) {
-    			prefix = message;
-    		}
-    	}
-    	Preconditions.checkNotNull(prefix, "PREFIX");
+    	Preconditions.checkNotNull(this.getPrefix(), "PREFIX");
     	
     	for (EnumMessage message : this.enum_message) {
 			ConfigurationNode node = this.get(message.getPath());
@@ -92,7 +88,7 @@ public abstract class EMessage<T extends EPlugin<T>> extends EFile<T> {
 	        	}
 	        	
 	        	try {
-	    			message.set(node.getValue(TypeToken.of(EMessageBuilder.class)).prefix(prefix));
+	    			message.set(node.getValue(TypeToken.of(EMessageBuilder.class)).prefix(this.getPrefix()));
 	    		} catch (ObjectMappingException e) {
 	    			this.plugin.getELogger().warn("Impossible de désérialiser : '" + message.getName() + "'");
 	    			message.set(EMessageFormat.builder());

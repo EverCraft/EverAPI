@@ -50,7 +50,7 @@ import fr.evercraft.everapi.server.player.EPlayer;
 import fr.evercraft.everapi.services.pagination.CommandPagination;
 import fr.evercraft.everapi.util.Chronometer;
 
-public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T> implements CommandCallable {
+public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T> implements CommandCallable, ICommand {
 
 	private final Set<String> sources;
 	

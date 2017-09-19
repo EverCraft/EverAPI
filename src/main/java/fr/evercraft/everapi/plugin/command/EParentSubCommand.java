@@ -18,12 +18,12 @@ package fr.evercraft.everapi.plugin.command;
 
 import fr.evercraft.everapi.plugin.EPlugin;
 
-public abstract class ESubCommand<T extends EPlugin<T>> extends ECommand<T> implements ISubCommand {
+public abstract class EParentSubCommand<T extends EPlugin<T>> extends EParentCommand<T> implements ISubCommand {
 	
 	private final String parentName;
 	private final String subName;
 	
-	public ESubCommand(final T plugin, final EParentCommand<T> command, final String subName) {
+	public EParentSubCommand(final T plugin, final EParentCommand<T> command, final String subName) {
 		super(plugin, command.getName() + " " + subName, true);
 		
 		this.parentName = command.getName();
