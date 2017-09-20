@@ -53,7 +53,7 @@ import ninja.leaping.configurate.objectmapping.serialize.TypeSerializers;
 			@Dependency(id = "spongeapi", version = EverAPI.SPONGEAPI_VERSION)
 		},
 		description = "EverAPI is a library",
-		url = "http://wiki.evercraft.fr/",
+		url = "https://docs.evercraft.fr/",
 		authors = {"rexbut","lesbleu"})
 public class EverAPI extends EPlugin<EverAPI> {
 	
@@ -74,13 +74,10 @@ public class EverAPI extends EPlugin<EverAPI> {
 	private SpongeExecutorService threadAsync;
 	private SpongeExecutorService threadSync;
 	
-	public EverAPI() {
+	protected void onFirst() throws PluginDisableException, ServerDisableException {
 		TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(EMessageBuilder.class), new EMessageBuilderSerializer(this));
 		TypeSerializers.getDefaultSerializers().registerType(TypeToken.of(EFormat.class), new EFormatSerializer());
-	}
-	
-	@Override
-	protected void onPreEnable() throws PluginDisableException, ServerDisableException {		
+		
 		this.threadAsync = this.getGame().getScheduler().createAsyncExecutor(this);
 		this.threadSync = this.getGame().getScheduler().createSyncExecutor(this);
 		
@@ -93,6 +90,9 @@ public class EverAPI extends EPlugin<EverAPI> {
 		this.service = new ManagerService(this);
 		new ManagerRegister(this);
 	}
+	
+	@Override
+	protected void onPreEnable() {}
 	
 	@Override
 	protected void onCompleteEnable() {
@@ -125,7 +125,11 @@ public class EverAPI extends EPlugin<EverAPI> {
 	
 	public EAConfig getConfigs() {
 		return this.configs;
-	}	
+	}
+	
+	public EAPermissions[] getPermissions() {
+		return EAPermissions.values();
+	}
 	
 	@Override
 	public EServer getEServer() {

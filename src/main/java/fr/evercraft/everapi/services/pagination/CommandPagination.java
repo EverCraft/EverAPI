@@ -16,6 +16,8 @@
  */
 package fr.evercraft.everapi.services.pagination;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -173,5 +175,9 @@ public abstract class CommandPagination<T extends EPlugin<?>> {
 			suggests.add("ever...");
 		}
 		return suggests;
+	}
+	
+	protected Collection<String> getAllOptions() {
+		return Arrays.asList("prefix", "suffix");
 	}
 }

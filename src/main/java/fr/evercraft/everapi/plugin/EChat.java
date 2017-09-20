@@ -38,6 +38,7 @@ import org.spongepowered.api.text.serializer.TextSerializers;
 
 import com.google.common.base.Preconditions;
 
+import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.message.format.EFormatListString;
 import fr.evercraft.everapi.message.format.EFormatString;
@@ -304,5 +305,15 @@ public class EChat {
 		Preconditions.checkNotNull(messages, "messages");
 		
 		return EFormatListString.of(messages).toListString(this.getReplaceVariables());
+	}
+
+	public static Text getButtomCopy(String value) {
+		Preconditions.checkNotNull(value, "identifier");
+		
+		return EChat.of(value).toBuilder()
+				.onClick(TextActions.suggestCommand(value))
+				.onShiftClick(TextActions.insertText(value))
+				.onHover(TextActions.showText(EAMessages.HOVER_COPY.getText()))
+				.build();
 	}
 }

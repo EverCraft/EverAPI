@@ -234,7 +234,7 @@ public class EServer extends ServerWarp {
 		Preconditions.checkNotNull(identifier, "identifier");
 		
 		try {
-			if (identifier.length() == EServer.UUID_LENGTH){
+			if (identifier.length() == EServer.UUID_LENGTH) {
 				return this.getGameProfile(UUID.fromString(identifier));
 			} else {
 				Optional<Player> player = this.getPlayer(identifier);
@@ -313,7 +313,7 @@ public class EServer extends ServerWarp {
 	    	player.sendTitle(title);
 	    }
 	}
-
+	
 	public Transform<World> getSpawn() {
 		Optional<World> world = this.server.getWorld(this.server.getDefaultWorldName());
 		if (world.isPresent()) {

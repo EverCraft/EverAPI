@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.spongepowered.api.Game;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GameLoadCompleteEvent;
@@ -70,6 +71,7 @@ public abstract class EPlugin<T extends EPlugin<T>> {
 	
 	private ELogger logger;
 	
+	protected void onFirst() throws PluginDisableException, ServerDisableException{};
 	protected abstract void onPreEnable() throws PluginDisableException, ServerDisableException;
 	protected void onEnable() throws PluginDisableException, ServerDisableException{}
 	protected void onPostEnable() throws PluginDisableException, ServerDisableException{}
@@ -80,11 +82,27 @@ public abstract class EPlugin<T extends EPlugin<T>> {
 
 	public abstract EConfig<T> getConfigs();
 	public abstract EMessage<T> getMessages();
+	public abstract EnumPermission[] getPermissions();
 	
 	public EPlugin(){
 		this.enable = true;
 		this.files = new CopyOnWriteArraySet<EFile<T>>();
 		this.commands = new CopyOnWriteArraySet<ECommand<T>>();
+	}
+	
+	@Listener(order=Order.FIRST)
+    public void onGamePreInitializationFirst(GamePreInitializationEvent event) {
+		try {
+			this.setupEverAPI();
+			if (this.getEverAPI().isEnable() && this.enable) {
+				this.onFirst();
+			}
+		} catch (PluginDisableException e) {
+			this.getELogger().info(e.getMessage());
+			this.disable();
+		} catch (ServerDisableException e) {
+			e.execute();
+		}
 	}
 	
 	@Listener

@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.service.permission.PermissionDescription;
+import org.spongepowered.api.service.permission.PermissionService;
 
 import com.google.common.base.Preconditions;
 import com.google.common.reflect.TypeToken;
@@ -30,6 +32,7 @@ import fr.evercraft.everapi.message.EMessageFormat;
 import fr.evercraft.everapi.message.format.EFormatListString;
 import fr.evercraft.everapi.message.format.EFormatString;
 import fr.evercraft.everapi.plugin.EPlugin;
+import fr.evercraft.everapi.plugin.EnumPermission;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 
@@ -97,6 +100,16 @@ public abstract class EMessage<T extends EPlugin<T>> extends EFile<T> {
     			this.plugin.getELogger().warn("Impossible de sérialiser : '" + message.getName() + "'");
     			message.set(EMessageFormat.builder());
 			}
+    	}
+    	
+    	PermissionService servicePermission = this.plugin.getGame().getServiceManager().provide(PermissionService.class).orElse(null);
+    	if (servicePermission == null) return;
+    	for (EnumPermission permission : this.plugin.getPermissions()) {
+    		servicePermission.newDescriptionBuilder(this.plugin)
+    			.id(permission.get())
+    			.description(permission.getMessage().getText())
+    			.assign(PermissionDescription.ROLE_USER, permission.getDefault())
+    			.register();
     	}
     }
     
