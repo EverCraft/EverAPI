@@ -18,13 +18,12 @@ package fr.evercraft.everapi.plugin.command;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandSource;
@@ -37,11 +36,12 @@ import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
+import fr.evercraft.everapi.exception.message.EMessageException;
 
 public abstract class EParentCommand<T extends EPlugin<T>> extends ECommand<T> {
 
-	private final ConcurrentSkipListSet<ICommand> commands;
-	private final ConcurrentSkipListSet<ISubCommand> subcommands;
+	private final TreeSet<ICommand> commands;
+	private final TreeSet<ISubCommand> subcommands;
 	
 	public EParentCommand(T plugin, String name, String... alias) {
 		this(plugin, name, false, alias);
@@ -50,8 +50,8 @@ public abstract class EParentCommand<T extends EPlugin<T>> extends ECommand<T> {
 	public EParentCommand(T plugin, String name, boolean subCommand, String... alias) {
 		super(plugin, name, subCommand, alias);
 		
-		this.commands = new ConcurrentSkipListSet<ICommand>((o1, o2) -> o1.getName().compareTo(o2.getName()));
-        this.subcommands = new ConcurrentSkipListSet<ISubCommand>((o1, o2) -> o1.getName().compareTo(o2.getName()));
+		this.commands = new TreeSet<ICommand>((o1, o2) -> o1.getName().compareTo(o2.getName()));
+        this.subcommands = new TreeSet<ISubCommand>((o1, o2) -> o1.getName().compareTo(o2.getName()));
 	}
 
 	public void add(ISubCommand command) {
@@ -97,7 +97,7 @@ public abstract class EParentCommand<T extends EPlugin<T>> extends ECommand<T> {
 	}
 
 	public Text help(final CommandSource source) {
-		Map<String, String> commands = new HashMap<String, String>();
+		TreeMap<String, String> commands = new TreeMap<String, String>();
 
 		commands.put(this.getName() + " help", "help");
 		
@@ -128,7 +128,7 @@ public abstract class EParentCommand<T extends EPlugin<T>> extends ECommand<T> {
 		return build.color(TextColors.RED).build();
 	}
 
-	public CompletableFuture<Boolean> execute(final CommandSource source, final List<String> args) throws CommandException, PluginDisableException, ServerDisableException {
+	public CompletableFuture<Boolean> execute(final CommandSource source, final List<String> args) throws CommandException, PluginDisableException, ServerDisableException, EMessageException {
 		// HELP
 		if (args.isEmpty()) {
 			return this.commandDefault(source, args);
@@ -154,6 +154,19 @@ public abstract class EParentCommand<T extends EPlugin<T>> extends ECommand<T> {
 				
 				source.sendMessage(EAMessages.NO_PERMISSION.getText());
 				return CompletableFuture.completedFuture(false);
+			}
+		}
+		
+		for (ISubCommand subcommand : this.subcommands) {
+			for (String alias : subcommand.getAlias()) {
+				if (args.get(0).equalsIgnoreCase(alias)) {
+					if (subcommand.testPermission(source)) { 
+						return subcommand.execute(source, subArgs);
+					}
+					
+					source.sendMessage(EAMessages.NO_PERMISSION.getText());
+					return CompletableFuture.completedFuture(false);
+				}
 			}
 		}
 		

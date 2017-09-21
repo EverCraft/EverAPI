@@ -39,6 +39,7 @@ import fr.evercraft.everapi.java.UtilsBoolean;
 import fr.evercraft.everapi.java.UtilsFloat;
 import fr.evercraft.everapi.message.EMessageBuilder;
 import fr.evercraft.everapi.message.format.EFormatString;
+import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.plugin.command.Args;
 import fr.evercraft.everapi.services.worldguard.region.ProtectedRegion;
 import fr.evercraft.everapi.sponge.UtilsBossBar;
@@ -76,10 +77,13 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 	
 	private final Args.Builder patternAdd;
 	private final Args.Builder patternRemove;
+	
+	private final EPlugin<?> plugin;
 
-	public MessageFlag(String name) {
+	public MessageFlag(EPlugin<?> plugin, String name) {
 		super(name);
 		
+		this.plugin = plugin;
 		this.patternAdd = Args.builder()
 			.value(MARKER_CHAT_MESSAGE, (source, args) -> Arrays.asList("\"\""))
 			.value(MARKER_CHAT_PREFIX, (source, args) -> Arrays.asList("TRUE", "FALSE"))
@@ -144,17 +148,17 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 	
 	@Override
 	public Collection<String> getSuggestAdd(CommandSource source, final List<String> args) {
-		return this.patternAdd.suggest(source, args);
+		return this.patternAdd.suggest(this.plugin, source, args);
 	}
 	
 	@Override
 	public Collection<String> getSuggestRemove(CommandSource source, final List<String> args) {
-		return this.patternRemove.suggest(source, args);
+		return this.patternRemove.suggest(this.plugin, source, args);
 	}
 	
 	@Override
 	public EMessageBuilder parseAdd(CommandSource source, ProtectedRegion region, ProtectedRegion.Group group, List<String> values) throws IllegalArgumentException {
-		Args args = this.patternAdd.build(values);
+		Args args = this.patternAdd.build(this.plugin, source, values);
 		
 		if (args.getArgs().size() > 1 || (args.getArgs().size() == 0 && args.countValues() == 0) || 
 				(args.getArgs().size() == 1 && args.getValue(MARKER_CHAT_MESSAGE).isPresent())) {
@@ -332,7 +336,7 @@ public abstract class MessageFlag extends EFlag<EMessageBuilder> {
 	
 	@Override
 	public Optional<EMessageBuilder> parseRemove(CommandSource source, ProtectedRegion region, ProtectedRegion.Group group, List<String> values) {
-		Args args = this.patternRemove.build(values);
+		Args args = this.patternRemove.build(this.plugin, source, values);
 		
 		if (args.getArgs().size() != 0) {
 			throw new IllegalArgumentException();

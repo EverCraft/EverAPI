@@ -31,12 +31,15 @@ import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
+import fr.evercraft.everapi.exception.message.EMessageException;
 
 public interface ICommand extends CommandCallable {
 
 	void reload();
 	
 	String getName();
+	
+	List<String> getAlias();
 	
 	CommandResult process(CommandSource source, String arg) throws CommandException;
 	
@@ -48,7 +51,7 @@ public interface ICommand extends CommandCallable {
 	
 	Text getUsage(CommandSource source);
 	
-	CompletableFuture<Boolean> execute(CommandSource source, List<String> args) throws CommandException, PluginDisableException, ServerDisableException;
+	CompletableFuture<Boolean> execute(CommandSource source, List<String> args) throws CommandException, PluginDisableException, ServerDisableException, EMessageException;
 	
 	Collection<String> tabCompleter(CommandSource source, List<String> args) throws CommandException;
 	

@@ -39,10 +39,13 @@ import org.spongepowered.api.text.selector.SelectorType;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
 
+import com.google.common.collect.ImmutableList;
+
 import fr.evercraft.everapi.EAMessage.EAMessages;
 import fr.evercraft.everapi.event.ESpongeEventFactory;
 import fr.evercraft.everapi.exception.PluginDisableException;
 import fr.evercraft.everapi.exception.ServerDisableException;
+import fr.evercraft.everapi.exception.message.EMessageException;
 import fr.evercraft.everapi.java.UtilsString;
 import fr.evercraft.everapi.plugin.EPlugin;
 import fr.evercraft.everapi.plugin.file.EConfig;
@@ -56,7 +59,8 @@ public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T
 	
 	private boolean enable;
 	private final boolean subCommand;
-	private final List<String> names;
+	private final String name;
+	private final List<String> alias;
 	
 	public ECommand(final T plugin, final String name, final String... alias) {
 		this(plugin, name, false, alias);
@@ -65,9 +69,8 @@ public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T
 	public ECommand(final T plugin, final String name, boolean subCommand, final String... alias) {
 		super(plugin, name);
 		
-		this.names = new ArrayList<String>();
-		this.names.add(name);
-		this.names.addAll(Arrays.asList(alias));
+		this.name = name;
+		this.alias = ImmutableList.copyOf(Arrays.asList(alias));
 		
 		this.sources = new HashSet<String>();
 		this.enable = false;
@@ -76,6 +79,10 @@ public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T
 		if (!this.subCommand) {
 			this.load();
 		}
+	}
+	
+	public List<String> getAlias() {
+		return this.alias;
 	}
 	
 	public void load() {
@@ -89,7 +96,7 @@ public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T
 		
 		if (enable && !this.enable) {
 			this.enable = true;
-			this.plugin.getGame().getCommandManager().register(this.plugin, this, this.names);
+			this.plugin.getGame().getCommandManager().register(this.plugin, this, ImmutableList.<String>builder().add(this.name).addAll(this.alias).build());
 		} else if (!enable && this.enable) {
 			this.enable = false;
 			this.plugin.getGame().getCommandManager().getOwnedBy(this.plugin).stream()
@@ -136,6 +143,9 @@ public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T
 		} catch (ServerDisableException e) {
 			this.sources.remove(source.getIdentifier());
 			e.execute();
+		} catch (EMessageException e) {
+			this.sources.remove(source.getIdentifier());
+			e.execute(this.plugin.getMessages().getPrefix());
 		} catch(Exception e) {
 			this.sources.remove(source.getIdentifier());
 			throw e;
@@ -144,7 +154,7 @@ public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T
 		return CommandResult.empty();
 	}
 	
-	private CommandResult processExecute(final CommandSource source, final String argument) throws CommandException, PluginDisableException, ServerDisableException {
+	private CommandResult processExecute(final CommandSource source, final String argument) throws CommandException, PluginDisableException, ServerDisableException, EMessageException {
 		Chronometer chronometer = new Chronometer();
 		
 		if (argument.contains("@") && source.hasPermission("minecraft.command.selector")) {
@@ -168,7 +178,7 @@ public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T
         return CommandResult.success();
 	}
 	
-	private void processPlayer(final Player source, final String arg, final List<String> args) throws CommandException, PluginDisableException, ServerDisableException {
+	private void processPlayer(final Player source, final String arg, final List<String> args) throws CommandException, PluginDisableException, ServerDisableException, EMessageException {
 		EPlayer player = this.plugin.getEServer().getEPlayer(source);
 		if (player.isDead()) {
 			player.sendMessage(EAMessages.COMMAND_ERROR_PLAYER_DEAD.getText());
@@ -187,7 +197,7 @@ public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T
 		}
 	}
 	
-	private boolean processSelector(final CommandSource source, final String argument) throws CommandException, PluginDisableException, ServerDisableException {
+	private boolean processSelector(final CommandSource source, final String argument) throws CommandException, PluginDisableException, ServerDisableException, EMessageException {
 		int start = -1;
 		int cpt = -1;
 		int open = 0;
@@ -335,7 +345,7 @@ public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T
 		return args;
 	}
 	
-	public abstract CompletableFuture<Boolean> execute(CommandSource source, List<String> args) throws CommandException, PluginDisableException, ServerDisableException;
+	public abstract CompletableFuture<Boolean> execute(CommandSource source, List<String> args) throws CommandException, PluginDisableException, ServerDisableException, EMessageException;
 	
 	public abstract Collection<String> tabCompleter(CommandSource source, List<String> args) throws CommandException;
 	

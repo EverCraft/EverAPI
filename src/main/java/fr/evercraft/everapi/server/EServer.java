@@ -314,12 +314,12 @@ public class EServer extends ServerWarp {
 	    }
 	}
 	
+	public World getDefaultEWorld() {
+		return this.server.getWorld(this.server.getDefaultWorldName()).orElse(this.server.getWorlds().iterator().next());
+	}
+	
 	public Transform<World> getSpawn() {
-		Optional<World> world = this.server.getWorld(this.server.getDefaultWorldName());
-		if (world.isPresent()) {
-			return new Transform<World>(world.get().getSpawnLocation());
-		}
-		return null;
+		return new Transform<World>(this.getDefaultEWorld().getSpawnLocation());
 	}
 	
 	public Optional<World> getEWorld(String identifier) {
