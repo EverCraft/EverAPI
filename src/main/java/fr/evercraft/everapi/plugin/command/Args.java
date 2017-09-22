@@ -63,7 +63,7 @@ public class Args {
 	}
 	
 	public static final ArgTriFunction<EPlugin<?>, CommandSource, String, List<EPlayer>> PLAYERS = (plugin, source, value) -> {
-		if (!value.startsWith("@")) {
+		if (!value.startsWith("@") && source.hasPermission(ECommand.PERMISSION_SELECTOR)) {
 			Optional<EPlayer> player = plugin.getEServer().getEPlayer(value);
 			if (player.isPresent()) return Arrays.asList(player.get());
 			
@@ -83,7 +83,7 @@ public class Args {
 	};
 	
 	public static final ArgTriFunction<EPlugin<?>, CommandSource, String, List<EUser>> USERS = (plugin, source, value) -> {
-		if (!value.startsWith("@")) {
+		if (!value.startsWith("@") && source.hasPermission(ECommand.PERMISSION_SELECTOR)) {
 			Optional<EUser> player = plugin.getEServer().getEUser(value);
 			if (player.isPresent()) return Arrays.asList(player.get());
 			
@@ -103,7 +103,7 @@ public class Args {
 	};
 	
 	public static final ArgTriFunction<EPlugin<?>, CommandSource, String, List<Entity>> ENTITIES = (plugin, source, value) -> {
-		if (!value.startsWith("@")) {
+		if (!value.startsWith("@") && source.hasPermission(ECommand.PERMISSION_SELECTOR)) {
 			Optional<EPlayer> player = plugin.getEServer().getEPlayer(value);
 			if (player.isPresent()) return Arrays.asList(player.get());
 			
@@ -136,6 +136,7 @@ public class Args {
 	public static final String MARKER_WORLD = "-w";
 	public static final String MARKER_PLAYER = "-p";
 	public static final String MARKER_GROUP = "-g";
+	public static final String MARKER_FLAG = "-f";
 	
 	private EPlugin<?> plugin;
 	private CommandSource source;
@@ -188,7 +189,7 @@ public class Args {
 		if (worldMarker.isPresent()) {
 			Optional<World> world = plugin.getEServer().getEWorld(worldMarker.get());
 			if (!world.isPresent()) throw new WorldNotFoundException(this.source, worldMarker.get());
-			return this.getWorld();
+			return world.get();
 		}
 		
 		if (this.source instanceof Locatable) {

@@ -25,6 +25,7 @@ import java.util.TreeSet;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.spongepowered.api.CatalogType;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.profile.GameProfile;
@@ -179,5 +180,11 @@ public abstract class CommandPagination<T extends EPlugin<?>> {
 	
 	protected Collection<String> getAllOptions() {
 		return Arrays.asList("prefix", "suffix");
+	}
+	
+	protected <V extends CatalogType> Set<String> getAll(Class<V> type) {
+		return this.plugin.getGame().getRegistry().getAllOf(type).stream()
+				.map(group -> group.getName())
+				.collect(Collectors.toSet());
 	}
 }

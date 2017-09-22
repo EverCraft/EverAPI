@@ -35,7 +35,7 @@ public class SelectorNotFoundException extends EMessageException {
 	}
 	
 	public void execute(EnumMessage prefix) {
-		EAMessages.WORLD_NOT_FOUND.sender()
+		EAMessages.SELECTOR_NOT_FOUND.sender()
 			.prefix(prefix)
 			.replace("{selector}", this.selector)
 			.sendTo(this.source);

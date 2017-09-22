@@ -54,6 +54,8 @@ import fr.evercraft.everapi.services.pagination.CommandPagination;
 import fr.evercraft.everapi.util.Chronometer;
 
 public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T> implements CommandCallable, ICommand {
+	
+	public static final String PERMISSION_SELECTOR = "minecraft.command.selector";
 
 	private final Set<String> sources;
 	
@@ -157,10 +159,6 @@ public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T
 	private CommandResult processExecute(final CommandSource source, final String argument) throws CommandException, PluginDisableException, ServerDisableException, EMessageException {
 		Chronometer chronometer = new Chronometer();
 		
-		if (argument.contains("@") && source.hasPermission("minecraft.command.selector")) {
-			if (this.processSelector(source, argument)) return CommandResult.success();
-		}
-		
 		List<String> arguments = this.getArg(argument);
 		if (source instanceof Player) {
 			this.processPlayer((Player) source, argument, arguments);
@@ -197,6 +195,7 @@ public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private boolean processSelector(final CommandSource source, final String argument) throws CommandException, PluginDisableException, ServerDisableException, EMessageException {
 		int start = -1;
 		int cpt = -1;

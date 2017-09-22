@@ -125,6 +125,9 @@ public class EAMessage extends EMessage<EverAPI> {
 				"&cErreur : Ce groupe n'existe pas.", 
 				"&cError: This group doesn't exist."),
 		
+		SELECTOR_ILLEGAL("&cErreur : Le selecteur \"&6{selector}&c\" n'est pas valide."),
+		SELECTOR_NOT_FOUND("&cErreur : L'entité \"&6{selector}&c\" n'a pas été trouvée."),
+		
 		// Reload
 		RELOAD_DESCRIPTION(
 				"Permet de recharger le plugin.", 
