@@ -23,11 +23,13 @@ public abstract class ESubCommand<T extends EPlugin<T>> extends ECommand<T> impl
 	private final String parentName;
 	private final String subName;
 	
-	public ESubCommand(final T plugin, final EParentCommand<T> command, final String subName) {
-		super(plugin, command.getName() + " " + subName, true);
+	public ESubCommand(final T plugin, final EParentCommand<T> parent, final String subName) {
+		super(plugin, parent.getName() + " " + subName, true);
 		
-		this.parentName = command.getName();
+		this.parentName = parent.getName();
 		this.subName = subName;
+		
+		parent.add(this);
 	}
 	
 	public String getParentName() {

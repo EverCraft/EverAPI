@@ -98,7 +98,7 @@ public class EAMessage extends EMessage<EverAPI> {
 				"&cErreur : Un problème est survenu lors de l'exécution de la commande.", 
 				"&cError : A problem occurred during the execution of the command."),
 		COMMAND_ASYNC(
-				"&cErreur : Cette commande est déjà encours d'exécution"),
+				"&cErreur : Cette commande est déjà en cours d'exécution"),
 		COMMAND_ERROR_PLAYER_DEAD(
 				"&cErreur : Vous ne pouvez pas exécuter une commande quand vous êtes mort.", 
 				"&cError : You can not run a command when you're dead"),
