@@ -106,6 +106,9 @@ public class EAMessage extends EMessage<EverAPI> {
 				"&cErreur : Cette commande ne peut être exécutée que par un joueur.", 
 				"&cError : This command can be executed only by a player."),
 		
+		COLLECTION_NOT_FOUND("&cErreur : La collection &6{collection} &cest introuvable."),
+		SUBJECT_NOT_FOUND("&cErreur : Le subject &6{subject} &cest introuvable dans la collection &6{collection}&c."),
+		
 		// Player
 		PLAYER_NOT_FOUND(
 				"&cErreur : Le joueur &6{player} &cest introuvable.", 
@@ -294,6 +297,9 @@ public class EAMessage extends EMessage<EverAPI> {
 		ARGS_SUBJECT( 
 				"subject", 
 				"subject"),
+		ARGS_COLLECTION( 
+				"collection", 
+				"collection"),
 		ARGS_MESSAGE( 
 				"message..."),
 		ARGS_MAIL( 

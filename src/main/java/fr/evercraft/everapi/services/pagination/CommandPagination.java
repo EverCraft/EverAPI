@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Predicate;
@@ -29,6 +30,7 @@ import org.spongepowered.api.CatalogType;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.profile.GameProfile;
+import org.spongepowered.api.service.permission.SubjectCollection;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.world.World;
 
@@ -163,6 +165,21 @@ public abstract class CommandPagination<T extends EPlugin<?>> {
 	protected Set<String> getAllGroups(String world) {
 		// TODO
 		return this.plugin.getEverAPI().getManagerService().getPermission().getGroupSubjects().getLoadedSubjects().stream()
+				.map(subject -> subject.getFriendlyIdentifier().orElse(subject.getIdentifier()))
+				.collect(Collectors.toSet());
+	}
+	
+	protected Set<String> getAllCollections() {
+		return this.plugin.getEverAPI().getManagerService().getPermission().getLoadedCollections().values().stream()
+				.map(collection -> collection.getIdentifier())
+				.collect(Collectors.toSet());
+	}
+	
+	protected Set<String> getAllSubjects(String identifierCollection) {
+		Optional<SubjectCollection> collection = this.plugin.getEverAPI().getManagerService().getPermission().getCollection(identifierCollection);
+		if (!collection.isPresent()) return new HashSet<String>();
+		
+		return collection.get().getLoadedSubjects().stream()
 				.map(subject -> subject.getFriendlyIdentifier().orElse(subject.getIdentifier()))
 				.collect(Collectors.toSet());
 	}
