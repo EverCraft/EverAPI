@@ -35,6 +35,7 @@ import org.spongepowered.api.world.World;
 
 import fr.evercraft.everapi.exception.message.BooleanNotFoundException;
 import fr.evercraft.everapi.exception.message.EMessageException;
+import fr.evercraft.everapi.exception.message.PlayerNotFoundException;
 import fr.evercraft.everapi.exception.message.SelectorIllegalException;
 import fr.evercraft.everapi.exception.message.SelectorNotFoundException;
 import fr.evercraft.everapi.exception.message.WorldNotFoundException;
@@ -63,11 +64,11 @@ public class Args {
 	}
 	
 	public static final ArgTriFunction<EPlugin<?>, CommandSource, String, List<EPlayer>> PLAYERS = (plugin, source, value) -> {
-		if (!value.startsWith("@") && source.hasPermission(ECommand.PERMISSION_SELECTOR)) {
+		if (!value.startsWith("@") || !source.hasPermission(ECommand.PERMISSION_SELECTOR)) {
 			Optional<EPlayer> player = plugin.getEServer().getEPlayer(value);
-			if (player.isPresent()) return Arrays.asList(player.get());
-			
-			return Arrays.asList();
+			if (!player.isPresent()) new PlayerNotFoundException(source, value);
+				
+			return Arrays.asList(player.get());
 		}
 		
 		try {
@@ -83,11 +84,11 @@ public class Args {
 	};
 	
 	public static final ArgTriFunction<EPlugin<?>, CommandSource, String, List<EUser>> USERS = (plugin, source, value) -> {
-		if (!value.startsWith("@") && source.hasPermission(ECommand.PERMISSION_SELECTOR)) {
+		if (!value.startsWith("@") || !source.hasPermission(ECommand.PERMISSION_SELECTOR)) {
 			Optional<EUser> player = plugin.getEServer().getEUser(value);
-			if (player.isPresent()) return Arrays.asList(player.get());
+			if (!player.isPresent()) new PlayerNotFoundException(source, value);
 			
-			return Arrays.asList();
+			return Arrays.asList(player.get());
 		}
 		
 		try {
@@ -103,11 +104,11 @@ public class Args {
 	};
 	
 	public static final ArgTriFunction<EPlugin<?>, CommandSource, String, List<Entity>> ENTITIES = (plugin, source, value) -> {
-		if (!value.startsWith("@") && source.hasPermission(ECommand.PERMISSION_SELECTOR)) {
+		if (!value.startsWith("@") || !source.hasPermission(ECommand.PERMISSION_SELECTOR)) {
 			Optional<EPlayer> player = plugin.getEServer().getEPlayer(value);
-			if (player.isPresent()) return Arrays.asList(player.get());
+			if (!player.isPresent()) new PlayerNotFoundException(source, value);
 			
-			return Arrays.asList();
+			return Arrays.asList(player.get());
 		}
 		
 		try {
@@ -133,6 +134,7 @@ public class Args {
 		return bool.get();
 	};
 	
+	public static final String MARKER_CONFIRMATION = "-confirmation";
 	public static final String MARKER_WORLD = "-w";
 	public static final String MARKER_PLAYER = "-p";
 	public static final String MARKER_GROUP = "-g";

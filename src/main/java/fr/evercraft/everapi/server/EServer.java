@@ -70,12 +70,13 @@ public class EServer extends ServerWarp {
 	 * @param player Le pseudo ou UUID du joueur
 	 * @return Un EPlayer
 	 */	
-	public Optional<EPlayer> getEPlayer(String name){
+	public Optional<EPlayer> getEPlayer(String identifier) {
 		try {
-			if (name.length() == EServer.UUID_LENGTH){
-				return getEPlayer(UUID.fromString(name));
+			if (identifier.length() == EServer.UUID_LENGTH){
+				return getEPlayer(UUID.fromString(identifier));
 			} else {
-				Optional<Player> player = this.getPlayer(name);
+				if (identifier.length() < 3 || identifier.length() > 16) return Optional.empty();
+				Optional<Player> player = this.getPlayer(identifier);
 				if (player.isPresent()){
 					return Optional.of(this.getEPlayer(player.get()));
 				}
@@ -205,6 +206,7 @@ public class EServer extends ServerWarp {
 			}
 		}
 		
+		if (identifier.length() < 3 || identifier.length() > 16) return Optional.empty();
 		Optional<User> user = this.plugin.getEverAPI().getManagerService().getUserStorage().get(identifier);
 		
 		// TODO Bug : Il faut faire 2 fois la requete pour avoir le resultat

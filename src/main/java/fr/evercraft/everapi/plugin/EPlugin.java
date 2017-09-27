@@ -108,7 +108,6 @@ public abstract class EPlugin<T extends EPlugin<T>> {
 	@Listener
     public void onGamePreInitialization(GamePreInitializationEvent event) {
 		try {
-			this.setupEverAPI();
 			if (this.getEverAPI().isEnable() && this.enable) {
 				this.onPreEnable();
 				this.getELogger().debug("---------------------------------------------------------");

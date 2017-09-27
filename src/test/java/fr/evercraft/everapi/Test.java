@@ -103,6 +103,10 @@ public class Test {
 		System.out.println(v1);
 		System.out.println(v2);
 		assert(v1.equals(v2));*/
+		
+		Integer a1=1000;
+		Integer a2=1000;
+		if (a1 == a2) System .out. println (" a1 == a2 ");
     }
 
 }

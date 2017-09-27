@@ -108,10 +108,13 @@ public class EPriorityConfig extends EConfig<EverAPI> {
 
 	public ConcurrentHashMap<String, ConcurrentHashMap<String, Integer>> getPriority() {
 		ConcurrentHashMap<String, ConcurrentHashMap<String, Integer>> priority = new ConcurrentHashMap<String, ConcurrentHashMap<String, Integer>>();
-		this.getNode().getChildrenMap().forEach((key, value) -> {
-			if (key.toString().equalsIgnoreCase("scoreboard")) return;
+		this.getNode().getChildrenMap().forEach((keys, value) -> {
+			if (keys.toString().equalsIgnoreCase("scoreboard")) return;
 			
-			priority.put(key.toString(), this.getPriority(key.toString()));
+			ConcurrentHashMap<String, Integer> priorities = this.getPriority(keys.toString());
+			for (String key : keys.toString().split(",")) {
+				priority.put(key.replace(" ", ""), priorities);
+			}
 		});
 		return priority;
 	}
@@ -120,11 +123,13 @@ public class EPriorityConfig extends EConfig<EverAPI> {
 		List<String> values = new ArrayList<String>(this.getListString(collection));
 		values.add(identifier);
 		this.get(collection).setValue(values);
+		this.save(true);
 	}
 
 	public void register(DisplaySlot type, String identifier) {
 		List<String> values = new ArrayList<String>(this.getListString("scoreboard." + type.getName().toLowerCase()));
 		values.add(identifier);
 		this.get("scoreboard." + type.getName().toLowerCase()).setValue(values);
+		this.save(true);
 	}
 }

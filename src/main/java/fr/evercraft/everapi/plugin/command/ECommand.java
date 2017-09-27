@@ -119,14 +119,14 @@ public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T
 		
 		if (this.sources.contains(source.getIdentifier())) {
 			EAMessages.COMMAND_ASYNC.sender()
-				.prefix(EAMessages.PREFIX)
+				.prefix(this.plugin.getMessages().getPrefix())
 				.sendTo(source);
 			return CommandResult.success();
 		}
 		
 		if (!this.testPermission(source)) {
 			EAMessages.NO_PERMISSION.sender()
-				.prefix(EAMessages.PREFIX)
+			.prefix(this.plugin.getMessages().getPrefix())
 				.sendTo(source);
 			return CommandResult.success();
 		}
@@ -138,9 +138,9 @@ public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T
 		} catch (PluginDisableException e) {
 			this.sources.remove(source.getIdentifier());
 			EAMessages.COMMAND_ERROR.sender()
-				.prefix(EAMessages.PREFIX)
+				.prefix(this.plugin.getMessages().getPrefix())
 				.sendTo(source);
-			this.plugin.getELogger().warn(e.getMessage());
+			this.plugin.getELogger().warn("PluginDisableException : " + e.getMessage());
 			this.plugin.disable();
 		} catch (ServerDisableException e) {
 			this.sources.remove(source.getIdentifier());
@@ -165,7 +165,11 @@ public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T
 		} else {
 			this.execute(source, arguments)
 				.exceptionally(e -> {
-					EAMessages.COMMAND_ERROR.sendTo(source);
+					EAMessages.COMMAND_ERROR.sender()
+						.prefix(this.plugin.getMessages().getPrefix())
+						.sendTo(source);
+					this.plugin.getELogger().warn("CompletableFuture : " + e.getMessage());
+					e.printStackTrace();
 					return false;
 				})
 				.thenAcceptAsync(result -> this.sources.remove(source.getIdentifier()), 
@@ -179,13 +183,19 @@ public abstract class ECommand<T extends EPlugin<T>> extends CommandPagination<T
 	private void processPlayer(final Player source, final String arg, final List<String> args) throws CommandException, PluginDisableException, ServerDisableException, EMessageException {
 		EPlayer player = this.plugin.getEServer().getEPlayer(source);
 		if (player.isDead()) {
-			player.sendMessage(EAMessages.COMMAND_ERROR_PLAYER_DEAD.getText());
+			EAMessages.COMMAND_ERROR_PLAYER_DEAD.sender()
+				.prefix(this.plugin.getMessages().getPrefix())
+				.sendTo(source);
 		}
 		
 		if (!this.plugin.getGame().getEventManager().post(ESpongeEventFactory.createCommandEventSend(player, this.getName(), arg, args, Cause.source(this.plugin).build()))) {
 			this.execute(player, args)
 				.exceptionally(e -> {
-					EAMessages.COMMAND_ERROR.sendTo(player);
+					EAMessages.COMMAND_ERROR.sender()
+						.prefix(this.plugin.getMessages().getPrefix())
+						.sendTo(source);
+					this.plugin.getELogger().warn("CompletableFuture : " + e.getMessage());
+					e.printStackTrace();
 					return false;
 				})
 				.thenAcceptAsync(result -> {
