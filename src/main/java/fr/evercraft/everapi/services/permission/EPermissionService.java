@@ -29,7 +29,7 @@ public interface EPermissionService extends PermissionService {
 	EUserCollection getCommandBlockSubjects();
 	EUserCollection getSytemSubjects();
 
-	Optional<ESubjectCollection> get(String identifier);
+	Optional<ESubjectCollection<?>> get(String identifier);
 	
 	void registerWorldType(String nameWorld);
 	void clearCache();

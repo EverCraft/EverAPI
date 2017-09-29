@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentMap;
  * 
  * @author Rexbut
  */
-public interface EGroupCollection extends ESubjectCollection {
+public interface EGroupCollection extends ESubjectCollection<EGroupSubject> {
 
 	/**
 	 * Retourne le groupe par défaut de chaque type de monde

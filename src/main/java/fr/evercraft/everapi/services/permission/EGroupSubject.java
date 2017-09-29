@@ -35,4 +35,5 @@ public interface EGroupSubject extends ESubject {
 	Set<String> getTypeWorlds();
 	boolean hasTypeWorld(String typeWorld);
 	CompletableFuture<Boolean> removeTypeWorld(String typeWorld);
+	boolean registerTypeWorld(String worldType);
 }

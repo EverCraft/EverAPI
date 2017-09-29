@@ -16,6 +16,6 @@
  */
 package fr.evercraft.everapi.services.permission;
 
-public interface EUserCollection extends ESubjectCollection {
+public interface EUserCollection extends ESubjectCollection<EUserSubject> {
 
 }

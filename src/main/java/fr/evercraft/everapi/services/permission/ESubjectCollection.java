@@ -16,13 +16,19 @@
  */
 package fr.evercraft.everapi.services.permission;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 import org.spongepowered.api.service.permission.SubjectCollection;
 
-public interface ESubjectCollection extends SubjectCollection {
+public interface ESubjectCollection<T extends ESubject> extends SubjectCollection {
 
-	Set<String> getTypeWorlds();
+	Optional<T> get(String identifier);
+	CompletableFuture<T> load(String identifier);
+	
+	Set<String> getWorlds();
+	Map<String, String> getTypeWorlds();
 	Optional<String> getTypeWorld(String world);
 }
