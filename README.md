@@ -1,14 +1,15 @@
 EverAPI
 =============
+
 ## Description ##
 EverAPI est une librairie indispensable pour le bon fonctionnement de nos plugins.
 
 ## Implémentation ##
-* Priorité des ScoreBoard, Tablist, BossBar
+* Priorité des ScoreBoard, Tablist, BossBar, Title, ActionBar
 * Priorité des Spawns
-* Priorité des ScoreBoard
-* ...
+* Format de la date et de l'heure
 * [Pour plus d'informations](https://docs.evercraft.fr/everapi/index.html)
+
 ## Liens ##
 * [Download](https://github.com/EverCraft/EverAPI/releases)
 * [Wiki](http://wiki.evercraft.fr)
@@ -25,5 +26,5 @@ This plugin is licensed under [GNU License](https://github.com/EverCraft/EverAPI
 ## Clone ##
 The following steps will ensure your project is cloned properly
 
-1. `git clone git@github.com:EverCraft/EverAPI.git`
-2. `cd EverAPI`
+1. `git clone --recursive git@github.com:EverCraft/EverPlugins.git`
+2. `cd EverPlugins/EverAPI`
