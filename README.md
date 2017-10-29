@@ -12,9 +12,11 @@ EverAPI est une librairie indispensable pour le bon fonctionnement de nos plugin
 
 ## Liens ##
 * [Download](https://github.com/EverCraft/EverAPI/releases)
-* [Wiki](http://wiki.evercraft.fr)
+* [Documentation](https://docs.evercraft.fr)
 * [Issues](https://github.com/EverCraft/EverAPI/issues)
-* [Website](http://evercraft.fr)
+* [Website](https://evercraft.fr)
+* [Jenkins](https://ci.evercraft.fr)
+* [Repo](https://repo.evercraft.fr)
 * [Support Me](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RUSKPBMNJG5R4)
 
 ## Licence ##
@@ -28,3 +30,6 @@ The following steps will ensure your project is cloned properly
 
 1. `git clone --recursive git@github.com:EverCraft/EverPlugins.git`
 2. `cd EverPlugins/EverAPI`
+
+## Building ##
+To compile EverAPI, you need to compile [EverPlugins](https://github.com/EverCraft/EverPlugins)
