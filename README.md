@@ -12,11 +12,11 @@ EverAPI est une librairie indispensable pour le bon fonctionnement de nos plugin
 
 ## Liens ##
 * [Download](https://github.com/EverCraft/EverAPI/releases)
+* [Website](https://evercraft.fr)
 * [Documentation](https://docs.evercraft.fr)
 * [Issues](https://github.com/EverCraft/EverAPI/issues)
-* [Website](https://evercraft.fr)
 * [Jenkins](https://ci.evercraft.fr)
-* [Repo](https://repo.evercraft.fr)
+* [Repo](https://repo.evercraft.fr/artifactory/list/gradle-release/fr/evercraft/)
 * [Support Me](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RUSKPBMNJG5R4)
 
 ## Licence ##
