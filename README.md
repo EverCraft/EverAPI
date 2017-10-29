@@ -22,7 +22,7 @@ EverAPI est une librairie indispensable pour le bon fonctionnement de nos plugin
 This plugin is licensed under [GNU License](https://github.com/EverCraft/EverAPI/blob/master/LICENSE).
 
 ## Prérequis ##
-* [Java](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 8
+* [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 
 ## Clone ##
 The following steps will ensure your project is cloned properly
