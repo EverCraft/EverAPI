@@ -42,14 +42,11 @@ import org.spongepowered.api.event.action.CollideEvent;
 import org.spongepowered.api.event.block.ChangeBlockEvent;
 import org.spongepowered.api.event.block.CollideBlockEvent;
 import org.spongepowered.api.event.block.InteractBlockEvent;
-import org.spongepowered.api.event.cause.Cause;
-import org.spongepowered.api.event.cause.EventContext;
 import org.spongepowered.api.event.entity.CollideEntityEvent;
 import org.spongepowered.api.event.entity.ConstructEntityEvent;
 import org.spongepowered.api.event.entity.DamageEntityEvent;
 import org.spongepowered.api.event.entity.InteractEntityEvent;
 import org.spongepowered.api.event.entity.SpawnEntityEvent;
-import org.spongepowered.api.event.entity.explosive.DetonateExplosiveEvent;
 import org.spongepowered.api.event.entity.explosive.PrimeExplosiveEvent;
 import org.spongepowered.api.event.item.inventory.ChangeInventoryEvent;
 import org.spongepowered.api.event.item.inventory.DropItemEvent;
@@ -62,7 +59,6 @@ import fr.evercraft.everapi.EAPermissions;
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.plugin.EChat;
 import fr.evercraft.everapi.plugin.command.ESubCommand;
-import fr.evercraft.everapi.sponge.UtilsCause;
 
 public class EAEvent extends ESubCommand<EverAPI> {
 	
@@ -97,7 +93,6 @@ public class EAEvent extends ESubCommand<EverAPI> {
 					.map(value -> value.getName())
 					.collect(Collectors.toSet());
 		}
-		EventContext.builder()
 		return Arrays.asList();
 	}
 
@@ -195,7 +190,6 @@ public class EAEvent extends ESubCommand<EverAPI> {
 			Text.joinWith(Text.of(", "), event.getLocations().stream()
 				.map(t -> Text.of(t.getExtent().getName() + " : " + t.getPosition()))
 				.collect(Collectors.toList()));
-		
 			
 		register("ChangeBlockEvent.Pre", ChangeBlockEvent.Pre.class, changeBlockPre);
 		registerBlock("ChangeBlockEvent.Place", ChangeBlockEvent.Place.class);

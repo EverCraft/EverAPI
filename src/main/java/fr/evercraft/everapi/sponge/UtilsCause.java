@@ -47,4 +47,8 @@ public class UtilsCause {
 		});
 		Sponge.getGame().getServer().getBroadcastChannel().send(Text.of(name + " : ").concat(Text.joinWith(Text.of(", "), list)));
 	}
+	
+	public static String getContextKeys(Cause cause) {
+		return cause.getContext().keySet().stream().map(key -> key.getId()).reduce((k1, k2) -> k1 + ", " + k2).orElse("");
+	}
 }

@@ -24,6 +24,9 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
+import org.spongepowered.api.advancement.Advancement;
+import org.spongepowered.api.advancement.AdvancementProgress;
+import org.spongepowered.api.advancement.AdvancementTree;
 import org.spongepowered.api.block.BlockState;
 import org.spongepowered.api.data.DataContainer;
 import org.spongepowered.api.data.DataHolder;
@@ -47,6 +50,7 @@ import org.spongepowered.api.entity.EntityArchetype;
 import org.spongepowered.api.entity.EntitySnapshot;
 import org.spongepowered.api.entity.EntityType;
 import org.spongepowered.api.entity.Transform;
+import org.spongepowered.api.entity.living.player.CooldownTracker;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.tab.TabList;
 import org.spongepowered.api.entity.projectile.Projectile;
@@ -722,5 +726,40 @@ public class PlayerSponge extends EUser implements Player {
 	@Override
 	public void stopRecord(Vector3i position) {
 		this.player.stopRecord(position);
+	}
+
+	@Override
+	public void stopSounds() {
+		this.player.stopSounds();
+	}
+
+	@Override
+	public void stopSounds(SoundType sound) {
+		this.player.stopSounds(sound);
+	}
+
+	@Override
+	public void stopSounds(SoundCategory category) {
+		this.player.stopSounds(category);
+	}
+
+	@Override
+	public void stopSounds(SoundType sound, SoundCategory category) {
+		this.player.stopSounds(sound, category);
+	}
+
+	@Override
+	public CooldownTracker getCooldownTracker() {
+		return this.player.getCooldownTracker();
+	}
+
+	@Override
+	public AdvancementProgress getProgress(Advancement advancement) {
+		return this.player.getProgress(advancement);
+	}
+
+	@Override
+	public Collection<AdvancementTree> getUnlockedAdvancementTrees() {
+		return this.player.getUnlockedAdvancementTrees();
 	}
 }

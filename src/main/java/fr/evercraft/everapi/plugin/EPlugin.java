@@ -26,6 +26,7 @@ import org.spongepowered.api.Game;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.Order;
+import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.event.game.GameReloadEvent;
 import org.spongepowered.api.event.game.state.GameInitializationEvent;
 import org.spongepowered.api.event.game.state.GameLoadCompleteEvent;
@@ -452,4 +453,8 @@ public abstract class EPlugin<T extends EPlugin<T>> {
         Preconditions.checkArgument(optPlugin.isPresent(), "Provided object is not a plugin instance");
         return optPlugin.get();
     }
+	
+	public Cause getCurrentCause() {
+		return this.game.getCauseStackManager().getCurrentCause();
+	}
 }

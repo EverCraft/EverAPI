@@ -22,19 +22,19 @@ import java.util.stream.Collectors;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.manipulator.mutable.item.EnchantmentData;
-import org.spongepowered.api.data.meta.ItemEnchantment;
-import org.spongepowered.api.item.Enchantment;
+import org.spongepowered.api.item.enchantment.Enchantment;
+import org.spongepowered.api.item.enchantment.EnchantmentType;
 import org.spongepowered.api.item.inventory.ItemStack;
 
 public class UtilsEnchantment {
 	
-	public static  List<Enchantment> getAll(){
-		return Sponge.getRegistry().getAllOf(Enchantment.class).stream().collect(Collectors.toList());
+	public static  List<EnchantmentType> getAll(){
+		return Sponge.getRegistry().getAllOf(EnchantmentType.class).stream().collect(Collectors.toList());
 	}
 	
-	public static Optional<Enchantment> getID(final String name) {
-		Enchantment enchant = null;
-		List<Enchantment> enchantments = getAll();
+	public static Optional<EnchantmentType> getID(final String name) {
+		EnchantmentType enchant = null;
+		List<EnchantmentType> enchantments = getAll();
 		int cpt = 0;
 		while(cpt < enchantments.size() && enchant == null){
 			if (enchantments.get(cpt).getId().equalsIgnoreCase(name)) {
@@ -45,12 +45,12 @@ public class UtilsEnchantment {
 		return Optional.ofNullable(enchant);
 	}
 	
-	public static boolean canBeAppliedToItemStack(ItemStack item, Enchantment enchantment) {
+	public static boolean canBeAppliedToItemStack(ItemStack item, EnchantmentType enchantment) {
 		if (enchantment.canBeAppliedToStack(item)) {
 			EnchantmentData enchantment_data = item.getOrCreate(EnchantmentData.class).get();
 			
-			for (ItemEnchantment enchantment_item : enchantment_data.enchantments()) {
-				if (!enchantment.isCompatibleWith(enchantment_item.getEnchantment())) {
+			for (Enchantment enchantment_item : enchantment_data.enchantments()) {
+				if (!enchantment.isCompatibleWith(enchantment_item.getType())) {
 					return false;
 				}
 			}

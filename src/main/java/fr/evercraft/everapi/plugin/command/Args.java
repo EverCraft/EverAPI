@@ -112,7 +112,9 @@ public class Args {
 		}
 		
 		try {
-			List<Entity> entities =  Selector.parse(value).resolve(source);
+			// https://github.com/SpongePowered/SpongeAPI/pull/1645
+			//List<Entity> entities =  Selector.parse(value).resolve(source);
+			List<Entity> entities =  new ArrayList<Entity>(Selector.parse(value).resolve(source));
 			if (entities.isEmpty()) throw new SelectorNotFoundException(source, value);
 			return entities;
 		} catch (IllegalArgumentException e) {
