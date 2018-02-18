@@ -24,7 +24,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.scoreboard.CollisionRules;
 import org.spongepowered.api.scoreboard.Team;
 import org.spongepowered.api.scoreboard.Visibilities;

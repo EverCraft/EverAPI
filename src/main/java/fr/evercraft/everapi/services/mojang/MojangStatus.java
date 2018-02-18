@@ -36,8 +36,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import org.spongepowered.api.event.cause.Cause;
-
 public class MojangStatus {
 	
 	private static final String URL = "https://status.mojang.com/check";

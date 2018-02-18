@@ -36,6 +36,7 @@ import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.entity.living.player.gamemode.GameModes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.item.inventory.entity.Hotbar;
+import org.spongepowered.api.item.inventory.query.QueryOperationTypes;
 import org.spongepowered.api.item.inventory.transaction.InventoryTransactionResult;
 import org.spongepowered.api.item.inventory.type.GridInventory;
 import org.spongepowered.api.scoreboard.Team;
@@ -251,9 +252,9 @@ public class EPlayer extends PlayerSponge {
 	 * @param itemstack L'itemstack
 	 */
 	public Optional<ItemStack> giveItem(final ItemStack itemstack) {
-		InventoryTransactionResult transaction = this.getInventory().query(Hotbar.class).offer(itemstack);
+		InventoryTransactionResult transaction = this.getInventory().query(QueryOperationTypes.INVENTORY_TYPE.of(Hotbar.class)).offer(itemstack);
 		if (!transaction.getRejectedItems().isEmpty()) {
-			transaction = this.getInventory().query(GridInventory.class).offer(transaction.getRejectedItems().iterator().next().createStack());
+			transaction = this.getInventory().query(QueryOperationTypes.INVENTORY_TYPE.of(GridInventory.class)).offer(transaction.getRejectedItems().iterator().next().createStack());
 			if (!transaction.getRejectedItems().isEmpty()) {
 				return Optional.of(transaction.getRejectedItems().iterator().next().createStack());
 			}

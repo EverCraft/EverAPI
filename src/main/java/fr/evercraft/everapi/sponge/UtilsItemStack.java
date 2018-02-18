@@ -76,8 +76,8 @@ public class UtilsItemStack {
 		skull.offer(Keys.REPRESENTED_PLAYER, profile);
 		return ItemStack.builder()
 		        .itemType(ItemTypes.SKULL)
-		        .keyValue(Keys.SKULL_TYPE, SkullTypes.PLAYER)
-		        .keyValue(Keys.REPRESENTED_PLAYER, profile)
+		        .add(Keys.SKULL_TYPE, SkullTypes.PLAYER)
+		        .add(Keys.REPRESENTED_PLAYER, profile)
 		        .build();
 	}
 	

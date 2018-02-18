@@ -26,7 +26,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
-import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.scheduler.Task;
 import org.spongepowered.api.text.title.Title;
 

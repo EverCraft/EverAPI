@@ -30,12 +30,8 @@ public class UtilsCause {
 	
 	public static final String PLACE_EVENT = "PlaceEvent";
 	public static Boolean debug = false;
-
-	/*public static Cause command(final EPlugin<?> plugin, final CommandSource source) {
-		return Cause.builder().named(plugin.getName(), plugin).suggestNamed(source.getName(), source).build();
-	}*/
 	
-	public static void debug(Cause cause, String name) {
+	public static void debug(final Cause cause, final String name) {
 		if (!UtilsCause.debug) return;
 		
 		List<Text> list = new ArrayList<Text>();
@@ -48,7 +44,8 @@ public class UtilsCause {
 		Sponge.getGame().getServer().getBroadcastChannel().send(Text.of(name + " : ").concat(Text.joinWith(Text.of(", "), list)));
 	}
 	
-	public static String getContextKeys(Cause cause) {
+	public static String getContextKeys(final Cause cause) {
 		return cause.getContext().keySet().stream().map(key -> key.getId()).reduce((k1, k2) -> k1 + ", " + k2).orElse("");
 	}
+
 }

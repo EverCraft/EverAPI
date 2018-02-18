@@ -29,7 +29,7 @@ public enum EAPermissions implements EnumPermission {
 	TEST("commands.test", EAMessages.PERMISSIONS_COMMANDS_TEST),
 	BLOCK_INFO("commands.blockinfo", EAMessages.PERMISSIONS_COMMANDS_BLOCKINFO),
 	DEBUG("commands.debug", EAMessages.PERMISSIONS_COMMANDS_DEBUG),
-	EVENT("commands.event", EAMessages.PERMISSIONS_COMMANDS_DEBUG),
+	EVENT("commands.event", EAMessages.PERMISSIONS_COMMANDS_EVENT),
 	
 	WORLDS("worlds", EAMessages.PERMISSIONS_WORLDS);
 	

@@ -18,7 +18,6 @@ package fr.evercraft.everapi.services.scoreboard;
 
 import java.util.Optional;
 
-import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.scoreboard.Scoreboard;
 import org.spongepowered.api.scoreboard.displayslot.DisplaySlot;
 import org.spongepowered.api.scoreboard.objective.Objective;

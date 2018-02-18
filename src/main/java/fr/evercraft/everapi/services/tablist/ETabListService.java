@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 
 import org.spongepowered.api.entity.living.player.tab.TabList;
 import org.spongepowered.api.entity.living.player.tab.TabListEntry;
-import org.spongepowered.api.event.cause.Cause;
 
 import fr.evercraft.everapi.EverAPI;
 import fr.evercraft.everapi.event.ESpongeEventFactory;

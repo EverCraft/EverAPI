@@ -583,6 +583,7 @@ public class EAMessage extends EMessage<EverAPI> {
 		PERMISSIONS_COMMANDS_TEST(""),
 		PERMISSIONS_COMMANDS_BLOCKINFO(""),
 		PERMISSIONS_COMMANDS_DEBUG(""),
+		PERMISSIONS_COMMANDS_EVENT(""),
 		PERMISSIONS_WORLDS("");
 		
 		private final String path;

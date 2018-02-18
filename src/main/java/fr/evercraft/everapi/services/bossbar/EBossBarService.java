@@ -29,7 +29,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.spongepowered.api.boss.ServerBossBar;
 import org.spongepowered.api.entity.living.player.Player;
-import org.spongepowered.api.event.cause.Cause;
 import org.spongepowered.api.scheduler.Task;
 
 import fr.evercraft.everapi.EverAPI;

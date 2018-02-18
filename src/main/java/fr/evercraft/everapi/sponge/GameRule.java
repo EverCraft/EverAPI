@@ -18,6 +18,7 @@ package fr.evercraft.everapi.sponge;
 
 import java.util.Optional;
 
+import org.spongepowered.api.world.World;
 import org.spongepowered.api.world.storage.WorldProperties;
 
 import fr.evercraft.everapi.java.UtilsBoolean;
@@ -38,6 +39,10 @@ public class GameRule<T> {
 	
 	public Class<T> getType() {
 		return this.type;
+	}
+	
+	public Optional<T> getValue(World world) {
+		return this.getValue(world.getProperties());
 	}
 	
 	@SuppressWarnings("unchecked")
